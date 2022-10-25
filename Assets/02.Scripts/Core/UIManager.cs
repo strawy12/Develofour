@@ -24,19 +24,24 @@ public class UIManager : MonoSingleton<UIManager>
     {
         if (windowPrefabDictionary.ContainsKey(window.name)) return;
 
-        windowPrefabDictionary[window.Info.WindowName] = window;
+        windowPrefabDictionary[window.gameObject.name] = window;
     }
 
-    public Window CreateWindow(string windowID, Transform parent = null)
+    public Window CreateWindow(Window prefab, Transform parent = null)
     {
-        if (!windowPrefabDictionary.ContainsKey(windowID)) return null;
+        return CreateWindow(prefab.gameObject.name, parent);
+    }
+
+    public Window CreateWindow(string prefabName, Transform parent = null)
+    {
+        if (!windowPrefabDictionary.ContainsKey(prefabName)) return null;
 
         parent ??= windowCanvasTrm;
         
-        Window prefab = windowPrefabDictionary[windowID];
+        Window prefab = windowPrefabDictionary[prefabName];
 
         Window window = Instantiate(prefab, parent);
-
+        window.gameObject.name = prefabName;
         return window;
     }
 

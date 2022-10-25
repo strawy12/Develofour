@@ -668,6 +668,7 @@ GameObject:
   - component: {fileID: 535726759}
   - component: {fileID: 535726761}
   - component: {fileID: 535726760}
+  - component: {fileID: 535726762}
   m_Layer: 5
   m_Name: TaskBar
   m_TagString: Untagged
@@ -737,6 +738,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 535726758}
   m_CullTransparentMesh: 1
+--- !u!114 &535726762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535726758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae23b86569c1d348b7289350cb63dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskIconPrefab: {fileID: 1597493977236622863, guid: 67857cebcda95c9498e1674ea22190d5, type: 3}
 --- !u!1 &611086712
 GameObject:
   m_ObjectHideFlags: 0
@@ -1466,6 +1480,7 @@ RectTransform:
   m_Children:
   - {fileID: 1217165019}
   - {fileID: 535726759}
+  - {fileID: 1691959570}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1607,8 +1622,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1563124895}
   - component: {fileID: 1563124897}
-  - component: {fileID: 1563124898}
   - component: {fileID: 1563124899}
+  - component: {fileID: 1563124900}
   m_Layer: 5
   m_Name: NotePad
   m_TagString: Untagged
@@ -1647,19 +1662,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1563124894}
   m_CullTransparentMesh: 1
---- !u!114 &1563124898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1563124894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c08ddfd99435f0d48bab1fe92d18d315, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  windowPrefabName: "\uBA54\uBAA8\uC7A5"
 --- !u!114 &1563124899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1690,3 +1692,67 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1563124900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563124894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c08ddfd99435f0d48bab1fe92d18d315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 5882552048886308637, guid: d261d734fb55b174ca47e5faf81fc8c8, type: 3}
+--- !u!1 &1691959569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1691959570}
+  - component: {fileID: 1691959571}
+  m_Layer: 5
+  m_Name: WindowIcons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1691959570
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691959569}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1318840359}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -40, y: -40}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1691959571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691959569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdc1790e9cc358a48909d8672743725f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowIconDataList: {fileID: 11400000, guid: 988a478763ff7324b84d22f6a459fea3, type: 2}
+  windowIconPrefab: {fileID: 7891246426636996453, guid: 8d90f8fdfd57b014fba4444e73401852, type: 3}

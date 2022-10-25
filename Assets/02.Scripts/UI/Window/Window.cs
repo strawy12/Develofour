@@ -9,11 +9,10 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
     private static int windowID = -1;
 
     [SerializeField]
-    protected WindowInfoSO windowInfo;
+    protected WindowDataSO windowData   ;
     #region Property
-    public WindowInfoSO Info => windowInfo;
-    public Sprite IconSprite => iconImage.sprite;
-    public string ID => $"{windowInfo.WindowName}_{myWindowID}";
+    public WindowDataSO WindowData => windowData;
+    public string ID => $"{windowData.WindowName}_{myWindowID}";
     #endregion
 
     #region UI
@@ -25,7 +24,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
     /// <summary>
     /// 전체화면 버튼
     /// </summary>
-    protected Button maximumBtn;
+    protected MaximumBtn maximumBtn;
 
     protected TMP_Text titleText;
     private Image iconImage;
@@ -50,7 +49,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
     protected Vector3 beforePos;
     protected Vector2 beforeSize;
 
-    private void Awake()
+    public void CreateWindow()
     {
         Bind();
         Init();
@@ -64,7 +63,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
 
         closeBtn = transform.Find("MenuBar/Btns/CloseBtn").GetComponent<Button>();
         minimumBtn = transform.Find("MenuBar/Btns/MinBtn").GetComponent<Button>();
-        maximumBtn = transform.Find("MenuBar/Btns/MaxBtn").GetComponent<Button>();
+        maximumBtn = transform.Find("MenuBar/Btns/MaxBtn").GetComponent<MaximumBtn>();
 
         titleText = transform.Find("MenuBar/TitleText").GetComponent<TMP_Text>();
         iconImage = transform.Find("MenuBar/IconImage").GetComponent<Image>();
@@ -72,7 +71,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
 
     public virtual void Init()
     {
-        if (windowInfo == null)
+        if (windowData == null)
         {
             Debug.LogError($"{name}'s WindowInfo is null");
             return;
@@ -80,14 +79,16 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
 
         myWindowID = windowID++;
 
-        titleText.text = windowInfo.WindowName;
-        rectTransform.position = windowInfo.Pos;
-        rectTransform.sizeDelta = windowInfo.Size;
+        iconImage.sprite = windowData.IconSprite;
+        titleText.text = $"{windowData.WindowName} - {windowData.Title}";
+        rectTransform.position = windowData.Pos;
+        rectTransform.sizeDelta = windowData.Size;
 
         closeBtn.onClick.AddListener(Close);
         maximumBtn.onClick.AddListener(MaximumWindow);
         minimumBtn.onClick.AddListener(MinimumWindow);
 
+        EventManager.TriggerEvent(EEvent.CreateWindow, this);
     }
 
     public void Open()
@@ -111,7 +112,11 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
 
         if (isMaximum)
         {
+            rectTransform.sizeDelta = beforeSize;
+            rectTransform.position = beforePos;
 
+            maximumBtn.iconImage.SetText("□");
+            isMaximum = false;
         }
 
         else
@@ -121,9 +126,11 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
 
             beforePos = rectTransform.position;
             rectTransform.position = Vector3.zero;
+
+            maximumBtn.iconImage.SetText("■");
+            isMaximum = true;
         }
 
-        maximumBtn.
     }
 
     public void MinimumWindow()

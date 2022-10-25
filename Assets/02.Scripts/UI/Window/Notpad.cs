@@ -7,6 +7,12 @@ using TMPro;
 public class Notpad : Window
 {
     private TMP_InputField inputField;
+    public string Text
+    {
+        get => inputField.text;
+        set => inputField.text = value;
+    }
+
 
     protected override void Bind()
     {
