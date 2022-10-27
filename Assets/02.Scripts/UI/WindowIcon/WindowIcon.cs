@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
 
-public class WindowIcon : MonoBehaviour, IDragHandler, IDropHandler, IPointerClickHandler
+public class WindowIcon : MonoBehaviour, IDragHandler, IDropHandler, IPointerClickHandler, ISelectable
 {
     private WindowIconData data;
 
@@ -16,6 +17,9 @@ public class WindowIcon : MonoBehaviour, IDragHandler, IDropHandler, IPointerCli
     private Image iconImage;
     private TMP_Text iconNameText;
     private Image selectedImage;
+
+    public Action OnSelected { get; set; }
+    public Action OnUnSelected { get; set; }
 
     public void Create(WindowIconData windowIconData)
     {
@@ -43,11 +47,13 @@ public class WindowIcon : MonoBehaviour, IDragHandler, IDropHandler, IPointerCli
         float x = (data.cellPoint.x * Constant.WINDOWICONSIZE.x) + Constant.WINDOWDEFAULTPOS.x;
         float y = (data.cellPoint.y * Constant.WINDOWICONSIZE.y) - Constant.WINDOWDEFAULTPOS.y;
         rectTranstform.localPosition = new Vector3(x, y, rectTranstform.localPosition.z);
+
+        OnSelected += () => SelectedIcon(true);
+        OnUnSelected += () => SelectedIcon(false);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        SelectedIcon(true);
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -59,7 +65,7 @@ public class WindowIcon : MonoBehaviour, IDragHandler, IDropHandler, IPointerCli
     {
         if(isSelected == false)
         {
-            SelectedIcon(true);
+            WindowManager.Inst.SelectObject(this);
         }
         else
         {
@@ -71,8 +77,6 @@ public class WindowIcon : MonoBehaviour, IDragHandler, IDropHandler, IPointerCli
             {
                 targetWindow.Open();
             }
-
-           SelectedIcon(false);
         }
     }
 

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class TaskBar : MonoBehaviour
+public class TaskBar : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     private TaskIcon taskIconPrefab;
@@ -67,4 +68,8 @@ public class TaskBar : MonoBehaviour
         return icon;
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        WindowManager.Inst.SelectedObjectNull();
+    }
 }

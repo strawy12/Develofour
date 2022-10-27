@@ -18,13 +18,14 @@ public class Notpad : Window
     {
         base.Bind();
         inputField = transform.Find("InputField").GetComponent<TMP_InputField>();
+        inputField.onSelect.AddListener((s) => SelectWindow());
     }
 
     public override void Init()
     {
         base.Init();
-        OnTurnOn += () => inputField.interactable = true;
-        OnTurnOff += () => inputField.interactable = false;
+        OnSelected += inputField.ActivateInputField;
+        OnUnSelected += () => inputField.DeactivateInputField();
     }
 
 

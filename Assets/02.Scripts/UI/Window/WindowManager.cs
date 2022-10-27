@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class WindowManager : MonoSingleton<WindowManager>
 {
-    private Window turnOnWindow = null;
+    private ISelectable selectedObject = null;
 
-    public void TurnOnWindow(Window target)
+    public void SelectObject(ISelectable target)
     {
-        turnOnWindow?.OnTurnOff?.Invoke();
-        turnOnWindow = target;
-        turnOnWindow?.OnTurnOn?.Invoke();
+        selectedObject?.OnUnSelected?.Invoke();
+        selectedObject = target;
+        selectedObject?.OnSelected?.Invoke();
+    }
+
+    public void SelectedObjectNull()
+    {
+        selectedObject?.OnUnSelected?.Invoke();
+        selectedObject = null;
     }
 }

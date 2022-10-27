@@ -4,12 +4,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
+public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelectable
 {
     private static int windowID = -1;
 
     [SerializeField]
-    protected WindowDataSO windowData   ;
+    protected WindowDataSO windowData;
     #region Property
     public WindowDataSO WindowData => windowData;
     public string ID => $"{windowData.WindowName}_{myWindowID}";
@@ -30,7 +30,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
     private Image iconImage;
     #endregion
 
-    protected RectTransform rectTransform;
+    public RectTransform rectTransform { get; protected set; }
     protected CanvasGroup canvasGroup;
 
     #region Event
@@ -38,8 +38,8 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
     public Action<string> OnClose;
     public Action OnMaximum;
     public Action OnMinimum;
-    public Action OnTurnOn;
-    public Action OnTurnOff;
+    public Action OnSelected { get; set; }
+    public Action OnUnSelected { get; set; }
     #endregion
 
     protected bool isOpen = false;
@@ -88,6 +88,8 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
         maximumBtn.onClick.AddListener(MaximumWindow);
         minimumBtn.onClick.AddListener(MinimumWindow);
 
+        transform.Find("MenuBar").GetComponent<WindowBar>().Init(this);
+
         EventManager.TriggerEvent(EEvent.CreateWindow, this);
     }
 
@@ -101,6 +103,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
         canvasGroup.blocksRaycasts = true;
         canvasGroup.interactable = true;
         gameObject.SetActive(true);
+        WindowManager.Inst.SelectObject(this);
 
         isOpen = true;
     }
@@ -142,6 +145,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
         canvasGroup.interactable = false;
+        WindowManager.Inst.SelectedObjectNull();
         gameObject.SetActive(false);
 
     }
@@ -150,14 +154,17 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler
     {
         // TODO: Tween 적용
         OnClose?.Invoke(ID);
+        WindowManager.Inst.SelectedObjectNull();
         Destroy(gameObject);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            WindowManager.Inst.TurnOnWindow(this);
-        }
+        SelectWindow();
+    }
+
+    public void SelectWindow()
+    {
+        WindowManager.Inst.SelectObject(this);
     }
 }

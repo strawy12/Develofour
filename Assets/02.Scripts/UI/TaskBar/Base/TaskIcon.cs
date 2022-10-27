@@ -15,6 +15,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     protected Image highlightedImage;
 
     protected bool isFixed = false;
+    protected bool isSelectedTarget = false;
 
     public void Init()
     {
@@ -35,12 +36,15 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         {
             iconImage.sprite = target.WindowData.IconSprite;
         }
-        if(string.IsNullOrEmpty(windowTitle))
+        if (string.IsNullOrEmpty(windowTitle))
         {
             windowTitle = target.WindowData.Title;
         }
 
         target.OnClose += RemoveTargetWindow;
+        target.OnSelected += () => SelectedTargetWindow(true);
+        target.OnUnSelected += () => SelectedTargetWindow(false);
+
         targetWindowList.Add(target);
         activeImage.gameObject.SetActive(true);
     }
@@ -68,6 +72,12 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         }
     }
 
+    public void SelectedTargetWindow(bool isSelected)
+    {
+        isSelectedTarget = isSelected;
+        highlightedImage.gameObject.SetActive(isSelected);
+    }
+
     protected void RemoveTargetWindow(string windowID)
     {
         int idx = targetWindowList.FindIndex(x => x.ID.Equals(windowID));
@@ -82,11 +92,13 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (isSelectedTarget) return;
         highlightedImage.gameObject.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (isSelectedTarget) return;
         highlightedImage.gameObject.SetActive(false);
     }
 
