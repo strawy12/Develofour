@@ -61,6 +61,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
 
+        //TODO: 여기는 고칩시다
         closeBtn = transform.Find("MenuBar/Btns/CloseBtn").GetComponent<Button>();
         minimumBtn = transform.Find("MenuBar/Btns/MinBtn").GetComponent<Button>();
         maximumBtn = transform.Find("MenuBar/Btns/MaxBtn").GetComponent<MaximumBtn>();

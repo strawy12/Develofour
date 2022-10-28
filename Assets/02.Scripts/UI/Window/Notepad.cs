@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Notpad : Window
+public class Notepad : Window
 {
     private TMP_InputField inputField;
     public string Text
