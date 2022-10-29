@@ -11,9 +11,13 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public int WindowType => windowType;
 
     [SerializeField]
+    protected GameObject attributePanel;
+
+    [SerializeField]
     protected GameObject windowPrefab; 
 
-    protected List<Window> targetWindowList;    
+    protected List<Window> targetWindowList; 
+    
     [SerializeField]
     protected Image iconImage;
     [SerializeField]
@@ -58,8 +62,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
 
         foreach (Window window in targetWindowList)
-        { 
-            if(window.windowTitleID ==windowTitle)
+        {
+            if (window.windowTitleID == windowTitle)
             {
                 targetWindowList.Remove(window);
             }
@@ -83,8 +87,28 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             //case PointerEventData.InputButton.Middle:
 
             case PointerEventData.InputButton.Right:
+                ShowAttributePanel();
                 break;
         }
+    }
+
+    public void ShowAttributePanel()
+    {
+        attributePanel.SetActive(true);
+    }
+
+    public void AttributeClose()
+    {
+        targetWindowList.Clear();
+        foreach (Window window in targetWindowList)
+        {
+            RemoveTargetWindow(window.windowTitleID);
+        }
+    }
+
+    public void AttributeOpen(int windowTitle)
+    {
+        CreateWindow(windowTitle);
     }
 
     protected virtual void OpenTargetWindow()
@@ -95,9 +119,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         }
         else if (targetWindowList.Count > 1)
         {
-            
+            //TODO : 창이 2개 이상 켜있으면 위쪽으로 미리 보여주는거 제작
         }
-
     }
 
     protected void CreateWindow(int titleID)
@@ -105,7 +128,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         foreach(Window window in targetWindowList)
         {
             if (window.windowTitleID == titleID)
+            {
+                //TODO : OrderInLayer 맨 앞으로 옮기기
+                window.gameObject.SetActive(true);
                 return;
+            }
         }
 
         if (isFixed && windowPrefab != null)
