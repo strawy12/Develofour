@@ -10,8 +10,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public string Title => windowTitle;
 
     protected List<Window> targetWindowList;
+    [SerializeField]
     protected Image iconImage;
+    [SerializeField]
     protected Image activeImage;
+    [SerializeField]
     protected Image highlightedImage;
 
     protected bool isFixed = false;
@@ -20,14 +23,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public void Init()
     {
         targetWindowList = new List<Window>();
-        Bind();
     }
 
-    protected void Bind()
+    protected void Bind() // 여기 find에서 바꿔야함  
     {
-        iconImage = transform.Find("IconImage").GetComponent<Image>();
-        activeImage = transform.Find("ActiveImage").GetComponent<Image>();
-        highlightedImage = transform.Find("HighlightedImage").GetComponent<Image>();
+      
     }
 
     public void AddTargetWindow(Window target)
@@ -47,6 +47,15 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
         targetWindowList.Add(target);
         activeImage.gameObject.SetActive(true);
+
+    }
+    public void RemoveTargetWindow(string wndID)
+    { 
+        if(!isFixed && targetWindowList.Count <= 1)
+        {
+            TaskBar.RemoveIconEvent.Invoke(wndID);
+            Destroy(this);
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -78,17 +87,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         highlightedImage.gameObject.SetActive(isSelected);
     }
 
-    protected void RemoveTargetWindow(string windowID)
-    {
-        int idx = targetWindowList.FindIndex(x => x.ID.Equals(windowID));
-        targetWindowList.RemoveAt(idx);
-        activeImage.gameObject.SetActive(false);
-
-        if (!isFixed && targetWindowList.Count == 0)
-        {
-            Destroy(gameObject);
-        }
-    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {

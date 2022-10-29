@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,16 +8,18 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     private TaskIcon taskIconPrefab;
-
-    private List<TaskIcon> taskIcons = new List<TaskIcon>();
+    
+    private Dictionary<string,TaskIcon> taskIcons = new Dictionary<string, TaskIcon>();
     private Transform taskIconParent;
 
+    static public Func<string, bool> RemoveIconEvent;
     private void Awake()
     {
         Bind();
         AddFixedTaskIcons();
 
         EventManager.StartListening(EEvent.CreateWindow, AddTaskIcon);
+        RemoveIconEvent += RemoveTaskIcon;
     }
 
     private void Bind()
@@ -32,7 +35,7 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         {
             if (icon is FixedTaskIcon)
             {
-                taskIcons.Add(icon);
+                taskIcons.Add(icon.Title,icon);
             }
         }
     }
@@ -44,17 +47,14 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         Window window = param as Window;
         TaskIcon taskIcon = null;
        
-        foreach (TaskIcon icon in taskIcons)
+        if (!taskIcons.ContainsKey(window.WindowData.Title))
         {
-            if (icon.Title.Equals(window.WindowData.Title))
-            {
-                taskIcon = icon;
-                break;
-            }
+            taskIcon = CreateTaskIcon();
         }
-
-        taskIcon ??= CreateTaskIcon();
-
+        else
+        {
+            taskIcon = taskIcons[window.WindowData.Title];
+        }
 
         taskIcon.AddTargetWindow(window);
     }
@@ -68,6 +68,16 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         return icon;
     }
 
+    public bool RemoveTaskIcon(string ID)
+    {
+        if (taskIcons.ContainsKey(ID))
+        {
+            taskIcons.Remove(ID);
+            return true;
+        }
+        return false;
+
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         WindowManager.Inst.SelectedObjectNull();
