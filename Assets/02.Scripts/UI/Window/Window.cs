@@ -16,13 +16,11 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
     private EWindowType eWindowType;
 
     public int WindowType { get { return (int)eWindowType; } }
-    private static int windowID = -1;
     public int windowTitleID = -1;
     [SerializeField]
     protected WindowDataSO windowData;
     #region Property
     public WindowDataSO WindowData => windowData;
-    public string ID => $"{windowData.WindowName}_{myWindowID}";
     #endregion
 
     #region UI
@@ -54,7 +52,6 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
 
     protected bool isOpen = false;
     protected bool isMaximum = false;
-    protected int myWindowID;
 
     protected Vector3 beforePos;
     protected Vector2 beforeSize;
@@ -87,8 +84,6 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
             Debug.LogError($"{name}'s WindowInfo is null");
             return;
         }
-
-        myWindowID = windowID++;
 
         iconImage.sprite = windowData.IconSprite;
         titleText.text = $"{windowData.WindowName} - {windowData.Title}"; 

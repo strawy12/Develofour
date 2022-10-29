@@ -16,7 +16,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     protected GameObject windowPrefab; 
 
-    protected List<Window> targetWindowList; 
+    protected List<Window> targetWindowList = new List<Window>();
     
     [SerializeField]
     protected Image iconImage;
@@ -25,15 +25,24 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     protected Image highlightedImage;
 
+    [SerializeField]
     protected bool isFixed = false;
     protected bool isSelectedTarget = false;
+
+    private Window defaultWindow;
 
     public bool IsFixed { get { return isFixed; } }
 
     public Action<int> OnDetroy;
+
+    //юс╫ц©К
+    void Awake()
+    {
+        defaultWindow = windowPrefab.GetComponent<Window>();
+    }
     public void Init()
     {
-        targetWindowList = new List<Window>();
+  
     }
 
     protected void Bind() 
@@ -55,12 +64,13 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         target.OnUnSelected += () => SelectedTargetWindow(false);
 
         targetWindowList.Add(target);
-        activeImage.gameObject.SetActive(true);
 
+        activeImage.gameObject.SetActive(true);
+    
     }
+
     public void RemoveTargetWindow(int windowTitle)
     {
-
         foreach (Window window in targetWindowList)
         {
             if (window.windowTitleID == windowTitle)
@@ -81,6 +91,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         switch (eventData.button)
         {
             case PointerEventData.InputButton.Left:
+                defaultWindow.CreateWindow();
+                CreateWindow(defaultWindow.windowTitleID);
                 OpenTargetWindow();
                 break;
 
@@ -99,16 +111,15 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void AttributeClose()
     {
-        targetWindowList.Clear();
         foreach (Window window in targetWindowList)
         {
-            RemoveTargetWindow(window.windowTitleID);
+            window.OnClose?.Invoke(window.windowTitleID);
         }
     }
 
-    public void AttributeOpen(int windowTitle)
+    public void AttributeOpen()
     {
-        CreateWindow(windowTitle);
+        CreateWindow(defaultWindow.windowTitleID);
     }
 
     protected virtual void OpenTargetWindow()
@@ -125,7 +136,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     protected void CreateWindow(int titleID)
     {
-        foreach(Window window in targetWindowList)
+        foreach (Window window in targetWindowList)
         {
             if (window.windowTitleID == titleID)
             {
@@ -134,10 +145,10 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 return;
             }
         }
-
-        if (isFixed && windowPrefab != null)
+        
+        if (isFixed && defaultWindow != null)
         {
-            Window window = Instantiate(windowPrefab).GetComponent<Window>();
+            Window window = Instantiate(defaultWindow, transform);
             targetWindowList.Add(window);
         }
     }
