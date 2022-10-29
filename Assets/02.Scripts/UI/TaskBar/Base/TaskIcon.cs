@@ -136,13 +136,19 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     protected void CreateWindow(int titleID)
     {
+        int sameDefaultWindowCount = 0;
         foreach (Window window in targetWindowList)
         {
             if (window.windowTitleID == titleID)
             {
+                sameDefaultWindowCount++;
+                if (sameDefaultWindowCount >= 2)
+                {
+                    window.gameObject.SetActive(true);
+                    return;
+                }
                 //TODO : OrderInLayer 맨 앞으로 옮기기
-                window.gameObject.SetActive(true);
-                return;
+
             }
         }
         
