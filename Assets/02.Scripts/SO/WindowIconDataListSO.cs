@@ -5,7 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class WindowIconData
 {
-    public Window windowPrefab;
+    public Sprite iconSprite;
+    public string iconName;
     public Vector2Int cellPoint;
 }
 
