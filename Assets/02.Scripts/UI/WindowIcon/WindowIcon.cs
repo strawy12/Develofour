@@ -8,14 +8,14 @@ using System;
 
 public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, ISelectable
 {
+    public RectTransform rectTranstform;
+
     private bool isSelected = false;
-    private bool isDragIcon = false;
 
     private WindowIconData data;
 
     private Window targetWindow = null;
 
-    private RectTransform rectTranstform;
 
     [SerializeField]
     private Image iconImage;
@@ -46,15 +46,9 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void Init()
     {
-        iconImage.sprite = data.windowPrefab.WindowData.IconSprite;
-        iconNameText.SetText(data.windowPrefab.WindowData.WindowName);
 
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
-
-        float x = (data.cellPoint.x * Constant.WINDOWICONSIZE.x) + Constant.WINDOWDEFAULTPOS.x;
-        float y = (data.cellPoint.y * Constant.WINDOWICONSIZE.y) - Constant.WINDOWDEFAULTPOS.y;
-        rectTranstform.localPosition = new Vector3(x, y, rectTranstform.localPosition.z);
 
         OnSelected += () => SelectedIcon(true);
         OnUnSelected += () => SelectedIcon(false);
@@ -71,11 +65,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if(targetWindow == null)
             {
-                if (isDragIcon)
-                {
-                    isDragIcon = false;
-                    return;
-                }
 
             }
             else
@@ -87,7 +76,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void CreateWindow()
     {
-        targetWindow = UIManager.Inst.CreateWindow(data.windowPrefab.gameObject.name);
         targetWindow.CreateWindow();
         targetWindow.OnClose += (id) => targetWindow = null;
     }
