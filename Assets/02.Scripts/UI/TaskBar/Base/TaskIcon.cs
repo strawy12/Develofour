@@ -56,16 +56,17 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     }
     public void RemoveTargetWindow(int windowTitle)
     {
+
+        foreach (Window window in targetWindowList)
+        { 
+            if(window.windowTitleID ==windowTitle)
+            {
+                targetWindowList.Remove(window);
+            }
+        }
+
         if (!isFixed && targetWindowList.Count <= 1)
         {
-            foreach (Window window in targetWindowList)
-            { 
-                if(window.windowTitleID ==windowTitle)
-                {
-                    targetWindowList.Remove(window);
-                }
-            }
-            
             OnDetroy.Invoke(windowType);
             Destroy(this);
         }
