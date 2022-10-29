@@ -12,7 +12,6 @@ public class WindowIconGenerator : MonoBehaviour
     WindowIcon[,] windowCellIcons = new WindowIcon[18, 9];
 
 
-
     private void Start()
     {
         Generate();
