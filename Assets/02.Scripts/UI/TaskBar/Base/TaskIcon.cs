@@ -7,8 +7,11 @@ using System;
 
 public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    protected string windowTitle;
-    public string Title => windowTitle;
+    protected int windowType;
+    public int WindowType => windowType;
+
+    [SerializeField]
+    protected GameObject windowPrefab; 
 
     protected List<Window> targetWindowList;    
     [SerializeField]
@@ -23,13 +26,13 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public bool IsFixed { get { return isFixed; } }
 
-    public Action<string> OnDetroy;
+    public Action<int> OnDetroy;
     public void Init()
     {
         targetWindowList = new List<Window>();
     }
 
-    protected void Bind() // 여기 find에서 바꿔야함  
+    protected void Bind() 
     {
       
     }
@@ -40,11 +43,9 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         {
             iconImage.sprite = target.WindowData.IconSprite;
         }
-        if (string.IsNullOrEmpty(windowTitle))
-        {
-            windowTitle = target.WindowData.Title;
-        }
 
+        windowType = target.WindowType;
+      
         target.OnClose += RemoveTargetWindow;
         target.OnSelected += () => SelectedTargetWindow(true);
         target.OnUnSelected += () => SelectedTargetWindow(false);
@@ -53,11 +54,19 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         activeImage.gameObject.SetActive(true);
 
     }
-    public void RemoveTargetWindow(string wndID)
+    public void RemoveTargetWindow(int windowTitle)
     {
         if (!isFixed && targetWindowList.Count <= 1)
         {
-            OnDetroy.Invoke(wndID);
+            foreach (Window window in targetWindowList)
+            { 
+                if(window.windowTitleID ==windowTitle)
+                {
+                    targetWindowList.Remove(window);
+                }
+            }
+            
+            OnDetroy.Invoke(windowType);
             Destroy(this);
         }
     }
@@ -85,20 +94,24 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         }
         else if (targetWindowList.Count > 1)
         {
-            //여러개일때
+            
         }
 
     }
 
-    protected void CreateWindow(string windowName)
+    protected void CreateWindow(int titleID)
     {
         foreach(Window window in targetWindowList)
         {
-            if (window.WindowData.WindowName == windowName)
+            if (window.windowTitleID == titleID)
                 return;
         }
 
-        //윈도우 생성 이벤트.
+        if (isFixed && windowPrefab != null)
+        {
+            Window window = Instantiate(windowPrefab).GetComponent<Window>();
+            targetWindowList.Add(window);
+        }
     }
 
     public void SelectedTargetWindow(bool isSelected)
@@ -106,7 +119,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         isSelectedTarget = isSelected;
         highlightedImage.gameObject.SetActive(isSelected);
     }
-
 
     public void OnPointerEnter(PointerEventData eventData)
     {

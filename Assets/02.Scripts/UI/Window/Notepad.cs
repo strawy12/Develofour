@@ -6,7 +6,17 @@ using TMPro;
 
 public class Notepad : Window
 {
+    enum ETitle
+    {
+        None = -1,
+        Default,
+        Password,
+        
+    }
     private TMP_InputField inputField;
+
+    [SerializeField]
+    private ETitle eTitle;
     public string Text
     {
         get => inputField.text;
@@ -24,6 +34,7 @@ public class Notepad : Window
     public override void Init()
     {
         base.Init();
+        windowTitleID = (int)eTitle;
         OnSelected += inputField.ActivateInputField;
         OnUnSelected += () => inputField.DeactivateInputField();
     }

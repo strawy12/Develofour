@@ -10,7 +10,7 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private TaskIcon taskIconPrefab;
     
-    private Dictionary<string,TaskIcon> taskIcons = new Dictionary<string, TaskIcon>();
+    private Dictionary<int,TaskIcon> taskIcons = new Dictionary<int, TaskIcon>();
     
     [SerializeField]
     private Transform taskIconParent;
@@ -38,7 +38,7 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         {
             if (icon.IsFixed)
             {
-                taskIcons.Add(icon.Title,icon);
+                taskIcons.Add(icon.WindowType,icon);
             }
         }
     }
@@ -50,13 +50,13 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         Window window = param as Window;
         TaskIcon taskIcon = null;
        
-        if (!taskIcons.ContainsKey(window.WindowData.Title))
+        if (!taskIcons.ContainsKey(window.WindowType))
         {
             taskIcon = CreateTaskIcon();
         }
         else
         {
-            taskIcon = taskIcons[window.WindowData.Title];
+            taskIcon = taskIcons[window.WindowType];
         }
 
         taskIcon.AddTargetWindow(window);
@@ -71,11 +71,11 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         return icon;
     }
 
-    public void RemoveTaskIcon(string ID)
+    public void RemoveTaskIcon(int winType)
     {
-        if (taskIcons.ContainsKey(ID))
+        if (taskIcons.ContainsKey(winType))
         {
-            taskIcons.Remove(ID);
+            taskIcons.Remove(winType);
         }
         return;
     }

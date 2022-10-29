@@ -6,8 +6,18 @@ using TMPro;
 
 public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelectable
 {
-    private static int windowID = -1;
+    public enum EWindowType 
+    {
+        None = -1,
+        NotePad,
+        Browser,
+    }
+    [SerializeField]
+    private EWindowType eWindowType;
 
+    public int WindowType { get { return (int)eWindowType; } }
+    private static int windowID = -1;
+    public int windowTitleID = -1;
     [SerializeField]
     protected WindowDataSO windowData;
     #region Property
@@ -35,7 +45,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
 
     #region Event
     public Action OnOpen;
-    public Action<string> OnClose;
+    public Action<int> OnClose;
     public Action OnMaximum;
     public Action OnMinimum;
     public Action OnSelected { get; set; }
@@ -154,7 +164,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
     public void Close()
     {
         // TODO: Tween 적용
-        OnClose?.Invoke(ID);
+        OnClose?.Invoke(windowTitleID);
         WindowManager.Inst.SelectedObjectNull();
         Destroy(gameObject);
     }
