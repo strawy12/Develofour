@@ -6,25 +6,28 @@ using UnityEngine.EventSystems;
 
 public class TaskBar : MonoBehaviour, IPointerClickHandler
 {
+    
     [SerializeField]
     private TaskIcon taskIconPrefab;
     
     private Dictionary<string,TaskIcon> taskIcons = new Dictionary<string, TaskIcon>();
+    
+    [SerializeField]
     private Transform taskIconParent;
 
-    static public Func<string, bool> RemoveIconEvent;
+  
     private void Awake()
     {
         Bind();
         AddFixedTaskIcons();
 
         EventManager.StartListening(EEvent.CreateWindow, AddTaskIcon);
-        RemoveIconEvent += RemoveTaskIcon;
+      
     }
 
-    private void Bind()
+    private void Bind() 
     {
-        taskIconParent = transform.Find("TaskIcons");
+         
     }
 
     private void AddFixedTaskIcons()
@@ -33,7 +36,7 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
 
         foreach (TaskIcon icon in icons)
         {
-            if (icon is FixedTaskIcon)
+            if (icon.IsFixed)
             {
                 taskIcons.Add(icon.Title,icon);
             }
@@ -63,20 +66,18 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
     {
         TaskIcon icon = Instantiate(taskIconPrefab, taskIconParent);
         icon.gameObject.name = icon.gameObject.name.Replace("(Clone)", "");
+        icon.OnDetroy += RemoveTaskIcon;
         icon.Init();
-
         return icon;
     }
 
-    public bool RemoveTaskIcon(string ID)
+    public void RemoveTaskIcon(string ID)
     {
         if (taskIcons.ContainsKey(ID))
         {
             taskIcons.Remove(ID);
-            return true;
         }
-        return false;
-
+        return;
     }
     public void OnPointerClick(PointerEventData eventData)
     {

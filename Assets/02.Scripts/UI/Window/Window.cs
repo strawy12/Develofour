@@ -70,7 +70,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
         iconImage = transform.Find("MenuBar/IconImage").GetComponent<Image>();
     }
 
-    public virtual void Init()
+    public virtual void Init() 
     {
         if (windowData == null)
         {
@@ -81,7 +81,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
         myWindowID = windowID++;
 
         iconImage.sprite = windowData.IconSprite;
-        titleText.text = $"{windowData.WindowName} - {windowData.Title}";
+        titleText.text = $"{windowData.WindowName} - {windowData.Title}"; 
         rectTransform.position = windowData.Pos;
         rectTransform.sizeDelta = windowData.Size;
 

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     protected string windowTitle;
     public string Title => windowTitle;
 
-    protected List<Window> targetWindowList;
+    protected List<Window> targetWindowList;    
     [SerializeField]
     protected Image iconImage;
     [SerializeField]
@@ -20,6 +21,9 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     protected bool isFixed = false;
     protected bool isSelectedTarget = false;
 
+    public bool IsFixed { get { return isFixed; } }
+
+    public Action<string> OnDetroy;
     public void Init()
     {
         targetWindowList = new List<Window>();
@@ -50,10 +54,10 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     }
     public void RemoveTargetWindow(string wndID)
-    { 
-        if(!isFixed && targetWindowList.Count <= 1)
+    {
+        if (!isFixed && targetWindowList.Count <= 1)
         {
-            TaskBar.RemoveIconEvent.Invoke(wndID);
+            OnDetroy.Invoke(wndID);
             Destroy(this);
         }
     }
@@ -79,6 +83,22 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         {
             targetWindowList[0].Open();
         }
+        else if (targetWindowList.Count > 1)
+        {
+            //여러개일때
+        }
+
+    }
+
+    protected void CreateWindow(string windowName)
+    {
+        foreach(Window window in targetWindowList)
+        {
+            if (window.WindowData.WindowName == windowName)
+                return;
+        }
+
+        //윈도우 생성 이벤트.
     }
 
     public void SelectedTargetWindow(bool isSelected)
