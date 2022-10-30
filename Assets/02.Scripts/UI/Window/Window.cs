@@ -85,16 +85,16 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
             return;
         }
 
-        iconImage.sprite = windowData.IconSprite;
-        titleText.text = $"{windowData.WindowName} - {windowData.Title}"; 
-        rectTransform.position = windowData.Pos;
-        rectTransform.sizeDelta = windowData.Size;
+        //iconImage.sprite = windowData.IconSprite;
+        //titleText.text = $"{windowData.WindowName} - {windowData.Title}"; 
+        //rectTransform.position = windowData.Pos;
+        //rectTransform.sizeDelta = windowData.Size;
 
-        closeBtn.onClick.AddListener(Close);
-        maximumBtn.onClick.AddListener(MaximumWindow);
-        minimumBtn.onClick.AddListener(MinimumWindow);
+        //closeBtn.onClick.AddListener(Close);
+        //maximumBtn.onClick.AddListener(MaximumWindow);
+        //minimumBtn.onClick.AddListener(MinimumWindow);
 
-        transform.Find("MenuBar").GetComponent<WindowBar>().Init(this);
+        //transform.Find("MenuBar").GetComponent<WindowBar>().Init(this);
 
         EventManager.TriggerEvent(EEvent.CreateWindow, this);
     }

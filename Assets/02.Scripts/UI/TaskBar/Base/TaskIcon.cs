@@ -53,21 +53,20 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void AddTargetWindow(Window target)
     {
-        if (iconImage.sprite != target.WindowData.IconSprite)
-        {
-            iconImage.sprite = target.WindowData.IconSprite;
-        }
+        //if (iconImage.sprite != target.WindowData.IconSprite)
+        //{
+        //    iconImage.sprite = target.WindowData.IconSprite;
+        //}
 
-        windowType = target.WindowType;
-      
-        target.OnClose += RemoveTargetWindow;
-        target.OnSelected += () => SelectedTargetWindow(true);
-        target.OnUnSelected += () => SelectedTargetWindow(false);
+        //windowType = target.WindowType;
 
-        targetWindowList.Add(target);
+        //target.OnClose += RemoveTargetWindow;
+        //target.OnSelected += () => SelectedTargetWindow(true);
+        //target.OnUnSelected += () => SelectedTargetWindow(false);
 
-        activeImage.gameObject.SetActive(true);
-    
+        //targetWindowList.Add(target);
+        //activeImage.gameObject.SetActive(true);
+
     }
 
     public void RemoveTargetWindow(int windowTitle)
@@ -93,8 +92,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         switch (eventData.button)
         {
             case PointerEventData.InputButton.Left:
-                //defaultWindow.CreateWindow();
-                CreateWindow(defaultWindow.windowTitleID);
+
+                if (targetWindowList.Count == 0)
+                {
+                    CreateWindow(defaultWindow.windowTitleID);
+                }
                 OpenTargetWindow();
                 //TODO 이거 필요한데 바꿔보기
                 break;
@@ -113,11 +115,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void AttributeClose()
     {
-        foreach (Window window in targetWindowList)
+        while(targetWindowList.Count != 0)
         {
-            window.Close();
-            //window.OnClose?.Invoke(window.windowTitleID);
+            targetWindowList[0].Close();
         }
+        
     }
 
     public void AttributeOpen()
@@ -149,11 +151,25 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 //TODO : OrderInLayer 맨 앞으로 옮기기
             }
         }
-        
+
         if (isFixed && defaultWindow != null)
         {
             Window window = Instantiate(defaultWindow, transform.parent.parent.parent);
+            if (iconImage.sprite != window.WindowData.IconSprite)
+            {
+                iconImage.sprite = window.WindowData.IconSprite;
+            }
+            windowType = window.WindowType;
+
+            window.OnClose += RemoveTargetWindow;
+            window.OnSelected += () => SelectedTargetWindow(true);
+            window.OnUnSelected += () => SelectedTargetWindow(false);
+
+            window.CreateWindow();
+
             targetWindowList.Add(window);
+            activeImage.gameObject.SetActive(true);
+
         }
     }
 
