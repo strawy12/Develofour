@@ -25,11 +25,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Image pointerStayImage;
 
     [SerializeField]
-    private Image righClickImage;
+    private TMP_Text iconNameText;
 
     [SerializeField]
-    private TMP_Text iconNameText;
-    
+    private RightButtonClick rightButtonMenu;
+
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
 
@@ -61,7 +61,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if(eventData.button == PointerEventData.InputButton.Left)
         {
-            righClickImage.gameObject.SetActive(false);
             if (isSelected == false)
             {
                 WindowManager.Inst.SelectObject(this);
@@ -80,16 +79,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            Vector3 mousePos 
-                = Camera.main.ScreenToWorldPoint((new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z)));
-            // 마우스 커서 옆에 떠야하니까 좌표 받아옴
-
-
-
-            righClickImage.rectTransform.position = mousePos;
-            righClickImage.gameObject.SetActive(true);
+            MakingRightClickMenu();
         }
     }
+
 
     private void CreateWindow()
     {
@@ -102,11 +95,18 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         this.isSelected = isSelected;
         selectedImage.gameObject.SetActive(isSelected);
     }
+    void MakingRightClickMenu()
+    {
+        Vector3 mousePos
+            = Camera.main.ScreenToWorldPoint((new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z)));
+        // 마우스 커서 옆에 떠야하니까 좌표 받아옴
+
+        rightButtonMenu.CreateMenu(mousePos);
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         pointerStayImage.gameObject.SetActive(true);
-        righClickImage.gameObject.SetActive(false);
     }
 
     public void OnPointerExit(PointerEventData eventData)
