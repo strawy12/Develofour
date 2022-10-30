@@ -7,7 +7,7 @@ public class WindowBackground : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     private GameObject rightMenu;
-
+    
     public void OnPointerClick(PointerEventData eventData)
     {
         WindowManager.Inst.SelectedObjectNull();

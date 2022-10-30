@@ -10,12 +10,16 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 {
     public RectTransform rectTranstform;
 
-    private bool isSelected = false;
+    private int cilckCount = 0;
 
-    private WindowIconData data;
+    //private WindowIconData data;
 
     private Window targetWindow = null;
 
+    [SerializeField]
+    private GameObject windowPanel;
+
+    private Sprite sprite;
 
     [SerializeField]
     private Image iconImage;
@@ -33,10 +37,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
 
-    public void Create(WindowIconData windowIconData)
+    public void Awake()
     {
-        data = windowIconData;
-
         Bind();
         Init();
     }
@@ -48,53 +50,50 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void Init()
     {
-
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
 
         OnSelected += () => SelectedIcon(true);
         OnUnSelected += () => SelectedIcon(false);
     }
-
    
     public void OnPointerClick(PointerEventData eventData)
     {
         if(eventData.button == PointerEventData.InputButton.Left)
         {
-            if (isSelected == false)
+            if (cilckCount != 0)
+            {
+                // 여기에서 이벤트 쏨
+                cilckCount = 0;
+                Instantiate(windowPanel, windowPanel.transform.position, windowPanel.transform.rotation, gameObject.transform);
+                WindowManager.Inst.SelectedObjectNull();
+            }
+
+            else 
             {
                 WindowManager.Inst.SelectObject(this);
-            }
-            else // task바로 이벤트 쏠거임
-            {
-                if (targetWindow == null)
-                {
-
-                }
-                else
-                {
-                    targetWindow.Open();
-                }
+                cilckCount++;
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
+            WindowManager.Inst.SelectObject(this);
             MakingRightClickMenu();
         }
     }
 
-
     private void CreateWindow()
     {
-        targetWindow.CreateWindow();
-        targetWindow.OnClose += (id) => targetWindow = null;
+        //targetWindow.CreateWindow();
+        //targetWindow.OnClose += (id) => targetWindow = null;
     }
 
     private void SelectedIcon(bool isSelected)
     {
-        this.isSelected = isSelected;
+        Debug.Log(211);       // this.isSelected = isSelected;
         selectedImage.gameObject.SetActive(isSelected);
     }
+
     void MakingRightClickMenu()
     {
         Vector3 mousePos
