@@ -19,23 +19,23 @@ public class TaskIconAttribute : MonoBehaviour
 
     void OnEnable()
     {
-        EventManager.StartListening(EEvent.LeftButtonClick, (x) => OnClose?.Invoke());
+        EventManager.StartListening(EEvent.LeftButtonClick, (x) => Close());
     }
 
     void OnDisable()
     {
-        EventManager.StopListening(EEvent.LeftButtonClick, (x) => OnClose?.Invoke());
+        EventManager.StopListening(EEvent.LeftButtonClick, (x) => Close());
     }
 
     public void Release()
     {
-        EventManager.StopListening(EEvent.LeftButtonClick, (x) => OnClose?.Invoke());
+        EventManager.StopListening(EEvent.LeftButtonClick, (x) => Close());
     }
 
     public void Init()
     {
         //TODO 이거 안되는거 고치기
-        EventManager.StartListening(EEvent.LeftButtonClick, (x) => OnClose?.Invoke());
+        EventManager.StartListening(EEvent.LeftButtonClick, (x) =>  Close());
         openButton.onClick.AddListener(AttributeOpen);
         closeButton.onClick.AddListener(AttributeClose);
     }
@@ -56,11 +56,13 @@ public class TaskIconAttribute : MonoBehaviour
     public void AttributeClose()
     {
         OnClose?.Invoke();
+        Close();
     }
 
     public void AttributeOpen()
     {
         OnOpen?.Invoke();
+        Close();
     }
 
     

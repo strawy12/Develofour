@@ -52,6 +52,10 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public void Init()
     {
         attributePanel.Init();
+        attributePanel.OnClose -= AttributeClose;
+        attributePanel.OnOpen -= AttributeOpen;
+        attributePanel.OnClose += AttributeClose;
+        attributePanel.OnOpen += AttributeOpen;
         windowId = windowPrefab.windowTitleID;
     }
 
@@ -70,6 +74,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 targetWindowList.Remove(window);
                 break;
             }
+        }
+
+        if(targetWindowList.Count == 0)
+        {
+            activeImage.gameObject.SetActive(false);
         }
 
         if (!isFixed && targetWindowList.Count <= 1)
@@ -119,7 +128,18 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void AttributeOpen()
     {
-        CreateWindow(windowId);
+        if(targetWindowList.Count <= 0)
+        {
+            CreateWindow(windowId);
+        }
+        else if(targetWindowList.Count == 1)
+        {
+            targetWindowList[0].Open();
+        }
+        else if (targetWindowList.Count > 1)
+        {
+            //TODO : 창이 2개 이상 켜있으면 위쪽으로 미리 보여주는거 제작
+        }
     }
 
     protected virtual void OpenTargetWindow()
@@ -134,6 +154,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             {
                 targetWindowList[0].Open();
             }
+            attributePanel.Close();
         }
         else if (targetWindowList.Count > 1)
         {
