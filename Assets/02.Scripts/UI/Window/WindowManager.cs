@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class WindowManager : MonoSingleton<WindowManager>
 {
@@ -28,10 +29,18 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     void Update()
     {
-        if(isTaskIconAttribute == false && selectedObject == null)
+       
+        if(isTaskIconAttribute == false)
         {
             return;
         }
+
+        if(EventSystem.current.currentSelectedGameObject != null/* && EventSystem.current.currentSelectedGameObject.GetComponent<TaskIconAttribute>() != null*/)
+        {
+            Debug.Log("°É¸²");
+            return;
+        }
+
         if(Input.GetMouseButtonDown(0))
         {
             EventManager.TriggerEvent(EEvent.LeftButtonClick);
