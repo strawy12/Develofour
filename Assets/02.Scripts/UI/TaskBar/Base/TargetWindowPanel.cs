@@ -13,7 +13,6 @@ public class TargetWindowPanel : MonoBehaviour
     public Button openBtn;
 
     public Action<int> OnOpen;
-    public Action OnClose;
     private bool isSelected = false;
     private int windowTitleID;
     public int WindowTitleId { get { return windowTitleID; } }
@@ -46,7 +45,6 @@ public class TargetWindowPanel : MonoBehaviour
 
     public void Close()
     {
-        OnClose?.Invoke();
         Destroy(this.gameObject);
     }
 }

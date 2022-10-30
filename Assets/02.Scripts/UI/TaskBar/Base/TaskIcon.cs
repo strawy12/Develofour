@@ -78,7 +78,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             if (window.windowTitleID == titleID)
             {
                 targetWindowList.Remove(window);
-                targetWindowPanelDictionary.Remove(titleID);
                 break;
             }
 
@@ -92,7 +91,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         if (!isFixed && targetWindowList.Count <= 1)
         {
             OnDetroy.Invoke(windowType);
-            Destroy(this);
+            Destroy(gameObject);
         }
         SetTargetWindowPanelUISize();
 
@@ -213,6 +212,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             TargetWindowPanel target = Instantiate(targetWindowPanelPrefab, targetWindowPanelsUI.transform);
             target.Init(window);
             target.OnOpen += CreateWindow;
+            window.OnClose += TargetWindowPanelClose;
             target.SelectedTargetWindow(true);
             window.OnSelected += () => target.SelectedTargetWindow(true);
             window.OnUnSelected += () => target.SelectedTargetWindow(false);
@@ -247,4 +247,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         highlightedImage.gameObject.SetActive(false);
     }
 
+    public void TargetWindowPanelClose(int titleID)
+    {
+        Debug.Log(targetWindowPanelDictionary[titleID].gameObject.name);
+        TargetWindowPanel target = targetWindowPanelDictionary[titleID];
+        targetWindowPanelDictionary.Remove(titleID);
+        target.Close();
+    }
 }
