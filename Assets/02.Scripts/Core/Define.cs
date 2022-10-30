@@ -20,4 +20,19 @@ public static class Define
         }
         
     }
+
+    private static Transform windowCanvasTrm;
+
+    public static Transform WindowCanvasTrm
+    {
+        get
+        {
+            if (windowCanvasTrm == null)
+            {
+                windowCanvasTrm = GameObject.FindGameObjectWithTag("WindowCanvas").transform;
+            }
+
+            return windowCanvasTrm;
+        }
+    }
 }
