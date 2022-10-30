@@ -16,6 +16,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     protected GameObject windowPrefab; 
 
+    [SerializeField]
     protected List<Window> targetWindowList = new List<Window>();
     
     [SerializeField]
@@ -76,6 +77,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             if (window.windowTitleID == windowTitle)
             {
                 targetWindowList.Remove(window);
+                break;
             }
         }
 
@@ -91,12 +93,12 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         switch (eventData.button)
         {
             case PointerEventData.InputButton.Left:
-                defaultWindow.CreateWindow();
+                //defaultWindow.CreateWindow();
                 CreateWindow(defaultWindow.windowTitleID);
                 OpenTargetWindow();
+                //TODO 이거 필요한데 바꿔보기
                 break;
 
-            //case PointerEventData.InputButton.Middle:
 
             case PointerEventData.InputButton.Right:
                 ShowAttributePanel();
@@ -113,7 +115,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         foreach (Window window in targetWindowList)
         {
-            window.OnClose?.Invoke(window.windowTitleID);
+            window.Close();
+            //window.OnClose?.Invoke(window.windowTitleID);
         }
     }
 
@@ -136,25 +139,20 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     protected void CreateWindow(int titleID)
     {
-        int sameDefaultWindowCount = 0;
+        
         foreach (Window window in targetWindowList)
         {
             if (window.windowTitleID == titleID)
             {
-                sameDefaultWindowCount++;
-                if (sameDefaultWindowCount >= 2)
-                {
-                    window.gameObject.SetActive(true);
-                    return;
-                }
+                window.gameObject.SetActive(true);
+                return;
                 //TODO : OrderInLayer 맨 앞으로 옮기기
-
             }
         }
         
         if (isFixed && defaultWindow != null)
         {
-            Window window = Instantiate(defaultWindow, transform);
+            Window window = Instantiate(defaultWindow, transform.parent.parent.parent);
             targetWindowList.Add(window);
         }
     }
