@@ -18,7 +18,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     protected TargetWindowPanel targetWindowPanelPrefab;
     [SerializeField]
-    protected Image targetWindowPanelsUI;
+    protected TargetWindowPanels targetWindowPanelsUI;
     [SerializeField]
     protected List<Window> targetWindowList = new List<Window>();
 
@@ -39,7 +39,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public Action<int> OnDetroy;
 
-    private int windowId;
+    private int windowID;
 
     //임시용
     void Awake()
@@ -61,7 +61,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         attributePanel.OnOpen -= AttributeOpen;
         attributePanel.OnClose += AttributeClose;
         attributePanel.OnOpen += AttributeOpen;
-        windowId = windowPrefab.windowTitleID;
+        targetWindowPanelsUI.Init();
+        windowID = windowPrefab.windowTitleID;
     }
 
     protected void Bind() 
@@ -70,13 +71,14 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     }
 
 
-    public void RemoveTargetWindow(int windowTitle)
+    public void RemoveTargetWindow(int titleID)
     {
         foreach (Window window in targetWindowList)
         {
-            if (window.windowTitleID == windowTitle)
+            if (window.windowTitleID == titleID)
             {
                 targetWindowList.Remove(window);
+                targetWindowPanelDictionary.Remove(titleID);
                 break;
             }
 
@@ -103,7 +105,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             case PointerEventData.InputButton.Left:
                 if (targetWindowList.Count == 0)
                 {
-                    CreateWindow(windowId);
+                    CreateWindow(windowID);
                 }
                 else
                 {
@@ -136,13 +138,14 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         {
             targetWindowList[0].Close();
         }
+        SelectedTargetWindow(false);
     }
 
     public void AttributeOpen()
     {
         if(targetWindowList.Count <= 0)
         {
-            CreateWindow(windowId);
+            CreateWindow(windowID);
         }
         else if(targetWindowList.Count == 1)
         {
@@ -171,14 +174,10 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         else if (targetWindowList.Count > 1)
         {
             //TODO : 창이 2개 이상 켜있으면 위쪽으로 미리 보여주는거 제작
-            OpenTargetWindowPanelUI();
+            targetWindowPanelsUI.OpenTargetWindowPanelUI();
         }
     }
-    protected void OpenTargetWindowPanelUI()
-    {
-        if (targetWindowPanelsUI.gameObject.activeSelf) return;
-        targetWindowPanelsUI.gameObject.SetActive(true);
-    }
+
     protected void CreateWindow(int titleID)
     {
         foreach (Window window in targetWindowList)
@@ -212,12 +211,12 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             activeImage.gameObject.SetActive(true);
 
             TargetWindowPanel target = Instantiate(targetWindowPanelPrefab, targetWindowPanelsUI.transform);
-            target.CreateWinPanel(window);
-            target.OnClose += window.Close;
+            target.Init(window);
             target.OnOpen += CreateWindow;
             target.SelectedTargetWindow(true);
+            window.OnSelected += () => target.SelectedTargetWindow(true);
+            window.OnUnSelected += () => target.SelectedTargetWindow(false);
             targetWindowPanelDictionary.Add(target.WindowTitleId, target);
-
             SetTargetWindowPanelUISize();
         }
     }
@@ -225,7 +224,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         int panelCnt = targetWindowPanelDictionary.Count;
         int height = 40 * panelCnt + 10;
-        targetWindowPanelsUI.rectTransform.sizeDelta = new Vector2(180, height);
+        targetWindowPanelsUI.TargetTransform.sizeDelta = new Vector2(180, height);
     }
     public void SelectedTargetWindow(bool isSelected)
     {

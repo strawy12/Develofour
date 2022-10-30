@@ -37,7 +37,6 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         if(EventSystem.current.currentSelectedGameObject != null/* && EventSystem.current.currentSelectedGameObject.GetComponent<TaskIconAttribute>() != null*/)
         {
-            Debug.Log("°É¸²");
             return;
         }
 

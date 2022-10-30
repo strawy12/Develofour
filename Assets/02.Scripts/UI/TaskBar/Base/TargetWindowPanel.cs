@@ -17,9 +17,8 @@ public class TargetWindowPanel : MonoBehaviour
     private bool isSelected = false;
     private int windowTitleID;
     public int WindowTitleId { get { return windowTitleID; } }
-    public void CreateWinPanel(Window window)
+    public void Init(Window window)
     {
-        
         windowIcon.sprite = window.WindowData.IconSprite;
         windowTitle.text = $"{window.WindowData.name} - {window.WindowData.Title}";
         openBtn.onClick.AddListener(Open);
@@ -48,6 +47,6 @@ public class TargetWindowPanel : MonoBehaviour
     public void Close()
     {
         OnClose?.Invoke();
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 }
