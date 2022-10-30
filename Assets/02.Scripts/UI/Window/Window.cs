@@ -50,7 +50,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
     public Action OnUnSelected { get; set; }
     #endregion
 
-    protected bool isOpen = false;
+    public bool isOpen = false;
     protected bool isMaximum = false;
 
     protected Vector3 beforePos;
@@ -60,7 +60,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
     {
         Bind();
         Init();
-        Open();
+        //Open();
     }
 
     protected virtual void Bind()

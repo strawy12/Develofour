@@ -391,19 +391,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3586351500663353372}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1597493977236622863}
-        m_TargetAssemblyTypeName: TaskIcon, Assembly-CSharp
-        m_MethodName: AttributeClose
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &6776025202269592645
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,6 +403,7 @@ GameObject:
   - component: {fileID: 6231318208951498775}
   - component: {fileID: 8241423088409672984}
   - component: {fileID: 5374913427843724429}
+  - component: {fileID: 2624722724674538359}
   m_Layer: 5
   m_Name: AttributePanel
   m_TagString: Untagged
@@ -482,6 +471,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2624722724674538359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6776025202269592645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ee17ffe32971249a15f2426940571b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openButton: {fileID: 7900638054098592732}
+  closeButton: {fileID: 8319431341776111667}
 --- !u!1 &7023148083025992599
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,11 +548,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1823907b2decad545930f15eacce9749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributePanel: {fileID: 6776025202269592645}
-  windowPrefab: {fileID: 5882552048886308639, guid: d261d734fb55b174ca47e5faf81fc8c8, type: 3}
+  attributePanel: {fileID: 2624722724674538359}
+  windowPrefab: {fileID: 5882552048886308637, guid: d261d734fb55b174ca47e5faf81fc8c8, type: 3}
+  targetWindowList: []
   iconImage: {fileID: 7023148083252168562}
   activeImage: {fileID: 7023148083620261154}
   highlightedImage: {fileID: 7023148084324948860}
+  isFixed: 0
 --- !u!114 &7023148083025992618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -929,16 +934,4 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1318045827159841356}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1597493977236622863}
-        m_TargetAssemblyTypeName: TaskIcon, Assembly-CSharp
-        m_MethodName: AttributeOpen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []

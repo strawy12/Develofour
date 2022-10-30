@@ -11,10 +11,10 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public int WindowType => windowType;
 
     [SerializeField]
-    protected GameObject attributePanel;
+    protected TaskIconAttribute attributePanel;
 
     [SerializeField]
-    protected GameObject windowPrefab; 
+    protected Window windowPrefab; 
 
     [SerializeField]
     protected List<Window> targetWindowList = new List<Window>();
@@ -30,20 +30,29 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     protected bool isFixed = false;
     protected bool isSelectedTarget = false;
 
-    private Window defaultWindow;
-
     public bool IsFixed { get { return isFixed; } }
 
     public Action<int> OnDetroy;
 
+    private int windowId;
+
     //임시용
     void Awake()
     {
-        defaultWindow = windowPrefab.GetComponent<Window>();
+        if(IsFixed == true)
+        {
+            Init();
+            Bind();
+        }
     }
+
+    /// <summary>
+    /// 생성시킬때 실행시켜줘야함
+    /// </summary>
     public void Init()
     {
-  
+        attributePanel.Init();
+        windowId = windowPrefab.windowTitleID;
     }
 
     protected void Bind() 
@@ -51,23 +60,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
       
     }
 
-    public void AddTargetWindow(Window target)
-    {
-        //if (iconImage.sprite != target.WindowData.IconSprite)
-        //{
-        //    iconImage.sprite = target.WindowData.IconSprite;
-        //}
-
-        //windowType = target.WindowType;
-
-        //target.OnClose += RemoveTargetWindow;
-        //target.OnSelected += () => SelectedTargetWindow(true);
-        //target.OnUnSelected += () => SelectedTargetWindow(false);
-
-        //targetWindowList.Add(target);
-        //activeImage.gameObject.SetActive(true);
-
-    }
 
     public void RemoveTargetWindow(int windowTitle)
     {
@@ -92,10 +84,9 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         switch (eventData.button)
         {
             case PointerEventData.InputButton.Left:
-
                 if (targetWindowList.Count == 0)
                 {
-                    CreateWindow(defaultWindow.windowTitleID);
+                    CreateWindow(windowId);
                 }
                 OpenTargetWindow();
                 //TODO 이거 필요한데 바꿔보기
@@ -103,35 +94,46 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
 
             case PointerEventData.InputButton.Right:
-                ShowAttributePanel();
+                OpenAttributePanel();
                 break;
         }
     }
 
-    public void ShowAttributePanel()
+    public void OpenAttributePanel()
     {
-        attributePanel.SetActive(true);
+        attributePanel.Open();
+    }
+
+    public void CloseAttributePanel()
+    {
+        attributePanel.Close();
     }
 
     public void AttributeClose()
     {
-        while(targetWindowList.Count != 0)
+        while (targetWindowList.Count != 0)
         {
             targetWindowList[0].Close();
         }
-        
     }
 
     public void AttributeOpen()
     {
-        CreateWindow(defaultWindow.windowTitleID);
+        CreateWindow(windowId);
     }
 
     protected virtual void OpenTargetWindow()
     {
         if (targetWindowList.Count == 1)
         {
-            targetWindowList[0].Open();
+            if(targetWindowList[0].isOpen)
+            {
+                targetWindowList[0].MinimumWindow();
+            }
+            else
+            {
+                targetWindowList[0].Open();
+            }
         }
         else if (targetWindowList.Count > 1)
         {
@@ -152,9 +154,9 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             }
         }
 
-        if (isFixed && defaultWindow != null)
+        if (isFixed && windowPrefab != null)
         {
-            Window window = Instantiate(defaultWindow, transform.parent.parent.parent);
+            Window window = Instantiate(windowPrefab, transform.parent.parent.parent);
             if (iconImage.sprite != window.WindowData.IconSprite)
             {
                 iconImage.sprite = window.WindowData.IconSprite;
