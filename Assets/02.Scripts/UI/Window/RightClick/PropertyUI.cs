@@ -1,29 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PropertyUI : MonoBehaviour
 {
     [SerializeField]
-    private WindowIconDataSO windowIconDataSO;
-
+    private Image iconImage;
     [SerializeField]
-    private Image propertyImage;
+    private Text iconName;
     [SerializeField]
-    private string propertyName;
-    [SerializeField]
-    private string propertyByte;
+    private Text iconByte;
 
-
-    void Start()
+    public void CreatePropertyUI(WindowIconDataSO windowIconDataSO)
     {
-        
-    }
+        iconImage.sprite = windowIconDataSO.iconSprite;
+        iconName.text = windowIconDataSO.iconName;
+        iconByte.text = windowIconDataSO.iconByte;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        gameObject.SetActive(true);
     }
 }

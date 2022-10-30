@@ -1,17 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 public class RightButtonClick : MonoBehaviour
 {
+    [SerializeField]
+    private PropertyUI propertyUI;
+
     private RectTransform rectTransform;
+    private WindowIconDataSO windowPropertyData;
 
     void Start()
     {
         rectTransform = GetComponent<RectTransform>();
     }
 
-    public void CreateMenu(Vector3 menuPos)
+    public void CreateMenu(Vector3 menuPos, WindowIconDataSO windowIconData)
     {
         Vector3 defaultPos = new Vector3(menuPos.x + 1.35f, menuPos.y - 1.35f, menuPos.z);
 
@@ -21,8 +27,13 @@ public class RightButtonClick : MonoBehaviour
         if (defaultPos.y <= -3f)
             defaultPos.y += 2.8f;
 
+        gameObject.SetActive(true); 
         transform.position = defaultPos;
+        windowPropertyData = windowIconData;
+    }   
 
-        gameObject.SetActive(true);
+    public void CreateProperty()
+    {
+       propertyUI.CreatePropertyUI(windowPropertyData);
     }
 }

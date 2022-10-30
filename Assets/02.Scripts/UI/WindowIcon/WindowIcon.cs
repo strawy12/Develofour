@@ -33,6 +33,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     [SerializeField]
     private RightButtonClick rightButtonMenu;
+    [SerializeField]
+    private WindowIconDataSO windowIconData;
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
@@ -78,7 +80,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
             WindowManager.Inst.SelectObject(this);
-            MakingRightClickMenu();
+            MakingRightClickMenu(eventData);
         }
     }
 
@@ -94,13 +96,14 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         selectedImage.gameObject.SetActive(isSelected);
     }
 
-    void MakingRightClickMenu()
+    void MakingRightClickMenu(PointerEventData eventData)
     {
-        Vector3 mousePos
-            = Camera.main.ScreenToWorldPoint((new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z)));
+        Vector3 mousePos = Define.MainCam.ScreenToWorldPoint(eventData.position);
+        mousePos.z = 0f;
+           
         // 마우스 커서 옆에 떠야하니까 좌표 받아옴
 
-        rightButtonMenu.CreateMenu(mousePos);
+        rightButtonMenu.CreateMenu(mousePos, windowIconData);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
