@@ -14,11 +14,16 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     protected TaskIconAttribute attributePanel;
 
     [SerializeField]
-    protected Window windowPrefab; 
-
+    protected Window windowPrefab;
+    [SerializeField]
+    protected TargetWindowPanel targetWindowPanelPrefab;
+    [SerializeField]
+    protected Image targetWindowPanelsUI;
     [SerializeField]
     protected List<Window> targetWindowList = new List<Window>();
-    
+
+    protected Dictionary<int,TargetWindowPanel> targetWindowPanelDictionary = new Dictionary<int,TargetWindowPanel>();
+
     [SerializeField]
     protected Image iconImage;
     [SerializeField]
@@ -70,6 +75,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 targetWindowList.Remove(window);
                 break;
             }
+
         }
 
         if (!isFixed && targetWindowList.Count <= 1)
@@ -77,6 +83,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             OnDetroy.Invoke(windowType);
             Destroy(this);
         }
+        SetTargetWindowPanelUISize();
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -88,8 +96,12 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 {
                     CreateWindow(windowId);
                 }
+                else
+                {
+
+                }
                 OpenTargetWindow();
-                //TODO 이거 필요한데 바꿔보기
+                
                 break;
 
 
@@ -138,19 +150,24 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         else if (targetWindowList.Count > 1)
         {
             //TODO : 창이 2개 이상 켜있으면 위쪽으로 미리 보여주는거 제작
+            OpenTargetWindowPanelUI();
         }
     }
-
+    protected void OpenTargetWindowPanelUI()
+    {
+        if (targetWindowPanelsUI.gameObject.activeSelf) return;
+        targetWindowPanelsUI.gameObject.SetActive(true);
+    }
     protected void CreateWindow(int titleID)
     {
-        
         foreach (Window window in targetWindowList)
         {
             if (window.windowTitleID == titleID)
             {
+                //TODO : OrderInLayer 맨 앞으로 옮기기
+                targetWindowPanelDictionary[titleID].SelectedTargetWindow(true);
                 window.gameObject.SetActive(true);
                 return;
-                //TODO : OrderInLayer 맨 앞으로 옮기기
             }
         }
 
@@ -162,19 +179,33 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 iconImage.sprite = window.WindowData.IconSprite;
             }
             windowType = window.WindowType;
-
+            
             window.OnClose += RemoveTargetWindow;
             window.OnSelected += () => SelectedTargetWindow(true);
             window.OnUnSelected += () => SelectedTargetWindow(false);
 
             window.CreateWindow();
-
+            
             targetWindowList.Add(window);
+
             activeImage.gameObject.SetActive(true);
 
+            TargetWindowPanel target = Instantiate(targetWindowPanelPrefab, targetWindowPanelsUI.transform);
+            target.CreateWinPanel(window);
+            target.OnClose += window.Close;
+            target.OnOpen += CreateWindow;
+            target.SelectedTargetWindow(true);
+            targetWindowPanelDictionary.Add(target.WindowTitleId, target);
+
+            SetTargetWindowPanelUISize();
         }
     }
-
+    private void SetTargetWindowPanelUISize()
+    {
+        int panelCnt = targetWindowPanelDictionary.Count;
+        int height = 40 * panelCnt + 10;
+        targetWindowPanelsUI.rectTransform.sizeDelta = new Vector2(180, height);
+    }
     public void SelectedTargetWindow(bool isSelected)
     {
         isSelectedTarget = isSelected;
@@ -183,8 +214,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isSelectedTarget) return;
+        if (isSelectedTarget && targetWindowList.Count <= 1) return;
         highlightedImage.gameObject.SetActive(true);
+        targetWindowPanelsUI.gameObject.SetActive(true);
+        
+
     }
 
     public void OnPointerExit(PointerEventData eventData)

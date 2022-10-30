@@ -22,7 +22,7 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         AddFixedTaskIcons();
 
         EventManager.StartListening(EEvent.CreateWindow, AddTaskIcon);
-        OnAddIcon += AddTaskIcon;
+        OnAddIcon += AddTaskIcon; 
     }
 
     private void Bind() 
@@ -58,6 +58,7 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         {
             taskIcon = taskIcons[window.WindowType];
         }
+
     }
 
     private TaskIcon CreateTaskIcon()
