@@ -28,7 +28,7 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
 
         EventManager.StartListening(EEvent.CreateWindow, AddTaskIcon);
         OnAddIcon += AddTaskIcon;
-        alramBtn.onClick.AddListener(() => EventManager.TriggerEvent(EEvent.ClickAlramBtn));
+        alramBtn?.onClick.AddListener(() => EventManager.TriggerEvent(EEvent.ClickAlramBtn));
     }
 
     private void Bind() 

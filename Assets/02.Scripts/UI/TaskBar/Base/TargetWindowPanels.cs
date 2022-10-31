@@ -22,17 +22,25 @@ public class TargetWindowPanels : MonoBehaviour, IPointerEnterHandler,IPointerEx
     }
     public void Init()
     {
-        
+        EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
+
     }
 
+    public void CheckClose(object hits)
+    {
+        if (gameObject.activeSelf == false) return;
+        if(Define.ExistInHits(gameObject, hits) == false)
+        {
+            isEnter = false;
+            CloseTargetWindowPanelUI();
+        }
+    }
     public void OpenTargetWindowPanelUI()
     {
-        if (targetWindowPanelUI.gameObject.activeSelf) return;
         targetWindowPanelUI.gameObject.SetActive(true);
     }
     public void CloseTargetWindowPanelUI()
     {
-        Debug.Log("false");
         targetWindowPanelUI.gameObject.SetActive(false);
     }
 

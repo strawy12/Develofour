@@ -17,25 +17,10 @@ public class TaskIconAttribute : MonoBehaviour
     public Action OnClose;
     public Action OnOpen;
 
-    void OnEnable()
-    {
-        EventManager.StartListening(EEvent.LeftButtonClick, (x) => Close());
-    }
-
-    void OnDisable()
-    {
-        EventManager.StopListening(EEvent.LeftButtonClick, (x) => Close());
-    }
-
-    public void Release()
-    {
-        EventManager.StopListening(EEvent.LeftButtonClick, (x) => Close());
-    }
-
     public void Init()
     {
         //TODO 이거 안되는거 고치기
-        EventManager.StartListening(EEvent.LeftButtonClick, (x) =>  Close());
+        EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
         openButton.onClick.AddListener(AttributeOpen);
         closeButton.onClick.AddListener(AttributeClose);
     }
@@ -44,7 +29,14 @@ public class TaskIconAttribute : MonoBehaviour
     {
         gameObject.SetActive(true);
     }
-
+    public void CheckClose(object hits)
+    {
+        if (gameObject.activeSelf == false) return;
+        if (Define.ExistInHits(gameObject, hits) == false)
+        {
+            Close();
+        }
+    }
     public void Close()
     {
         gameObject.SetActive(false);
