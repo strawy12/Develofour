@@ -6,25 +6,41 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System;
 
-public class WindowIcon : MonoBehaviour, IDragHandler, IDropHandler, IPointerClickHandler, ISelectable
+public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, ISelectable
 {
-    private WindowIconData data;
+    public RectTransform rectTranstform;
 
-    private Window targetWindow = null;
-    private bool isSelected = false;
+    private int cilckCount = 0;
 
-    private RectTransform rectTranstform;
+    //private WindowIconData data;
+
+    //private Window targetWindow = null;
+
+    [SerializeField]
+    private GameObject windowPanel;
+
+    private Sprite sprite;
+
+    [SerializeField]
     private Image iconImage;
-    private TMP_Text iconNameText;
+    [SerializeField]
     private Image selectedImage;
+    [SerializeField]
+    private Image pointerStayImage;
+
+    [SerializeField]
+    private TMP_Text iconNameText;
+
+    [SerializeField]
+    private WindowIconAttrributeUI rightButtonMenu;
+    [SerializeField]
+    private WindowIconDataSO windowIconData;
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
 
-    public void Create(WindowIconData windowIconData)
+    public void Awake()
     {
-        data = windowIconData;
-
         Bind();
         Init();
     }
@@ -32,65 +48,71 @@ public class WindowIcon : MonoBehaviour, IDragHandler, IDropHandler, IPointerCli
     private void Bind()
     {
         rectTranstform = GetComponent<RectTransform>();
-
-        iconImage = transform.Find("Icon/IconImage").GetComponent<Image>();
-        iconNameText = transform.Find("Icon/IconNameText").GetComponent<TMP_Text>();
-        selectedImage = transform.Find("SelectedImage").GetComponent<Image>();
     }
 
     private void Init()
     {
-        iconImage.sprite = data.windowPrefab.WindowData.IconSprite;
-        iconNameText.SetText(data.windowPrefab.WindowData.WindowName);
+        pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
-
-        float x = (data.cellPoint.x * Constant.WINDOWICONSIZE.x) + Constant.WINDOWDEFAULTPOS.x;
-        float y = (data.cellPoint.y * Constant.WINDOWICONSIZE.y) - Constant.WINDOWDEFAULTPOS.y;
-        rectTranstform.localPosition = new Vector3(x, y, rectTranstform.localPosition.z);
 
         OnSelected += () => SelectedIcon(true);
         OnUnSelected += () => SelectedIcon(false);
     }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-
-    }
-
+   
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(isSelected == false)
+        if(eventData.button == PointerEventData.InputButton.Left)
+        {
+            if (cilckCount != 0)
+            {
+                // 여기에서 이벤트 쏨
+                cilckCount = 0;
+                Instantiate(windowPanel, windowPanel.transform.position, windowPanel.transform.rotation, gameObject.transform);
+                WindowManager.Inst.SelectedObjectNull();
+            }
+
+            else 
+            {
+                WindowManager.Inst.SelectObject(this);
+                cilckCount++;
+            }
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
         {
             WindowManager.Inst.SelectObject(this);
-        }
-        else
-        {
-            if(targetWindow == null)
-            {
-                CreateWindow();
-            }
-            else
-            {
-                targetWindow.Open();
-            }
+            MakingRightClickMenu(eventData);
         }
     }
 
     private void CreateWindow()
     {
-        targetWindow = UIManager.Inst.CreateWindow(data.windowPrefab.gameObject.name);
-        targetWindow.CreateWindow();
-        targetWindow.OnClose += (id) => targetWindow = null;
+        //targetWindow.CreateWindow();
+        //targetWindow.OnClose += (id) => targetWindow = null;
     }
 
     private void SelectedIcon(bool isSelected)
     {
-        this.isSelected = isSelected;
+        Debug.Log(211);       // this.isSelected = isSelected;
         selectedImage.gameObject.SetActive(isSelected);
     }
 
+    void MakingRightClickMenu(PointerEventData eventData)
+    {
+        Vector3 mousePos = Define.MainCam.ScreenToWorldPoint(eventData.position);
+        mousePos.z = 0f;
+           
+        // 마우스 커서 옆에 떠야하니까 좌표 받아옴
+
+        rightButtonMenu.CreateMenu(mousePos, windowIconData);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        pointerStayImage.gameObject.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        pointerStayImage.gameObject.SetActive(false);
+    }
 }

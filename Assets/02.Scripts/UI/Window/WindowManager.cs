@@ -16,6 +16,7 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     public void SelectObject(ISelectable target)
     {
+        Debug.Log(11);
         selectedObject?.OnUnSelected?.Invoke();
         selectedObject = target;
         selectedObject?.OnSelected?.Invoke();
