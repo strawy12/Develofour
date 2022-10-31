@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PropertyUI : MonoBehaviour
+public class PropertyUI : MonoUI
 {
     [SerializeField]
     private Image iconImage;
@@ -19,6 +19,6 @@ public class PropertyUI : MonoBehaviour
         iconName.text = windowIconDataSO.iconName;
         iconByte.text = windowIconDataSO.iconByte;
 
-        gameObject.SetActive(true);
+        SetActive(true);
     }
 }

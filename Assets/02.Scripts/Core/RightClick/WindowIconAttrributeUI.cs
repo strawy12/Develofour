@@ -4,16 +4,16 @@ using System.Linq.Expressions;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-public class WindowIconAttrributeUI : MonoBehaviour
+public class WindowIconAttrributeUI : MonoUI
 {
     [SerializeField]
     private PropertyUI propertyUI;
 
     private RectTransform rectTransform;
     private WindowIconDataSO windowPropertyData;
-
-    void Start()
+    void Awake()
     {
+        canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
     }
 

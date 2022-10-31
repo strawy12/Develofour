@@ -21,7 +21,6 @@ public static class Define
         
     }
 
-<<<<<<< HEAD
     private static Transform windowCanvasTrm;
 
     public static Transform WindowCanvasTrm
@@ -35,10 +34,10 @@ public static class Define
 
             return windowCanvasTrm;
         }
-=======
+    }
+
     public static void GameQuit()
     {
         Application.Quit();
->>>>>>> StartAattribute
     }
 }
