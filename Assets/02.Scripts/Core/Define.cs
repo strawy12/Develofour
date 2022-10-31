@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public static class Define
 {
@@ -39,5 +40,24 @@ public static class Define
     public static void GameQuit()
     {
         Application.Quit();
+    }
+
+    public static bool ExistInHits(GameObject obj, object hits)
+    {
+        if (hits == null || !(hits is List<RaycastResult>))
+        {
+            Debug.LogError("Hits가 null이거나 타입이 맞지 않습니다");
+            return true;
+        }
+
+        foreach (RaycastResult hit in hits as List<RaycastResult>)
+        {
+            if (hit.gameObject == obj)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -46,12 +47,21 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
                 StopAllCoroutines();
             }
         });
+
+        EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
     }
 
     private void Bind()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+    }
+    private void CheckClose(object hits)
+    {
+        if (Define.ExistInHits(gameObject, hits) == false)
+        {
+            Close();
+        }
     }
 
     public void Show()
@@ -66,6 +76,11 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
             expendSize.y,
             0.2f
         ).SetEase(Ease.InCubic);
+    }
+
+    public void Close()
+    {
+        SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

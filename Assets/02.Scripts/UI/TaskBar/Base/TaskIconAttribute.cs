@@ -43,14 +43,11 @@ public class TaskIconAttribute : MonoBehaviour
     public void Open()
     {
         gameObject.SetActive(true);
-        WindowManager.Inst.IsTaskIconAttribute = true;
-        
     }
 
     public void Close()
     {
         gameObject.SetActive(false);
-        WindowManager.Inst.IsTaskIconAttribute = false;
     }
 
     public void AttributeClose()

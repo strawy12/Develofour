@@ -1,9 +1,12 @@
 using DG.Tweening;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.U2D.IK;
 
 public struct NoticeData
 {
@@ -49,10 +52,20 @@ public class NoticeSystem : MonoUI
 
         OnGeneratedNotice += ShowNoticePanel;
 
-        EventManager.StartListening(EEvent.ClickAlramBtn, ToggleOpen);
+        EventManager.StartListening(EEvent.ClickAlramBtn, ToggleNotice);
+        EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
     }
 
-    private void ToggleOpen(object obj)
+    private void CheckClose(object hits)
+    {
+        if (isOpen == false) return;
+        if (Define.ExistInHits(gameObject, hits) == false)
+        {
+            Close();
+        }
+    }
+
+    private void ToggleNotice(object obj)
     {
         if(isOpen)
         {
