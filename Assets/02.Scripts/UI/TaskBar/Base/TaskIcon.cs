@@ -73,25 +73,22 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void RemoveTargetWindow(int titleID)
     {
-        foreach (Window window in targetWindowList)
+        for(int i =0; i < targetWindowList.Count; i++)
         {
-            if (window.windowTitleID == titleID)
+            if (targetWindowList[i].windowTitleID == titleID)
             {
-                targetWindowList.Remove(window);
-                break;
+                targetWindowList.RemoveAt(i);
             }
-
         }
-
-        if(targetWindowList.Count == 0)
+        
+        if (targetWindowList.Count < 1)
         {
             activeImage.gameObject.SetActive(false);
-        }
-
-        if (!isFixed && targetWindowList.Count <= 1)
-        {
-            OnDetroy.Invoke(windowType);
-            Destroy(gameObject);
+            if (!isFixed)
+            {
+                OnDetroy.Invoke(windowType);
+                Destroy(gameObject);
+            }
         }
         SetTargetWindowPanelUISize();
 
