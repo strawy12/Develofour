@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class TaskBar : MonoBehaviour, IPointerClickHandler
 {
@@ -15,14 +16,19 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private Transform taskIconParent;
 
-    static public Action<object> OnAddIcon; 
+    static public Action<object> OnAddIcon;
+
+    [SerializeField]
+    private Button alramBtn;
+
     private void Awake()
     {
         Bind();
         AddFixedTaskIcons();
 
         EventManager.StartListening(EEvent.CreateWindow, AddTaskIcon);
-        OnAddIcon += AddTaskIcon; 
+        OnAddIcon += AddTaskIcon;
+        alramBtn.onClick.AddListener(() => EventManager.TriggerEvent(EEvent.ClickAlramBtn));
     }
 
     private void Bind() 
