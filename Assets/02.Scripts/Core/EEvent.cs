@@ -5,6 +5,7 @@ public enum EEvent
     LeftButtonClick,
     GeneratedNotice,
     OpenNoticeSystem,
+    ClickAlramBtn,
     ChangeBGM,
     ActivePowerPanel,
     ExpendMenu,

@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public struct NoticeData
@@ -10,7 +11,7 @@ public struct NoticeData
     public string body;
 }
 
-public class NoticeSystem : MonoBehaviour
+public class NoticeSystem : MonoUI
 {
     public static Action<NoticeData> OnGeneratedNotice;
 
@@ -27,7 +28,6 @@ public class NoticeSystem : MonoBehaviour
 
     private Stack<NoticePanel> noticePanelPool;
 
-    private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
 
     private NoticePanel noticePanel;
@@ -48,8 +48,21 @@ public class NoticeSystem : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
 
         OnGeneratedNotice += ShowNoticePanel;
+
+        EventManager.StartListening(EEvent.ClickAlramBtn, ToggleOpen);
     }
 
+    private void ToggleOpen(object obj)
+    {
+        if(isOpen)
+        {
+            Close();
+        }
+        else
+        {
+            Open();
+        }
+    }
 
     public void Open()
     {
@@ -58,9 +71,7 @@ public class NoticeSystem : MonoBehaviour
 
         EventManager.TriggerEvent(EEvent.OpenNoticeSystem);
 
-        canvasGroup.alpha = 1f;
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
+        SetActive(true);
         
         rectTransform.DOKill();
         rectTransform.DOAnchorPosX(0f, Constant.NOTICE_DURATION);
@@ -72,9 +83,7 @@ public class NoticeSystem : MonoBehaviour
         rectTransform.DOKill();
         rectTransform.DOAnchorPosX(rectTransform.rect.width, Constant.NOTICE_DURATION).OnComplete(()=>
         {
-            canvasGroup.alpha = 0f;
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
+            SetActive(false);
         });
     }
 
@@ -126,7 +135,7 @@ public class NoticeSystem : MonoBehaviour
             panel = noticePanelPool.Pop();
         }
 
-        panel.gameObject.SetActive(true);
+        panel.SetActive(true);
 
         return panel;
     }

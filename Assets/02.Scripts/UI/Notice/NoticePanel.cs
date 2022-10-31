@@ -9,7 +9,7 @@ using System;
 
 using static Constant;
 
-public class NoticePanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private TMP_Text headText;
@@ -30,6 +30,7 @@ public class NoticePanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void Bind()
     {
+        canvasGroup ??= GetComponent<CanvasGroup>();
         rectTransform ??= GetComponent<RectTransform>();
         backgroundImage ??= GetComponent<Image>();
     }
@@ -71,7 +72,6 @@ public class NoticePanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (isEnter)
         {
             backgroundImage.DOColor(new Color(0f, 0f, 0f), 0.1f);
-            rectTransform.DORotate(Vector3.zero, 0.15f);
             rectTransform.DOScale(Vector3.one, 0.1f);
 
             isEnter = false;
@@ -94,7 +94,6 @@ public class NoticePanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             StopAllCoroutines();
 
             backgroundImage.DOColor(new Color(0.1f, 0.1f, 0.1f), 0.1f);
-            rectTransform.DORotate(new Vector3(13, -13, 0f), 0.15f);
             rectTransform.DOScale(Vector3.one * 1.05f, 0.1f);
 
             isEnter = true;
@@ -108,7 +107,6 @@ public class NoticePanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             StartCoroutine(NoticeCoroutine());
 
             backgroundImage.DOColor(new Color(0f, 0f, 0f), 0.1f);
-            rectTransform.DORotate(Vector3.zero, 0.15f);
             rectTransform.DOScale(Vector3.one, 0.1f);
 
             isEnter = false;
