@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.U2D.IK;
 using UnityEngine.UI;
 
 public class PowerPanel : MonoUI
@@ -14,7 +15,7 @@ public class PowerPanel : MonoUI
 
     private RectTransform rectTransform;
 
-
+    private bool isOpen = false;
     private void Awake()
     {
         Init();
@@ -31,18 +32,38 @@ public class PowerPanel : MonoUI
     {
         agreeBtn.onClick.AddListener(Define.GameQuit);
         cancelBtn.onClick.AddListener(Close);
+        EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
+    }
+
+    private void CheckClose(object hits)
+    {
+        Debug.Log(1);
+        if (isOpen == false) { return; }
+        Debug.Log(Define.ExistInHits(gameObject, hits));
+        if (Define.ExistInHits(gameObject, hits) == false)
+        {
+            Close();
+        }
     }
 
     public void Show()
     {
         EventManager.TriggerEvent(EEvent.ActivePowerPanel, true);
         SetActive(true);
+        isOpen = true;
     }
 
     private void Close()
     {
-        EventManager.TriggerEvent(EEvent.ActivePowerPanel, false);
+        StartCoroutine(CloseEventDelay());
         SetActive(false);
+        isOpen = false;
+    }
+
+    private IEnumerator CloseEventDelay()
+    {
+        yield return new WaitForEndOfFrame();
+        EventManager.TriggerEvent(EEvent.ActivePowerPanel, false);
     }
 
 
