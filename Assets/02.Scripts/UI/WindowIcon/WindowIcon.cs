@@ -14,7 +14,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     //private WindowIconData data;
 
-    private Window targetWindow = null;
+    //private Window targetWindow = null;
 
     [SerializeField]
     private GameObject windowPanel;
@@ -32,7 +32,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private TMP_Text iconNameText;
 
     [SerializeField]
-    private RightButtonClick rightButtonMenu;
+    private WindowIconAttrributeUI rightButtonMenu;
     [SerializeField]
     private WindowIconDataSO windowIconData;
 
