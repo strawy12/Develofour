@@ -2,11 +2,8 @@ public enum EEvent
 {
     None = -1,
     CreateWindow,
-<<<<<<< HEAD
-    LeftButtonClick
-=======
+    LeftButtonClick,
     GeneratedNotice,
     OpenNoticeSystem,
     ChangeBGM,
->>>>>>> main
 }

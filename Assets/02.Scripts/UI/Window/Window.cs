@@ -32,12 +32,12 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
     /// <summary>
     /// 전체화면 버튼
     /// </summary>
-    protected MaximumBtn maximumBtn;
+    //protected MaximumBtn maximumBtn;
 
     protected TMP_Text titleText;
     private Image iconImage;
     #endregion
-
+    
     public RectTransform rectTransform { get; protected set; }
     protected CanvasGroup canvasGroup;
 
@@ -124,7 +124,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
             rectTransform.sizeDelta = beforeSize;
             rectTransform.position = beforePos;
 
-            maximumBtn.iconImage.SetText("□");
+            //maximumBtn.iconImage.SetText("□");
             isMaximum = false;
         }
 
@@ -136,7 +136,7 @@ public /*abstract*/ class Window : MonoBehaviour, IPointerClickHandler, ISelecta
             beforePos = rectTransform.position;
             rectTransform.position = Vector3.zero;
 
-            maximumBtn.iconImage.SetText("■");
+            //maximumBtn.iconImage.SetText("■");
             isMaximum = true;
         }
 
