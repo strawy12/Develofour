@@ -20,4 +20,9 @@ public static class Define
         }
         
     }
+
+    public static void GameQuit()
+    {
+        Application.Quit();
+    }
 }

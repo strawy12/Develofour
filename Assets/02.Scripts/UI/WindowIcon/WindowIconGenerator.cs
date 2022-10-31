@@ -25,7 +25,6 @@ public class WindowIconGenerator : MonoBehaviour
             WindowIcon icon = Instantiate(windowIconPrefab, transform);
             icon.Create(windowIconData);
 
-            Debug.Log(windowIconData.cellPoint);
             windowCellIcons[windowIconData.cellPoint.x, windowIconData.cellPoint.y] = icon;
         }
     }
