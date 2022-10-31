@@ -237,7 +237,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         if (isSelectedTarget && targetWindowList.Count <= 1) return;
         highlightedImage.gameObject.SetActive(true);
         targetWindowPanelsUI.gameObject.SetActive(true);
-        
 
     }
 
@@ -245,11 +244,14 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         if (isSelectedTarget) return;
         highlightedImage.gameObject.SetActive(false);
+        if (targetWindowPanelsUI.IsEnter == false)
+        {
+            targetWindowPanelsUI.gameObject.SetActive(false);
+        }
     }
 
     public void TargetWindowPanelClose(int titleID)
     {
-        Debug.Log(targetWindowPanelDictionary[titleID].gameObject.name);
         TargetWindowPanel target = targetWindowPanelDictionary[titleID];
         targetWindowPanelDictionary.Remove(titleID);
         target.Close();

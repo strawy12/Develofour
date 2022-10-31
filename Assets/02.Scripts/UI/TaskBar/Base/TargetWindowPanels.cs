@@ -2,19 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class TargetWindowPanels : MonoBehaviour
+using UnityEngine.EventSystems;
+public class TargetWindowPanels : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler
 {
-    //void OnEnable()
-    //{
-    //    EventManager.StartListening(EEvent.LeftButtonClick, (x) => CloseTargetWindowPanelUI());
-    //}
-
-    //void OnDisable()
-    //{
-    //    EventManager.StopListening(EEvent.LeftButtonClick, (x) => CloseTargetWindowPanelUI());
-    //}
-
+    private bool isEnter;
+    public bool IsEnter { get { return isEnter; } }
     private Image targetWindowPanelUI;
     public RectTransform TargetTransform { get { return targetWindowPanelUI.rectTransform; } }
     private void Awake()
@@ -23,7 +15,7 @@ public class TargetWindowPanels : MonoBehaviour
     }
     public void Init()
     {
-        //EventManager.StartListening(EEvent.LeftButtonClick, (x) => CloseTargetWindowPanelUI());
+        
     }
 
     public void OpenTargetWindowPanelUI()
@@ -35,5 +27,15 @@ public class TargetWindowPanels : MonoBehaviour
     {
         Debug.Log("false");
         targetWindowPanelUI.gameObject.SetActive(false);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        isEnter = false;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        isEnter = true;
     }
 }
