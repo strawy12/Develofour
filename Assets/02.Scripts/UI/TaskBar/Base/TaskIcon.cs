@@ -231,16 +231,23 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isSelectedTarget && targetWindowList.Count <= 1) return;
-        highlightedImage.gameObject.SetActive(true);
-        targetWindowPanelsUI.gameObject.SetActive(true);
+        if (!isSelectedTarget)
+        {
+            highlightedImage.gameObject.SetActive(true);
+        }
+        if (targetWindowList.Count >= 1)
+        {
+            targetWindowPanelsUI.gameObject.SetActive(true);
+        }
 
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isSelectedTarget) return;
-        highlightedImage.gameObject.SetActive(false);
+        if (!isSelectedTarget)
+        {
+            highlightedImage.gameObject.SetActive(false);
+        }
         if (targetWindowPanelsUI.IsEnter == false)
         {
             targetWindowPanelsUI.gameObject.SetActive(false);

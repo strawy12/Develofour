@@ -8,7 +8,14 @@ public class TargetWindowPanels : MonoBehaviour, IPointerEnterHandler,IPointerEx
     private bool isEnter;
     public bool IsEnter { get { return isEnter; } }
     private Image targetWindowPanelUI;
-    public RectTransform TargetTransform { get { return targetWindowPanelUI.rectTransform; } }
+    public RectTransform TargetTransform 
+    {
+        get 
+        { 
+            if(targetWindowPanelUI == null) targetWindowPanelUI = GetComponent<Image>();
+            return targetWindowPanelUI?.rectTransform;
+        } 
+    }
     private void Awake()
     {
         targetWindowPanelUI = GetComponent<Image>();
