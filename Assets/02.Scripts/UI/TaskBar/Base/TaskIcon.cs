@@ -209,10 +209,13 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             TargetWindowPanel target = Instantiate(targetWindowPanelPrefab, targetWindowPanelsUI.transform);
             target.Init(window);
             target.OnOpen += CreateWindow;
-            window.OnClose += TargetWindowPanelClose;
+            target.OnClose += window.Close;
+
             target.SelectedTargetWindow(true);
             window.OnSelected += () => target.SelectedTargetWindow(true);
             window.OnUnSelected += () => target.SelectedTargetWindow(false);
+            window.OnClose += TargetWindowPanelClose;
+
             targetWindowPanelDictionary.Add(target.WindowTitleId, target);
             SetTargetWindowPanelUISize();
         }

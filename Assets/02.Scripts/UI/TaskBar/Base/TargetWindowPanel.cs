@@ -8,13 +8,19 @@ using UnityEngine.EventSystems;
 
 public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Image windowIcon;
-    public TMP_Text windowTitle;
-    public Image highlightedImage;
-    public Button openBtn;
-
+    [SerializeField]
+    private Image windowIcon;
+    [SerializeField]
+    private TMP_Text windowTitle;
+    [SerializeField]
+    private Image highlightedImage;
+    [SerializeField]
+    private Button openBtn;
+    [SerializeField]
+    private Button closeBtn;
 
     public Action<int> OnOpen;
+    public Action OnClose;
     private bool isSelected = false;
     private int windowTitleID;
     public int WindowTitleId { get { return windowTitleID; } }
@@ -23,6 +29,7 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
         windowIcon.sprite = window.WindowData.IconSprite;
         windowTitle.text = $"{window.WindowData.name} - {window.WindowData.Title}";
         openBtn.onClick.AddListener(Open);
+        closeBtn.onClick.AddListener(OnPressCloseButton);
         windowTitleID = window.windowTitleID;
     }
 
@@ -50,13 +57,19 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
         Destroy(this.gameObject);
     }
 
+    public void OnPressCloseButton()
+    {
+        OnClose?.Invoke();
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
         highlightedImage.gameObject.SetActive(true);
+        closeBtn.gameObject.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         highlightedImage.gameObject.SetActive(false);
+        closeBtn.gameObject.SetActive(false);
     }
 }
