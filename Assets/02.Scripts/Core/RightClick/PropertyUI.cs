@@ -19,6 +19,7 @@ public class PropertyUI : MonoUI
         iconName.text = windowIconDataSO.iconName;
         iconByte.text = windowIconDataSO.iconByte;
 
-        SetActive(true);
+        gameObject.SetActive(true);
+        //SetActive(true);
     }
 }
