@@ -71,6 +71,4 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
             }
         }
     }
-
-
 }
