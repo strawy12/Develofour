@@ -189,7 +189,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
         if (isFixed && windowPrefab != null)
         {
-            Window window = Instantiate(windowPrefab, transform.parent.parent.parent);
+            Window window = Instantiate(windowPrefab, Define.WindowCanvasTrm);
             if (iconImage.sprite != window.WindowData.IconSprite)
             {
                 iconImage.sprite = window.WindowData.IconSprite;
