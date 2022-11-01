@@ -35,7 +35,7 @@ public class WindowIconAttrributeUI : MonoUI
         Vector2 normalPivot = new Vector2(pivotX, pivotY);
         rectTransform.pivot = normalPivot;
 
-        gameObject.SetActive(true); 
+        SetActive(true); 
         windowPropertyData = windowIconData;
     }   
 
