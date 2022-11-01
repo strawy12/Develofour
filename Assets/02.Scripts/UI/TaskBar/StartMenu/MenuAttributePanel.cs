@@ -37,12 +37,13 @@ public class MenuAttributePanel : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
+        Debug.Log(11);
         SelectedPanel(false);
     }
 
     protected void SelectedPanel(bool isSelected)
     {
-        backgroundImage.DOKill();
+        backgroundImage.DOKill(true);
         float alpha = isSelected ? 1f : 0f;
         backgroundImage.DOFade(alpha, DURATION);
     }

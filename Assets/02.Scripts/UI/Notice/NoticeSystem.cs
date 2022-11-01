@@ -52,7 +52,7 @@ public class NoticeSystem : MonoUI
 
         OnGeneratedNotice += ShowNoticePanel;
 
-        EventManager.StartListening(EEvent.ClickAlramBtn, ToggleNotice);
+        EventManager.StartListening(EEvent.ClickNoticeBtn, ToggleNotice);
         EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
     }
 

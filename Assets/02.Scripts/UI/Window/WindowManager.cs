@@ -23,7 +23,7 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             PointerEventData data = new PointerEventData(EventSystem.current);
             data.position = Input.mousePosition;
@@ -31,6 +31,6 @@ public class WindowManager : MonoSingleton<WindowManager>
             EventSystem.current.RaycastAll(data, hits);
 
             EventManager.TriggerEvent(EEvent.LeftButtonClick, hits);
-        }
+        }   
     }
 }

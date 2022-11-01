@@ -18,9 +18,6 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
 
     static public Action<object> OnAddIcon;
 
-    [SerializeField]
-    private Button alramBtn;
-
     private void Awake()
     {
         Bind();
@@ -28,7 +25,8 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
 
         EventManager.StartListening(EEvent.CreateWindow, AddTaskIcon);
         OnAddIcon += AddTaskIcon;
-        alramBtn?.onClick.AddListener(() => EventManager.TriggerEvent(EEvent.ClickAlramBtn));
+
+
     }
 
     private void Bind() 

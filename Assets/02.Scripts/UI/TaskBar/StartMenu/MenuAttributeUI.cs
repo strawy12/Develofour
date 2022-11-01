@@ -13,6 +13,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private RectTransform rectTransform;
 
+    private bool isOpen = false;
     private bool isExpand = false;
 
     private bool isStop = false;
@@ -58,6 +59,9 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
     }
     private void CheckClose(object hits)
     {
+        if(isStop) { return; }
+        if (!isOpen) { return; }
+
         if (Define.ExistInHits(gameObject, hits) == false)
         {
             Close();
@@ -66,6 +70,9 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void Show()
     {
+        if (isOpen) { return; }
+        isOpen = true;
+
         rectTransform.sizeDelta = contractSize;
 
         SetActive(true);
@@ -80,15 +87,17 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void Close()
     {
+        if (isOpen == false) { return; }
+        isOpen = false;
         SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isStop) return;
+        if (isStop) { return; }
         if (!isExpand)
         {
-            if(expandCoroutine != null)
+            if (expandCoroutine != null)
             {
                 StopCoroutine(expandCoroutine);
             }
@@ -99,9 +108,12 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isStop) return;
+        if (isStop) { return; }
 
-        if (Raycast(eventData)) return;
+        if (Raycast(eventData))
+        {
+            return;
+        }
 
         isExpand = false;
 
@@ -174,7 +186,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private void ToggleMenu(object obj)
     {
-        if(isExpand)
+        if (isExpand)
         {
             ContractPanel();
         }
