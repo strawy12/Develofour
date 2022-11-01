@@ -37,9 +37,7 @@ public class PowerPanel : MonoUI
 
     private void CheckClose(object hits)
     {
-        Debug.Log(1);
         if (isOpen == false) { return; }
-        Debug.Log(Define.ExistInHits(gameObject, hits));
         if (Define.ExistInHits(gameObject, hits) == false)
         {
             Close();
