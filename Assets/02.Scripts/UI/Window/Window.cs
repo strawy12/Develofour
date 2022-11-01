@@ -6,12 +6,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class WindowClass : MonoBehaviour, IPointerClickHandler, ISelectable
+public class Window : MonoBehaviour, IPointerClickHandler, ISelectable
 {
-    //[SerializeField]
-    //private WindowBar windowBar;
-    //[SerializeField]
-    //private WindowDataSO windowDataSO;
+    [SerializeField]
+    private WindowBar windowBar;
+    [SerializeField]
+    private WindowDataSO windowDataSO;
 
     private bool isSelected;
 
@@ -24,10 +24,11 @@ public class WindowClass : MonoBehaviour, IPointerClickHandler, ISelectable
 
     private void Init()
     {
-        //windowBar.Init();
-        //windowBar.OnClose?.AddListener(WindowClose);
-        //windowBar.OnMinimum?.AddListener(WindowMinimum);
-        //windowBar.OnMaximum?.AddListener(WindowMaximum);
+        windowBar.Init(windowDataSO, rectTransform);
+
+        windowBar.OnClose?.AddListener(WindowClose);
+        windowBar.OnMinimum?.AddListener(WindowMinimum);
+        windowBar.OnMaximum?.AddListener(WindowMaximum);
         rectTransform = GetComponent<RectTransform>();
     }
 
