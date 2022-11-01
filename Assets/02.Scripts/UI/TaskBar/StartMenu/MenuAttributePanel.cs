@@ -37,6 +37,7 @@ public class MenuAttributePanel : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
+        Debug.Log(11);
         SelectedPanel(false);
     }
 
