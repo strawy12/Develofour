@@ -23,7 +23,6 @@ public class Notepad : Window
         set => inputField.text = value;
     }
 
-
     protected override void Bind()
     {
         base.Bind();
