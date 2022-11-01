@@ -92,18 +92,18 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void SelectedIcon(bool isSelected)
     {
-        Debug.Log(211);       // this.isSelected = isSelected;
         selectedImage.gameObject.SetActive(isSelected);
     }
 
     void MakingRightClickMenu(PointerEventData eventData)
     {
-        Vector3 mousePos = Define.MainCam.ScreenToWorldPoint(eventData.position);
-        mousePos.z = 0f;
-           
-        // 마우스 커서 옆에 떠야하니까 좌표 받아옴
+        //Vector3 inputPos = Input.mousePosition;
+        //Vector3 wolrdPos = Camera.main.ScreenToWorldPoint(inputPos);
 
-        rightButtonMenu.CreateMenu(mousePos, windowIconData);
+        //Vector3 defaultPos = new Vector3(wolrdPos.x, wolrdPos.y, 0);
+        //Debug.Log(defaultPos);
+
+        rightButtonMenu.CreateMenu(rectTranstform.localPosition, windowIconData);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

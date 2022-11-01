@@ -9,7 +9,8 @@ public class WindowIconAttrributeUI : MonoUI
     [SerializeField]
     private PropertyUI propertyUI;
 
-    private RectTransform rectTransform;
+    public RectTransform rectTransform;
+
     private WindowIconDataSO windowPropertyData;
     void Awake()
     {
@@ -17,18 +18,24 @@ public class WindowIconAttrributeUI : MonoUI
         rectTransform = GetComponent<RectTransform>();
     }
 
-    public void CreateMenu(Vector3 menuPos, WindowIconDataSO windowIconData)
+    public void CreateMenu(Vector3 iconPos, WindowIconDataSO windowIconData)
     {
-        Vector3 defaultPos = new Vector3(menuPos.x + 1.35f, menuPos.y - 1.35f, menuPos.z);
+        float pivotX = 0f;
+        float pivotY = 1f;
+        
+        rectTransform.localPosition = iconPos;
 
-        if (defaultPos.x >= 7.5f)
-            defaultPos.x -= 2.4f;
+        if (rectTransform.localPosition.x >= 690)
+            pivotX = 1f;
 
-        if (defaultPos.y <= -3f)
-            defaultPos.y += 2.8f;
+        if (rectTransform.localPosition.y <= -240)
+            pivotY = 0f;
+
+        
+        Vector2 normalPivot = new Vector2(pivotX, pivotY);
+        rectTransform.pivot = normalPivot;
 
         gameObject.SetActive(true); 
-        transform.position = defaultPos;
         windowPropertyData = windowIconData;
     }   
 
