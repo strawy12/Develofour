@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/UI/WindowData")]
+
+public enum EWindowType
+{
+    None,
+    Notepad
+}
+[CreateAssetMenu(menuName = "SO/Window/Data")]
 public class WindowDataSO : ScriptableObject
 {
-    [SerializeField] private string windowName;
-    [SerializeField] private string title;
-    [SerializeField] private Vector2 pos;
-    [SerializeField] private Vector2 size = new Vector2(1280, 720);
-    [SerializeField] private Sprite iconSprite;
-
-    public string WindowName => windowName;
-    public string Title => title;
-    public Sprite IconSprite => iconSprite;
-    public Vector2 Pos => pos;
-    public Vector2 Size => size;
+    public EWindowType windowType;
+    [HideInInspector]
+    public int windowTitleID;
+    public Sprite iconSprite;
+    [HideInInspector]
+    public bool isMaximum;
+    public Vector2 size;
+    public Vector2 pos;
 }
