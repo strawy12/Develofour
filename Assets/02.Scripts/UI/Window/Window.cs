@@ -27,14 +27,15 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
     {
         isMaximum = false;
 
+        canvasGroup = GetComponent<CanvasGroup>();
+        rectTransform = GetComponent<RectTransform>();
+
         windowBar.Init(windowData, rectTransform);
 
         windowBar.OnClose?.AddListener(WindowClose);
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);
-
-        canvasGroup = GetComponent<CanvasGroup>();
-        rectTransform = GetComponent<RectTransform>();
+        windowBar.OnSelected += SelectWindow;
     }
 
     public void WindowClose()
@@ -45,6 +46,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
     
     public void WindowMinimum()
     {
+        WindowManager.Inst.SelectedObjectNull();
         SetActive(false);
     }
 
@@ -64,6 +66,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowOpen()
     {
+        WindowManager.Inst.SelectObject(this);
         SetActive(true);
     }
 
@@ -76,6 +79,12 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        SelectWindow();
+    }
+
+    private void SelectWindow()
+    {
         WindowManager.Inst.SelectObject(this);
+
     }
 }

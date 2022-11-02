@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, IDragHandler
 {
@@ -18,17 +19,15 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
     public UnityEvent OnMinimum { get { return minimumBtn.onClick; } }
     public UnityEvent OnMaximum { get { return maximumBtn.onClick; } }
 
-private bool isClicked;
+    public Action OnSelected;
+
+    private bool isClicked;
     private float clickDelayTime = 0.0f;
     private Vector2 offsetPos = Vector2.zero;
 
     private WindowDataSO windowData;
     private RectTransform windowRectTransform;
-    private RectTransform rectTrasnform;
-    private void Awake()
-    {
-        rectTrasnform = GetComponent<RectTransform>();
-    }
+
     public void Init(WindowDataSO winData, RectTransform rectTrm) 
     {
         windowData = winData;
@@ -63,7 +62,8 @@ private bool isClicked;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Click");
+
+        OnSelected?.Invoke();
         if (isClicked == false)
         {
             isClicked = true;

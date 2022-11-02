@@ -182,7 +182,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             {
                 //TODO : OrderInLayer 맨 앞으로 옮기기
                 targetWindowPanelDictionary[titleID].SelectedTargetWindow(true);
-                window.gameObject.SetActive(true);
+                window.WindowOpen();
                 return;
             }
         }

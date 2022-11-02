@@ -42,7 +42,6 @@ public class WindowManager : MonoSingleton<WindowManager>
             }
 
             SelectedObjectNull();
-
-        }   
+        }
     }
 }
