@@ -8,7 +8,7 @@ using System;
 
 public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, ISelectable
 {
-    public RectTransform rectTranstform;
+    public RectTransform rectTranstform { get; set; }
 
     private int cilckCount = 0;
 
@@ -65,7 +65,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 if (targetWindow == null)
                 {
                     CreateWindow();
-                    //TaskBar.OnAddIcon?.Invoke(targetWindow);
+                    TaskBar.OnAddIcon?.Invoke(targetWindow);
                 }
                 else
                 {
@@ -93,6 +93,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         targetWindow.CreatedWindow();
 
         targetWindow.OnClose += (int x) => targetWindow = null;  
+        
     }
 
     private void SelectedIcon(bool isSelected)

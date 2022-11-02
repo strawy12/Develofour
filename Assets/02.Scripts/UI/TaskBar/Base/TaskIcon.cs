@@ -57,12 +57,13 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public void Init()
     {
         attributePanel.Init();
+        windowType = (int)windowPrefab.WindowData.windowType;
         attributePanel.OnClose -= AttributeClose;
         attributePanel.OnOpen -= AttributeOpen;
         attributePanel.OnClose += AttributeClose;
         attributePanel.OnOpen += AttributeOpen;
         targetWindowPanelsUI.Init();
-        windowPrefabID = windowPrefab.WindowData.windowTitleID;
+        //windowPrefabID = windowPrefab.WindowData.windowTitleID;
     }
 
 
@@ -230,8 +231,9 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     private void SetTargetWindowPanelUISize()
     {
         int panelCnt = targetWindowPanelDictionary.Count;
-        int height = 40 * panelCnt + 10;
+        int height = 50 * panelCnt + 10;
         targetWindowPanelsUI.TargetTransform.sizeDelta = new Vector2(180, height);
+        targetWindowPanelsUI.TargetTransform.anchoredPosition = new Vector2(0, height + 20);
     }
 
     public void SelectedTargetWindow(bool isSelected)
