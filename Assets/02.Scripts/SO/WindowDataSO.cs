@@ -12,10 +12,12 @@ public enum EWindowType
 public class WindowDataSO : ScriptableObject
 {
     public EWindowType windowType;
+
     [HideInInspector]
     public int windowTitleID;
     public Sprite iconSprite;
     [HideInInspector]
+    
     public bool isMaximum;
     public Vector2 size;
     public Vector2 pos;

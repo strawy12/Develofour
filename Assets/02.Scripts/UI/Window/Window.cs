@@ -6,12 +6,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class Window : MonoBehaviour, IPointerClickHandler, ISelectable
+public class Window : MonoUI, IPointerClickHandler, ISelectable
 {
     [SerializeField]
     private WindowBar windowBar;
     [SerializeField]
-    private WindowDataSO windowDataSO;
+    private WindowDataSO windowData;
 
     private bool isSelected;
     public bool IsSelected { get { return isSelected; } }
@@ -24,21 +24,25 @@ public class Window : MonoBehaviour, IPointerClickHandler, ISelectable
     public WindowDataSO WindowData { get { return windowDataSO; } }
     private void Init()
     {
-        windowBar.Init(windowDataSO, rectTransform);
+        windowBar.Init(windowData, rectTransform);
 
         windowBar.OnClose?.AddListener(WindowClose);
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);
+
+        canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
     }
 
     public void WindowClose()
     {
-
+        OnClose?.Invoke(windowData.windowTitleID);
+        Destroy(gameObject);
     }
+    
     public void WindowMinimum()
     {
-
+        SetActive(false);
     }
 
     public void WindowMaximum()
@@ -48,16 +52,18 @@ public class Window : MonoBehaviour, IPointerClickHandler, ISelectable
 
     public void WindowOpen()
     {
-
+        SetActive(true);
     }
 
-    public void CreateWindow()
+    // 생성 당해버린 상태에서 실행되는 함수임
+    public void CreatedWindow()
     {
-        Instantiate(this);
+        Init();
+        WindowOpen();
     }
-
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        WindowManager.Inst.SelectObject(this);
     }
 }
