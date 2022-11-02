@@ -12,15 +12,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private int cilckCount = 0;
 
-    //private WindowIconData data;
-
-    //private Window targetWindow = null;
-
-    [SerializeField]
-    private GameObject windowPanel;
-
+    private Window targetWindow = null;
     private Sprite sprite;
 
+    [SerializeField]
+    private Window targetWindowTemp;
     [SerializeField]
     private Image iconImage;
     [SerializeField]
@@ -65,7 +61,16 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 // 여기에서 이벤트 쏨
                 cilckCount = 0;
-                Instantiate(windowPanel, windowPanel.transform.position, windowPanel.transform.rotation, gameObject.transform);
+
+                if (targetWindow == null)
+                {
+                    CreateWindow();
+                    //TaskBar.OnAddIcon?.Invoke(targetWindow);
+                }
+                else
+                {
+                    targetWindow.WindowOpen();
+                }
                 WindowManager.Inst.SelectedObjectNull();
             }
 
@@ -84,8 +89,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void CreateWindow()
     {
-        //targetWindow.CreateWindow();
-        //targetWindow.OnClose += (id) => targetWindow = null;
+        targetWindow = Instantiate(targetWindowTemp, targetWindowTemp.transform.parent);
+        targetWindow.CreatedWindow();
+
+        targetWindow.OnClose += (int x) => targetWindow = null;  
     }
 
     private void SelectedIcon(bool isSelected)
