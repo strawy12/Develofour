@@ -7,33 +7,33 @@ using System;
 
 public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    protected int windowType;
+    private int windowType;
     public int WindowType => windowType;
 
     [SerializeField]
-    protected TaskIconAttribute attributePanel;
+    private TaskIconAttribute attributePanel;
 
     [SerializeField]
-    protected Window windowPrefab;
+    private Window windowPrefab;
     [SerializeField]
-    protected TargetWindowPanel targetWindowPanelPrefab;
+    private TargetWindowPanel targetWindowPanelPrefab;
     [SerializeField]
-    protected TargetWindowPanels targetWindowPanelsUI;
+    private TargetWindowPanels targetWindowPanelsUI;
     [SerializeField]
-    protected List<Window> targetWindowList = new List<Window>();
+    private List<Window> targetWindowList = new List<Window>();
 
-    protected Dictionary<int,TargetWindowPanel> targetWindowPanelDictionary = new Dictionary<int,TargetWindowPanel>();
-
-    [SerializeField]
-    protected Image iconImage;
-    [SerializeField]
-    protected Image activeImage;
-    [SerializeField]
-    protected Image highlightedImage;
+    private Dictionary<int,TargetWindowPanel> targetWindowPanelDictionary = new Dictionary<int,TargetWindowPanel>();
 
     [SerializeField]
-    protected bool isFixed = false;
-    protected bool isSelectedTarget = false;
+    private Image iconImage;
+    [SerializeField]
+    private Image activeImage;
+    [SerializeField]
+    private Image highlightedImage;
+
+    [SerializeField]
+    private bool isFixed = false;
+    private bool isSelectedTarget = false;
 
     public bool IsFixed { get { return isFixed; } }
 
@@ -64,6 +64,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         targetWindowPanelsUI.Init();
         windowPrefabID = windowPrefab.WindowData.windowTitleID;
     }
+
 
     protected void Bind() 
     {
@@ -153,7 +154,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         }
     }
 
-    protected virtual void OpenTargetWindow()
+    private void OpenTargetWindow()
     {
         if (targetWindowList.Count == 1)
         {
@@ -174,7 +175,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         }
     }
 
-    protected void CreateWindow(int titleID)
+    private void CreateWindow(int titleID)
     {
         foreach (Window window in targetWindowList)
         {
@@ -195,37 +196,44 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 iconImage.sprite = window.WindowData.iconSprite;
             }
             windowType = (int)window.WindowData.windowType;
-            
-            window.OnClose += RemoveTargetWindow;
-            window.OnSelected += () => SelectedTargetWindow(true);
-            window.OnUnSelected += () => SelectedTargetWindow(false);
 
-            window.CreatedWindow();
-            
-            targetWindowList.Add(window);
-
-            activeImage.gameObject.SetActive(true);
-
-            TargetWindowPanel target = Instantiate(targetWindowPanelPrefab, targetWindowPanelsUI.transform);
-            target.Init(window);
-            target.OnOpen += CreateWindow;
-            target.OnClose += window.WindowClose;
-
-            target.SelectedTargetWindow(true);
-            window.OnSelected += () => target.SelectedTargetWindow(true);
-            window.OnUnSelected += () => target.SelectedTargetWindow(false);
-            window.OnClose += TargetWindowPanelClose;
-
-            targetWindowPanelDictionary.Add(target.WindowTitleId, target);
-            SetTargetWindowPanelUISize();
+            AddTargetWindow(window);
         }
     }
+
+    public void AddTargetWindow(Window window)
+    {
+        window.OnClose += RemoveTargetWindow;
+        window.OnSelected += () => SelectedTargetWindow(true);
+        window.OnUnSelected += () => SelectedTargetWindow(false);
+
+        window.CreatedWindow();
+
+        targetWindowList.Add(window);
+
+        activeImage.gameObject.SetActive(true);
+
+        TargetWindowPanel target = Instantiate(targetWindowPanelPrefab, targetWindowPanelsUI.transform);
+        target.Init(window);
+        target.OnOpen += CreateWindow;
+        target.OnClose += window.WindowClose;
+
+        target.SelectedTargetWindow(true);
+        window.OnSelected += () => target.SelectedTargetWindow(true);
+        window.OnUnSelected += () => target.SelectedTargetWindow(false);
+        window.OnClose += TargetWindowPanelClose;
+
+        targetWindowPanelDictionary.Add(target.WindowTitleId, target);
+        SetTargetWindowPanelUISize();
+    }
+
     private void SetTargetWindowPanelUISize()
     {
         int panelCnt = targetWindowPanelDictionary.Count;
         int height = 40 * panelCnt + 10;
         targetWindowPanelsUI.TargetTransform.sizeDelta = new Vector2(180, height);
     }
+
     public void SelectedTargetWindow(bool isSelected)
     {
         isSelectedTarget = isSelected;

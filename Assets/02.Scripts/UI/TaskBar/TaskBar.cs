@@ -62,7 +62,7 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         {
             taskIcon = taskIcons[(int)window.WindowData.windowType];
         }
-
+        taskIcon.AddTargetWindow(window)
     }
 
     private TaskIcon CreateTaskIcon()
