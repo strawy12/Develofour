@@ -200,7 +200,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             window.OnSelected += () => SelectedTargetWindow(true);
             window.OnUnSelected += () => SelectedTargetWindow(false);
 
-            window.CreateWindow();
+            window.CreatedWindow();
             
             targetWindowList.Add(window);
 

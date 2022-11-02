@@ -34,7 +34,6 @@ private bool isClicked;
         windowData = winData;
         windowRectTransform = rectTrm;
         windowName.text = $"{windowData.windowType} - {windowName.text}";
-
     }
 
     public void Update()
