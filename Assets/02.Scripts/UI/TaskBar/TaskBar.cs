@@ -16,17 +16,14 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private Transform taskIconParent;
 
-    static public Action<object> OnAddIcon;
+    static public Action<Window> OnAddIcon;
 
     private void Awake()
     {
         Bind();
         AddFixedTaskIcons();
 
-        EventManager.StartListening(EEvent.CreateWindow, AddTaskIcon);
         OnAddIcon += AddTaskIcon;
-
-
     }
 
     private void Bind() 
@@ -47,11 +44,8 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void AddTaskIcon(object param)
-    {
-        if (param == null || !(param is Window)) { return; }
-
-        Window window = param as Window;
+    public void AddTaskIcon(Window window)
+    { 
         TaskIcon taskIcon = null;
        
         if (!taskIcons.ContainsKey((int)window.WindowData.windowType))

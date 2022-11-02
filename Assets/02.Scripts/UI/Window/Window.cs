@@ -25,16 +25,16 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
     public WindowDataSO WindowData { get { return windowData; } }
     private void Init()
     {
-        isMaximum = false;
+        canvasGroup = GetComponent<CanvasGroup>();
+        rectTransform = GetComponent<RectTransform>();
 
-        windowBar.Init(windowData, rectTransform);
+        isMaximum = false;
 
         windowBar.OnClose?.AddListener(WindowClose);
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);
 
-        canvasGroup = GetComponent<CanvasGroup>();
-        rectTransform = GetComponent<RectTransform>();
+        windowBar.Init(windowData, rectTransform);
     }
 
     public void WindowClose()
