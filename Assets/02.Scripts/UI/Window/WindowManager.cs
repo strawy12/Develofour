@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -31,6 +32,17 @@ public class WindowManager : MonoSingleton<WindowManager>
             EventSystem.current.RaycastAll(data, hits);
 
             EventManager.TriggerEvent(EEvent.LeftButtonClick, hits);
+
+            foreach(RaycastResult hit in hits)
+            {
+                if(hit.gameObject.GetComponent<ISelectable>() == selectedObject)
+                {
+                    return;
+                }
+            }
+
+            SelectedObjectNull();
+
         }   
     }
 }
