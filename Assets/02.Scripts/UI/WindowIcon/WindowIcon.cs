@@ -32,8 +32,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private TMP_Text iconNameText;
 
     [SerializeField]
-    private WindowIconAttrributeUI rightButtonMenu;
-    [SerializeField]
     private WindowIconDataSO windowIconData;
 
     public Action OnSelected { get; set; }
@@ -80,7 +78,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
             WindowManager.Inst.SelectObject(this);
-            MakingRightClickMenu(eventData);
+            CreateAttributeUI(eventData);
         }
     }
 
@@ -92,18 +90,21 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void SelectedIcon(bool isSelected)
     {
+        if(!isSelected)
+        {
+            cilckCount = 0;
+        }
         selectedImage.gameObject.SetActive(isSelected);
     }
 
-    void MakingRightClickMenu(PointerEventData eventData)
+    void CreateAttributeUI(PointerEventData eventData)
     {
-        //Vector3 inputPos = Input.mousePosition;
-        //Vector3 wolrdPos = Camera.main.ScreenToWorldPoint(inputPos);
+        Vector3 mousePos = eventData.position;
+        mousePos.x -= Constant.MAXCANVASPOS.x;
+        mousePos.y -= Constant.MAXCANVASPOS.y;
+        mousePos.z = 0f;
 
-        //Vector3 defaultPos = new Vector3(wolrdPos.x, wolrdPos.y, 0);
-        //Debug.Log(defaultPos);
-
-        rightButtonMenu.CreateMenu(rectTranstform.localPosition, windowIconData);
+        WindowIconAttributeUI.OnCreateMenu?.Invoke(mousePos, windowIconData);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

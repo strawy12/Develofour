@@ -5,15 +5,29 @@ using UnityEngine;
 [RequireComponent(typeof(CanvasGroup))]
 public class MonoUI : MonoBehaviour
 {
-    protected CanvasGroup canvasGroup;
+    protected CanvasGroup canvasGroup = null;
 
     public void SetActive(bool isActive)
     {
-        canvasGroup ??= GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = GetComponent<CanvasGroup>();
+        }
 
         canvasGroup.alpha = isActive ? 1f : 0f;
         canvasGroup.interactable = isActive;
         canvasGroup.blocksRaycasts = isActive;
     }
 
+    [ContextMenu("SetActiveTrue")]
+    private void SetActiveTrue()
+    {
+        SetActive(true);
+    }
+
+    [ContextMenu("SetActiveFalse")]
+    private void SetActiveFalse()
+    {
+        SetActive(false);
+    }
 }
