@@ -14,11 +14,11 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text windowName;
 
-    public UnityEvent OnClose;
-    public UnityEvent OnMinimum;
-    public UnityEvent OnMaximum;
+    public UnityEvent OnClose   { get { return closeBtn.onClick; } }
+    public UnityEvent OnMinimum { get { return minimumBtn.onClick; } }
+    public UnityEvent OnMaximum { get { return maximumBtn.onClick; } }
 
-    private bool isClicked;
+private bool isClicked;
     private float clickDelayTime = 0.0f;
     private Vector2 offsetPos = Vector2.zero;
 
@@ -66,7 +66,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         {
             if(clickDelayTime <= 1.0f)
             {
-                //todo:윈도우 최대화OnOff
+                OnMaximum?.Invoke();
                 isClicked = false;
             }
         }
