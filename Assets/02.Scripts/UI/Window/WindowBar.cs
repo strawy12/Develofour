@@ -27,9 +27,9 @@ private bool isClicked;
 
     public void Init(WindowDataSO winData, RectTransform rectTrm) 
     {
-        windowName.text = $"{windowData.windowType} - {windowName.text}";
         windowData = winData;
         windowRectTransform = rectTrm;
+        windowName.text = $"{windowData.windowType} - {windowName.text}";
     }
 
     public void Update()

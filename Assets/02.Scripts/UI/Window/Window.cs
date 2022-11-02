@@ -14,6 +14,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
     private WindowDataSO windowData;
 
     private bool isSelected;
+    private bool isMaximum;
     public bool IsSelected { get { return isSelected; } }
     private RectTransform rectTransform;
 
@@ -21,9 +22,11 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
-    public WindowDataSO WindowData { get { return windowDataSO; } }
+    public WindowDataSO WindowData { get { return windowData; } }
     private void Init()
     {
+        isMaximum = false;
+
         windowBar.Init(windowData, rectTransform);
 
         windowBar.OnClose?.AddListener(WindowClose);
@@ -47,7 +50,16 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowMaximum()
     {
-        rectTransform.sizeDelta = Constant.MAXWINSIZE;
+        if(!isMaximum)
+        {
+            rectTransform.sizeDelta = Constant.MAXWINSIZE;
+            isMaximum = true;
+        }
+        else
+        {
+            rectTransform.sizeDelta = windowData.size;
+            isMaximum = false;
+        }
     }
 
     public void WindowOpen()
