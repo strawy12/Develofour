@@ -39,7 +39,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public Action<int> OnDetroy;
 
-    private int windowID;
+    private int windowPrefabID;
 
     //임시용
     void Awake()
@@ -62,7 +62,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         attributePanel.OnClose += AttributeClose;
         attributePanel.OnOpen += AttributeOpen;
         targetWindowPanelsUI.Init();
-        windowID = windowPrefab.windowTitleID;
+        windowPrefabID = windowPrefab.WindowData.windowTitleID;
     }
 
     protected void Bind() 
@@ -75,7 +75,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         for(int i =0; i < targetWindowList.Count; i++)
         {
-            if (targetWindowList[i].windowTitleID == titleID)
+            if (targetWindowList[i].WindowData.windowTitleID == titleID)
             {
                 targetWindowList.RemoveAt(i);
             }
@@ -101,7 +101,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             case PointerEventData.InputButton.Left:
                 if (targetWindowList.Count == 0)
                 {
-                    CreateWindow(windowID);
+                    CreateWindow(windowPrefabID);
                 }
                 else
                 {
@@ -132,7 +132,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         while (targetWindowList.Count != 0)
         {
-            targetWindowList[0].Close();
+            targetWindowList[0].WindowClose();
         }
         SelectedTargetWindow(false);
     }
@@ -141,11 +141,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         if(targetWindowList.Count <= 0)
         {
-            CreateWindow(windowID);
+            CreateWindow(windowPrefabID);
         }
         else if(targetWindowList.Count == 1)
         {
-            targetWindowList[0].Open();
+            targetWindowList[0].WindowOpen();
         }
         else if (targetWindowList.Count > 1)
         {
@@ -157,13 +157,13 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         if (targetWindowList.Count == 1)
         {
-            if(targetWindowList[0].isOpen)
+            if (targetWindowList[0].IsSelected)
             {
-                targetWindowList[0].MinimumWindow();
+                targetWindowList[0].WindowMinimum();
             }
-            else
+        else
             {
-                targetWindowList[0].Open();
+                targetWindowList[0].WindowOpen();
             }
             attributePanel.Close();
         }
@@ -178,7 +178,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         foreach (Window window in targetWindowList)
         {
-            if (window.windowTitleID == titleID)
+            if (window.WindowData.windowTitleID == titleID)
             {
                 //TODO : OrderInLayer 맨 앞으로 옮기기
                 targetWindowPanelDictionary[titleID].SelectedTargetWindow(true);
@@ -190,11 +190,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         if (isFixed && windowPrefab != null)
         {
             Window window = Instantiate(windowPrefab, Define.WindowCanvasTrm);
-            if (iconImage.sprite != window.WindowData.IconSprite)
+            if (iconImage.sprite != window.WindowData.iconSprite)
             {
-                iconImage.sprite = window.WindowData.IconSprite;
+                iconImage.sprite = window.WindowData.iconSprite;
             }
-            windowType = window.WindowType;
+            windowType = (int)window.WindowData.windowType;
             
             window.OnClose += RemoveTargetWindow;
             window.OnSelected += () => SelectedTargetWindow(true);
@@ -209,7 +209,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             TargetWindowPanel target = Instantiate(targetWindowPanelPrefab, targetWindowPanelsUI.transform);
             target.Init(window);
             target.OnOpen += CreateWindow;
-            target.OnClose += window.Close;
+            target.OnClose += window.WindowClose;
 
             target.SelectedTargetWindow(true);
             window.OnSelected += () => target.SelectedTargetWindow(true);

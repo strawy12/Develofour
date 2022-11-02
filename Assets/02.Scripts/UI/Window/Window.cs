@@ -14,14 +14,14 @@ public class Window : MonoBehaviour, IPointerClickHandler, ISelectable
     private WindowDataSO windowDataSO;
 
     private bool isSelected;
-
+    public bool IsSelected { get { return isSelected; } }
     private RectTransform rectTransform;
 
     public Action<int> OnClose;
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
-
+    public WindowDataSO WindowData { get { return windowDataSO; } }
     private void Init()
     {
         windowBar.Init(windowDataSO, rectTransform);

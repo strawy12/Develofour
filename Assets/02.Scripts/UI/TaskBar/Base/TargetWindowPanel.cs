@@ -26,11 +26,11 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public int WindowTitleId { get { return windowTitleID; } }
     public void Init(Window window)
     {
-        windowIcon.sprite = window.WindowData.IconSprite;
-        windowTitle.text = $"{window.WindowData.name} - {window.WindowData.Title}";
+        windowIcon.sprite = window.WindowData.iconSprite;
+        windowTitle.text = $"{window.WindowData.name} - ";
         openBtn.onClick.AddListener(Open);
         closeBtn.onClick.AddListener(OnPressCloseButton);
-        windowTitleID = window.windowTitleID;
+        windowTitleID = window.WindowData.windowTitleID;
     }
 
     public bool CheckWindowTitle(int titleID)
