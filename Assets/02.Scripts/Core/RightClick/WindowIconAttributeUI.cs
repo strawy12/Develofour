@@ -73,5 +73,6 @@ public class WindowIconAttributeUI : MonoUI
     public void CreateProperty()
     {
         propertyUI.CreatePropertyUI(windowPropertyData);
+        CloseMenu();
     }
 }
