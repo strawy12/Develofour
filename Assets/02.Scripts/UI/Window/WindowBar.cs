@@ -24,12 +24,17 @@ private bool isClicked;
 
     private WindowDataSO windowData;
     private RectTransform windowRectTransform;
-
+    private RectTransform rectTrasnform;
+    private void Awake()
+    {
+        rectTrasnform = GetComponent<RectTransform>();
+    }
     public void Init(WindowDataSO winData, RectTransform rectTrm) 
     {
-        windowName.text = $"{windowData.windowType} - {windowName.text}";
         windowData = winData;
         windowRectTransform = rectTrm;
+        windowName.text = $"{windowData.windowType} - {windowName.text}";
+
     }
 
     public void Update()
@@ -47,18 +52,20 @@ private bool isClicked;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        offsetPos = eventData.position - (Vector2)transform.position;
-        offsetPos.y += windowData.size.y / 2;
+        Vector2 mousePos = eventData.position - (Constant.MAXWINSIZE / 2);
+        offsetPos = windowRectTransform.anchoredPosition - mousePos;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        windowRectTransform.position = eventData.position - offsetPos;
+        Vector2 mousePos = eventData.position - (Constant.MAXWINSIZE / 2);
+        windowRectTransform.anchoredPosition = mousePos + offsetPos;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(isClicked == false)
+        Debug.Log("Click");
+        if (isClicked == false)
         {
             isClicked = true;
         }
