@@ -16,7 +16,7 @@ public class TextDataSO : ScriptableObject
     [TextArea(1,10)]
     private List<string> textDataList;
     
-    public ETextDataType GetTextDataType {
+    public ETextDataType TextDataType {
         get 
         {
             return textDataType;
@@ -29,5 +29,13 @@ public class TextDataSO : ScriptableObject
         {
             return textDataList[index];
         } 
+    }
+
+    public int Count
+    {
+        get
+        {
+            return (int)textDataList.Count;
+        }
     }
 }

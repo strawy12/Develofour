@@ -8,4 +8,6 @@ public enum EEvent
     ChangeBGM,
     ActivePowerPanel,
     ExpendMenu,
+    OpenTextBox,
+
 }
