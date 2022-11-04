@@ -6,24 +6,25 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class Window : MonoUI, IPointerClickHandler, ISelectable
+public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 {
     [SerializeField]
-    private WindowBar windowBar;
+    protected WindowBar windowBar;
     [SerializeField]
-    private WindowDataSO windowData;
+    protected WindowDataSO windowData;
 
-    private bool isSelected;
-    private bool isMaximum;
+    protected bool isSelected;
+    protected bool isMaximum;
+
     public bool IsSelected { get { return isSelected; } }
-    private RectTransform rectTransform;
+    protected RectTransform rectTransform;
 
     public Action<int> OnClose;
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
     public WindowDataSO WindowData { get { return windowData; } }
-    private void Init()
+    protected virtual void Init()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
@@ -82,7 +83,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
         SelectWindow();
     }
 
-    private void SelectWindow()
+    protected void SelectWindow()
     {
         WindowManager.Inst.SelectObject(this);
 
