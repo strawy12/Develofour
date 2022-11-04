@@ -1,18 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class TextBox : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private TextDataSO currentTextData;
+
+    public void Init(ETextDataType textDataType)
     {
-        
+            currentTextData = GetTextData(textDataType);
     }
 
-    // Update is called once per frame
-    void Update()
+    public TextDataSO GetTextData(ETextDataType textDataType)
     {
-        
+        TextDataSO textDataSO= null;
+        try
+        {
+            textDataSO = Resources.Load($"Resources/TextData/TextData_{textDataType}") as TextDataSO;
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.Log($"TextData_{textDataType} is null");
+        }
+        catch(Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+        return textDataSO;
     }
+    
 }

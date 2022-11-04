@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class TextDataSO : MonoBehaviour
+public enum ETextDataType
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    None,
+    News,
+} 
+[CreateAssetMenu(fileName ="TextData_",menuName = "SO/TextDataSO")]
+public class TextDataSO : ScriptableObject
+{
+    [SerializeField]
+    private ETextDataType textDataType;
+
+    [SerializeField]
+    [TextArea(1,10)]
+    private List<string> textDataList;
+    
+    public ETextDataType GetTextDataType {
+        get 
+        {
+            return textDataType;
+        } 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public string this[int index] 
+    { 
+        get
+        {
+            return textDataList[index];
+        } 
     }
 }
