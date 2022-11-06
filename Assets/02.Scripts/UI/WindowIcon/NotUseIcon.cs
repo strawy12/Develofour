@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,6 +20,18 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField]
     private Image pointerStayImage;
 
+    [Header("Skaking Data")]
+    [SerializeField]
+    private int strength;
+    [SerializeField]
+    private int vibrato;
+    [SerializeField]
+    private float duration;
+    [SerializeField]
+    private Color shakingColor;
+
+
+
     private bool isSelected = false;
     private bool isShaking = false;
 
@@ -33,11 +46,9 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         if (isSelected)
         {
-            isShaking = true;
-            transform.DOKill(true);
-            transform.DOShakePosition(0.3f, 25, 70);
+            ShakingIcon();
             isSelected = false;
-            selectedImage.gameObject.SetActive(false);
+            pointerStayImage.gameObject.SetActive(false);
         }
 
         else
@@ -46,6 +57,23 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             isSelected = true;
         }
     }
+
+    private void ShakingIcon()
+    {
+        if (isShaking) return;
+        isShaking = true;
+        selectedImage.DOKill();
+        transform.DOKill(true);
+        Color originColor = selectedImage.color;
+        selectedImage.color = shakingColor;
+        transform.DOShakePosition(duration, strength, vibrato).OnComplete(() =>
+        {
+            selectedImage.color = originColor;
+            isShaking = false;
+            selectedImage.gameObject.SetActive(false);
+        });
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (isShaking) return;
