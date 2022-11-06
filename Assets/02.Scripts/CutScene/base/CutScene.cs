@@ -1,18 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CutScene : MonoBehaviour
+public abstract class CutScene : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+        EventManager.StartListening(EEvent.ChangeCutScene, CheckStart);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CheckStart(object param)
     {
-        
+        if (param == null || !(param is Type))
+        {
+            return;
+        }
+
+        if (GetType() != (Type)param)
+        {
+            return;
+        }
+
+        StartCutScene();
+        ShowCutScene();
     }
+
+    protected virtual void StartCutScene()
+    {
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
+    }
+
+    protected virtual void EndCutScene()
+    {
+        GameManager.Inst.ChangeGameState(EGameState.UI);
+    }
+
+    protected abstract void ShowCutScene();
 }

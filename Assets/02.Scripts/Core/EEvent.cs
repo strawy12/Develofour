@@ -8,4 +8,5 @@ public enum EEvent
     ChangeBGM,
     ActivePowerPanel,
     ExpendMenu,
+    ChangeCutScene,
 }
