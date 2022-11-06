@@ -9,5 +9,5 @@ public enum EEvent
     ActivePowerPanel,
     ExpendMenu,
     OpenTextBox,
-
+    ShowCutScene,
 }

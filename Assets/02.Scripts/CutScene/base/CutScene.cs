@@ -7,7 +7,7 @@ public abstract class CutScene : MonoBehaviour
 {
     void Start()
     {
-        EventManager.StartListening(EEvent.ChangeCutScene, CheckStart);
+        EventManager.StartListening(EEvent.ShowCutScene, CheckStart);
     }
 
     private void CheckStart(object param)
