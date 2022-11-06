@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, ISelectable
+public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     //[SerializeField]
     //private Image iconImage;
@@ -17,40 +18,43 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Image selectedImage;
     [SerializeField]
     private Image pointerStayImage;
-    public Action OnSelected { get; set; }
-    public Action OnUnSelected { get; set; }
 
-    private void Awake()
-    {
-        OnSelected += () => SelectedIcon(true);
-        OnUnSelected += () => SelectedIcon(false);
-    }
+    private bool isSelected = false;
+    private bool isShaking = false;
 
     private void Start()
     {
         pointerStayImage.gameObject.SetActive(false);
-        selectedImage.gameObject.SetActive(false);
-    }
-
-    private void SelectedIcon(bool isSelected)
-    {
-        // this.isSelected = isSelected;
-        selectedImage.gameObject.SetActive(isSelected);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        selectedImage.gameObject.SetActive(true);
-        WindowManager.Inst.SelectObject(this);
-    }
+        if (isShaking) return;
 
+        if (isSelected)
+        {
+            isShaking = true;
+            transform.DOKill(true);
+            transform.DOShakePosition(0.3f, 25, 70);
+            isSelected = false;
+            selectedImage.gameObject.SetActive(false);
+        }
+
+        else
+        {
+            selectedImage.gameObject.SetActive(true);
+            isSelected = true;
+        }
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (isShaking) return;
         pointerStayImage.gameObject.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (isShaking) return;
         pointerStayImage.gameObject.SetActive(false);
     }
 }
