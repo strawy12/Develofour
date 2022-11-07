@@ -1,12 +1,14 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, ISelectable
+public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     //[SerializeField]
     //private Image iconImage;
@@ -17,40 +19,70 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Image selectedImage;
     [SerializeField]
     private Image pointerStayImage;
-    public Action OnSelected { get; set; }
-    public Action OnUnSelected { get; set; }
 
-    private void Awake()
-    {
-        OnSelected += () => SelectedIcon(true);
-        OnUnSelected += () => SelectedIcon(false);
-    }
+    [Header("Skaking Data")]
+    [SerializeField]
+    private int strength;
+    [SerializeField]
+    private int vibrato;
+    [SerializeField]
+    private float duration;
+    [SerializeField]
+    private Color shakingColor;
+
+
+
+    private bool isSelected = false;
+    private bool isShaking = false;
 
     private void Start()
     {
         pointerStayImage.gameObject.SetActive(false);
-        selectedImage.gameObject.SetActive(false);
-    }
-
-    private void SelectedIcon(bool isSelected)
-    {
-        // this.isSelected = isSelected;
-        selectedImage.gameObject.SetActive(isSelected);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        selectedImage.gameObject.SetActive(true);
-        WindowManager.Inst.SelectObject(this);
+        if (isShaking) return;
+
+        if (isSelected)
+        {
+            ShakingIcon();
+            isSelected = false;
+            pointerStayImage.gameObject.SetActive(false);
+        }
+
+        else
+        {
+            selectedImage.gameObject.SetActive(true);
+            isSelected = true;
+        }
+    }
+
+    private void ShakingIcon()
+    {
+        if (isShaking) return;
+        isShaking = true;
+        selectedImage.DOKill();
+        transform.DOKill(true);
+        Color originColor = selectedImage.color;
+        selectedImage.color = shakingColor;
+        transform.DOShakePosition(duration, strength, vibrato).OnComplete(() =>
+        {
+            selectedImage.color = originColor;
+            isShaking = false;
+            selectedImage.gameObject.SetActive(false);
+        });
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (isShaking) return;
         pointerStayImage.gameObject.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (isShaking) return;
         pointerStayImage.gameObject.SetActive(false);
     }
 }
