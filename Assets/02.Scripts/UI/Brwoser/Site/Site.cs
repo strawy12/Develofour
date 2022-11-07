@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Site : MonoBehaviour
 {
+    [SerializeField]
+    protected ESiteLink siteLink;
+    public ESiteLink Link;
     // Start is called before the first frame update
     void Start()
     {
