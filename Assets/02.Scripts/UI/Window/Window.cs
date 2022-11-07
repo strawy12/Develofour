@@ -13,7 +13,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
     [SerializeField]
     private WindowBar windowBar;
     [SerializeField]
-    private WindowDataSO windowData;
+    protected WindowDataSO windowData;
 
     private bool isSelected;
     private bool isMaximum;
@@ -25,7 +25,13 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
     public WindowDataSO WindowData { get { return windowData; } }
-    private void Init()
+
+    private void Start()
+    {
+        Init();
+    }
+
+    protected virtual void Init()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();

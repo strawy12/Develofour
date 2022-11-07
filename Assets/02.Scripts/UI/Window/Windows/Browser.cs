@@ -6,27 +6,26 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-// 임시 EsiteLink
 public enum ESiteLink
 {
     None,
     Chrome,
     Youtube,
-    Youtube_News
+    Youtube_News,
 }
 
 public class Browser : Window
 {
-    private Dictionary<ESiteLink, Site> siteDictionary;
+    private Dictionary<ESiteLink, Site> siteDictionary = new Dictionary<ESiteLink, Site>();
 
     private Site usingSite;
 
     private Stack<Site> undoSite;
     private Stack<Site> redoSite;
 
-    private Transform siteParent;
+    [SerializeField] private Transform siteParent;
 
-    private BrowserBar browserBar;
+    [SerializeField] private BrowserBar browserBar;
 
     public static Action<ESiteLink> OnOpenSite;
 
@@ -40,16 +39,18 @@ public class Browser : Window
         BindingStart();
     }
 
-    private void Init()
+    protected override void Init()
     {
+        base.Init();
         undoSite = new Stack<Site>();
         redoSite = new Stack<Site>();
+        windowData.windowTitleID = 1;
 
         OnOpenSite += ChangeSite;
         OnClosed += (a) => ResetBrowser();
-        //browserBar.OnClose?.AddListener(WindowClose);
-        //browserBar.OnUndo?.AddListener(UndoSite);
-        //browserBar.OnRedo?.AddListener(RedoSite);
+        browserBar.OnClose?.AddListener(WindowClose);
+        browserBar.OnUndo?.AddListener(UndoSite);
+        browserBar.OnRedo?.AddListener(RedoSite);
     }
 
 
@@ -58,9 +59,10 @@ public class Browser : Window
     {
         for (int i = 0; i < siteParent.childCount; i++)
         {
+            Debug.Log(siteParent.GetChild(i).gameObject.name);
             Site site = siteParent.GetChild(i).GetComponent<Site>();
-            siteDictionary.Add(site.Link, site);
-            //site.Init();
+            siteDictionary.Add(site.SiteLink, site);
+            site.Init();
         }
     }
 
@@ -77,8 +79,6 @@ public class Browser : Window
         {
             Debug.LogError($"SiteDictionary의 값 중에 {eSiteLink}을 키로 갖는 값이 존재하지 않습니다.");
         }
-        // 이전 사이트를 저장하고
-        // 사이트 바꿈
     }
 
     public Site ChangeSite(Site site)
@@ -90,10 +90,10 @@ public class Browser : Window
         }
 
         Site beforeSite = usingSite;
-        //usingSite?.OnUnused?.Invoke();
+        usingSite?.OnUnused?.Invoke();
         undoSite.Push(usingSite);
         usingSite = site;
-        //usingSite?.OnUsed?.Invoke();
+        usingSite?.OnUsed?.Invoke();
 
         return beforeSite;
     }
