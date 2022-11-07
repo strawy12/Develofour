@@ -10,4 +10,5 @@ public enum EEvent
     ExpendMenu,
     OpenTextBox,
     ShowCutScene,
+    AddFavoriteSite,
 }

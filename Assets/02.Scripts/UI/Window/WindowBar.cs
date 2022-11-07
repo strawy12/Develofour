@@ -32,7 +32,16 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
     {
         windowData = winData;
         windowRectTransform = rectTrm;
-        windowName.text = $"{windowData.windowType} - {windowName.text}";
+
+        if (windowName != null)
+        {
+            windowName.text = $"{windowData.windowType} - {windowName.text}";
+        }
+
+        if (iconImage != null)
+        {
+            iconImage.sprite = winData.iconSprite;
+        }
     }
 
     public void Update()
@@ -62,7 +71,6 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
 
     public void OnPointerClick(PointerEventData eventData)
     {
-
         OnSelected?.Invoke();
         if (isClicked == false)
         {
