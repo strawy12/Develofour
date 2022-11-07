@@ -11,4 +11,5 @@ public enum EEvent
     OpenTextBox,
     ShowCutScene,
     AddFavoriteSite,
+    ResetSite,
 }

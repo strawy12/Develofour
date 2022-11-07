@@ -1,21 +1,65 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Site : MonoBehaviour
+public abstract class Site : MonoUI
 {
     [SerializeField]
     protected ESiteLink siteLink;
-    public ESiteLink Link;
-    // Start is called before the first frame update
-    void Start()
+
+    public ESiteLink SiteLink
     {
-        
+        get
+        {
+            return siteLink;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField]
+    protected SiteData siteData;
+
+    public SiteData SiteData
     {
-        
+        get 
+        {
+            return siteData;
+        }
+    }
+
+    public Action OnUsed;
+    public Action OnUnused;
+    private bool isSubscribe;
+
+    public void Init()
+    {
+        OnUsed += Subscribe;
+        OnUsed += ShowSite;
+        OnUnused += HideSite;
+    }
+
+    protected virtual void ResetSite()
+    {
+        EventManager.StopListening(EEvent.ResetSite, (x) => ResetSite());
+        isSubscribe = false;    
+    }
+
+    private void Subscribe()
+    {
+        if(!isSubscribe)
+        {
+            EventManager.StartListening(EEvent.ResetSite, (x) => ResetSite());
+            isSubscribe = true;
+        }
+    }
+
+    protected virtual void ShowSite()
+    {
+        SetActive(true);
+    }
+
+    protected virtual void HideSite()
+    {
+        SetActive(false);
     }
 }
