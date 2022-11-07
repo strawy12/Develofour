@@ -37,17 +37,17 @@ public class BrowserBar : MonoBehaviour
     public void AddFavoritesButton(object param)
     {
         if (param == null || !(param is ESiteLink)) return;
-
+        ESiteLink siteLink = (ESiteLink)param;
         foreach(FavoriteButton favoriteButton in favoritesList)
         {
-            if(favoriteButton.SiteLink == param)
+            if(favoriteButton.SiteLink == siteLink)
             {
                 return;
             } 
         }
         FavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
-        button.SiteLink = param;
-        //button.OnClick.AddListener() 스태틱이벤트 연결
+        button.SiteLink = siteLink;
+        button.OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink));
         favoritesList.Add(button);
     }
 }

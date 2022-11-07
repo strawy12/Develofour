@@ -13,7 +13,17 @@ public class FavoriteButton : MonoBehaviour
     private Button favoriteBtn;
     private ESiteLink siteLink;
 
-    public ESiteLink SiteLink { get { return siteLink; } }
+    public ESiteLink SiteLink
+    { 
+        get 
+        {
+            return siteLink; 
+        }
+        set
+        {
+            siteLink = value;
+        }
+    }
     public UnityEvent OnClick { get { return favoriteBtn.onClick; } }
 
     private void Awake()

@@ -6,7 +6,8 @@ using UnityEngine;
 public enum EWindowType
 {
     None,
-    Notepad
+    Notepad,
+    Browser,
 }
 [CreateAssetMenu(menuName = "SO/Window/Data")]
 public class WindowDataSO : ScriptableObject
