@@ -204,7 +204,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void AddTargetWindow(Window window)
     {
-        window.OnClose += RemoveTargetWindow;
+        window.OnClosed += RemoveTargetWindow;
         window.OnSelected += () => SelectedTargetWindow(true);
         window.OnUnSelected += () => SelectedTargetWindow(false);
 
@@ -222,7 +222,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         target.SelectedTargetWindow(true);
         window.OnSelected += () => target.SelectedTargetWindow(true);
         window.OnUnSelected += () => target.SelectedTargetWindow(false);
-        window.OnClose += TargetWindowPanelClose;
+        window.OnClosed += TargetWindowPanelClose;
 
         targetWindowPanelDictionary.Add(target.WindowTitleId, target);
         SetTargetWindowPanelUISize();

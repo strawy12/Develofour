@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
+// 접근지정자 키워드 반환형 이름()
+
 public class Window : MonoUI, IPointerClickHandler, ISelectable
 {
     [SerializeField]
@@ -18,7 +20,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
     public bool IsSelected { get { return isSelected; } }
     private RectTransform rectTransform;
 
-    public Action<int> OnClose;
+    public Action<int> OnClosed;
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
@@ -36,12 +38,11 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);
         windowBar.OnSelected += SelectWindow;
-
     }
 
     public void WindowClose()
     {
-        OnClose?.Invoke(windowData.windowTitleID);
+        OnClosed?.Invoke(windowData.windowTitleID);
         Destroy(gameObject);
     }
     

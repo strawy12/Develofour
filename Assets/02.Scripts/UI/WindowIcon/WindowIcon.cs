@@ -92,7 +92,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         targetWindow = Instantiate(targetWindowTemp, targetWindowTemp.transform.parent);
         targetWindow.CreatedWindow();
 
-        targetWindow.OnClose += (int x) => targetWindow = null;  
+        targetWindow.OnClosed += (int x) => targetWindow = null;  
         
     }
 
