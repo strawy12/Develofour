@@ -29,9 +29,9 @@ public class BrowserBar : MonoBehaviour
 
     public void ChangeSiteData(SiteData siteData) 
     {
-        //siteIcon.sprite = siteData.siteIconSprite;
-        //siteTitleText.text = siteData.siteTitle;
-        //addressText.text = siteData.address;
+        siteIcon.sprite = siteData.siteIconSprite;
+        siteTitleText.text = siteData.siteTitle;
+        addressText.text = siteData.address;
     }
     
     public void AddFavoritesButton(object param)
