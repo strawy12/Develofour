@@ -28,7 +28,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public Action<TaskIcon> OnClose;
 
-    //Å×½ºÅ© ¾ÆÀÌÄÜÀÌ ½ÇÇà‰çÀ»¶§ -> ¼Ó¼ºÆÐ³Î, Å¸°ÙÀ©µµ¿ìÅÛÇÁÆÐ³Î init ¹× ÀÌº¥Æ® ³Ö¾îÁÖ±â. + Å¸ÀÔ º¯°æ
     public void Init(Window window)
     {
         attributePanel.Init();
@@ -43,10 +42,10 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         Release();
         Destroy(this.gameObject);
-        //TODO : attributePanelÀ» ²¨¾ßÇÔ
+        //TODO : attributePanelï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
-    //Å×½ºÅ© ¾ÆÀÌÄÜÀÌ ²¨Á³À»¶§ -> ÀÌº¥Æ® »©ÁÖ±â ¹× Å¸ÀÔ ±âº»À¸·Î º¯°æ, °¡Áö°íÀÖ´Â ¸ðµç Å¸°Ù À©µµ¿ì Á¦°Å
+    //ï¿½×½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½âº»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void Release()
     {
         attributePanel.OnCloseTaskIcon -= CloseIcon;
@@ -55,11 +54,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         while(targetWindowList.Count != 0)
         {
             targetWindowList[0].WindowClose();
-            //windowÀÇ OnClose½ÇÇàÀ¸·Î ÀÚµ¿À¸·Î ¸®½ºÆ®¿¡¼­ Á¦°ÅµÊ
+            //windowï¿½ï¿½ OnCloseï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Åµï¿½
         }
     }
 
-    //fixed°¡ ¾Æ´Ï¶ó¸é 0ÀÌ ¾Æ´Ò¼ö°¡ ¾øÀ½  fixed´Â overrideÇØ¼­ if(cnt != 0) base() else {À©µµ¿ì »ý¼º}
+    //fixedï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ 0ï¿½ï¿½ ï¿½Æ´Ò¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  fixedï¿½ï¿½ overrideï¿½Ø¼ï¿½ if(cnt != 0) base() else {ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½}
     public virtual void AttributeOpen()
     {
         if(targetWindowList.Count != 0)
@@ -76,7 +75,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             if(targetWindowList[i].WindowData.windowTitleID == titleID)
             {
                 targetWindowList[i].WindowClose();
-                //windowÀÇ OnClose½ÇÇàÀ¸·Î ÀÚµ¿À¸·Î ¸®½ºÆ®¿¡¼­ Á¦°ÅµÊ
+                //windowï¿½ï¿½ OnCloseï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Åµï¿½
             }
         }
 
@@ -91,12 +90,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         }
     }
 
-
-    protected virtual void LeftClick()
-    {
-
-    }
-    protected void OpenTargetWindow()
+    protected void OpenWindow()
     {
 
     }
@@ -113,7 +107,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void SelectedTargetWindow(bool isSelected)
     {
-
+        isSelectedTarget = isSelected;
+        highlightedImage.gameObject.SetActive(isSelected);
     }
 
     public void TargetWindowPanelClose(int titleID)
@@ -121,15 +116,44 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     }
 
+
+    protected virtual void LeftClick()
+    {
+        if (targetWindowList.Count <= 0) return;
+        OpenWindow();
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
+        switch (eventData.button)
+        {
+            case PointerEventData.InputButton.Left:
+                LeftClick();
+                break;
+            case PointerEventData.InputButton.Right:
+                //AttributeOpen();
+                break;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!isSelectedTarget)
+        {
+            highlightedImage.gameObject.SetActive(true);
+        }
+        if (targetWindowList.Count >= 1)
+        {
+            //ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½ 
+        }
+
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!isSelectedTarget)
+        {
+            highlightedImage.gameObject.SetActive(false);
+        }
     }
 }
