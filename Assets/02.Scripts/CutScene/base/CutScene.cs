@@ -5,6 +5,8 @@ using UnityEngine;
 
 public abstract class CutScene : MonoBehaviour
 {
+    protected bool isPlaying;
+
     void Start()
     {
         EventManager.StartListening(EEvent.ShowCutScene, CheckStart);
@@ -12,6 +14,7 @@ public abstract class CutScene : MonoBehaviour
 
     private void CheckStart(object param)
     {
+        if (isPlaying) return;
         if (param == null || !(param is Type))
         {
             return;
@@ -28,11 +31,13 @@ public abstract class CutScene : MonoBehaviour
 
     protected virtual void StartCutScene()
     {
+        isPlaying = true;
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
     }
 
     protected virtual void EndCutScene()
     {
+        isPlaying = false;
         GameManager.Inst.ChangeGameState(EGameState.UI);
     }
 
