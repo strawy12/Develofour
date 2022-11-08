@@ -49,32 +49,55 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     }
 
-    protected void OpenWindow()
+    protected void ShowWindow() // 여기선 그냥 누르면 보여주기만 할 꺼임
     {
-
+        if (targetWindowList.Count == 1)
+        {
+            if (targetWindowList[0].IsSelected)
+            {
+                targetWindowList[0].WindowMinimum();
+            }
+            else
+            {
+                targetWindowList[0].WindowOpen();
+            }
+            attributePanel.Close();
+        }
+        else if (targetWindowList.Count >= 2)
+        {
+            // 복수 보여주기
+        }
     }
 
-    public void AddTargetWindow(Window window)
+    public void AddWindow(Window window)
     {
+        window.OnClosed += RemoveTargetWindow;
+        window.OnSelected += () => SelectedWindow(true);
+        window.OnUnSelected += () => SelectedWindow(false);
 
+        window.CreatedWindow();
+
+        targetWindowList.Add(window);
+
+        activeImage.gameObject.SetActive(true);
     }
 
-    public void SelectedTargetWindow(bool isSelected)
+    public void SelectedWindow(bool isSelected)
     {
         isSelectedTarget = isSelected;
         highlightedImage.gameObject.SetActive(isSelected);
     }
 
-    public void TargetWindowPanelClose(int titleID)
-    {
+    //public void TargetWindowPanelClose(int titleID)
+    //{
 
-    }
+    //}
 
 
     protected virtual void LeftClick()
     {
         if (targetWindowList.Count <= 0) return;
-        OpenWindow();
+        ShowWindow();
     }
 
     public void OnPointerClick(PointerEventData eventData)
