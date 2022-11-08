@@ -24,19 +24,32 @@ public class NewsScreen : MonoBehaviour
         screenImage = GetComponent<Image>();
     }
 
+    private void Start()
+    {
+        screenImage.sprite = null;
+    }
+
     public void ChangeScreen(ENewsScreenType type, float fadeTime = 0f)
     {
-        if (fadeTime != 0f)
+        Sequence seq = DOTween.Sequence();
+        if (screenImage.sprite != null)
         {
-            screenImage.DOFade(0f, 0f);
+            seq.Append(screenImage.DOFade(0f, fadeTime));
+            
+
         }
 
-        currentScreenType = type;
-        screenImage.sprite = screenSpriteList[(int)currentScreenType];
+        seq.AppendCallback(() =>
+        {
+            currentScreenType = type;
+            screenImage.sprite = screenSpriteList[(int)currentScreenType];
+        });
+        
 
         if (fadeTime != 0f)
         {
-            screenImage.DOFade(1f, fadeTime);
+            seq.Append(screenImage.DOFade(1f, fadeTime));
         }
+        seq.Play();
     }
 }
