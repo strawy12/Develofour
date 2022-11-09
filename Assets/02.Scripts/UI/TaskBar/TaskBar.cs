@@ -36,14 +36,38 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    private void Start()
+    {
+        AddFixedIcons();
+    }
+
     private void AddFixedIcons()
     {
-
+        for(int i = 0; i < taskIconParent.childCount; i++)
+        {
+            //FixedIcon icon = taskIconParent.GetChild(i).GetComponent<FixedIcon>();
+            //if(icon != null)
+            //{
+            //    taskIcons.Add(icon.windowPrefab.windowData.WindowType, icon);
+            //}
+            
+            // key는 자식의 WindowType Enum
+            // value는 자식의 taskicon
+        }
     }
 
     public void AddIcon(Window window)
     {
+        CreateTaskIcon();
 
+        if(taskIcons.ContainsKey((int)window.WindowData.windowType))
+        {
+
+        }
+        else
+        {
+            taskIcons.Add((int)window.WindowData.windowType, window)
+        }
     }
 
     private TaskIcon CreateTaskIcon()
