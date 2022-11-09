@@ -41,11 +41,10 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public void CloseIcon()
     {
         Release();
-        Destroy(this.gameObject);
         //TODO : attributePanel 종료
     }
 
-    public void Release()
+    protected void Release()
     {
         attributePanel.OnCloseTaskIcon -= CloseIcon;
         attributePanel.OnOpenWindow -= AttributeOpen;
@@ -55,6 +54,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             targetWindowList[0].WindowClose();
             //window의 OnClose에서 remove를 시켜줄꺼임
         }
+        gameObject.SetActive(false);
     }
 
     //fixed라면 override해서 if(cnt != 0) base() else { 윈도우 생성 }

@@ -13,7 +13,8 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
     private TaskIcon taskIconPrefab;
     [SerializeField]
     private Transform taskIconParent;
-
+    [SerializeField]
+    private int poolCnt = 10;
     private Stack<TaskIcon> taskIconPool;
     private Dictionary<int, TaskIcon> taskIcons;
 
@@ -21,6 +22,18 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
     {
         taskIconPool = new Stack<TaskIcon>();
         taskIcons = new Dictionary<int, TaskIcon>();
+
+        CreatePool(poolCnt);
+    }
+
+    private void CreatePool(int cnt)
+    {
+        for (int i = 0; i < cnt; i++)
+        {
+            TaskIcon taskIcon = Instantiate(taskIconPrefab, taskIconParent);
+            taskIconPool.Push(taskIcon);
+            taskIcon.gameObject.SetActive(false);
+        }
     }
 
     private void AddFixedIcons()
@@ -35,15 +48,23 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
 
     private TaskIcon CreateTaskIcon()
     {
-        return null;
+        if (taskIconPool.Count <= 0)
+        {
+            CreatePool(1);
+        }
+        TaskIcon newTaskIcon = taskIconPool.Pop();
+
+        return newTaskIcon;
     }
 
     public void RemoveTaskIcon(TaskIcon icon)
     {
-
+        taskIconPool.Push(icon);
+        icon.CloseIcon();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+
     }
 }
