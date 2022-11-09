@@ -39,7 +39,6 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
         windowBar.Init(windowData, rectTransform);
         isMaximum = false;
 
-
         windowBar.OnClose?.AddListener(WindowClose);
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);

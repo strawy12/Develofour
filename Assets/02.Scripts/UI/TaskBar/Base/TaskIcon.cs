@@ -28,15 +28,16 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public Action<TaskIcon> OnClose;
 
-    public void Init(Window window)
+    public void Init(int windowType)
     {
         attributePanel.Init();
-        targetWindowPanelTemp.Init(window);
-        windowType = (int)window.WindowData.windowType;
-        
+        this.windowType = windowType;
+
         attributePanel.OnCloseTaskIcon += CloseIcon;
         attributePanel.OnOpenWindow += AttributeOpen;
     }
+
+
 
     public void CloseIcon()
     {
@@ -123,6 +124,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
         window.CreatedWindow();
 
+        targetWindowPanelTemp.Init(window);
         targetWindowList.Add(window);
 
         activeImage.gameObject.SetActive(true);
