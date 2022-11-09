@@ -21,7 +21,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     protected Image highlightedImage;
 
-    protected List<Window> targetWindowList;
+    protected List<Window> targetWindowList = new List<Window>();
 
     protected bool isFixed = false;
     protected bool isSelectedTarget = false;
