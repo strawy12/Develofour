@@ -6,19 +6,19 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-// 접근지정자 키워드 반환형 이름()
-
-public class Window : MonoUI, IPointerClickHandler, ISelectable
+public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 {
     [SerializeField]
-    private WindowBar windowBar;
+    protected WindowBar windowBar;
     [SerializeField]
     protected WindowDataSO windowData;
 
-    private bool isSelected;
-    private bool isMaximum;
+
+    protected bool isSelected;
+    protected bool isMaximum;
+
     public bool IsSelected { get { return isSelected; } }
-    private RectTransform rectTransform;
+    protected RectTransform rectTransform;
 
     public Action<int> OnClosed;
 
@@ -89,7 +89,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
         SelectWindow();
     }
 
-    private void SelectWindow()
+    protected void SelectWindow()
     {
         WindowManager.Inst.SelectObject(this);
 
