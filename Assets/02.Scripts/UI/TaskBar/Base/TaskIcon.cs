@@ -21,12 +21,17 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     protected Image highlightedImage;
 
-    protected List<Window> targetWindowList;
+    public List<Window> windowList;
 
     protected bool isFixed = false;
     protected bool isSelectedTarget = false;
 
     public Action<TaskIcon> OnClose;
+
+    public void Awake()
+    {
+        windowList = new List<Window>();
+    }
 
     public void Init(int windowType)
     {
@@ -35,9 +40,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
         attributePanel.OnCloseTaskIcon += CloseIcon;
         attributePanel.OnOpenWindow += AttributeOpen;
+
     }
-
-
 
     public void CloseIcon()
     {
@@ -50,9 +54,9 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         attributePanel.OnCloseTaskIcon -= CloseIcon;
         attributePanel.OnOpenWindow -= AttributeOpen;
         windowType = (int)EWindowType.None;
-        while(targetWindowList.Count != 0)
+        while(windowList.Count != 0)
         {
-            targetWindowList[0].WindowClose();
+            windowList[0].WindowClose();
             //window의 OnClose에서 remove를 시켜줄꺼임
         }
         gameObject.SetActive(false);
@@ -61,25 +65,25 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     //fixed라면 override해서 if(cnt != 0) base() else { 윈도우 생성 }
     public virtual void AttributeOpen()
     {
-        if(targetWindowList.Count != 0)
+        if(windowList.Count != 0)
         {
-            ShowWindow(targetWindowList[0]);
+            ShowWindow(windowList[0]);
             attributePanel.AttributeClose();
         }
     }
 
     public void RemoveWindow(int titleID)
     {
-        for(int i = 0; i < targetWindowList.Count; i++)
+        for(int i = 0; i < windowList.Count; i++)
         {
-            if(targetWindowList[i].WindowData.windowTitleID == titleID)
+            if(windowList[i].WindowData.windowTitleID == titleID)
             {
-                targetWindowList[i].WindowClose();
+                windowList[i].WindowClose();
                 //window의 OnClose에서 remove를 시켜줄꺼임
             }
         }
 
-        if (targetWindowList.Count < 1)
+        if (windowList.Count < 1)
         {
             activeImage.gameObject.SetActive(false);
             if (!isFixed)
@@ -97,19 +101,19 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     protected void ShowWindow() // 여기선 그냥 누르면 보여주기만 할 꺼임
     {
-        if (targetWindowList.Count == 1)
+        if (windowList.Count == 1)
         {
-            if (targetWindowList[0].IsSelected)
+            if (windowList[0].IsSelected)
             {
-                targetWindowList[0].WindowMinimum();
+                windowList[0].WindowMinimum();
             }
             else
             {
-                targetWindowList[0].WindowOpen();
+                windowList[0].WindowOpen();
             }
             attributePanel.AttributeClose();
         }
-        else if (targetWindowList.Count >= 2)
+        else if (windowList.Count >= 2)
         {
             // 복수 보여주기
         }
@@ -125,7 +129,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         window.CreatedWindow();
 
         targetWindowPanelTemp.Init(window);
-        targetWindowList.Add(window);
+        windowList.Add(window);
 
         activeImage.gameObject.SetActive(true);
     }
@@ -144,7 +148,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     protected virtual void LeftClick()
     {
-        if (targetWindowList.Count <= 0) return;
+        if (windowList.Count <= 0) return;
         ShowWindow();
     }
 
@@ -167,7 +171,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         {
             highlightedImage.gameObject.SetActive(true);
         }
-        if (targetWindowList.Count >= 1)
+        if (windowList.Count >= 1)
         {
             // Attribute 오픈
         }

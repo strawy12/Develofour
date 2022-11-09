@@ -58,15 +58,15 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
 
     public void AddIcon(Window window)
     {
-        CreateTaskIcon();
-
-        if(taskIcons.ContainsKey((int)window.WindowData.windowType))
+        if(!taskIcons.ContainsKey((int)window.WindowData.windowType))
         {
-
+            TaskIcon taskIcon = CreateTaskIcon();
+            taskIcon.Init((int)window.WindowData.windowType);
+            taskIcon.windowList.Add(window);
         }
         else
         {
-            taskIcons.Add((int)window.WindowData.windowType, window)
+            taskIcons.Add((int)window.WindowData.windowType, taskIcons[(int)window.WindowData.windowType]);
         }
     }
 
