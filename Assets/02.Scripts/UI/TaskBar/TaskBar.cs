@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TaskBar : MonoBehaviour, IPointerClickHandler
+public class TaskBar : MonoBehaviour
 {
     static public Action<Window> OnAddIcon;
 
@@ -62,6 +62,7 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
         {
             TaskIcon taskIcon = CreateTaskIcon();
             taskIcon.Init((int)window.WindowData.windowType);
+            taskIcon.gameObject.SetActive(true);
             taskIcon.windowList.Add(window);
         }
         else
@@ -85,10 +86,5 @@ public class TaskBar : MonoBehaviour, IPointerClickHandler
     {
         taskIconPool.Push(icon);
         icon.CloseIcon();
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-
     }
 }
