@@ -42,10 +42,9 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         Release();
         Destroy(this.gameObject);
-        //TODO : attributePanel�� ������
+        //TODO : attributePanel 종료
     }
 
-    //�׽�ũ �������� �������� -> �̺�Ʈ ���ֱ� �� Ÿ�� �⺻���� ����, �������ִ� ��� Ÿ�� ������ ����
     public void Release()
     {
         attributePanel.OnCloseTaskIcon -= CloseIcon;
@@ -54,11 +53,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         while(targetWindowList.Count != 0)
         {
             targetWindowList[0].WindowClose();
-            //window�� OnClose�������� �ڵ����� ����Ʈ���� ���ŵ�
+            //window의 OnClose에서 remove를 시켜줄꺼임
         }
     }
 
-    //fixed�� �ƴ϶�� 0�� �ƴҼ��� ����  fixed�� override�ؼ� if(cnt != 0) base() else {������ ����}
+    //fixed라면 override해서 if(cnt != 0) base() else { 윈도우 생성 }
     public virtual void AttributeOpen()
     {
         if(targetWindowList.Count != 0)
@@ -75,7 +74,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             if(targetWindowList[i].WindowData.windowTitleID == titleID)
             {
                 targetWindowList[i].WindowClose();
-                //window�� OnClose�������� �ڵ����� ����Ʈ���� ���ŵ�
+                //window의 OnClose에서 remove를 시켜줄꺼임
             }
         }
 
