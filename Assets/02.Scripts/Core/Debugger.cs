@@ -17,6 +17,22 @@ public class Debugger : MonoBehaviour
 
     private void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            TargetPanels.OnClosed();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            TargetPanels.OnOpened(null);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Sound.OnPlayBGMSound(Sound.EBgm.WriterBGM);
+        }
+
         if (Input.GetKeyDown(KeyCode.B))
         {
             NoticeData data = new NoticeData();

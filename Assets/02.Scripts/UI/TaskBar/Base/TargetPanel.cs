@@ -6,7 +6,7 @@ using TMPro;
 using System;
 using UnityEngine.EventSystems;
 
-public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TargetPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private Image windowIcon;
@@ -24,6 +24,7 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private bool isSelected = false;
     private int windowTitleID;
     public int WindowTitleId { get { return windowTitleID; } }
+    public RectTransform rectTransform { get; private set; }
     public void Init(Window window)
     {
         windowIcon.sprite = window.WindowData.iconSprite;
