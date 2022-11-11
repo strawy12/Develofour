@@ -14,8 +14,7 @@ public class MonoUI : MonoBehaviour
             canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        if (gameObject.activeSelf == false)
-            gameObject.SetActive(true);
+        if (gameObject.activeSelf == false) { gameObject.SetActive(true); }
 
         canvasGroup.alpha = isActive ? 1f : 0f;
         canvasGroup.interactable = isActive;

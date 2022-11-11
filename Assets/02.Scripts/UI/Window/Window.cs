@@ -26,19 +26,14 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
     public Action OnUnSelected { get; set; }
     public WindowDataSO WindowData { get { return windowData; } }
 
-    private void Start()
-    {
-        Init();
-    }
-
     protected virtual void Init()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
 
-        windowBar.Init(windowData, rectTransform);
         isMaximum = false;
 
+        windowBar.Init(windowData, rectTransform);
 
         windowBar.OnClose?.AddListener(WindowClose);
         windowBar.OnMinimum?.AddListener(WindowMinimum);
@@ -90,7 +85,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
         SelectWindow();
     }
 
-    private void SelectWindow()
+    protected void SelectWindow()
     {
         WindowManager.Inst.SelectObject(this);
 
