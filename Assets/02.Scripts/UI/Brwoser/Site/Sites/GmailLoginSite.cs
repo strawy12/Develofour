@@ -9,9 +9,6 @@ public class GmailLoginSite : Site
 {
     [SerializeField]
     private string passWord;
-
-    [SerializeField]
-    private TMP_Text gamilText;
     [SerializeField]
     private Button gmailLoginButton;
     [SerializeField]
@@ -43,10 +40,7 @@ public class GmailLoginSite : Site
         }
         else
         {
-            Color color = new Color(255, 0, 0);
-            gamilText.text = "다시 입력하세요.";
-            gamilText.DOColor(color, 0.2f);
-
+            textMove.FaliedInput();
             Debug.Log("로그인 실패");
         }
     }

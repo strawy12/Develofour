@@ -3079,9 +3079,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2363e2d815a145641b176f20e7908bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.2
+  moveDuration: 0.1
+  colorDuration: 0.1
   selectPos: {x: 0, y: 37, z: 0}
   selectScale: {x: 0.5, y: 0.5, z: 0.5}
+  gamilText: {fileID: 1661159185116046904}
+  strength: 5
+  vibrato: 40
+  shakeDuration: 0.1
+  shakingColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1024911319
 GameObject:
   m_ObjectHideFlags: 0
@@ -9610,8 +9616,8 @@ MonoBehaviour:
     siteTitle: Google_Login
     address: https://accounts.google.com/v3/signin
   passWord: "\uBE44\uBC00\uBC88\uD638"
-  gmailInputField: {fileID: 806231321638808961}
   gmailLoginButton: {fileID: 8971589131265582113}
+  gmailInputField: {fileID: 806231321638808961}
   textMove: {fileID: 1023115887}
 --- !u!114 &3326921799721088136
 MonoBehaviour:
@@ -14707,10 +14713,10 @@ RectTransform:
   m_Father: {fileID: 1023115884}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 244, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8303311861020418606
 CanvasRenderer:
@@ -15843,6 +15849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8971589132508042138}
   - component: {fileID: 3144877993815252238}
+  - component: {fileID: 8971589132508042139}
   m_Layer: 5
   m_Name: LoginSite
   m_TagString: Untagged
@@ -15878,6 +15885,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &8971589132508042139
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8971589132508042137}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &8971589132646706904
 MonoBehaviour:
   m_ObjectHideFlags: 0
