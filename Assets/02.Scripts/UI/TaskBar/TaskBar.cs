@@ -7,79 +7,43 @@ using UnityEngine.UI;
 
 public class TaskBar : MonoBehaviour, IPointerClickHandler
 {
-    
+    static public Action<Window> OnAddIcon;
+
     [SerializeField]
     private TaskIcon taskIconPrefab;
-    
-    private Dictionary<int,TaskIcon> taskIcons = new Dictionary<int, TaskIcon>();
-    
     [SerializeField]
     private Transform taskIconParent;
 
-    static public Action<Window> OnAddIcon;
+    private Stack<TaskIcon> taskIconPool;
+    private Dictionary<int, TaskIcon> taskIcons;
 
     private void Awake()
     {
-        Bind();
-        AddFixedTaskIcons();
-
-        OnAddIcon += AddTaskIcon;
+        taskIconPool = new Stack<TaskIcon>();
+        taskIcons = new Dictionary<int, TaskIcon>();
     }
 
-    private void Bind() 
+    private void AddFixedIcons()
     {
-         
+
     }
 
-    private void AddFixedTaskIcons()
+    public void AddIcon(Window window)
     {
-        TaskIcon[] icons = GetComponentsInChildren<TaskIcon>();
 
-        foreach (TaskIcon icon in icons)
-        {
-            if (icon.IsFixed)
-            {
-                taskIcons.Add(icon.WindowType,icon);
-            }
-        }
-    }
-
-    public void AddTaskIcon(Window window)
-    { 
-        TaskIcon taskIcon;
-
-        if (!taskIcons.ContainsKey((int)window.WindowData.windowType))
-        {
-            taskIcon = CreateTaskIcon();
-        }
-        else
-        {
-            taskIcon = taskIcons[(int)window.WindowData.windowType];
-        }
-        taskIcon.AddTargetWindow(window);
     }
 
     private TaskIcon CreateTaskIcon()
     {
-        TaskIcon icon = Instantiate(taskIconPrefab, taskIconParent);
-        icon.gameObject.name = icon.gameObject.name.Replace("(Clone)", "");
-        icon.OnDetroy += RemoveTaskIcon;
-        icon.Init();
-        return icon;
+        return null;
     }
 
-    public void RemoveTaskIcon(int winType)
+    public void RemoveTaskIcon(TaskIcon icon)
     {
-        if (taskIcons.ContainsKey(winType))
-        {
-            taskIcons.Remove(winType);
-        }
-        return;
-    }
 
+    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        WindowManager.Inst.SelectedObjectNull();
     }
 }

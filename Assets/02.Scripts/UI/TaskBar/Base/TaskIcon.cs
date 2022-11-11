@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,155 +7,94 @@ using System;
 
 public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private int windowType;
+    protected int windowType;
     public int WindowType => windowType;
+    [SerializeField]
+    protected TaskIconAttribute attributePanel;
+    [SerializeField]
+    protected TargetWindowPanel targetWindowPanelTemp;
 
     [SerializeField]
-    private TaskIconAttribute attributePanel;
-
+    protected Image iconImage;
     [SerializeField]
-    private Window windowPrefab;
+    protected Image activeImage;
     [SerializeField]
-    private TargetWindowPanel targetWindowPanelPrefab;
-    [SerializeField]
-    private TargetWindowPanels targetWindowPanelsUI;
-    [SerializeField]
-    private List<Window> targetWindowList = new List<Window>();
+    protected Image highlightedImage;
 
-    private Dictionary<int,TargetWindowPanel> targetWindowPanelDictionary = new Dictionary<int,TargetWindowPanel>();
+    protected List<Window> targetWindowList = new List<Window>();
 
-    [SerializeField]
-    private Image iconImage;
-    [SerializeField]
-    private Image activeImage;
-    [SerializeField]
-    private Image highlightedImage;
+    protected bool isFixed = false;
+    protected bool isSelectedTarget = false;
 
-    [SerializeField]
-    private bool isFixed = false;
-    private bool isSelectedTarget = false;
+    public Action<TaskIcon> OnClose;
 
-    public bool IsFixed { get { return isFixed; } }
-
-    public Action<int> OnDetroy;
-
-    private int windowPrefabID;
-
-    //ÀÓ½Ã¿ë
-    void Awake()
-    {
-        if(IsFixed == true)
-        {
-            Init();
-            Bind();
-        }
-    }
-
-    /// <summary>
-    /// »ý¼º½ÃÅ³¶§ ½ÇÇà½ÃÄÑÁà¾ßÇÔ
-    /// </summary>
-    public void Init()
+    public void Init(Window window)
     {
         attributePanel.Init();
-        windowType = (int)windowPrefab.WindowData.windowType;
-        attributePanel.OnClose -= AttributeClose;
-        attributePanel.OnOpen -= AttributeOpen;
-        attributePanel.OnClose += AttributeClose;
-        attributePanel.OnOpen += AttributeOpen;
-        targetWindowPanelsUI.Init();
-        //windowPrefabID = windowPrefab.WindowData.windowTitleID;
+        targetWindowPanelTemp.Init(window);
+        windowType = (int)window.WindowData.windowType;
+        
+        attributePanel.OnCloseTaskIcon += CloseIcon;
+        attributePanel.OnOpenWindow += AttributeOpen;
     }
 
-
-    protected void Bind() 
+    public void CloseIcon()
     {
-      
+        Release();
+        Destroy(this.gameObject);
+        //TODO : attributePanel ì¢…ë£Œ
     }
 
-
-    public void RemoveTargetWindow(int titleID)
+    public void Release()
     {
-        for(int i =0; i < targetWindowList.Count; i++)
+        attributePanel.OnCloseTaskIcon -= CloseIcon;
+        attributePanel.OnOpenWindow -= AttributeOpen;
+        windowType = (int)EWindowType.None;
+        while(targetWindowList.Count != 0)
         {
-            if (targetWindowList[i].WindowData.windowTitleID == titleID)
+            targetWindowList[0].WindowClose();
+            //windowì˜ OnCloseì—ì„œ removeë¥¼ ì‹œì¼œì¤„êº¼ìž„
+        }
+    }
+
+    //fixedë¼ë©´ overrideí•´ì„œ if(cnt != 0) base() else { ìœˆë„ìš° ìƒì„± }
+    public virtual void AttributeOpen()
+    {
+        if(targetWindowList.Count != 0)
+        {
+            ShowWindow(targetWindowList[0]);
+            attributePanel.AttributeClose();
+        }
+    }
+
+    public void RemoveWindow(int titleID)
+    {
+        for(int i = 0; i < targetWindowList.Count; i++)
+        {
+            if(targetWindowList[i].WindowData.windowTitleID == titleID)
             {
-                targetWindowList.RemoveAt(i);
+                targetWindowList[i].WindowClose();
+                //windowì˜ OnCloseì—ì„œ removeë¥¼ ì‹œì¼œì¤„êº¼ìž„
             }
         }
-        
+
         if (targetWindowList.Count < 1)
         {
             activeImage.gameObject.SetActive(false);
             if (!isFixed)
             {
-                OnDetroy.Invoke(windowType);
-                Destroy(gameObject);
+                OnClose.Invoke(this);
+                CloseIcon();
             }
         }
-        SetTargetWindowPanelUISize();
-
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    protected void ShowWindow(Window window) // ì—¬ê¸°ì„  ê·¸ëƒ¥ ëˆ„ë¥´ë©´ ë³´ì—¬ì£¼ê¸°ë§Œ í•  êº¼ìž„
     {
-        switch (eventData.button)
-        {
-            case PointerEventData.InputButton.Left:
-                if (targetWindowList.Count == 0)
-                {
-                    CreateWindow(windowPrefabID);
-                }
-                else
-                {
 
-                }
-                OpenTargetWindow();
-                
-                break;
-
-
-            case PointerEventData.InputButton.Right:
-                OpenAttributePanel();
-                break;
-        }
     }
 
-    public void OpenAttributePanel()
-    {
-        attributePanel.Open();
-    }
-
-    public void CloseAttributePanel()
-    {
-        attributePanel.Close();
-    }
-
-    public void AttributeClose()
-    {
-        while (targetWindowList.Count != 0)
-        {
-            targetWindowList[0].WindowClose();
-        }
-        SelectedTargetWindow(false);
-    }
-
-    public void AttributeOpen()
-    {
-        if(targetWindowList.Count <= 0)
-        {
-            CreateWindow(windowPrefabID);
-        }
-        else if(targetWindowList.Count == 1)
-        {
-            targetWindowList[0].WindowOpen();
-        }
-        else if (targetWindowList.Count > 1)
-        {
-            //TODO : Ã¢ÀÌ 2°³ ÀÌ»ó ÄÑÀÖÀ¸¸é À§ÂÊÀ¸·Î ¹Ì¸® º¸¿©ÁÖ´Â°Å Á¦ÀÛ
-        }
-    }
-
-    private void OpenTargetWindow()
+    protected void ShowWindow() // ì—¬ê¸°ì„  ê·¸ëƒ¥ ëˆ„ë¥´ë©´ ë³´ì—¬ì£¼ê¸°ë§Œ í•  êº¼ìž„
     {
         if (targetWindowList.Count == 1)
         {
@@ -163,83 +102,61 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             {
                 targetWindowList[0].WindowMinimum();
             }
-        else
+            else
             {
                 targetWindowList[0].WindowOpen();
             }
-            attributePanel.Close();
+            attributePanel.AttributeClose();
         }
-        else if (targetWindowList.Count > 1)
+        else if (targetWindowList.Count >= 2)
         {
-            //TODO : Ã¢ÀÌ 2°³ ÀÌ»ó ÄÑÀÖÀ¸¸é À§ÂÊÀ¸·Î ¹Ì¸® º¸¿©ÁÖ´Â°Å Á¦ÀÛ
-            targetWindowPanelsUI.OpenTargetWindowPanelUI();
+            // ë³µìˆ˜ ë³´ì—¬ì£¼ê¸°
         }
     }
 
-    private void CreateWindow(int titleID)
+
+    public void AddWindow(Window window)
     {
-        foreach (Window window in targetWindowList)
-        {
-            if (window.WindowData.windowTitleID == titleID)
-            {
-                //TODO : OrderInLayer ¸Ç ¾ÕÀ¸·Î ¿Å±â±â
-                targetWindowPanelDictionary[titleID].SelectedTargetWindow(true);
-                window.WindowOpen();
-                return;
-            }
-        }
-
-        if (isFixed && windowPrefab != null)
-        {
-            Window window = Instantiate(windowPrefab, Define.WindowCanvasTrm);
-            if (iconImage.sprite != window.WindowData.iconSprite)
-            {
-                iconImage.sprite = window.WindowData.iconSprite;
-            }
-            windowType = (int)window.WindowData.windowType;
-
-            AddTargetWindow(window);
-        }
-    }
-
-    public void AddTargetWindow(Window window)
-    {
-        window.OnClosed += RemoveTargetWindow;
-        window.OnSelected += () => SelectedTargetWindow(true);
-        window.OnUnSelected += () => SelectedTargetWindow(false);
+        window.OnClosed += RemoveWindow;
+        window.OnSelected += () => SelectedWindow(true);
+        window.OnUnSelected += () => SelectedWindow(false);
 
         window.CreatedWindow();
 
         targetWindowList.Add(window);
 
         activeImage.gameObject.SetActive(true);
-
-        TargetWindowPanel target = Instantiate(targetWindowPanelPrefab, targetWindowPanelsUI.transform);
-        target.Init(window);
-        target.OnOpen += CreateWindow;
-        target.OnClose += window.WindowClose;
-
-        target.SelectedTargetWindow(true);
-        window.OnSelected += () => target.SelectedTargetWindow(true);
-        window.OnUnSelected += () => target.SelectedTargetWindow(false);
-        window.OnClosed += TargetWindowPanelClose;
-
-        targetWindowPanelDictionary.Add(target.WindowTitleId, target);
-        SetTargetWindowPanelUISize();
     }
 
-    private void SetTargetWindowPanelUISize()
-    {
-        int panelCnt = targetWindowPanelDictionary.Count;
-        int height = 50 * panelCnt + 10;
-        targetWindowPanelsUI.TargetTransform.sizeDelta = new Vector2(180, height);
-        targetWindowPanelsUI.TargetTransform.anchoredPosition = new Vector2(0, height + 20);
-    }
-
-    public void SelectedTargetWindow(bool isSelected)
+    public void SelectedWindow(bool isSelected)
     {
         isSelectedTarget = isSelected;
         highlightedImage.gameObject.SetActive(isSelected);
+    }
+
+    //public void TargetWindowPanelClose(int titleID)
+    //{
+
+    //}
+
+
+    protected virtual void LeftClick()
+    {
+        if (targetWindowList.Count <= 0) return;
+        ShowWindow();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        switch (eventData.button)
+        {
+            case PointerEventData.InputButton.Left:
+                LeftClick();
+                break;
+            case PointerEventData.InputButton.Right:
+                //AttributeOpen();
+                break;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -250,7 +167,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         }
         if (targetWindowList.Count >= 1)
         {
-            targetWindowPanelsUI.gameObject.SetActive(true);
+            // Attribute ì˜¤í”ˆ
         }
 
     }
@@ -261,16 +178,5 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         {
             highlightedImage.gameObject.SetActive(false);
         }
-        if (targetWindowPanelsUI.IsEnter == false)
-        {
-            targetWindowPanelsUI.gameObject.SetActive(false);
-        }
-    }
-
-    public void TargetWindowPanelClose(int titleID)
-    {
-        TargetWindowPanel target = targetWindowPanelDictionary[titleID];
-        targetWindowPanelDictionary.Remove(titleID);
-        target.Close();
     }
 }

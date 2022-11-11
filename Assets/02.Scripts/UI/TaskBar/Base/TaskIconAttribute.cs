@@ -14,8 +14,11 @@ public class TaskIconAttribute : MonoBehaviour
     [SerializeField]
     private Button closeButton;
 
-    public Action OnClose;
-    public Action OnOpen;
+    public Action OnCloseTaskIcon;
+    /// <summary>
+    /// 만약 Fixed라면 Open, 아니면 첫번째창 열리게하기
+    /// </summary>
+    public Action OnOpenWindow;
 
     public void Init()
     {
@@ -25,7 +28,7 @@ public class TaskIconAttribute : MonoBehaviour
         closeButton.onClick.AddListener(AttributeClose);
     }
 
-    public void Open()
+    private void Open()
     {
         gameObject.SetActive(true);
     }
@@ -37,20 +40,20 @@ public class TaskIconAttribute : MonoBehaviour
             Close();
         }
     }
-    public void Close()
+    private void Close()
     {
         gameObject.SetActive(false);
     }
 
     public void AttributeClose()
     {
-        OnClose?.Invoke();
+        OnCloseTaskIcon?.Invoke();
         Close();
     }
 
     public void AttributeOpen()
     {
-        OnOpen?.Invoke();
+        OnOpenWindow?.Invoke();
         Close();
     }
 

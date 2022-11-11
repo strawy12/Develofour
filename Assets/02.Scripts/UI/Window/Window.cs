@@ -75,6 +75,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
     public void WindowOpen()
     {
         WindowManager.Inst.SelectObject(this);
+        Debug.Log("윈도우 생성");
         SetActive(true);
     }
 
