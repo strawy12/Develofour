@@ -12,6 +12,7 @@ public enum ESiteLink
     Chrome,
     Youtube,
     Youtube_News,
+    GoogleLogin,
 }
 
 public class Browser : Window
@@ -38,7 +39,6 @@ public class Browser : Window
     {
         BindingStart();
     }
-
     protected override void Init()
     {
         base.Init();

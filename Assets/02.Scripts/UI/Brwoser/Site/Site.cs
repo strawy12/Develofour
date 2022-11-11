@@ -31,7 +31,7 @@ public abstract class Site : MonoUI
     public Action OnUnused;
     private bool isSubscribe;
 
-    public void Init()
+    public virtual void Init()
     {
         OnUsed += Subscribe;
         OnUsed += ShowSite;

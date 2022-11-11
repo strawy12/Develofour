@@ -3,25 +3,35 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
-public class GmailLoginSite : MonoBehaviour
+public class GmailLoginSite : Site
 {
     [SerializeField]
     private string passWord;
 
     [SerializeField]
-    private TMP_InputField gmailInputField;
+    private TMP_Text gamilText;
     [SerializeField]
     private Button gmailLoginButton;
+    [SerializeField]
+    private TMP_InputField gmailInputField;
+    [SerializeField]
+    private TextMove textMove;
 
-    void Start()
+    void Awake()
     {
         Init();
     }
 
-    private void Init()
+    public override void Init()
     {
+        base.Init();
+
         gmailLoginButton.onClick?.AddListener(LoginGoogle);
+
+        gmailInputField.onSelect.AddListener((a) => textMove.PlaceholderEffect(true));
+        gmailInputField.onDeselect.AddListener((a) => textMove.PlaceholderEffect(false));
     }
 
     private void LoginGoogle()
@@ -33,8 +43,13 @@ public class GmailLoginSite : MonoBehaviour
         }
         else
         {
+            Color color = new Color(255, 0, 0);
+            gamilText.text = "다시 입력하세요.";
+            gamilText.DOColor(color, 0.2f);
+
             Debug.Log("로그인 실패");
         }
     }
+
 }
 
