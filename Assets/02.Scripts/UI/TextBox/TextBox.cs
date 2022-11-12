@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using static Sound;
 
 public class TextBox : MonoUI
 {
@@ -24,7 +23,7 @@ public class TextBox : MonoUI
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             ShowBox();
         }
@@ -32,7 +31,7 @@ public class TextBox : MonoUI
 
     private void Init(object param)
     {
-        if(param == null || !(param is ETextDataType))
+        if (param == null || !(param is ETextDataType))
         {
             return;
         }
@@ -58,7 +57,7 @@ public class TextBox : MonoUI
 
     public void PrintText()
     {
-        if(currentTextIndex >= currentTextData.Count)
+        if (currentTextIndex >= currentTextData.Count)
         {
             return;
         }
@@ -83,5 +82,44 @@ public class TextBox : MonoUI
             Debug.Log(e.ToString());
         }
         return textDataSO;
+    }
+
+    private int CommandTrigger(string msg)
+    {
+        string cmdMsg = "";
+        msg = msg.Substring(1);
+        int cnt = 1;
+        foreach (char c in msg)
+        {
+            cnt++;
+            if (c == '}')
+            {
+                break;
+            }
+            else
+            {
+                cmdMsg = $"{cmdMsg}{c}";
+            }
+        }
+
+        string[] cmdMsgSplit = cmdMsg.Split('_');
+        string cmdType = cmdMsgSplit[0];
+        string cmdValue = cmdMsgSplit[1];
+
+        switch (cmdType)
+        {
+            case "ES":
+            {
+                Sound.EEffect effectType = (EEffect)System.Enum.Parse(typeof(EEffect), cmdValue);
+                Sound.OnPlayEffectSound(effectType);
+                break;
+             }
+            case "BS":
+                Sound.EBgm bgmType = (EBgm)System.Enum.Parse(typeof(EBgm), cmdValue);
+                Sound.OnPlayBGMSound(bgmType);
+                break;
+        }
+
+        return cnt;
     }
 }
