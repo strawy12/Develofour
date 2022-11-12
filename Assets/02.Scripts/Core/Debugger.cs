@@ -17,6 +17,12 @@ public class Debugger : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log(1);
+            EventManager.TriggerEvent(EEvent.OpenTextBox, ETextDataType.News);
+        }
+
         if (Input.GetKeyDown(KeyCode.B))
         {
             NoticeData data = new NoticeData();

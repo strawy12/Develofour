@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -14,14 +12,12 @@ public class TextBox : MonoUI
     [SerializeField]
     private TMP_Text boxShowText;
     [SerializeField]
-    private TextDataSO currentTextData;
-    [SerializeField]
     private float printTextDuration = 0.05f;
 
-    private Queue<char> soundEffectQueue = new Queue<char>();
+    private TextDataSO currentTextData;
 
-    private bool isSoundEffect;
     private bool isTextPrinted = false;
+    private bool isActive = false;
 
     private void Start()
     {
@@ -31,25 +27,28 @@ public class TextBox : MonoUI
     private void Update()
     {
         if (GameManager.Inst.GameState != EGameState.UI) return;
+        if (isActive == false) return;
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
-            if (CheckDataEnd())
+            if (isTextPrinted)
             {
-                SkipTextEffect();
+                SkipPrintText();
             }
             else
             {
-                ShowBox();
+                PrintText();
             }
         }
     }
 
     private void Init(object param)
     {
+        Debug.Log(2);
         if (param == null || !(param is ETextDataType))
         {
             return;
         }
+
 
         ETextDataType textDataType = (ETextDataType)param;
 
@@ -57,41 +56,92 @@ public class TextBox : MonoUI
 
         currentTextData = GetTextData(textDataType);
         currentTextIndex = 0;
+
+        ShowBox();
     }
 
     public void ShowBox()
     {
+        isActive = true;
         SetActive(true);
         PrintText();
     }
 
     public void HideBox()
     {
+        isActive = false;
         SetActive(false);
     }
 
     public void PrintText()
     {
-        if(CheckDataEnd())
+        if (isTextPrinted) { return; }
+        if (CheckDataEnd())
         {
+            EndPrintText();
             return;
         }
 
-        boxShowText.SetText(currentTextData[currentTextIndex]);
-        currentTextIndex++;
+        isTextPrinted = true;
+        StartCoroutine(PrintTextCoroutine(currentTextData[currentTextIndex++]));
     }
 
-    public IEnumerator PrintTextCoroutine(string message)
+    private IEnumerator PrintTextCoroutine(string message)
     {
+        message = message.Replace("\r", "");
         boxShowText.text = "";
-        string text= "";
-        foreach(var c in message)
+        string text = "";
+        for (int i = 0; i < message.Length; i++)
         {
+            if (!isTextPrinted) { break; }
+
+            char c = message[i];
+
+            if (c == '{')
+            {
+                int cnt = CommandTrigger(message.Substring(i));
+                i += cnt;
+                c = message[i];
+            }
+
             text = string.Format("{0}{1}", text, c);
-            boxShowText.text = text;
+            boxShowText.SetText(text);
             yield return new WaitForSeconds(printTextDuration);
         }
-        boxShowText.text = message;
+
+        if (isTextPrinted == false)
+        {
+            CompleteText(message);
+        }
+
+        isTextPrinted = false;
+    }
+
+    private void CompleteText(string msg)
+    {
+        bool isCmdMsg = false;
+        string completeMsg = "";
+        foreach (char c in msg)
+        {
+            if (isCmdMsg)
+            {
+                if (c == '}')
+                {
+                    isCmdMsg = false;
+                }
+                continue;
+            }
+
+            if (c == '{')
+            {
+                isCmdMsg = true;
+                continue;
+            }
+
+            completeMsg = $"{completeMsg}{c}";
+        }
+
+        boxShowText.SetText(completeMsg);
     }
 
     public TextDataSO GetTextData(ETextDataType textDataType)
@@ -99,7 +149,7 @@ public class TextBox : MonoUI
         TextDataSO textDataSO = null;
         try
         {
-            textDataSO = Resources.Load($"Resources/TextData/TextData{textDataType}") as TextDataSO;
+            textDataSO = Resources.Load<TextDataSO>($"TextData/TextData_{textDataType}");
         }
         catch (System.NullReferenceException e)
         {
@@ -109,21 +159,27 @@ public class TextBox : MonoUI
         {
             Debug.Log(e.ToString());
         }
+
         return textDataSO;
     }
 
     public bool CheckDataEnd()
     {
-        if(currentTextIndex < currentTextData.Count)
+        if (currentTextIndex < currentTextData.Count)
         {
             return false;
         }
         return true;
     }
 
-    private void SkipTextEffect()
+    private void SkipPrintText()
     {
-
+        if (!isTextPrinted) { return; }
+        isTextPrinted = false;
+    }
+    public void EndPrintText()
+    {
+        HideBox();
     }
 
     private int CommandTrigger(string msg)
@@ -151,21 +207,18 @@ public class TextBox : MonoUI
         switch (cmdType)
         {
             case "ES":
-            {
-                Sound.EEffect effectType = (EEffect)System.Enum.Parse(typeof(EEffect), cmdValue);
-                Sound.OnPlayEffectSound(effectType);
-                break;
-             }
+                {
+                    Sound.EEffect effectType = (EEffect)Enum.Parse(typeof(EEffect), cmdValue);
+                    Sound.OnPlayEffectSound(effectType);
+                    break;
+                }
             case "BS":
-                Sound.EBgm bgmType = (EBgm)System.Enum.Parse(typeof(EBgm), cmdValue);
+                Sound.EBgm bgmType = (EBgm)Enum.Parse(typeof(EBgm), cmdValue);
                 Sound.OnPlayBGMSound(bgmType);
                 break;
         }
 
         return cnt;
     }
-    public void EndTextBox()
-    {
-        HideBox();
-    }
+
 }
