@@ -26,23 +26,22 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public Action OnUnSelected { get; set; }
     public WindowDataSO WindowData { get { return windowData; } }
 
-    private void Start()
-    {
-        Init();
-    }
-
     protected virtual void Init()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
 
-        windowBar.Init(windowData, rectTransform);
         isMaximum = false;
-
+      
+        windowBar.Init(windowData, rectTransform);
+        OnSelected += () => isSelected = true;
+        OnUnSelected += () => isSelected = false;
         windowBar.OnClose?.AddListener(WindowClose);
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);
         windowBar.OnSelected += SelectWindow;
+
+        SetActive(true);
     }
 
     public void WindowClose()
@@ -74,6 +73,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public void WindowOpen()
     {
         WindowManager.Inst.SelectObject(this);
+        Debug.Log("윈도우 생성");
         SetActive(true);
     }
 

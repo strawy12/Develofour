@@ -23,6 +23,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     [SerializeField]
     protected List<Window> windowList = new List<Window>();
+
     protected bool isFixed = false;
     protected bool isSelectedTarget = false;
 

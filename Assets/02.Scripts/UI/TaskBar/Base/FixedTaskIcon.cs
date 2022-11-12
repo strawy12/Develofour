@@ -19,6 +19,7 @@ public class FixedTaskIcon : TaskIcon
     protected override void LeftClick()
     {
         if (windowList.Count != 0)
+   
         {
             base.LeftClick();
         }
@@ -27,6 +28,5 @@ public class FixedTaskIcon : TaskIcon
             Window instWindow = Instantiate(windowPrefab, windowParent);
             AddWindow(instWindow);
         }
-
     }
 }

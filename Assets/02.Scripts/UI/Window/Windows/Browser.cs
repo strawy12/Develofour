@@ -12,6 +12,11 @@ public enum ESiteLink
     Chrome,
     Youtube,
     Youtube_News,
+    GoogleLogin,
+    Email_Received,
+    Email_Highlight,
+    Email_Send,
+    Email_Trash,
 }
 
 public class Browser : Window
@@ -38,12 +43,13 @@ public class Browser : Window
     {
         BindingStart();
     }
-
     protected override void Init()
     {
         base.Init();
         undoSite = new Stack<Site>();
         redoSite = new Stack<Site>();
+        siteDictionary = new Dictionary<ESiteLink, Site>();
+
         windowData.windowTitleID = 1;
 
         OnOpenSite += ChangeSite;
