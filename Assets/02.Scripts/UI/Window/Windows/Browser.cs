@@ -48,6 +48,8 @@ public class Browser : Window
         base.Init();
         undoSite = new Stack<Site>();
         redoSite = new Stack<Site>();
+        siteDictionary = new Dictionary<ESiteLink, Site>();
+
         windowData.windowTitleID = 1;
 
         OnOpenSite += ChangeSite;
