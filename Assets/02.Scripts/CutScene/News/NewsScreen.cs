@@ -19,12 +19,10 @@ public class NewsScreen : MonoBehaviour
     private Image screenImage;
 
     private ENewsScreenType currentScreenType;
-    private bool haveSprite;
 
     private void Awake()
     {
         screenImage = GetComponent<Image>();
-        haveSprite = false;
     }
 
     public void ChangeScreen(ENewsScreenType type, float fadeTime = 0f)
@@ -34,7 +32,7 @@ public class NewsScreen : MonoBehaviour
 
     private IEnumerator ChangeScreenCoroutine(ENewsScreenType type, float fadeTime)
     {
-        if (haveSprite)
+        if (screenImage.color.a != 0f)
         {
             screenImage.rectTransform.DOShakeAnchorPos(fadeTime / 2f);
             screenImage.DOFade(0f, fadeTime).SetEase(Ease.InBounce);
@@ -43,8 +41,6 @@ public class NewsScreen : MonoBehaviour
 
         currentScreenType = type;
         screenImage.sprite = screenSpriteList[(int)currentScreenType];
-
-        haveSprite = true;
 
         if (fadeTime != 0f)
         {
