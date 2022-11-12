@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using System;
 
 public class TextBox : MonoUI
 {
@@ -13,10 +13,10 @@ public class TextBox : MonoUI
 
     [SerializeField]
     private TMP_Text boxShowText;
-
     [SerializeField]
     private TextDataSO currentTextData;
 
+    private bool isTextPrinted = false;
     private void Start()
     {
         EventManager.StartListening(EEvent.OpenTextBox, Init);
@@ -24,11 +24,21 @@ public class TextBox : MonoUI
 
     private void Update()
     {
+        if (GameManager.Inst.GameState != EGameState.UI) return;
         if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
-            ShowBox();
+            if (CheckDataEnd())
+            {
+                SkipTextEffect();
+            }
+            else
+            {
+                ShowBox();
+            }
         }
     }
+
+   
 
     private void Init(object param)
     {
@@ -58,7 +68,7 @@ public class TextBox : MonoUI
 
     public void PrintText()
     {
-        if(currentTextIndex >= currentTextData.Count)
+        if(CheckDataEnd())
         {
             return;
         }
@@ -83,5 +93,25 @@ public class TextBox : MonoUI
             Debug.Log(e.ToString());
         }
         return textDataSO;
+    }
+
+    public bool CheckDataEnd()
+    {
+        if(currentTextIndex < currentTextData.Count)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private void SkipTextEffect()
+    {
+
+    }
+
+    public void EndTextBox()
+    {
+
+        HideBox();
     }
 }
