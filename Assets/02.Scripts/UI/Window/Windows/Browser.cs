@@ -12,6 +12,10 @@ public enum ESiteLink
     Chrome,
     Youtube,
     Youtube_News,
+    Email_Received,
+    Email_Highlight,
+    Email_Send,
+    Email_Trash,
 }
 
 public class Browser : Window
