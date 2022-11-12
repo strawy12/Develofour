@@ -33,9 +33,11 @@ public class WindowManager : MonoSingleton<WindowManager>
 
             EventManager.TriggerEvent(EEvent.LeftButtonClick, hits);
 
-            foreach(RaycastResult hit in hits)
+            if (selectedObject == null) return;
+
+            foreach (RaycastResult hit in hits)
             {
-                if(hit.gameObject.GetComponent<ISelectable>() == selectedObject)
+                if (hit.gameObject.GetComponent<ISelectable>() == selectedObject)
                 {
                     return;
                 }

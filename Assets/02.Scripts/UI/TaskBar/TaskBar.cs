@@ -45,12 +45,12 @@ public class TaskBar : MonoBehaviour
     {
         for(int i = 0; i < taskIconParent.childCount; i++)
         {
-            //FixedIcon icon = taskIconParent.GetChild(i).GetComponent<FixedIcon>();
-            //if(icon != null)
-            //{
-            //    taskIcons.Add(icon.windowPrefab.windowData.WindowType, icon);
-            //}
-            
+            FixedTaskIcon icon = taskIconParent.GetChild(i).GetComponent<FixedTaskIcon>();
+            if (icon != null)
+            {
+                taskIcons.Add((int)icon.WindowPrefab.WindowData.windowType, icon);
+            }
+
             // key는 자식의 WindowType Enum
             // value는 자식의 taskicon
         }
@@ -63,7 +63,7 @@ public class TaskBar : MonoBehaviour
             TaskIcon taskIcon = CreateTaskIcon();
             taskIcon.Init((int)window.WindowData.windowType);
             taskIcon.gameObject.SetActive(true);
-            taskIcon.windowList.Add(window);
+            taskIcon.AddWindow(window);
         }
         else
         {

@@ -21,17 +21,12 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     protected Image highlightedImage;
 
-    public List<Window> windowList;
-
+    [SerializeField]
+    protected List<Window> windowList = new List<Window>();
     protected bool isFixed = false;
     protected bool isSelectedTarget = false;
 
     public Action<TaskIcon> OnClose;
-
-    public void Awake()
-    {
-        windowList = new List<Window>();
-    }
 
     public void Init(int windowType)
     {
@@ -39,46 +34,45 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         this.windowType = windowType;
 
         attributePanel.OnCloseTaskIcon += CloseIcon;
-        attributePanel.OnOpenWindow += AttributeOpen;
-
+        attributePanel.OnOpenWindow += ShowFirstWindow;
     }
 
     public void CloseIcon()
     {
         Release();
+        Destroy(this.gameObject);
         //TODO : attributePanel 종료
     }
 
-    protected void Release()
+    public void Release()
     {
         attributePanel.OnCloseTaskIcon -= CloseIcon;
-        attributePanel.OnOpenWindow -= AttributeOpen;
+        attributePanel.OnOpenWindow -= ShowFirstWindow;
         windowType = (int)EWindowType.None;
-        while(windowList.Count != 0)
+        while (windowList.Count != 0)
         {
             windowList[0].WindowClose();
             //window의 OnClose에서 remove를 시켜줄꺼임
         }
-        gameObject.SetActive(false);
     }
 
     //fixed라면 override해서 if(cnt != 0) base() else { 윈도우 생성 }
-    public virtual void AttributeOpen()
+    public virtual void ShowFirstWindow()
     {
-        if(windowList.Count != 0)
+        if (windowList.Count != 0)
         {
             ShowWindow(windowList[0]);
-            attributePanel.AttributeClose();
+            attributePanel.Hide();
         }
     }
 
     public void RemoveWindow(int titleID)
     {
-        for(int i = 0; i < windowList.Count; i++)
+        for (int i = 0; i < windowList.Count; i++)
         {
-            if(windowList[i].WindowData.windowTitleID == titleID)
+            if (windowList[i].WindowData.windowTitleID == titleID)
             {
-                windowList[i].WindowClose();
+                windowList.RemoveAt(i);
                 //window의 OnClose에서 remove를 시켜줄꺼임
             }
         }
@@ -103,6 +97,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         if (windowList.Count == 1)
         {
+            Debug.Log(windowList[0].IsSelected);
             if (windowList[0].IsSelected)
             {
                 windowList[0].WindowMinimum();
@@ -111,7 +106,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             {
                 windowList[0].WindowOpen();
             }
-            attributePanel.AttributeClose();
+            attributePanel.Hide();
         }
         else if (windowList.Count >= 2)
         {
@@ -128,7 +123,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
         window.CreatedWindow();
 
-        targetWindowPanelTemp.Init(window);
         windowList.Add(window);
 
         activeImage.gameObject.SetActive(true);
@@ -160,7 +154,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 LeftClick();
                 break;
             case PointerEventData.InputButton.Right:
-                //AttributeOpen();
+                attributePanel.Show();
                 break;
         }
     }
