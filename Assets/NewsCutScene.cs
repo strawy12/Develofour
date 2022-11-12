@@ -57,6 +57,8 @@ public class NewsCutScene : CutScene
     [SerializeField]
     private float stopIconDuration = 0.5f;
 
+    private int anchorVoiceCnt = 0;
+
     protected override void ShowCutScene()
     {
         windowCanvas.enabled = false;
@@ -66,6 +68,7 @@ public class NewsCutScene : CutScene
 
     private IEnumerator NewsCoroutine()
     {
+        Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.NewsBGM);
 
         #region 시작 값
         digitalGlitch.Intensity = 1f;
@@ -109,6 +112,18 @@ public class NewsCutScene : CutScene
         // 키보드 사운드 넣기
 
         windowCanvas.enabled = true;
+
+        float delay = -1f;
+        if (Sound.OnPlayEffectSound != null)
+        {
+            delay = Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
+        }
+        if (delay != -1f)
+        {
+            yield return new WaitForSeconds(delay + 0.5f);
+        }
+
+        Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
         Browser.OnOpenSite?.Invoke(ESiteLink.Youtube_News);
         EndCutScene();
     }
@@ -131,7 +146,15 @@ public class NewsCutScene : CutScene
     // 사운드 기준이면 사운드의 길이를 가져와야한다
     private IEnumerator AnchorSpeak()
     {
-        float delay = textBox.PrintText();
+        float delay = -1f;
+        if (Sound.OnPlayEffectSound != null)
+        {
+            delay = Sound.OnPlayEffectSound.Invoke(Sound.EEffect.NewsAnchorVoice_01 + (anchorVoiceCnt++));
+        }
+        if (delay == -1f) { yield break; }
+
+        textBox.PrintText();
+
         newsAnchor.StartSpeak();
 
         yield return new WaitForSeconds(delay);
@@ -140,6 +163,7 @@ public class NewsCutScene : CutScene
 
     protected override void EndCutScene()
     {
+        anchorVoiceCnt = 0;
         newsScreen.Release();
         base.EndCutScene();
     }

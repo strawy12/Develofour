@@ -33,7 +33,6 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         windowData = winData;
         
         windowRectTransform = rectTrm;
-        Debug.Log(windowRectTransform.gameObject.name);
         if (windowName != null)
         {
             windowName.text = $"{windowData.windowType} - {windowName.text}";

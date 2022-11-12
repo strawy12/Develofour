@@ -8,13 +8,14 @@ public partial class Sound : MonoBehaviour
     {
         None = -1,
         WriterBGM = 0,
+        NewsBGM,
         Count
     }
 
     public enum EEffect 
     {
         None = -1,
-        Notice = EBgm.Count,
+        Notice = 1001,
         Glitch,
         SpaceKeyDown,
         EscKeyDown,
