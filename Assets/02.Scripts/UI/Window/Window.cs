@@ -39,6 +39,8 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);
         windowBar.OnSelected += SelectWindow;
+
+        SetActive(true);
     }
 
     public void WindowClose()
