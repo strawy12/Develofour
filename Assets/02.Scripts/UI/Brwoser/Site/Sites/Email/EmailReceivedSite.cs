@@ -34,7 +34,7 @@ public class EmailReceivedSite : Site
     public override void Init()
     {
         base.Init();
-
+        LoadingMail();
         //TODO : 풀링제작
         
     }
@@ -44,7 +44,7 @@ public class EmailReceivedSite : Site
         for (int i = 0; i < mailList.Count; i++)
         {
             EmailPrefab prefab = Instantiate(emailPrefab, emailParent);
-            prefab.ChangeText(mailList[i].nameText, mailList[i].informationText, mailList[i].TimeText);
+            prefab.ChangeText(mailList[i].nameText, mailList[i].informationText, mailList[i].timeText);
         }
     }
 
