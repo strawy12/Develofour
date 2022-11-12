@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,38 +19,45 @@ public class NewsScreen : MonoBehaviour
     private Image screenImage;
 
     private ENewsScreenType currentScreenType;
+    private bool haveSprite;
 
     private void Awake()
     {
         screenImage = GetComponent<Image>();
-    }
-
-    private void Start()
-    {
-        screenImage.sprite = null;
+        haveSprite = false;
     }
 
     public void ChangeScreen(ENewsScreenType type, float fadeTime = 0f)
     {
-        Sequence seq = DOTween.Sequence();
-        if (screenImage.sprite != null)
-        {
-            seq.Append(screenImage.DOFade(0f, fadeTime));
-            
+        StartCoroutine(ChangeScreenCoroutine(type, fadeTime));
+    }
 
+    private IEnumerator ChangeScreenCoroutine(ENewsScreenType type, float fadeTime)
+    {
+        if (haveSprite)
+        {
+            screenImage.rectTransform.DOShakeAnchorPos(fadeTime / 2f);
+            screenImage.DOFade(0f, fadeTime).SetEase(Ease.InBounce);
+            yield return new WaitForSeconds(fadeTime);
         }
 
-        seq.AppendCallback(() =>
-        {
-            currentScreenType = type;
-            screenImage.sprite = screenSpriteList[(int)currentScreenType];
-        });
-        
+        currentScreenType = type;
+        screenImage.sprite = screenSpriteList[(int)currentScreenType];
+
+        haveSprite = true;
 
         if (fadeTime != 0f)
         {
-            seq.Append(screenImage.DOFade(1f, fadeTime));
+            screenImage.rectTransform.DOShakeAnchorPos(fadeTime / 2f);
+            screenImage.DOFade(1f, fadeTime).SetEase(Ease.OutBounce);
         }
-        seq.Play();
+    }
+
+    public void Release()
+    {
+        Color color = screenImage.color;
+        color.a = 0f;
+        screenImage.color = color;
+        haveSprite = false;
     }
 }

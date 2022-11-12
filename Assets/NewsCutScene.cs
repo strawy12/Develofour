@@ -5,12 +5,6 @@ using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public struct TransformData
-{
-    public Vector3 pos;
-    public Quaternion rot;
-}
 
 public class NewsCutScene : CutScene
 {
@@ -23,27 +17,29 @@ public class NewsCutScene : CutScene
     [SerializeField]
     private List<int> printTextCntList;
 
+    [Header("Glitch")]
+    [SerializeField]
+    private DigitalGlitch digitalGlitch;
+    [SerializeField]
+    private float glitchBeforeDelay;
+    [SerializeField]
+    private float glitchDuration;
+
+    [SerializeField]
+    private float glitchAfterDelay;
     [Space]
+
+
     #region NewsAnchor
     [Header("News Anchor")]
     [SerializeField]
     private NewsAnchor newsAnchor;
-    [SerializeField]
-    private float anchorFadeDuration;
-
-    [SerializeField]
-    private List<TransformData> anchorTrmList;
-
-    private int anchorTrmIdx = 0;
-
 
     #endregion
 
     [Header("Background")]
     [SerializeField]
     private Image backgroundImage;
-    [SerializeField]
-    private float bgFadeDuration;
 
     [Header("NewsScreen")]
     [SerializeField]
@@ -71,29 +67,18 @@ public class NewsCutScene : CutScene
     private IEnumerator NewsCoroutine()
     {
 
-        #region 시작 FadeIn
-        backgroundImage.DOFade(0f, 0f);
-        backgroundImage.DOFade(1f, bgFadeDuration);
-        yield return new WaitForSeconds(bgFadeDuration);
+        #region 시작 값
+        digitalGlitch.Intensity = 1f;
+
+        backgroundImage.color = Color.white;
+        newsAnchor.canvasGroup.alpha = 1f;
         #endregion
 
-        #region 앵커 움직임_1
-        TransformData data = anchorTrmList[anchorTrmIdx++];
-        newsAnchor.rectTransform.anchoredPosition = data.pos;
-        newsAnchor.rectTransform.rotation = data.rot;
-        #endregion
-
-        #region 앵커 페이드 인
-        newsAnchor.canvasGroup.DOFade(1f, anchorFadeDuration);
-        yield return new WaitForSeconds(anchorFadeDuration);
-        #endregion
-
-        #region 앵커 움직임_2
-        data = anchorTrmList[anchorTrmIdx++];
-
-        newsAnchor.rectTransform.DORotate(data.rot.eulerAngles, newsScreenFadeDuration);
-        newsAnchor.rectTransform.DOAnchorPos(data.pos, newsScreenFadeDuration);
-        yield return new WaitForSeconds(newsScreenFadeDuration * 0.5f);
+        #region 글리치 효과 적용
+        yield return new WaitForSeconds(glitchBeforeDelay);
+        digitalGlitch.StartEffect(glitchDuration, false);
+        yield return new WaitForSeconds(glitchDuration);
+        yield return new WaitForSeconds(glitchAfterDelay);
         #endregion
 
         #region 뉴스 화면_1
@@ -153,6 +138,12 @@ public class NewsCutScene : CutScene
 
         yield return new WaitForSeconds(delay);
         newsAnchor.EndSpeak();
+    }
+
+    protected override void EndCutScene()
+    {
+        newsScreen.Release();
+        base.EndCutScene();
     }
 
 }
