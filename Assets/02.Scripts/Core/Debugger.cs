@@ -17,10 +17,9 @@ public class Debugger : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log(1);
-            EventManager.TriggerEvent(EEvent.OpenTextBox, ETextDataType.News);
+            EventManager.TriggerEvent(EEvent.ShowCutScene, typeof(NewsCutScene));
         }
 
         if (Input.GetKeyDown(KeyCode.B))

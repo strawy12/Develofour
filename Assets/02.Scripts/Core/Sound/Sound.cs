@@ -44,12 +44,9 @@ public partial class Sound : MonoBehaviour
 
     private void CreateSoundPlayer(int soundID)
     {
-        Debug.Log(soundPlayerPoolDictionary.ContainsKey(soundID));
-        Debug.Log(soundPlayerDictionary.ContainsKey(soundID));
-
         if (soundPlayerPoolDictionary.ContainsKey(soundID) == false &&
             soundPlayerDictionary.ContainsKey(soundID) == false) return;
-        Debug.Log(11);
+
         if(soundID < (int)EBgm.Count)
         {
             EventManager.TriggerEvent(EEvent.ChangeBGM, soundID);

@@ -52,6 +52,7 @@ public class Browser : Window
 
         windowData.windowTitleID = 1;
 
+        OnOpenSite += (a) => WindowOpen();
         OnOpenSite += ChangeSite;
         OnClosed += (a) => ResetBrowser();
         browserBar.OnClose?.AddListener(WindowClose);

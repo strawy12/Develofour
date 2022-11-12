@@ -12,7 +12,7 @@ public class TextBox : MonoUI
     [SerializeField]
     private TMP_Text boxShowText;
     [SerializeField]
-    private float printTextDuration = 0.05f;
+    private float printTextDelay = 0.05f;
 
     private TextDataSO currentTextData;
 
@@ -43,28 +43,33 @@ public class TextBox : MonoUI
 
     private void Init(object param)
     {
-        Debug.Log(2);
         if (param == null || !(param is ETextDataType))
         {
             return;
         }
 
+        Init((ETextDataType)param);
+        ShowBox();
+        PrintText();
+    }
 
-        ETextDataType textDataType = (ETextDataType)param;
-
-        GameManager.Inst.ChangeGameState(EGameState.UI);
+    public void Init(ETextDataType textDataType)
+    {
+        if (GameManager.Inst.GameState != EGameState.CutScene)
+        {
+            GameManager.Inst.ChangeGameState(EGameState.UI);
+        }
 
         currentTextData = GetTextData(textDataType);
         currentTextIndex = 0;
-
-        ShowBox();
     }
 
     public void ShowBox()
     {
+        if (isActive) return;
+
         isActive = true;
         SetActive(true);
-        PrintText();
     }
 
     public void HideBox()
@@ -73,17 +78,20 @@ public class TextBox : MonoUI
         SetActive(false);
     }
 
-    public void PrintText()
+    public float PrintText()
     {
-        if (isTextPrinted) { return; }
+        if (isTextPrinted) { return 0f; }
         if (CheckDataEnd())
         {
             EndPrintText();
-            return;
+            return 0f;
         }
 
         isTextPrinted = true;
-        StartCoroutine(PrintTextCoroutine(currentTextData[currentTextIndex++]));
+        string text = currentTextData[currentTextIndex++];
+        StartCoroutine(PrintTextCoroutine(text));
+
+        return text.Length * printTextDelay;
     }
 
     private IEnumerator PrintTextCoroutine(string message)
@@ -106,7 +114,7 @@ public class TextBox : MonoUI
 
             text = string.Format("{0}{1}", text, c);
             boxShowText.SetText(text);
-            yield return new WaitForSeconds(printTextDuration);
+            yield return new WaitForSeconds(printTextDelay);
         }
 
         if (isTextPrinted == false)
@@ -179,7 +187,9 @@ public class TextBox : MonoUI
     }
     public void EndPrintText()
     {
+        StopAllCoroutines();
         HideBox();
+        isTextPrinted = false;
     }
 
     private int CommandTrigger(string msg)
