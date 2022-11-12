@@ -112,7 +112,6 @@ public class NewsCutScene : CutScene
 
         yield return PrintText();
 
-        Sound.OnPlayEffectSound.Invoke(Sound.EEffect.SpaceKeyDown);
         #region 일시정지 아이콘
         stopIconImage.rectTransform.localScale = Vector3.one;
         Color color = stopIconImage.color;
