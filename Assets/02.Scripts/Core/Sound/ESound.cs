@@ -31,6 +31,7 @@ public partial class Sound : MonoBehaviour
         NewsAnchorVoice_09,
         NewsAnchorVoice_10,
         NewsAnchorVoice_11,
+        NewsAnchorVoice_12,
         #endregion
 
         Count

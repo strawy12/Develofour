@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,6 +59,18 @@ public class NewsCutScene : CutScene
     private float stopIconDuration = 0.5f;
 
     private int anchorVoiceCnt = 0;
+    private Queue<int> printTextCntQueue = new Queue<int>();
+
+    protected override void StartCutScene()
+    {
+        printTextCntQueue.Clear();
+        foreach (int cnt in printTextCntList)
+        {
+            printTextCntQueue.Enqueue(cnt);
+        }
+
+        base.StartCutScene();
+    }
 
     protected override void ShowCutScene()
     {
@@ -79,6 +92,7 @@ public class NewsCutScene : CutScene
 
         #region 글리치 효과 적용
         yield return new WaitForSeconds(glitchBeforeDelay);
+        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.Glitch);
         digitalGlitch.StartEffect(glitchDuration, false);
         yield return new WaitForSeconds(glitchDuration);
         yield return new WaitForSeconds(glitchAfterDelay);
@@ -98,7 +112,7 @@ public class NewsCutScene : CutScene
 
         yield return PrintText();
 
-        textBox.EndPrintText();
+        Sound.OnPlayEffectSound.Invoke(Sound.EEffect.SpaceKeyDown);
         #region 일시정지 아이콘
         stopIconImage.rectTransform.localScale = Vector3.one;
         Color color = stopIconImage.color;
@@ -108,8 +122,6 @@ public class NewsCutScene : CutScene
         stopIconImage.rectTransform.DOScale(Vector3.one * stopIconTargetSize, stopIconDuration);
         yield return new WaitForSeconds(stopIconDuration);
         #endregion
-
-        // 키보드 사운드 넣기
 
         windowCanvas.enabled = true;
 
@@ -123,7 +135,7 @@ public class NewsCutScene : CutScene
             yield return new WaitForSeconds(delay + 0.5f);
         }
 
-        Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
+        //Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
         Browser.OnOpenSite?.Invoke(ESiteLink.Youtube_News);
         EndCutScene();
     }
@@ -132,13 +144,13 @@ public class NewsCutScene : CutScene
     {
         textBox.ShowBox();
 
-        for (int i = 0; i < printTextCntList[0]; i++)
+        int cnt = printTextCntQueue.Dequeue();
+
+        for (int i = 0; i < cnt; i++)
         {
             yield return AnchorSpeak();
             yield return new WaitForSeconds(1f);
         }
-
-        printTextCntList.RemoveAt(0);
     }
 
     //TODO 앵커가 다 말할 동안 대기를 해야하는데 이 대기 시간을 임의로 하지말고 
@@ -164,6 +176,7 @@ public class NewsCutScene : CutScene
     protected override void EndCutScene()
     {
         anchorVoiceCnt = 0;
+        textBox.EndPrintText();
         newsScreen.Release();
         base.EndCutScene();
     }

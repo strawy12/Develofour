@@ -97,19 +97,34 @@ public class TextBox : MonoUI
         return text.Length * printTextDelay;
     }
 
-    private string PaintedText(string message)
+    private string[] PaintedText(string message)
     {
+        string[] arr = new string[3];
         int secondBracket = 0;
+        int idx = 0;
 
         for (int i = 0; i < message.Length; i++)
         {
-            if (message[i] == '>' && secondBracket >= 1)
+            if(message[i] == '<' && secondBracket >= 1)
             {
-                return message.Substring(0, i + 1);
+                arr[1] = message.Substring(idx, i - idx);
+                idx = i;
             }
+
+            else if (message[i] == '>' && secondBracket >= 1)
+            {
+                arr[2] = message.Substring(idx, i + 1 - idx);
+                Debug.Log(arr[0]);
+                Debug.Log(arr[1]);
+                Debug.Log(arr[2]);
+                return arr;
+            }
+
             else if (message[i] == '>')
             {
+                arr[0] = message.Substring(idx, i+ 1 - idx);
                 secondBracket++;
+                idx = i + 1;
             }
         }
 
@@ -130,13 +145,21 @@ public class TextBox : MonoUI
 
             if (c == '<')
             {
-                string changeText = PaintedText(message.Substring(i));
+                string[] changeTexts = PaintedText(message.Substring(i));
+                int cnt = changeTexts[0].Length + changeTexts[1].Length + changeTexts[2].Length;
 
-                text = string.Format("{0}{1}", text, changeText);
-                i += changeText.Length - 1;
+                text = $"{text}{changeTexts[0]}";
 
-                boxShowText.SetText(text);
+                for(int j = 0; j < changeTexts[1].Length; j++)
+                {
+                    text = $"{text}{changeTexts[1][j]}";
+                    boxShowText.SetText(text);
+                    yield return new WaitForSeconds(printTextDelay);
+                }
 
+                text = $"{text}{changeTexts[2]}";
+
+                i += cnt - 1;
                 continue;
             }
 
@@ -144,6 +167,10 @@ public class TextBox : MonoUI
             {
                 int cnt = CommandTrigger(message.Substring(i));
                 i += cnt;
+
+                if (i >= message.Length)
+                    break;
+
                 c = message[i];
             }
             yield return new WaitUntil(() => isEffected == false);
