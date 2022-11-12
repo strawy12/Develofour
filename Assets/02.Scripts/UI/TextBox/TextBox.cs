@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using DG.Tweening;
 using static Sound;
 
 public class TextBox : MonoUI
@@ -18,6 +19,7 @@ public class TextBox : MonoUI
 
     private bool isTextPrinted = false;
     private bool isActive = false;
+    private bool isEffected = false;
 
     private void Start()
     {
@@ -111,9 +113,11 @@ public class TextBox : MonoUI
                 i += cnt;
                 c = message[i];
             }
+            yield return new WaitUntil(() => isEffected == false);
 
             text = string.Format("{0}{1}", text, c);
             boxShowText.SetText(text);
+
             yield return new WaitForSeconds(printTextDelay);
         }
 
@@ -223,12 +227,37 @@ public class TextBox : MonoUI
                     break;
                 }
             case "BS":
-                Sound.EBgm bgmType = (EBgm)Enum.Parse(typeof(EBgm), cmdValue);
-                Sound.OnPlayBGMSound(bgmType);
-                break;
+                {
+                    Sound.EBgm bgmType = (EBgm)Enum.Parse(typeof(EBgm), cmdValue);
+                    Sound.OnPlayBGMSound(bgmType);
+                    break;
+                }
+            case "SK":
+                {
+                    string[] cmdValueArray = cmdValue.Split(',');
+                    string cmdValue1 = cmdValueArray[0];
+                    string cmdValue2 = cmdValueArray[1];
+                    string cmdValue3 = cmdValueArray[2];
+                    float delay = float.Parse(cmdValue1);
+                    float strength = float.Parse(cmdValue2);
+                    int vibrato = int.Parse(cmdValue3);
+
+                    StartCoroutine(textShakingCoroutine(delay, strength, vibrato));
+                    break;
+                }
         }
 
         return cnt;
     }
 
+    private IEnumerator textShakingCoroutine(float delay, float strength, int vibrato)
+    {
+        isEffected = true;
+        DOTween.Shake(() => boxShowText.rectTransform.position,
+            (value) => boxShowText.rectTransform.position = value,
+            delay, strength, vibrato, 0, true
+            );
+        yield return new WaitForSeconds(delay);
+        isEffected = false;
+    }
 }
