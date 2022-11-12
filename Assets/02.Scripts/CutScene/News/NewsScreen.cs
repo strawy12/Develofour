@@ -54,6 +54,5 @@ public class NewsScreen : MonoBehaviour
         Color color = screenImage.color;
         color.a = 0f;
         screenImage.color = color;
-        haveSprite = false;
     }
 }
