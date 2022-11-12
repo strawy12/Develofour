@@ -34,9 +34,10 @@ public class NewsScreen : MonoBehaviour
     {
         if (screenImage.color.a != 0f)
         {
-            screenImage.rectTransform.DOShakeAnchorPos(fadeTime / 2f);
-            screenImage.DOFade(0f, fadeTime).SetEase(Ease.InBounce);
+            screenImage.rectTransform.DOScale(0, fadeTime).SetEase(Ease.InSine);
+            screenImage.DOFade(0f, fadeTime * 0.75f).SetEase(Ease.OutCubic);
             yield return new WaitForSeconds(fadeTime);
+            screenImage.rectTransform.DOScale(0.8f, 0);
         }
 
         currentScreenType = type;
@@ -44,8 +45,9 @@ public class NewsScreen : MonoBehaviour
 
         if (fadeTime != 0f)
         {
-            screenImage.rectTransform.DOShakeAnchorPos(fadeTime / 2f);
-            screenImage.DOFade(1f, fadeTime).SetEase(Ease.OutBounce);
+            screenImage.rectTransform.DOScale(1, fadeTime / 3);
+            screenImage.rectTransform.DOShakeAnchorPos(fadeTime / 2f, 25, 50);
+            screenImage.DOFade(1f, fadeTime).SetEase(Ease.OutSine);
         }
     }
 

@@ -83,7 +83,7 @@ public class NewsCutScene : CutScene
 
         #region 뉴스 화면_1
         newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIMurder, newsScreenFadeDuration);
-        yield return new WaitForSeconds(newsScreenFadeDuration);
+        //yield return new WaitForSeconds(newsScreenFadeDuration);
         #endregion
 
         yield return PrintText();
