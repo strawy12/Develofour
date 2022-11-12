@@ -113,8 +113,6 @@ public class NewsCutScene : CutScene
         EndCutScene();
     }
 
-
-
     private IEnumerator PrintText()
     {
         textBox.ShowBox();

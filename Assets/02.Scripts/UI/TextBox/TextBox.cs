@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using static Sound;
+using UnityEditor.Experimental.GraphView;
 
 public class TextBox : MonoUI
 {
@@ -94,16 +95,48 @@ public class TextBox : MonoUI
         return text.Length * printTextDelay;
     }
 
+    private string PaintedText(string message)
+    {
+        int secondBracket = 0;
+
+        for (int i = 0; i < message.Length; i++)
+        {
+            if (message[i] == '>' && secondBracket >= 1)
+            {
+                return message.Substring(0, i + 1);
+            }
+            else if (message[i] == '>')
+            {
+                secondBracket++;
+            }
+        }
+
+        return null;
+    }
+
     private IEnumerator PrintTextCoroutine(string message)
     {
         message = message.Replace("\r", "");
         boxShowText.text = "";
         string text = "";
+
         for (int i = 0; i < message.Length; i++)
         {
             if (!isTextPrinted) { break; }
 
             char c = message[i];
+
+            if (c == '<')
+            {
+                string changeText = PaintedText(message.Substring(i));
+
+                text = string.Format("{0}{1}", text, changeText);
+                i += changeText.Length - 1;
+
+                boxShowText.SetText(text);
+
+                continue;
+            }
 
             if (c == '{')
             {
@@ -230,5 +263,4 @@ public class TextBox : MonoUI
 
         return cnt;
     }
-
 }
