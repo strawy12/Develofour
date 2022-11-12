@@ -16,6 +16,13 @@ public class TextBox : MonoUI
     [SerializeField]
     private TextDataSO currentTextData;
 
+    private Queue<char> soundEffectQueue = new Queue<char>();
+
+    private bool isSoundEffect;
+
+    [SerializeField]
+    private float printTextDuration = 0.05f;
+
     private void Start()
     {
         EventManager.StartListening(EEvent.OpenTextBox, Init);
@@ -65,6 +72,21 @@ public class TextBox : MonoUI
         boxShowText.SetText(currentTextData[currentTextIndex]);
         currentTextIndex++;
     }
+
+    public IEnumerator PrintTextCoroutine(string message)
+    {
+        boxShowText.text = "";
+        string text= "";
+        foreach(var c in message)
+        {
+            text = string.Format("{0}{1}", text, c);
+            boxShowText.text = text;
+            yield return new WaitForSeconds(printTextDuration);
+        }
+        boxShowText.text = message;
+    }
+
+
 
     public TextDataSO GetTextData(ETextDataType textDataType)
     {
