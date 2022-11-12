@@ -15,11 +15,12 @@ public class Debugger : MonoBehaviour
     [SerializeField]
     private List<DebugEvent> debugEventList;
 
+    private int cnt = 0;
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log(1);
             EventManager.TriggerEvent(EEvent.OpenTextBox, ETextDataType.News);
         }
 
@@ -33,7 +34,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Sound.OnPlayBGMSound(Sound.EBgm.WriterBGM);
+            Sound.OnPlayEffectSound(Sound.EEffect.NewsAnchorVoice_01 + (cnt++));
         }
 
         foreach (DebugEvent e in debugEventList)
