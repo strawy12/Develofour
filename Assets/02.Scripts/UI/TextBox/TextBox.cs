@@ -6,6 +6,7 @@ using System;
 using DG.Tweening;
 using static Sound;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine.Rendering.LookDev;
 
 public class TextBox : MonoUI
 {
@@ -97,38 +98,22 @@ public class TextBox : MonoUI
         return text.Length * printTextDelay;
     }
 
-    private string[] PaintedText(string message)
+    private string EncordingRichText(string message)
     {
-        string[] arr = new string[3];
-        int secondBracket = 0;
-        int idx = 0;
+        string richText = "";
 
         for (int i = 0; i < message.Length; i++)
         {
-            if(message[i] == '<' && secondBracket >= 1)
+            if (message[i] == '>')
             {
-                arr[1] = message.Substring(idx, i - idx);
-                idx = i;
+                richText += message[i];
+                break;
             }
 
-            else if (message[i] == '>' && secondBracket >= 1)
-            {
-                arr[2] = message.Substring(idx, i + 1 - idx);
-                Debug.Log(arr[0]);
-                Debug.Log(arr[1]);
-                Debug.Log(arr[2]);
-                return arr;
-            }
-
-            else if (message[i] == '>')
-            {
-                arr[0] = message.Substring(idx, i+ 1 - idx);
-                secondBracket++;
-                idx = i + 1;
-            }
+            richText += message[i];
         }
 
-        return null;
+        return richText;
     }
 
     private IEnumerator PrintTextCoroutine(string message)
@@ -145,21 +130,10 @@ public class TextBox : MonoUI
 
             if (c == '<')
             {
-                string[] changeTexts = PaintedText(message.Substring(i));
-                int cnt = changeTexts[0].Length + changeTexts[1].Length + changeTexts[2].Length;
+                string richText = EncordingRichText(message.Substring(i));
 
-                text = $"{text}{changeTexts[0]}";
-
-                for(int j = 0; j < changeTexts[1].Length; j++)
-                {
-                    text = $"{text}{changeTexts[1][j]}";
-                    boxShowText.SetText(text);
-                    yield return new WaitForSeconds(printTextDelay);
-                }
-
-                text = $"{text}{changeTexts[2]}";
-
-                i += cnt - 1;
+                text = $"{text}{richText}";
+                i += richText.Length - 1;
                 continue;
             }
 
