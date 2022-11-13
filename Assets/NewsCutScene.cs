@@ -119,21 +119,14 @@ public class NewsCutScene : CutScene
         stopIconImage.color = color;
         stopIconImage.DOFade(0f, stopIconDuration);
         stopIconImage.rectTransform.DOScale(Vector3.one * stopIconTargetSize, stopIconDuration);
+        Sound.OnPlayEffectSound.Invoke(Sound.EEffect.SpaceKeyDown);
         yield return new WaitForSeconds(stopIconDuration);
         #endregion
 
+        yield return new WaitForSeconds(1f);
+
+        Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
         windowCanvas.enabled = true;
-
-        float delay = -1f;
-        if (Sound.OnPlayEffectSound != null)
-        {
-            delay = Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
-        }
-        if (delay != -1f)
-        {
-            yield return new WaitForSeconds(delay + 0.5f);
-        }
-
         //Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
         Browser.OnOpenSite?.Invoke(ESiteLink.Youtube_News);
         EndCutScene();
@@ -148,7 +141,8 @@ public class NewsCutScene : CutScene
         for (int i = 0; i < cnt; i++)
         {
             yield return AnchorSpeak();
-            yield return new WaitForSeconds(1f);
+            if (i != cnt - 1)
+            { yield return new WaitForSeconds(1f); }
         }
     }
 

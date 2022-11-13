@@ -313,10 +313,7 @@ public class TextBox : MonoUI
     private IEnumerator textShakingCoroutine(float delay, float strength, int vibrato)
     {
         isEffected = true;
-        DOTween.Shake(() => boxShowText.rectTransform.position,
-            (value) => boxShowText.rectTransform.position = value,
-            delay, strength, vibrato, 0, true
-            );
+        boxShowText.rectTransform.DOShakeAnchorPos(delay, strength, vibrato, 0, true);
         yield return new WaitForSeconds(delay);
         isEffected = false;
     }
