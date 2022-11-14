@@ -5,8 +5,7 @@ using TMPro;
 using System;
 using DG.Tweening;
 using static Sound;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine.Rendering.LookDev;
+
 
 public class TextBox : MonoUI
 {

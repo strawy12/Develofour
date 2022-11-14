@@ -14,6 +14,10 @@ public class Debugger : MonoBehaviour
 {
     [SerializeField]
     private List<DebugEvent> debugEventList;
+    private void Awake()
+    {
+        Time.timeScale = 5f;
+    }
 
     private void Update()
     {

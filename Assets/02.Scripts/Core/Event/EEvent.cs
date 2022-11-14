@@ -1,7 +1,7 @@
 public enum EEvent 
 {
     None = -1,
-    LeftButtonClick,
+    LeftButtonClick = 1,
     GeneratedNotice,
     OpenNoticeSystem,
     ClickNoticeBtn,
@@ -12,4 +12,13 @@ public enum EEvent
     ShowCutScene,
     AddFavoriteSite,
     ResetSite,
+    ClickHateBtn,
+    HateBtnClicked,
+    End
+}
+
+public enum EQuestEvent
+{
+    None = -1,
+    HateBtnClicked = 0,
 }
