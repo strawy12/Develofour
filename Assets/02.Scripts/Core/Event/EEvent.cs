@@ -14,6 +14,8 @@ public enum EEvent
     ResetSite,
     ClickHateBtn,
     HateBtnClicked,
+    LoginGoogle,
+    Quest_LoginGoogle,
     End
 }
 

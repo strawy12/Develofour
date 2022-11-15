@@ -33,6 +33,7 @@ public class Browser : Window
     [SerializeField] private BrowserBar browserBar;
 
     public static Action<ESiteLink> OnOpenSite;
+    public static Action OnUndoSite;
 
     void Awake()
     {
@@ -52,6 +53,7 @@ public class Browser : Window
 
         windowData.windowTitleID = 1;
 
+        OnUndoSite += UndoSite;
         OnOpenSite += (a) => WindowOpen();
         OnOpenSite += ChangeSite;
         OnClosed += (a) => ResetBrowser();
@@ -106,13 +108,17 @@ public class Browser : Window
 
     public void UndoSite()
     {
-        Site beforeSite = ChangeSite(undoSite.Pop());
+        if (undoSite.Count == 0) return;
+        Site currentSite = undoSite.Pop();
+        Site beforeSite = ChangeSite(currentSite);
         redoSite.Push(beforeSite); // 앞으로 갈 사이트는 사용하던 사이트 
-         // 뒤로 갈 사이트는 undosite의 top
+                                   // 뒤로 갈 사이트는 undosite의 top
     }
 
     public void RedoSite()
     {
+        if (redoSite.Count == 0) return;
+
         Site beforeSite = ChangeSite(redoSite.Pop());
         undoSite.Push(beforeSite);
         // 작동은 UndoSite함수의 정 반대로 

@@ -38,7 +38,7 @@ public class TaskBar : MonoBehaviour
 
     private void Start()
     {
-        AddFixedIcons();
+        //AddFixedIcons();
     }
 
     private void AddFixedIcons()

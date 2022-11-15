@@ -36,7 +36,8 @@ public class Quest : MonoBehaviour
 
     private void QuestClear()
     {
-        EventManager.TriggerEvent(EEvent.HateBtnClicked);
+        //EventManager.TriggerEvent(EEvent.HateBtnClicked);
+        EventManager.TriggerEvent(EEvent.Quest_LoginGoogle);
 
         //EventManager.TriggerEvent(currentEvent);
         Destroy(gameObject);

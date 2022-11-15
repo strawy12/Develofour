@@ -21,9 +21,9 @@ public class Debugger : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            EventManager.TriggerEvent(EEvent.ShowCutScene, typeof(NewsCutScene));
+            Browser.OnOpenSite(ESiteLink.Email_Received);
         }
 
         if (Input.GetKeyDown(KeyCode.B))

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,49 +14,50 @@ public class DataManager : MonoSingleton<DataManager>
 
     private void Awake()
     {
+        CreatePlayerData();
         // SAVE_PATH = Application.dataPath
 
     }
 
-    private void CheckDirectory()
-    {
-        if(/*ÇØ´ç Path¿¡ Directory°¡ ¾ø´Ù¸é*/)
-        {
-            // Directory »ı¼º
-        }
-    }
+    //private void CheckDirectory()
+    //{
+    //    if(/*í•´ë‹¹ Pathì— Directoryê°€ ì—†ë‹¤ë©´*/)
+    //    {
+    //        // Directory ìƒì„±
+    //    }
+    //}
 
     private void CreatePlayerData()
     {
         playerData = new PlayerData();
     }
 
-    private void LoadFromJson()
-    {
-        if (/*ÇØ´ç PATH¿¡ ÇØ´ç ÆÄÀÏÀÌ Á¸ÀçÇÑ´Ù¸é*/)
-        {
-            // ÇØ´ç Json¸¦ ºÒ·¯¿Í¼­ PlayerData Å¬·¡½º Çü½ÄÀ¸·Î º¯È¯ ½ÃÅ°±â
-        }
-        else
-        {
-            CreatePlayerData();
-        }
+    //private void LoadFromJson()
+    //{
+    //    if (/*í•´ë‹¹ PATHì— í•´ë‹¹ íŒŒì¼ì´ ì¡´ì¬í•œë‹¤ë©´*/)
+    //    {
+    //        // í•´ë‹¹ Jsonë¥¼ ë¶ˆëŸ¬ì™€ì„œ PlayerData í´ë˜ìŠ¤ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ ì‹œí‚¤ê¸°
+    //    }
+    //    else
+    //    {
+    //        CreatePlayerData();
+    //    }
 
-        SaveToJson();
-    }
+    //    SaveToJson();
+    //}
 
-    private void SaveToJson()
-    {
-        // playerData¸¦ json Çü½ÄÀÇ stringÀ¸·Î ¹Ù²ãÁÖ°í ÆÄÀÏ¿¡´Ù°¡ ÀÌ ½ºÆ®¸µ °ªÀ» ½áÁØ´Ù
-    }
+    //private void SaveToJson()
+    //{
+    //    // playerDataë¥¼ json í˜•ì‹ì˜ stringìœ¼ë¡œ ë°”ê¿”ì£¼ê³  íŒŒì¼ì—ë‹¤ê°€ ì´ ìŠ¤íŠ¸ë§ ê°’ì„ ì¨ì¤€ë‹¤
+    //}
 
-    private void OnDestroy()
-    {
-        SaveToJson();
-    }
+    //private void OnDestroy()
+    //{
+    //    SaveToJson();
+    //}
 
-    private void OnApplicationQuit()
-    {
-        SaveToJson();
-    }
+    //private void OnApplicationQuit()
+    //{
+    //    SaveToJson();
+    //}
 }
