@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class DataManager : MonoSingleton<DataManager>
@@ -10,19 +11,19 @@ public class DataManager : MonoSingleton<DataManager>
     public PlayerData CurrentPlayer => playerData;
 
     private string SAVE_PATH = "";
-    private const string SAVE_FILE = "";
+    private const string SAVE_FILE = "Data.Json";
 
     private void Awake()
     {
-        // SAVE_PATH = Application.dataPath
-
+        //Application.persistentDataPath : 사용자디렉토리 / AppData / LocalLow / 회사이름 / 프로덕트이름
+        SAVE_PATH = Application.persistentDataPath + "/saves/";
     }
 
     private void CheckDirectory()
     {
-        if(/*해당 Path에 Directory가 없다면*/)
+        if(!Directory.Exists(SAVE_PATH))
         {
-            // Directory 생성
+            Directory.CreateDirectory(SAVE_PATH);
         }
     }
 
@@ -33,9 +34,10 @@ public class DataManager : MonoSingleton<DataManager>
 
     private void LoadFromJson()
     {
-        if (/*해당 PATH에 해당 파일이 존재한다면*/)
+        if (File.Exists(SAVE_PATH + SAVE_FILE))
         {
-            // 해당 Json를 불러와서 PlayerData 클래스 형식으로 변환 시키기
+            string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
+            playerData = JsonUtility.FromJson<PlayerData>(data);
         }
         else
         {
@@ -47,7 +49,10 @@ public class DataManager : MonoSingleton<DataManager>
 
     private void SaveToJson()
     {
-        // playerData를 json 형식의 string으로 바꿔주고 파일에다가 이 스트링 값을 써준다
+        CheckDirectory();
+
+        string data = JsonUtility.ToJson(playerData);
+        File.WriteAllText(SAVE_PATH, data);
     }
 
     private void OnDestroy()
