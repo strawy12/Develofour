@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -28,6 +29,7 @@ public class PlayerData
 {
     public ChapterData[] chapterDatas;
     public EChapterDataType currentChapterType;
+    public ChapterData CurrentChapterData => chapterDatas[(int)currentChapterType];
 
     public PlayerData()
     {
@@ -35,5 +37,6 @@ public class PlayerData
         chapterDatas = new ChapterData[(int)EChapterDataType.Count];
         chapterDatas[(int)EChapterDataType.Writer] = new WriterData();
     }
+
 
 }

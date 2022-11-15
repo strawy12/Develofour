@@ -36,7 +36,13 @@ public class EmailReceivedSite : Site
         base.Init();
         LoadingMail();
         //TODO : 풀링제작
-        
+    }
+
+    // 추후 위치를 변경해주기
+    private void SuccessLogin(object o)
+    {
+        EventManager.StopListening(EEvent.Quest_LoginGoogle, SuccessLogin);
+        DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin = true;
     }
 
     public void LoadingMail()
@@ -60,6 +66,13 @@ public class EmailReceivedSite : Site
 
     protected override void ShowSite()
     {
+        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin)
+        {
+            Browser.OnOpenSite(ESiteLink.GoogleLogin);
+            EventManager.StartListening(EEvent.Quest_LoginGoogle, SuccessLogin);
+            return;
+        }
+
         base.ShowSite();
     }
 }

@@ -71,7 +71,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public void WindowOpen()
     {
         WindowManager.Inst.SelectObject(this);
-        Debug.Log("扩档快 积己");
+        Debug.Log("扩档快 积己");    
         SetActive(true);
     }
 
