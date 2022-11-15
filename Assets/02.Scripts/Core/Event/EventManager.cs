@@ -5,45 +5,92 @@ using UnityEngine;
 
 public class EventManager
 {
-    private static Dictionary<EEvent, Action<object>> eventDictionary = new Dictionary<EEvent, Action<object>>();
+    private static Dictionary<int, Action<object>> eventDictionary = new Dictionary<int, Action<object>>();
 
     public static void StartListening(EEvent eventName, Action<object> listener)
     {
         Action<object> thisEvent;
+        int eventNumber = (int)eventName;
 
-        if (eventDictionary.TryGetValue(eventName, out thisEvent))
+        if (eventDictionary.TryGetValue(eventNumber, out thisEvent))
         {
             thisEvent += listener;
-            eventDictionary[eventName] = thisEvent;
+            eventDictionary[eventNumber] = thisEvent;
         }
 
         else
         {
-            eventDictionary.Add(eventName, listener);
+            eventDictionary.Add(eventNumber, listener);
+        }
+    }
+
+    public static void StartListening(EQuestEvent eventName, Action<object> listener)
+    {
+        Action<object> thisEvent;
+        int eventNumber = (int)eventName;
+
+        if (eventDictionary.TryGetValue(eventNumber, out thisEvent))
+        {
+            thisEvent += listener;
+            eventDictionary[eventNumber] = thisEvent;
+        }
+
+        else
+        {
+            eventDictionary.Add(eventNumber, listener);
         }
     }
 
     public static void StopListening(EEvent eventName, Action<object> listener)
     {
         Action<object> thisEvent;
+        int eventNumber = (int)eventName;
 
-        if (eventDictionary.TryGetValue(eventName, out thisEvent))
+        if (eventDictionary.TryGetValue(eventNumber, out thisEvent))
         {
             thisEvent -= listener;
-            eventDictionary[eventName] = thisEvent;
+            eventDictionary[eventNumber] = thisEvent;
         }
 
         else
         {
-            eventDictionary.Remove(eventName);
+            eventDictionary.Remove(eventNumber);
+        }
+    }
+
+    public static void StopListening(EQuestEvent eventName, Action<object> listener)
+    {
+        Action<object> thisEvent;
+        int eventNumber = (int)eventName;
+
+        if (eventDictionary.TryGetValue(eventNumber, out thisEvent))
+        {
+            thisEvent -= listener;
+            eventDictionary[eventNumber] = thisEvent;
+        }
+
+        else
+        {
+            eventDictionary.Remove(eventNumber);
         }
     }
 
     public static void TriggerEvent(EEvent eventName, object param = null)
     {
         Action<object> thisEvent;
+        int eventNumber = (int)eventName;
 
-        if (eventDictionary.TryGetValue(eventName, out thisEvent))
+        if (eventDictionary.TryGetValue(eventNumber, out thisEvent))
+        {
+            thisEvent?.Invoke(param);
+        }
+    }
+    public static void TriggerEvent(EQuestEvent eventName, object param = null)
+    {
+        Action<object> thisEvent;
+        int eventNumber = (int)eventName;
+
+        if (eventDictionary.TryGetValue(eventNumber, out thisEvent))
         {
             thisEvent?.Invoke(param);
         }
