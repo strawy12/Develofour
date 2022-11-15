@@ -23,6 +23,9 @@ public class TextMove : MonoBehaviour
     private Vector3 selectScale;
 
     [SerializeField]
+    private TMP_InputField gmailInputField;
+
+    [SerializeField]
     private TMP_Text gamilText;
 
     private RectTransform rectTransform;
@@ -58,6 +61,11 @@ public class TextMove : MonoBehaviour
 
         Vector3 targetPos = isSelect ? selectPos : originPos;
         Vector3 targetScale = isSelect ? selectScale : Vector3.one;
+
+        if(gmailInputField.text != "")
+        {
+            return;
+        }
 
         sequence.Append(rectTransform.DOScale(targetScale, moveDuration));
         sequence.Join(rectTransform.DOAnchorPosY(targetPos.y, moveDuration));
