@@ -11,6 +11,7 @@ public class FavoriteButton : MonoBehaviour
     [SerializeField]private TMP_Text titleText;
 
     private Button favoriteBtn;
+    [SerializeField]
     private ESiteLink siteLink;
 
     public ESiteLink SiteLink
@@ -29,6 +30,12 @@ public class FavoriteButton : MonoBehaviour
     private void Awake()
     {
         favoriteBtn = GetComponent<Button>();
+        Init();
+    }
+
+    public void Init()
+    {
+        OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink));
     }
 
     public void Init(Sprite iconSprite, string title)

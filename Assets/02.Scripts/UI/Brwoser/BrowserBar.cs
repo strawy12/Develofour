@@ -42,9 +42,11 @@ public class BrowserBar : MonoBehaviour
         {
             if(favoriteButton.SiteLink == siteLink)
             {
+                favoriteButton.gameObject.SetActive(true);
                 return;
             } 
         }
+
         FavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
         button.SiteLink = siteLink;
         button.OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink));
