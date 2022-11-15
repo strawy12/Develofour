@@ -14,13 +14,16 @@ public class Debugger : MonoBehaviour
 {
     [SerializeField]
     private List<DebugEvent> debugEventList;
+    private void Awake()
+    {
+        Time.timeScale = 5f;
+    }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log(1);
-            EventManager.TriggerEvent(EEvent.OpenTextBox, ETextDataType.News);
+            EventManager.TriggerEvent(EEvent.ShowCutScene, typeof(NewsCutScene));
         }
 
         if (Input.GetKeyDown(KeyCode.B))

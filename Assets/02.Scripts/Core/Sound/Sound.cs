@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 public partial class Sound : MonoBehaviour
 {
-    public static Action<int> OnPlaySound {get;private set;}
-    public static Action<EBgm> OnPlayBGMSound { get; private set; }
-    public static Action<EEffect> OnPlayEffectSound { get; private set; }
+    public static Func<int, float> OnPlaySound {get;private set;}
+    public static Func<EBgm,float> OnPlayBGMSound { get; private set; }
+    public static Func<EEffect,float> OnPlayEffectSound { get; private set; }
 
     private Dictionary<int, SoundPlayer> soundPlayerDictionary;
     private Dictionary<int, Queue<SoundPlayer>> soundPlayerPoolDictionary;
@@ -42,14 +42,11 @@ public partial class Sound : MonoBehaviour
         }
     }
 
-    private void CreateSoundPlayer(int soundID)
+    private float CreateSoundPlayer(int soundID)
     {
-        Debug.Log(soundPlayerPoolDictionary.ContainsKey(soundID));
-        Debug.Log(soundPlayerDictionary.ContainsKey(soundID));
-
         if (soundPlayerPoolDictionary.ContainsKey(soundID) == false &&
-            soundPlayerDictionary.ContainsKey(soundID) == false) return;
-        Debug.Log(11);
+            soundPlayerDictionary.ContainsKey(soundID) == false) return -1f;
+
         if(soundID < (int)EBgm.Count)
         {
             EventManager.TriggerEvent(EEvent.ChangeBGM, soundID);
@@ -71,6 +68,8 @@ public partial class Sound : MonoBehaviour
 
         soundPlayer.PlayClip();
         soundPlayer.OnCompeleted += CompletedPlayer;
+
+        return soundPlayer.AudioClipLength;
     }
 
     private void CompletedPlayer(SoundPlayer player)

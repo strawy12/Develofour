@@ -31,6 +31,7 @@ public abstract class CutScene : MonoBehaviour
 
     protected virtual void StartCutScene()
     {
+        gameObject.SetActive(true);
         isPlaying = true;
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
     }
@@ -38,7 +39,8 @@ public abstract class CutScene : MonoBehaviour
     protected virtual void EndCutScene()
     {
         isPlaying = false;
-        GameManager.Inst.ChangeGameState(EGameState.UI);
+        GameManager.Inst.ChangeGameState(EGameState.Game);
+        gameObject.SetActive(false);
     }
 
     protected abstract void ShowCutScene();

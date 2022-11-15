@@ -22,6 +22,8 @@ public abstract class SoundPlayer : MonoBehaviour
 
     protected int soundID;
     public int SoundID => soundID;
+    public float AudioClipLength => audioClip.length;
+
 
     private bool isInit;
 

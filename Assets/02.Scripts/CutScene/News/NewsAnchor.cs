@@ -1,8 +1,11 @@
+using DG.Tweening;
 using Mono.Cecil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.UI.Image;
 
 public class NewsAnchor : MonoBehaviour
 {
@@ -102,4 +105,6 @@ public class NewsAnchor : MonoBehaviour
         Sprite sprite = actSpriteList[(int)type];
         actImage.sprite = sprite;
     }
+
+    
 }

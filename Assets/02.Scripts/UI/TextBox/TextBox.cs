@@ -3,7 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using DG.Tweening;
 using static Sound;
+
 
 public class TextBox : MonoUI
 {
@@ -12,12 +14,13 @@ public class TextBox : MonoUI
     [SerializeField]
     private TMP_Text boxShowText;
     [SerializeField]
-    private float printTextDuration = 0.05f;
+    private float printTextDelay = 0.05f;
 
     private TextDataSO currentTextData;
 
     private bool isTextPrinted = false;
     private bool isActive = false;
+    private bool isEffected = false;
 
     private void Start()
     {
@@ -43,28 +46,33 @@ public class TextBox : MonoUI
 
     private void Init(object param)
     {
-        Debug.Log(2);
         if (param == null || !(param is ETextDataType))
         {
             return;
         }
 
+        Init((ETextDataType)param);
+        ShowBox();
+        PrintText();
+    }
 
-        ETextDataType textDataType = (ETextDataType)param;
-
-        GameManager.Inst.ChangeGameState(EGameState.UI);
+    public void Init(ETextDataType textDataType)
+    {
+        if (GameManager.Inst.GameState != EGameState.CutScene)
+        {
+            GameManager.Inst.ChangeGameState(EGameState.UI);
+        }
 
         currentTextData = GetTextData(textDataType);
         currentTextIndex = 0;
-
-        ShowBox();
     }
 
     public void ShowBox()
     {
+        if (isActive) return;
+
         isActive = true;
         SetActive(true);
-        PrintText();
     }
 
     public void HideBox()
@@ -73,17 +81,38 @@ public class TextBox : MonoUI
         SetActive(false);
     }
 
-    public void PrintText()
+    public float PrintText()
     {
-        if (isTextPrinted) { return; }
+        if (isTextPrinted) { return 0f; }
         if (CheckDataEnd())
         {
             EndPrintText();
-            return;
+            return 0f;
         }
 
         isTextPrinted = true;
-        StartCoroutine(PrintTextCoroutine(currentTextData[currentTextIndex++]));
+        string text = currentTextData[currentTextIndex++];
+        StartCoroutine(PrintTextCoroutine(text));
+
+        return text.Length * printTextDelay;
+    }
+
+    private string EncordingRichText(string message)
+    {
+        string richText = "";
+
+        for (int i = 0; i < message.Length; i++)
+        {
+            if (message[i] == '>')
+            {
+                richText += message[i];
+                break;
+            }
+
+            richText += message[i];
+        }
+
+        return richText;
     }
 
     private IEnumerator PrintTextCoroutine(string message)
@@ -91,22 +120,38 @@ public class TextBox : MonoUI
         message = message.Replace("\r", "");
         boxShowText.text = "";
         string text = "";
+
         for (int i = 0; i < message.Length; i++)
         {
             if (!isTextPrinted) { break; }
 
             char c = message[i];
 
+            if (c == '<')
+            {
+                string richText = EncordingRichText(message.Substring(i));
+
+                text = $"{text}{richText}";
+                i += richText.Length - 1;
+                continue;
+            }
+
             if (c == '{')
             {
                 int cnt = CommandTrigger(message.Substring(i));
                 i += cnt;
+
+                if (i >= message.Length)
+                    break;
+
                 c = message[i];
             }
+            yield return new WaitUntil(() => isEffected == false);
 
             text = string.Format("{0}{1}", text, c);
             boxShowText.SetText(text);
-            yield return new WaitForSeconds(printTextDuration);
+
+            yield return new WaitForSeconds(printTextDelay);
         }
 
         if (isTextPrinted == false)
@@ -179,7 +224,9 @@ public class TextBox : MonoUI
     }
     public void EndPrintText()
     {
+        StopAllCoroutines();
         HideBox();
+        isTextPrinted = false;
     }
 
     private int CommandTrigger(string msg)
@@ -213,12 +260,34 @@ public class TextBox : MonoUI
                     break;
                 }
             case "BS":
-                Sound.EBgm bgmType = (EBgm)Enum.Parse(typeof(EBgm), cmdValue);
-                Sound.OnPlayBGMSound(bgmType);
-                break;
+                {
+                    Sound.EBgm bgmType = (EBgm)Enum.Parse(typeof(EBgm), cmdValue);
+                    Sound.OnPlayBGMSound(bgmType);
+                    break;
+                }
+            case "SK":
+                {
+                    string[] cmdValueArray = cmdValue.Split(',');
+                    string cmdValue1 = cmdValueArray[0];
+                    string cmdValue2 = cmdValueArray[1];
+                    string cmdValue3 = cmdValueArray[2];
+                    float delay = float.Parse(cmdValue1);
+                    float strength = float.Parse(cmdValue2);
+                    int vibrato = int.Parse(cmdValue3);
+
+                    StartCoroutine(textShakingCoroutine(delay, strength, vibrato));
+                    break;
+                }
         }
 
         return cnt;
     }
 
+    private IEnumerator textShakingCoroutine(float delay, float strength, int vibrato)
+    {
+        isEffected = true;
+        boxShowText.rectTransform.DOShakeAnchorPos(delay, strength, vibrato, 0, true);
+        yield return new WaitForSeconds(delay);
+        isEffected = false;
+    }
 }

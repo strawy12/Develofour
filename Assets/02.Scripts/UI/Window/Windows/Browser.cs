@@ -52,6 +52,7 @@ public class Browser : Window
 
         windowData.windowTitleID = 1;
 
+        OnOpenSite += (a) => WindowOpen();
         OnOpenSite += ChangeSite;
         OnClosed += (a) => ResetBrowser();
         browserBar.OnClose?.AddListener(WindowClose);
@@ -65,7 +66,6 @@ public class Browser : Window
     {
         for (int i = 0; i < siteParent.childCount; i++)
         {
-            Debug.Log(siteParent.GetChild(i).gameObject.name);
             Site site = siteParent.GetChild(i).GetComponent<Site>();
             siteDictionary.Add(site.SiteLink, site);
             site.Init();

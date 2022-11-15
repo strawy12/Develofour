@@ -60,4 +60,9 @@ public static class Define
 
         return false;
     }
+
+    public static Color RandomColor()
+    {
+        return new Color(Random.value, Random.value, Random.value, Random.value);
+    }
 }
