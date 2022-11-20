@@ -8,21 +8,27 @@ using UnityEngine.UI;
 public class YoutubeInteractionButton : MonoBehaviour
 {
     [SerializeField] private bool isHateBtn;
+
     private bool isClicked = false;
     private float durationTime = 0.4f;
+    
     private Button button;
     private Image image;
     private RectTransform rectTransform;
-    public UnityEvent OnClick { get { return button.onClick; } }
+    
     private Vector3 originScale;
+    
+    public UnityEvent OnClick { get { return button.onClick; } }
 
     private void Awake()
     {
         button = GetComponent<Button>();
         image = GetComponent<Image>();
-        image.enabled = false;
         rectTransform = GetComponent<RectTransform>();
+        
+        image.enabled = false;
         originScale = rectTransform.localScale;
+        
         button.onClick.AddListener(ClickEffect);
     }
 
@@ -32,28 +38,33 @@ public class YoutubeInteractionButton : MonoBehaviour
         {
             isClicked = true;
             Sequence seq = DOTween.Sequence();
+
             //before
             seq.Append(rectTransform.DOScale(originScale * 1.3f, durationTime));
+
             if (isHateBtn)
             {
                 image.enabled = true;
                 seq.Join(image.DOColor(Color.yellow, durationTime));
             }
+            if (!isHateBtn)
+            {
+                image.enabled = true;
+                seq.Join(image.DOColor(Color.red, durationTime));
+            }
+
             seq.Join(rectTransform.DOAnchorPosX(rectTransform.anchoredPosition.x - 1f, durationTime));
             seq.Join(rectTransform.DORotate(new Vector3(0, 0, 20), durationTime));
 
             //after
             seq.Append(rectTransform.DOScale(originScale, durationTime));
-            if (isHateBtn)
-            {
-                seq.Join(image.DOColor(Color.white, durationTime));
-            }
+
             seq.Join(rectTransform.DOAnchorPosX(rectTransform.anchoredPosition.x + 1f, durationTime));
             seq.Join(rectTransform.DORotate(new Vector3(0, 0, 0), durationTime));
+
             //end
-            seq.AppendCallback(() => 
-            { 
-                image.enabled = false;
+            seq.AppendCallback(() =>
+            {
                 isClicked = false;
             });
         }
