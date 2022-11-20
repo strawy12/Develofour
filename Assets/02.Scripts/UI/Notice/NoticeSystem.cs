@@ -132,12 +132,6 @@ public class NoticeSystem : MonoUI
 
     public void EnqueuePanel(NoticePanel panel)
     {
-        if (noticePanelQueue.Count > maxPanelCount)
-        {
-            NoticePanel temp = noticePanelQueue.Dequeue();
-            Destroy(temp);
-        }
-
         panel.transform.SetParent(noticePanelParant);
         noticePanelQueue.Enqueue(panel);
 

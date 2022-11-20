@@ -13,7 +13,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     [SerializeField]
     protected WindowDataSO windowData;
 
-
     protected bool isSelected;
     protected bool isMaximum;
 
@@ -26,6 +25,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public Action OnUnSelected { get; set; }
     
     public WindowDataSO WindowData { get { return windowData; } }
+
+    private Vector3 windowPos;
 
     protected virtual void Init()
     {
@@ -60,11 +61,17 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         if(!isMaximum)
         {
             rectTransform.sizeDelta = Constant.MAXWINSIZE;
+
+            windowPos = rectTransform.localPosition;
+            rectTransform.localPosition = new Vector3(0, 25, 0);
+
             isMaximum = true;
         }
         else
         {
+            rectTransform.localPosition = windowPos;
             rectTransform.sizeDelta = windowData.size;
+
             isMaximum = false;
         }
     }
