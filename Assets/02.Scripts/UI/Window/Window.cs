@@ -82,7 +82,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     {
         WindowManager.Inst.SelectObject(this);
         SetCurrentWindow(this);
-        Debug.Log("윈도우 생성");    
         SetActive(true);
     }
 
