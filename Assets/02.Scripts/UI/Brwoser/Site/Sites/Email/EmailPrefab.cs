@@ -1,27 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
 
-public class EmailPrefab : MonoBehaviour
+public abstract class EmailPrefab : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI nameText;
-
-    [SerializeField]
-    private TextMeshProUGUI informationText;
-
-    [SerializeField]
-    private TextMeshProUGUI timeText;
-
-    [SerializeField]
-    private Button highlightedButton;
-
-    public void ChangeText(string name, string info, string time)
+    public virtual void ShowMail()
     {
-        nameText.text = name;
-        informationText.text = info;
-        timeText.text = time;
+        gameObject.SetActive(true);
     }
 }

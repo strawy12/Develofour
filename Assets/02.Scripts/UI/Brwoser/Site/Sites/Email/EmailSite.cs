@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using 
+using System.Linq;
 
+public enum EMailType
+{
+    None = -1,
+    Send,
+    Receive,
+    Remove
+}
 [Serializable]
 public class Mail
 {
-    public enum EMailType
-    {
-        None = -1,
-        Send,
-        Receive,
-        Remove
-    }
     public EMailType mailType;
     public string nameText;
     public string informationText;
     public string timeText;
     public bool isHighlighted;
+    public EmailPrefab mailObject;
 }
 
 public class EmailSite : Site
@@ -27,7 +28,7 @@ public class EmailSite : Site
     private List<Mail> mailList = new List<Mail>();
 
     [SerializeField]
-    private EmailPrefab emailPrefab;
+    private EmailLine emailPrefab;
 
     [SerializeField]
     private Transform emailParent;
@@ -51,8 +52,8 @@ public class EmailSite : Site
     {
         for (int i = 0; i < mailList.Count; i++)
         {
-            EmailPrefab prefab = Instantiate(emailPrefab, emailParent);
-            prefab.ChangeText(mailList[i].nameText, mailList[i].informationText, mailList[i].timeText);
+            EmailLine prefab = Instantiate(emailPrefab, emailParent);
+            prefab.ChangeText(mailList[i].nameText, mailList[i].informationText, mailList[i].timeText, mailList[i].mailObject);
         }
     }
 
@@ -68,13 +69,22 @@ public class EmailSite : Site
 
     protected override void ShowSite()
     {
+        if(CheckGoogleLogin() == false) {
+            return;
+        }
+        base.ShowSite();
+    }
+
+    private bool CheckGoogleLogin()
+    {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin)
         {
             Browser.OnOpenSite(ESiteLink.GoogleLogin);
             EventManager.StartListening(EQuestEvent.LoginGoogle, SuccessLogin);
-            return;
+            return false;
         }
 
-        base.ShowSite();
+        return true;
+
     }
 }
