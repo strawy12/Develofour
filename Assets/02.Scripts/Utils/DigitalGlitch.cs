@@ -45,6 +45,13 @@ public class DigitalGlitch : MonoBehaviour
         }
     }
 
+    public void ImmediatelyStop()
+    {
+        intensity = 0f;
+        isGlitch = false;
+        enabled = false;
+    }
+
     public void StartEffect(float duration, bool isGlitchIn)
     {
         this.enabled = true;
