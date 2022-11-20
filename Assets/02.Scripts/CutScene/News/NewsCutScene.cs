@@ -59,6 +59,18 @@ public class NewsCutScene : CutScene
     [SerializeField]
     private float stopIconDuration = 0.5f;
 
+    [Header("CancelFullScreen")]
+    [SerializeField]
+    private float cancelFullScreenDelay = 2f;
+    [SerializeField]
+    private float cancelFullScreenOffsetY = -170f;
+
+    [Header("PlayBar")]
+    [SerializeField]
+    private CanvasGroup playBar;
+    [SerializeField]
+    private float playBarDuration = 0.5f;
+
     private int anchorVoiceCnt = 0;
     private Queue<int> printTextCntQueue = new Queue<int>();
 
@@ -82,11 +94,12 @@ public class NewsCutScene : CutScene
 
     private IEnumerator NewsCoroutine()
     {
+        RectTransform rt = GetComponent<RectTransform>();
         Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.NewsBGM);
 
         #region 시작 값
         digitalGlitch.Intensity = 1f;
-
+        playBar.alpha = 0f;
         backgroundImage.color = Color.white;
         newsAnchor.canvasGroup.alpha = 1f;
         #endregion
@@ -120,14 +133,27 @@ public class NewsCutScene : CutScene
         stopIconImage.color = color;
         stopIconImage.DOFade(0f, stopIconDuration);
         stopIconImage.rectTransform.DOScale(Vector3.one * stopIconTargetSize, stopIconDuration);
+        playBar.DOFade(1f, playBarDuration);
         Sound.OnPlayEffectSound.Invoke(Sound.EEffect.SpaceKeyDown);
         yield return new WaitForSeconds(stopIconDuration);
         #endregion
 
-        yield return new WaitForSeconds(1f);
+        #region 전체화면 해제
+        float delay = cancelFullScreenDelay / 2f;
+        yield return new WaitForSeconds(delay);
+
+        Vector2 pos = rt.anchoredPosition;
+        pos.y = cancelFullScreenOffsetY;
+        rt.anchoredPosition = pos;
+
+        yield return new WaitForSeconds(delay);
+        #endregion
 
         Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
         EndCutScene();
+        pos = rt.anchoredPosition;
+        pos.y = 0f;
+        rt.anchoredPosition = pos;
     }
 
     private IEnumerator ShowNewsSceneNotice(float delay)

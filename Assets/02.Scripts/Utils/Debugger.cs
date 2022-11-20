@@ -34,6 +34,15 @@ public class Debugger : MonoBehaviour
             EventManager.TriggerEvent(EEvent.SkipCutScene);
         }
 
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Time.timeScale = 10;
+        }
+        if (Input.GetKeyUp(KeyCode.V))
+        {
+            Time.timeScale = 1;
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Sound.OnPlayBGMSound(Sound.EBgm.WriterBGM);
