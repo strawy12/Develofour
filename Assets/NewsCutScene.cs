@@ -129,10 +129,9 @@ public class NewsCutScene : CutScene
         windowCanvas.enabled = true;
         //Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
         Browser.OnOpenSite?.Invoke(ESiteLink.Youtube_News);
-
         yield return new WaitForSeconds(2f);
         EventManager.TriggerEvent(EEvent.EndTutorialScene);
-        
+
         EndCutScene();
     }
 
