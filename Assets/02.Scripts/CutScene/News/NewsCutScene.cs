@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
@@ -126,18 +127,12 @@ public class NewsCutScene : CutScene
         yield return new WaitForSeconds(1f);
 
         Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
-        windowCanvas.enabled = true;
-        //Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
-        Browser.OnOpenSite?.Invoke(ESiteLink.Youtube_News);
-        yield return new WaitForSeconds(2f);
-
-        ShowNewsSceneNotice();
-
         EndCutScene();
     }
 
-    private void ShowNewsSceneNotice()
+    private IEnumerator ShowNewsSceneNotice(float delay)
     {
+        yield return new WaitForSeconds(delay);
         NoticeData data = new NoticeData();
         data.head = "AI 규제 법에 반대하기";
         data.body = "영상의 싫어요 버튼을 누름으로써 AI 규제 법에 대한 생각을 나타내세요";
@@ -158,9 +153,6 @@ public class NewsCutScene : CutScene
         }
     }
 
-    //TODO 앵커가 다 말할 동안 대기를 해야하는데 이 대기 시간을 임의로 하지말고 
-    // 텍스트박스가 텍스트 길이에 따른 시간을 반환 시켜줘야한다
-    // 사운드 기준이면 사운드의 길이를 가져와야한다
     private IEnumerator AnchorSpeak()
     {
         float delay = -1f;
@@ -180,6 +172,13 @@ public class NewsCutScene : CutScene
 
     protected override void EndCutScene()
     {
+        digitalGlitch.ImmediatelyStop();
+
+        windowCanvas.enabled = true;
+        Browser.OnOpenSite?.Invoke(ESiteLink.Youtube_News);
+        Window.currentWindow.WindowMaximum();
+        ShowNewsSceneNotice(2f);
+        
         anchorVoiceCnt = 0;
         textBox.EndPrintText();
         newsScreen.Release();

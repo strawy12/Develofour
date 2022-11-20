@@ -14,12 +14,13 @@ public enum EEvent
     ResetSite,
     ClickHateBtn,
     LoginGoogle,
+    SkipCutScene,
     End
 }
 
 public enum EQuestEvent
 {
     None = -1,
-    HateBtnClicked = EEvent.End,
+    HateBtnClicked = 10001,
     LoginGoogle,
 }
