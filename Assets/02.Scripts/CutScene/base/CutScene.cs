@@ -31,6 +31,8 @@ public abstract class CutScene : MonoBehaviour
 
     protected virtual void StartCutScene()
     {
+        EventManager.StartListening(EEvent.SkipCutScene, SkipCutScene);
+
         gameObject.SetActive(true);
         isPlaying = true;
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
@@ -38,10 +40,18 @@ public abstract class CutScene : MonoBehaviour
 
     protected virtual void EndCutScene()
     {
+        EventManager.StopListening(EEvent.SkipCutScene, SkipCutScene);
         isPlaying = false;
         GameManager.Inst.ChangeGameState(EGameState.Game);
         gameObject.SetActive(false);
     }
+
+    private void SkipCutScene(object o)
+    {
+        StopAllCoroutines();
+        EndCutScene();
+    }
+
 
     protected abstract void ShowCutScene();
 }

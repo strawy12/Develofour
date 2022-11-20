@@ -29,6 +29,11 @@ public class Debugger : MonoBehaviour
             NoticeSystem.OnGeneratedNotice?.Invoke(data);
         }
 
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            EventManager.TriggerEvent(EEvent.SkipCutScene);
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Sound.OnPlayBGMSound(Sound.EBgm.WriterBGM);
