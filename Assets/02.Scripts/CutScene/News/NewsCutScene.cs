@@ -156,9 +156,8 @@ public class NewsCutScene : CutScene
         rt.anchoredPosition = pos;
     }
 
-    private IEnumerator ShowNewsSceneNotice(float delay)
+    private void ShowNewsSceneNotice(float delay)
     {
-        yield return new WaitForSeconds(delay);
         NoticeData data = new NoticeData();
         data.head = "AI 규제 법에 반대하기";
         data.body = "영상의 싫어요 버튼을 누름으로써 AI 규제 법에 대한 생각을 나타내세요";
@@ -203,8 +202,9 @@ public class NewsCutScene : CutScene
         windowCanvas.enabled = true;
         Browser.OnOpenSite?.Invoke(ESiteLink.Youtube_News);
         Window.currentWindow.WindowMaximum();
-        ShowNewsSceneNotice(2f);
-        
+        ShowNewsSceneNotice(1f);
+
+
         anchorVoiceCnt = 0;
         textBox.EndPrintText();
         newsScreen.Release();

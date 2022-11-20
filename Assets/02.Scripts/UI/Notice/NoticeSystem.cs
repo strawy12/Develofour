@@ -12,6 +12,7 @@ public struct NoticeData
 {
     public string head;
     public string body;
+    public float delay;
 }
 
 public class NoticeSystem : MonoUI
@@ -108,10 +109,17 @@ public class NoticeSystem : MonoUI
             return;
         }
 
-        if(noticePanel != null)
+        StartCoroutine(NoticeCoroutine(data));
+    }
+
+    private IEnumerator NoticeCoroutine(NoticeData data)
+    {
+        yield return new WaitForSeconds(data.delay);
+
+        if (noticePanel != null)
         {
             noticePanel.ImmediatelyStop();
-        }    
+        }
 
         NoticePanel panel = noticePanel = GetPanel();
         panel.Init();
