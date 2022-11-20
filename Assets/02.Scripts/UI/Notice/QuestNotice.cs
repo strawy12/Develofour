@@ -11,7 +11,7 @@ public class QuestNotice : MonoBehaviour
 
     private void Init()
     { 
-        EventManager.StartListening(EEvent.HateBtnClicked, HateBtnClicked);
+        EventManager.StartListening(EQuestEvent.HateBtnClicked, HateBtnClicked);
     }
 
     private void HateBtnClicked(object emptyParam)
@@ -21,6 +21,6 @@ public class QuestNotice : MonoBehaviour
         data.body = "즐겨찾기에 있는 메일 바로가기 버튼을 이용해 갈 수 있습니다";
         NoticeSystem.OnGeneratedNotice(data);
 
-        EventManager.StopListening(EEvent.HateBtnClicked,HateBtnClicked);
+        EventManager.StopListening(EQuestEvent.HateBtnClicked,HateBtnClicked);
     }
 }

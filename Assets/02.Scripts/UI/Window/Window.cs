@@ -8,6 +8,8 @@ using DG.Tweening;
 
 public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 {
+    public static Window current;
+
     [SerializeField]
     protected WindowBar windowBar;
     [SerializeField]

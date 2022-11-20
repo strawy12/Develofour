@@ -15,8 +15,10 @@ public class DataManager : MonoSingleton<DataManager>
 
     private void Awake()
     {
-        //Application.persistentDataPath : ����ڵ��丮 / AppData / LocalLow / ȸ���̸� / ���δ�Ʈ�̸�
-        SAVE_PATH = Application.persistentDataPath + "/saves/";
+        SAVE_PATH = Application.dataPath + "/Save/";
+
+        CheckDirectory();
+        LoadFromJson();
     }
 
     private void CheckDirectory()
@@ -25,13 +27,12 @@ public class DataManager : MonoSingleton<DataManager>
         {
             Directory.CreateDirectory(SAVE_PATH);
         }
-        CreatePlayerData();
-
     }
 
     private void CreatePlayerData()
     {
         playerData = new PlayerData();
+        SaveToJson();
     }
 
     private void LoadFromJson()
@@ -51,7 +52,7 @@ public class DataManager : MonoSingleton<DataManager>
         CheckDirectory();
 
         string data = JsonUtility.ToJson(playerData);
-        File.WriteAllText(SAVE_PATH, data);
+        File.WriteAllText(SAVE_PATH + SAVE_FILE, data);
     }
 
     private void OnDestroy()

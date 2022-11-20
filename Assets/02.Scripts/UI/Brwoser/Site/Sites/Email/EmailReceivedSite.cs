@@ -41,7 +41,7 @@ public class EmailReceivedSite : Site
     // 추후 위치를 변경해주기
     private void SuccessLogin(object o)
     {
-        EventManager.StopListening(EEvent.Quest_LoginGoogle, SuccessLogin);
+        EventManager.StopListening(EQuestEvent.LoginGoogle, SuccessLogin);
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin = true;
     }
 
@@ -69,7 +69,7 @@ public class EmailReceivedSite : Site
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin)
         {
             Browser.OnOpenSite(ESiteLink.GoogleLogin);
-            EventManager.StartListening(EEvent.Quest_LoginGoogle, SuccessLogin);
+            EventManager.StartListening(EQuestEvent.LoginGoogle, SuccessLogin);
             return;
         }
 
