@@ -531,6 +531,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &109907065 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 183503958739044855, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+  m_PrefabInstance: {fileID: 1031627190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &166105753
 GameObject:
   m_ObjectHideFlags: 0
@@ -2940,7 +2951,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 202.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 325, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &877734328
@@ -4774,6 +4785,114 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: sendCategory
+      value: 
+      objectReference: {fileID: 1153868522}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: removeCategory
+      value: 
+      objectReference: {fileID: 1914886874}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: receiveCategory
+      value: 
+      objectReference: {fileID: 109907065}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: highlightCategory
+      value: 
+      objectReference: {fileID: 2035180614}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[0].mailType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[0].nameText
+      value: "\uBC15\uC11C\uC900"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[0].timeText
+      value: 11/2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[1].mailType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[1].nameText
+      value: "\uBC15\uC11C\uC900"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[1].timeText
+      value: 11/2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[2].mailType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[2].nameText
+      value: "\uBC15\uC11C\uC900"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[2].timeText
+      value: 11/2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[3].mailType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[3].nameText
+      value: "\uBC15\uC11C\uC900"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[3].timeText
+      value: 11/2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[4].mailType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[4].nameText
+      value: "\uD669\uC778\uC900"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[4].timeText
+      value: 11/2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[1].isHighlighted
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[2].isHighlighted
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[0].informationText
+      value: "\uC548\uB155\uD558\uC138\uC694"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[1].informationText
+      value: "\uC548\uB155\uD558\uC138\uC694"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[2].informationText
+      value: "\uC548\uB155\uD558\uC138\uC694"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[3].informationText
+      value: "\uC548\uB155\uD558\uC138\uC694"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: baseMailList.Array.data[4].informationText
+      value: "\uC2EB\uC5B4\uC694"
+      objectReference: {fileID: 0}
     - target: {fileID: 5683413405113162297, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5570,7 +5689,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 202.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 325, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1148707908
@@ -5686,6 +5805,17 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1153868522 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 183503959128596858, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+  m_PrefabInstance: {fileID: 1031627190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1173218107
 GameObject:
   m_ObjectHideFlags: 0
@@ -7593,6 +7723,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890425765}
   m_CullTransparentMesh: 1
+--- !u!114 &1914886874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 183503958566905318, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+  m_PrefabInstance: {fileID: 1031627190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1915282637
 GameObject:
   m_ObjectHideFlags: 0
@@ -8488,6 +8629,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2035180614 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 183503958393319875, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+  m_PrefabInstance: {fileID: 1031627190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2048915197
 GameObject:
   m_ObjectHideFlags: 0
@@ -8723,7 +8875,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 107.005, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2093346430

@@ -18,7 +18,7 @@ public class Debugger : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            Browser.OnOpenSite(ESiteLink.Email_Received);
+            Browser.OnOpenSite(ESiteLink.Email);
         }
 
         if (Input.GetKeyDown(KeyCode.B))

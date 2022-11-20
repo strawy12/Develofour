@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class EmailPrefab : MonoBehaviour
+public class EmailLine : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI nameText;
