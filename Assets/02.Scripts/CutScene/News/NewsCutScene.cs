@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
@@ -83,14 +83,14 @@ public class NewsCutScene : CutScene
     {
         Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.NewsBGM);
 
-        #region ½ÃÀÛ °ª
+        #region ì‹œì‘ ê°’
         digitalGlitch.Intensity = 1f;
 
         backgroundImage.color = Color.white;
         newsAnchor.canvasGroup.alpha = 1f;
         #endregion
 
-        #region ±Û¸®Ä¡ È¿°ú Àû¿ë
+        #region ê¸€ë¦¬ì¹˜ íš¨ê³¼ ì ìš©
         yield return new WaitForSeconds(glitchBeforeDelay);
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.Glitch);
         digitalGlitch.StartEffect(glitchDuration, false);
@@ -98,21 +98,21 @@ public class NewsCutScene : CutScene
         yield return new WaitForSeconds(glitchAfterDelay);
         #endregion
 
-        #region ´º½º È­¸é_1
+        #region ë‰´ìŠ¤ í™”ë©´_1
         newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIMurder, newsScreenFadeDuration);
         //yield return new WaitForSeconds(newsScreenFadeDuration);
         #endregion
 
         yield return PrintText();
 
-        #region ´º½º È­¸é 2
+        #region ë‰´ìŠ¤ í™”ë©´ 2
         newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIRegulation, newsScreenFadeDuration);
         yield return new WaitForSeconds(newsScreenFadeDuration);
         #endregion
 
         yield return PrintText();
 
-        #region ÀÏ½ÃÁ¤Áö ¾ÆÀÌÄÜ
+        #region ì¼ì‹œì •ì§€ ì•„ì´ì½˜
         stopIconImage.rectTransform.localScale = Vector3.one;
         Color color = stopIconImage.color;
         color.a = stopIconStartAlpha;
@@ -146,9 +146,9 @@ public class NewsCutScene : CutScene
         }
     }
 
-    //TODO ¾ŞÄ¿°¡ ´Ù ¸»ÇÒ µ¿¾È ´ë±â¸¦ ÇØ¾ßÇÏ´Âµ¥ ÀÌ ´ë±â ½Ã°£À» ÀÓÀÇ·Î ÇÏÁö¸»°í 
-    // ÅØ½ºÆ®¹Ú½º°¡ ÅØ½ºÆ® ±æÀÌ¿¡ µû¸¥ ½Ã°£À» ¹İÈ¯ ½ÃÄÑÁà¾ßÇÑ´Ù
-    // »ç¿îµå ±âÁØÀÌ¸é »ç¿îµåÀÇ ±æÀÌ¸¦ °¡Á®¿Í¾ßÇÑ´Ù
+    //TODO ì•µì»¤ê°€ ë‹¤ ë§í•  ë™ì•ˆ ëŒ€ê¸°ë¥¼ í•´ì•¼í•˜ëŠ”ë° ì´ ëŒ€ê¸° ì‹œê°„ì„ ì„ì˜ë¡œ í•˜ì§€ë§ê³  
+    // í…ìŠ¤íŠ¸ë°•ìŠ¤ê°€ í…ìŠ¤íŠ¸ ê¸¸ì´ì— ë”°ë¥¸ ì‹œê°„ì„ ë°˜í™˜ ì‹œì¼œì¤˜ì•¼í•œë‹¤
+    // ì‚¬ìš´ë“œ ê¸°ì¤€ì´ë©´ ì‚¬ìš´ë“œì˜ ê¸¸ì´ë¥¼ ê°€ì ¸ì™€ì•¼í•œë‹¤
     private IEnumerator AnchorSpeak()
     {
         float delay = -1f;
