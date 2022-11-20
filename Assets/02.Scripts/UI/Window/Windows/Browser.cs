@@ -110,9 +110,11 @@ public class Browser : Window
     {
         if (undoSite.Count == 0) return;
         Site currentSite = undoSite.Pop();
+
         Site beforeSite = ChangeSite(currentSite);
         redoSite.Push(beforeSite); // 앞으로 갈 사이트는 사용하던 사이트 
                                    // 뒤로 갈 사이트는 undosite의 top
+
     }
 
     public void RedoSite()
