@@ -9,7 +9,7 @@ public class YoutubeInteractionButton : MonoBehaviour
 {
     [SerializeField] private bool isHateBtn;
     private bool isClicked = false;
-    private float durationTime = 1f;
+    private float durationTime = 0.4f;
     private Button button;
     private Image image;
     private RectTransform rectTransform;
