@@ -30,7 +30,6 @@ public class FavoriteButton : MonoBehaviour
     private void Awake()
     {
         favoriteBtn = GetComponent<Button>();
-        Init();
     }
 
     public void Init()
