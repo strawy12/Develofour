@@ -31,6 +31,8 @@ public class Browser : Window
     [SerializeField] private Transform siteParent;
 
     [SerializeField] private BrowserBar browserBar;
+    [SerializeField] private LoadingBar loadingBar;
+    [SerializeField] private float loadingDelay;
 
     public static Action<ESiteLink> OnOpenSite;
     public static Action OnUndoSite;
@@ -100,11 +102,23 @@ public class Browser : Window
 
         Site beforeSite = usingSite;
         usingSite?.OnUnused?.Invoke();
-        undoSite.Push(usingSite);
-        usingSite = site;
-        usingSite?.OnUsed?.Invoke();
+
+        StartCoroutine(LoadingSite(() =>
+        {
+            undoSite.Push(usingSite);
+            usingSite = site;
+            usingSite?.OnUsed?.Invoke();
+        }));
 
         return beforeSite;
+    }
+
+    private IEnumerator LoadingSite(Action Callback)
+    {
+        loadingBar.StartLoading();
+        yield return new WaitForSeconds(loadingDelay);
+        Callback?.Invoke();
+        loadingBar.StopLoading();
     }
 
     public void UndoSite()
