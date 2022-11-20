@@ -57,6 +57,7 @@ public class Browser : Window
         OnOpenSite += (a) => WindowOpen();
         OnOpenSite += ChangeSite;
         OnClosed += (a) => ResetBrowser();
+        browserBar.Init();
         browserBar.OnClose?.AddListener(WindowClose);
         browserBar.OnUndo?.AddListener(UndoSite);
         browserBar.OnRedo?.AddListener(RedoSite);
