@@ -131,6 +131,7 @@ public class NewsCutScene : CutScene
         Browser.OnOpenSite?.Invoke(ESiteLink.Youtube_News);
         yield return new WaitForSeconds(2f);
 
+        Window.currentWindow.WindowMaximum();
         ShowNewsSceneNotice();
 
         EndCutScene();

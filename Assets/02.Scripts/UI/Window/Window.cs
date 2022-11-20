@@ -8,7 +8,7 @@ using DG.Tweening;
 
 public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 {
-    public static Window current;
+    public static Window currentWindow;
 
     [SerializeField]
     protected WindowBar windowBar;
@@ -81,8 +81,14 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public void WindowOpen()
     {
         WindowManager.Inst.SelectObject(this);
+        SetCurrentWindow(this);
         Debug.Log("윈도우 생성");    
         SetActive(true);
+    }
+
+    public void SetCurrentWindow(Window selecetedWindow)
+    {
+        currentWindow = selecetedWindow;
     }
 
     public void CreatedWindow()
@@ -99,6 +105,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     protected void SelectWindow()
     {
         WindowManager.Inst.SelectObject(this);
-
+        SetCurrentWindow(this);
     }
 }
