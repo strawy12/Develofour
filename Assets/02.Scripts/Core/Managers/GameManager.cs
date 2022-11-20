@@ -8,6 +8,11 @@ public class GameManager : MonoSingleton<GameManager>
 
     public EGameState GameState { get { return gameState; } }
 
+    private IEnumerator Start()
+    {
+        yield return new WaitForEndOfFrame();
+        EventManager.TriggerEvent(EEvent.ShowCutScene, typeof(NewsCutScene));
+    }
     public void ChangeGameState(EGameState state)
     {
         if (gameState == state) { return; }
