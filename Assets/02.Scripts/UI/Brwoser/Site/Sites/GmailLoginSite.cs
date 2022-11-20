@@ -16,15 +16,9 @@ public class GmailLoginSite : Site
     [SerializeField]
     private TextMove textMove;
 
-    void Awake()
-    {
-        Init();
-    }
-
     public override void Init()
     {
         base.Init();
-
         gmailLoginButton.onClick?.AddListener(LoginGoogle);
 
         gmailInputField.onSelect.AddListener((a) => textMove.PlaceholderEffect(true));
@@ -36,6 +30,9 @@ public class GmailLoginSite : Site
         if (gmailInputField.text == passWord)
         {
             Debug.Log("로그인 성공");
+            EventManager.TriggerEvent(EEvent.LoginGoogle);
+
+            Browser.OnUndoSite?.Invoke();
             // 여기서 다음 페이지로 넘어가는 코드 넣기
         }
         else

@@ -12,8 +12,11 @@ public enum EEvent
     ShowCutScene,
     AddFavoriteSite,
     ResetSite,
+    EndTutorialScene,
     ClickHateBtn,
     HateBtnClicked,
+    LoginGoogle,
+    Quest_LoginGoogle,
     End
 }
 
