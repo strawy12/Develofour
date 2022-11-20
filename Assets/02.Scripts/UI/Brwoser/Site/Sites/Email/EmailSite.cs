@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using 
 
 [Serializable]
 public class Mail
@@ -20,7 +21,7 @@ public class Mail
     public bool isHighlighted;
 }
 
-public class EmailReceivedSite : Site
+public class EmailSite : Site
 {
     [SerializeField]
     private List<Mail> mailList = new List<Mail>();
