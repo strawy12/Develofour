@@ -11,21 +11,11 @@ public enum EMailType
     Receive,
     Remove
 }
-[Serializable]
-public class Mail
-{
-    public EMailType mailType;
-    public string nameText;
-    public string informationText;
-    public string timeText;
-    public bool isHighlighted;
-    public EmailPrefab mailObject;
-}
 
 public class EmailSite : Site
 {
     [SerializeField]
-    private List<Mail> mailList = new List<Mail>();
+    private List<MailDataSO> mailList = new List<MailDataSO>();
 
     [SerializeField]
     private EmailLine emailPrefab;
