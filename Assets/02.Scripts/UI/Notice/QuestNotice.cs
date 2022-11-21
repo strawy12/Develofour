@@ -19,7 +19,7 @@ public class QuestNotice : MonoBehaviour
         NoticeData data = new NoticeData();
         data.head = "경찰 출두장 메일 확인하기";
         data.body = "즐겨찾기에 있는 메일 바로가기 버튼을 이용해 갈 수 있습니다";
-        NoticeSystem.OnGeneratedNotice(data);
+        NoticeSystem.OnGeneratedNotice?.Invoke(data);
 
         EventManager.TriggerEvent(EEvent.AddFavoriteSite, ESiteLink.Email_Received);
         EventManager.StopListening(EQuestEvent.HateBtnClicked, HateBtnClicked);

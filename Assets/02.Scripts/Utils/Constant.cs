@@ -13,4 +13,6 @@ public static class Constant
     public static readonly float NOTICE_DELAYTIME = 5f;
     public static readonly float NOTICE_DURATION = 0.5f;
     public static readonly Vector2 NOTICE_POS = new Vector2(-17.5f, -400f);
+
+    public const float LOADING_DELAY = 0.75f;
 }

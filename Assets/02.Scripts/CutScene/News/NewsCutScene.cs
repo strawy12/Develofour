@@ -19,6 +19,9 @@ public class NewsCutScene : CutScene
     [SerializeField]
     private List<int> printTextCntList;
 
+    [SerializeField]
+    private float noticeDelay = 0.5f;
+
     [Header("Glitch")]
     [SerializeField]
     private DigitalGlitch digitalGlitch;
@@ -70,6 +73,7 @@ public class NewsCutScene : CutScene
     private CanvasGroup playBar;
     [SerializeField]
     private float playBarDuration = 0.5f;
+    
 
     private int anchorVoiceCnt = 0;
     private Queue<int> printTextCntQueue = new Queue<int>();
@@ -156,11 +160,12 @@ public class NewsCutScene : CutScene
         rt.anchoredPosition = pos;
     }
 
-    private void ShowNewsSceneNotice(float delay)
+    private void ShowNewsSceneNotice()
     {
         NoticeData data = new NoticeData();
         data.head = "AI 규제 법에 반대하기";
         data.body = "영상의 싫어요 버튼을 누름으로써 AI 규제 법에 대한 생각을 나타내세요";
+        data.delay = noticeDelay;
         NoticeSystem.OnGeneratedNotice?.Invoke(data);
     }
 
@@ -200,9 +205,9 @@ public class NewsCutScene : CutScene
         digitalGlitch.ImmediatelyStop();
 
         windowCanvas.enabled = true;
-        Browser.OnOpenSite?.Invoke(ESiteLink.Youtube_News);
+        Browser.OnOpenSite?.Invoke(ESiteLink.Youtube_News, 0);
         Window.currentWindow.WindowMaximum();
-        ShowNewsSceneNotice(1f);
+        ShowNewsSceneNotice();
 
 
         anchorVoiceCnt = 0;

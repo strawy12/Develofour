@@ -33,7 +33,6 @@ public class FavoriteBar : MonoBehaviour
         FavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
         button.SiteLink = siteLink;
         button.Init(site.SiteData.siteIconSprite, site.SiteData.siteTitle);
-        button.OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink));
         favoritesList.Add(button);
         button.gameObject.SetActive(false);
     }
@@ -53,7 +52,7 @@ public class FavoriteBar : MonoBehaviour
 
         FavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
         button.SiteLink = siteLink;
-        button.OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink));
+        button.OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink, Constant.LOADING_DELAY));
         favoritesList.Add(button);
     }
 }

@@ -15,6 +15,7 @@ public enum EEvent
     ClickHateBtn,
     LoginGoogle,
     SkipCutScene,
+    EndNewsCutScene,
     End
 }
 

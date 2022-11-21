@@ -27,20 +27,15 @@ public class FavoriteButton : MonoBehaviour
     }
     public UnityEvent OnClick { get { return favoriteBtn.onClick; } }
 
-    private void Awake()
-    {
-        favoriteBtn = GetComponent<Button>();
-    }
-
-    public void Init()
-    {
-        OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink));
-    }
 
     public void Init(Sprite iconSprite, string title)
     {
+        favoriteBtn ??= GetComponent<Button>();
+
         iconImage.sprite = iconSprite;
         titleText.text = title;
+
+        OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink, Constant.LOADING_DELAY));
     }
 
 

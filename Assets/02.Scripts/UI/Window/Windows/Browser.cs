@@ -32,9 +32,8 @@ public class Browser : Window
 
     [SerializeField] private BrowserBar browserBar;
     [SerializeField] private LoadingBar loadingBar;
-    [SerializeField] private float loadingDelay;
 
-    public static Action<ESiteLink> OnOpenSite;
+    public static Action<ESiteLink, float> OnOpenSite;
     public static Action OnUndoSite;
 
     void Awake()
@@ -56,7 +55,6 @@ public class Browser : Window
         windowData.windowTitleID = 1;
 
         OnUndoSite += UndoSite;
-        OnOpenSite += (a) => WindowOpen();
         OnOpenSite += ChangeSite;
         OnClosed += (a) => ResetBrowser();
         browserBar.Init();
@@ -77,13 +75,13 @@ public class Browser : Window
         }
     }
 
-    public void ChangeSite(ESiteLink eSiteLink)
+    public void ChangeSite(ESiteLink eSiteLink, float loadDelay)
     {
         Site site = null;
 
         if(siteDictionary.TryGetValue(eSiteLink, out site))
         {
-            ChangeSite(site);
+            ChangeSite(site, loadDelay);
         }
 
         else
@@ -92,7 +90,7 @@ public class Browser : Window
         }
     }
 
-    public Site ChangeSite(Site site)
+    public Site ChangeSite(Site site, float loadDelay)
     {
         if(siteDictionary.ContainsValue(site) == false)
         {
@@ -100,10 +98,12 @@ public class Browser : Window
             return null;
         }
 
+        WindowOpen();
+
         Site beforeSite = usingSite;
         usingSite?.OnUnused?.Invoke();
 
-        StartCoroutine(LoadingSite(() =>
+        StartCoroutine(LoadingSite(loadDelay, () =>
         {
             undoSite.Push(usingSite);
             usingSite = site;
@@ -113,10 +113,10 @@ public class Browser : Window
         return beforeSite;
     }
 
-    private IEnumerator LoadingSite(Action Callback)
+    private IEnumerator LoadingSite(float loadDelay, Action Callback)
     {
         loadingBar.StartLoading();
-        yield return new WaitForSeconds(loadingDelay);
+        yield return new WaitForSeconds(loadDelay);
         Callback?.Invoke();
         loadingBar.StopLoading();
     }
@@ -126,7 +126,7 @@ public class Browser : Window
         if (undoSite.Count == 0) return;
         Site currentSite = undoSite.Pop();
 
-        Site beforeSite = ChangeSite(currentSite);
+        Site beforeSite = ChangeSite(currentSite, Constant.LOADING_DELAY);
         redoSite.Push(beforeSite); // 앞으로 갈 사이트는 사용하던 사이트 
                                    // 뒤로 갈 사이트는 undosite의 top
 
@@ -136,7 +136,7 @@ public class Browser : Window
     {
         if (redoSite.Count == 0) return;
 
-        Site beforeSite = ChangeSite(redoSite.Pop());
+        Site beforeSite = ChangeSite(redoSite.Pop(), Constant.LOADING_DELAY);
         undoSite.Push(beforeSite);
         // 작동은 UndoSite함수의 정 반대로 
     }
