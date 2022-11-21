@@ -68,6 +68,7 @@ public class YoutubeInteractionButton : MonoBehaviour
                 {
                     isOverLapHate = false;
                     image.enabled = false;
+                    isClicked = false;
 
                     hatePeopleText.text = "72";
 
@@ -94,6 +95,7 @@ public class YoutubeInteractionButton : MonoBehaviour
                 {
                     isOverLapLike = false;
                     image.enabled = false;
+                    isClicked = false;
 
                     seq.Join(image.DOColor(Color.white, durationTime));
                     seq.Append(rectTransform.DOScale(originScale, durationTime));
