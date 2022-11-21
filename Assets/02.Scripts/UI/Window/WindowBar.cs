@@ -6,8 +6,9 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using Unity.VisualScripting;
 
-public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, IDragHandler
+public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private Button maximumBtn;
     [SerializeField] private Button minimumBtn;
@@ -15,13 +16,16 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text windowName;
 
+
     public UnityEvent OnClose   { get { return closeBtn.onClick; } }
     public UnityEvent OnMinimum { get { return minimumBtn.onClick; } }
     public UnityEvent OnMaximum { get { return maximumBtn.onClick; } }
 
     public Action OnSelected;
 
+    private bool isDrag = false;
     private bool isClicked;
+    private float clickDelay = 0.75f;
     private float clickDelayTime = 0.0f;
     private Vector2 offsetPos = Vector2.zero;
 
@@ -49,7 +53,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         if(isClicked)
         {
             clickDelayTime += Time.deltaTime;
-            if(clickDelayTime > 1.0f)
+            if(clickDelayTime > clickDelay)
             {
                 isClicked = false;
                 clickDelayTime = 0.0f;
@@ -59,6 +63,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        isDrag = true;
         Vector2 mousePos = eventData.position - (Constant.MAXWINSIZE / 2);
         offsetPos = windowRectTransform.anchoredPosition - mousePos;
     }
@@ -71,6 +76,8 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (isDrag) return;
+
         OnSelected?.Invoke();
         if (isClicked == false)
         {
@@ -78,11 +85,16 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         }
         else if(isClicked == true)
         {
-            if(clickDelayTime <= 1.0f)
+            if(clickDelayTime <= clickDelay)
             {
                 OnMaximum?.Invoke();
                 isClicked = false;
             }
         }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        isDrag = false;
     }
 }
