@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< HEAD
 using TMPro;
 using UnityEngine.UI;
 
@@ -22,20 +21,33 @@ public class EmailLine : MonoBehaviour
     [SerializeField]
     private Button mailButton;
 
-    private EmailPrefab mailPrefab;
+    [HideInInspector]
+    public EEmailCategory emailCategory;
 
-    public void ChangeText(string name, string info, string time, EmailPrefab mailPrefab)
+    private Mail mail;
+
+    public bool IsHighrighted { get { return mail.MailData.isHighlighted; } }
+
+    public void Init(MailDataSO mailData, Mail mail)
     {
-        nameText.text = name;
-        informationText.text = info;
-        timeText.text = time;
-        this.mailPrefab = mailPrefab;
+        this.mail = mail;
+        ChangeText(mailData.nameText, mailData.informationText, mailData.timeText);
 
         mailButton.onClick.AddListener(ShowMail);
     }
 
+    public void ChangeText(string name, string info, string time)
+    {
+        nameText.text = name;
+        informationText.text = info;
+        timeText.text = time;
+
+    }
+
     public void ShowMail()
     {
-        mailPrefab.ShowMail();
+        mail.ShowMail();
     }
+
+
 }
