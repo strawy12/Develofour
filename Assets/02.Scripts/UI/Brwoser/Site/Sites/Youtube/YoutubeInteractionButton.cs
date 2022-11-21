@@ -10,8 +10,12 @@ public class YoutubeInteractionButton : MonoBehaviour
     [SerializeField] private bool isHateBtn;
 
     private bool isClicked = false;
+
     private float durationTime = 0.4f;
-    
+
+    [SerializeField]
+    private Image otherImage;
+
     private Button button;
     private Image image;
     private RectTransform rectTransform;
@@ -34,8 +38,9 @@ public class YoutubeInteractionButton : MonoBehaviour
 
     private void ClickEffect()
     {
-        if (!isClicked)
+        if(!isClicked)
         {
+
             isClicked = true;
             Sequence seq = DOTween.Sequence();
 
@@ -45,12 +50,18 @@ public class YoutubeInteractionButton : MonoBehaviour
             if (isHateBtn)
             {
                 image.enabled = true;
+                otherImage.enabled = false;
+
                 seq.Join(image.DOColor(Color.yellow, durationTime));
+                seq.Join(otherImage.DOColor(Color.white, durationTime));
             }
             if (!isHateBtn)
             {
                 image.enabled = true;
+                otherImage.enabled = false;
+
                 seq.Join(image.DOColor(Color.red, durationTime));
+                seq.Join(otherImage.DOColor(Color.white, durationTime));
             }
 
             seq.Join(rectTransform.DOAnchorPosX(rectTransform.anchoredPosition.x - 1f, durationTime));
