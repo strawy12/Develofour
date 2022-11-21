@@ -21,7 +21,7 @@ public class QuestNotice : MonoBehaviour
         data.body = "즐겨찾기에 있는 메일 바로가기 버튼을 이용해 갈 수 있습니다";
         NoticeSystem.OnGeneratedNotice(data);
 
-        EventManager.TriggerEvent(EEvent.AddFavoriteSite, ESiteLink.Email_Received);
+        EventManager.TriggerEvent(EEvent.AddFavoriteSite, ESiteLink.Email);
         EventManager.StopListening(EQuestEvent.HateBtnClicked, HateBtnClicked);
     }
 }
