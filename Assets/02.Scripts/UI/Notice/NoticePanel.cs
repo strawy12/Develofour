@@ -93,7 +93,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         {
             StopAllCoroutines();
 
-            backgroundImage.DOColor(new Color(0.1f, 0.1f, 0.1f), 0.1f);
+            backgroundImage.DOColor(new Color(0.1f, 0.1f, 0.1f, 0.9f), 0.1f);
             rectTransform.DOScale(Vector3.one * 1.05f, 0.1f);
 
             isEnter = true;
@@ -106,7 +106,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         {
             StartCoroutine(NoticeCoroutine());
 
-            backgroundImage.DOColor(new Color(0f, 0f, 0f), 0.1f);
+            backgroundImage.DOColor(new Color(0f, 0f, 0f, 0.9f), 0.1f);
             rectTransform.DOScale(Vector3.one, 0.1f);
 
             isEnter = false;
