@@ -37,6 +37,8 @@ public class DataManager : MonoSingleton<DataManager>
 
     private void LoadFromJson()
     {
+        CreatePlayerData();
+        return;
         if (File.Exists(SAVE_PATH + SAVE_FILE))
         {
             string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);

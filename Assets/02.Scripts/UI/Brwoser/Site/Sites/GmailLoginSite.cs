@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class GmailLoginSite : Site
 {
@@ -23,6 +22,16 @@ public class GmailLoginSite : Site
 
         gmailInputField.onSelect.AddListener((a) => textMove.PlaceholderEffect(true));
         gmailInputField.onDeselect.AddListener((a) => textMove.PlaceholderEffect(false));
+    }
+
+    protected override void ShowSite()
+    {
+        NoticeData data = new NoticeData();
+        data.head = "비밀번호 찾기";
+        data.body = "메일창을 들어가기 위해 비밀번호를 찾기.";
+
+        NoticeSystem.OnGeneratedNotice?.Invoke(data);
+        base.ShowSite();
     }
 
     private void LoginGoogle()
