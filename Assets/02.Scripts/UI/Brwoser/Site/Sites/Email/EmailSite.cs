@@ -37,10 +37,13 @@ public class EmailSite : Site
     private EMailCategory currentCategory = EMailCategory.Receive;
 
     [SerializeField]
-    private List<Mail> baseMailList = new List<Mail>();
+    private List<Mail> baseMailDataList = new List<Mail>();
 
     [SerializeField]
-    private List<Mail> currentMailList = new List<Mail>();
+    private List<GameObject> baseMailList = new List<GameObject>();
+
+    [SerializeField]
+    private List<GameObject> currentMailList = new List<GameObject>();
 
     [SerializeField]
     private EmailLine emailPrefab;
@@ -65,8 +68,19 @@ public class EmailSite : Site
         highlightCategory.onClick.AddListener(ChangeHighlightEmail);
         sendCategory.onClick.AddListener(ChangeSendEmail);
         removeCategory.onClick.AddListener(ChangeRemoveEmail);
+
+        //베이스 메일 리스트 모두 생성시키기
+
+        for(int i = 0; i < baseMailDataList.Count; i++)
+        {
+            EmailLine prefab = Instantiate(emailPrefab, emailParent);
+            prefab.ChangeText(baseMailDataList[i].nameText, baseMailDataList[i].informationText, baseMailDataList[i].timeText);
+            prefab.gameObject.SetActive(false);
+            baseMailList[i] = prefab.gameObject;
+        }
+
         base.Init();
-        PopMail();
+        ShowMail();
         ChangeEmailCategory(currentCategory);
         //TODO : 풀링제작
     }
@@ -112,62 +126,56 @@ public class EmailSite : Site
         {
             case EMailCategory.Receive:
                 {
-                    //PushMail();
-                    currentMailList.Clear();
+                    PushMail();
                     currentMailList = baseMailList
-                        .Where(n => n.mailType == EMailType.Receive).ToList();
-                    PopMail();
+                        .Where(n => n.GetComponent<Mail>().mailType == EMailType.Receive).ToList();
+                    ShowMail();
                 }
                 break;
 
             case EMailCategory.Highlighted:
                 {
-                    //PushMail();
-                    currentMailList.Clear();
+                    PushMail();
                     currentMailList = baseMailList
-                        .Where(n => n.mailType == EMailType.Receive && n.isHighlighted == true).ToList();
-                    PopMail();
+                        .Where(n => n.GetComponent<Mail>().mailType == EMailType.Receive && n.GetComponent<Mail>().isHighlighted == true).ToList();
+                    ShowMail();
                 }
                 break;
 
             case EMailCategory.Send:
                 {
-                    //PushMail();
-                    currentMailList.Clear();
+                    PushMail();
                     currentMailList = baseMailList
-                        .Where(n => n.mailType == EMailType.Send).ToList();
-                    PopMail();
+                        .Where(n => n.GetComponent<Mail>().mailType == EMailType.Send).ToList();
+                    ShowMail();
                 }
                 break;
 
             case EMailCategory.Remove:
                 {
-                    //PushMail();
-                    currentMailList.Clear();
+                    PushMail();
                     currentMailList = baseMailList
-                        .Where(n => n.mailType == EMailType.Remove).ToList();
-                    PopMail();
+                        .Where(n => n.GetComponent<Mail>().mailType == EMailType.Remove).ToList();
+                    ShowMail();
                 }
                 break;
         }
     }
 
-    private void PopMail()
+    private void ShowMail()
     {
         for (int i = 0; i < currentMailList.Count; i++)
         {
-            EmailLine prefab = Instantiate(emailPrefab, emailParent);
-            prefab.ChangeText(currentMailList[i].nameText, currentMailList[i].informationText, currentMailList[i].timeText);
-            prefab.gameObject.SetActive(true);
+            currentMailList[i].SetActive(true);
         }
+        currentMailList.Clear();
     }
 
     private void PushMail()
     {
-        int num = emailParent.childCount;
-        for(int i = 0; i < num; i++)
+        for(int i = 0; i < baseMailList.Count; i++)
         {
-            Destroy(emailParent.GetChild(1).gameObject);
+            baseMailList[i].SetActive(false);
         }
     }
 
