@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public abstract class Site : MonoUI
@@ -40,8 +41,13 @@ public abstract class Site : MonoUI
 
     protected virtual void ResetSite()
     {
-        EventManager.StopListening(EEvent.ResetSite, (x) => ResetSite());
+        EventManager.StopListening(EEvent.ResetSite, SiteStopEvent);
         isSubscribe = false;    
+    }
+
+    private void SiteStopEvent(object[] ps)
+    {
+        ResetSite();
     }
 
     private void Subscribe()

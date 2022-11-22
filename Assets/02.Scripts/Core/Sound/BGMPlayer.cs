@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BGMPlayer : SoundPlayer
 {
@@ -30,8 +32,14 @@ public class BGMPlayer : SoundPlayer
     public override void Release()
     {
         base.Release();
-        EventManager.StopListening(EEvent.ChangeBGM, (x) => ImmediatelyStop());
+        EventManager.StopListening(EEvent.ChangeBGM, BgmStopEvent);
     }
+
+    public void BgmStopEvent(object[] ps)
+    {
+        ImmediatelyStop();
+    }
+
 
     private void Reset()
     {

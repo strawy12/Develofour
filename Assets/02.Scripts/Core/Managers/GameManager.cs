@@ -11,7 +11,9 @@ public class GameManager : MonoSingleton<GameManager>
     private IEnumerator Start()
     {
         yield return new WaitForEndOfFrame();
-        EventManager.TriggerEvent(EEvent.ShowCutScene, typeof(NewsCutScene));
+
+        object[] ps = new object[1] { typeof(NewsCutScene) };
+        EventManager.TriggerEvent(EEvent.ShowCutScene, ps);
     }
     public void ChangeGameState(EGameState state)
     {
