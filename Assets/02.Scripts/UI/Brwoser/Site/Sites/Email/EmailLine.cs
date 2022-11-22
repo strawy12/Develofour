@@ -41,7 +41,6 @@ public class EmailLine : MonoBehaviour
         nameText.text = name;
         informationText.text = info;
         timeText.text = time;
-
     }
 
     public void ShowMail()

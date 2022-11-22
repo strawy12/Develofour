@@ -11,6 +11,7 @@ public abstract class Mail : MonoBehaviour
     protected MailDataSO mailData;
 
     public MailDataSO MailData { get { return mailData; } }
+
     public virtual void Init(MailDataSO mailData)
     {
         this.mailData = mailData;
