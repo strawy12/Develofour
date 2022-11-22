@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class DefaultMail : Mail
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Init(MailDataSO mailData)
     {
-        
+        base.Init(mailData);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void ShowMail()
     {
-        
+        base.ShowMail();
+    }
+
+    public override void HideMail()
+    {
+        base.HideMail();
     }
 }
