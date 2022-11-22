@@ -20,9 +20,9 @@ public class WindowManager : MonoSingleton<WindowManager>
         return false;
     }
 
-    public void CreateWindow(System.Enum windowEnum, int titleId) 
+    public Window CreateWindow(System.Enum windowEnum, int titleId) 
     {
-
+        return null;
     }
 
     public Window GetWindowPrefab(System.Enum windowEnum, int titleId)
