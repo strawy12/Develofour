@@ -28,7 +28,6 @@ public class EmailSite : Site
     [SerializeField]
     private List<MailData> mails = new List<MailData>();
 
-    [SerializeField]
     private List<EmailLine> baseEmailLineList = new List<EmailLine>();
 
     private List<EmailLine> currentMailLineList = new List<EmailLine>();
