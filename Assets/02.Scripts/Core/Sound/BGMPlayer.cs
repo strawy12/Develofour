@@ -14,7 +14,7 @@ public class BGMPlayer : SoundPlayer
         soundID = (int)bgmSoundID;
         base.Init();
 
-        EventManager.StartListening(EEvent.ChangeBGM, CheckStopBGM);
+        EventManager.StartListening(ECoreEvent.ChangeBGM, CheckStopBGM);
 
         if(audioSource.loop == false)
         {
@@ -32,7 +32,7 @@ public class BGMPlayer : SoundPlayer
     public override void Release()
     {
         base.Release();
-        EventManager.StopListening(EEvent.ChangeBGM, BgmStopEvent);
+        EventManager.StopListening(ECoreEvent.ChangeBGM, BgmStopEvent);
     }
 
     public void BgmStopEvent(object[] ps)

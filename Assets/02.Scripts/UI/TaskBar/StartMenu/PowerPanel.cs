@@ -32,7 +32,7 @@ public class PowerPanel : MonoUI
     {
         agreeBtn.onClick.AddListener(Define.GameQuit);
         cancelBtn.onClick.AddListener(Close);
-        EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
     private void CheckClose(object[] hits)
@@ -46,7 +46,7 @@ public class PowerPanel : MonoUI
 
     public void Show()
     {
-        EventManager.TriggerEvent(EEvent.ActivePowerPanel, new object[1] { true });
+        EventManager.TriggerEvent(EWindowEvent.ActivePowerPanel, new object[1] { true });
         SetActive(true);
         isOpen = true;
     }
@@ -61,7 +61,7 @@ public class PowerPanel : MonoUI
     private IEnumerator CloseEventDelay()
     {
         yield return new WaitForEndOfFrame();
-        EventManager.TriggerEvent(EEvent.ActivePowerPanel, new object[1] { true });
+        EventManager.TriggerEvent(EWindowEvent.ActivePowerPanel, new object[1] { true });
     }
 
 }

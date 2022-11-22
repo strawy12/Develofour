@@ -53,8 +53,8 @@ public class NoticeSystem : MonoUI
 
         OnGeneratedNotice += ShowNoticePanel;
 
-        EventManager.StartListening(EEvent.ClickNoticeBtn, ToggleNotice);
-        EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
+        EventManager.StartListening(ENoticeEvent.ClickNoticeBtn, ToggleNotice);
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
  
     private void CheckClose(object[] hits)
@@ -83,7 +83,7 @@ public class NoticeSystem : MonoUI
         if (isOpen) return;
         isOpen = true;
 
-        EventManager.TriggerEvent(EEvent.OpenNoticeSystem);
+        EventManager.TriggerEvent(ENoticeEvent.OpenNoticeSystem);
 
         SetActive(true);
         

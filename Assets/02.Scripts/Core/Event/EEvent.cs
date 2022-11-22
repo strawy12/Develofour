@@ -17,6 +17,7 @@ public enum EWindowEvent
     None = -1,
     ClickNoticeBtn,
     ActivePowerPanel,
+    ExpendMenu,
 }
 
 public enum ENoticeEvent

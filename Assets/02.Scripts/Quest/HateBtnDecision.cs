@@ -8,7 +8,7 @@ public class HateBtnDecision : Decision
 
     public override void Init()
     {
-        EventManager.StartListening(EEvent.ClickHateBtn, ClickHateBtn);
+        EventManager.StartListening(EYoutubeSiteEvent.ClickHateBtn, ClickHateBtn);
     }
 
     private void ClickHateBtn(object[] emptyParam)
@@ -17,7 +17,7 @@ public class HateBtnDecision : Decision
         isClickHateBtn = true;
 
         OnChangedValue?.Invoke();
-        EventManager.StopListening(EEvent.ClickHateBtn, ClickHateBtn);
+        EventManager.StopListening(EYoutubeSiteEvent.ClickHateBtn, ClickHateBtn);
     }
 
     public override bool CheckDecision()

@@ -7,7 +7,7 @@ public class MenuAttributeMenu : MenuAttributePanel, IPointerClickHandler
 {
     public void OnPointerClick(PointerEventData eventData)
     {
-        EventManager.TriggerEvent(EEvent.ExpendMenu);
+        EventManager.TriggerEvent(EWindowEvent.ExpendMenu);
     }
 
 }

@@ -12,7 +12,7 @@ public class FavoriteBar : MonoBehaviour
 
     public void Init()
     {
-        EventManager.StartListening(EEvent.AddFavoriteSite, AddFavoritesButton);
+        EventManager.StartListening(EBrowserEvent.AddFavoriteSite, AddFavoritesButton);
         CreatePool();
     }
 

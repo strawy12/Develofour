@@ -23,7 +23,7 @@ public class QuestNotice : MonoBehaviour
 
         object[] ps = new object[1] { ESiteLink.Email_Received };
 
-        EventManager.TriggerEvent(EEvent.AddFavoriteSite, ps);
+        EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, ps);
         EventManager.StopListening(EQuestEvent.HateBtnClicked, HateBtnClicked);
     }
 }
