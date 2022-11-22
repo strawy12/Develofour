@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using UnityEngine.UI;
 
-public enum EMailCategory
+public enum EEmailCategory
 {
     None = -1,
     Receive,
@@ -13,26 +13,31 @@ public enum EMailCategory
     Send,
     Remove
 }
+[Serializable]
+public class MailData
+{
+    public MailDataSO mailDataSO;
+    public Mail mail;
+}
+
 
 public class EmailSite : Site
 {
-    private EMailCategory currentCategory = EMailCategory.Receive;
+    private EEmailCategory currentCategory = EEmailCategory.Receive;
 
     [SerializeField]
-    private List<Mail> baseMailDataList = new List<Mail>();
+    private List<MailData> mails = new List<MailData>();
 
     [SerializeField]
-    private List<GameObject> baseMailList = new List<GameObject>();
+    private List<EmailLine> baseEmailLineList = new List<EmailLine>();
+
+    private List<EmailLine> currentMailLineList = new List<EmailLine>();
 
     [SerializeField]
-    private List<MailDataSO> mailList = new List<MailDataSO>();
-    private List<GameObject> currentMailList = new List<GameObject>();
+    private EmailLine emailLinePrefab;
 
     [SerializeField]
-    private EmailLine emailPrefab;
-
-    [SerializeField]
-    private Transform emailParent;
+    private Transform emailLineParent;
 
     #region Category Buttons
     [SerializeField]
@@ -52,20 +57,17 @@ public class EmailSite : Site
         sendCategory.onClick.AddListener(ChangeSendEmail);
         removeCategory.onClick.AddListener(ChangeRemoveEmail);
 
-        //���̽� ���� ����Ʈ ��� ������Ű��
-
-        for(int i = 0; i < baseMailDataList.Count; i++)
+        for(int i = 0; i < mails.Count; i++)
         {
-            EmailLine prefab = Instantiate(emailPrefab, emailParent);
-            prefab.ChangeText(baseMailDataList[i].nameText, baseMailDataList[i].informationText, baseMailDataList[i].timeText);
-            prefab.gameObject.SetActive(false);
-            baseMailList[i] = prefab.gameObject;
+            EmailLine emailLine = Instantiate(emailLinePrefab, emailLineParent);
+            emailLine.Init(mails[i].mailDataSO, mails[i].mail);
+            emailLine.gameObject.SetActive(false);
+            baseEmailLineList.Add(emailLine);
         }
 
         base.Init();
         ShowMail();
         ChangeEmailCategory(currentCategory);
-        //TODO : Ǯ������
     }
 
     void Start()
@@ -76,69 +78,67 @@ public class EmailSite : Site
     #region Category Button Function
     private void ChangeReceiveEmail()
     {
-        currentCategory = EMailCategory.Receive;
+        currentCategory = EEmailCategory.Receive;
         ChangeEmailCategory(currentCategory);
     }
     private void ChangeHighlightEmail()
     {
-        currentCategory = EMailCategory.Highlighted;
+        currentCategory = EEmailCategory.Highlighted;
         ChangeEmailCategory(currentCategory);
     }
     private void ChangeSendEmail()
     {
-        currentCategory = EMailCategory.Send;
+        currentCategory = EEmailCategory.Send;
         ChangeEmailCategory(currentCategory);
     }
     private void ChangeRemoveEmail()
     {
-        currentCategory = EMailCategory.Remove;
+        currentCategory = EEmailCategory.Remove;
         ChangeEmailCategory(currentCategory);
     }
     #endregion
 
-    // ���� ��ġ�� �������ֱ�
     private void SuccessLogin(object o)
     {
         EventManager.StopListening(EQuestEvent.LoginGoogle, SuccessLogin);
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin = true;
     }
 
-    private void ChangeEmailCategory(EMailCategory category)
+    private void ChangeEmailCategory(EEmailCategory category)
     {
         switch(category)
         {
-            case EMailCategory.Receive:
+            case EEmailCategory.Receive:
                 {
-                    PushMail();
-                    currentMailList = baseMailList
-                        .Where(n => n.GetComponent<Mail>().mailType == EMailType.Receive).ToList();
+                    HideMail();
+                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive).ToList();
+                    ShowMail(); 
+                }
+                break;
+
+            case EEmailCategory.Highlighted:
+                {
+                    HideMail();
+                    currentMailLineList = baseEmailLineList
+                        .Where(n => n.emailCategory == EEmailCategory.Receive && n.IsHighrighted == true).ToList();
                     ShowMail();
                 }
                 break;
 
-            case EMailCategory.Highlighted:
+            case EEmailCategory.Send:
                 {
-                    PushMail();
-                    currentMailList = baseMailList
-                        .Where(n => n.GetComponent<Mail>().mailType == EMailType.Receive && n.GetComponent<Mail>().isHighlighted == true).ToList();
+                    HideMail();
+                    currentMailLineList = baseEmailLineList
+                        .Where(n => n.emailCategory == EEmailCategory.Send).ToList();
                     ShowMail();
                 }
                 break;
 
-            case EMailCategory.Send:
+            case EEmailCategory.Remove:
                 {
-                    PushMail();
-                    currentMailList = baseMailList
-                        .Where(n => n.GetComponent<Mail>().mailType == EMailType.Send).ToList();
-                    ShowMail();
-                }
-                break;
-
-            case EMailCategory.Remove:
-                {
-                    PushMail();
-                    currentMailList = baseMailList
-                        .Where(n => n.GetComponent<Mail>().mailType == EMailType.Remove).ToList();
+                    HideMail();
+                    currentMailLineList = baseEmailLineList
+                        .Where(n => n.emailCategory == EEmailCategory.Remove).ToList();
                     ShowMail();
                 }
                 break;
@@ -147,24 +147,20 @@ public class EmailSite : Site
 
     private void ShowMail()
     {
-        for (int i = 0; i < currentMailList.Count; i++)
+        for (int i = 0; i < currentMailLineList.Count; i++)
         {
-            currentMailList[i].SetActive(true);
+            currentMailLineList[i].gameObject.SetActive(true);
         }
-        currentMailList.Clear();
+        currentMailLineList.Clear();
     }
 
-    private void PushMail()
+    private void HideMail()
     {
-        for(int i = 0; i < baseMailList.Count; i++)
+        foreach(EmailLine emailLine in baseEmailLineList)
         {
-            EmailLine prefab = Instantiate(emailPrefab, emailParent);
-            prefab.ChangeText(mailList[i].nameText, mailList[i].informationText, mailList[i].timeText, mailList[i].mailObject);
-
-            baseMailList[i].SetActive(false);
+            emailLine.gameObject.SetActive(false);
         }
     }
-
     protected override void HideSite()
     {
         base.HideSite();
