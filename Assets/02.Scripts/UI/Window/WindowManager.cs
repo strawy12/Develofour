@@ -31,7 +31,8 @@ public class WindowManager : MonoSingleton<WindowManager>
             List<RaycastResult> hits = new List<RaycastResult>();
             EventSystem.current.RaycastAll(data, hits);
 
-            EventManager.TriggerEvent(EEvent.LeftButtonClick, hits);
+            object[] ps = new object[1] { hits };
+            EventManager.TriggerEvent(EEvent.LeftButtonClick, ps);
 
             if (selectedObject == null) return;
 

@@ -113,18 +113,24 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
+    private void NoticeStopEvent(object[] ps)
+    {
+        ImmediatelyStop();
+    }
+
+
     private void OnEnable()
     {
-        EventManager.StartListening(EEvent.OpenNoticeSystem, (obj) => ImmediatelyStop());
+        EventManager.StartListening(EEvent.OpenNoticeSystem, NoticeStopEvent);
     }
 
     private void OnDisable()
     {
-        EventManager.StartListening(EEvent.OpenNoticeSystem, (obj) => ImmediatelyStop());
+        EventManager.StartListening(EEvent.OpenNoticeSystem, NoticeStopEvent);
     }
 
     private void OnDestroy()
     {
-        EventManager.StopListening(EEvent.OpenNoticeSystem, (obj) => ImmediatelyStop());
+        EventManager.StopListening(EEvent.OpenNoticeSystem, NoticeStopEvent);
     }
 }

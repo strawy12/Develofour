@@ -46,7 +46,7 @@ public class PowerPanel : MonoUI
 
     public void Show()
     {
-        EventManager.TriggerEvent(EEvent.ActivePowerPanel, true);
+        EventManager.TriggerEvent(EEvent.ActivePowerPanel, new object[1] { true });
         SetActive(true);
         isOpen = true;
     }
@@ -61,8 +61,7 @@ public class PowerPanel : MonoUI
     private IEnumerator CloseEventDelay()
     {
         yield return new WaitForEndOfFrame();
-        EventManager.TriggerEvent(EEvent.ActivePowerPanel, false);
+        EventManager.TriggerEvent(EEvent.ActivePowerPanel, new object[1] { true });
     }
-
 
 }
