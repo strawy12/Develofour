@@ -4,20 +4,13 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class A : MonoBehaviour, IPoolable
-{
-    public void Reset()
-    {
-    }
-}
-
 public class PoolManager : MonoSingleton<PoolManager>
 {
     private Dictionary<Type, object> pools = new Dictionary<Type, object>();
 
-    public void CreatePool<T>(T prefab, Transform parent, int count = 10) where T : MonoBehaviour, IPoolable
+    public void CreatePool<T>(T prefab, Transform parent, int amount = 10) where T : MonoBehaviour, IPoolable
     {
-        Pool<T> pool = new Pool<T>(prefab, parent);
+        Pool<T> pool = new Pool<T>(prefab, parent, amount);
         pools.Add(typeof(T), pool);
     }
 
