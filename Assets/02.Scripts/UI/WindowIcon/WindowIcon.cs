@@ -16,7 +16,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Sprite sprite;
 
     [SerializeField]
-    private Window targetWindowTemp;
+    private WindowDataSO windowData;
     [SerializeField]
     private Image iconImage;
     [SerializeField]
@@ -64,7 +64,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
                 if (targetWindow == null)
                 {
-                    CreateWindow();
+                    OpenWindow();
                     //TaskBar.OnAddIcon?.Invoke(targetWindow);
                 }
                 else
@@ -87,13 +87,14 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
     }
 
-    private void CreateWindow()
+    private void OpenWindow()
     {
-        targetWindow = Instantiate(targetWindowTemp, Define.WindowCanvasTrm);
-        targetWindow.CreatedWindow();
-
-        targetWindow.OnClosed += (int x) => targetWindow = null;  
-        
+        targetWindow = WindowManager.Inst.GetWindow(windowData.windowType, windowData.windowTitleID);
+        if (targetWindow == null)
+        {
+            targetWindow = WindowManager.Inst.CreateWindow(windowData.windowType, windowData.windowTitleID);
+        }
+        targetWindow.WindowOpen();
     }
 
     private void SelectedIcon(bool isSelected)

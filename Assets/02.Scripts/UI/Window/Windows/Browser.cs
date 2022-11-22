@@ -21,6 +21,7 @@ public enum ESiteLink
 
 public class Browser : Window
 {
+    public static Browser currentBrowser;
     private Dictionary<ESiteLink, Site> siteDictionary = new Dictionary<ESiteLink, Site>();
 
     private Site usingSite;
@@ -33,9 +34,6 @@ public class Browser : Window
     [SerializeField] private BrowserBar browserBar;
     [SerializeField] private LoadingBar loadingBar;
 
-    public static Action<ESiteLink, float> OnOpenSite;
-    public static Action OnUndoSite;
-
     void Awake()
     {
         Init();
@@ -46,6 +44,7 @@ public class Browser : Window
         EventManager.TriggerEvent(EWindowEvent.ActivePowerPanel);
         BindingStart();
     }
+
     protected override void Init()
     {
         base.Init();
@@ -55,16 +54,17 @@ public class Browser : Window
 
         windowData.windowTitleID = 1;
 
-        OnUndoSite += UndoSite;
-        OnOpenSite += ChangeSite;
+        //OnUndoSite += UndoSite;
+        //OnOpenSite += ChangeSite;
+        OnSelected += SelectedBrowser;
+
         OnClosed += (a) => ResetBrowser();
+
         browserBar.Init();
         browserBar.OnClose?.AddListener(WindowClose);
         browserBar.OnUndo?.AddListener(UndoSite);
         browserBar.OnRedo?.AddListener(RedoSite);
     }
-
-
 
     private void BindingStart()
     {
@@ -84,7 +84,6 @@ public class Browser : Window
         {
             ChangeSite(site, loadDelay);
         }
-
         else
         {
             Debug.LogError($"SiteDictionary의 값 중에 {eSiteLink}을 키로 갖는 값이 존재하지 않습니다.");
@@ -130,7 +129,6 @@ public class Browser : Window
         Site beforeSite = ChangeSite(currentSite, Constant.LOADING_DELAY);
         redoSite.Push(beforeSite); // 앞으로 갈 사이트는 사용하던 사이트 
                                    // 뒤로 갈 사이트는 undosite의 top
-
     }
 
     public void RedoSite()
@@ -149,5 +147,10 @@ public class Browser : Window
 
         undoSite.Clear();
         redoSite.Clear();
+    }
+
+    public void SelectedBrowser()
+    {
+        currentBrowser = this;
     }
 }

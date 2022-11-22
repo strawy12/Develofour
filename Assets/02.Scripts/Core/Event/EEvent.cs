@@ -5,6 +5,7 @@ public enum ECoreEvent
     ChangeBGM,
     OpenTextBox,
 }
+
 public enum EQuestEvent
 {
     None = -1,
@@ -31,6 +32,8 @@ public enum ENoticeEvent
 public enum EBrowserEvent
 {
     None = -1,
+    OnOpenSite,
+    OnUndoSite,
     AddFavoriteSite,
 }
 
