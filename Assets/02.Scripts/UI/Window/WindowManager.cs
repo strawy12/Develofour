@@ -4,30 +4,33 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-
 public class WindowManager : MonoSingleton<WindowManager>
 {
-    private Dictionary<System.Enum, List<Window>> windowDictionary = new Dictionary<System.Enum, List<Window>>();
+    private Dictionary<EWindowType, List<Window>> windowDictionary = new Dictionary<EWindowType, List<Window>>();
     private List<Window> windowPrefab = new List<Window>();
 
-    public Window GetWindow(System.Enum windowEnum, int titleId)
+    public Window GetWindow(EWindowType windowEnum, int titleId)
     {
-        return null;
+        return windowDictionary[windowEnum].Find((x) => x.WindowData.windowTitleID == titleId);
     }
 
-    public bool IsExistWindow(System.Enum windowEnum)
+    public bool IsExistWindow(EWindowType windowEnum)
     {
-        return false;
+        return windowDictionary.ContainsKey(windowEnum);
     }
 
-    public void CreateWindow(System.Enum windowEnum, int titleId) 
+    public Window CreateWindow(EWindowType windowEnum, int titleId) 
     {
-
+        var prefab = from window in windowPrefab
+                     where window.WindowData.windowType == windowEnum
+                     && window.WindowData.windowTitleID == titleId
+                     select window;
+        return prefab.FirstOrDefault();
     }
 
-    public Window GetWindowPrefab(System.Enum windowEnum, int titleId)
+    public Window GetWindowPrefab(EWindowType windowEnum, int titleId)
     {
-        return null;
+        return windowPrefab.Find((x) => x.WindowData.windowTitleID == titleId);
     }
 
     private ISelectable selectedObject = null;
