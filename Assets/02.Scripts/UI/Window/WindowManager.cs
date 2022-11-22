@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-
 public class WindowManager : MonoSingleton<WindowManager>
 {
     private ISelectable selectedObject = null;

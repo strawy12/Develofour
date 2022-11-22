@@ -66,8 +66,6 @@ public class Browser : Window
         browserBar.OnRedo?.AddListener(RedoSite);
     }
 
-
-
     private void BindingStart()
     {
         for (int i = 0; i < siteParent.childCount; i++)
@@ -86,7 +84,6 @@ public class Browser : Window
         {
             ChangeSite(site, loadDelay);
         }
-
         else
         {
             Debug.LogError($"SiteDictionary의 값 중에 {eSiteLink}을 키로 갖는 값이 존재하지 않습니다.");
@@ -132,7 +129,6 @@ public class Browser : Window
         Site beforeSite = ChangeSite(currentSite, Constant.LOADING_DELAY);
         redoSite.Push(beforeSite); // 앞으로 갈 사이트는 사용하던 사이트 
                                    // 뒤로 갈 사이트는 undosite의 top
-
     }
 
     public void RedoSite()

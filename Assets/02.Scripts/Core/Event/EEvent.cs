@@ -30,6 +30,8 @@ public enum ENoticeEvent
 public enum EBrowserEvent
 {
     None = -1,
+    OnOpenSite,
+    OnUndoSite,
     AddFavoriteSite,
 }
 
