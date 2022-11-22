@@ -7,6 +7,29 @@ using UnityEngine.EventSystems;
 
 public class WindowManager : MonoSingleton<WindowManager>
 {
+    private Dictionary<System.Enum, List<Window>> windowDictionary = new Dictionary<System.Enum, List<Window>>();
+    private List<Window> windowPrefab = new List<Window>();
+
+    public Window GetWindow(System.Enum windowEnum, int titleId)
+    {
+        return null;
+    }
+
+    public bool IsExistWindow(System.Enum windowEnum)
+    {
+        return false;
+    }
+
+    public void CreateWindow(System.Enum windowEnum, int titleId) 
+    {
+
+    }
+
+    public Window GetWindowPrefab(System.Enum windowEnum, int titleId)
+    {
+        return null;
+    }
+
     private ISelectable selectedObject = null;
 
     public void SelectObject(ISelectable target)
