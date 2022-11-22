@@ -41,7 +41,8 @@ public class GmailLoginSite : Site
             Debug.Log("로그인 성공");
             EventManager.TriggerEvent(EQuestEvent.LoginGoogle);
 
-            Browser.OnUndoSite?.Invoke();
+            // TODO : UndoSite 하고하세요 
+            // Browser.OnUndoSite?.Invoke();
             // 여기서 다음 페이지로 넘어가는 코드 넣기
         }
         else

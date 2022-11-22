@@ -9,7 +9,6 @@ public class WindowManager : MonoSingleton<WindowManager>
     private Dictionary<EWindowType, List<Window>> windowDictionary = new Dictionary<EWindowType, List<Window>>();
     private List<Window> windowPrefab = new List<Window>();
 
-<<<<<<< HEAD
     private void Start()
     {
         EventManager.StartListening(EBrowserEvent.OnOpenSite, CheckBrowserWindow);
@@ -49,6 +48,7 @@ public class WindowManager : MonoSingleton<WindowManager>
                      where window.WindowData.windowType == windowEnum
                      && window.WindowData.windowTitleID == titleId
                      select window;
+
         return prefab.FirstOrDefault();
     }
 
