@@ -11,7 +11,7 @@ public class GoogleLoginDecision : Decision
         EventManager.StartListening(EEvent.LoginGoogle, SuccessLogin);
     }
 
-    private void SuccessLogin(object obj)
+    private void SuccessLogin(object[] obj)
     {
         successLogin = true;
         OnChangedValue?.Invoke();

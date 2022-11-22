@@ -9,18 +9,18 @@ public abstract class CutScene : MonoBehaviour
 
     void Start()
     {
-        EventManager.StartListening(EEvent.ShowCutScene, CheckStart);
+        EventManager.StartListening(ECutSceneEvent.ShowCutScene, CheckStart);
     }
 
-    private void CheckStart(object param)
+    private void CheckStart(object[] param)
     {
         if (isPlaying) return;
-        if (param == null || !(param is Type))
+        if (param == null || !(param[0] is Type))
         {
             return;
         }
 
-        if (GetType() != (Type)param)
+        if (GetType() != (Type)param[0])
         {
             return;
         }
@@ -31,7 +31,7 @@ public abstract class CutScene : MonoBehaviour
 
     protected virtual void StartCutScene()
     {
-        EventManager.StartListening(EEvent.SkipCutScene, SkipCutScene);
+        EventManager.StartListening(ECutSceneEvent.SkipCutScene, SkipCutScene);
 
         gameObject.SetActive(true);
         isPlaying = true;
@@ -40,13 +40,13 @@ public abstract class CutScene : MonoBehaviour
 
     protected virtual void EndCutScene()
     {
-        EventManager.StopListening(EEvent.SkipCutScene, SkipCutScene);
+        EventManager.StopListening(ECutSceneEvent.SkipCutScene, SkipCutScene);
         isPlaying = false;
         GameManager.Inst.ChangeGameState(EGameState.Game);
         gameObject.SetActive(false);
     }
 
-    private void SkipCutScene(object o)
+    private void SkipCutScene(object[] o)
     {
         StopAllCoroutines();
         EndCutScene();

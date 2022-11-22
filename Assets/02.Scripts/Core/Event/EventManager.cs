@@ -11,19 +11,20 @@ public class EventManager
     {
         Action<object[]> thisEvent;
         string key = $"{typeof(T).ToString()}_{eventName.ToString()}";
-
-        if (eventDictionary.TryGetValue(key, out thisEvent))
         {
-            thisEvent += listener;
-            eventDictionary[key] = thisEvent;
-        }
 
-        else
-        {
-            eventDictionary.Add(key, listener);
+            if (eventDictionary.TryGetValue(key, out thisEvent))
+            {
+                thisEvent += listener;
+                eventDictionary[key] = thisEvent;
+            }
+
+            else
+            {
+                eventDictionary.Add(key, listener);
+            }
         }
     }
-
 
     public static void StopListening<T>(T eventName, Action<object[]> listener) where T : Enum
     {
@@ -41,8 +42,6 @@ public class EventManager
             eventDictionary.Remove(key);
         }
     }
-
-
     public static void TriggerEvent<T>(T eventName, object[] param = null) where T : Enum
     {
         Action<object[]> thisEvent;
@@ -53,6 +52,7 @@ public class EventManager
             thisEvent?.Invoke(param);
         }
     }
+
 }
 
 

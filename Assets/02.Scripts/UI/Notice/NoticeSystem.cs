@@ -57,7 +57,7 @@ public class NoticeSystem : MonoUI
         EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
     }
  
-    private void CheckClose(object hits)
+    private void CheckClose(object[] hits)
     {
         if (isOpen == false) return;
         if (Define.ExistInHits(gameObject, hits) == false)
@@ -66,7 +66,7 @@ public class NoticeSystem : MonoUI
         }
     }
 
-    private void ToggleNotice(object obj)
+    private void ToggleNotice(object[] obj)
     {
         if(isOpen)
         {

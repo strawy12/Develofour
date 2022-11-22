@@ -24,7 +24,7 @@ public class TextBox : MonoUI
 
     private void Start()
     {
-        EventManager.StartListening(EEvent.OpenTextBox, Init);
+        EventManager.StartListening(ECoreEvent.OpenTextBox, Init);
     }
 
     private void Update()
@@ -44,14 +44,14 @@ public class TextBox : MonoUI
         }
     }
 
-    private void Init(object param)
+    private void Init(object[] param)
     {
-        if (param == null || !(param is ETextDataType))
+        if (param == null || !(param[0] is ETextDataType))
         {
             return;
         }
 
-        Init((ETextDataType)param);
+        Init((ETextDataType)param[0]);
         ShowBox();
         PrintText();
     }

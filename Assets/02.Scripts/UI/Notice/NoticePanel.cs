@@ -39,7 +39,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         Bind();
         OnCompeleted += (x) => Compelete();
-        EventManager.StartListening(EEvent.OpenNoticeSystem, (obj) => ImmediatelyStop());
+        EventManager.StartListening(ENoticeEvent.OpenNoticeSystem, (obj) => ImmediatelyStop());
     }
 
     public void Notice(NoticeData data)
@@ -54,7 +54,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         Vector2 pos = new Vector2(rectTransform.rect.width, NOTICE_POS.y);
         rectTransform.anchoredPosition = pos;
 
-        EventManager.TriggerEvent(EEvent.GeneratedNotice);
+        EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
         rectTransform.DOAnchorPosX(NOTICE_POS.x, NOTICE_DURATION);
 
         StartCoroutine(NoticeCoroutine());
@@ -121,16 +121,16 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private void OnEnable()
     {
-        EventManager.StartListening(EEvent.OpenNoticeSystem, NoticeStopEvent);
+        EventManager.StartListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }
 
     private void OnDisable()
     {
-        EventManager.StartListening(EEvent.OpenNoticeSystem, NoticeStopEvent);
+        EventManager.StartListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }
 
     private void OnDestroy()
     {
-        EventManager.StopListening(EEvent.OpenNoticeSystem, NoticeStopEvent);
+        EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }
 }

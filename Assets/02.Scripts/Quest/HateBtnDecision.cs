@@ -11,7 +11,7 @@ public class HateBtnDecision : Decision
         EventManager.StartListening(EEvent.ClickHateBtn, ClickHateBtn);
     }
 
-    private void ClickHateBtn(object emptyParam)
+    private void ClickHateBtn(object[] emptyParam)
     {
         if (isClickHateBtn) { return; }
         isClickHateBtn = true;

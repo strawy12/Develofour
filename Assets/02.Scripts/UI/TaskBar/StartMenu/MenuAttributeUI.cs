@@ -41,7 +41,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         EventManager.StartListening(EEvent.ExpendMenu, ToggleMenu);
         EventManager.StartListening(EEvent.ActivePowerPanel, (obj) =>
         {
-            isStop = (bool)obj;
+            isStop = (bool)obj[0];
 
             if (isStop)
             {
@@ -57,7 +57,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
     }
-    private void CheckClose(object hits)
+    private void CheckClose(object[] hits)
     {
         if(isStop) { return; }
         if (!isOpen) { return; }
@@ -184,7 +184,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         isExpand = false;
     }
 
-    private void ToggleMenu(object obj)
+    private void ToggleMenu(object[] obj)
     {
         if (isExpand)
         {
