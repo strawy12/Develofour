@@ -20,9 +20,9 @@ public class BGMPlayer : SoundPlayer
         }
     }
 
-    private void CheckStopBGM(object soundID)
+    private void CheckStopBGM(object[] soundID)
     {
-        if (!(soundID is int) && (int)soundID != this.soundID) return;
+        if (!(soundID[0] is int) && (int)soundID[0] != this.soundID) return;
 
         ImmediatelyStop();
     }

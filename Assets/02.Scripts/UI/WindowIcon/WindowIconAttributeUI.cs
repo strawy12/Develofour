@@ -30,7 +30,7 @@ public class WindowIconAttributeUI : MonoUI
         OnCreateMenu += CreateMenu;
     }
 
-    private void CheckClose(object hits)
+    private void CheckClose(object[] hits)
     {
         if (!isOpen) return;
 

@@ -14,7 +14,7 @@ public class QuestNotice : MonoBehaviour
         EventManager.StartListening(EQuestEvent.HateBtnClicked, HateBtnClicked);
     }
 
-    private void HateBtnClicked(object emptyParam)
+    private void HateBtnClicked(object[] emptyParam)
     {
         NoticeData data = new NoticeData();
         data.head = "경찰 출두장 메일 확인하기";

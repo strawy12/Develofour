@@ -44,14 +44,14 @@ public class TextBox : MonoUI
         }
     }
 
-    private void Init(object param)
+    private void Init(object[] param)
     {
         if (param == null || !(param is ETextDataType))
         {
             return;
         }
 
-        Init((ETextDataType)param);
+        Init((ETextDataType)param[0]);
         ShowBox();
         PrintText();
     }

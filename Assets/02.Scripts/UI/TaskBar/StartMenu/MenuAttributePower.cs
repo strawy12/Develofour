@@ -12,7 +12,7 @@ public class MenuAttributePower : MenuAttributePanel, IPointerClickHandler
 
     protected override void Init()
     {
-        EventManager.StartListening(EEvent.ActivePowerPanel, (obj) => isClick = (bool)obj);
+        EventManager.StartListening(EEvent.ActivePowerPanel, (obj) => isClick = (bool)obj[0]);
         base.Init();    
     }
 

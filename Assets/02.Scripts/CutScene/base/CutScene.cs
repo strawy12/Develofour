@@ -12,15 +12,15 @@ public abstract class CutScene : MonoBehaviour
         EventManager.StartListening(EEvent.ShowCutScene, CheckStart);
     }
 
-    private void CheckStart(object param)
+    private void CheckStart(object[] param)
     {
         if (isPlaying) return;
-        if (param == null || !(param is Type))
+        if (param == null || !(param[0] is Type))
         {
             return;
         }
 
-        if (GetType() != (Type)param)
+        if (GetType() != (Type)param[0])
         {
             return;
         }
@@ -46,7 +46,7 @@ public abstract class CutScene : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void SkipCutScene(object o)
+    private void SkipCutScene(object[] o)
     {
         StopAllCoroutines();
         EndCutScene();

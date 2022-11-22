@@ -37,10 +37,10 @@ public class FavoriteBar : MonoBehaviour
         button.gameObject.SetActive(false);
     }
 
-    public void AddFavoritesButton(object param)
+    public void AddFavoritesButton(object[] param)
     {
-        if (param == null || !(param is ESiteLink)) return;
-        ESiteLink siteLink = (ESiteLink)param;
+        if (param == null || !(param[0] is ESiteLink)) return;
+        ESiteLink siteLink = (ESiteLink)param[0];
         foreach (FavoriteButton favoriteButton in favoritesList)
         {
             if (favoriteButton.SiteLink == siteLink)
