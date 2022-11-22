@@ -5,6 +5,7 @@ public enum ECoreEvent
     ChangeBGM,
     OpenTextBox,
 }
+
 public enum EQuestEvent
 {
     None = -1,

@@ -6,8 +6,31 @@ using UnityEngine.EventSystems;
 
 public class WindowManager : MonoSingleton<WindowManager>
 {
-    private Dictionary<System.Enum, List<Window>> windowDictionary = new Dictionary<System.Enum, List<Window>>();
+    private Dictionary<EWindowType, List<Window>> windowDictionary = new Dictionary<EWindowType, List<Window>>();
     private List<Window> windowPrefab = new List<Window>();
+
+    private void Start()
+    {
+        EventManager.StartListening(EBrowserEvent.OnOpenSite, CheckBrowserWindow);
+    }
+
+    public void CheckBrowserWindow(object[] ps)
+    {
+        if(windowDictionary.ContainsKey(EWindowType.Browser))
+        {
+            if(windowDictionary[EWindowType.Browser].Count > 0)
+            {
+                Browser.currentBrowser?.ChangeSite((ESiteLink)ps[0], (float)ps[1]);
+            }
+            else
+            {
+                Window window = CreateWindow(EWindowType.Browser, 0);
+                Browser browser = (Browser)window;
+                
+                browser.ChangeSite((ESiteLink)ps[0], (float)ps[1]);
+            }
+        }
+    }
 
     public Window GetWindow(System.Enum windowEnum, int titleId)
     {
@@ -19,9 +42,9 @@ public class WindowManager : MonoSingleton<WindowManager>
         return false;
     }
 
-    public void CreateWindow(System.Enum windowEnum, int titleId) 
+    public Window CreateWindow(EWindowType windowEnum, int titleId) 
     {
-
+        return null;
     }
 
     public Window GetWindowPrefab(System.Enum windowEnum, int titleId)
