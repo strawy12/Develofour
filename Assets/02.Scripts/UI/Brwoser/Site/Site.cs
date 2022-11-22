@@ -41,7 +41,7 @@ public abstract class Site : MonoUI
 
     protected virtual void ResetSite()
     {
-        EventManager.StopListening(EEvent.ResetSite, SiteStopEvent);
+        EventManager.StopListening(ESiteEvent.ResetSite, SiteStopEvent);
         isSubscribe = false;    
     }
 
@@ -54,7 +54,7 @@ public abstract class Site : MonoUI
     {
         if(!isSubscribe)
         {
-            EventManager.StartListening(EEvent.ResetSite, (x) => ResetSite());
+            EventManager.StartListening(ESiteEvent.ResetSite, (x) => ResetSite());
             isSubscribe = true;
         }
     }

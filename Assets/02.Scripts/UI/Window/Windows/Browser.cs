@@ -43,9 +43,7 @@ public class Browser : Window
 
     private void Start()
     {
-        Type t = typeof(EventManager);
-        var m = t.GetMethod("");
-        EventManager.TriggerEvent(EEvent.ActivePowerPanel);
+        EventManager.TriggerEvent(EWindowEvent.ActivePowerPanel);
         BindingStart();
     }
     protected override void Init()

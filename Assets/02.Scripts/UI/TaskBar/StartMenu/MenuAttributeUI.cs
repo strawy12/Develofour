@@ -38,8 +38,8 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
             btn.OnEnter += OnPointerEnter;
         }
 
-        EventManager.StartListening(EEvent.ExpendMenu, ToggleMenu);
-        EventManager.StartListening(EEvent.ActivePowerPanel, (obj) =>
+        EventManager.StartListening(EWindowEvent.ExpendMenu, ToggleMenu);
+        EventManager.StartListening(EWindowEvent.ActivePowerPanel, (obj) =>
         {
             isStop = (bool)obj[0];
 
@@ -49,7 +49,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
             }
         });
 
-        EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
     private void Bind()

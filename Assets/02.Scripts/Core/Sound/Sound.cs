@@ -51,7 +51,7 @@ public partial class Sound : MonoBehaviour
 
         if(soundID < (int)EBgm.Count)
         {
-            EventManager.TriggerEvent(EEvent.ChangeBGM, ps);
+            EventManager.TriggerEvent(ECoreEvent.ChangeBGM, ps);
         }
 
         SoundPlayer soundPlayer = null;

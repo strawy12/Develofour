@@ -22,7 +22,7 @@ public class TargetWindowPanels : MonoBehaviour, IPointerEnterHandler,IPointerEx
     }
     public void Init()
     {
-        EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
 
     }
 

@@ -26,7 +26,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            EventManager.TriggerEvent(EEvent.SkipCutScene);
+            EventManager.TriggerEvent(ECutSceneEvent.SkipCutScene);
         }
 
         if (Input.GetKeyDown(KeyCode.V))

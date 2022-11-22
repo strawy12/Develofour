@@ -26,7 +26,7 @@ public class WindowIconAttributeUI : MonoUI
         canvasGroup ??= GetComponent<CanvasGroup>();
         rectTransform ??= GetComponent<RectTransform>();
 
-        EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
         OnCreateMenu += CreateMenu;
     }
 

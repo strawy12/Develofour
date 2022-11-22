@@ -19,7 +19,7 @@ public class TaskIconAttribute : MonoBehaviour
 
     public void Init()
     {
-        EventManager.StartListening(EEvent.LeftButtonClick, CheckClose);
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
         openButton.onClick.AddListener(() => OnCloseTaskIcon?.Invoke());
         closeButton.onClick.AddListener(() => OnOpenWindow?.Invoke());
     }

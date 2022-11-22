@@ -32,7 +32,7 @@ public class WindowManager : MonoSingleton<WindowManager>
             EventSystem.current.RaycastAll(data, hits);
 
             object[] ps = new object[1] { hits };
-            EventManager.TriggerEvent(EEvent.LeftButtonClick, ps);
+            EventManager.TriggerEvent(ECoreEvent.LeftButtonClick, ps);
 
             if (selectedObject == null) return;
 
