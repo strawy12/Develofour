@@ -43,6 +43,9 @@ public class Browser : Window
 
     private void Start()
     {
+        Type t = typeof(EventManager);
+        var m = t.GetMethod("");
+        EventManager.TriggerEvent(EEvent.ActivePowerPanel);
         BindingStart();
     }
     protected override void Init()
@@ -79,7 +82,7 @@ public class Browser : Window
     {
         Site site = null;
 
-        if(siteDictionary.TryGetValue(eSiteLink, out site))
+        if (siteDictionary.TryGetValue(eSiteLink, out site))
         {
             ChangeSite(site, loadDelay);
         }
@@ -92,7 +95,7 @@ public class Browser : Window
 
     public Site ChangeSite(Site site, float loadDelay)
     {
-        if(siteDictionary.ContainsValue(site) == false)
+        if (siteDictionary.ContainsValue(site) == false)
         {
             Debug.LogError($"Dictonary에 존재하지 않는 Site가 있습니다. {site.gameObject.name}");
             return null;
@@ -143,7 +146,7 @@ public class Browser : Window
 
     public void ResetBrowser()
     {
-       // EventManager.TriggerEvent(EEvent.ResetBrowser);
+        // EventManager.TriggerEvent(EEvent.ResetBrowser);
         usingSite = null;
 
         undoSite.Clear();
