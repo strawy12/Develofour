@@ -13,6 +13,7 @@ public abstract class Mail : MonoBehaviour
 
     
     public MailDataSO MailData { get { return mailData; } }
+
     public virtual void Init(MailDataSO mailData)
     {
         this.mailData = mailData;

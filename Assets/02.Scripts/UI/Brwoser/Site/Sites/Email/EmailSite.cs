@@ -66,8 +66,8 @@ public class EmailSite : Site
         }
 
         base.Init();
-        ShowMail();
         ChangeEmailCategory(currentCategory);
+        ShowMailLine();
     }
 
     void Start()
@@ -110,42 +110,39 @@ public class EmailSite : Site
         {
             case EEmailCategory.Receive:
                 {
-                    HideMail();
+                    HideMailLine();
                     currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive).ToList();
-                    ShowMail(); 
+                    ShowMailLine(); 
                 }
                 break;
 
             case EEmailCategory.Highlighted:
                 {
-                    HideMail();
-                    currentMailLineList = baseEmailLineList
-                        .Where(n => n.emailCategory == EEmailCategory.Receive && n.IsHighrighted == true).ToList();
-                    ShowMail();
+                    HideMailLine();
+                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive && n.IsHighrighted == true).ToList();
+                    ShowMailLine();
                 }
                 break;
 
             case EEmailCategory.Send:
                 {
-                    HideMail();
-                    currentMailLineList = baseEmailLineList
-                        .Where(n => n.emailCategory == EEmailCategory.Send).ToList();
-                    ShowMail();
+                    HideMailLine();
+                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Send).ToList();
+                    ShowMailLine();
                 }
                 break;
 
             case EEmailCategory.Remove:
                 {
-                    HideMail();
-                    currentMailLineList = baseEmailLineList
-                        .Where(n => n.emailCategory == EEmailCategory.Remove).ToList();
-                    ShowMail();
+                    HideMailLine();
+                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Remove).ToList();
+                    ShowMailLine();
                 }
                 break;
         }
     }
 
-    private void ShowMail()
+    private void ShowMailLine()
     {
         for (int i = 0; i < currentMailLineList.Count; i++)
         {
@@ -154,21 +151,12 @@ public class EmailSite : Site
         currentMailLineList.Clear();
     }
 
-    private void HideMail()
+    private void HideMailLine()
     {
         foreach(EmailLine emailLine in baseEmailLineList)
         {
             emailLine.gameObject.SetActive(false);
         }
-    }
-    protected override void HideSite()
-    {
-        base.HideSite();
-    }
-
-    protected override void ResetSite()
-    {
-        base.ResetSite();
     }
 
     protected override void ShowSite()
@@ -189,6 +177,14 @@ public class EmailSite : Site
         }
 
         return true;
+    }
+    protected override void HideSite()
+    {
+        base.HideSite();
+    }
 
+    protected override void ResetSite()
+    {
+        base.ResetSite();
     }
 }
