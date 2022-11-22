@@ -5,50 +5,50 @@ using UnityEngine;
 
 public class EventManager
 {
-    private static Dictionary<int, Action<object[]>> eventDictionary = new Dictionary<int, Action<object[]>>();
+    private static Dictionary<string, Action<object[]>> eventDictionary = new Dictionary<string, Action<object[]>>();
 
     public static void StartListening<T>(T eventName, Action<object[]> listener) where T : Enum
     {
-        Action<object> thisEvent;
-        int eventNumber = (int)eventName;
+        Action<object[]> thisEvent;
+        string key = $"{typeof(T).ToString()}_{eventName.ToString()}";
 
-        if (eventDictionary.TryGetValue(eventNumber, out thisEvent))
+        if (eventDictionary.TryGetValue(key, out thisEvent))
         {
             thisEvent += listener;
-            eventDictionary[eventNumber] = thisEvent;
+            eventDictionary[key] = thisEvent;
         }
 
         else
         {
-            eventDictionary.Add(eventNumber, listener);
+            eventDictionary.Add(key, listener);
         }
     }
 
 
     public static void StopListening<T>(T eventName, Action<object[]> listener) where T : Enum
     {
-        Action<object> thisEvent;
-        int eventNumber = (int)eventName;
+        Action<object[]> thisEvent;
+        string key = $"{typeof(T).ToString()}_{eventName.ToString()}";
 
-        if (eventDictionary.TryGetValue(eventNumber, out thisEvent))
+        if (eventDictionary.TryGetValue(key, out thisEvent))
         {
             thisEvent -= listener;
-            eventDictionary[eventNumber] = thisEvent;
+            eventDictionary[key] = thisEvent;
         }
 
         else
         {
-            eventDictionary.Remove(eventNumber);
+            eventDictionary.Remove(key);
         }
     }
 
 
     public static void TriggerEvent<T>(T eventName, object[] param = null) where T : Enum
     {
-        Action<object> thisEvent;
-        int eventNumber = (int)eventName;
+        Action<object[]> thisEvent;
+        string key = $"{typeof(T).ToString()}_{eventName.ToString()}";
 
-        if (eventDictionary.TryGetValue(eventNumber, out thisEvent))
+        if (eventDictionary.TryGetValue(key, out thisEvent))
         {
             thisEvent?.Invoke(param);
         }
