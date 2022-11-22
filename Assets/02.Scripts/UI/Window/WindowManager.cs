@@ -9,6 +9,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     private Dictionary<EWindowType, List<Window>> windowDictionary = new Dictionary<EWindowType, List<Window>>();
     private List<Window> windowPrefab = new List<Window>();
 
+<<<<<<< HEAD
     private void Start()
     {
         EventManager.StartListening(EBrowserEvent.OnOpenSite, CheckBrowserWindow);
@@ -32,24 +33,28 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
     }
 
-    public Window GetWindow(System.Enum windowEnum, int titleId)
+    public Window GetWindow(EWindowType windowEnum, int titleId)
     {
-        return null;
+        return windowDictionary[windowEnum].Find((x) => x.WindowData.windowTitleID == titleId);
     }
 
-    public bool IsExistWindow(System.Enum windowEnum)
+    public bool IsExistWindow(EWindowType windowEnum)
     {
-        return false;
+        return windowDictionary.ContainsKey(windowEnum);
     }
 
     public Window CreateWindow(EWindowType windowEnum, int titleId) 
     {
-        return null;
+        var prefab = from window in windowPrefab
+                     where window.WindowData.windowType == windowEnum
+                     && window.WindowData.windowTitleID == titleId
+                     select window;
+        return prefab.FirstOrDefault();
     }
 
-    public Window GetWindowPrefab(System.Enum windowEnum, int titleId)
+    public Window GetWindowPrefab(EWindowType windowEnum, int titleId)
     {
-        return null;
+        return windowPrefab.Find((x) => x.WindowData.windowTitleID == titleId);
     }
 
     private ISelectable selectedObject = null;
