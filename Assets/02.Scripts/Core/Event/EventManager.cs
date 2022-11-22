@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class EventManager
 {
-    private static Dictionary<int, Action<object[]>> eventDictionary = new Dictionary<int, Action<object[]>>();
+    private static Dictionary<string, Action<object[]>> eventDictionary = new Dictionary<string, Action<object[]>>();
 
     public static void StartListening<T>(T eventName, Action<object[]> listener) where T : Enum
-    {
-        Action<object> thisEvent;
-        int eventNumber = (int)eventName;
+    { 
+       
+        Action<object[]> thisEvent;
+        string eventNumber = eventName.ToString();
+
 
         if (eventDictionary.TryGetValue(eventNumber, out thisEvent))
         {
@@ -53,6 +55,7 @@ public class EventManager
             thisEvent?.Invoke(param);
         }
     }
+
 }
 
 
