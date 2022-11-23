@@ -11,6 +11,8 @@ public static class Constant
 
     public static readonly Vector2 NOTICE_POS = new Vector2(-17.5f, -400f);
     
+    public static readonly float NOTICEDRAG_INTERVAL = -45f;
+
     public static readonly float NOTICE_DELAYTIME = 5f;
     public static readonly float NOTICE_DURATION = 0.5f;
 

@@ -22,9 +22,10 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public Action<NoticePanel> OnCompeleted;
 
-
     private RectTransform rectTransform;
     private Image backgroundImage;
+
+    private TouchDragNotice dragNotice;
 
     private bool isEnter;
 
@@ -33,12 +34,17 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         canvasGroup ??= GetComponent<CanvasGroup>();
         rectTransform ??= GetComponent<RectTransform>();
         backgroundImage ??= GetComponent<Image>();
+
+        dragNotice ??= GetComponent<TouchDragNotice>();
     }
 
     public void Init()
     {
         Bind();
         OnCompeleted += (x) => Compelete();
+        
+        dragNotice.OnDragNotice += () => OnCompeleted?.Invoke(this);
+
         EventManager.StartListening(ENoticeEvent.OpenNoticeSystem, (obj) => ImmediatelyStop());
     }
 
@@ -120,7 +126,6 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         ImmediatelyStop();
     }
 
-
     private void OnEnable()
     {
         EventManager.StartListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
@@ -128,6 +133,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private void OnDisable()
     {
+
         EventManager.StartListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }
 
