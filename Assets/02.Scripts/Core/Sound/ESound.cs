@@ -33,9 +33,11 @@ public partial class Sound : MonoBehaviour
         NewsAnchorVoice_11,
         NewsAnchorVoice_12,
         #endregion
-
+        WindowAlarmSound,
+        YoutubeHateBtnSound,
+        YoutubeDefaultBtnSound,
+        
         Count
-
     }
 
 }
