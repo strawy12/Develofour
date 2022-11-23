@@ -33,7 +33,7 @@ public class EmailLine : MonoBehaviour
         this.mail = mail;
         ChangeText(mailData.nameText, mailData.informationText, mailData.timeText);
         mailButton.onClick.AddListener(ShowMail);
-        favoriteButton.onClick.AddListener(AddFavorite);
+        favoriteButton.OnClick.AddListener(AddFavorite);
     }
 
     public void ChangeText(string name, string info, string time)
