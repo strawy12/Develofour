@@ -27,7 +27,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public Action OnUnSelected { get; set; }
     
     public WindowDataSO WindowData { get { return windowData; } }
-
     private Vector3 windowPos;
 
     protected virtual void Init()

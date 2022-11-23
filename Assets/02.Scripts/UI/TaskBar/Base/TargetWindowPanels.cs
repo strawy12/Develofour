@@ -26,10 +26,10 @@ public class TargetWindowPanels : MonoBehaviour, IPointerEnterHandler,IPointerEx
 
     }
 
-    public void CheckClose(object hits)
+    public void CheckClose(object[] hits)
     {
         if (gameObject.activeSelf == false) return;
-        if(Define.ExistInHits(gameObject, hits) == false)
+        if(Define.ExistInHits(gameObject, hits[0]) == false)
         {
             isEnter = false;
             CloseTargetWindowPanelUI();

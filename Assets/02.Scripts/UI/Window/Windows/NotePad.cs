@@ -16,9 +16,6 @@ public class NotePad : Window
     [SerializeField]
     private ENotePadType notePadType;
 
-
-
-
     protected override void Init()
     {
         base.Init();

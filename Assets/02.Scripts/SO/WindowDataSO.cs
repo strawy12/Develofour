@@ -15,11 +15,11 @@ public class WindowDataSO : ScriptableObject
 {
     public EWindowType windowType;
 
-    [HideInInspector]
-    public int windowTitleID;
     public Sprite iconSprite;
+
+    public int windowTitleID;
+
     [HideInInspector]
-    
     public bool isMaximum;
     public Vector2 size;
     public Vector2 pos;

@@ -36,15 +36,12 @@ public class Browser : Window
 
     protected override void Init()
     {
-        BindingStart();
-
         base.Init();
         undoSite = new Stack<Site>();
         redoSite = new Stack<Site>();
         siteDictionary = new Dictionary<ESiteLink, Site>();
 
-        windowData.windowTitleID = (int)EWindowType.Browser;
-
+        BindingStart();
         //OnUndoSite += UndoSite;
         //OnOpenSite += ChangeSite;
         OnSelected += SelectedBrowser;

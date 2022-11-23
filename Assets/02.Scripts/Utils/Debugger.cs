@@ -40,7 +40,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Sound.OnPlayBGMSound(Sound.EBgm.WriterBGM);
+            Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
         }
 
         foreach (DebugEvent e in debugEventList)
