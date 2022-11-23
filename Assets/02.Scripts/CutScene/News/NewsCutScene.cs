@@ -205,8 +205,8 @@ public class NewsCutScene : CutScene
         digitalGlitch.ImmediatelyStop();
 
         windowCanvas.enabled = true;
-        Browser.OnOpenSite?.Invoke(ESiteLink.Youtube_News, 0);
-        Window.currentWindow.WindowMaximum();
+        EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Youtube_News, 0 });
+        Window.currentWindow?.WindowMaximum();
         ShowNewsSceneNotice();
 
 
