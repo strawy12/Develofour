@@ -8,6 +8,7 @@ public enum EWindowType
     None,
     Notepad,
     Browser,
+    End
 }
 [CreateAssetMenu(menuName = "SO/Window/Data")]
 public class WindowDataSO : ScriptableObject

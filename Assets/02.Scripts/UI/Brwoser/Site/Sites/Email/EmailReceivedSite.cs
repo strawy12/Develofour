@@ -69,7 +69,9 @@ public class EmailReceivedSite : Site
     {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin)
         {
-            Browser.OnOpenSite(ESiteLink.GoogleLogin, 0f);
+            object[] ps = new object[2] { ESiteLink.GoogleLogin, 0 };
+            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, ps);
+
             EventManager.StartListening(EQuestEvent.LoginGoogle, SuccessLogin);
             return;
         }

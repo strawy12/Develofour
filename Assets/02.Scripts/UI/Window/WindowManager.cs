@@ -7,29 +7,43 @@ using UnityEngine.EventSystems;
 public class WindowManager : MonoSingleton<WindowManager>
 {
     private Dictionary<EWindowType, List<Window>> windowDictionary = new Dictionary<EWindowType, List<Window>>();
+    [SerializeField]
     private List<Window> windowPrefab = new List<Window>();
 
-<<<<<<< HEAD
+    private void Awake()
+    {
+        InitDictionary();
+    }
     private void Start()
     {
         EventManager.StartListening(EBrowserEvent.OnOpenSite, CheckBrowserWindow);
     }
 
+    private void InitDictionary()
+    {
+        for (int i = 0; i < (int)EWindowType.End; ++i)
+        {
+            windowDictionary.Add((EWindowType)i, new List<Window>());
+        }
+    }
+
     public void CheckBrowserWindow(object[] ps)
     {
-        if(windowDictionary.ContainsKey(EWindowType.Browser))
+        if (!windowDictionary.ContainsKey(EWindowType.Browser))
         {
-            if(windowDictionary[EWindowType.Browser].Count > 0)
-            {
-                Browser.currentBrowser?.ChangeSite((ESiteLink)ps[0], (float)ps[1]);
-            }
-            else
-            {
-                Window window = CreateWindow(EWindowType.Browser, 0);
-                Browser browser = (Browser)window;
-                
-                browser.ChangeSite((ESiteLink)ps[0], (float)ps[1]);
-            }
+            Debug.LogError("Browser Type이 Dictionary에 들어가있지않습니다");
+        }
+
+        if (windowDictionary[EWindowType.Browser].Count > 0)
+        {
+            Browser.currentBrowser?.ChangeSite((ESiteLink)ps[0], (float)ps[1]);
+        }
+        else
+        {
+            Window window = CreateWindow(EWindowType.Browser, 0);
+            Browser browser = (Browser)window;
+
+            browser.ChangeSite((ESiteLink)ps[0], (float)ps[1]);
         }
     }
 
@@ -43,12 +57,13 @@ public class WindowManager : MonoSingleton<WindowManager>
         return windowDictionary.ContainsKey(windowEnum);
     }
 
-    public Window CreateWindow(EWindowType windowEnum, int titleId) 
+    public Window CreateWindow(EWindowType windowEnum, int titleId)
     {
         var prefab = from window in windowPrefab
                      where window.WindowData.windowType == windowEnum
                      && window.WindowData.windowTitleID == titleId
                      select window;
+
         return prefab.FirstOrDefault();
     }
 

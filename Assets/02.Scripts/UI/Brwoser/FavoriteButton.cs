@@ -35,8 +35,15 @@ public class FavoriteButton : MonoBehaviour
         iconImage.sprite = iconSprite;
         titleText.text = title;
 
-        OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink, Constant.LOADING_DELAY));
+        OnClick.AddListener(() => OpenTriggerWindow());
+
     }
 
+    public void OpenTriggerWindow()
+    {
+        object[] ps = new object[2] { siteLink, Constant.LOADING_DELAY };
+
+        EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, ps);
+    }
 
 }

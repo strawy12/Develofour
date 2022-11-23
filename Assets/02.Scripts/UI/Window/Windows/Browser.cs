@@ -34,25 +34,16 @@ public class Browser : Window
     [SerializeField] private BrowserBar browserBar;
     [SerializeField] private LoadingBar loadingBar;
 
-    void Awake()
-    {
-        Init();
-    }
-
-    private void Start()
-    {
-        EventManager.TriggerEvent(EWindowEvent.ActivePowerPanel);
-        BindingStart();
-    }
-
     protected override void Init()
     {
+        BindingStart();
+
         base.Init();
         undoSite = new Stack<Site>();
         redoSite = new Stack<Site>();
         siteDictionary = new Dictionary<ESiteLink, Site>();
 
-        windowData.windowTitleID = 1;
+        windowData.windowTitleID = (int)EWindowType.Browser;
 
         //OnUndoSite += UndoSite;
         //OnOpenSite += ChangeSite;
@@ -64,6 +55,8 @@ public class Browser : Window
         browserBar.OnClose?.AddListener(WindowClose);
         browserBar.OnUndo?.AddListener(UndoSite);
         browserBar.OnRedo?.AddListener(RedoSite);
+
+        EventManager.StartListening(EBrowserEvent.OnUndoSite, UndoSite);
     }
 
     private void BindingStart()
@@ -121,6 +114,7 @@ public class Browser : Window
         loadingBar.StopLoading();
     }
 
+    public void UndoSite(object[] emptyParam) => UndoSite();
     public void UndoSite()
     {
         if (undoSite.Count == 0) return;
