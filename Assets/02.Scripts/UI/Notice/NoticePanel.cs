@@ -57,6 +57,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
         rectTransform.DOAnchorPosX(NOTICE_POS.x, NOTICE_DURATION);
 
+        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.WindowAlarmSound);
+
         StartCoroutine(NoticeCoroutine());
     }
 
