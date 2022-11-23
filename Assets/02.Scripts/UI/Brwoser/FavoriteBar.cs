@@ -52,8 +52,14 @@ public class FavoriteBar : MonoBehaviour
 
         FavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
         button.SiteLink = siteLink;
-        object[] ps = new object[] { siteLink, Constant.LOADING_DELAY };
-        button.OnClick.AddListener(() => EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, ps));
+        button.OnClick.AddListener(() => FavoriteEvent(siteLink));
         favoritesList.Add(button);
+    }
+
+    public void FavoriteEvent(ESiteLink siteLink)
+    {
+        object[] ps = new object[2] { siteLink, Constant.LOADING_DELAY };
+
+        EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, ps);
     }
 }

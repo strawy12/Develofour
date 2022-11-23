@@ -206,6 +206,7 @@ public class NewsCutScene : CutScene
 
         windowCanvas.enabled = true;
         EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Youtube_News, 0 });
+
         Window.currentWindow?.WindowMaximum();
         ShowNewsSceneNotice();
 
