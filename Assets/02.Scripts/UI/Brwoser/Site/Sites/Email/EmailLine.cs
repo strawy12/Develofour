@@ -16,7 +16,7 @@ public class EmailLine : MonoBehaviour
     private TMP_Text timeText;
 
     [SerializeField]
-    private Button highlightedButton;
+    private Button favoriteButton;
 
     [SerializeField]
     private Button mailButton;
@@ -26,13 +26,14 @@ public class EmailLine : MonoBehaviour
 
     private Mail mail;
 
-    public bool IsHighrighted { get { return mail.MailData.isHighlighted; } }
+    public bool IsFavorited { get { return mail.MailData.isHighlighted; } }
 
     public void Init(MailDataSO mailData, Mail mail)
     {
         this.mail = mail;
         ChangeText(mailData.nameText, mailData.informationText, mailData.timeText);
         mailButton.onClick.AddListener(ShowMail);
+        favoriteButton.onClick.AddListener(AddFavorite);
     }
 
     public void ChangeText(string name, string info, string time)
@@ -47,5 +48,9 @@ public class EmailLine : MonoBehaviour
         mail.ShowMail();
     }
 
+    public void AddFavorite()
+    {
+        mail.FavoriteMail();
+    }
 
 }

@@ -9,5 +9,5 @@ public class MailDataSO : ScriptableObject
     public string nameText;
     public string informationText;
     public string timeText;
-    public bool isHighlighted;
+    public bool isHighlighted { get { return emailType == EEmailCategory.Favorite; } }
 }

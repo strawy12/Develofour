@@ -9,7 +9,7 @@ public enum EEmailCategory
 {
     None = -1,
     Receive,
-    Highlighted,
+    Favorite,
     Send,
     Remove
 }
@@ -42,7 +42,7 @@ public class EmailSite : Site
     [SerializeField]
     private Button receiveBtn;
     [SerializeField]
-    private Button highlightBtn;
+    private Button favoriteBtn;
     [SerializeField]
     private Button sendBtn;
     [SerializeField]
@@ -52,7 +52,7 @@ public class EmailSite : Site
     public override void Init()
     {
         receiveBtn.onClick.AddListener(ChangeReceiveEmail);
-        highlightBtn.onClick.AddListener(ChangeHighlightEmail);
+        favoriteBtn.onClick.AddListener(ChangeHighlightEmail);
         sendBtn.onClick.AddListener(ChangeSendEmail);
         removeBtn.onClick.AddListener(ChangeRemoveEmail);
 
@@ -65,7 +65,6 @@ public class EmailSite : Site
     {
         for (int i = 0; i < mails.Count; i++)
         {
-            Debug.Log($"{i + 1}");
             EmailLine emailLine = Instantiate(emailLinePrefab, emailLineParent);
             emailLine.Init(mails[i].mailDataSO, mails[i].mail);
             emailLine.gameObject.SetActive(false);
@@ -81,7 +80,7 @@ public class EmailSite : Site
     }
     private void ChangeHighlightEmail()
     {
-        currentCategory = EEmailCategory.Highlighted;
+        currentCategory = EEmailCategory.Favorite;
         ChangeEmailCategory(currentCategory);
     }
     private void ChangeSendEmail()
@@ -113,9 +112,9 @@ public class EmailSite : Site
                 }
                 break;
 
-            case EEmailCategory.Highlighted:
+            case EEmailCategory.Favorite:
                 {
-                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive && n.IsHighrighted == true).ToList();
+                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive && n.IsFavorited == true).ToList();
                 }
                 break;
 

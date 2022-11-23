@@ -993,7 +993,7 @@ GameObject:
   - component: {fileID: 3011640873703778198}
   - component: {fileID: 3011640873703778199}
   m_Layer: 5
-  m_Name: HighlightMailBtn
+  m_Name: FavoriteMailBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2824,10 +2824,10 @@ MonoBehaviour:
   mails:
   - mailDataSO: {fileID: 11400000, guid: 93010c8514a846e4d9a91674eb0ab15a, type: 2}
     mail: {fileID: 3584598782884487955}
-  emailLinePrefab: {fileID: 0}
+  emailLinePrefab: {fileID: 5631595197514615020, guid: 0d9cd09ed8824e14ab87f5d4f240a62a, type: 3}
   emailLineParent: {fileID: 3011640873754062321}
   receiveBtn: {fileID: 3011640875400077219}
-  highlightBtn: {fileID: 3011640873703778199}
+  favoriteBtn: {fileID: 3011640873703778199}
   sendBtn: {fileID: 3011640874447451950}
   removeBtn: {fileID: 3011640875035030450}
 --- !u!1 &3011640874334800760
@@ -4356,7 +4356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3011640874886605922
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6200,7 +6200,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3584598783189175765, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581623842635975365, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_Name
+      value: FavoriteButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
@@ -6245,7 +6249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mailCloseButton: {fileID: 1391049157905879112}
   mailDestroyButton: {fileID: 7715984603205595735}
-  mailHighlightedButton: {fileID: 1224033760852022874}
+  mailFavoriteButton: {fileID: 1224033760852022874}
   mailType: 0
   mailData: {fileID: 11400000, guid: 93010c8514a846e4d9a91674eb0ab15a, type: 2}
 --- !u!224 &3116649871597394238 stripped
