@@ -39,7 +39,7 @@ public class GmailLoginSite : Site
         if (gmailInputField.text == passWord)
         {
             Debug.Log("로그인 성공");
-            EventManager.TriggerEvent(EQuestEvent.LoginGoogle);
+            EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 
             // TODO : UndoSite 하고하세요
             // 

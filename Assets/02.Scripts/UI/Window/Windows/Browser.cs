@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
+using UnityEngine.EventSystems;
 using UnityEngine;
-
+using System.Net.NetworkInformation;
 
 public enum ESiteLink
 {
@@ -33,6 +33,8 @@ public class Browser : Window
 
     [SerializeField] private BrowserBar browserBar;
     [SerializeField] private LoadingBar loadingBar;
+
+    private bool isLoading = false;
 
     protected override void Init()
     {
@@ -80,7 +82,7 @@ public class Browser : Window
         }
     }
 
-    public Site ChangeSite(Site site, float loadDelay)
+    public Site ChangeSite(Site site, float loadDelay, bool addUndo = true)
     {
         if (siteDictionary.ContainsValue(site) == false)
         {
@@ -95,7 +97,11 @@ public class Browser : Window
 
         StartCoroutine(LoadingSite(loadDelay, () =>
         {
-            undoSite.Push(usingSite);
+            if (addUndo && usingSite != null)
+            {
+                undoSite.Push(usingSite);
+            }
+
             usingSite = site;
             usingSite?.OnUsed?.Invoke();
         }));
@@ -114,19 +120,21 @@ public class Browser : Window
     public void UndoSite(object[] emptyParam) => UndoSite();
     public void UndoSite()
     {
+        if (isLoading) return;
         if (undoSite.Count == 0) return;
         Site currentSite = undoSite.Pop();
 
-        Site beforeSite = ChangeSite(currentSite, Constant.LOADING_DELAY);
+        Site beforeSite = ChangeSite(currentSite, Constant.LOADING_DELAY, false);
         redoSite.Push(beforeSite); // 앞으로 갈 사이트는 사용하던 사이트 
                                    // 뒤로 갈 사이트는 undosite의 top
     }
 
     public void RedoSite()
     {
+        if (isLoading) return;
         if (redoSite.Count == 0) return;
 
-        Site beforeSite = ChangeSite(redoSite.Pop(), Constant.LOADING_DELAY);
+        Site beforeSite = ChangeSite(redoSite.Pop(), Constant.LOADING_DELAY, false);
         undoSite.Push(beforeSite);
         // 작동은 UndoSite함수의 정 반대로 
     }
