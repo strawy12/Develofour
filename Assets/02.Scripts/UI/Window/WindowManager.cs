@@ -42,7 +42,6 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             Window window = CreateWindow(EWindowType.Browser, 0);
             Browser browser = (Browser)window;
-
             browser.ChangeSite((ESiteLink)ps[0], (float)ps[1]);
         }
     }
