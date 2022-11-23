@@ -6,9 +6,9 @@ using UnityEngine;
 public class FavoriteBar : MonoBehaviour
 { 
     [SerializeField] private Transform favoritesParent;
-    [SerializeField] private FavoriteButton favoriteBtnPrefab;
+    [SerializeField] private BrowserFavoriteButton favoriteBtnPrefab;
     [SerializeField] private Transform siteParent;
-    private List<FavoriteButton> favoritesList = new List<FavoriteButton>();
+    private List<BrowserFavoriteButton> favoritesList = new List<BrowserFavoriteButton>();
 
     public void Init()
     {
@@ -30,7 +30,7 @@ public class FavoriteBar : MonoBehaviour
     private void MakeFavoriteButton(Site site)
     {
         ESiteLink siteLink = site.SiteLink;
-        FavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
+        BrowserFavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
         button.SiteLink = siteLink;
         button.Init(site.SiteData.siteIconSprite, site.SiteData.siteTitle);
         button.OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink));
@@ -42,7 +42,7 @@ public class FavoriteBar : MonoBehaviour
     {
         if (param == null || !(param is ESiteLink)) return;
         ESiteLink siteLink = (ESiteLink)param;
-        foreach (FavoriteButton favoriteButton in favoritesList)
+        foreach (BrowserFavoriteButton favoriteButton in favoritesList)
         {
             if (favoriteButton.SiteLink == siteLink)
             {
@@ -51,7 +51,7 @@ public class FavoriteBar : MonoBehaviour
             }
         }
 
-        FavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
+        BrowserFavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
         button.SiteLink = siteLink;
         button.OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink));
         favoritesList.Add(button);

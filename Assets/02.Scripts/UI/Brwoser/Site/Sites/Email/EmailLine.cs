@@ -16,7 +16,7 @@ public class EmailLine : MonoBehaviour
     private TMP_Text timeText;
 
     [SerializeField]
-    private Button favoriteButton;
+    private EmailFavoriteButton favoriteButton;
 
     [SerializeField]
     private Button mailButton;
