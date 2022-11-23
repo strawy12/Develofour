@@ -40,37 +40,32 @@ public class EmailSite : Site
 
     #region Category Buttons
     [SerializeField]
-    private Button receiveCategory;
+    private Button receiveBtn;
     [SerializeField]
-    private Button highlightCategory;
+    private Button highlightBtn;
     [SerializeField]
-    private Button sendCategory;
+    private Button sendBtn;
     [SerializeField]
-    private Button removeCategory;
+    private Button removeBtn;
     #endregion
 
     public override void Init()
     {
-        receiveCategory.onClick.AddListener(ChangeReceiveEmail);
-        highlightCategory.onClick.AddListener(ChangeHighlightEmail);
-        sendCategory.onClick.AddListener(ChangeSendEmail);
-        removeCategory.onClick.AddListener(ChangeRemoveEmail);
+        receiveBtn.onClick.AddListener(ChangeReceiveEmail);
+        highlightBtn.onClick.AddListener(ChangeHighlightEmail);
+        sendBtn.onClick.AddListener(ChangeSendEmail);
+        removeBtn.onClick.AddListener(ChangeRemoveEmail);
 
         CreateLine();
         base.Init();
         ChangeEmailCategory(currentCategory);
         ShowMailLine();
     }
-
-    private void Start()
-    {
-        Init();
-    }
-
     private void CreateLine()
     {
         for (int i = 0; i < mails.Count; i++)
         {
+            Debug.Log($"{i + 1}");
             EmailLine emailLine = Instantiate(emailLinePrefab, emailLineParent);
             emailLine.Init(mails[i].mailDataSO, mails[i].mail);
             emailLine.gameObject.SetActive(false);

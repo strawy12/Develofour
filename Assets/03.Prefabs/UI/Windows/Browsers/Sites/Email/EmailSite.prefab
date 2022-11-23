@@ -681,7 +681,7 @@ GameObject:
   - component: {fileID: 3011640873576028329}
   - component: {fileID: 3011640873576028330}
   m_Layer: 5
-  m_Name: Mailboxs
+  m_Name: MailButtons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -993,7 +993,7 @@ GameObject:
   - component: {fileID: 3011640873703778198}
   - component: {fileID: 3011640873703778199}
   m_Layer: 5
-  m_Name: HighlightMailbox
+  m_Name: HighlightMailBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1156,7 +1156,7 @@ GameObject:
   - component: {fileID: 3011640873754062335}
   - component: {fileID: 3011640873754062320}
   m_Layer: 5
-  m_Name: Content
+  m_Name: MailLineParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1692,9 +1692,8 @@ GameObject:
   - component: {fileID: 3011640873846904129}
   - component: {fileID: 3011640873846904142}
   - component: {fileID: 3011640873846904143}
-  - component: {fileID: 3011640873846904128}
   m_Layer: 5
-  m_Name: SendMailbox (3)
+  m_Name: DummyImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1763,50 +1762,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3011640873846904128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3011640873846904130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 3011640873846904143}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &3011640873922827556
 GameObject:
   m_ObjectHideFlags: 0
@@ -2469,9 +2424,8 @@ GameObject:
   - component: {fileID: 3011640874181717008}
   - component: {fileID: 3011640874181717021}
   - component: {fileID: 3011640874181717022}
-  - component: {fileID: 3011640874181717023}
   m_Layer: 5
-  m_Name: SendMailbox (1)
+  m_Name: DummyImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2540,50 +2494,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3011640874181717023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3011640874181717009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 3011640874181717022}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &3011640874201045792
 GameObject:
   m_ObjectHideFlags: 0
@@ -2891,9 +2801,9 @@ CanvasGroup:
   m_GameObject: {fileID: 3011640874258793180}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 1
 --- !u!114 &2158231575690959223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2910,40 +2820,16 @@ MonoBehaviour:
   siteData:
     siteIconSprite: {fileID: 21300000, guid: 3ec7eecf9359b4641b1de1eff7fbccca, type: 3}
     siteTitle: "\uBC1B\uC740\uD3B8\uC9C0\uD568(999)"
-    address: assets.02.scipts
-  mailList:
-  - mailType: 0
-    nameText: a
-    informationText: abc
-    timeText: 11:12
-    isHighlighted: 0
-    mailObject: {fileID: 0}
-  - mailType: 0
-    nameText: b
-    informationText: sadf
-    timeText: sdf
-    isHighlighted: 0
-    mailObject: {fileID: 0}
-  - mailType: 0
-    nameText: b
-    informationText: sadf
-    timeText: sdf
-    isHighlighted: 0
-    mailObject: {fileID: 0}
-  - mailType: 0
-    nameText: b
-    informationText: sadf
-    timeText: sdf
-    isHighlighted: 0
-    mailObject: {fileID: 0}
-  - mailType: 0
-    nameText: b
-    informationText: sadf
-    timeText: sdf
-    isHighlighted: 0
-    mailObject: {fileID: 0}
-  emailPrefab: {fileID: 5631595197514615020, guid: 0d9cd09ed8824e14ab87f5d4f240a62a, type: 3}
-  emailParent: {fileID: 3011640873754062321}
+    address: https://accounts.google.com/v3/signin
+  mails:
+  - mailDataSO: {fileID: 11400000, guid: 93010c8514a846e4d9a91674eb0ab15a, type: 2}
+    mail: {fileID: 3584598782884487955}
+  emailLinePrefab: {fileID: 0}
+  emailLineParent: {fileID: 3011640873754062321}
+  receiveBtn: {fileID: 3011640875400077219}
+  highlightBtn: {fileID: 3011640873703778199}
+  sendBtn: {fileID: 3011640874447451950}
+  removeBtn: {fileID: 3011640875035030450}
 --- !u!1 &3011640874334800760
 GameObject:
   m_ObjectHideFlags: 0
@@ -3204,7 +3090,7 @@ GameObject:
   - component: {fileID: 3011640874447451949}
   - component: {fileID: 3011640874447451950}
   m_Layer: 5
-  m_Name: SendMailbox
+  m_Name: SendMailBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4382,7 +4268,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3011640874806280150
@@ -4616,9 +4502,8 @@ GameObject:
   - component: {fileID: 3011640874927549088}
   - component: {fileID: 3011640874927549101}
   - component: {fileID: 3011640874927549102}
-  - component: {fileID: 3011640874927549103}
   m_Layer: 5
-  m_Name: SendMailbox (2)
+  m_Name: DummyImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4687,50 +4572,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3011640874927549103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3011640874927549089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 3011640874927549102}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &3011640874939963175
 GameObject:
   m_ObjectHideFlags: 0
@@ -4976,7 +4817,7 @@ GameObject:
   - component: {fileID: 3011640875035030452}
   - component: {fileID: 3011640875035030450}
   m_Layer: 5
-  m_Name: TrashMailbox
+  m_Name: RemoveBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5755,7 +5596,7 @@ GameObject:
   - component: {fileID: 3011640875400077218}
   - component: {fileID: 3011640875400077219}
   m_Layer: 5
-  m_Name: ReceivedMailbox
+  m_Name: ReceivedMailBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6184,7 +6025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: -20.000004}
+  m_AnchoredPosition: {x: -0.000061035156, y: -20}
   m_SizeDelta: {x: 0, y: -40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4483179895463862139
@@ -6252,7 +6093,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3116649871597394238}
   m_Father: {fileID: 7228082525905658360}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6261,3 +6103,164 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &1945446265950934252
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7378721706654819984}
+    m_Modifications:
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175765, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_Name
+      value: DefaultMail
+      objectReference: {fileID: 0}
+    - target: {fileID: 3584598783189175765, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+--- !u!114 &1224033760852022874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 721483218652889782, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+  m_PrefabInstance: {fileID: 1945446265950934252}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1391049157905879112 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 698729488322364580, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+  m_PrefabInstance: {fileID: 1945446265950934252}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &3116649871597394233 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3584598783189175765, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+  m_PrefabInstance: {fileID: 1945446265950934252}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3584598782884487955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3116649871597394233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 987415c065067014491d629de5abda93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mailCloseButton: {fileID: 1391049157905879112}
+  mailDestroyButton: {fileID: 7715984603205595735}
+  mailHighlightedButton: {fileID: 1224033760852022874}
+  mailType: 0
+  mailData: {fileID: 11400000, guid: 93010c8514a846e4d9a91674eb0ab15a, type: 2}
+--- !u!224 &3116649871597394238 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3584598783189175762, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+  m_PrefabInstance: {fileID: 1945446265950934252}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7715984603205595735 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8208709789542147771, guid: 3ff88b6a55692354593694a2be78be01, type: 3}
+  m_PrefabInstance: {fileID: 1945446265950934252}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
