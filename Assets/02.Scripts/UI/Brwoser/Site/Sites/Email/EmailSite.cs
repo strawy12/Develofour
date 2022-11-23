@@ -68,7 +68,9 @@ public class EmailSite : Site
             EmailLine emailLine = Instantiate(emailLinePrefab, emailLineParent);
             emailLine.Init(mails[i].mailDataSO, mails[i].mail);
             emailLine.gameObject.SetActive(false);
+            mails[i].mail.Init();
             baseEmailLineList.Add(emailLine);
+
         }
 
     }
@@ -103,6 +105,7 @@ public class EmailSite : Site
 
     private void ChangeEmailCategory(EEmailCategory category)
     {
+        HideMail();
         HideMailLine();
         switch (category)
         {
@@ -131,6 +134,18 @@ public class EmailSite : Site
                 break;
         }
         ShowMailLine();
+    }
+
+    private void HideMail()
+    {
+        var mails = from mailLine in baseEmailLineList
+                    where mailLine.mail.isActiveAndEnabled == true
+                    select mailLine;
+
+        foreach(EmailLine mailLine in mails)
+        {
+            mailLine.mail.HideMail();
+        }
     }
 
     private void ShowMailLine()

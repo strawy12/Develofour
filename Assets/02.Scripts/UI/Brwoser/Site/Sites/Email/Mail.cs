@@ -24,9 +24,8 @@ public abstract class Mail : MonoBehaviour
 
     public MailDataSO MailData { get { return mailData; } }
 
-    public virtual void Init(MailDataSO mailData)
+    public virtual void Init()
     {
-        this.mailData = mailData;
         mailCloseButton.onClick.AddListener(HideMail);
         mailDestroyButton.onClick.AddListener(DestroyMail);
         mailFavoriteButton.onClick.AddListener(FavoriteMail);

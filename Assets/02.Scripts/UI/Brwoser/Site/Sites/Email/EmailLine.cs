@@ -24,7 +24,7 @@ public class EmailLine : MonoBehaviour
     [HideInInspector]
     public EEmailCategory emailCategory;
 
-    private Mail mail;
+    public Mail mail;
 
     public bool IsFavorited { get { return mail.MailData.isHighlighted; } }
 
