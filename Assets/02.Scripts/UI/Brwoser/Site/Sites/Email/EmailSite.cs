@@ -56,7 +56,20 @@ public class EmailSite : Site
         sendCategory.onClick.AddListener(ChangeSendEmail);
         removeCategory.onClick.AddListener(ChangeRemoveEmail);
 
-        for(int i = 0; i < mails.Count; i++)
+        CreateLine();
+        base.Init();
+        ChangeEmailCategory(currentCategory);
+        ShowMailLine();
+    }
+
+    private void Start()
+    {
+        Init();
+    }
+
+    private void CreateLine()
+    {
+        for (int i = 0; i < mails.Count; i++)
         {
             EmailLine emailLine = Instantiate(emailLinePrefab, emailLineParent);
             emailLine.Init(mails[i].mailDataSO, mails[i].mail);
@@ -64,16 +77,7 @@ public class EmailSite : Site
             baseEmailLineList.Add(emailLine);
         }
 
-        base.Init();
-        ChangeEmailCategory(currentCategory);
-        ShowMailLine();
     }
-
-    void Start()
-    {
-        Init();
-    }
-
     #region Category Button Function
     private void ChangeReceiveEmail()
     {
@@ -105,40 +109,34 @@ public class EmailSite : Site
 
     private void ChangeEmailCategory(EEmailCategory category)
     {
-        switch(category)
+        HideMailLine();
+        switch (category)
         {
             case EEmailCategory.Receive:
                 {
-                    HideMailLine();
                     currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive).ToList();
-                    ShowMailLine(); 
                 }
                 break;
 
             case EEmailCategory.Highlighted:
                 {
-                    HideMailLine();
                     currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive && n.IsHighrighted == true).ToList();
-                    ShowMailLine();
                 }
                 break;
 
             case EEmailCategory.Send:
                 {
-                    HideMailLine();
                     currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Send).ToList();
-                    ShowMailLine();
                 }
                 break;
 
             case EEmailCategory.Remove:
                 {
-                    HideMailLine();
                     currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Remove).ToList();
-                    ShowMailLine();
                 }
                 break;
         }
+        ShowMailLine();
     }
 
     private void ShowMailLine()

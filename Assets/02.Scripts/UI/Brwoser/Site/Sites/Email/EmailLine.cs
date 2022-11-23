@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public class EmailLine : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI nameText;
+    private TMP_Text nameText;
 
     [SerializeField]
-    private TextMeshProUGUI informationText;
+    private TMP_Text informationText;
 
     [SerializeField]
-    private TextMeshProUGUI timeText;
+    private TMP_Text timeText;
 
     [SerializeField]
     private Button highlightedButton;
@@ -32,7 +32,6 @@ public class EmailLine : MonoBehaviour
     {
         this.mail = mail;
         ChangeText(mailData.nameText, mailData.informationText, mailData.timeText);
-
         mailButton.onClick.AddListener(ShowMail);
     }
 
