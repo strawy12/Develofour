@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DefaultMail : Mail
 {
-    public override void Init(MailDataSO mailData)
+    public override void Init()
     {
-        base.Init(mailData);
+        base.Init();
     }
 
     public override void ShowMail()
