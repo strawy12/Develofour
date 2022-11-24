@@ -8,6 +8,7 @@ using DG.Tweening;
 using System;
 
 using static Constant;
+using System.Diagnostics.Contracts;
 
 public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 {
@@ -27,6 +28,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private TouchDragNotice dragNotice;
 
+    private Coroutine stopDelayCoroutine = null;
+
     private bool isEnter;
 
     private void Bind()
@@ -42,7 +45,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         Bind();
         OnCompeleted += (x) => Compelete();
-        
+
+        dragNotice.OnClickNotice += () => NoticePanelStartEndDrag();
         dragNotice.OnDragNotice += () => OnCompeleted?.Invoke(this);
 
         EventManager.StartListening(ENoticeEvent.OpenNoticeSystem, (obj) => ImmediatelyStop());
@@ -65,9 +69,28 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.WindowAlarmSound);
 
-        StartCoroutine(NoticeCoroutine());
+        stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }
 
+    private void NoticePanelStartEndDrag()
+    {
+        if(dragNotice.isClick) // 드래그 시작
+        {
+            if (stopDelayCoroutine != null)
+            {
+                StopCoroutine(stopDelayCoroutine);
+                stopDelayCoroutine = null;
+            }
+        }
+        else if(!dragNotice.isClick)
+        {
+            if (stopDelayCoroutine == null)
+            {
+                stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
+            }
+        }
+    }
+    
     public void ImmediatelyStop()
     {
         rectTransform.DOKill();
@@ -99,8 +122,6 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         if (!isEnter)
         {
-            StopAllCoroutines();
-
             backgroundImage.DOColor(new Color(0.1f, 0.1f, 0.1f, 0.9f), 0.1f);
             rectTransform.DOScale(Vector3.one * 1.05f, 0.1f);
 
@@ -112,8 +133,6 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         if (isEnter)
         {
-            StartCoroutine(NoticeCoroutine());
-
             backgroundImage.DOColor(new Color(0f, 0f, 0f, 0.9f), 0.1f);
             rectTransform.DOScale(Vector3.one, 0.1f);
 
