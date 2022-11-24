@@ -29,6 +29,7 @@ public class FavoriteBar : MonoBehaviour
     
     private void MakeFavoriteButton(Site site)
     {
+        return;
         ESiteLink siteLink = site.SiteLink;
         BrowserFavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
         button.SiteLink = siteLink;
