@@ -17,11 +17,11 @@ public class QuestNotice : MonoBehaviour
     private void HateBtnClicked(object[] emptyParam)
     {
         NoticeData data = new NoticeData();
-        data.head = "���� ����� ���� Ȯ���ϱ�";
-        data.body = "���ã�⿡ �ִ� ���� �ٷΰ��� ��ư�� �̿��� �� �� �ֽ��ϴ�";
+        data.head = "���� �����?���� Ȯ���ϱ�";
+        data.body = "���ã��?�ִ� ���� �ٷΰ��� ��ư�� �̿��� �� �� �ֽ��ϴ�";
         NoticeSystem.OnGeneratedNotice?.Invoke(data);
 
-        object[] ps = new object[1] { ESiteLink.Email_Received };
+        object[] ps = new object[1] { ESiteLink.Email };
 
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, ps);
         EventManager.StopListening(EQuestEvent.HateBtnClicked, HateBtnClicked);
