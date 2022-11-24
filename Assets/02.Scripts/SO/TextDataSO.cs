@@ -5,7 +5,17 @@ public enum ETextDataType
 {
     None,
     News,
-} 
+}
+
+[System.Serializable]
+public class TextData
+{
+    public string name;
+
+    [TextArea(1, 10)]
+    public string text; 
+}
+
 [CreateAssetMenu(fileName ="TextData_",menuName = "SO/TextDataSO")]
 public class TextDataSO : ScriptableObject
 {
@@ -13,8 +23,7 @@ public class TextDataSO : ScriptableObject
     private ETextDataType textDataType;
 
     [SerializeField]
-    [TextArea(1,10)]
-    private List<string> textDataList;
+    private List<TextData> textDataList;
     
     public ETextDataType TextDataType {
         get 
@@ -23,7 +32,7 @@ public class TextDataSO : ScriptableObject
         } 
     }
 
-    public string this[int index] 
+    public TextData this[int index]
     { 
         get
         {

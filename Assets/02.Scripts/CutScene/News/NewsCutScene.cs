@@ -142,6 +142,14 @@ public class NewsCutScene : CutScene
         yield return new WaitForSeconds(stopIconDuration);
         #endregion
 
+        yield return new WaitForSeconds(1f);
+
+        textBox.PrintText();
+
+        yield return new WaitForSeconds(3f);
+
+        Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
+
         #region 전체화면 해제
         float delay = cancelFullScreenDelay / 2f;
         yield return new WaitForSeconds(delay);
@@ -153,7 +161,6 @@ public class NewsCutScene : CutScene
         yield return new WaitForSeconds(delay);
         #endregion
 
-        Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
         EndCutScene();
         pos = rt.anchoredPosition;
         pos.y = 0f;

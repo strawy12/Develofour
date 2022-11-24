@@ -6,6 +6,7 @@ public class GameManager : MonoSingleton<GameManager>
 {
     [SerializeField]
     private ClickEffect clickEffect;
+    public bool useCutScene;
 
     private EGameState gameState;
 
@@ -15,13 +16,26 @@ public class GameManager : MonoSingleton<GameManager>
     {
         yield return new WaitForEndOfFrame();
 
-        object[] ps = new object[1] { typeof(NewsCutScene) };
-       // EventManager.TriggerEvent(ECutSceneEvent.ShowCutScene, ps);
+        if(useCutScene)
+        {
+            object[] ps = new object[1] { typeof(NewsCutScene) };
+            EventManager.TriggerEvent(ECutSceneEvent.ShowCutScene, ps);
+        }
+
     }
     public void ChangeGameState(EGameState state)
     {
         if (gameState == state) { return; }
 
         gameState = state;
+    }
+
+    private void Update()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            ClickEffect effect = Instantiate(clickEffect, clickEffect.transform.parent);
+            effect.Click();
+        }
     }
 }
