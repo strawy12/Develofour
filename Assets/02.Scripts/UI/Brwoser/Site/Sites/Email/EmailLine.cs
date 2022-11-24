@@ -21,7 +21,6 @@ public class EmailLine : MonoBehaviour
     [SerializeField]
     private Button mailButton;
 
-    [HideInInspector]
     public EEmailCategory emailCategory;
 
     public Mail mail;
@@ -34,7 +33,12 @@ public class EmailLine : MonoBehaviour
         ChangeText(mailData.nameText, mailData.informationText, mailData.timeText);
         mailButton.onClick.AddListener(ShowMail);
         favoriteButton.Init(mailData.isHighlighted);
-        favoriteButton.OnClick.AddListener(AddFavorite);
+        favoriteButton.OnChangeMailType += AddFavorite;
+    }
+
+    public void SetEmailCategory()
+    {
+        emailCategory = mail.MailData.emailType;
     }
 
     public void ChangeText(string name, string info, string time)
@@ -46,7 +50,6 @@ public class EmailLine : MonoBehaviour
 
     public void ShowMail()
     {
-        Debug.Log("1");
         mail.ShowMail();
     }
 

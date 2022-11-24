@@ -7,18 +7,18 @@ using UnityEngine.Events;
 
 public class BrowserFavoriteButton : MonoBehaviour
 {
-    [SerializeField]private Image iconImage;
-    [SerializeField]private TMP_Text titleText;
+    [SerializeField] private Image iconImage;
+    [SerializeField] private TMP_Text titleText;
 
     private Button favoriteBtn;
     [SerializeField]
     private ESiteLink siteLink;
 
     public ESiteLink SiteLink
-    { 
-        get 
+    {
+        get
         {
-            return siteLink; 
+            return siteLink;
         }
         set
         {
@@ -34,15 +34,15 @@ public class BrowserFavoriteButton : MonoBehaviour
 
     public void Init()
     {
-        OnClick.AddListener(() => Browser.OnOpenSite.Invoke(siteLink));
+        //OnClick.AddListener(() => EventManager.TriggerEvent<EBrowserEvent>(EBrowserEvent.OnOpenSite, new object[] { siteLink, 0 }));
     }
 
     public void Init(Sprite iconSprite, string title)
     {
-        Debug.Log(iconSprite.name);
         if (iconSprite != null)
         {
             iconImage.sprite = iconSprite;
+
         }
         if (title != null)
         {

@@ -23,6 +23,7 @@ public class MailData
 
 public class EmailSite : Site
 {
+    [SerializeField]
     private EEmailCategory currentCategory = EEmailCategory.Receive;
 
     [SerializeField]
@@ -72,7 +73,7 @@ public class EmailSite : Site
             baseEmailLineList.Add(emailLine);
 
         }
-
+        SetEmailCategory();
     }
     #region Category Button Function
     private void ChangeReceiveEmail()
@@ -82,7 +83,14 @@ public class EmailSite : Site
     }
     private void ChangeHighlightEmail()
     {
-        currentCategory = EEmailCategory.Favorite;
+        if(currentCategory == EEmailCategory.Favorite)
+        {
+            currentCategory = EEmailCategory.Receive;
+        }
+        else
+        {
+            currentCategory = EEmailCategory.Favorite;
+        }
         ChangeEmailCategory(currentCategory);
     }
     private void ChangeSendEmail()
@@ -103,21 +111,32 @@ public class EmailSite : Site
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin = true;
     }
 
+    private void SetEmailCategory()
+    {
+        for(int i = 0; i < baseEmailLineList.Count; i++)
+        {
+            baseEmailLineList[i].SetEmailCategory();
+        }
+    }
+
     private void ChangeEmailCategory(EEmailCategory category)
     {
         HideMail();
         HideMailLine();
+        SetEmailCategory();
         switch (category)
         {
             case EEmailCategory.Receive:
                 {
-                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive).ToList();
+                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive
+                        || n.emailCategory == EEmailCategory.Favorite).ToList();
+                    Debug.Log("receive" + currentMailLineList.Count);
                 }
                 break;
-
+                
             case EEmailCategory.Favorite:
                 {
-                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive && n.IsFavorited == true).ToList();
+                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Favorite).ToList();
                 }
                 break;
 
@@ -129,7 +148,9 @@ public class EmailSite : Site
 
             case EEmailCategory.Remove:
                 {
+                    Debug.Log("1");
                     currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Remove).ToList();
+                    Debug.Log("remove " + currentMailLineList.Count);   
                 }
                 break;
         }

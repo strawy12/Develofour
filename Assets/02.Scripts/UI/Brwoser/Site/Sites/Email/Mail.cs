@@ -24,12 +24,12 @@ public abstract class Mail : MonoBehaviour
 
     public MailDataSO MailData { get { return mailData; } }
 
+
     public virtual void Init()
     {
         mailCloseButton.onClick.AddListener(HideMail);
         mailDestroyButton.onClick.AddListener(DestroyMail);
         mailFavoriteButton.Init(mailData.isHighlighted);
-        mailFavoriteButton.OnClick.AddListener(FavoriteMail);
     }
 
     public virtual void ShowMail()
@@ -44,6 +44,12 @@ public abstract class Mail : MonoBehaviour
 
     public virtual void DestroyMail()
     {
+        //즐겨찾기 연출 해제
+        if(mailType == EEmailCategory.Favorite)
+        {
+            mailFavoriteButton.OnChangeMailType?.Invoke();
+        }
+
         mailType = EEmailCategory.Remove;
         mailData.emailType = EEmailCategory.Remove;
         HideMail();
@@ -51,8 +57,16 @@ public abstract class Mail : MonoBehaviour
 
     public virtual void FavoriteMail()
     {
-        mailType = EEmailCategory.Favorite;
-        mailData.emailType = EEmailCategory.Favorite;
+        if(mailType != EEmailCategory.Receive)
+        {
+            mailType = EEmailCategory.Receive;
+            mailData.emailType = EEmailCategory.Receive;
+        }    
+        else
+        {
+            mailType = EEmailCategory.Favorite;
+            mailData.emailType = EEmailCategory.Favorite;
+        }
     }
 
 
