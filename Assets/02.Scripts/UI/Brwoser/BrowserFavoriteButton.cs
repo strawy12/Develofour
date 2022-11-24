@@ -5,20 +5,20 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
-public class FavoriteButton : MonoBehaviour
+public class BrowserFavoriteButton : MonoBehaviour
 {
-    [SerializeField]private Image iconImage;
-    [SerializeField]private TMP_Text titleText;
+    [SerializeField] private Image iconImage;
+    [SerializeField] private TMP_Text titleText;
 
     private Button favoriteBtn;
     [SerializeField]
     private ESiteLink siteLink;
 
     public ESiteLink SiteLink
-    { 
-        get 
+    {
+        get
         {
-            return siteLink; 
+            return siteLink;
         }
         set
         {

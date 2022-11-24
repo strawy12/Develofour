@@ -16,11 +16,15 @@ public class Debugger : MonoBehaviour
     private List<DebugEvent> debugEventList;
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Browser.OnOpenSite(ESiteLink.Email);
+        }
         if (Input.GetKeyDown(KeyCode.B))
         {
             NoticeData data = new NoticeData();
-            data.head = "ÀÌ°ÍÀº Å×½ºÆ®ÀÔ´Ï´Ù";
-            data.body = "Å×½ºÆ®´Ï±î Àß ³ª¿À´ÂÁö È®ÀÎÇÏ°í\n°³Çà ¹®ÀÚµµ µÇ´ÂÁö È®ÀÎÇÏ°Ú½À´Ï´Ù.";
+            data.head = "ï¿½Ì°ï¿½ï¿½ï¿½ ï¿½×½ï¿½Æ®ï¿½Ô´Ï´ï¿½";
+            data.body = "ï¿½×½ï¿½Æ®ï¿½Ï±ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°ï¿½\nï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½Ç´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°Ú½ï¿½ï¿½Ï´ï¿½.";
             NoticeSystem.OnGeneratedNotice?.Invoke(data);
         }
 
