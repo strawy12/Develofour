@@ -100,11 +100,13 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
         if (isPlma && isMove)
         {
+            isInvisibility = false;
+
+            OnChangeAlpha?.Invoke();
             OnDragNotice?.Invoke();
         }
         else
         {
-            isInvisibility = false;
 
             rectTransform.anchoredPosition = saveOriginalPos;
         }
