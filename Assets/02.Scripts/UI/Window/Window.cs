@@ -16,7 +16,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     protected WindowDataSO windowData;
 
     protected bool isSelected;
-    protected bool isMaximum;
 
     public bool IsSelected { get { return isSelected; } }
     protected RectTransform rectTransform;
@@ -34,7 +33,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
 
-        isMaximum = false;
+        windowData.isMaximum = false;
       
         windowBar.Init(windowData, rectTransform);
         OnSelected += () => isSelected = true;
@@ -59,23 +58,23 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowMaximum()
     {
-        if(!isMaximum)
+        if(!windowData.isMaximum)
         {
-            Vector2 size = Constant.MAXWINSIZE;
+            Vector2 size = Constant.MAX_CANVAS_SIZE;
             size.y -= 25;
             rectTransform.sizeDelta = size;
 
             windowPos = rectTransform.localPosition;
             rectTransform.localPosition = new Vector3(0, 25, 0);
 
-            isMaximum = true;
+            windowData.isMaximum = true;
         }
         else
         {
             rectTransform.localPosition = windowPos;
             rectTransform.sizeDelta = windowData.size;
 
-            isMaximum = false;
+            windowData.isMaximum = false;
         }
     }
 

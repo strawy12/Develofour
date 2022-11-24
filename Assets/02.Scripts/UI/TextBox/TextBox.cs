@@ -198,7 +198,7 @@ public class TextBox : MonoUI
         }
         catch (System.NullReferenceException e)
         {
-            Debug.Log($"TextData{textDataType} is null");
+            Debug.Log($"TextData{textDataType} is null\n{e}");
         }
         catch (System.Exception e)
         {

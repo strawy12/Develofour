@@ -44,14 +44,14 @@ public class WindowIconAttributeUI : MonoUI
     {
         Vector2 offset = Vector2.zero;
 
-        if (Mathf.Abs(Constant.MAXCANVASPOS.x - mousePos.x) < rectTransform.rect.width)
+        if (Mathf.Abs(Constant.MAX_CANVAS_POS.x - mousePos.x) < rectTransform.rect.width)
         {
-            offset.x += rectTransform.rect.width - Mathf.Abs((Constant.MAXCANVASPOS.x - mousePos.x));
+            offset.x += rectTransform.rect.width - Mathf.Abs((Constant.MAX_CANVAS_POS.x - mousePos.x));
         }
 
-        if (Mathf.Abs(-Constant.MAXCANVASPOS.y - mousePos.y) < rectTransform.rect.height)
+        if (Mathf.Abs(-Constant.MAX_CANVAS_POS.y - mousePos.y) < rectTransform.rect.height)
         {
-            offset.y += rectTransform.rect.height - Mathf.Abs((Constant.MAXCANVASPOS.y - mousePos.y));
+            offset.y += rectTransform.rect.height - Mathf.Abs((Constant.MAX_CANVAS_POS.y - mousePos.y));
         }
 
         mousePos += offset;

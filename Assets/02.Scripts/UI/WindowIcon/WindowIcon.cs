@@ -109,8 +109,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     void CreateAttributeUI(PointerEventData eventData)
     {
         Vector3 mousePos = eventData.position;
-        mousePos.x -= Constant.MAXCANVASPOS.x;
-        mousePos.y -= Constant.MAXCANVASPOS.y;
+        mousePos.x -= Constant.MAX_CANVAS_POS.x;
+        mousePos.y -= Constant.MAX_CANVAS_POS.y;
         mousePos.z = 0f;
 
         WindowIconAttributeUI.OnCreateMenu?.Invoke(mousePos, windowIconData);

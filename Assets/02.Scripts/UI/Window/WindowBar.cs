@@ -63,20 +63,31 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (windowData.isMaximum) { return; }
+
         isDrag = true;
-        Vector2 mousePos = eventData.position - (Constant.MAXWINSIZE / 2);
+        Vector2 mousePos = Define.CanvasMousePos;
         offsetPos = windowRectTransform.anchoredPosition - mousePos;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 mousePos = eventData.position - (Constant.MAXWINSIZE / 2);
+        if (isDrag == false) { return; }
+        if (eventData.position.x > Define.MaxWindowSize.x || 
+           eventData.position.x < 0 ||
+           eventData.position.y > Define.MaxWindowSize.y ||
+           eventData.position.y < 0)
+        {
+            return;
+        }
+
+        Vector2 mousePos = Define.CanvasMousePos;
         windowRectTransform.anchoredPosition = mousePos + offsetPos;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (isDrag) return;
+        if (isDrag) { return; }
 
         OnSelected?.Invoke();
         if (isClicked == false)
@@ -95,6 +106,8 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (isDrag == false) { return; }
+
         isDrag = false;
     }
 }

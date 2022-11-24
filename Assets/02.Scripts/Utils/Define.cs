@@ -6,20 +6,29 @@ using UnityEngine.EventSystems;
 
 public static class Define
 {
-    private static Camera _mainCam;
+    public static Vector2 MaxWindowSize
+    {
+        get
+        {
+            Vector2 maxWIndowSize = new Vector2(Screen.width, Screen.height);
+            return maxWIndowSize;
+        }
+    }
+
+    private static Camera mainCam;
 
     public static Camera MainCam
     {
         get
         {
-            if (_mainCam == null)
+            if (mainCam == null)
             {
-                _mainCam = Camera.main;
+                mainCam = Camera.main;
             }
 
-            return _mainCam;
+            return mainCam;
         }
-        
+
     }
 
     public static Vector2 CanvasMousePos
@@ -27,8 +36,11 @@ public static class Define
         get
         {
             Vector3 mousePos = Input.mousePosition;
+            Vector3 windowSize = MaxWindowSize;
+            Vector3 maxCanvasPos = Constant.MAX_CANVAS_POS;
+            mousePos.x = Mathf.Lerp(-maxCanvasPos.x, maxCanvasPos.x, mousePos.x / windowSize.x);
+            mousePos.y = Mathf.Lerp(-maxCanvasPos.y, maxCanvasPos.y, mousePos.y / windowSize.y);
             mousePos.z = 0f;
-            mousePos -= (Vector3)Constant.MAXCANVASPOS;
 
             return mousePos;
         }
