@@ -198,7 +198,7 @@ public class EmailSite : Site
     {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin)
         {
-            Browser.OnOpenSite(ESiteLink.GoogleLogin);
+            EventManager.TriggerEvent<EBrowserEvent>(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin });
             EventManager.StartListening(EQuestEvent.LoginGoogle, SuccessLogin);
             return false;
         }

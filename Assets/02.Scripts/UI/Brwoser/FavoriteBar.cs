@@ -41,7 +41,7 @@ public class FavoriteBar : MonoBehaviour
     {
         if (param == null || !(param[0] is ESiteLink)) return;
         ESiteLink siteLink = (ESiteLink)param[0];
-        foreach (FavoriteButton favoriteButton in favoritesList)
+        foreach (BrowserFavoriteButton favoriteButton in favoritesList)
         {
             if (favoriteButton.SiteLink == siteLink)
             {

@@ -16,10 +16,6 @@ public class Debugger : MonoBehaviour
     private List<DebugEvent> debugEventList;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Browser.OnOpenSite(ESiteLink.Email);
-        }
         if (Input.GetKeyDown(KeyCode.B))
         {
             NoticeData data = new NoticeData();
