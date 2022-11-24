@@ -34,7 +34,6 @@ public abstract class Mail : MonoBehaviour
 
     public virtual void ShowMail()
     {
-        Debug.Log("2");
         gameObject.SetActive(true);
     }
 
