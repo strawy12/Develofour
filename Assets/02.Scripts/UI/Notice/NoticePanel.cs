@@ -47,6 +47,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         OnCompeleted += (x) => Compelete();
 
         dragNotice.OnClickNotice += () => NoticePanelStartEndDrag();
+        dragNotice.OnChangeAlpha += () => NoticePanelAlphalightly();
         dragNotice.OnDragNotice += () => OnCompeleted?.Invoke(this);
 
         EventManager.StartListening(ENoticeEvent.OpenNoticeSystem, (obj) => ImmediatelyStop());
@@ -90,7 +91,20 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
             }
         }
     }
-    
+
+    private void NoticePanelAlphalightly()
+    {
+        if (dragNotice.isInvisibility)
+        {
+            canvasGroup.alpha = 0.5f;
+        }
+        else if (!dragNotice.isInvisibility)
+        {
+            canvasGroup.alpha = 1f;
+        }
+    }
+
+
     public void ImmediatelyStop()
     {
         rectTransform.DOKill();
