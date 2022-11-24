@@ -22,6 +22,7 @@ public class ChapterData
 {
     public bool isLogin;
     public bool isEnterLoginSite;
+    public List<ESiteLink> siteLinks = new List<ESiteLink>();
 }
 
 [System.Serializable]
@@ -37,6 +38,7 @@ public class PlayerData
         chapterDatas = new ChapterData[(int)EChapterDataType.Count];
         chapterDatas[(int)EChapterDataType.Writer] = new WriterData();
     }
+
     public T TypeCastChapterData<T>() where T : ChapterData
     {
         return CurrentChapterData as T;

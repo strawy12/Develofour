@@ -31,7 +31,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.V))
         {
-            Time.timeScale = 10;
+            Time.timeScale = 30;
         }
         if (Input.GetKeyUp(KeyCode.V))
         {
