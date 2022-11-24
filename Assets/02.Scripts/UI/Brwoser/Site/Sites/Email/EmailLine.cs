@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class EmailLine : MonoBehaviour
 {
@@ -56,6 +57,29 @@ public class EmailLine : MonoBehaviour
     public void AddFavorite()
     {
         mail.FavoriteMail();
+    }
+
+    public void CheckStar()
+    {
+        if (emailCategory != EEmailCategory.Favorite)
+        {
+            SetEmptyStar();
+        }
+        else
+        {
+            SetFillStar();
+        }
+    }
+
+
+    private void SetFillStar()
+    {
+        favoriteButton.fillStarImage.DOColor(Color.yellow, 0);
+    }
+
+    private void SetEmptyStar()
+    {
+        favoriteButton.fillStarImage.DOColor(new Color(0, 0, 0, 0), 0);
     }
 
 }

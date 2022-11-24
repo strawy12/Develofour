@@ -153,6 +153,12 @@ public class EmailSite : Site
                 }
                 break;
         }
+
+        for(int i = 0; i < currentMailLineList.Count; i++)
+        {
+            currentMailLineList[i].CheckStar();
+        }
+
         ShowMailLine();
     }
 

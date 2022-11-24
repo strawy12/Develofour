@@ -13,7 +13,7 @@ public class EmailFavoriteButton : MonoBehaviour
     [SerializeField]
     private Image starImage;
     [SerializeField]
-    private Image fillStarImage;
+    public Image fillStarImage;
     [SerializeField]
     private float colorDuraction = 0.7f;
     public UnityEvent OnClick { get { return button.onClick; } }
@@ -48,4 +48,6 @@ public class EmailFavoriteButton : MonoBehaviour
             sequence.Append(fillStarImage.DOColor(new Color(0,0,0,0), colorDuraction).OnComplete(() => isChanging = false));
         }
     } 
+
+   
 }
