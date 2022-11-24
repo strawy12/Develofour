@@ -33,6 +33,7 @@ public class FavoriteBar : MonoBehaviour
 
     private void MakeFavoriteButton(Site site)
     {
+        return;
         ESiteLink siteLink = site.SiteLink;
         if (!favoritesList.ContainsKey(siteLink))
         {
