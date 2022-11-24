@@ -20,7 +20,6 @@ public class MailData
     public Mail mail;
 }
 
-
 public class EmailSite : Site
 {
     [SerializeField]
@@ -198,7 +197,7 @@ public class EmailSite : Site
     {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin)
         {
-            EventManager.TriggerEvent<EBrowserEvent>(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin });
+            EventManager.TriggerEvent<EBrowserEvent>(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY });
             EventManager.StartListening(EQuestEvent.LoginGoogle, SuccessLogin);
             return false;
         }
