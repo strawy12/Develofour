@@ -14,7 +14,7 @@ public abstract class Mail : MonoBehaviour
     private Button mailDestroyButton;
 
     [SerializeField]
-    private Button mailFavoriteButton;
+    private EmailFavoriteButton mailFavoriteButton;
     #endregion
     [SerializeField]
     protected EEmailCategory mailType;
@@ -28,11 +28,13 @@ public abstract class Mail : MonoBehaviour
     {
         mailCloseButton.onClick.AddListener(HideMail);
         mailDestroyButton.onClick.AddListener(DestroyMail);
-        mailFavoriteButton.onClick.AddListener(FavoriteMail);
+        mailFavoriteButton.Init(mailData.isHighlighted);
+        mailFavoriteButton.OnClick.AddListener(FavoriteMail);
     }
 
     public virtual void ShowMail()
     {
+        Debug.Log("2");
         gameObject.SetActive(true);
     }
 

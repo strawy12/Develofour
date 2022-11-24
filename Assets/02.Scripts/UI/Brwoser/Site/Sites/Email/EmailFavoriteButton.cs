@@ -19,14 +19,10 @@ public class EmailFavoriteButton : MonoBehaviour
     public UnityEvent OnClick { get { return button.onClick; } }
     private bool isFavorited =false;
 
-    private void Awake()
+    public void Init(bool isFavorited)
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(FavoriteOn);
-    }
-
-    public void Init(bool isFavorited)
-    {
         this.isFavorited = isFavorited;
     } 
 

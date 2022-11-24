@@ -39,8 +39,15 @@ public class BrowserFavoriteButton : MonoBehaviour
 
     public void Init(Sprite iconSprite, string title)
     {
-        iconImage.sprite = iconSprite;
-        titleText.text = title;
+        Debug.Log(iconSprite.name);
+        if (iconSprite != null)
+        {
+            iconImage.sprite = iconSprite;
+        }
+        if (title != null)
+        {
+            titleText.text = title;
+        }
     }
 
 

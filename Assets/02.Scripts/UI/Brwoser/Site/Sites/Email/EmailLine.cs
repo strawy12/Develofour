@@ -33,6 +33,7 @@ public class EmailLine : MonoBehaviour
         this.mail = mail;
         ChangeText(mailData.nameText, mailData.informationText, mailData.timeText);
         mailButton.onClick.AddListener(ShowMail);
+        favoriteButton.Init(mailData.isHighlighted);
         favoriteButton.OnClick.AddListener(AddFavorite);
     }
 
@@ -45,6 +46,7 @@ public class EmailLine : MonoBehaviour
 
     public void ShowMail()
     {
+        Debug.Log("1");
         mail.ShowMail();
     }
 
