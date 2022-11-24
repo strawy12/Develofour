@@ -12,7 +12,11 @@ public class TextBox : MonoUI
     private int currentTextIndex;
 
     [SerializeField]
-    private TMP_Text boxShowText;
+    private TMP_Text messageText;
+
+    [SerializeField]
+    private TMP_Text nameText;
+
     [SerializeField]
     private float printTextDelay = 0.05f;
 
@@ -91,10 +95,13 @@ public class TextBox : MonoUI
         }
 
         isTextPrinted = true;
-        string text = currentTextData[currentTextIndex++];
-        StartCoroutine(PrintTextCoroutine(text));
+        TextData textData = currentTextData[currentTextIndex++];
+        
+        nameText.SetText(textData.name);
 
-        return text.Length * printTextDelay;
+        StartCoroutine(PrintTextCoroutine(textData.text));
+
+        return textData.text.Length * printTextDelay;
     }
 
     private string EncordingRichText(string message)
@@ -118,7 +125,7 @@ public class TextBox : MonoUI
     private IEnumerator PrintTextCoroutine(string message)
     {
         message = message.Replace("\r", "");
-        boxShowText.text = "";
+        messageText.text = "";
         string text = "";
 
         for (int i = 0; i < message.Length; i++)
@@ -149,7 +156,7 @@ public class TextBox : MonoUI
             yield return new WaitUntil(() => isEffected == false);
 
             text = string.Format("{0}{1}", text, c);
-            boxShowText.SetText(text);
+            messageText.SetText(text);
 
             yield return new WaitForSeconds(printTextDelay);
         }
@@ -186,7 +193,7 @@ public class TextBox : MonoUI
             completeMsg = $"{completeMsg}{c}";
         }
 
-        boxShowText.SetText(completeMsg);
+        messageText.SetText(completeMsg);
     }
 
     public TextDataSO GetTextData(ETextDataType textDataType)
@@ -286,7 +293,7 @@ public class TextBox : MonoUI
     private IEnumerator textShakingCoroutine(float delay, float strength, int vibrato)
     {
         isEffected = true;
-        boxShowText.rectTransform.DOShakeAnchorPos(delay, strength, vibrato, 0, true);
+        messageText.rectTransform.DOShakeAnchorPos(delay, strength, vibrato, 0, true);
         yield return new WaitForSeconds(delay);
         isEffected = false;
     }
