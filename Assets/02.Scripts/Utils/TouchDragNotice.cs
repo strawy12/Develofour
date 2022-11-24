@@ -7,7 +7,8 @@ using UnityEngine.EventSystems;
 public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public bool isClick = false;
-    
+    public bool isInvisibility = false;
+
     private bool HV = false;
     private bool isPlma = false;
 
@@ -21,6 +22,7 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public Action OnDragNotice;
     public Action OnClickNotice;
+    public Action OnChangeAlpha;
 
     private void Start()
     {
@@ -38,6 +40,7 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerUp(PointerEventData eventData)
     {
         isClick = false;
+        
         OnClickNotice?.Invoke();
     }
 
@@ -66,7 +69,20 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 return;
             }
 
-             rectTransform.anchoredPosition = saveOriginalPos + dragPanelPos;
+            if(dragPanelPos.x >= Constant.NOTICEDRAG_INVISIBILITY)
+            {
+                isInvisibility = true;
+
+                OnChangeAlpha?.Invoke();
+            }
+            else if(dragPanelPos.x < Constant.NOTICEDRAG_INVISIBILITY)
+            {
+                isInvisibility = false;
+                
+                OnChangeAlpha?.Invoke();
+            }
+
+            rectTransform.anchoredPosition = saveOriginalPos + dragPanelPos;
         }
     }
 
@@ -79,7 +95,7 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         // 첫 시작 마우스 pos와 끝 마우스 pos의 격차가 일정 이상 존재한다면
         {
             isMove = true;
-            // 드래그 효과 on
+            // 사라지도록 함
         }
 
         if (isPlma && isMove)
@@ -88,6 +104,8 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         }
         else
         {
+            isInvisibility = false;
+
             rectTransform.anchoredPosition = saveOriginalPos;
         }
     }
