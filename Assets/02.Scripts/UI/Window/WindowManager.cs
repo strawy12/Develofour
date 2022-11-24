@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -32,43 +33,48 @@ public class WindowManager : MonoSingleton<WindowManager>
         if (!windowDictionary.ContainsKey(EWindowType.Browser))
         {
             Debug.LogError("Browser Type이 Dictionary에 들어가있지않습니다");
+            return;
         }
 
         if (windowDictionary[EWindowType.Browser].Count > 0)
         {
-            Browser.currentBrowser?.ChangeSite((ESiteLink)ps[0], (float)ps[1]);
+            ESiteLink link = (ESiteLink)ps[0];
+            float delay = (ps[1] is int) ? (int)ps[1] : (float)ps[1];
+            Browser.currentBrowser?.ChangeSite(link, delay);
         }
         else
         {
-            Window window = CreateWindow(EWindowType.Browser, 0);
-            Browser browser = (Browser)window;
-            browser.ChangeSite((ESiteLink)ps[0], (float)ps[1]);
+            Browser browser = CreateWindow(EWindowType.Browser, 0) as Browser;
+            ESiteLink link = (ESiteLink)ps[0];
+            float delay = (ps[1] is int) ? (int)ps[1] : (float)ps[1];
+
+            browser.ChangeSite(link, delay);
         }
     }
 
-    public Window GetWindow(EWindowType windowEnum, int titleId)
+    public Window GetWindow(EWindowType windowType, int titleId)
     {
-        return windowDictionary[windowEnum].Find((x) => x.WindowData.windowTitleID == titleId);
+        return windowDictionary[windowType].Find((x) => x.WindowData.windowTitleID == titleId);
     }
 
-    public bool IsExistWindow(EWindowType windowEnum)
+    public bool IsExistWindow(EWindowType windowType)
     {
-        return windowDictionary.ContainsKey(windowEnum);
+        return windowDictionary.ContainsKey(windowType);
     }
 
-    public Window CreateWindow(EWindowType windowEnum, int titleId)
+    public Window CreateWindow(EWindowType windowType, int titleId)
     {
-        var prefab = from window in windowPrefab
-                     where window.WindowData.windowType == windowEnum
-                     && window.WindowData.windowTitleID == titleId
-                     select window;
-
-        return prefab.FirstOrDefault();
+        Window window = GetWindowPrefab(windowType, titleId);
+        window.CreatedWindow();
+        windowDictionary[windowType].Add(window);
+        return window;
     }
 
-    public Window GetWindowPrefab(EWindowType windowEnum, int titleId)
+    public Window GetWindowPrefab(EWindowType windowType, int titleId)
     {
-        return windowPrefab.Find((x) => x.WindowData.windowTitleID == titleId);
+        Window prefab = windowPrefab.Find((x) => x.WindowData.windowType == windowType 
+                                              && x.WindowData.windowTitleID == titleId);
+        return Instantiate(prefab, Define.WindowCanvasTrm);
     }
 
     private ISelectable selectedObject = null;

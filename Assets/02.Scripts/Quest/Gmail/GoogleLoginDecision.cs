@@ -8,14 +8,14 @@ public class GoogleLoginDecision : Decision
     public override void Init()
     {
         successLogin = false;
-        EventManager.StartListening(EQuestEvent.LoginGoogle, SuccessLogin);
+        EventManager.StartListening(ELoginSiteEvent.LoginSuccess, SuccessLogin);
     }
 
     private void SuccessLogin(object[] obj)
     {
         successLogin = true;
         OnChangedValue?.Invoke();
-        EventManager.StopListening(EQuestEvent.LoginGoogle, SuccessLogin);
+        EventManager.StopListening(ELoginSiteEvent.LoginSuccess, SuccessLogin);
     }
 
     public override bool CheckDecision()

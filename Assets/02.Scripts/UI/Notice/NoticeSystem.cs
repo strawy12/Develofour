@@ -60,7 +60,7 @@ public class NoticeSystem : MonoUI
     private void CheckClose(object[] hits)
     {
         if (isOpen == false) return;
-        if (Define.ExistInHits(gameObject, hits) == false)
+        if (Define.ExistInHits(gameObject, hits[0]) == false)
         {
             Close();
         }

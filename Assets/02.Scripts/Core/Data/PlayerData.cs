@@ -14,7 +14,6 @@ public enum EChapterDataType
 [System.Serializable]
 public class WriterData : ChapterData
 {
-
 }
 
 
@@ -22,10 +21,11 @@ public class WriterData : ChapterData
 public class ChapterData
 {
     public bool isLogin;
+    public bool isEnterLoginSite;
 }
 
 [System.Serializable]
-public class PlayerData 
+public class PlayerData
 {
     public ChapterData[] chapterDatas;
     public EChapterDataType currentChapterType;
@@ -37,6 +37,9 @@ public class PlayerData
         chapterDatas = new ChapterData[(int)EChapterDataType.Count];
         chapterDatas[(int)EChapterDataType.Writer] = new WriterData();
     }
-
+    public T TypeCastChapterData<T>() where T : ChapterData
+    {
+        return CurrentChapterData as T;
+    }
 
 }
