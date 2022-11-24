@@ -22,6 +22,7 @@ public class ChapterData
 {
     public bool isLogin;
     public bool isEnterLoginSite;
+    public List<ESiteLink> siteLinks = new List<ESiteLink>();
 }
 
 [System.Serializable]
