@@ -29,7 +29,7 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        saveOriginalPos = rectTransform.localPosition;
+        saveOriginalPos = rectTransform.anchoredPosition;
         
         isClick = true;
         OnClickNotice?.Invoke();
@@ -52,23 +52,21 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 changeSavePos = saveBeginDragPos;
-
         if (HV) // Horizontal
         {
             isPlma = eventData.delta.x > 0; // right
-            
-            Vector3 dragPanelPos = changeSavePos - eventData.position;
+
+
+            Vector3 dragPanelPos = eventData.position - (Vector2)saveBeginDragPos;
             dragPanelPos.y = 0;
             dragPanelPos.z = 0;
 
-            Vector3 movePos = rectTransform.localPosition - dragPanelPos;
-            if (movePos.x < Constant.NOTICEDRAG_MAXPOS)
+            if (dragPanelPos.x < 0)
             {
                 return;
             }
 
-            rectTransform.localPosition = movePos;
+             rectTransform.anchoredPosition = saveOriginalPos + dragPanelPos;
         }
     }
 
@@ -90,7 +88,7 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         }
         else
         {
-            rectTransform.localPosition = saveOriginalPos;
+            rectTransform.anchoredPosition = saveOriginalPos;
         }
     }
 }
