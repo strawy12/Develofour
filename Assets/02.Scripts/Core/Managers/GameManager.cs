@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    [SerializeField]
+    private ClickEffect clickEffect;
+
     private EGameState gameState;
 
     public EGameState GameState { get { return gameState; } }
@@ -20,5 +23,15 @@ public class GameManager : MonoSingleton<GameManager>
         if (gameState == state) { return; }
      
         gameState = state;
+    }
+
+    public void Update()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            ClickEffect effect = Instantiate(clickEffect, clickEffect.transform.parent);
+            effect.gameObject.SetActive(true);  
+            effect.Click();
+        }
     }
 }

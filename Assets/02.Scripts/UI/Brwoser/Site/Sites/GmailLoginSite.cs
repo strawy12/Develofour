@@ -26,11 +26,17 @@ public class GmailLoginSite : Site
 
     protected override void ShowSite()
     {
-        NoticeData data = new NoticeData();
-        data.head = "비밀번호 찾기";
-        data.body = "메일창을 들어가기 위해 비밀번호를 찾기.";
+        if(!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginSite)
+        {
+            NoticeData data = new NoticeData();
+            data.head = "비밀번호 찾기";
+            data.body = "메일창을 들어가기 위해 비밀번호를 찾기.";
 
-        NoticeSystem.OnGeneratedNotice?.Invoke(data);
+            NoticeSystem.OnGeneratedNotice?.Invoke(data);
+
+            DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginSite = true;
+        }
+        
         base.ShowSite();
     }
 
@@ -38,19 +44,15 @@ public class GmailLoginSite : Site
     {
         if (gmailInputField.text == passWord)
         {
-            Debug.Log("로그인 성공");
+            Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
             EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 
-            // TODO : UndoSite 하고하세요
-            // 
             EventManager.TriggerEvent(EBrowserEvent.OnUndoSite);
-            // Browser.OnUndoSite?.Invoke();
-            // 여기서 다음 페이지로 넘어가는 코드 넣기
         }
         else
         {
+            Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
             textMove.FaliedInput();
-            Debug.Log("로그인 실패");
         }
     }
 

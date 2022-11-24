@@ -203,6 +203,7 @@ public class NewsCutScene : CutScene
     protected override void EndCutScene()
     {
         digitalGlitch.ImmediatelyStop();
+        Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
 
         windowCanvas.enabled = true;
         EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Youtube_News, 0 });

@@ -61,7 +61,9 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     {
         if(!isMaximum)
         {
-            rectTransform.sizeDelta = Constant.MAXWINSIZE;
+            Vector2 size = Constant.MAXWINSIZE;
+            size.y -= 25;
+            rectTransform.sizeDelta = size;
 
             windowPos = rectTransform.localPosition;
             rectTransform.localPosition = new Vector3(0, 25, 0);

@@ -36,6 +36,8 @@ public partial class Sound : MonoBehaviour
         WindowAlarmSound,
         YoutubeHateBtnSound,
         YoutubeDefaultBtnSound,
+        LoginFailed,
+        LoginSuccess,
         
         Count
     }

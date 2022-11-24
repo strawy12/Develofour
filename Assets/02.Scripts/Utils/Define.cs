@@ -22,6 +22,18 @@ public static class Define
         
     }
 
+    public static Vector2 CanvasMousePos
+    {
+        get
+        {
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 0f;
+            mousePos -= (Vector3)Constant.MAXCANVASPOS;
+
+            return mousePos;
+        }
+    }
+
     private static Transform windowCanvasTrm;
 
     public static Transform WindowCanvasTrm
