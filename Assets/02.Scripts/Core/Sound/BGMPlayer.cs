@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class BGMPlayer : SoundPlayer
 {
@@ -16,7 +15,7 @@ public class BGMPlayer : SoundPlayer
 
         EventManager.StartListening(ECoreEvent.ChangeBGM, CheckStopBGM);
 
-        if(audioSource.loop == false)
+        if (audioSource.loop == false)
         {
             audioSource.loop = true;
         }
@@ -49,7 +48,7 @@ public class BGMPlayer : SoundPlayer
     [ContextMenu("Refresh")]
     public void Refresh()
     {
-        if(bgmSoundID != (Sound.EBgm)transform.GetSiblingIndex())
+        if (bgmSoundID != (Sound.EBgm)transform.GetSiblingIndex())
         {
             bgmSoundID = (Sound.EBgm)transform.GetSiblingIndex();
         }

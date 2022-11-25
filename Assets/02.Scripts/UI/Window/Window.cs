@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
+
 public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 {
     public static Window currentWindow;
