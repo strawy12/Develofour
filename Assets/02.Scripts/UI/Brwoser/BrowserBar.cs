@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
+using ExtenstionMethod;
 public class BrowserBar : MonoBehaviour
 {
     [SerializeField] private Button closeBtn;
