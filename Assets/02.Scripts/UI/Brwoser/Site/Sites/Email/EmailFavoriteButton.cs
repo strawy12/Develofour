@@ -33,24 +33,33 @@ public class EmailFavoriteButton : MonoBehaviour
 
     private void FavoriteOn()
     {
-        Debug.Log("isChanging = " + isChanging);
-        Debug.Log("isFavorited = " + isFavorited);
         if (isChanging) return;
         isChanging = true;
+
+        SetFavorited();
+
         OnChangeMailType?.Invoke();
+        transform.parent.GetComponent<EmailLine>().emailCategory = EEmailCategory.Favorite;
         Sequence sequence = DOTween.Sequence(); 
         if(isFavorited)
         {   
-            sequence.Append(fillStarImage.DOColor(new Color(0, 0, 0, 0), colorDuraction).OnComplete(() => isChanging = false));
-            isFavorited = false;
+            sequence.Append(fillStarImage.DOColor(new Color(0, 0, 0, 0), colorDuraction).OnComplete(() => isChanging = false));;
         }
         else
         {
-
             sequence.Append(fillStarImage.DOColor(Color.yellow, colorDuraction).OnComplete(() => isChanging = false));
+        }
+    }
+
+    private void SetFavorited()
+    {
+        if(transform.parent.GetComponent<EmailLine>().emailCategory == EEmailCategory.Favorite)
+        {
             isFavorited = true;
         }
-    } 
-
-   
+        else
+        {
+            isFavorited = false;
+        }
+    }
 }

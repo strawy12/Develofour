@@ -24,6 +24,7 @@ public abstract class Mail : MonoBehaviour
 
     public MailDataSO MailData { get { return mailData; } }
 
+    public Action OnChangeCatagory;
 
     public virtual void Init()
     {
@@ -52,6 +53,7 @@ public abstract class Mail : MonoBehaviour
 
         mailType = EEmailCategory.Remove;
         mailData.emailType = EEmailCategory.Remove;
+        OnChangeCatagory?.Invoke();
         HideMail();
     }
 

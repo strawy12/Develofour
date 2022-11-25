@@ -47,6 +47,8 @@ public class EmailSite : Site
     private Button sendBtn;
     [SerializeField]
     private Button removeBtn;
+    [SerializeField]
+    private List<GameObject> activeImageList;
     #endregion
 
     public override void Init()
@@ -69,6 +71,7 @@ public class EmailSite : Site
             emailLine.Init(mails[i].mailDataSO, mails[i].mail);
             emailLine.gameObject.SetActive(false);
             mails[i].mail.Init();
+            mails[i].mail.OnChangeCatagory += (() =>ChangeEmailCategory(EEmailCategory.Remove));
             baseEmailLineList.Add(emailLine);
 
         }
@@ -118,11 +121,22 @@ public class EmailSite : Site
         }
     }
 
+    private void SetActiveImage(EEmailCategory category)
+    {
+        foreach(GameObject img in activeImageList)
+        {
+            img.SetActive(false);
+        }
+
+        activeImageList[(int)category].SetActive(true);
+    }
+
     private void ChangeEmailCategory(EEmailCategory category)
     {
         HideMail();
         HideMailLine();
         SetEmailCategory();
+        SetActiveImage(category);
         switch (category)
         {
             case EEmailCategory.Receive:

@@ -26,6 +26,7 @@ public class EmailLine : MonoBehaviour
 
     public Mail mail;
 
+
     public bool IsFavorited { get { return mail.MailData.isHighlighted; } }
 
     public void Init(MailDataSO mailData, Mail mail)
