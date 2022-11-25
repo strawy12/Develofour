@@ -32,10 +32,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            ClickEffect effect = Instantiate(clickEffect, clickEffect.transform.parent);
-            effect.Click();
-        }
+        //if(Input.GetMouseButtonDown(0))
+        //{
+        //    ClickEffect effect = Instantiate(clickEffect, clickEffect.transform.parent);
+        //    effect.Click();
+        //}
     }
 }
