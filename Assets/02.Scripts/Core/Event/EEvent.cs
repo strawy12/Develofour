@@ -66,4 +66,14 @@ public enum ECutSceneEvent
     EndNewsCutScene,
 }
 
+public enum EInputType
+{
+    None = -1,
+    InputMouseDown,
+    InputMouse,
+    InputMouseUp,
+    InputKeyBoardDown,
+    InputKeyBoardStay,
+    InputKeyBoardUp,
+}
 
