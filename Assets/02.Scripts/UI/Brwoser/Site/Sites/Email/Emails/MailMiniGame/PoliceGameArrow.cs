@@ -21,7 +21,7 @@ public class PoliceGameArrow : MonoBehaviour
 
     [SerializeField]
     private Image arrowImage;
-
+    public Action<PoliceGameArrow> OnPush;
     private int arrowType;
     private KeyCode answerKey;
 
@@ -33,7 +33,9 @@ public class PoliceGameArrow : MonoBehaviour
         }
     }
 
-    public bool isInputed = false;
+    private bool isInputed = false;
+
+    public bool IsInputed { get { return isInputed; } }
 
     public void Init()
     {
@@ -75,11 +77,12 @@ public class PoliceGameArrow : MonoBehaviour
 
     public void Fail()
     {
-        
+
     }
 
     public void Succcess()
     {
         gameObject.SetActive(false);
+        OnPush.Invoke(this);
     }
 }
