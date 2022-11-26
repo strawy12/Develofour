@@ -29,6 +29,8 @@ public class PoliceMiniGame : MonoBehaviour
     private List<PoliceGameArrow> arrows;
     private Queue<PoliceGameArrow> arrowsPool;
     private bool isStarted = false;
+    private bool isCleared = false;
+    public bool IsCleared {  get { return isCleared; } }
     private int answerCount = 0;
     private float currentTime = 0f;
 
@@ -61,9 +63,12 @@ public class PoliceMiniGame : MonoBehaviour
 
     public void StartGame()
     {
+        if (isStarted) return;
+        answerCount = 0;
         SettingNewGame();
-        isStarted = true;
         currentTime = limitTime;
+        isStarted = true;
+
     }
 
     public void SettingNewGame()
@@ -121,13 +126,19 @@ public class PoliceMiniGame : MonoBehaviour
     private void GameFail()
     {
         Debug.Log("Fail");
+        foreach(PoliceGameArrow arrow in arrows)
+        {
+            arrow.Pop();
+        }
+        arrows.Clear();
         isStarted = false;
     }
-
+    
     private void GameClear()
     {
         Debug.Log("GameClear");
-
+        isCleared = true;
+        EventManager.TriggerEvent(EGamilSiteEvent.PoliceGameClear);
         isStarted = false;
     }
 }

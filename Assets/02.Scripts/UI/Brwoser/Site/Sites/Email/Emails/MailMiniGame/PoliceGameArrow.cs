@@ -45,6 +45,7 @@ public class PoliceGameArrow : MonoBehaviour
 
     public void Init()
     {
+        isInputed = false;
         ArrowRandomSetting();
     }
 
@@ -97,5 +98,12 @@ public class PoliceGameArrow : MonoBehaviour
         seq.Join(arrowImage.DOFade(0.1f, 0.175f));
         seq.Append(arrowImage.rectTransform.DOScale(1.3f, 0.1f))
             .OnComplete(() => { gameObject.SetActive(false); OnPush.Invoke(this); });     
+        Pop();
+    }
+
+    public void Pop()
+    {
+        gameObject.SetActive(false);
+        OnPush.Invoke(this);
     }
 }

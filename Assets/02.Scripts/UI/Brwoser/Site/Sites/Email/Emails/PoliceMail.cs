@@ -15,7 +15,6 @@ public class PoliceMail : Mail
     private Button sendBtn;
 
     private bool isSendBtnClick;
-    private bool isFinish = false;
 
     [SerializeField]
     private ScrollRect sr;
@@ -44,7 +43,7 @@ public class PoliceMail : Mail
 
     public override void DestroyMail()
     {
-        if (isFinish) return;
+        if (!miniGamePanel.IsCleared) return;
 
         base.DestroyMail();
     }
