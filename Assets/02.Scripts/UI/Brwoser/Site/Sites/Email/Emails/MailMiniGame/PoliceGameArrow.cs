@@ -86,7 +86,8 @@ public class PoliceGameArrow : MonoBehaviour
 
     public void Fail()
     {
-        isInputed = true; 
+        isInputed = true;
+        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.PoliceMinigameArrowFailed);
         arrowImage.rectTransform.DOShakePosition(1f, 10f, 30).OnComplete(() => { isInputed = false; });
     }
 

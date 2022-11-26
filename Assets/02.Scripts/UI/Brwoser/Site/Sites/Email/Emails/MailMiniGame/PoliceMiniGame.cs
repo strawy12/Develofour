@@ -24,8 +24,11 @@ public class PoliceMiniGame : MonoBehaviour
     private int arrowCount;
     [SerializeField]
     private RectTransform timerUI;
+
     [SerializeField]
-    private ScrollRect scrollview;
+    private PoliceGameSendButton sendButton;
+
+    [SerializeField]
     private List<PoliceGameArrow> arrows;
     private Queue<PoliceGameArrow> arrowsPool;
     private bool isStarted = false;
@@ -46,7 +49,7 @@ public class PoliceMiniGame : MonoBehaviour
 
     private void CreatePool()
     {
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < 10; i++)
         {
             PoliceGameArrow arrow = Instantiate(arrowPrefab, arrowPoolParent);
             arrow.OnPush += PushArrow;
@@ -57,6 +60,7 @@ public class PoliceMiniGame : MonoBehaviour
 
     private void PushArrow(PoliceGameArrow arrow)
     {
+        Debug.Log("푸쉬애로우");
         arrowsPool.Enqueue(arrow);
         arrow.transform.SetParent(arrowPoolParent);
     }
@@ -75,6 +79,7 @@ public class PoliceMiniGame : MonoBehaviour
     {
         for (int i = 0; i < arrowCount; i++)
         {
+            Debug.Log("포문" + arrowCount);
             PoliceGameArrow arrow = arrowsPool.Dequeue();
             arrow.ResetObject();
             arrow.transform.SetParent(arrowParent);
@@ -137,8 +142,10 @@ public class PoliceMiniGame : MonoBehaviour
     private void GameClear()
     {
         Debug.Log("GameClear");
+        
         isCleared = true;
         EventManager.TriggerEvent(EGamilSiteEvent.PoliceGameClear);
         isStarted = false;
+        sendButton.SuccessEffect();
     }
 }

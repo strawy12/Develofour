@@ -39,6 +39,7 @@ public partial class Sound : MonoBehaviour
         LoginFailed,
         LoginSuccess,
         PoliceMinigameArrowSuccess,
+        PoliceMinigameArrowFailed,
         Count
     }
 
