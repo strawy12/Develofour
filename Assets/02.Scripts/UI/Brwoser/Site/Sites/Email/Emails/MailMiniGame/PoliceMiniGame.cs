@@ -57,9 +57,12 @@ public class PoliceMiniGame : MonoBehaviour
 
     public void StartGame()
     {
+        if (isStarted) return;
+        answerCount = 0;
         SettingNewGame();
-        isStarted = true;
         currentTime = limitTime;
+        isStarted = true;
+
     }
 
     public void SettingNewGame()
@@ -117,7 +120,7 @@ public class PoliceMiniGame : MonoBehaviour
         Debug.Log("Fail");
         isStarted = false;
     }
-
+    
     private void GameClear()
     {
         Debug.Log("GameClear");
