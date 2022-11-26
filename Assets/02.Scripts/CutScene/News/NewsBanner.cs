@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using ExtenstionMethod;
 
 public class NewsBanner : MonoBehaviour
 {
@@ -31,16 +32,20 @@ public class NewsBanner : MonoBehaviour
     // 이거 호출하면 배너 시작됨
     IEnumerator MoveNewsBanner()
     {
-        Sequence seq = DOTween.Sequence();
+        float time = Time.time;
 
-        seq.Append(rectTransform.DOAnchorPos(endTextPos, newsBannerSpeed));
-
-        seq.AppendCallback(() =>
+        while(true)
         {
-            rectTransform.anchoredPosition = startTextPos;
-        });
+            rectTransform.anchoredPosition 
+                = rectTransform.anchoredPosition.Calculation(EOperator.Subtraction, x:Time.deltaTime * newsBannerSpeed);
 
-        yield return new WaitForSeconds(newsBannerDelay);
+            if(rectTransform.anchoredPosition.x <= endTextPos.x)
+            {
+                rectTransform.anchoredPosition = startTextPos;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     public void BannelStop()
