@@ -163,16 +163,21 @@ public class TextBox : MonoUI
 
         bool isRich = false;
         
+        for(int i = 40; i < textBoxInText.Length; i += 41)
+        {
+            textBoxInText = textBoxInText.Insert(i, "\n");
+        }
+
         messageText.text = textBoxInText;
 
         for (int i = 0; i < textBoxInText.Length; i++)
         {
-            if (message[i] == '<')
+            if (textBoxInText[i] == '<')
             {
                 isRich = true;
             }
 
-            if (message[i] == '>')
+            if (textBoxInText[i] == '>')
             {
                 isRich = false;
                 continue;
