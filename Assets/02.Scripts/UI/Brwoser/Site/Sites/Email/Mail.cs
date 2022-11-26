@@ -26,6 +26,9 @@ public abstract class Mail : MonoBehaviour
 
     public Action OnChangeCatagory;
 
+    [SerializeField]
+    private bool isCanDelete = true;
+
     public virtual void Init()
     {
         mailCloseButton.onClick.AddListener(HideMail);
