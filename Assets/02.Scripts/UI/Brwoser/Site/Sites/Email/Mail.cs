@@ -62,6 +62,7 @@ public abstract class Mail : MonoBehaviour
 
     public virtual void FavoriteMail()
     {
+        Debug.Log("사용, 현재 mailData.emailType = " + MailData.emailType + "  현재 mailType = " + mailType );
         if(mailType != EEmailCategory.Receive)
         {
             mailType = EEmailCategory.Receive;
@@ -72,6 +73,7 @@ public abstract class Mail : MonoBehaviour
             mailType = EEmailCategory.Favorite;
             mailData.emailType = EEmailCategory.Favorite;
         }
+        Debug.Log("끝 , 현재 mailData.emailType = " + MailData.emailType + "  현재 mailType = " + mailType);
     }
 
 
