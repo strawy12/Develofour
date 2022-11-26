@@ -1,9 +1,8 @@
-
-
 using UnityEngine;
 
 public partial class Sound : MonoBehaviour
 {
+
     public enum EBgm
     {
         None = -1,

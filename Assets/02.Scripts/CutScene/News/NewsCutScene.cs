@@ -1,4 +1,5 @@
 using DG.Tweening;
+using ExtenstionMethod;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
@@ -22,6 +23,7 @@ public class NewsCutScene : CutScene
     [SerializeField]
     private float noticeDelay = 0.5f;
 
+    #region Glitch
     [Header("Glitch")]
     [SerializeField]
     private DigitalGlitch digitalGlitch;
@@ -33,25 +35,44 @@ public class NewsCutScene : CutScene
     [SerializeField]
     private float glitchAfterDelay;
     [Space]
+    #endregion
 
+    #region NewsTitle
+    [Header("NewsTitle")]
+    [SerializeField]
+    private NewsTitle newsTitle;
 
-    #region NewsAnchor
+    [SerializeField]
+    private List<string> titleTextList;
+    #endregion
+
+    #region News Anchor
     [Header("News Anchor")]
     [SerializeField]
     private NewsAnchor newsAnchor;
-
     #endregion
 
+    #region News Reporter
+    [Header("News Reporter")]
+    [SerializeField]
+    private NewsReporter newsReporter;
+    #endregion
+
+    #region Background
     [Header("Background")]
     [SerializeField]
-    private Image backgroundImage;
+    private NewsBackground newsBackground;
+    #endregion
 
+    #region NewsScreen
     [Header("NewsScreen")]
     [SerializeField]
     private NewsScreen newsScreen;
     [SerializeField]
-    private float newsScreenFadeDuration;
+    private float newsScreenDuration;
+    #endregion
 
+    #region StopIcon
     [Header("StopIcon")]
     [SerializeField]
     private Image stopIconImage;
@@ -61,22 +82,27 @@ public class NewsCutScene : CutScene
     private float stopIconTargetSize = 1.5f;
     [SerializeField]
     private float stopIconDuration = 0.5f;
+    #endregion
 
+    #region CancelFullScreen
     [Header("CancelFullScreen")]
     [SerializeField]
     private float cancelFullScreenDelay = 2f;
     [SerializeField]
     private float cancelFullScreenOffsetY = -170f;
+    #endregion
 
+    #region PlayBar
     [Header("PlayBar")]
     [SerializeField]
     private CanvasGroup playBar;
     [SerializeField]
     private float playBarDuration = 0.5f;
-    
+    #endregion
 
     private int anchorVoiceCnt = 0;
     private Queue<int> printTextCntQueue = new Queue<int>();
+    private NewsCharacter currentNewsCharacter;
 
     protected override void StartCutScene()
     {
@@ -99,13 +125,21 @@ public class NewsCutScene : CutScene
     private IEnumerator NewsCoroutine()
     {
         RectTransform rt = GetComponent<RectTransform>();
+        float delay = 0f;
+
         Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.NewsBGM);
+        newsAnchor.Init();
+        newsReporter.Init();
+        newsScreen.Init();
 
         #region 시작 값
         digitalGlitch.Intensity = 1f;
         playBar.alpha = 0f;
-        backgroundImage.color = Color.white;
         newsAnchor.canvasGroup.alpha = 1f;
+        newsReporter.image.ChangeImageAlpha(0f);
+        currentNewsCharacter = newsAnchor;
+
+        newsBackground.ChangeBackground(NewsBackground.EBackgroundType.AI_Regulation, false);
         #endregion
 
         #region 글리치 효과 적용
@@ -116,17 +150,32 @@ public class NewsCutScene : CutScene
         yield return new WaitForSeconds(glitchAfterDelay);
         #endregion
 
+        newsTitle.Show(titleTextList[0]);
+
         #region 뉴스 화면_1
-        newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIMurder, newsScreenFadeDuration);
+        newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIMurder, newsScreenDuration);
         //yield return new WaitForSeconds(newsScreenFadeDuration);
         #endregion
 
         yield return PrintText();
 
-        #region 뉴스 화면 2
-        newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIRegulation, newsScreenFadeDuration);
-        yield return new WaitForSeconds(newsScreenFadeDuration);
+        #region 화면 전환
+        newsAnchor.canvasGroup.alpha = 0f;
+        newsTitle.Show(titleTextList[1]);
+        delay = newsBackground.ChangeBackground(NewsBackground.EBackgroundType.AI_MurderCase, true);
+        newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIRegulation, newsScreenDuration);
+        yield return new WaitForSeconds(newsScreenDuration);
+        newsReporter.image.ChangeImageAlpha(1f);
+        currentNewsCharacter = newsReporter;
+        yield return new WaitForSeconds(delay);
+
         #endregion
+
+
+        yield return PrintText();
+
+        newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIRegulationPass, newsScreenDuration);
+        yield return new WaitForSeconds(newsScreenDuration);
 
         yield return PrintText();
 
@@ -151,7 +200,7 @@ public class NewsCutScene : CutScene
         Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
 
         #region 전체화면 해제
-        float delay = cancelFullScreenDelay / 2f;
+        delay = cancelFullScreenDelay / 2f;
         yield return new WaitForSeconds(delay);
 
         Vector2 pos = rt.anchoredPosition;
@@ -184,27 +233,27 @@ public class NewsCutScene : CutScene
 
         for (int i = 0; i < cnt; i++)
         {
-            yield return AnchorSpeak();
+            yield return Speak();
             if (i != cnt - 1)
             { yield return new WaitForSeconds(1f); }
         }
     }
 
-    private IEnumerator AnchorSpeak()
+    private IEnumerator Speak()
     {
         float delay = -1f;
         if (Sound.OnPlayEffectSound != null)
         {
-            delay = Sound.OnPlayEffectSound.Invoke(Sound.EEffect.NewsAnchorVoice_01 + (anchorVoiceCnt++));
+            delay = 3f;//Sound.OnPlayEffectSound.Invoke(Sound.EEffect.NewsAnchorVoice_01 + (anchorVoiceCnt++));
         }
         if (delay == -1f) { yield break; }
 
         textBox.PrintText();
 
-        newsAnchor.StartSpeak();
+        currentNewsCharacter.StartSpeak();
 
         yield return new WaitForSeconds(delay);
-        newsAnchor.EndSpeak();
+        currentNewsCharacter.EndSpeak();
     }
 
     protected override void EndCutScene()
