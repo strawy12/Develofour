@@ -103,7 +103,6 @@ public class TextBox : MonoUI
 
         return textData.text.Length * printTextDelay;
     }
-
     private string EncordingRichText(string message)
     {
         string richText = "";
@@ -122,43 +121,63 @@ public class TextBox : MonoUI
         return richText;
     }
 
+    private string EncordingCommandText(string message)
+    {
+        string richText = "";
+
+        for (int i = 0; i < message.Length; i++)
+        {
+            if (message[i] == '}')
+            {
+                richText += message[i];
+                break;
+            }
+
+            richText += message[i];
+        }
+
+        return richText;
+    }
+
     private IEnumerator PrintTextCoroutine(string message)
     {
         message = message.Replace("\r", "");
         messageText.text = "";
-        string text = "";
 
-        for (int i = 0; i < message.Length; i++)
+        string originalText;
+        string removeSignText;
+        string textBoxInText;
+
+        originalText = message;
+
+        removeSignText = RemoveColor(message);
+        removeSignText = RemoveCommand(removeSignText);
+
+        textBoxInText = RemoveCommand(message);
+
+        bool isRich = false;
+        
+        messageText.text = removeSignText;
+
+        for (int i = 0; i < textBoxInText.Length; i++)
         {
-            if (!isTextPrinted) { break; }
-
-            char c = message[i];
-
-            if (c == '<')
+            if (message[i] == '<')
             {
-                string richText = EncordingRichText(message.Substring(i));
+                isRich = true;
+            }
 
-                text = $"{text}{richText}";
-                i += richText.Length - 1;
+            if (message[i] == '>')
+            {
+                isRich = false;
                 continue;
             }
 
-            if (c == '{')
+            messageText.maxVisibleCharacters = i;
+            
+            if(!isRich)
             {
-                int cnt = CommandTrigger(message.Substring(i));
-                i += cnt;
-
-                if (i >= message.Length)
-                    break;
-
-                c = message[i];
+                yield return new WaitForSeconds(printTextDelay);
             }
-            yield return new WaitUntil(() => isEffected == false);
-
-            text = string.Format("{0}{1}", text, c);
-            messageText.SetText(text);
-
-            yield return new WaitForSeconds(printTextDelay);
         }
 
         if (isTextPrinted == false)
@@ -167,6 +186,44 @@ public class TextBox : MonoUI
         }
 
         isTextPrinted = false;
+    }
+
+    private string RemoveColor(string message)
+    {
+        string removeText = message;
+
+        for (int i = 0; i < removeText.Length; i++)
+        {
+            if (removeText[i] == '<')
+            {
+                string signText = EncordingRichText(removeText.Substring(i)); // < color > 문자열
+                
+                removeText = removeText.Remove(i, signText.Length); // < > 이 문자열을 제외시킨 문자열
+               
+                i -= signText.Length;
+            }
+        }
+
+        return removeText;
+    }
+       
+    private string RemoveCommand(string message)
+    {
+        string removeText = message;
+
+        for (int i = 0; i < removeText.Length; i++)
+        {
+            if (removeText[i] == '{')
+            {
+                string signText = EncordingCommandText(removeText.Substring(i)); // {} 문자열
+                
+                removeText = removeText.Remove(i, signText.Length); // {} 이 문자열을 제외시킨 문자열
+
+                i -= signText.Length;
+            }
+        }
+
+        return removeText;
     }
 
     private void CompleteText(string msg)
