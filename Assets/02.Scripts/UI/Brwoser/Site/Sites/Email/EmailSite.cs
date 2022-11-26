@@ -73,7 +73,6 @@ public class EmailSite : Site
             mails[i].mail.Init();
             mails[i].mail.OnChangeCatagory += (() =>ChangeEmailCategory(EEmailCategory.Remove));
             baseEmailLineList.Add(emailLine);
-
         }
         SetEmailCategory();
     }

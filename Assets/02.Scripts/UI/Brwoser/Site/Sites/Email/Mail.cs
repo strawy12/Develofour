@@ -60,7 +60,7 @@ public abstract class Mail : MonoBehaviour
         HideMail();
     }
 
-    public virtual void FavoriteMail()
+    public void FavoriteMail()
     {
         Debug.Log("사용, 현재 mailData.emailType = " + MailData.emailType + "  현재 mailType = " + mailType );
         if(mailType != EEmailCategory.Receive)

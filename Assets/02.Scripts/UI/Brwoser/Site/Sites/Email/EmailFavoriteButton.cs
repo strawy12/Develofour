@@ -39,6 +39,7 @@ public class EmailFavoriteButton : MonoBehaviour
         SetFavorited();
 
         OnChangeMailType?.Invoke();
+        Debug.Log("asdf");
         transform.parent.GetComponent<EmailLine>().emailCategory = EEmailCategory.Favorite;
         Sequence sequence = DOTween.Sequence(); 
         if(isFavorited)

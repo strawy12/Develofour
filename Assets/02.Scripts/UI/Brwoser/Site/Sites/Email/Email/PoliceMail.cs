@@ -28,8 +28,4 @@ public class PoliceMail : Mail
         base.DestroyMail();
     }
 
-    public override void FavoriteMail()
-    {
-
-    }
 }
