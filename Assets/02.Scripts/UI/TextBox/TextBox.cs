@@ -25,9 +25,14 @@ public class TextBox : MonoUI
     private bool isTextPrinted = false;
     private bool isActive = false;
     private bool isEffected = false;
+    private bool isFindSign = false;
+
+    private Dictionary<int, Action> triggerDictionary;
 
     private void Start()
     {
+        triggerDictionary = new Dictionary<int, Action>();
+
         EventManager.StartListening(ECoreEvent.OpenTextBox, Init);
     }
 
@@ -152,9 +157,9 @@ public class TextBox : MonoUI
         originalText = message;
 
         removeSignText = RemoveColor(message);
-        removeSignText = RemoveCommand(removeSignText, false);
+        removeSignText = RemoveCommand(removeSignText);
 
-        textBoxInText = RemoveCommand(message, true);
+        textBoxInText = RemoveCommand(message);
 
         bool isRich = false;
         
@@ -174,7 +179,13 @@ public class TextBox : MonoUI
             }
 
             messageText.maxVisibleCharacters = i;
+            if(triggerDictionary.ContainsKey(i) && isFindSign)
+            {
+                isFindSign = false;
+                triggerDictionary[i]?.Invoke();
+            }
             
+
             if(!isRich)
             {
                 yield return new WaitForSeconds(printTextDelay);
@@ -207,8 +218,8 @@ public class TextBox : MonoUI
 
         return removeText;
     }
-       
-    private string RemoveCommand(string message, bool isTextBoxIn)
+
+    private string RemoveCommand(string message)
     {
         string removeText = message;
 
@@ -216,11 +227,11 @@ public class TextBox : MonoUI
         {
             if (removeText[i] == '{')
             {
-                if(isTextBoxIn) // dictionary add
-                {
+                isFindSign = true;
 
-                }
                 string signText = EncordingCommandText(removeText.Substring(i)); // {} 문자열
+                
+                triggerDictionary.Add(i, () => CommandTrigger(signText));
                                                                                                                                                                                                               
                 removeText = removeText.Remove(i, signText.Length); // {} 이 문자열을 제외시킨 문자열
 
@@ -300,6 +311,7 @@ public class TextBox : MonoUI
 
     private int CommandTrigger(string msg)
     {
+         Debug.Log(msg);
         string cmdMsg = "";
         msg = msg.Substring(1);
         int cnt = 1;
