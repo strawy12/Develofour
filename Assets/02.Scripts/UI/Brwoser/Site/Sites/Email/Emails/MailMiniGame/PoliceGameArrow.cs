@@ -37,13 +37,21 @@ public class PoliceGameArrow : MonoBehaviour
 
     public bool IsInputed { get { return isInputed; } }
 
+    public void ResetObject()
+    {
+        arrowImage.DOFade(1, 0);
+        arrowImage.rectTransform.DOScale(1, 0);
+    }
+
     public void Init()
     {
         ArrowRandomSetting();
     }
+
     public void Release()
     {
     }
+
     private void ArrowRandomSetting()
     {
         isInputed = false;
@@ -77,12 +85,17 @@ public class PoliceGameArrow : MonoBehaviour
 
     public void Fail()
     {
-
+        isInputed = true; 
+        arrowImage.rectTransform.DOShakePosition(1f, 10f, 30).OnComplete(() => { isInputed = false; });
     }
 
     public void Succcess()
     {
-        gameObject.SetActive(false);
-        OnPush.Invoke(this);
+        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.PoliceMinigameArrowSuccess);
+        Sequence seq = DOTween.Sequence();
+        seq.Append(arrowImage.rectTransform.DOScale(0.6f, 0.075f));
+        seq.Join(arrowImage.DOFade(0.1f, 0.175f));
+        seq.Append(arrowImage.rectTransform.DOScale(1.3f, 0.1f))
+            .OnComplete(() => { gameObject.SetActive(false); OnPush.Invoke(this); });     
     }
 }

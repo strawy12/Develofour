@@ -17,9 +17,18 @@ public class PoliceMail : Mail
     private bool isSendBtnClick;
     private bool isFinish = false;
 
+    [SerializeField]
+    private ScrollRect sr;
+
+    public void SetContentPosition()
+    {
+        sr.content.localPosition = new Vector3(0, 450, 0);
+    }
+
     public override void Init()
     {
         base.Init();
+
         sendBtn.onClick.AddListener(SendMail);
     }
 
@@ -44,7 +53,9 @@ public class PoliceMail : Mail
     {
         sendButtonPanel.SetActive(false);
         miniGamePanel.gameObject.SetActive(true);
-
+        Invoke("SetContentPosition", 0.2f);
         isSendBtnClick = true;
     }
+
+
 }

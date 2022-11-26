@@ -24,11 +24,14 @@ public class PoliceMiniGame : MonoBehaviour
     private int arrowCount;
     [SerializeField]
     private RectTransform timerUI;
+    [SerializeField]
+    private ScrollRect scrollview;
     private List<PoliceGameArrow> arrows;
     private Queue<PoliceGameArrow> arrowsPool;
     private bool isStarted = false;
     private int answerCount = 0;
     private float currentTime = 0f;
+
     private void Awake()
     {
         arrows = new List<PoliceGameArrow>();
@@ -36,6 +39,8 @@ public class PoliceMiniGame : MonoBehaviour
         CreatePool();
         startBtn.onClick.AddListener(StartGame);
     }
+
+    
 
     private void CreatePool()
     {
@@ -45,7 +50,6 @@ public class PoliceMiniGame : MonoBehaviour
             arrow.OnPush += PushArrow;
             arrow.gameObject.SetActive(false);
             arrowsPool.Enqueue(arrow);
-
         }
     }
 
@@ -67,6 +71,7 @@ public class PoliceMiniGame : MonoBehaviour
         for (int i = 0; i < arrowCount; i++)
         {
             PoliceGameArrow arrow = arrowsPool.Dequeue();
+            arrow.ResetObject();
             arrow.transform.SetParent(arrowParent);
             arrow.Init();
             arrows.Add(arrow);
@@ -95,6 +100,7 @@ public class PoliceMiniGame : MonoBehaviour
             if (answerCount >= gameCount)
             {
                 GameClear();
+                return;
             }
             else
             {
