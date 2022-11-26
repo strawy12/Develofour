@@ -39,6 +39,7 @@ public class PoliceGameArrow : MonoBehaviour
 
     public void Init()
     {
+        isInputed = false;
         ArrowRandomSetting();
     }
     public void Release()
@@ -81,6 +82,11 @@ public class PoliceGameArrow : MonoBehaviour
     }
 
     public void Succcess()
+    {
+        Pop();
+    }
+
+    public void Pop()
     {
         gameObject.SetActive(false);
         OnPush.Invoke(this);

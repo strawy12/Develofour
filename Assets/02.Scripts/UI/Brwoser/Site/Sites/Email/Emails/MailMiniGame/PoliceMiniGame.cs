@@ -118,12 +118,18 @@ public class PoliceMiniGame : MonoBehaviour
     private void GameFail()
     {
         Debug.Log("Fail");
+        foreach(PoliceGameArrow arrow in arrows)
+        {
+            arrow.Pop();
+        }
+        arrows.Clear();
         isStarted = false;
     }
     
     private void GameClear()
     {
         Debug.Log("GameClear");
+        
         EventManager.TriggerEvent(EGamilSiteEvent.PoliceGameClear);
         isStarted = false;
     }
