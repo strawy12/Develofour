@@ -49,7 +49,7 @@ public class PoliceMiniGame : MonoBehaviour
 
     private void CreatePool()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 25; i++)
         {
             PoliceGameArrow arrow = Instantiate(arrowPrefab, arrowPoolParent);
             arrow.OnPush += PushArrow;
@@ -60,7 +60,6 @@ public class PoliceMiniGame : MonoBehaviour
 
     private void PushArrow(PoliceGameArrow arrow)
     {
-        Debug.Log("푸쉬애로우");
         arrowsPool.Enqueue(arrow);
         arrow.transform.SetParent(arrowPoolParent);
     }
@@ -79,7 +78,6 @@ public class PoliceMiniGame : MonoBehaviour
     {
         for (int i = 0; i < arrowCount; i++)
         {
-            Debug.Log("포문" + arrowCount);
             PoliceGameArrow arrow = arrowsPool.Dequeue();
             arrow.ResetObject();
             arrow.transform.SetParent(arrowParent);

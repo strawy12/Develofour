@@ -234,7 +234,6 @@ GameObject:
   - component: {fileID: 294527121589927420}
   - component: {fileID: 7121291340162626138}
   - component: {fileID: 2355980923353300488}
-  - component: {fileID: 5210366011553526984}
   m_Layer: 5
   m_Name: MiniGamePanel
   m_TagString: Untagged
@@ -326,19 +325,8 @@ MonoBehaviour:
   gameCount: 3
   arrowCount: 10
   timerUI: {fileID: 4544575990293762997}
---- !u!114 &5210366011553526984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1013668835212046298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88363e54dc03233439b99de1032cd5bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  verticalLayoutGroup: {fileID: 0}
+  sendButton: {fileID: 204644093576784409}
+  arrows: []
 --- !u!1 &1109226779016871061
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,6 +1168,7 @@ GameObject:
   - component: {fileID: 2045367646950618603}
   - component: {fileID: 2702313105910443770}
   - component: {fileID: 4980662973494515184}
+  - component: {fileID: 204644093576784409}
   m_Layer: 5
   m_Name: SendButton
   m_TagString: Untagged
@@ -1291,6 +1280,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &204644093576784409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893708037751711187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c58d6065e831a1249a50551eae5d387a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1931644977825299212
 GameObject:
   m_ObjectHideFlags: 0
@@ -2542,7 +2543,6 @@ GameObject:
   - component: {fileID: 5971769113215286889}
   - component: {fileID: 1238495389012217848}
   - component: {fileID: 4294301454184199815}
-  - component: {fileID: 4058152411138084732}
   m_Layer: 5
   m_Name: MainPanel
   m_TagString: Untagged
@@ -2611,19 +2611,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4058152411138084732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3884563596244244038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88363e54dc03233439b99de1032cd5bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  verticalLayoutGroup: {fileID: 0}
 --- !u!1 &4149871176219031843
 GameObject:
   m_ObjectHideFlags: 0
@@ -2635,7 +2622,6 @@ GameObject:
   - component: {fileID: 5179677070383962742}
   - component: {fileID: 3747734611816133767}
   - component: {fileID: 2437351552651490164}
-  - component: {fileID: 6043695327986982585}
   m_Layer: 5
   m_Name: SentBtnPanel
   m_TagString: Untagged
@@ -2702,19 +2688,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6043695327986982585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4149871176219031843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88363e54dc03233439b99de1032cd5bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  verticalLayoutGroup: {fileID: 0}
 --- !u!1 &4468996191930172859
 GameObject:
   m_ObjectHideFlags: 0

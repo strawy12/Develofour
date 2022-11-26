@@ -98,8 +98,8 @@ public class PoliceGameArrow : MonoBehaviour
         seq.Append(arrowImage.rectTransform.DOScale(0.6f, 0.075f));
         seq.Join(arrowImage.DOFade(0.1f, 0.175f));
         seq.Append(arrowImage.rectTransform.DOScale(1.3f, 0.1f))
-            .OnComplete(() => { gameObject.SetActive(false); OnPush.Invoke(this); });     
-        Pop();
+            .OnComplete(() => { Pop(); });     
+      
     }
 
     public void Pop()
