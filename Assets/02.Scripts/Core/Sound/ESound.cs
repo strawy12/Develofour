@@ -37,7 +37,8 @@ public partial class Sound : MonoBehaviour
         YoutubeDefaultBtnSound,
         LoginFailed,
         LoginSuccess,
-        
+        PoliceMinigameArrowSuccess,
+        PoliceMinigameArrowFailed,
         Count
     }
 

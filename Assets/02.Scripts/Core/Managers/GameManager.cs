@@ -30,4 +30,5 @@ public class GameManager : MonoSingleton<GameManager>
 
         gameState = state;
     }
+
 }

@@ -11,6 +11,7 @@ public enum EQuestEvent
     None = -1,
     HateBtnClicked,
     LoginGoogle,
+    PoliceMiniGameClear,
 }
 
 public enum EWindowEvent
@@ -55,7 +56,11 @@ public enum ELoginSiteEvent
     None = -1,
     LoginSuccess,
 }
-
+public enum EGamilSiteEvent
+{
+    None = -1,
+    PoliceGameClear,
+}
 #endregion
 
 public enum ECutSceneEvent
