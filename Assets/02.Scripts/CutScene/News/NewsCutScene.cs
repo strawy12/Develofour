@@ -58,6 +58,12 @@ public class NewsCutScene : CutScene
     private NewsReporter newsReporter;
     #endregion
 
+    #region News Banner
+    [Header("News Banner")]
+    [SerializeField]
+    private NewsBanner newsBanner;
+    #endregion
+
     #region Background
     [Header("Background")]
     [SerializeField]
@@ -130,6 +136,7 @@ public class NewsCutScene : CutScene
         Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.NewsBGM);
         newsAnchor.Init();
         newsReporter.Init();
+        newsBanner.Init();
         newsScreen.Init();
 
         #region ½ÃÀÛ °ª
@@ -191,6 +198,8 @@ public class NewsCutScene : CutScene
         yield return new WaitForSeconds(stopIconDuration);
         #endregion
 
+        newsBanner.BannelStop();
+
         yield return new WaitForSeconds(1f);
 
         textBox.PrintText();
@@ -211,6 +220,8 @@ public class NewsCutScene : CutScene
         #endregion
 
         EndCutScene();
+
+        newsBanner.isBannerPlay = false;
         pos = rt.anchoredPosition;
         pos.y = 0f;
         rt.anchoredPosition = pos;
