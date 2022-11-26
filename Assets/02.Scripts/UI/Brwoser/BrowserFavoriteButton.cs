@@ -25,7 +25,14 @@ public class BrowserFavoriteButton : MonoBehaviour
             siteLink = value;
         }
     }
-    public UnityEvent OnClick { get { return favoriteBtn.onClick; } }
+    public UnityEvent OnClick 
+    { 
+        get 
+        {
+            favoriteBtn ??= GetComponent<Button>();
+            return favoriteBtn.onClick; 
+        } 
+    }
 
 
     public void Init(Sprite iconSprite, string title)

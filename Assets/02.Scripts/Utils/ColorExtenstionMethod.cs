@@ -35,10 +35,12 @@ namespace ExtenstionMethod
 
         public static void SetAlphaOne(this Color color)
         {
+            Debug.Log(color);
             color.a = 1;
+            Debug.Log(color);
         }
 
-        public static void ChangeImage(this Image image, float a)
+        public static void ChangeImageAlpha(this Image image, float a)
         {
             Color col = image.color;
             col.a = a;

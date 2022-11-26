@@ -1,30 +1,49 @@
 using DG.Tweening;
+using ExtenstionMethod;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class NewsScreenData
+{
+    public Sprite screenSprite;
+    public Sprite screenTitleSprite;
+
+    public Vector2 targetPosition;
+    public Vector3 targetScale;
+}
+
 public class NewsScreen : MonoBehaviour
 {
     public enum ENewsScreenType
     {
         AIMurder,
-        AIRegulation
+        AIRegulation,
+        AIRegulationPass
     }
+    [SerializeField]
+    private Image screenTitleImage;
 
     [SerializeField]
-    private List<Sprite> screenSpriteList;
+    private List<NewsScreenData> screenDataList;
+
 
     private Image screenImage;
+    private CanvasGroup canvasGroup;
+    public RectTransform rectTransform { get; private set; }
+
 
     private ENewsScreenType currentScreenType;
 
-    private void Awake()
+    public void Init()
     {
-        screenImage = GetComponent<Image>();
+        screenImage ??= GetComponent<Image>();
+        canvasGroup ??= GetComponent<CanvasGroup>();
+        rectTransform ??= GetComponent<RectTransform>();
     }
-
     public void ChangeScreen(ENewsScreenType type, float fadeTime = 0f)
     {
         StartCoroutine(ChangeScreenCoroutine(type, fadeTime));
@@ -32,29 +51,42 @@ public class NewsScreen : MonoBehaviour
 
     private IEnumerator ChangeScreenCoroutine(ENewsScreenType type, float fadeTime)
     {
-        if (screenImage.color.a != 0f)
+        currentScreenType = type;
+        NewsScreenData data = screenDataList[(int)currentScreenType];
+
+        if (canvasGroup.alpha != 0f)
         {
-            screenImage.rectTransform.DOScale(0, fadeTime).SetEase(Ease.InSine);
-            screenImage.DOFade(0f, fadeTime * 0.75f).SetEase(Ease.OutCubic);
+            rectTransform.DOScale(0, fadeTime).SetEase(Ease.InSine);
+            canvasGroup.DOFade(0f, fadeTime * 0.75f).SetEase(Ease.OutCubic);
             yield return new WaitForSeconds(fadeTime);
-            screenImage.rectTransform.DOScale(0.8f, 0);
+            rectTransform.localScale = data.targetScale * 0.8f;
         }
 
-        currentScreenType = type;
-        screenImage.sprite = screenSpriteList[(int)currentScreenType];
+        rectTransform.localPosition = data.targetPosition;
+        screenImage.sprite = data.screenSprite;
+
+        if (data.screenTitleSprite == null)
+        {
+            screenTitleImage.ChangeImageAlpha(0f);
+        }
+
+        else
+        {
+            screenTitleImage.ChangeImageAlpha(1f);
+            screenTitleImage.sprite = data.screenTitleSprite;
+        }
+
 
         if (fadeTime != 0f)
         {
-            screenImage.rectTransform.DOScale(1, fadeTime / 3);
-            screenImage.rectTransform.DOShakeAnchorPos(fadeTime / 2f, 25, 50);
-            screenImage.DOFade(1f, fadeTime).SetEase(Ease.OutSine);
+            rectTransform.DOScale(data.targetScale, fadeTime / 3);
+            rectTransform.DOShakeAnchorPos(fadeTime / 2f, 25, 50);
+            canvasGroup.DOFade(1f, fadeTime).SetEase(Ease.OutSine);
         }
     }
 
     public void Release()
     {
-        Color color = screenImage.color;
-        color.a = 0f;
-        screenImage.color = color;
+        canvasGroup.alpha = 0f;
     }
 }

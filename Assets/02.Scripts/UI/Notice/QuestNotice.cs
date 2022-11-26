@@ -17,8 +17,8 @@ public class QuestNotice : MonoBehaviour
     private void HateBtnClicked(object[] emptyParam)
     {
         NoticeData data = new NoticeData();
-        data.head = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿?ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï±ï¿½";
-        data.body = "ï¿½ï¿½ï¿½Ã£ï¿½â¿?ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·Î°ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½";
+        data.head = "°æÂû ÃâµÎÀå ¸ÞÀÏ È®ÀÎÇÏ±â";
+        data.body = "Áñ°ÜÃ£±â¿¡ ÀÖ´Â ¸ÞÀÏ ¹Ù·Î°¡±â ¹öÆ°À» ÀÌ¿ëÇØ °¥ ¼ö ÀÖ½À´Ï´Ù";
         NoticeSystem.OnGeneratedNotice?.Invoke(data);
 
         object[] ps = new object[1] { ESiteLink.Email };

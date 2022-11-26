@@ -4,23 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.UI.Image;
 
-public class NewsAnchor : MonoBehaviour
+
+public class NewsAnchor : NewsCharacter
 {
-    public enum EFaceType
-    {
-        Default,
-        Think,
-        Count
-    }
-    public enum EActType
-    {
-        Default,
-        PointGesture,
-    }
-
     [SerializeField]
     private float speakDelay = 0.2f;
 
@@ -28,12 +15,10 @@ public class NewsAnchor : MonoBehaviour
     private Vector2 speakOffset;
 
     [SerializeField]
-    private List<Sprite> actSpriteList;
+    private Sprite faceSprite;
 
     [SerializeField]
-    private List<Sprite> faceSpriteList;
-    [SerializeField]
-    private List<Sprite> speakFaceSpriteList;
+    private Sprite speakFaceSprite;
 
     [SerializeField]
     private Image faceImage;
@@ -41,33 +26,29 @@ public class NewsAnchor : MonoBehaviour
 
     public RectTransform rectTransform { get; private set; }
     public CanvasGroup canvasGroup { get; private set; }
-    private Image actImage;
 
-
-    private EFaceType currentFace;
-    private EActType currentAct;
 
     private bool isSpeak;
 
-    private void Awake()
+    public void Init()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-        rectTransform = GetComponent<RectTransform>();
-        actImage = GetComponent<Image>();
+        canvasGroup ??= GetComponent<CanvasGroup>();
+        rectTransform ??= GetComponent<RectTransform>();
 
-        currentFace = EFaceType.Default;
-        currentAct = EActType.Default;
+        canvasGroup.alpha = 0f;
     }
 
-    public void StartSpeak()
+    public override void StartSpeak()
     {
         if (isSpeak) return;
         isSpeak = true;
 
+       
+
         StartCoroutine(SpeakCoroutine());
     }
 
-    public void EndSpeak()
+    public override void EndSpeak()
     {
         if (!isSpeak) return;
         isSpeak = false;
@@ -77,34 +58,14 @@ public class NewsAnchor : MonoBehaviour
     {
         while (isSpeak)
         {
-            faceImage.sprite = faceSpriteList[(int)currentFace];
+            faceImage.sprite = faceSprite;
             faceImage.rectTransform.anchoredPosition += speakOffset;
             yield return new WaitForSeconds(speakDelay);
-            faceImage.sprite = speakFaceSpriteList[(int)currentFace];
+            faceImage.sprite = speakFaceSprite;
             faceImage.rectTransform.anchoredPosition -= speakOffset;
             yield return new WaitForSeconds(speakDelay);
         }
 
-        faceImage.sprite = faceSpriteList[(int)currentFace];
+        faceImage.sprite = faceSprite;
     }
-
-    public void ChangeFace(EFaceType type)
-    {
-        currentFace = type;
-        ChangeFace((int)type);
-    }
-
-    public void ChangeFace(int idx)
-    {
-        Sprite sprite = faceSpriteList[idx];
-        faceImage.sprite = sprite;
-    }
-
-    public void ChangeAct(EActType type)
-    {
-        Sprite sprite = actSpriteList[(int)type];
-        actImage.sprite = sprite;
-    }
-
-    
 }

@@ -12,6 +12,13 @@ namespace ExtenstionMethod
         Divide,
     }
 
+    public enum EVertex
+    {
+        X,
+        Y,
+        Z,
+    }
+
     public static class VectorExtenstionMethod
     {
         public static Vector3 Reset(this Vector3 vector)
@@ -60,10 +67,31 @@ namespace ExtenstionMethod
             return targetDir;
         }
 
+        public static Vector3 ChangeValue(this Vector3 vector, float x = 0f, float y = 0f, float z = 0f)
+        {
+            Vector3 newVec = vector;
+
+            newVec.x = x == 0f ? vector.x : x;
+            newVec.y = y == 0f ? vector.y : y;
+            newVec.z = z == 0f ? vector.z : z;
+
+            return newVec;
+        }
+
         public static Vector2 ChangeVectorXY(this Vector2 vector)
         {
             Vector2 newVec = vector;
             (newVec.x, newVec.y) = (newVec.y, newVec.x);
+
+            return newVec;
+        }
+
+        public static Vector2 ChangeValue(this Vector2 vector, float x = 0f, float y = 0f)
+        {
+            Vector2 newVec = vector;
+
+            newVec.x = x == 0f ? vector.x : x;
+            newVec.y = y == 0f ? vector.y : y;
 
             return newVec;
         }

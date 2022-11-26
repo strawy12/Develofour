@@ -12,7 +12,7 @@ public class TextData
 {
     public string name;
 
-    [TextArea(1, 10)]
+    [TextArea(5, 30)]
     public string text; 
 }
 
