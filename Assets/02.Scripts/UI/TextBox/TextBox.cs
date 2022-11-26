@@ -5,7 +5,7 @@ using TMPro;
 using System;
 using DG.Tweening;
 using static Sound;
-
+using System.Collections.Generic;
 
 public class TextBox : MonoUI
 {
@@ -103,6 +103,7 @@ public class TextBox : MonoUI
 
         return textData.text.Length * printTextDelay;
     }
+
     private string EncordingRichText(string message)
     {
         string richText = "";
@@ -151,13 +152,13 @@ public class TextBox : MonoUI
         originalText = message;
 
         removeSignText = RemoveColor(message);
-        removeSignText = RemoveCommand(removeSignText);
+        removeSignText = RemoveCommand(removeSignText, false);
 
-        textBoxInText = RemoveCommand(message);
+        textBoxInText = RemoveCommand(message, true);
 
         bool isRich = false;
         
-        messageText.text = removeSignText;
+        messageText.text = textBoxInText;
 
         for (int i = 0; i < textBoxInText.Length; i++)
         {
@@ -207,7 +208,7 @@ public class TextBox : MonoUI
         return removeText;
     }
        
-    private string RemoveCommand(string message)
+    private string RemoveCommand(string message, bool isTextBoxIn)
     {
         string removeText = message;
 
@@ -215,8 +216,12 @@ public class TextBox : MonoUI
         {
             if (removeText[i] == '{')
             {
+                if(isTextBoxIn) // dictionary add
+                {
+
+                }
                 string signText = EncordingCommandText(removeText.Substring(i)); // {} 문자열
-                
+                                                                                                                                                                                                              
                 removeText = removeText.Remove(i, signText.Length); // {} 이 문자열을 제외시킨 문자열
 
                 i -= signText.Length;
