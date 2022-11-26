@@ -13,13 +13,14 @@ public class EmailFavoriteButton : MonoBehaviour
     [SerializeField]
     private Image starImage;
     [SerializeField]
-    private Image fillStarImage;
+    public Image fillStarImage;
     [SerializeField]
     private float colorDuraction = 0.7f;
     public UnityEvent OnClick { get { return button.onClick; } }
 
     public Action OnChangeMailType;
 
+    [SerializeField]
     private bool isFavorited =false;
     private bool isChanging = false;
 
@@ -32,20 +33,34 @@ public class EmailFavoriteButton : MonoBehaviour
 
     private void FavoriteOn()
     {
-        Debug.Log(isFavorited);
         if (isChanging) return;
         isChanging = true;
+
+        SetFavorited();
+
         OnChangeMailType?.Invoke();
+        Debug.Log("asdf");
+        transform.parent.GetComponent<EmailLine>().emailCategory = EEmailCategory.Favorite;
         Sequence sequence = DOTween.Sequence(); 
         if(isFavorited)
-        {
-            isFavorited = false;
-            sequence.Append(fillStarImage.DOColor(Color.yellow, colorDuraction).OnComplete(() => isChanging = false));
+        {   
+            sequence.Append(fillStarImage.DOColor(new Color(0, 0, 0, 0), colorDuraction).OnComplete(() => isChanging = false));;
         }
         else
         {
-            isFavorited = true;
-            sequence.Append(fillStarImage.DOColor(new Color(0,0,0,0), colorDuraction).OnComplete(() => isChanging = false));
+            sequence.Append(fillStarImage.DOColor(Color.yellow, colorDuraction).OnComplete(() => isChanging = false));
         }
-    } 
+    }
+
+    private void SetFavorited()
+    {
+        if(transform.parent.GetComponent<EmailLine>().emailCategory == EEmailCategory.Favorite)
+        {
+            isFavorited = true;
+        }
+        else
+        {
+            isFavorited = false;
+        }
+    }
 }
