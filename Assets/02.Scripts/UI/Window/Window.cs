@@ -7,8 +7,10 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 
 
+[RequireComponent(typeof(GraphicRaycaster))]
 public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 {
+    public static int windowMaxCnt;
     public static Window currentWindow;
 
     [SerializeField]
@@ -27,27 +29,53 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public Action OnUnSelected { get; set; }
     
     public WindowDataSO WindowData { get { return windowData; } }
+    
     private Vector3 windowPos;
+
+    private Canvas windowCanvas;
 
     protected virtual void Init()
     {
+        windowCanvas = GetComponent<Canvas>();
+
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
 
         windowData.isMaximum = false;
       
         windowBar.Init(windowData, rectTransform);
-        OnSelected += () => isSelected = true;
-        OnUnSelected += () => isSelected = false;
+        OnSelected += () => WindowSelected(true);
+        OnUnSelected += () => WindowSelected(false);
         windowBar.OnClose?.AddListener(WindowClose);
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);
         windowBar.OnSelected += SelectWindow;
     }
 
+    public void WindowSelected(bool windowSelected)
+    {
+        isSelected = windowSelected;
+        
+        if(isSelected)
+        {
+            windowCanvas.sortingOrder = windowMaxCnt;
+        }
+        if (!isSelected)
+        {
+            windowCanvas.sortingOrder -= 1;
+
+            if (windowCanvas.sortingOrder <= 0)
+            {
+                windowCanvas.sortingOrder = 1;
+            }
+        }
+    }
+
     public void WindowClose()
     {
         OnClosed?.Invoke(windowData.windowTitleID);
+
+        windowMaxCnt--;
         Destroy(gameObject);
     }
     
@@ -82,6 +110,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public void WindowOpen()
     {
         WindowManager.Inst.SelectObject(this);
+        
         SetCurrentWindow(this);
         SetActive(true);
     }
@@ -95,6 +124,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     {
         Init();
         WindowOpen();
+        windowMaxCnt++;
     }
 
     public void OnPointerClick(PointerEventData eventData)
