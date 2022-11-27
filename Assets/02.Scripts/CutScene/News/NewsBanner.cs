@@ -4,11 +4,12 @@ using UnityEngine;
 using DG.Tweening;
 using ExtenstionMethod;
 using TMPro;
+using UnityEngine.UI;
 
 public class NewsBanner : MonoBehaviour
 {
     [SerializeField]
-    TMP_Text bannerText;
+    NewsBannerText bannerText;
 
     private bool isBannerPlay = false;
 
@@ -29,6 +30,8 @@ public class NewsBanner : MonoBehaviour
     {
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
+
+        bannerText.Init();
     }
 
     public void SetText(string msg)
@@ -58,13 +61,15 @@ public class NewsBanner : MonoBehaviour
 
         while (isBannerPlay)
         {
-            bannerText.rectTransform.anchoredPosition 
-                = bannerText.rectTransform.anchoredPosition.Calculation(EOperator.Subtraction, x:Time.deltaTime * newsBannerSpeed);
+            Debug.Log(bannerText.rectTransform.anchoredPosition.x);
+            bannerText.rectTransform.anchoredPosition
+                = bannerText.rectTransform.anchoredPosition.Calculation(EOperator.Subtraction, x: Time.deltaTime * newsBannerSpeed);
 
-            if(bannerText.rectTransform.anchoredPosition.x <= endTextPos.x)
+            if (bannerText.rectTransform.anchoredPosition.x <= endTextPos.x)
             {
+                Debug.LogError(bannerText.rectTransform.anchoredPosition.x + " " + endTextPos.x);
                 bannerTextCnt++;
-                if(bannerTextCnt >= 4)
+                if (bannerTextCnt >= 4)
                 {
                     bannerTextCnt = 0;
                 }
@@ -73,7 +78,6 @@ public class NewsBanner : MonoBehaviour
 
                 bannerText.rectTransform.anchoredPosition = startTextPos;
             }
-
             yield return new WaitForEndOfFrame();
         }
     }
