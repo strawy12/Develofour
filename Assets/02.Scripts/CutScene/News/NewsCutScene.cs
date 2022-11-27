@@ -20,6 +20,10 @@ public class NewsCutScene : CutScene
     [SerializeField]
     private float noticeDelay = 0.5f;
 
+    [SerializeField]
+    private string[] newsBannerText;
+
+
     #region Glitch
     [Header("Glitch")]
     [SerializeField]
@@ -137,7 +141,7 @@ public class NewsCutScene : CutScene
         newsBanner.Init();
         newsScreen.Init();
 
-        newsBanner.StartBanner("123456789");
+        newsBanner.StartBanner(newsBannerText);
 
         #region ½ÃÀÛ °ª
         digitalGlitch.Intensity = 1f;

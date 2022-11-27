@@ -17,6 +17,8 @@ public class NewsBanner : MonoBehaviour
     [SerializeField]
     private float turnOnDuration;
 
+    private int bannerTextCnt = 0;
+
     private Vector2 startTextPos;
     private Vector2 endTextPos;
 
@@ -27,8 +29,6 @@ public class NewsBanner : MonoBehaviour
     {
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
-
-
     }
 
     public void SetText(string msg)
@@ -42,17 +42,17 @@ public class NewsBanner : MonoBehaviour
         endTextPos.x = -(rectTransform.rect.width * 0.5f + bannerText.rectTransform.sizeDelta.x * 0.5f);
     }
 
-    public void StartBanner(string msg)
+    public void StartBanner(string[] msg)
     {
-        SetText(msg);
+        SetText(msg[bannerTextCnt]);
         bannerText.rectTransform.anchoredPosition = startTextPos;
 
         isBannerPlay = true;
-        StartCoroutine(MoveNewsBanner());
+        StartCoroutine(MoveNewsBanner(msg));
     }
 
     // 이거 호출하면 배너 시작됨
-    IEnumerator MoveNewsBanner()
+    IEnumerator MoveNewsBanner(string[] msg)
     {
         canvasGroup.DOFade(1f, turnOnDuration);
 
@@ -63,6 +63,14 @@ public class NewsBanner : MonoBehaviour
 
             if(bannerText.rectTransform.anchoredPosition.x <= endTextPos.x)
             {
+                bannerTextCnt++;
+                if(bannerTextCnt >= 4)
+                {
+                    bannerTextCnt = 0;
+                }
+
+                SetText(msg[bannerTextCnt]);
+
                 bannerText.rectTransform.anchoredPosition = startTextPos;
             }
 
