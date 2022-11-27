@@ -108,8 +108,12 @@ public class Browser : Window
 
     private IEnumerator LoadingSite(float loadDelay, Action Callback)
     {
-        loadingBar.StartLoading();
-        yield return new WaitForSeconds(loadDelay);
+        if(loadDelay != 0)
+        {
+            loadingBar.StartLoading();
+            yield return new WaitForSeconds(loadDelay);
+        }
+
         Callback?.Invoke();
         loadingBar.StopLoading();
     }

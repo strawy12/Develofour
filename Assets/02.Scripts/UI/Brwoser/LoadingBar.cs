@@ -7,11 +7,17 @@ public class LoadingBar : MonoBehaviour
 {
     public void StartLoading()
     {
-        gameObject.SetActive(true);
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
     }
 
     public void StopLoading()
     {
-        gameObject.SetActive(false);
+        if(gameObject.activeSelf)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

@@ -36,6 +36,7 @@ public enum EBrowserEvent
     OnOpenSite,
     OnUndoSite,
     AddFavoriteSite,
+    RemoveFavoriteSite,
 }
 
 #region Site
@@ -55,6 +56,7 @@ public enum ELoginSiteEvent
 {
     None = -1,
     LoginSuccess,
+    RequestSite
 }
 public enum EGamilSiteEvent
 {

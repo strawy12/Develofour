@@ -22,7 +22,15 @@ public class ChapterData
 {
     public bool isLogin;
     public bool isEnterLoginSite;
-    public List<ESiteLink> siteLinks = new List<ESiteLink>();
+    public List<ESiteLink> siteLinks;
+
+    public ChapterData()
+    {
+        siteLinks = new List<ESiteLink>();
+        siteLinks.Add(ESiteLink.Youtube_News);
+        isEnterLoginSite = false;
+        isLogin = false;
+    }
 }
 
 [System.Serializable]

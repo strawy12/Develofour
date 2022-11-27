@@ -15,6 +15,8 @@ public class GmailLoginSite : Site
     [SerializeField]
     private TextMove textMove;
 
+    private ESiteLink requestSite;
+
     public override void Init()
     {
         base.Init();
@@ -22,6 +24,15 @@ public class GmailLoginSite : Site
 
         gmailInputField.onSelect.AddListener((a) => textMove.PlaceholderEffect(true));
         gmailInputField.onDeselect.AddListener((a) => textMove.PlaceholderEffect(false));
+
+        EventManager.StartListening(ELoginSiteEvent.RequestSite, RequestSite);
+    }
+
+    private void RequestSite(object[] ps)
+    {
+        if (!(ps[0] is ESiteLink)) { return; }
+        if(requestSite != ESiteLink.None) { return; }
+        requestSite = (ESiteLink)ps[0];
     }
 
     protected override void ShowSite()

@@ -17,6 +17,7 @@ public class FavoriteBar : MonoBehaviour
     {
         CreatePool();
         EventManager.StartListening(EBrowserEvent.AddFavoriteSite, AddNewFavoritesButton);
+        EventManager.StartListening(EBrowserEvent.RemoveFavoriteSite, RemoveFavoritesButton);
         ReadSiteListsData();
     }
 
@@ -33,7 +34,6 @@ public class FavoriteBar : MonoBehaviour
 
     private void MakeFavoriteButton(Site site)
     {
-        return;
         ESiteLink siteLink = site.SiteLink;
         if (!favoritesList.ContainsKey(siteLink))
         {
@@ -72,6 +72,19 @@ public class FavoriteBar : MonoBehaviour
             button.SiteLink = siteLink;
             button.OnClick.AddListener(() => FavoriteEvent(siteLink));
             favoritesList.Add(siteLink, button);
+        }
+    }
+
+    public void RemoveFavoritesButton(object[] param)
+    {
+        if (param == null || !(param[0] is ESiteLink)) return;
+        ESiteLink siteLink = (ESiteLink)param[0];
+
+        SiteLinkData.Remove(siteLink);
+
+        if (favoritesList.ContainsKey(siteLink))
+        {
+            favoritesList[siteLink].gameObject.SetActive(false);
         }
     }
 
