@@ -21,7 +21,7 @@ public class PoliceMail : Mail
 
     public void SetContentPosition()
     {
-        sr.content.localPosition = new Vector3(0, 450, 0);
+        sr.content.localPosition = new Vector3(sr.content.localPosition.x, 450, sr.content.localPosition.z);
     }
 
     public override void Init()
