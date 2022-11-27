@@ -3,45 +3,67 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using ExtenstionMethod;
+using TMPro;
 
 public class NewsBanner : MonoBehaviour
 {
-    public bool isBannerPlay = false;
+    [SerializeField]
+    TMP_Text bannerText;
 
-    public float newsBannerSpeed;
-    public float newsBannerDelay;
+    private bool isBannerPlay = false;
 
-    public Vector2 startTextPos;
-    public Vector2 endTextPos;
+    [SerializeField]
+    private float newsBannerSpeed;
+    [SerializeField]
+    private float turnOnDuration;
+
+    private Vector2 startTextPos;
+    private Vector2 endTextPos;
 
     private RectTransform rectTransform;
-
-    void Start()
-    {
-        rectTransform = GetComponent<RectTransform>();
-    }
+    private CanvasGroup canvasGroup;
 
     public void Init()
     {
-        isBannerPlay = true;
-        rectTransform.anchoredPosition = startTextPos;
+        canvasGroup = GetComponent<CanvasGroup>();
+        rectTransform = GetComponent<RectTransform>();
 
+
+    }
+
+    public void SetText(string msg)
+    {
+        bannerText.SetText(msg);
+
+        startTextPos = rectTransform.anchoredPosition;
+        startTextPos.x = rectTransform.rect.width * 0.5f + bannerText.rectTransform.sizeDelta.x * 0.5f;
+
+        endTextPos = rectTransform.anchoredPosition;
+        endTextPos.x = -(rectTransform.rect.width * 0.5f + bannerText.rectTransform.sizeDelta.x * 0.5f);
+    }
+
+    public void StartBanner(string msg)
+    {
+        SetText(msg);
+        bannerText.rectTransform.anchoredPosition = startTextPos;
+
+        isBannerPlay = true;
         StartCoroutine(MoveNewsBanner());
     }
 
     // 이거 호출하면 배너 시작됨
     IEnumerator MoveNewsBanner()
     {
-        float time = Time.time;
+        canvasGroup.DOFade(1f, turnOnDuration);
 
-        while(true)
+        while (isBannerPlay)
         {
-            rectTransform.anchoredPosition 
-                = rectTransform.anchoredPosition.Calculation(EOperator.Subtraction, x:Time.deltaTime * newsBannerSpeed);
+            bannerText.rectTransform.anchoredPosition 
+                = bannerText.rectTransform.anchoredPosition.Calculation(EOperator.Subtraction, x:Time.deltaTime * newsBannerSpeed);
 
-            if(rectTransform.anchoredPosition.x <= endTextPos.x)
+            if(bannerText.rectTransform.anchoredPosition.x <= endTextPos.x)
             {
-                rectTransform.anchoredPosition = startTextPos;
+                bannerText.rectTransform.anchoredPosition = startTextPos;
             }
 
             yield return new WaitForEndOfFrame();
@@ -50,6 +72,10 @@ public class NewsBanner : MonoBehaviour
 
     public void BannelStop()
     {
-        StopCoroutine(MoveNewsBanner());
+        isBannerPlay = false;
+        canvasGroup.DOKill();
+        canvasGroup.alpha = 0f;
+
+        StopAllCoroutines();
     }
 }

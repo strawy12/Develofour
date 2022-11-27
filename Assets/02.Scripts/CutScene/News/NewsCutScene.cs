@@ -2,10 +2,7 @@ using DG.Tweening;
 using ExtenstionMethod;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
@@ -109,6 +106,8 @@ public class NewsCutScene : CutScene
     private int anchorVoiceCnt = 0;
     private Queue<int> printTextCntQueue = new Queue<int>();
     private NewsCharacter currentNewsCharacter;
+    private RectTransform rectTransform;
+
 
     protected override void StartCutScene()
     {
@@ -130,14 +129,15 @@ public class NewsCutScene : CutScene
 
     private IEnumerator NewsCoroutine()
     {
-        RectTransform rt = GetComponent<RectTransform>();
         float delay = 0f;
-
+        rectTransform ??= GetComponent<RectTransform>();
         Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.NewsBGM);
         newsAnchor.Init();
         newsReporter.Init();
         newsBanner.Init();
         newsScreen.Init();
+
+        newsBanner.StartBanner("123456789");
 
         #region 시작 값
         digitalGlitch.Intensity = 1f;
@@ -211,20 +211,13 @@ public class NewsCutScene : CutScene
         #region 전체화면 해제
         delay = cancelFullScreenDelay / 2f;
         yield return new WaitForSeconds(delay);
-
-        Vector2 pos = rt.anchoredPosition;
-        pos.y = cancelFullScreenOffsetY;
-        rt.anchoredPosition = pos;
-
+        rectTransform.anchoredPosition = rectTransform.anchoredPosition.ChangeValue(y: cancelFullScreenOffsetY);
         yield return new WaitForSeconds(delay);
         #endregion
 
         EndCutScene();
 
-        newsBanner.isBannerPlay = false;
-        pos = rt.anchoredPosition;
-        pos.y = 0f;
-        rt.anchoredPosition = pos;
+
     }
 
     private void ShowNewsSceneNotice()
@@ -270,6 +263,8 @@ public class NewsCutScene : CutScene
     protected override void EndCutScene()
     {
         digitalGlitch.ImmediatelyStop();
+        newsBanner.BannelStop();
+
         Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
 
         windowCanvas.enabled = true;
@@ -278,6 +273,7 @@ public class NewsCutScene : CutScene
         Window.currentWindow?.WindowMaximum();
         ShowNewsSceneNotice();
 
+        rectTransform.anchoredPosition = rectTransform.anchoredPosition.ChangeValue(y: 0);
 
         anchorVoiceCnt = 0;
         textBox.EndPrintText();
