@@ -56,6 +56,12 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     {
         isSelected = windowSelected;
         
+
+        if(windowCanvas == null)
+        {
+            return;
+        }
+
         if(isSelected)
         {
             windowCanvas.sortingOrder = windowMaxCnt;
