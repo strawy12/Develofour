@@ -703,7 +703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2238eb98985fa6e4888d5e33ef65bbaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bannerText: {fileID: 0}
+  bannerText: {fileID: 1608154497}
   newsBannerSpeed: 100
   turnOnDuration: 1
 --- !u!1 &166105753
@@ -7050,7 +7050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickEffect: {fileID: 1883121943}
-  useCutScene: 0
+  useCutScene: 1
 --- !u!1 &1231287277
 GameObject:
   m_ObjectHideFlags: 0
@@ -7789,11 +7789,11 @@ RectTransform:
   - {fileID: 1120884905}
   - {fileID: 530488041}
   m_Father: {fileID: 1835440548}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 399.9999, y: 0}
+  m_AnchoredPosition: {x: 399.99994, y: 0}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!225 &1395410940
@@ -8160,6 +8160,7 @@ GameObject:
   - component: {fileID: 1608154495}
   - component: {fileID: 1608154494}
   - component: {fileID: 1608154496}
+  - component: {fileID: 1608154497}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -8299,6 +8300,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
+--- !u!114 &1608154497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608154491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e48720a7a2a3374c81cb31f553881c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1656572002
 GameObject:
   m_ObjectHideFlags: 0
@@ -9229,9 +9242,9 @@ RectTransform:
   - {fileID: 1226968990}
   - {fileID: 2020757189}
   - {fileID: 2058078483}
+  - {fileID: 1395410939}
   - {fileID: 124950897370480447}
   - {fileID: 947973587}
-  - {fileID: 1395410939}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

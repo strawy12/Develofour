@@ -61,13 +61,11 @@ public class NewsBanner : MonoBehaviour
 
         while (isBannerPlay)
         {
-            Debug.Log(bannerText.rectTransform.anchoredPosition.x);
             bannerText.rectTransform.anchoredPosition
                 = bannerText.rectTransform.anchoredPosition.Calculation(EOperator.Subtraction, x: Time.deltaTime * newsBannerSpeed);
 
             if (bannerText.rectTransform.anchoredPosition.x <= endTextPos.x)
             {
-                Debug.LogError(bannerText.rectTransform.anchoredPosition.x + " " + endTextPos.x);
                 bannerTextCnt++;
                 if (bannerTextCnt >= 4)
                 {
