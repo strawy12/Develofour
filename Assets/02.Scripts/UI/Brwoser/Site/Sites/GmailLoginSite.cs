@@ -24,7 +24,6 @@ public class GmailLoginSite : Site
         base.Init();
         gmailInputField.asteriskChar = '¡¤';
 
-
         gmailInputField.onSubmit?.AddListener((a) => LoginGoogle());
         gmailLoginButton.onClick?.AddListener(LoginGoogle);
 

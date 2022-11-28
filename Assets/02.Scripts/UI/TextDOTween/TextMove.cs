@@ -23,6 +23,9 @@ public class TextMove : MonoBehaviour
     private Vector3 selectScale;
 
     [SerializeField]
+    private Image seletedInputFieldBackGround;
+
+    [SerializeField]
     private TMP_InputField gmailInputField;
 
     [SerializeField]
@@ -66,6 +69,8 @@ public class TextMove : MonoBehaviour
         {
             return;
         }
+
+        seletedInputFieldBackGround.gameObject.SetActive(isSelect);
 
         sequence.Append(rectTransform.DOScale(targetScale, moveDuration));
         sequence.Join(rectTransform.DOAnchorPosY(targetPos.y, moveDuration));
