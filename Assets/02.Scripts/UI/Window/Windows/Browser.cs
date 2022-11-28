@@ -88,7 +88,6 @@ public class Browser : Window
         }
 
         WindowOpen();
-
         Site beforeSite = usingSite;
         usingSite?.OnUnused?.Invoke();
 

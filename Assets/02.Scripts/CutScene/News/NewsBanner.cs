@@ -4,11 +4,12 @@ using UnityEngine;
 using DG.Tweening;
 using ExtenstionMethod;
 using TMPro;
+using UnityEngine.UI;
 
 public class NewsBanner : MonoBehaviour
 {
     [SerializeField]
-    TMP_Text bannerText;
+    NewsBannerText bannerText;
 
     private bool isBannerPlay = false;
 
@@ -16,6 +17,8 @@ public class NewsBanner : MonoBehaviour
     private float newsBannerSpeed;
     [SerializeField]
     private float turnOnDuration;
+
+    private int bannerTextCnt = 0;
 
     private Vector2 startTextPos;
     private Vector2 endTextPos;
@@ -28,7 +31,7 @@ public class NewsBanner : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
 
-
+        bannerText.Init();
     }
 
     public void SetText(string msg)
@@ -42,30 +45,39 @@ public class NewsBanner : MonoBehaviour
         endTextPos.x = -(rectTransform.rect.width * 0.5f + bannerText.rectTransform.sizeDelta.x * 0.5f);
     }
 
-    public void StartBanner(string msg)
+    public void StartBanner(string[] msg)
     {
-        SetText(msg);
+        SetText(msg[bannerTextCnt]);
         bannerText.rectTransform.anchoredPosition = startTextPos;
 
         isBannerPlay = true;
-        StartCoroutine(MoveNewsBanner());
+        StartCoroutine(MoveNewsBanner(msg));
     }
 
     // 이거 호출하면 배너 시작됨
-    IEnumerator MoveNewsBanner()
+    IEnumerator MoveNewsBanner(string[] msg)
     {
         canvasGroup.DOFade(1f, turnOnDuration);
 
         while (isBannerPlay)
         {
-            bannerText.rectTransform.anchoredPosition 
-                = bannerText.rectTransform.anchoredPosition.Calculation(EOperator.Subtraction, x:Time.deltaTime * newsBannerSpeed);
+            Debug.Log(bannerText.rectTransform.anchoredPosition.x);
+            bannerText.rectTransform.anchoredPosition
+                = bannerText.rectTransform.anchoredPosition.Calculation(EOperator.Subtraction, x: Time.deltaTime * newsBannerSpeed);
 
-            if(bannerText.rectTransform.anchoredPosition.x <= endTextPos.x)
+            if (bannerText.rectTransform.anchoredPosition.x <= endTextPos.x)
             {
+                Debug.LogError(bannerText.rectTransform.anchoredPosition.x + " " + endTextPos.x);
+                bannerTextCnt++;
+                if (bannerTextCnt >= 4)
+                {
+                    bannerTextCnt = 0;
+                }
+
+                SetText(msg[bannerTextCnt]);
+
                 bannerText.rectTransform.anchoredPosition = startTextPos;
             }
-
             yield return new WaitForEndOfFrame();
         }
     }
