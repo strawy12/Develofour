@@ -56,7 +56,7 @@ public enum ELoginSiteEvent
 {
     None = -1,
     LoginSuccess,
-    RequestSite
+    RequestSite,
 }
 public enum EGamilSiteEvent
 {

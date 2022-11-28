@@ -14,30 +14,56 @@ public class GmailLoginSite : Site
     private TMP_InputField gmailInputField;
     [SerializeField]
     private TextMove textMove;
+    [SerializeField]
+    private Toggle showPasswordToggle;
 
     private ESiteLink requestSite;
 
     public override void Init()
     {
         base.Init();
+        gmailInputField.asteriskChar = '·';
+
         gmailLoginButton.onClick?.AddListener(LoginGoogle);
 
-        gmailInputField.onSelect.AddListener((a) => textMove.PlaceholderEffect(true));
-        gmailInputField.onDeselect.AddListener((a) => textMove.PlaceholderEffect(false));
+        gmailInputField.onSelect.AddListener((a) => SelectInputField(true));
+        gmailInputField.onDeselect.AddListener((a) => SelectInputField(false));
+        showPasswordToggle.onValueChanged.AddListener(ShowPassword);
 
         EventManager.StartListening(ELoginSiteEvent.RequestSite, RequestSite);
+    }
+
+    private void ShowPassword(bool isShow)
+    {
+        gmailInputField.contentType = isShow ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
+        gmailInputField.ActivateInputField();
+    }
+
+    private void Update()
+    {
+        if(gmailInputField.isFocused)
+        {
+           Input.imeCompositionMode = IMECompositionMode.Off;
+        }
+    }
+
+    private void SelectInputField(bool isSelected)
+    {
+
+        Input.imeCompositionMode = isSelected ? IMECompositionMode.Off : IMECompositionMode.Auto;
+        textMove.PlaceholderEffect(isSelected);
     }
 
     private void RequestSite(object[] ps)
     {
         if (!(ps[0] is ESiteLink)) { return; }
-        if(requestSite != ESiteLink.None) { return; }
+        if (requestSite != ESiteLink.None) { return; }
         requestSite = (ESiteLink)ps[0];
     }
 
     protected override void ShowSite()
     {
-        if(!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginSite)
+        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginSite)
         {
             NoticeData data = new NoticeData();
             data.head = "비밀번호 찾기";
@@ -47,7 +73,7 @@ public class GmailLoginSite : Site
 
             DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginSite = true;
         }
-        
+
         base.ShowSite();
     }
 
@@ -58,7 +84,15 @@ public class GmailLoginSite : Site
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
             EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 
-            EventManager.TriggerEvent(EBrowserEvent.OnUndoSite);
+            if (requestSite == ESiteLink.None)
+            {
+                EventManager.TriggerEvent(EBrowserEvent.OnUndoSite);
+            }
+            else
+            {
+                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
+                requestSite = ESiteLink.None;
+            }
         }
         else
         {
