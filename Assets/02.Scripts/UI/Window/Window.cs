@@ -55,7 +55,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public void WindowSelected(bool windowSelected)
     {
         isSelected = windowSelected;
-        
 
         if(windowCanvas == null)
         {
