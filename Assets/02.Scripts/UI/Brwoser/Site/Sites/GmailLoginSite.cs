@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GmailLoginSite : Site
 {
+    private bool isShowToggleClick = false;
+
     [SerializeField]
     private string passWord;
     [SerializeField]
@@ -29,6 +31,7 @@ public class GmailLoginSite : Site
 
         gmailInputField.onSelect.AddListener((a) => SelectInputField(true));
         gmailInputField.onDeselect.AddListener((a) => SelectInputField(false));
+
         showPasswordToggle.onValueChanged.AddListener(ShowPassword);
 
         EventManager.StartListening(ELoginSiteEvent.RequestSite, RequestSite);
@@ -36,6 +39,8 @@ public class GmailLoginSite : Site
 
     private void ShowPassword(bool isShow)
     {
+        isShowToggleClick = true;
+
         gmailInputField.contentType = isShow ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
         gmailInputField.ActivateInputField();
     }
@@ -50,6 +55,12 @@ public class GmailLoginSite : Site
 
     private void SelectInputField(bool isSelected)
     {
+        if(isShowToggleClick)
+        {
+            isShowToggleClick = false;
+            return;
+        }
+
         Input.imeCompositionMode = isSelected ? IMECompositionMode.Off : IMECompositionMode.Auto;
         textMove.PlaceholderEffect(isSelected);
     }
