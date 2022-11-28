@@ -19,6 +19,8 @@ public class BrunchSite : Site
     private Button workListBtn;
     [SerializeField]
     private BrunchPost brunchPostPrefab;
+    [SerializeField]
+    private Transform postParent;
 
     [SerializeField]
     private List<BrunchPostDataSO> postDatas = new List<BrunchPostDataSO>();
@@ -68,8 +70,9 @@ public class BrunchSite : Site
     {
         foreach(BrunchPostDataSO postData in postDatas)
         {
-            BrunchPost post = Instantiate(brunchPostPrefab, postListPanel.transform);
+            BrunchPost post = Instantiate(brunchPostPrefab, postParent);
             post.Init(postData);
+            post.GetComponent<GameObject>().SetActive(true);
         }
     }
 }

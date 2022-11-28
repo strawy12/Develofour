@@ -151,7 +151,17 @@ MonoBehaviour:
   postListBtn: {fileID: 5045868160139367889}
   workListBtn: {fileID: 5045868160072203479}
   brunchPostPrefab: {fileID: -8666342632811900972, guid: ed2b6e9152e31004580bbd12629b2939, type: 3}
-  postDatas: []
+  postParent: {fileID: 5203702874769195192}
+  postDatas:
+  - {fileID: 11400000, guid: 20ee3e10f42e597499276c4be82ca68e, type: 2}
+  - {fileID: 11400000, guid: 87ad92f0c64e6984f85b95033b74c45d, type: 2}
+  - {fileID: 11400000, guid: 9ddc0b82a17f79b49ac5428e9283552d, type: 2}
+  - {fileID: 11400000, guid: 0501e4d4088499e408e1de9694fbea70, type: 2}
+  - {fileID: 11400000, guid: c222dbbf4ce51664ba4b1923c857881d, type: 2}
+  - {fileID: 11400000, guid: d37b1b211fd6e0d4091df264e562b102, type: 2}
+  - {fileID: 11400000, guid: 466f514c87db34e45abf8a4bcda63019, type: 2}
+  - {fileID: 11400000, guid: c405b78e5641c2c4e88a2eb97a95aa6c, type: 2}
+  - {fileID: 11400000, guid: 11da9fda5942145439c21b511ccb528e, type: 2}
 --- !u!1 &2670661542990834768
 GameObject:
   m_ObjectHideFlags: 0
@@ -3715,6 +3725,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5203702874769195192}
     m_Modifications:
+    - target: {fileID: 5495121200277921223, guid: ed2b6e9152e31004580bbd12629b2939, type: 3}
+      propertyPath: m_Name
+      value: NovelImage
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495121201481159154, guid: ed2b6e9152e31004580bbd12629b2939, type: 3}
+      propertyPath: m_Name
+      value: NovelTitleText
+      objectReference: {fileID: 0}
     - target: {fileID: 5495121202020992877, guid: ed2b6e9152e31004580bbd12629b2939, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3802,6 +3820,14 @@ PrefabInstance:
     - target: {fileID: 5495121202020992878, guid: ed2b6e9152e31004580bbd12629b2939, type: 3}
       propertyPath: m_Name
       value: BlogPost
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495121202020992878, guid: ed2b6e9152e31004580bbd12629b2939, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7589285656764924729, guid: ed2b6e9152e31004580bbd12629b2939, type: 3}
+      propertyPath: m_Name
+      value: NovelInfoText
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed2b6e9152e31004580bbd12629b2939, type: 3}
