@@ -24,6 +24,8 @@ public class GmailLoginSite : Site
         base.Init();
         gmailInputField.asteriskChar = '¡¤';
 
+
+        gmailInputField.onSubmit?.AddListener((a) => LoginGoogle());
         gmailLoginButton.onClick?.AddListener(LoginGoogle);
 
         gmailInputField.onSelect.AddListener((a) => SelectInputField(true));
@@ -49,7 +51,6 @@ public class GmailLoginSite : Site
 
     private void SelectInputField(bool isSelected)
     {
-
         Input.imeCompositionMode = isSelected ? IMECompositionMode.Off : IMECompositionMode.Auto;
         textMove.PlaceholderEffect(isSelected);
     }
