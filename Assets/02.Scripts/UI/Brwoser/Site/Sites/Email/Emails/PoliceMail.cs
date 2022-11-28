@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,9 +20,11 @@ public class PoliceMail : Mail
     [SerializeField]
     private ScrollRect sr;
 
-    public void SetContentPosition()
+    public async void SetContentPosition()
     {
-        sr.content.localPosition = new Vector3(sr.content.localPosition.x, 450, sr.content.localPosition.z);
+        await Task.Delay(200);
+
+        sr.content.anchoredPosition = new Vector2(sr.content.anchoredPosition.x, sr.content.rect.height);
     }
 
     public override void Init()
@@ -52,7 +55,7 @@ public class PoliceMail : Mail
     {
         sendButtonPanel.SetActive(false);
         miniGamePanel.gameObject.SetActive(true);
-        Invoke("SetContentPosition", 0.2f);
+        SetContentPosition();
         isSendBtnClick = true;
     }
 

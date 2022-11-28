@@ -66,7 +66,6 @@ public abstract class Site : MonoUI
 
     protected virtual void HideSite()
     {
-        Debug.Log(name);
         SetActive(false);
     }
 }

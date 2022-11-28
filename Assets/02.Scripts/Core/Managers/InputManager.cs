@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,24 +13,19 @@ public enum EMouseType
 
 public class InputManager : MonoSingleton<InputManager>
 {
-    private List<KeyInfo> keyCodes;
+    private Dictionary<KeyCode, KeyInfo> keyCodes;
 
     private void Awake()
     {
-        keyCodes = new List<KeyInfo>();
-    }
-
-    private void Start()
-    {
-        
+        keyCodes = new Dictionary<KeyCode, KeyInfo>();
     }
 
     void Update()
     {
         // 마우스
-        for (int i = 0; i < (int)EMouseType.Cnt; i++) 
+        for (int i = 0; i < (int)EMouseType.Cnt; i++)
         {
-            if(Input.GetMouseButtonDown(i)) 
+            if (Input.GetMouseButtonDown(i))
             {
                 EventManager.TriggerEvent(EInputType.InputMouseDown, new object[1] { i });
             }
@@ -46,26 +42,38 @@ public class InputManager : MonoSingleton<InputManager>
         }
 
         // 키보드
-        foreach(var info in keyCodes)
+        foreach (var info in keyCodes)
         {
-            if(info.isKeyDown && Input.GetKeyDown(info.keyCode))
+            if (info.Value.OnKeyDown != null && Input.GetKeyDown(info.Key))
             {
-                EventManager.TriggerEvent(EInputType.InputKeyBoardDown, new object[1] { info.keyCode });
+                info.Value.OnKeyDown?.Invoke();
             }
-            if (info.isKeyStay && Input.GetKey(info.keyCode))
+            if (info.Value.OnKeyStay != null && Input.GetKey(info.Key))
             {
-                EventManager.TriggerEvent(EInputType.InputKeyBoardStay, new object[1] { info.keyCode });
+                info.Value.OnKeyStay?.Invoke();
             }
-            if (info.isKeyUp && Input.GetKeyUp(info.keyCode))
+            if (info.Value.OnKeyUp != null && Input.GetKeyUp(info.Key))
             {
-                EventManager.TriggerEvent(EInputType.InputKeyBoardUp, new object[1] { info.keyCode });
-
+                info.Value.OnKeyUp?.Invoke();
             }
         }
     }
 
-    private void AddInputKeyCode(KeyCode keyCode, bool isKeyDown = false, bool isKeyStay = false, bool isKeyUp = false)
+    public void AddKeyInput(KeyCode keyCode, Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)
     {
-        keyCodes.Add(new KeyInfo() { isKeyDown = isKeyDown, isKeyStay = isKeyStay, isKeyUp = isKeyUp });
+        KeyInfo info = keyCodes[keyCode];
+
+        info.OnKeyDown += onKeyDown;
+        info.OnKeyStay += onKeyStay;
+        info.OnKeyUp += onKeyUp;
+    }
+
+    public void RemoveKeyInput(KeyCode keyCode, Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)
+    {
+        KeyInfo info = keyCodes[keyCode];
+
+        info.OnKeyDown -= onKeyDown;
+        info.OnKeyStay -= onKeyStay;
+        info.OnKeyUp -= onKeyUp;
     }
 }

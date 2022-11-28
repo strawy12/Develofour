@@ -106,7 +106,7 @@ public class EmailSite : Site
     }
     #endregion
 
-    private void SuccessLogin(object o)
+    private void SuccessLogin(object[] o)
     {
         EventManager.StopListening(EQuestEvent.LoginGoogle, SuccessLogin);
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin = true;
@@ -142,7 +142,6 @@ public class EmailSite : Site
                 {
                     currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive
                         || n.emailCategory == EEmailCategory.Favorite).ToList();
-                    Debug.Log("receive" + currentMailLineList.Count);
                 }
                 break;
                 
@@ -160,9 +159,7 @@ public class EmailSite : Site
 
             case EEmailCategory.Remove:
                 {
-                    Debug.Log("1");
                     currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Remove).ToList();
-                    Debug.Log("remove " + currentMailLineList.Count);   
                 }
                 break;
         }

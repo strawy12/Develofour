@@ -70,6 +70,7 @@ public class NewsBanner : MonoBehaviour
                 if (bannerTextCnt >= 4)
                 {
                     bannerTextCnt = 0;
+
                 }
 
                 SetText(msg[bannerTextCnt]);

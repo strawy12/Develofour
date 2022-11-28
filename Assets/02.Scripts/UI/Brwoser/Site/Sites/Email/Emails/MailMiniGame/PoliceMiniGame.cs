@@ -139,8 +139,6 @@ public class PoliceMiniGame : MonoBehaviour
     
     private void GameClear()
     {
-        Debug.Log("GameClear");
-        
         isCleared = true;
         EventManager.TriggerEvent(EGamilSiteEvent.PoliceGameClear);
         isStarted = false;

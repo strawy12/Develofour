@@ -17,12 +17,9 @@ public class Debugger : MonoBehaviour
     private List<DebugEvent> debugEventList;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            NoticeData data = new NoticeData();
-            data.head = "�̰��� �׽�Ʈ�Դϴ�";
-            data.body = "�׽�Ʈ�ϱ� �� �������� Ȯ���ϰ�\n���� ���ڵ� �Ǵ��� Ȯ���ϰڽ��ϴ�.";
-            NoticeSystem.OnGeneratedNotice?.Invoke(data);
+            EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
         }
 
         if (Input.GetKeyDown(KeyCode.S))

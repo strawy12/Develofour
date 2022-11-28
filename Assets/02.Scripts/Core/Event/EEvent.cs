@@ -37,6 +37,7 @@ public enum EBrowserEvent
     OnUndoSite,
     AddFavoriteSite,
     RemoveFavoriteSite,
+    AddFavoriteSiteAll,
 }
 
 #region Site
@@ -79,8 +80,5 @@ public enum EInputType
     InputMouseDown,
     InputMouse,
     InputMouseUp,
-    InputKeyBoardDown,
-    InputKeyBoardStay,
-    InputKeyBoardUp,
 }
 
