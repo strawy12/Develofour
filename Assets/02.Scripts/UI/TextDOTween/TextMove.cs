@@ -43,7 +43,6 @@ public class TextMove : MonoBehaviour
     [SerializeField]
     private Color shakingColor;
 
-
     void Awake()
     {
         Init();

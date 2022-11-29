@@ -18,6 +18,8 @@ public class GmailLoginSite : Site
     private TextMove textMove;
     [SerializeField]
     private Toggle showPasswordToggle;
+    [SerializeField]
+    private LoginToggle checkToggle;
 
     private ESiteLink requestSite;
 
@@ -43,6 +45,7 @@ public class GmailLoginSite : Site
 
         gmailInputField.contentType = isShow ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
         gmailInputField.ActivateInputField();
+        checkToggle.CheckMarkEffect(isShow);
     }
 
     private void Update()
