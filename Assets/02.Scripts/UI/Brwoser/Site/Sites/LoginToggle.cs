@@ -18,6 +18,7 @@ public class LoginToggle : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private void Start()
     {
         defaultColor = checkMarkCircle.color;
+        defaultColor.a += 1f;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -25,7 +26,7 @@ public class LoginToggle : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         checkMarkCircle.gameObject.SetActive(true);
 
         Color changeAlpha = defaultColor;
-        changeAlpha.a -= 0.9f;
+        changeAlpha.a -= 0.7f;
 
         checkMarkCircle.color = changeAlpha;
     }
