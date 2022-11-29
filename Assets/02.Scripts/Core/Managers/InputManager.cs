@@ -61,6 +61,11 @@ public class InputManager : MonoSingleton<InputManager>
 
     public void AddKeyInput(KeyCode keyCode, Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)
     {
+        if (keyCodes.ContainsKey(keyCode) == false)
+        {
+            keyCodes[keyCode] = new KeyInfo();
+        }
+
         KeyInfo info = keyCodes[keyCode];
 
         info.OnKeyDown += onKeyDown;
@@ -70,6 +75,12 @@ public class InputManager : MonoSingleton<InputManager>
 
     public void RemoveKeyInput(KeyCode keyCode, Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)
     {
+        if (keyCodes.ContainsKey(keyCode) == false)
+        {
+            Debug.LogError($"InputManager의 KeyInfo Dictionary에 해당 키가 존재하지 않습니다. : {keyCode}");
+            return;
+        }
+
         KeyInfo info = keyCodes[keyCode];
 
         info.OnKeyDown -= onKeyDown;

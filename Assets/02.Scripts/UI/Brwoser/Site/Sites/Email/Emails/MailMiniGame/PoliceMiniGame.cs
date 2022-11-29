@@ -33,7 +33,7 @@ public class PoliceMiniGame : MonoBehaviour
     private Queue<PoliceGameArrow> arrowsPool;
     private bool isStarted = false;
     private bool isCleared = false;
-    public bool IsCleared {  get { return isCleared; } }
+    public bool IsCleared { get { return isCleared; } }
     private int answerCount = 0;
     private float currentTime = 0f;
 
@@ -44,8 +44,6 @@ public class PoliceMiniGame : MonoBehaviour
         CreatePool();
         startBtn.onClick.AddListener(StartGame);
     }
-
-    
 
     private void CreatePool()
     {
@@ -72,6 +70,12 @@ public class PoliceMiniGame : MonoBehaviour
         currentTime = limitTime;
         isStarted = true;
 
+        for (KeyCode key = KeyCode.UpArrow; key <= KeyCode.LeftArrow; key++)
+        {
+            InputManager.Inst.AddKeyInput(key, onKeyDown: () => InputArrowKey(key));
+        }
+
+        StartCoroutine(GameTimeCoroutine());
     }
 
     public void SettingNewGame()
@@ -87,21 +91,27 @@ public class PoliceMiniGame : MonoBehaviour
         }
     }
 
-
-
-    private void Update()
+    private void InputArrowKey(KeyCode key)
     {
-        if (isStarted == false)
+        if (!isStarted) return;
+        if (arrows[0].IsInputed) return;
+
+        if(key == arrows[0].AnswerKey)
         {
-            return;
-        }
-        currentTime -= Time.deltaTime;
-        timerUI.localScale = new Vector3(currentTime / limitTime, 1, 1);
-        if (currentTime < 0)
-        { 
-            GameFail();
+            arrows[0].Succcess();
+            arrows.RemoveAt(0);
         }
 
+        else 
+        {
+            arrows[0].Fail();
+        }
+
+        CheckClear();
+    }
+     
+    private void CheckClear()
+    {
         if (arrows.Count <= 0)
         {
             answerCount++;
@@ -115,33 +125,45 @@ public class PoliceMiniGame : MonoBehaviour
                 SettingNewGame();
             }
         }
-        if (Input.GetKeyDown(arrows[0].AnswerKey) && !arrows[0].IsInputed)
-        {
-            arrows[0].Succcess();
-            arrows.RemoveAt(0);
-        }
-        else if (Input.anyKeyDown && !arrows[0].IsInputed)
-        {
-            arrows[0].Fail();
-        }
     }
 
     private void GameFail()
     {
         Debug.Log("Fail");
-        foreach(PoliceGameArrow arrow in arrows)
+        foreach (PoliceGameArrow arrow in arrows)
         {
             arrow.Pop();
         }
         arrows.Clear();
         isStarted = false;
     }
-    
+
     private void GameClear()
     {
+        for(KeyCode key = KeyCode.UpArrow; key <= KeyCode.LeftArrow; key++)
+        {
+            InputManager.Inst.RemoveKeyInput(key, onKeyDown: () => InputArrowKey(key));
+        }
+
         isCleared = true;
         EventManager.TriggerEvent(EGamilSiteEvent.PoliceGameClear);
         isStarted = false;
         sendButton.SuccessEffect();
+    }
+
+    private IEnumerator GameTimeCoroutine()
+    {
+        while (isStarted && currentTime > 0f)
+        {
+            currentTime -= Time.deltaTime;
+            timerUI.localScale = new Vector3(currentTime / limitTime, 1, 1);
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        if (currentTime <= 0f)
+        {
+            GameFail();
+        }
     }
 }
