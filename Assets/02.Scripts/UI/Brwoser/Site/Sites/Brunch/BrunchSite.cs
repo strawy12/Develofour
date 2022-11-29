@@ -8,7 +8,7 @@ public class BrunchSite : Site
     [SerializeField]
     private GameObject writerInfoPanel;
     [SerializeField]
-    private GameObject postListPanel;
+    private PostPanelParent postListPanel;
     [SerializeField]
     private GameObject workListPanel;
     [SerializeField]
@@ -30,6 +30,7 @@ public class BrunchSite : Site
         workListBtn.onClick.AddListener(OnWorkListPanel);
         postListBtn.onClick.AddListener(OnPostListPanel);
         writerInfoBtn.onClick.AddListener(OnWriterInfoPanel);
+
         CreatePost();
     }
 
@@ -68,11 +69,13 @@ public class BrunchSite : Site
     
     private void CreatePost()
     {
-        foreach(BrunchPostDataSO postData in postDatas)
+        postListPanel.Init(postDatas.Count);
+        foreach (BrunchPostDataSO postData in postDatas)
         {
             BrunchPost post = Instantiate(brunchPostPrefab, postParent);
             post.Init(postData);
-            post.GetComponent<GameObject>().SetActive(true);
+            post.gameObject.SetActive(true);
         }
+
     }
 }
