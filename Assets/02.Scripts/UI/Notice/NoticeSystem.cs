@@ -8,12 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.U2D.IK;
 
-public struct NoticeData
-{
-    public string head;
-    public string body;
-    public float delay;
-}
+
 
 public class NoticeSystem : MonoUI
 {
