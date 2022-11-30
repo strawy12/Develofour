@@ -72,7 +72,8 @@ public class PoliceMiniGame : MonoBehaviour
 
         for (KeyCode key = KeyCode.UpArrow; key <= KeyCode.LeftArrow; key++)
         {
-            InputManager.Inst.AddKeyInput(key, onKeyDown: () => InputArrowKey(key));
+            KeyCode keyCode = key;
+            InputManager.Inst.AddKeyInput(key, onKeyDown: () => InputArrowKey(keyCode));
         }
 
         StartCoroutine(GameTimeCoroutine());
@@ -95,6 +96,8 @@ public class PoliceMiniGame : MonoBehaviour
     {
         if (!isStarted) return;
         if (arrows[0].IsInputed) return;
+
+        Debug.Log(key);
 
         if(key == arrows[0].AnswerKey)
         {
