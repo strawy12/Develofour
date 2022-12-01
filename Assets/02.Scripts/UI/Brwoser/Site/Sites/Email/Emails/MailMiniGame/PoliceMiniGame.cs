@@ -68,7 +68,7 @@ public class PoliceMiniGame : MonoBehaviour
     {
         if (isStarted) return;
         answerCount = 0;
-        SettingNewGame();
+        StartCoroutine(SettingNewGame(0f));
         currentTime = limitTime;
         isStarted = true;
 
@@ -81,11 +81,11 @@ public class PoliceMiniGame : MonoBehaviour
         StartCoroutine(GameTimeCoroutine());
     }
 
-    public IEnumerator SettingNewGame()
+    public IEnumerator SettingNewGame(float delay)
     {
         isDelay = true;
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(delay);
 
         for (int i = 0; i < arrowCount; i++)
         {
@@ -99,6 +99,8 @@ public class PoliceMiniGame : MonoBehaviour
 
         isDelay = false;
     }
+
+
 
     private void InputArrowKey(KeyCode key)
     {
@@ -132,7 +134,7 @@ public class PoliceMiniGame : MonoBehaviour
             }
             else
             {
-                SettingNewGame();
+                StartCoroutine(SettingNewGame(0.3f));
             }
         }
     }
