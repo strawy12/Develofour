@@ -3,8 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography;
 using UnityEditor;
+using UnityEditor.Compilation;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -33,6 +33,8 @@ public class CreateNoticeDataWindow : EditorWindow
         TemplateContainer tree = xml.CloneTree();
         rootVisualElement.Add(tree);
 
+        BindInputField();
+
         RegisterNameInputField();
         RegisterCreateBtn();
         //mapBtn.RegisterCallback<MouseUpEvent>(e => GenerateMap());
@@ -47,10 +49,16 @@ public class CreateNoticeDataWindow : EditorWindow
             Input.imeCompositionMode = IMECompositionMode.Off;
         }
     }
+    private void BindInputField()
+    {
+        nameInputField = rootVisualElement.Q<TextField>("NameInputField");
+        headInputField = rootVisualElement.Q<TextField>("HeadInputField");
+        bodyInputField = rootVisualElement.Q<TextField>("BodyInputField");
+        delayInputField = rootVisualElement.Q<FloatField>("DelayInputField");
+    }
 
     private void RegisterNameInputField()
     {
-        nameInputField = rootVisualElement.Q<TextField>("NameInputField");
         nameInputField.RegisterCallback<FocusInEvent>((a) =>
         {
             isNameInputFieldFocus = true;
@@ -68,6 +76,7 @@ public class CreateNoticeDataWindow : EditorWindow
         Button createBtn = rootVisualElement.Q<Button>("CreateBtn");
         createBtn.RegisterCallback<MouseUpEvent>((a) => CreateNoticeData());
     }
+
 
     private bool Exception()
     {
@@ -88,7 +97,7 @@ public class CreateNoticeDataWindow : EditorWindow
     //    }
     //}
 
-    private void CreateNoticeData()
+    private async void CreateNoticeData()
     {
         if (Exception() == false) return;
 
@@ -123,35 +132,24 @@ public class CreateNoticeDataWindow : EditorWindow
 
         try
         {
-            Stream rs = new FileStream(PATH, FileMode.Open);
-            rs.Close();
-            
-            using (StreamReader reader = new StreamReader(PATH))
-            using (StreamWriter writer = new StreamWriter(PATH, false))
+            string headText = "public enum ENoticeType\n{\n\tNone = -1,";
+
+            StreamWriter writer = new StreamWriter(PATH);
+                string[] enumList = Enum.GetNames(typeof(ENoticeType));
+
+            foreach (string item in enumList)
             {
-                string text = reader.ReadToEnd();
-
-                //if (string.IsNullOrEmpty(text))
-                //{
-                //    text = "public enum ENoticeType\n{\n\tNone = -1,\n }\n";
-                //}
-
-
-                string addValueText = $"\t{valueText}\n ";
-
-                string newText = text;
-
-                for (int i = 16; i < text.Length; i++)
-                {
-                    if (text[i] == '}')
-                    {
-                        newText.Insert(i - 1, addValueText);
-                        break;
-                    }
-                }
-
-                writer.Write(newText);
+                headText += $"\t{item},\n";
             }
+
+            headText += $"\t{valueText},\n";
+            headText += "}";
+            await writer.WriteAsync(headText);
+            await writer.FlushAsync();
+
+            AssetDatabase.Refresh();
+            CompilationPipeline.RequestScriptCompilation();
+
         }
 
         catch (IOException ie)
@@ -163,5 +161,20 @@ public class CreateNoticeDataWindow : EditorWindow
         {
             Debug.LogError(e);
         }
+
+        NoticeDataSO noticeDataSO = CreateInstance<NoticeDataSO>();
+
+        NoticeData data = new NoticeData
+        {
+            head = headInputField.value,
+            body = bodyInputField.value,
+            delay = delayInputField.value
+        };
+
+        noticeDataSO.SetNoticeData(data);
+
+        string SO_PATH = $"Assets/Resources/NoticeDataSO/NoticeData_{valueText}.asset";
+
+        AssetDatabase.CreateAsset(noticeDataSO, SO_PATH);
     }
 }
