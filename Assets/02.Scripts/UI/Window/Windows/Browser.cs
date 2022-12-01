@@ -13,7 +13,8 @@ public enum ESiteLink
     Youtube,
     Youtube_News,
     GoogleLogin,
-    Email
+    Email,
+    Brunch
 }
 
 public class Browser : Window
