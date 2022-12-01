@@ -37,6 +37,8 @@ public class PoliceMiniGame : MonoBehaviour
     private int answerCount = 0;
     private float currentTime = 0f;
 
+    private bool isDelay = false;
+
     private void Awake()
     {
         arrows = new List<PoliceGameArrow>();
@@ -79,8 +81,12 @@ public class PoliceMiniGame : MonoBehaviour
         StartCoroutine(GameTimeCoroutine());
     }
 
-    public void SettingNewGame()
+    public IEnumerator SettingNewGame()
     {
+        isDelay = true;
+
+        yield return new WaitForSeconds(0.3f);
+
         for (int i = 0; i < arrowCount; i++)
         {
             PoliceGameArrow arrow = arrowsPool.Dequeue();
@@ -90,29 +96,30 @@ public class PoliceMiniGame : MonoBehaviour
             arrows.Add(arrow);
             arrow.gameObject.SetActive(true);
         }
+
+        isDelay = false;
     }
 
     private void InputArrowKey(KeyCode key)
     {
         if (!isStarted) return;
+        if (isDelay) return;
         if (arrows[0].IsInputed) return;
 
-        Debug.Log(key);
-
-        if(key == arrows[0].AnswerKey)
+        if (key == arrows[0].AnswerKey)
         {
             arrows[0].Succcess();
             arrows.RemoveAt(0);
         }
 
-        else 
+        else
         {
             arrows[0].Fail();
         }
 
         CheckClear();
     }
-     
+
     private void CheckClear()
     {
         if (arrows.Count <= 0)
@@ -121,7 +128,7 @@ public class PoliceMiniGame : MonoBehaviour
             if (answerCount >= gameCount)
             {
                 GameClear();
-                return;
+                return ;
             }
             else
             {
@@ -132,7 +139,6 @@ public class PoliceMiniGame : MonoBehaviour
 
     private void GameFail()
     {
-        Debug.Log("Fail");
         foreach (PoliceGameArrow arrow in arrows)
         {
             arrow.Pop();
@@ -143,7 +149,7 @@ public class PoliceMiniGame : MonoBehaviour
 
     private void GameClear()
     {
-        for(KeyCode key = KeyCode.UpArrow; key <= KeyCode.LeftArrow; key++)
+        for (KeyCode key = KeyCode.UpArrow; key <= KeyCode.LeftArrow; key++)
         {
             InputManager.Inst.RemoveKeyInput(key, onKeyDown: () => InputArrowKey(key));
         }

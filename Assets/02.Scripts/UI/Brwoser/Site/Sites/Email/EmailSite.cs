@@ -22,7 +22,6 @@ public class MailData
 
 public class EmailSite : Site
 {
-    [SerializeField]
     private EEmailCategory currentCategory = EEmailCategory.Receive;
 
     [SerializeField]

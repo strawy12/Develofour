@@ -36,6 +36,11 @@ public class PoliceMail : Mail
 
     public override void ShowMail()
     {
+        NoticeData data = new NoticeData();
+        data.head = "경찰에게 무죄 입증하기";
+        data.body = "아래 답장 버튼 -> 보내기 버튼을 차례로 클릭하여 무죄를 입증하세요.";
+        NoticeSystem.OnGeneratedNotice?.Invoke(data);
+
         base.ShowMail();
     }
 
