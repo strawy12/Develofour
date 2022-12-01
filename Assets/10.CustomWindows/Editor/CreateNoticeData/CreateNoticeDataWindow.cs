@@ -1,6 +1,9 @@
+using NUnit.Framework.Internal.Execution;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -27,7 +30,7 @@ public class CreateNoticeDataWindow : EditorWindow
     {
         VisualTreeAsset xml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/10.CustomWindows/Editor/CreateNoticeData/CreateNoticeDataWindow.uxml");
 
-        TemplateContainer tree = xml.CloneTree(); 
+        TemplateContainer tree = xml.CloneTree();
         rootVisualElement.Add(tree);
 
         RegisterNameInputField();
@@ -39,7 +42,7 @@ public class CreateNoticeDataWindow : EditorWindow
 
     private void Update()
     {
-        if(isNameInputFieldFocus)
+        if (isNameInputFieldFocus)
         {
             Input.imeCompositionMode = IMECompositionMode.Off;
         }
@@ -48,7 +51,8 @@ public class CreateNoticeDataWindow : EditorWindow
     private void RegisterNameInputField()
     {
         nameInputField = rootVisualElement.Q<TextField>("NameInputField");
-        nameInputField.RegisterCallback<FocusInEvent>((a) => {
+        nameInputField.RegisterCallback<FocusInEvent>((a) =>
+        {
             isNameInputFieldFocus = true;
         }
         );
@@ -75,44 +79,89 @@ public class CreateNoticeDataWindow : EditorWindow
         return true;
     }
 
+    //private string Validation(string text)
+    //{
+    //    string newText = "";
+    //    for(int i = 0; i < text.Length; i++)
+    //    {
+    //        if('a' < )
+    //    }
+    //}
+
     private void CreateNoticeData()
     {
         if (Exception() == false) return;
 
-        const string SAVE_PATH = "Assets/02.Scripts/UI/Notice/";
-        const string FILE_NAME = "ENoticeType.cs";
+        const string PATH = "Assets/02.Scripts/UI/Notice/ENoticeType.cs";
 
-        const string PATH = SAVE_PATH + FILE_NAME;
-
-        string defaultText = "public enum ENoticeType\n{\n\tNone = -1,\n }\n"; 
-        if (!Directory.Exists(SAVE_PATH))
+        #region Bug Exception
+        if (File.Exists(PATH) == false)
         {
-            Directory.CreateDirectory(SAVE_PATH);
+            Debug.LogError($"ENoticeType 파일이 해당 경로에 존재하지 않습니다. 파일 위치를 옮겨주세요. {PATH}");
+            return;
         }
 
-        if (!File.Exists(PATH))
+        string valueText = nameInputField.value;
+
+        if ('a' <= nameInputField.value[0] || nameInputField.value[0] <= 'z')
         {
-            File.WriteAllText(PATH, defaultText);
+            char replaceChar = char.ToUpper(valueText[0]);
+            valueText = valueText.Replace(valueText[0], replaceChar);
+            Debug.Log(valueText);
         }
+        //if (Enum.IsDefined(typeof(ENoticeType), nameInputField.value))
+        //{
+        //    Debug.LogError($"ENoticeType에는 해당 Name이 이미 존재합니다. 이름을 변경해주세요. {nameInputField.value}");
+        //    return;
+        //}
+        ////if (nameInputField.value)
+        ////{
+        ////    Debug.LogError($"Name은 숫자로 시작할 수 없습니다. 이름을 변경해주세요. {nameInputField.value}");
+        ////    return;
+        ////}
+        #endregion
 
-        using (StreamWriter writer = File.CreateText(PATH))
+        try
         {
-            Debug.Log(PATH);
-            string text = File.ReadAllText(PATH);
-            string addValueText = $"\t{nameInputField.value}\n ";
-
-            string newText = text;
-
-            for(int i = 16; i < text.Length; i++)
+            Stream rs = new FileStream(PATH, FileMode.Open);
+            rs.Close();
+            
+            using (StreamReader reader = new StreamReader(PATH))
+            using (StreamWriter writer = new StreamWriter(PATH, false))
             {
-                if (text[i] == '}')
-                {
-                    newText.Insert(i - 1, addValueText);
-                    break;
-                }
-            }
+                string text = reader.ReadToEnd();
 
-            writer.Write(newText);
+                //if (string.IsNullOrEmpty(text))
+                //{
+                //    text = "public enum ENoticeType\n{\n\tNone = -1,\n }\n";
+                //}
+
+
+                string addValueText = $"\t{valueText}\n ";
+
+                string newText = text;
+
+                for (int i = 16; i < text.Length; i++)
+                {
+                    if (text[i] == '}')
+                    {
+                        newText.Insert(i - 1, addValueText);
+                        break;
+                    }
+                }
+
+                writer.Write(newText);
+            }
+        }
+
+        catch (IOException ie)
+        {
+            Debug.LogError("ENoticeType이 켜져있는 것 같습니다. ENoticeType 파일을 꺼주고 다시 진행해주세요");
+            Debug.LogError(ie);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
     }
 }
