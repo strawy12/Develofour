@@ -42,9 +42,10 @@ public class GmailLoginSite : Site
     private void ShowPassword(bool isShow)
     {
         isShowToggleClick = true;
-
+ 
         gmailInputField.contentType = isShow ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
-        gmailInputField.ActivateInputField();
+        gmailInputField.ForceLabelUpdate(); 
+
         checkToggle.CheckMarkEffect(isShow);
     }
 
@@ -58,12 +59,6 @@ public class GmailLoginSite : Site
 
     private void SelectInputField(bool isSelected)
     {
-        if(isShowToggleClick)
-        {
-            isShowToggleClick = false;
-            return;
-        }
-
         Input.imeCompositionMode = isSelected ? IMECompositionMode.Off : IMECompositionMode.Auto;
         textMove.PlaceholderEffect(isSelected);
     }
