@@ -24,10 +24,10 @@ public class FavoriteBar : MonoBehaviour
 
     private void CreatePool()
     {
-        Site[] sites = siteParent.GetComponentsInChildren<Site>();
-
-        foreach (Site site in sites)
+        for (int i = 0; i < siteParent.childCount; i++)
         {
+            Site site = siteParent.GetChild(i).GetComponent<Site>();
+
             MakeFavoriteButton(site);
             site.gameObject.SetActive(false);
         }

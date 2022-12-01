@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GmailLoginSite : Site
 {
+    private bool isShowToggleClick = false;
+
     [SerializeField]
     private string passWord;
     [SerializeField]
@@ -16,6 +18,8 @@ public class GmailLoginSite : Site
     private TextMove textMove;
     [SerializeField]
     private Toggle showPasswordToggle;
+    [SerializeField]
+    private LoginToggle checkToggle;
 
     private ESiteLink requestSite;
 
@@ -24,10 +28,12 @@ public class GmailLoginSite : Site
         base.Init();
         gmailInputField.asteriskChar = '¡¤';
 
+        gmailInputField.onSubmit?.AddListener((a) => LoginGoogle());
         gmailLoginButton.onClick?.AddListener(LoginGoogle);
 
         gmailInputField.onSelect.AddListener((a) => SelectInputField(true));
         gmailInputField.onDeselect.AddListener((a) => SelectInputField(false));
+
         showPasswordToggle.onValueChanged.AddListener(ShowPassword);
 
         EventManager.StartListening(ELoginSiteEvent.RequestSite, RequestSite);
@@ -35,8 +41,12 @@ public class GmailLoginSite : Site
 
     private void ShowPassword(bool isShow)
     {
+        isShowToggleClick = true;
+ 
         gmailInputField.contentType = isShow ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
-        gmailInputField.ActivateInputField();
+        gmailInputField.ForceLabelUpdate(); 
+
+        checkToggle.CheckMarkEffect(isShow);
     }
 
     private void Update()
@@ -49,7 +59,6 @@ public class GmailLoginSite : Site
 
     private void SelectInputField(bool isSelected)
     {
-
         Input.imeCompositionMode = isSelected ? IMECompositionMode.Off : IMECompositionMode.Auto;
         textMove.PlaceholderEffect(isSelected);
     }
