@@ -90,11 +90,11 @@ public class GmailLoginSite : Site
     {
         if (gmailInputField.text == passWord || gmailInputField.text == "11")
         {
-            if(gmailInputField.text == "11")
+            if (gmailInputField.text == "11")
             {
                 Debug.LogError("Google Login를 Trigger를 사용하여 클리어 했습니다. 빌드 전에 해당 Trigger를 삭제하세요");
             }
-           Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
+            Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
             EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 
             if (requestSite == ESiteLink.None)
