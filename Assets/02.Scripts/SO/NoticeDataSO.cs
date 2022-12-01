@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,9 @@ public enum ENoticeDataType
     CheckGmail,
     Blog,
 }
+=======
+using UnityEngine;
+>>>>>>> UIBiulder
 
 [System.Serializable]
 public class NoticeData
@@ -28,12 +32,20 @@ public class NoticeData
 public class NoticeDataSO : ScriptableObject
 {
     [SerializeField]
+<<<<<<< HEAD
     private ENoticeDataType noticeDataType;
+=======
+    private ENoticeType noticeDataType;
+>>>>>>> UIBiulder
 
     [SerializeField]
     private NoticeData noticeDataList;
 
+<<<<<<< HEAD
     public ENoticeDataType NoticeDataType
+=======
+    public ENoticeType NoticeDataType
+>>>>>>> UIBiulder
     {
         get
         {
@@ -64,4 +76,13 @@ public class NoticeDataSO : ScriptableObject
             return noticeDataList.delay;
         }
     }
+<<<<<<< HEAD
 }
+=======
+
+    public void SetNoticeData(NoticeData data)
+    {
+        noticeDataList = data;
+    }    
+}
+>>>>>>> UIBiulder
