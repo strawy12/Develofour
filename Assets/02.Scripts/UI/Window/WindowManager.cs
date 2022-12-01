@@ -74,6 +74,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         Window prefab = windowPrefab.Find((x) => x.WindowData.windowType == windowType 
                                               && x.WindowData.windowTitleID == titleId);
+
         return Instantiate(prefab, Define.WindowCanvasTrm);
     }
 

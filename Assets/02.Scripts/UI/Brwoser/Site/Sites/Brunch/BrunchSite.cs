@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Linq;
 public class BrunchSite : Site
 {
     [SerializeField]
@@ -74,8 +74,15 @@ public class BrunchSite : Site
         {
             BrunchPost post = Instantiate(brunchPostPrefab, postParent);
             post.Init(postData);
+            post.OnRemove += RemovePost;
             post.gameObject.SetActive(true);
         }
 
+    }
+
+    private void RemovePost(BrunchPost post)
+    {
+        postDatas.Remove(post.PostData);
+        postListPanel.Init(postDatas.Count);
     }
 }

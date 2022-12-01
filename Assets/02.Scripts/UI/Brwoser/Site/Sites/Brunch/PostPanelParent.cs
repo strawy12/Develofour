@@ -11,12 +11,9 @@ public class PostPanelParent : MonoBehaviour
 
     private RectTransform rectTransform;
 
-    private void Awake()
-    {
-        rectTransform = GetComponent<RectTransform>();
-    }
     public void Init(int count)
     {
+        rectTransform ??= GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, offsetY + blogPostPanelRect.sizeDelta.y * count);
     }
 }
