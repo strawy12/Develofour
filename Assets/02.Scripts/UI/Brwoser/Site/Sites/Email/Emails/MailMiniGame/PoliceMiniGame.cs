@@ -100,8 +100,6 @@ public class PoliceMiniGame : MonoBehaviour
         isDelay = false;
     }
 
-
-
     private void InputArrowKey(KeyCode key)
     {
         if (!isStarted) return;
@@ -158,6 +156,7 @@ public class PoliceMiniGame : MonoBehaviour
 
         isCleared = true;
         EventManager.TriggerEvent(EGamilSiteEvent.PoliceGameClear);
+
         isStarted = false;
         sendButton.SuccessEffect();
     }
