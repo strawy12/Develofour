@@ -155,9 +155,10 @@ public class PoliceMiniGame : MonoBehaviour
         }
 
         isCleared = true;
+        isStarted = false;
+
         EventManager.TriggerEvent(EGamilSiteEvent.PoliceGameClear);
 
-        isStarted = false;
         sendButton.SuccessEffect();
     }
 
