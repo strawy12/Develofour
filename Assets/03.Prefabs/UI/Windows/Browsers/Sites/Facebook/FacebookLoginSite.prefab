@@ -1003,8 +1003,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7162217386130098761}
-  - component: {fileID: 3765268583488275677}
   - component: {fileID: 7162217386130098760}
+  - component: {fileID: 5539742277697515911}
   m_Layer: 5
   m_Name: FacebookLoginSite
   m_TagString: Untagged
@@ -1037,28 +1037,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3765268583488275677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7162217386130098762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b46b8e39eb50f064da4fec858bda3db5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  siteLink: 4
-  siteData:
-    siteIconSprite: {fileID: 21300000, guid: 05daf1bf4878f27449f0bfe4ba0f59fe, type: 3}
-    siteTitle: Google_Login
-    address: https://accounts.google.com/v3/signin
-  passWord: writerPassword123!
-  gmailLoginButton: {fileID: 7162217387572067826}
-  gmailInputField: {fileID: 1500962091490604114}
-  textMove: {fileID: 0}
-  showPasswordToggle: {fileID: 0}
 --- !u!225 &7162217386130098760
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1071,6 +1049,18 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &5539742277697515911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7162217386130098762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef8d8200365cfac4b9f5789689a58b6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7162217386318608141
 GameObject:
   m_ObjectHideFlags: 0
