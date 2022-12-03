@@ -16,7 +16,7 @@ public class FacebookLoginSite : Site
     [SerializeField]
     private TMP_InputField facebookIDInputField;
     [SerializeField]
-    private TMP_InputField facebookpasswordInputField;
+    private TMP_InputField facebookPasswordInputField;
     [SerializeField]
     private TextMove textMove;
 
@@ -27,14 +27,14 @@ public class FacebookLoginSite : Site
     {
         base.Init();
         facebookIDInputField.asteriskChar = '·';
-        facebookpasswordInputField.asteriskChar = '·';
+        facebookPasswordInputField.asteriskChar = '·';
 
         LoginBtn.onClick.AddListener(Login);
         facebookIDInputField.onSelect.AddListener((a) => SelectInputField(true));
         facebookIDInputField.onDeselect.AddListener((a) => SelectInputField(false));
 
-        facebookpasswordInputField.contentType = TMP_InputField.ContentType.Password;
-        facebookpasswordInputField.ActivateInputField();
+        facebookPasswordInputField.contentType = TMP_InputField.ContentType.Password;
+        facebookPasswordInputField.ActivateInputField();
     }
 
     private void SelectInputField(bool isSelected)
@@ -46,15 +46,17 @@ public class FacebookLoginSite : Site
 
     private void Update()
     {
-  
+
     }
 
     private void Login()
     {
-        if(facebookIDInputField.text == loginID)
-        { 
-            if (requestSite == ESiteLink.None)
+        if (facebookIDInputField.text == loginID)
+        {
+            if(facebookPasswordInputField.text == passWord)
             {
+                if (requestSite == ESiteLink.None)
+                {
                     EventManager.TriggerEvent(EBrowserEvent.OnUndoSite);
                 }
                 else
@@ -62,10 +64,15 @@ public class FacebookLoginSite : Site
                     EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
                     requestSite = ESiteLink.None;
                 }
+            }
+            else
+            {
+                //비밀번호가 달라 로그인실패
+            }
         }
         else
         {
-            
+            //아이디가 달라 로그인실패
         }
     }
 }
