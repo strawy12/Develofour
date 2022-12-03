@@ -7,4 +7,5 @@ public enum ENoticeType
 	CheckGmail,
 	Youtube,
 	Blog,
+	End
 }

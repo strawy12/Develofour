@@ -102,7 +102,7 @@ public class NoticeSystem : MonoUI
 
         try
         {
-            noticeDataSO = Resources.Load<NoticeDataSO>($"NoticeData/NoticeData_{(int)noticeDataType}");
+            noticeDataSO = Resources.Load<NoticeDataSO>($"NoticeData/NoticeData_{noticeDataType.ToString()}");
         }
         catch (System.NullReferenceException e)
         {

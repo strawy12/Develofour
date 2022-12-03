@@ -122,37 +122,37 @@ public class CreateNoticeDataWindow : EditorWindow
         //    Debug.LogError($"ENoticeType에는 해당 Name이 이미 존재합니다. 이름을 변경해주세요. {nameInputField.value}");
         //    return;
         //}
-        ////if (nameInputField.value)
-        ////{
-        ////    Debug.LogError($"Name은 숫자로 시작할 수 없습니다. 이름을 변경해주세요. {nameInputField.value}");
-        ////    return;
-        ////}
+        //if (nameInputField.value)
+        //{
+        //    Debug.LogError($"Name은 숫자로 시작할 수 없습니다. 이름을 변경해주세요. {nameInputField.value}");
+        //    return;
+        //}
         #endregion
 
         try
         {
             //string headText = "public enum ENoticeType\n{\n\tNone = -1,\n";
+            string text = "";
+            using (StreamReader sr = new StreamReader(PATH))
+            {
+                text = sr.ReadToEnd();
+            }
 
-            //using (StreamReader reader = new StreamReader(PATH))
             using (StreamWriter writer = new StreamWriter(PATH))
             {
-                string text = "";
-
                 int length = text.Length - 1;
                 // ";
                 for (int i = length; i > 0; i--)
                 {
                     if (text[i] == '}')
                     {
-                        text.Insert(i-1, $"\t{valueText},\n");
-
+                        text = text.Insert(i - 6, $"\t{valueText},\n");
+                        break;
                     }
                 }
 
-               // headText += $"\t{valueText},\n";
-               // headText += "}";
-                //writer.Write(text);
-               // writer.Flush();
+                writer.Write(text);
+                writer.Flush();
 
                 AssetDatabase.Refresh();
                 CompilationPipeline.RequestScriptCompilation();
@@ -183,7 +183,7 @@ public class CreateNoticeDataWindow : EditorWindow
 
         noticeDataSO.SetNoticeData(data);
 
-        string SO_PATH = $"Assets/Resources/NoticeDataSO/NoticeData_{valueText}.asset";
+        string SO_PATH = $"Assets/Resources/NoticeData/NoticeData_{valueText}.asset";
 
         AssetDatabase.CreateAsset(noticeDataSO, SO_PATH);
     }

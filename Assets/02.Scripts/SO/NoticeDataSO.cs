@@ -57,6 +57,7 @@ public class NoticeDataSO : ScriptableObject
 
     public void SetNoticeData(NoticeData data)
     {
+        noticeDataType = (ENoticeType)(int)ENoticeType.End;
         noticeDataList = data;
     }    
 }
