@@ -64,6 +64,7 @@ public enum EGamilSiteEvent
 {
     None = -1,
     PoliceGameClear,
+    ShowBlogGmail,
 }
 #endregion
 

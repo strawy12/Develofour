@@ -14,6 +14,7 @@ public class QuestNotice : MonoBehaviour
         EventManager.StartListening(EQuestEvent.HateBtnClicked, HateBtnClicked);
         EventManager.StartListening(EQuestEvent.LoginGoogle, GoogleLoginSuccess);
         EventManager.StartListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
+        EventManager.StartListening(EQuestEvent.BlogCleanUp, ShowBlogDeleteGmail);
     }
 
     private void HateBtnClicked(object[] emptyParam)
@@ -40,5 +41,12 @@ public class QuestNotice : MonoBehaviour
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Blog });
      
         EventManager.StopListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
+    }
+
+    private void ShowBlogDeleteGmail(object[] emptyParam)
+    {
+        EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Brunch });
+
+        EventManager.StopListening(EQuestEvent.BlogCleanUp, ShowBlogDeleteGmail);
     }
 }
