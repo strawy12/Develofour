@@ -226,7 +226,7 @@ public class NewsCutScene : CutScene
 
     private void ShowNewsSceneNotice()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeDataType.Youtube);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.Youtube);
     }
 
     private IEnumerator PrintText()

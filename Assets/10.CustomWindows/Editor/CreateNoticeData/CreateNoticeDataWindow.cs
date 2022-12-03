@@ -97,7 +97,7 @@ public class CreateNoticeDataWindow : EditorWindow
     //    }
     //}
 
-    private async void CreateNoticeData()
+    private void CreateNoticeData()
     {
         if (Exception() == false) return;
 
@@ -116,7 +116,6 @@ public class CreateNoticeDataWindow : EditorWindow
         {
             char replaceChar = char.ToUpper(valueText[0]);
             valueText = valueText.Replace(valueText[0], replaceChar);
-            Debug.Log(valueText);
         }
         //if (Enum.IsDefined(typeof(ENoticeType), nameInputField.value))
         //{
@@ -132,23 +131,34 @@ public class CreateNoticeDataWindow : EditorWindow
 
         try
         {
-            string headText = "public enum ENoticeType\n{\n\tNone = -1,";
+            //string headText = "public enum ENoticeType\n{\n\tNone = -1,\n";
 
-            StreamWriter writer = new StreamWriter(PATH);
-                string[] enumList = Enum.GetNames(typeof(ENoticeType));
-
-            foreach (string item in enumList)
+            //using (StreamReader reader = new StreamReader(PATH))
+            using (StreamWriter writer = new StreamWriter(PATH))
             {
-                headText += $"\t{item},\n";
+                string text = "";
+
+                int length = text.Length - 1;
+                // ";
+                for (int i = length; i > 0; i--)
+                {
+                    if (text[i] == '}')
+                    {
+                        text.Insert(i-1, $"\t{valueText},\n");
+
+                    }
+                }
+
+               // headText += $"\t{valueText},\n";
+               // headText += "}";
+                //writer.Write(text);
+               // writer.Flush();
+
+                AssetDatabase.Refresh();
+                CompilationPipeline.RequestScriptCompilation();
             }
 
-            headText += $"\t{valueText},\n";
-            headText += "}";
-            await writer.WriteAsync(headText);
-            await writer.FlushAsync();
 
-            AssetDatabase.Refresh();
-            CompilationPipeline.RequestScriptCompilation();
 
         }
 
