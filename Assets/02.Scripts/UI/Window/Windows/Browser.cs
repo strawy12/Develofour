@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +14,10 @@ public enum ESiteLink
     Youtube_News,
     GoogleLogin,
     Email,
-    Brunch,
-    Blog
+    /// <summary>
+    ///  ë¸”ë¡œê·¸ ì‚¬ì´íŠ¸ ì´ë¦„
+    /// </summary>
+    Brunch, 
 }
 
 public class Browser : Window
@@ -77,7 +79,7 @@ public class Browser : Window
         }
         else
         {
-            Debug.LogError($"SiteDictionaryÀÇ °ª Áß¿¡ {eSiteLink}À» Å°·Î °®´Â °ªÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+            Debug.LogError($"SiteDictionaryì˜ ê°’ ì¤‘ì— {eSiteLink}ì„ í‚¤ë¡œ ê°–ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
         }
     }
 
@@ -85,7 +87,7 @@ public class Browser : Window
     {
         if (siteDictionary.ContainsValue(site) == false)
         {
-            Debug.LogError($"Dictonary¿¡ Á¸ÀçÇÏÁö ¾Ê´Â Site°¡ ÀÖ½À´Ï´Ù. {site.gameObject.name}");
+            Debug.LogError($"Dictonaryì— ì¡´ì¬í•˜ì§€ ì•ŠëŠ” Siteê°€ ìˆìŠµë‹ˆë‹¤. {site.gameObject.name}");
             return null;
         }
 
@@ -127,8 +129,8 @@ public class Browser : Window
         Site currentSite = undoSite.Pop();
 
         Site beforeSite = ChangeSite(currentSite, Constant.LOADING_DELAY, false);
-        redoSite.Push(beforeSite); // ¾ÕÀ¸·Î °¥ »çÀÌÆ®´Â »ç¿ëÇÏ´ø »çÀÌÆ® 
-                                   // µÚ·Î °¥ »çÀÌÆ®´Â undositeÀÇ top
+        redoSite.Push(beforeSite); // ì•ìœ¼ë¡œ ê°ˆ ì‚¬ì´íŠ¸ëŠ” ì‚¬ìš©í•˜ë˜ ì‚¬ì´íŠ¸ 
+                                   // ë’¤ë¡œ ê°ˆ ì‚¬ì´íŠ¸ëŠ” undositeì˜ top
     }
 
     public void RedoSite()
@@ -138,7 +140,7 @@ public class Browser : Window
 
         Site beforeSite = ChangeSite(redoSite.Pop(), Constant.LOADING_DELAY, false);
         undoSite.Push(beforeSite);
-        // ÀÛµ¿Àº UndoSiteÇÔ¼öÀÇ Á¤ ¹İ´ë·Î 
+        // ì‘ë™ì€ UndoSiteí•¨ìˆ˜ì˜ ì • ë°˜ëŒ€ë¡œ 
     }
 
     public void ResetBrowser()

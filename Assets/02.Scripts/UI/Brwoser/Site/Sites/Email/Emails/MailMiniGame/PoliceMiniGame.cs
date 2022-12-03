@@ -57,7 +57,6 @@ public class PoliceMiniGame : MonoBehaviour
             arrowsPool.Enqueue(arrow);
         }
     }
-
     private void PushArrow(PoliceGameArrow arrow)
     {
         arrowsPool.Enqueue(arrow);
@@ -156,8 +155,6 @@ public class PoliceMiniGame : MonoBehaviour
 
         isCleared = true;
         isStarted = false;
-
-        EventManager.TriggerEvent(EGamilSiteEvent.PoliceGameClear);
 
         sendButton.SuccessEffect();
     }
