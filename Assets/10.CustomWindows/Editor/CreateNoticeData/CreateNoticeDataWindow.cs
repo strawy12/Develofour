@@ -97,7 +97,7 @@ public class CreateNoticeDataWindow : EditorWindow
     //    }
     //}
 
-    private async void CreateNoticeData()
+    private void CreateNoticeData()
     {
         if (Exception() == false) return;
 
@@ -116,39 +116,49 @@ public class CreateNoticeDataWindow : EditorWindow
         {
             char replaceChar = char.ToUpper(valueText[0]);
             valueText = valueText.Replace(valueText[0], replaceChar);
-            Debug.Log(valueText);
         }
         //if (Enum.IsDefined(typeof(ENoticeType), nameInputField.value))
         //{
         //    Debug.LogError($"ENoticeType에는 해당 Name이 이미 존재합니다. 이름을 변경해주세요. {nameInputField.value}");
         //    return;
         //}
-        ////if (nameInputField.value)
-        ////{
-        ////    Debug.LogError($"Name은 숫자로 시작할 수 없습니다. 이름을 변경해주세요. {nameInputField.value}");
-        ////    return;
-        ////}
+        //if (nameInputField.value)
+        //{
+        //    Debug.LogError($"Name은 숫자로 시작할 수 없습니다. 이름을 변경해주세요. {nameInputField.value}");
+        //    return;
+        //}
         #endregion
 
         try
         {
-            string headText = "public enum ENoticeType\n{\n\tNone = -1,";
-
-            StreamWriter writer = new StreamWriter(PATH);
-                string[] enumList = Enum.GetNames(typeof(ENoticeType));
-
-            foreach (string item in enumList)
+            //string headText = "public enum ENoticeType\n{\n\tNone = -1,\n";
+            string text = "";
+            using (StreamReader sr = new StreamReader(PATH))
             {
-                headText += $"\t{item},\n";
+                text = sr.ReadToEnd();
             }
 
-            headText += $"\t{valueText},\n";
-            headText += "}";
-            await writer.WriteAsync(headText);
-            await writer.FlushAsync();
+            using (StreamWriter writer = new StreamWriter(PATH))
+            {
+                int length = text.Length - 1;
+                // ";
+                for (int i = length; i > 0; i--)
+                {
+                    if (text[i] == '}')
+                    {
+                        text = text.Insert(i - 6, $"\t{valueText},\n");
+                        break;
+                    }
+                }
 
-            AssetDatabase.Refresh();
-            CompilationPipeline.RequestScriptCompilation();
+                writer.Write(text);
+                writer.Flush();
+
+                AssetDatabase.Refresh();
+                CompilationPipeline.RequestScriptCompilation();
+            }
+
+
 
         }
 
@@ -173,7 +183,7 @@ public class CreateNoticeDataWindow : EditorWindow
 
         noticeDataSO.SetNoticeData(data);
 
-        string SO_PATH = $"Assets/Resources/NoticeDataSO/NoticeData_{valueText}.asset";
+        string SO_PATH = $"Assets/Resources/NoticeData/NoticeData_{valueText}.asset";
 
         AssetDatabase.CreateAsset(noticeDataSO, SO_PATH);
     }

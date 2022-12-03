@@ -18,7 +18,7 @@ public class QuestNotice : MonoBehaviour
 
     private void HateBtnClicked(object[] emptyParam)
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeDataType.Gmali);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.Gmail);
 
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Email });
         EventManager.TriggerEvent(EBrowserEvent.RemoveFavoriteSite, new object[] { ESiteLink.Youtube_News });
@@ -28,14 +28,14 @@ public class QuestNotice : MonoBehaviour
 
     private void GoogleLoginSuccess(object[] emptyParam)
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeDataType.CheckGmail);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.CheckGmail);
 
         EventManager.StopListening(EQuestEvent.LoginGoogle, GoogleLoginSuccess);
     }
 
     private void ClearPoliceMiniGame(object[] emptyParam)
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeDataType.Blog);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.Blog);
 
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Blog });
      
