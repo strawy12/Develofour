@@ -23,6 +23,9 @@ public class TextMove : MonoBehaviour
     private Vector3 selectScale;
 
     [SerializeField]
+    private Image seletedInputFieldBackGround;
+
+    [SerializeField]
     private TMP_InputField gmailInputField;
 
     [SerializeField]
@@ -39,7 +42,6 @@ public class TextMove : MonoBehaviour
     private float shakeDuration;
     [SerializeField]
     private Color shakingColor;
-
 
     void Awake()
     {
@@ -62,6 +64,8 @@ public class TextMove : MonoBehaviour
         Vector3 targetPos = isSelect ? selectPos : originPos;
         Vector3 targetScale = isSelect ? selectScale : Vector3.one;
 
+        seletedInputFieldBackGround.gameObject.SetActive(isSelect);
+        
         if(gmailInputField.text != "")
         {
             return;
