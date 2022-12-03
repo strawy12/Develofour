@@ -12,6 +12,7 @@ public enum EQuestEvent
     HateBtnClicked,
     LoginGoogle,
     PoliceMiniGameClear,
+    BlogCleanUp
 }
 
 public enum EWindowEvent
