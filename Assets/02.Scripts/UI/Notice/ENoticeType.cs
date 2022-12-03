@@ -1,5 +1,11 @@
 public enum ENoticeType
 {
-	None,
-
+	None = -1,	
+	Login,
+	Gmail,
+	Police,
+	CheckGmail,
+	Youtube,
+	Blog,
+	End
 }

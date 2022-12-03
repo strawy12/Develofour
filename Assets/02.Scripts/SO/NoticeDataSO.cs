@@ -2,17 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ENoticeDataType
-{
-    None = -1,
-    Youtube = 0,
-    Login,
-    Gmali,
-    Police,
-    CheckGmail,
-    Blog,
-}
-
 [System.Serializable]
 public class NoticeData
 {
@@ -29,12 +18,12 @@ public class NoticeData
 public class NoticeDataSO : ScriptableObject
 {
     [SerializeField]
-    private ENoticeDataType noticeDataType;
+    private ENoticeType noticeDataType;
 
     [SerializeField]
     private NoticeData noticeDataList;
 
-    public ENoticeDataType NoticeDataType
+    public ENoticeType NoticeDataType
     {
         get
         {
@@ -68,6 +57,7 @@ public class NoticeDataSO : ScriptableObject
 
     public void SetNoticeData(NoticeData data)
     {
+        noticeDataType = (ENoticeType)(int)ENoticeType.End;
         noticeDataList = data;
     }    
 }

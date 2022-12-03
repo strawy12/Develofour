@@ -74,7 +74,7 @@ public class GmailLoginSite : Site
     {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginSite)
         {
-            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeDataType.Login);
+            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.Login);
 
             DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginSite = true;
         }
