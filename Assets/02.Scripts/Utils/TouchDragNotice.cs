@@ -59,7 +59,6 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             isPlma = eventData.delta.x > 0; // right
 
-
             Vector3 dragPanelPos = eventData.position - (Vector2)saveBeginDragPos;
             dragPanelPos.y = 0;
             dragPanelPos.z = 0;
@@ -107,7 +106,10 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         }
         else
         {
+            isInvisibility = false;
 
+            OnChangeAlpha?.Invoke();
+            
             rectTransform.anchoredPosition = saveOriginalPos;
         }
     }
