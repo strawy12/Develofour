@@ -38,8 +38,6 @@ public class QuestNotice : MonoBehaviour
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.Blog);
 
-        EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Blog });
-     
         EventManager.StopListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
     }
 
