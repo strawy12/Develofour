@@ -8,11 +8,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.U2D.IK;
 
-
+public struct NoticeData
+{
+    public string head;
+    public string body;
+    public float delay;
+}
 
 public class NoticeSystem : MonoUI
 {
-    public static Action<ENoticeType> OnGeneratedNotice;
+    public static Action<NoticeData> OnGeneratedNotice;
 
     [SerializeField]
     private NoticePanel noticePanelTemp;
@@ -96,38 +101,9 @@ public class NoticeSystem : MonoUI
         });
     }
 
-    public NoticeDataSO GetTextData(ENoticeType noticeDataType)
+    public void ShowNoticePanel(NoticeData data)
     {
-        NoticeDataSO noticeDataSO = null;
-
-        try
-        {
-            noticeDataSO = Resources.Load<NoticeDataSO>($"NoticeData/NoticeData_{noticeDataType.ToString()}");
-        }
-        catch (System.NullReferenceException e)
-        {
-            Debug.Log($"NoticeData {noticeDataType} is null\n{e}");
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log(e.ToString());
-        }
-
-        return noticeDataSO;
-    }
-
-
-    public void ShowNoticePanel(ENoticeType eNoticeDataType)
-    {
-        NoticeDataSO data = GetTextData(eNoticeDataType);
-
-        if(data == null)
-        {
-            Debug.LogError("Head나 Body 의 데이터가 없습니다");
-            return;
-        }
-
-        if (string.IsNullOrEmpty(data.Head) || string.IsNullOrEmpty(data.Body))
+        if (string.IsNullOrEmpty(data.head) || string.IsNullOrEmpty(data.body))
         {
             Debug.LogError("Head나 Body 의 데이터가 없습니다");
             return;
@@ -136,9 +112,9 @@ public class NoticeSystem : MonoUI
         StartCoroutine(NoticeCoroutine(data));
     }
 
-    private IEnumerator NoticeCoroutine(NoticeDataSO data)
+    private IEnumerator NoticeCoroutine(NoticeData data)
     {
-        yield return new WaitForSeconds(data.Delay);
+        yield return new WaitForSeconds(data.delay);
 
         if (noticePanel != null)
         {

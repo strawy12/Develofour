@@ -9,7 +9,6 @@ public class PoliceMiniGameDecision : Decision
     {
         EventManager.StartListening(EGamilSiteEvent.PoliceGameClear, MiniGameClear);
     }
-
     private void MiniGameClear(object[] dummy)
     {
         if (isClear) { return; }
@@ -18,7 +17,6 @@ public class PoliceMiniGameDecision : Decision
         OnChangedValue?.Invoke();
         EventManager.StopListening(EGamilSiteEvent.PoliceGameClear, MiniGameClear) ;
     }
-
     public override bool CheckDecision()
     {
         return true;

@@ -18,6 +18,7 @@ public class GoogleLoginDecision : Decision
         EventManager.StopListening(ELoginSiteEvent.LoginSuccess, SuccessLogin);
     }
 
+
     public override bool CheckDecision()
     {
         return successLogin;

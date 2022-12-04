@@ -19,7 +19,6 @@ public class YoutubeWatchSite : Site
     private void ClickHateBtn()
     {
         EventManager.TriggerEvent(EYoutubeSiteEvent.ClickHateBtn);
-
         hateBtn.OnClick.RemoveListener(ClickHateBtn);
     }
 }

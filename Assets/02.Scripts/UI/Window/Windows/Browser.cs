@@ -14,12 +14,13 @@ public enum ESiteLink
     Youtube_News,
     GoogleLogin,
     Email,
-    /// <summary>
-    ///  블로그 사이트 이름
-    /// </summary>
-    Brunch, 
+    Brunch,
+    Facebook,
+    FacebookLoginSite,
 }
-
+/// <summary>
+///  블로그 사이트 이름
+/// </summary>
 public class Browser : Window
 {
     public static Browser currentBrowser;

@@ -12,7 +12,7 @@ public enum EQuestEvent
     HateBtnClicked,
     LoginGoogle,
     PoliceMiniGameClear,
-    BlogCleanUp
+    BlogCleanUp,
 }
 
 public enum EWindowEvent
@@ -59,6 +59,11 @@ public enum ELoginSiteEvent
     None = -1,
     LoginSuccess,
     RequestSite,
+    EmailLoginSuccess,
+    EmailRequestSite,
+    FacebookLoignSuccess,
+    FacebookRequestSite,
+    FacebookNewPassword,
 }
 public enum EGamilSiteEvent
 {

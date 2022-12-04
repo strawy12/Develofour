@@ -67,7 +67,12 @@ public class GmailLoginSite : Site
     {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginSite)
         {
-            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.FindPassword);
+
+            NoticeData data = new NoticeData();
+            data.head = "비밀번호 찾기";
+            data.body = "메일창을 들어가기 위해 비밀번호를 찾기.";
+
+            NoticeSystem.OnGeneratedNotice?.Invoke(data);
 
             DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginSite = true;
         }
