@@ -71,7 +71,6 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             if(dragPanelPos.x >= Constant.NOTICEDRAG_INVISIBILITY)
             {
                 isInvisibility = true;
-
                 OnChangeAlpha?.Invoke();
             }
             else if(dragPanelPos.x < Constant.NOTICEDRAG_INVISIBILITY)
@@ -97,7 +96,7 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             // 사라지도록 함
         }
 
-        if (isPlma && isMove)
+        if (isMove)
         {
             isInvisibility = false;
 
