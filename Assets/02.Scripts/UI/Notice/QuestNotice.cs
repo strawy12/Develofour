@@ -37,9 +37,6 @@ public class QuestNotice : MonoBehaviour
     private void ClearPoliceMiniGame(object[] emptyParam)
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.Blog);
-
-        EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Brunch });
-     
         EventManager.StopListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
     }
 
