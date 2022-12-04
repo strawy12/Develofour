@@ -24,7 +24,7 @@ public class PoliceMail : Mail
     {
         await Task.Delay(200);
 
-        sr.content.anchoredPosition = new Vector2(sr.content.anchoredPosition.x, sr.content.rect.height);
+        sr.verticalNormalizedPosition = 0;
     }
 
     public override void Init()

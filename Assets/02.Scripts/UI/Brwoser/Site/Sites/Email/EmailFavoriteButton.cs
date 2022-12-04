@@ -18,9 +18,8 @@ public class EmailFavoriteButton : MonoBehaviour
     private float colorDuraction = 0.7f;
     public UnityEvent OnClick { get { return button.onClick; } }
 
-    public Action OnChangeMailType;
+    public Action<bool> OnChangeFavorited;
 
-    [SerializeField]
     private bool isFavorited =false;
     private bool isChanging = false;
 
@@ -36,11 +35,9 @@ public class EmailFavoriteButton : MonoBehaviour
         if (isChanging) return;
         isChanging = true;
 
-        SetFavorited();
+        isFavorited = !isFavorited;
+        OnChangeFavorited?.Invoke(isFavorited);
 
-        OnChangeMailType?.Invoke();
-        Debug.Log("asdf");
-        transform.parent.GetComponent<EmailLine>().emailCategory = EEmailCategory.Favorite;
         Sequence sequence = DOTween.Sequence(); 
         if(isFavorited)
         {   
@@ -52,15 +49,9 @@ public class EmailFavoriteButton : MonoBehaviour
         }
     }
 
-    private void SetFavorited()
+    public void ImmediatellyStop()
     {
-        if(transform.parent.GetComponent<EmailLine>().emailCategory == EEmailCategory.Favorite)
-        {
-            isFavorited = true;
-        }
-        else
-        {
-            isFavorited = false;
-        }
+        DOTween.Kill(fillStarImage, true);
+        isFavorited = false;
     }
 }

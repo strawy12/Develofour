@@ -22,25 +22,31 @@ public class EmailLine : MonoBehaviour
     [SerializeField]
     private Button mailButton;
 
-    public EEmailCategory emailCategory;
+    public int Category
+    {
+        get
+        {
+            return mail.MailData.mailCategory;
+        }
+
+        set
+        {
+            mail.MailData.mailCategory = value;
+        }
+    }
 
     public Mail mail;
 
 
-    public bool IsFavorited { get { return mail.MailData.isHighlighted; } }
+    public bool IsFavorited { get { return mail.MailData.isFavorited; } }
 
     public void Init(MailDataSO mailData, Mail mail)
     {
         this.mail = mail;
-        ChangeText(mailData.nameText, mailData.informationText, mailData.timeText);
+        ChangeText(mailData.Name, mailData.Info, mailData.Time);
         mailButton.onClick.AddListener(ShowMail);
-        favoriteButton.Init(mailData.isHighlighted);
-        favoriteButton.OnChangeMailType += AddFavorite;
-    }
-
-    public void SetEmailCategory()
-    {
-        emailCategory = mail.MailData.emailType;
+        favoriteButton.Init(mailData.isFavorited);
+        favoriteButton.OnChangeFavorited += ChangeFavorite;
     }
 
     public void ChangeText(string name, string info, string time)
@@ -52,37 +58,16 @@ public class EmailLine : MonoBehaviour
 
     public void ShowMail()
     {
-
         mail.ShowMail();
     }
 
-    public void AddFavorite()
+    public void ChangeFavorite(bool isFavorited)
     {
-        Debug.Log(mail.name);
-        mail.FavoriteMail();
+        mail.FavoriteMail(isFavorited);
     }
 
-    public void CheckStar()
+    public void ChangeRemoveCategory()
     {
-        if (emailCategory != EEmailCategory.Favorite)
-        {
-            SetEmptyStar();
-        }
-        else
-        {
-            SetFillStar();
-        }
+        favoriteButton.ImmediatellyStop();
     }
-
-
-    private void SetFillStar()
-    {
-        favoriteButton.fillStarImage.DOColor(Color.yellow, 0);
-    }
-
-    private void SetEmptyStar()
-    {
-        favoriteButton.fillStarImage.DOColor(new Color(0, 0, 0, 0), 0);
-    }
-
 }
