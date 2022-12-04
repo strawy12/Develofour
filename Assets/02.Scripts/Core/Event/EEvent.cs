@@ -58,6 +58,11 @@ public enum ELoginSiteEvent
     None = -1,
     LoginSuccess,
     RequestSite,
+    EmailLoginSuccess,
+    EmailRequestSite,
+    FacebookLoignSuccess,
+    FacebookRequestSite,
+    FacebookNewPassword,
 }
 public enum EGamilSiteEvent
 {
