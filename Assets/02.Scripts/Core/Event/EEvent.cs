@@ -57,8 +57,10 @@ public enum EYoutubeSiteEvent
 public enum ELoginSiteEvent
 {
     None = -1,
-    LoginSuccess,
-    RequestSite,
+    EmailLoginSuccess,
+    EmailRequestSite,
+    FacebookLoignSuccess,
+    FacebookRequestSite,
 }
 public enum EGamilSiteEvent
 {

@@ -21,13 +21,14 @@ public class GmailLoginSite : Site
     [SerializeField]
     private LoginToggle checkToggle;
 
+
+
     private ESiteLink requestSite;
 
     public override void Init()
     {
         base.Init();
         gmailInputField.asteriskChar = '·';
-
         gmailInputField.onSubmit?.AddListener((a) => LoginGoogle());
         gmailLoginButton.onClick?.AddListener(LoginGoogle);
 
@@ -36,7 +37,7 @@ public class GmailLoginSite : Site
 
         showPasswordToggle.onValueChanged.AddListener(ShowPassword);
 
-        EventManager.StartListening(ELoginSiteEvent.RequestSite, RequestSite);
+        EventManager.StartListening(ELoginSiteEvent.EmailRequestSite, RequestSite);
     }
 
     private void ShowPassword(bool isShow)
@@ -91,7 +92,7 @@ public class GmailLoginSite : Site
                 Debug.LogError("Google Login를 Trigger를 사용하여 클리어 했습니다. 빌드 전에 해당 Trigger를 삭제하세요");
             }
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
-            EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
+            EventManager.TriggerEvent(ELoginSiteEvent.EmailLoginSuccess);
 
             if (requestSite == ESiteLink.None)
             {

@@ -15,7 +15,9 @@ public enum ESiteLink
     GoogleLogin,
     Email,
     Brunch,
-    Blog
+    Blog,
+    FacebookLogin,
+    Facebook
 }
 
 public class Browser : Window

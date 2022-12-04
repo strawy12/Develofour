@@ -105,6 +105,13 @@ public class EmailSite : Site
     }
     #endregion
 
+    //public void AddNewMail(MailData ) 
+    //{
+
+    //}
+
+
+
     private void SuccessLogin(object[] o)
     {
         EventManager.StopListening(EQuestEvent.LoginGoogle, SuccessLogin);
@@ -212,7 +219,7 @@ public class EmailSite : Site
     {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin)
         {
-            EventManager.TriggerEvent(ELoginSiteEvent.RequestSite, new object[] { ESiteLink.Email });
+            EventManager.TriggerEvent(ELoginSiteEvent.EmailRequestSite, new object[] { ESiteLink.Email });
             EventManager.TriggerEvent<EBrowserEvent>(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY });
             EventManager.StartListening(EQuestEvent.LoginGoogle, SuccessLogin);
             return false;
