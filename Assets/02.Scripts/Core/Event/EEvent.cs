@@ -61,6 +61,7 @@ public enum ELoginSiteEvent
     EmailRequestSite,
     FacebookLoignSuccess,
     FacebookRequestSite,
+    FacebookNewPassword,
 }
 public enum EGamilSiteEvent
 {

@@ -110,11 +110,22 @@ public class FacebookLoginSite : Site
         if (facebookIDInputField.text == loginEmail)
         {
             failedLoginText.text = "등록된 Email에 비밀번호 변경메일을 보냈습니다.";
-            //email 추가
+            EventManager.StartListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
         }
         else
         {
             failedLoginText.text = "알맞은 이메일 혹은 전화번호를 적어주세요.";
         }
     }
+
+    private void NewPassword(object[] param)
+    {
+        if(param == null || !(param[0] is string)) { return; }
+
+        passWord = param[0] as string;
+
+        EventManager.StopListening(ELoginSiteEvent.FacebookNewPassword,NewPassword);
+        
+    }
+
 }
