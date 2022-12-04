@@ -95,7 +95,9 @@ public class YoutubeInteractionButton : MonoBehaviour
 
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeHateBtnSound);
 
-        //peopleText.text = "73";
+        int num = int.Parse(peopleText.text);
+        num += 1;
+        peopleText.SetText(num.ToString());
 
         seq.Append(rectTransform.DOScale(originScale * 1.2f, durationTime));
         seq.Join(image.DOColor(Color.yellow, durationTime));
@@ -125,7 +127,6 @@ public class YoutubeInteractionButton : MonoBehaviour
 
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
 
-        //peopleText.text = "72";
     }
 
     private void CancelButton()
@@ -135,7 +136,12 @@ public class YoutubeInteractionButton : MonoBehaviour
        
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
 
-        //peopleText.text = "72";
+        if(isHateBtn)
+        {
+            int num = int.Parse(peopleText.text);
+            num -= 1;
+            peopleText.SetText(num.ToString());
+        }
 
         image.enabled = false;
         seq.Join(image.DOColor(Color.white, durationTime));
