@@ -34,6 +34,8 @@ public class GmailLoginSite : Site
         gmailInputField.onSelect.AddListener((a) => SelectInputField(true));
         gmailInputField.onDeselect.AddListener((a) => SelectInputField(false));
 
+        gmailInputField.onValueChanged.AddListener((a) => Input.imeCompositionMode = IMECompositionMode.Off);
+
         showPasswordToggle.onValueChanged.AddListener(ShowPassword);
 
         EventManager.StartListening(ELoginSiteEvent.RequestSite, RequestSite);
@@ -49,17 +51,8 @@ public class GmailLoginSite : Site
         checkToggle.CheckMarkEffect(isShow);
     }
 
-    private void Update()
-    {
-        if(gmailInputField.isFocused)
-        {
-           Input.imeCompositionMode = IMECompositionMode.Off;
-        }
-    }
-
     private void SelectInputField(bool isSelected)
     {
-        Input.imeCompositionMode = isSelected ? IMECompositionMode.Off : IMECompositionMode.Auto;
         textMove.PlaceholderEffect(isSelected);
     }
 

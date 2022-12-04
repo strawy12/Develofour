@@ -13,10 +13,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     public EGameState GameState { get { return gameState; } }
 
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitForEndOfFrame();
-
         if(useCutScene)
         {
             object[] ps = new object[1] { typeof(NewsCutScene) };
