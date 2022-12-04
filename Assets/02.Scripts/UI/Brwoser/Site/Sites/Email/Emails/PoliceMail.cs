@@ -38,7 +38,7 @@ public class PoliceMail : Mail
 
     public override void ShowMail()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.Gmail);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.PoliceMiniGame);
 
         base.ShowMail();
     }

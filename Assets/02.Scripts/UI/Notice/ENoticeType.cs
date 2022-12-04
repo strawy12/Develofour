@@ -1,12 +1,12 @@
 public enum ENoticeType
 {
 	None = -1,	
-	Login,
-	Gmail,
-	Police,
-	CheckGmail,
-	Youtube,
-	Blog,
+    EndNewsYoutube,
+	PressHateButton,
+	FindPassword,
+    SuccessLoginMail,
+	PoliceMiniGame,
+	BrunchDeleteMail,
 	PoliceReplyMail,
 	End
 }
