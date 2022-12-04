@@ -36,7 +36,8 @@ public class QuestNotice : MonoBehaviour
 
     private void ClearPoliceMiniGame(object[] emptyParam)
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.Blog);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.PoliceReplyMail);
+
         EventManager.StopListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
     }
 
