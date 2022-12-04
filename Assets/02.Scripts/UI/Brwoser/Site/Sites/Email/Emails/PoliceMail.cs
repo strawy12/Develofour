@@ -31,6 +31,8 @@ public class PoliceMail : Mail
     {
         base.Init();
 
+        miniGamePanel.Init();
+
         sendBtn.onClick.AddListener(SendMail);
     }
 

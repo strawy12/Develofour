@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,14 +16,14 @@ public class PoliceMiniGame : MonoBehaviour
 
     [SerializeField]
     private Transform arrowPoolParent;
+
     [SerializeField]
     private Transform arrowParent;
+
     [SerializeField]
-    private float limitTime = 25.0f;
-    [SerializeField]
-    private int gameCount;
-    [SerializeField]
-    private int arrowCount;
+    private float characterTime = 0.1f;
+
+
     [SerializeField]
     private RectTransform timerUI;
 
@@ -29,19 +31,34 @@ public class PoliceMiniGame : MonoBehaviour
     private PoliceGameSendButton sendButton;
 
     [SerializeField]
-    private List<PoliceGameArrow> arrows;
+    private TMP_Text sendText;
+
+    [SerializeField]
+    [TextArea(3, 5)]
+    private List<string> sendTextMessageList;
+
+    private Queue<PoliceGameArrow> arrows;
+
     private Queue<PoliceGameArrow> arrowsPool;
+
     private bool isStarted = false;
     private bool isCleared = false;
+
     public bool IsCleared { get { return isCleared; } }
+
+    private int gameCount;
     private int answerCount = 0;
     private float currentTime = 0f;
 
+    private string currentMsg = "";
+
     private bool isDelay = false;
 
-    private void Awake()
+    private Coroutine timerCoroutine = null;
+
+    public void Init()
     {
-        arrows = new List<PoliceGameArrow>();
+        arrows = new Queue<PoliceGameArrow>();
         arrowsPool = new Queue<PoliceGameArrow>();
         CreatePool();
         startBtn.onClick.AddListener(StartGame);
@@ -51,24 +68,44 @@ public class PoliceMiniGame : MonoBehaviour
     {
         for (int i = 0; i < 25; i++)
         {
-            PoliceGameArrow arrow = Instantiate(arrowPrefab, arrowPoolParent);
-            arrow.OnPush += PushArrow;
-            arrow.gameObject.SetActive(false);
-            arrowsPool.Enqueue(arrow);
+            arrowsPool.Enqueue(CreateArrow());
         }
     }
+
+    private PoliceGameArrow CreateArrow()
+    {
+        PoliceGameArrow arrow = Instantiate(arrowPrefab, arrowPoolParent);
+        arrow.OnPush += PushArrow;
+        arrow.gameObject.SetActive(false);
+
+        return arrow;
+    }
+
     private void PushArrow(PoliceGameArrow arrow)
     {
         arrowsPool.Enqueue(arrow);
         arrow.transform.SetParent(arrowPoolParent);
     }
 
+    private PoliceGameArrow GetArrow()
+    {
+        if(arrowsPool.Count != 0)
+        {
+            return arrowsPool.Dequeue();
+        }
+
+        else
+        {
+            return CreateArrow();
+        }
+    }
+
     public void StartGame()
     {
         if (isStarted) return;
         answerCount = 0;
+        gameCount = sendTextMessageList.Count;
         StartCoroutine(SettingNewGame(0f));
-        currentTime = limitTime;
         isStarted = true;
 
         for (KeyCode key = KeyCode.UpArrow; key <= KeyCode.LeftArrow; key++)
@@ -76,44 +113,55 @@ public class PoliceMiniGame : MonoBehaviour
             KeyCode keyCode = key;
             InputManager.Inst.AddKeyInput(key, onKeyDown: () => InputArrowKey(keyCode));
         }
-
-        StartCoroutine(GameTimeCoroutine());
     }
 
     public IEnumerator SettingNewGame(float delay)
     {
         isDelay = true;
 
+        if(timerCoroutine != null)
+        {
+            StopCoroutine(timerCoroutine);
+            timerCoroutine = null;
+        }
+
         yield return new WaitForSeconds(delay);
 
-        for (int i = 0; i < arrowCount; i++)
+        sendText.SetText("");
+        currentMsg = sendTextMessageList[answerCount];
+        currentTime = characterTime * currentMsg.Length;
+
+        for (int i = 0; i < currentMsg.Length; i++)
         {
-            PoliceGameArrow arrow = arrowsPool.Dequeue();
+            PoliceGameArrow arrow = GetArrow();
             arrow.ResetObject();
             arrow.transform.SetParent(arrowParent);
             arrow.Init();
-            arrows.Add(arrow);
+            arrows.Enqueue(arrow);
             arrow.gameObject.SetActive(true);
         }
 
         isDelay = false;
+
+        timerCoroutine = StartCoroutine(GameTimeCoroutine());
     }
 
     private void InputArrowKey(KeyCode key)
     {
         if (!isStarted) return;
         if (isDelay) return;
-        if (arrows[0].IsInputed) return;
+        if (arrows.Count == 0 || arrows.Peek().IsInputed) return;
 
-        if (key == arrows[0].AnswerKey)
+        if (key == arrows.Peek().AnswerKey)
         {
-            arrows[0].Succcess();
-            arrows.RemoveAt(0);
+            arrows.Dequeue().Succcess();
+
+            sendText.SetText(string.Format("{0}{1}", sendText.text, currentMsg[sendText.text.Length]));
         }
 
         else
         {
-            arrows[0].Fail();
+            arrows.Peek().Fail();
         }
 
         CheckClear();
@@ -161,10 +209,11 @@ public class PoliceMiniGame : MonoBehaviour
 
     private IEnumerator GameTimeCoroutine()
     {
+        float maxTime = currentTime;
         while (isStarted && currentTime > 0f)
         {
             currentTime -= Time.deltaTime;
-            timerUI.localScale = new Vector3(currentTime / limitTime, 1, 1);
+            timerUI.localScale = new Vector3(currentTime / maxTime, 1, 1);
 
             yield return new WaitForEndOfFrame();
         }
