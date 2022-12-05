@@ -14,7 +14,8 @@ public class QuestNotice : MonoBehaviour
         EventManager.StartListening(EQuestEvent.HateBtnClicked, HateBtnClicked);
         EventManager.StartListening(EQuestEvent.LoginGoogle, GoogleLoginSuccess);
         EventManager.StartListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
-        EventManager.StartListening(EQuestEvent.BlogCleanUp, ShowBlogDeleteGmail);
+        EventManager.StartListening(EQuestEvent.ShowBrunchGmail, ShowBrunchPostCleanUpMail);
+        EventManager.StartListening(EQuestEvent.EndBrunchPostCleanUp, EndClearBrunchPost);
     }
 
     private void HateBtnClicked(object[] emptyParam)
@@ -37,16 +38,23 @@ public class QuestNotice : MonoBehaviour
     private void ClearPoliceMiniGame(object[] emptyParam)
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenPoliceMail);
-        // 여기에 뭐 드가야함?
 
         EventManager.StopListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
     }
 
-    private void ShowBlogDeleteGmail(object[] emptyParam)
+    private void ShowBrunchPostCleanUpMail(object[] emptyParam)
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenBrunchDeleteMail);
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Brunch });
 
-        EventManager.StopListening(EQuestEvent.BlogCleanUp, ShowBlogDeleteGmail);
+        EventManager.StopListening(EQuestEvent.ShowBrunchGmail, ShowBrunchPostCleanUpMail);
+    }
+
+    private void EndClearBrunchPost(object[] emptyParam)
+    {
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.EndBrunchPostDelete);
+        EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Facebook });
+
+        EventManager.StopListening(EQuestEvent.EndBrunchPostCleanUp, EndClearBrunchPost);
     }
 }

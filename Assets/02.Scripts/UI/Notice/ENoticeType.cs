@@ -9,6 +9,7 @@ public enum ENoticeType
 	OpenBrunchDeleteMail,
 	ClearPoliceMinigame,
 	OpenPoliceReplyMail,
+	EndBrunchPostDelete,
 
 	End
 }

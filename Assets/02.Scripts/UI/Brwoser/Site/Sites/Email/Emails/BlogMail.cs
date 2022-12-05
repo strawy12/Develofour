@@ -8,7 +8,7 @@ public class BlogMail : Mail
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenBrunchDeleteMail);
 
-        EventManager.TriggerEvent(EQuestEvent.BlogCleanUp);
+        EventManager.TriggerEvent(EQuestEvent.ShowBrunchGmail);
 
         base.ShowMail();
     }
