@@ -205,7 +205,7 @@ public class PoliceMiniGame : MonoBehaviour
 
         isCleared = true;
 
-        EventManager.TriggerEvent(EGamilSiteEvent.PoliceGameClear);
+        EventManager.TriggerEvent(EMailSiteEvent.PoliceGameClear);
         isStarted = false;
 
         sendButton.SuccessEffect();
