@@ -111,6 +111,7 @@ public class FacebookLoginSite : Site
         {
             failedLoginText.text = "등록된 Email에 비밀번호 변경메일을 보냈습니다.";
             EventManager.StartListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
+            EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.SnsPasswordChange });
         }
         else
         {
