@@ -12,7 +12,7 @@ using UnityEngine.U2D.IK;
 
 public class NoticeSystem : MonoUI
 {
-    public static Action<ENoticeType> OnGeneratedNotice;
+    public static Action<ENoticeType, float> OnGeneratedNotice;
 
     [SerializeField]
     private NoticePanel noticePanelTemp;
@@ -117,7 +117,7 @@ public class NoticeSystem : MonoUI
     }
 
 
-    public void ShowNoticePanel(ENoticeType eNoticeDataType)
+    public void ShowNoticePanel(ENoticeType eNoticeDataType, float delay)
     {
         NoticeDataSO data = GetTextData(eNoticeDataType);
 
@@ -133,12 +133,12 @@ public class NoticeSystem : MonoUI
             return;
         }
 
-        StartCoroutine(NoticeCoroutine(data));
+        StartCoroutine(NoticeCoroutine(data, delay));
     }
 
-    private IEnumerator NoticeCoroutine(NoticeDataSO data)
+    private IEnumerator NoticeCoroutine(NoticeDataSO data, float delay)
     {
-        yield return new WaitForSeconds(data.Delay);
+        yield return new WaitForSeconds(delay);
 
         if (noticePanel != null)
         {

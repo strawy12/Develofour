@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public enum EEmailCategory
 {
@@ -21,6 +22,7 @@ public enum EMailType
     PoliceAttendance,
     BlogDelete,
     SnsPasswordChange,
+    PoliceReply,
 }
 
 [Serializable]
@@ -109,7 +111,7 @@ public class EmailSite : Site
         ChangeEmailCategory();
     }
 
-    private void VisiableMail(object[] ps)
+    private async void VisiableMail(object[] ps)
     {
         if (ps == null || !(ps[0] is EMailType))
         {
@@ -119,6 +121,14 @@ public class EmailSite : Site
         EMailType type = (EMailType)ps[0];
 
         EmailLine line = baseEmailLineList.Find(x => x.MailData.Type == type);
+
+        float delay = 0f;
+        if(ps.Length == 2)
+        {
+            delay = (ps[1] is float) ? (float)ps[1] : (int)ps[1];
+        }
+
+        await Task.Delay((int)(delay * 1000));
 
         if (line.Category.ContainMask((int)EEmailCategory.Invisible))
         {
