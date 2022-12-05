@@ -35,9 +35,10 @@ public class EmailLine : MonoBehaviour
         }
     }
 
-    public Mail mail;
+    private Mail mail;
 
-
+    public bool IsActiveAndEnabled => mail.isActiveAndEnabled;
+    public MailDataSO MailData => mail.MailData;
     public bool IsFavorited { get { return mail.MailData.isFavorited; } }
 
     public void Init(MailDataSO mailData, Mail mail)
@@ -61,6 +62,11 @@ public class EmailLine : MonoBehaviour
         mail.ShowMail();
     }
 
+    public void HideMail()
+    {
+        mail.HideMail();
+    }
+
     public void ChangeFavorite(bool isFavorited)
     {
         mail.FavoriteMail(isFavorited);
@@ -70,4 +76,5 @@ public class EmailLine : MonoBehaviour
     {
         favoriteButton.ImmediatellyStop();
     }
+
 }

@@ -36,9 +36,9 @@ public class Debugger : MonoBehaviour
             Time.timeScale = 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
+            EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.Default });
         }
 
         foreach (DebugEvent e in debugEventList)

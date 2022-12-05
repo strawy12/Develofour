@@ -60,12 +60,12 @@ public enum ELoginSiteEvent
     LoginSuccess,
     RequestSite,
 }
-public enum EGamilSiteEvent
+public enum EMailSiteEvent
 {
     None = -1,
     PoliceGameClear,
     ShowBlogGmail,
-    SendMail,
+    VisiableMail,
 }
 #endregion
 

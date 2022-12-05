@@ -62,14 +62,13 @@ public class EmailSite : Site
         favoriteBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Favorite));
         sendBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Send));
         removeBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Remove));
-        EventManager.StartListening(EGamilSiteEvent.SendMail, null);
+        EventManager.StartListening(EMailSiteEvent.VisiableMail, VisiableMail);
 
-
-        //RegisterMailData();
+        currentCategory = EEmailCategory.Receive;
 
         CreateLines();
         base.Init();
-        ChangeEmailCategory(currentCategory);
+        ChangeEmailCategory();
         ShowMailLineAll();
     }
 
@@ -93,7 +92,7 @@ public class EmailSite : Site
             data.mail.Init();
 
             data.mail.OnChangeRemoveCatagory += emailLine.ChangeRemoveCategory;
-            data.mail.OnChangeRemoveCatagory += (() => ChangeEmailCategory(EEmailCategory.Remove));
+            data.mail.OnChangeRemoveCatagory += (() => ChangeAlignCategory(EEmailCategory.Remove));
 
             baseEmailLineList.Add(emailLine);
 
@@ -107,12 +106,26 @@ public class EmailSite : Site
     private void ChangeAlignCategory(EEmailCategory category)
     {
         currentCategory = category;
-        ChangeEmailCategory(currentCategory);
+        ChangeEmailCategory();
     }
 
-    private void ReceiveEmail(object[] ps)
+    private void VisiableMail(object[] ps)
     {
-        
+        if (ps == null || !(ps[0] is EMailType))
+        {
+            Debug.LogError("들어온 Param이 null이거나 Type이 맞지않습니다.");
+            return;
+        }
+        EMailType type = (EMailType)ps[0];
+
+        EmailLine line = baseEmailLineList.Find(x => x.MailData.Type == type);
+
+        if (line.Category.ContainMask((int)EEmailCategory.Invisible))
+        {
+            line.Category = line.Category.RemoveMask((int)EEmailCategory.Invisible);
+        }
+
+        SetEmailCategory();
     }
 
     private void SuccessLogin(object[] o)
@@ -121,15 +134,21 @@ public class EmailSite : Site
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin = true;
     }
 
-    private void ChangeEmailCategory(EEmailCategory category)
+    private void ChangeEmailCategory()
     {
         HideAllMail();
         HideAMailLineAll();
 
+        SetEmailCategory();
+    }
+
+    private void SetEmailCategory()
+    {
         currentMailLineList = baseEmailLineList.Where(n =>
         {
-            return n.Category.ContainMask((int)category)
-            &&     n.Category.ContainMask((int)EEmailCategory.Invisible) == false;
+            Debug.Log(n.MailData.Type +" "+ n.Category.ContainMask((int)EEmailCategory.Invisible));
+            return n.Category.ContainMask((int)currentCategory)
+            && n.Category.ContainMask((int)EEmailCategory.Invisible) == false;
 
         }).ToList();
 
@@ -139,12 +158,12 @@ public class EmailSite : Site
     private void HideAllMail()
     {
         var mails = from mailLine in baseEmailLineList
-                    where mailLine.mail.isActiveAndEnabled == true
+                    where mailLine.IsActiveAndEnabled == true
                     select mailLine;
 
         foreach (EmailLine mailLine in mails)
         {
-            mailLine.mail.HideMail();
+            mailLine.HideMail();
         }
     }
 

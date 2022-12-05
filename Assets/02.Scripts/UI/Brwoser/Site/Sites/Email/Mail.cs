@@ -59,7 +59,7 @@ public abstract class Mail : MonoBehaviour
 
         else
         {
-            mailData.mailCategory &= (~(1 << (int)EEmailCategory.Favorite));
+            mailData.mailCategory = mailData.mailCategory.RemoveMask((int)EEmailCategory.Favorite);
         }
     }
 
