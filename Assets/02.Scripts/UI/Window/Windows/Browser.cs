@@ -20,6 +20,7 @@ public enum ESiteLink
 
 public class Browser : Window
 {
+
     public static Browser currentBrowser;
     private Dictionary<ESiteLink, Site> siteDictionary = new Dictionary<ESiteLink, Site>();
 

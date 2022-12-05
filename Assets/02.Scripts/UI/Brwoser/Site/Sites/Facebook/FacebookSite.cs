@@ -4,8 +4,34 @@ using UnityEngine;
 
 public class FacebookSite : Site
 {
+    void OnEnable()
+    {
+        Init();
+    }
+    [Header("Pid")]
+    [SerializeField]
+    private List<FacebookPidPanelDataSO> pidList;
+    [SerializeField]
+    private Transform pidParent;
+
+    [SerializeField]
+    private FacebookPidPanel pidPrefab;
+
+    private void CreatePid()
+    {
+        //use Pooling!
+        for(int i = 0; i < pidList.Count; i++)
+        {
+            FacebookPidPanel pid = Instantiate(pidPrefab, pidParent);
+            pid.pidDataSO = pidList[i];
+            pid.Init();
+            pid.gameObject.SetActive(true);
+        }
+    }
+
     public override void Init()
     {
+        CreatePid();
         base.Init();
     }
 
@@ -21,6 +47,7 @@ public class FacebookSite : Site
 
     protected override void ShowSite()
     {
+        EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
         base.ShowSite();
     }
 }
