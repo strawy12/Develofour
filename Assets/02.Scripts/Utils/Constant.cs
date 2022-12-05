@@ -20,4 +20,5 @@ public static class Constant
     public static readonly EWindowType BROWSER_KEY = EWindowType.Browser;
 
     public const float LOADING_DELAY = 0.75f;
+    public const float POLICE_REPLY_DELAY = 2f;
 }

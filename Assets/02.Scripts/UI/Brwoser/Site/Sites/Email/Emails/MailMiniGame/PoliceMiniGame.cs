@@ -108,6 +108,8 @@ public class PoliceMiniGame : MonoBehaviour
         StartCoroutine(SettingNewGame(0f));
         isStarted = true;
 
+        InputManager.Inst.AddKeyInput(KeyCode.D, onKeyDown: GameClear);
+
         for (KeyCode key = KeyCode.UpArrow; key <= KeyCode.LeftArrow; key++)
         {
             KeyCode keyCode = key;
@@ -198,6 +200,8 @@ public class PoliceMiniGame : MonoBehaviour
 
     private void GameClear()
     {
+        InputManager.Inst.RemoveKeyInput(KeyCode.D, onKeyDown: GameClear);
+
         for (KeyCode key = KeyCode.UpArrow; key <= KeyCode.LeftArrow; key++)
         {
             InputManager.Inst.RemoveKeyInput(key, onKeyDown: () => InputArrowKey(key));

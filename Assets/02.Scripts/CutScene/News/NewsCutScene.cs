@@ -226,11 +226,7 @@ public class NewsCutScene : CutScene
 
     private void ShowNewsSceneNotice()
     {
-        NoticeData data = new NoticeData();
-        data.head = "AI 규제 법에 반대하기";
-        data.body = "영상의 싫어요 버튼을 누름으로써 AI 규제 법에 대한 생각을 나타내세요";
-        data.delay = noticeDelay;
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.EndNewsCutScene);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.EndNewsCutScene, noticeDelay);
     }
 
     private IEnumerator PrintText()
