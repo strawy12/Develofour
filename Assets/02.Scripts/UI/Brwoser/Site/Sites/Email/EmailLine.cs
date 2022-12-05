@@ -37,6 +37,8 @@ public class EmailLine : MonoBehaviour
 
     private Mail mail;
 
+    public Mail CurrentMail => mail;
+
     public bool IsActiveAndEnabled => mail.isActiveAndEnabled;
     public MailDataSO MailData => mail.MailData;
     public bool IsFavorited { get { return mail.MailData.isFavorited; } }

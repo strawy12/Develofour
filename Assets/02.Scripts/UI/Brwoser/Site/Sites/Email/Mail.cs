@@ -26,8 +26,11 @@ public abstract class Mail : MonoBehaviour
     [SerializeField]
     private bool isCanDelete = true;
 
+    private int originMask;
+
     public virtual void Init()
     {
+        originMask = mailData.mailCategory;
         mailCloseButton.onClick.AddListener(HideMail);
         mailDestroyButton.onClick.AddListener(DestroyMail);
         mailFavoriteButton.Init(mailData.isFavorited);
@@ -63,5 +66,8 @@ public abstract class Mail : MonoBehaviour
         }
     }
 
-
+    public void DebugReset()
+    {
+        mailData.mailCategory = originMask;
+    }
 }

@@ -146,7 +146,6 @@ public class EmailSite : Site
     {
         currentMailLineList = baseEmailLineList.Where(n =>
         {
-            Debug.Log(n.MailData.Type +" "+ n.Category.ContainMask((int)EEmailCategory.Invisible));
             return n.Category.ContainMask((int)currentCategory)
             && n.Category.ContainMask((int)EEmailCategory.Invisible) == false;
 
@@ -216,5 +215,15 @@ public class EmailSite : Site
     protected override void ResetSite()
     {
         base.ResetSite();
+    }
+
+    public void OnApplicationQuit()
+    {
+        Debug.Log("MailData Category 저장을 하지 않는 디버그 코드가 실행중에 있습니다.");
+
+        foreach(var mailLine in baseEmailLineList)
+        {
+            mailLine.CurrentMail.DebugReset();
+        }
     }
 }

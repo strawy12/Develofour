@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Window/Mail/Data")]
@@ -24,4 +25,5 @@ public class MailDataSO : ScriptableObject
     public string Time => timeText;
 
     public bool isFavorited { get { return mailCategory.ContainMask((int)EEmailCategory.Favorite); } }
+
 }
