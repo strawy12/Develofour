@@ -8,19 +8,23 @@ public class BrunchSite : Site
     [SerializeField]
     private GameObject writerInfoPanel;
     [SerializeField]
-    private PostPanelParent postListPanel;
-    [SerializeField]
     private GameObject workListPanel;
+
+    [SerializeField]
+    private Transform postParent;
+    
     [SerializeField]
     private Button writerInfoBtn;
     [SerializeField]
     private Button postListBtn;
     [SerializeField]
     private Button workListBtn;
+    
     [SerializeField]
     private BrunchPost brunchPostPrefab;
     [SerializeField]
-    private Transform postParent;
+    private PostPanelParent postListPanel;
+    
 
     [SerializeField]
     private List<BrunchPostDataSO> postDatas = new List<BrunchPostDataSO>();
@@ -77,12 +81,16 @@ public class BrunchSite : Site
             post.OnRemove += RemovePost;
             post.gameObject.SetActive(true);
         }
-
     }
 
     private void RemovePost(BrunchPost post)
     {
         postDatas.Remove(post.PostData);
         postListPanel.Init(postDatas.Count);
+        
+        if(postDatas.Count <= 0)
+        {
+            EventManager.TriggerEvent(EQuestEvent.EndBrunchPostCleanUp);
+        }
     }
 }

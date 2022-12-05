@@ -36,7 +36,8 @@ public class BrunchPost : MonoBehaviour
 
     public void Remove() 
     {
-        OnRemove.Invoke(this);
+        OnRemove?.Invoke(this);
+
         removeBtn.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
