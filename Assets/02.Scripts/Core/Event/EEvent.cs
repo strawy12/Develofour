@@ -65,11 +65,12 @@ public enum ELoginSiteEvent
     FacebookRequestSite,
     FacebookNewPassword,
 }
-public enum EGamilSiteEvent
+public enum EMailSiteEvent
 {
     None = -1,
     PoliceGameClear,
     ShowBlogGmail,
+    VisiableMail,
 }
 #endregion
 

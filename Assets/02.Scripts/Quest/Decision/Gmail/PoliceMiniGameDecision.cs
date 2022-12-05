@@ -7,7 +7,7 @@ public class PoliceMiniGameDecision : Decision
     private bool isClear = false;
     public override void Init()
     {
-        EventManager.StartListening(EGamilSiteEvent.PoliceGameClear, MiniGameClear);
+        EventManager.StartListening(EMailSiteEvent.PoliceGameClear, MiniGameClear);
     }
     private void MiniGameClear(object[] dummy)
     {
@@ -15,7 +15,7 @@ public class PoliceMiniGameDecision : Decision
         isClear = true;
 
         OnChangedValue?.Invoke();
-        EventManager.StopListening(EGamilSiteEvent.PoliceGameClear, MiniGameClear) ;
+        EventManager.StopListening(EMailSiteEvent.PoliceGameClear, MiniGameClear) ;
     }
     public override bool CheckDecision()
     {

@@ -17,23 +17,23 @@ public abstract class Mail : MonoBehaviour
     private EmailFavoriteButton mailFavoriteButton;
     #endregion
     [SerializeField]
-    protected EEmailCategory mailType;
-
-    [SerializeField]
     protected MailDataSO mailData;
 
     public MailDataSO MailData { get { return mailData; } }
 
-    public Action OnChangeCatagory;
+    public Action OnChangeRemoveCatagory;
 
     [SerializeField]
     private bool isCanDelete = true;
 
+    private int originMask;
+
     public virtual void Init()
     {
+        originMask = mailData.mailCategory;
         mailCloseButton.onClick.AddListener(HideMail);
         mailDestroyButton.onClick.AddListener(DestroyMail);
-        mailFavoriteButton.Init(mailData.isHighlighted);
+        mailFavoriteButton.Init(mailData.isFavorited);
     }
 
     public virtual void ShowMail()
@@ -48,33 +48,26 @@ public abstract class Mail : MonoBehaviour
 
     public virtual void DestroyMail()
     {
-        //즐겨찾기 연출 해제
-        if(mailType == EEmailCategory.Favorite)
-        {
-            mailFavoriteButton.OnChangeMailType?.Invoke();
-        }
-
-        mailType = EEmailCategory.Remove;
-        mailData.emailType = EEmailCategory.Remove;
-        OnChangeCatagory?.Invoke();
+        mailData.mailCategory |= (int)EEmailCategory.Remove;
+        OnChangeRemoveCatagory?.Invoke();
         HideMail();
     }
 
-    public void FavoriteMail()
+    public void FavoriteMail(bool isFavorited)
     {
-        Debug.Log("사용, 현재 mailData.emailType = " + MailData.emailType + "  현재 mailType = " + mailType );
-        if(mailType != EEmailCategory.Receive)
+        if(isFavorited)
         {
-            mailType = EEmailCategory.Receive;
-            mailData.emailType = EEmailCategory.Receive;
-        }    
+            mailData.mailCategory |= (int)EEmailCategory.Favorite;
+        }
+
         else
         {
-            mailType = EEmailCategory.Favorite;
-            mailData.emailType = EEmailCategory.Favorite;
+            mailData.mailCategory = mailData.mailCategory.RemoveMask((int)EEmailCategory.Favorite);
         }
-        Debug.Log("끝 , 현재 mailData.emailType = " + MailData.emailType + "  현재 mailType = " + mailType);
     }
 
-
+    public void DebugReset()
+    {
+        mailData.mailCategory = originMask;
+    }
 }

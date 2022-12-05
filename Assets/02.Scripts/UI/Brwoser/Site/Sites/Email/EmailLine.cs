@@ -22,25 +22,34 @@ public class EmailLine : MonoBehaviour
     [SerializeField]
     private Button mailButton;
 
-    public EEmailCategory emailCategory;
+    public int Category
+    {
+        get
+        {
+            return mail.MailData.mailCategory;
+        }
 
-    public Mail mail;
+        set
+        {
+            mail.MailData.mailCategory = value;
+        }
+    }
 
+    private Mail mail;
 
-    public bool IsFavorited { get { return mail.MailData.isHighlighted; } }
+    public Mail CurrentMail => mail;
+
+    public bool IsActiveAndEnabled => mail.isActiveAndEnabled;
+    public MailDataSO MailData => mail.MailData;
+    public bool IsFavorited { get { return mail.MailData.isFavorited; } }
 
     public void Init(MailDataSO mailData, Mail mail)
     {
         this.mail = mail;
-        ChangeText(mailData.nameText, mailData.informationText, mailData.timeText);
+        ChangeText(mailData.Name, mailData.Info, mailData.Time);
         mailButton.onClick.AddListener(ShowMail);
-        favoriteButton.Init(mailData.isHighlighted);
-        favoriteButton.OnChangeMailType += AddFavorite;
-    }
-
-    public void SetEmailCategory()
-    {
-        emailCategory = mail.MailData.emailType;
+        favoriteButton.Init(mailData.isFavorited);
+        favoriteButton.OnChangeFavorited += ChangeFavorite;
     }
 
     public void ChangeText(string name, string info, string time)
@@ -52,37 +61,22 @@ public class EmailLine : MonoBehaviour
 
     public void ShowMail()
     {
-
         mail.ShowMail();
     }
 
-    public void AddFavorite()
+    public void HideMail()
     {
-        Debug.Log(mail.name);
-        mail.FavoriteMail();
+        mail.HideMail();
     }
 
-    public void CheckStar()
+    public void ChangeFavorite(bool isFavorited)
     {
-        if (emailCategory != EEmailCategory.Favorite)
-        {
-            SetEmptyStar();
-        }
-        else
-        {
-            SetFillStar();
-        }
+        mail.FavoriteMail(isFavorited);
     }
 
-
-    private void SetFillStar()
+    public void ChangeRemoveCategory()
     {
-        favoriteButton.fillStarImage.DOColor(Color.yellow, 0);
-    }
-
-    private void SetEmptyStar()
-    {
-        favoriteButton.fillStarImage.DOColor(new Color(0, 0, 0, 0), 0);
+        favoriteButton.ImmediatellyStop();
     }
 
 }

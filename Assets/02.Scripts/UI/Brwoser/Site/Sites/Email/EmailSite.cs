@@ -7,12 +7,22 @@ using UnityEngine.UI;
 
 public enum EEmailCategory
 {
-    None = -1,
-    Receive,
-    Favorite,
-    Send,
-    Remove
+    None = 0x00, // 00000000
+    Receive = 0x01, // 00000001
+    Favorite = 0x02, // 00000010
+    Send = 0x04, // 00000100
+    Remove = 0x08, // 00001000
+    Invisible = 0x10, // 00010000
 }
+
+public enum EMailType
+{
+    Default,
+    PoliceAttendance,
+    BlogDelete,
+    SnsPasswordChange,
+}
+
 [Serializable]
 public class MailData
 {
@@ -25,18 +35,13 @@ public class EmailSite : Site
     private EEmailCategory currentCategory = EEmailCategory.Receive;
 
     [SerializeField]
-    private List<MailData> mails = new List<MailData>();
-
-    private List<EmailLine> baseEmailLineList = new List<EmailLine>();
-
-    private List<EmailLine> currentMailLineList = new List<EmailLine>();
-
+    private List<MailData> mailDataList;
     [SerializeField]
     private EmailLine emailLinePrefab;
-
     [SerializeField]
     private Transform emailLineParent;
 
+    //private Dictionary<EMailType, MailData> mailDataDictionary = new Dictionary<EMailType, MailData>();
     #region Category Buttons
     [SerializeField]
     private Button receiveBtn;
@@ -46,64 +51,82 @@ public class EmailSite : Site
     private Button sendBtn;
     [SerializeField]
     private Button removeBtn;
-    [SerializeField]
-    private List<GameObject> activeImageList;
     #endregion
+
+    private List<EmailLine> baseEmailLineList = new List<EmailLine>();
+    private List<EmailLine> currentMailLineList = new List<EmailLine>();
 
     public override void Init()
     {
-        receiveBtn.onClick.AddListener(ChangeReceiveEmail);
-        favoriteBtn.onClick.AddListener(ChangeHighlightEmail);
-        sendBtn.onClick.AddListener(ChangeSendEmail);
-        removeBtn.onClick.AddListener(ChangeRemoveEmail);
+        receiveBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Receive));
+        favoriteBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Favorite));
+        sendBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Send));
+        removeBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Remove));
+        EventManager.StartListening(EMailSiteEvent.VisiableMail, VisiableMail);
 
-        CreateLine();
+        currentCategory = EEmailCategory.Receive;
+
+        CreateLines();
         base.Init();
-        ChangeEmailCategory(currentCategory);
-        ShowMailLine();
+        ChangeEmailCategory();
+        ShowMailLineAll();
     }
-    private void CreateLine()
+
+    //private void RegisterMailData()
+    //{
+    //    mailDataDictionary = new Dictionary<EMailType, MailData>();
+
+    //    foreach(var mailData in mailDataList.MailDataList)
+    //    {
+    //        mailDataDictionary.Add(mailData.mailDataSO.Type, mailData);
+    //    }
+    //}
+
+    private void CreateLines()
     {
-        for (int i = 0; i < mails.Count; i++)
+        foreach (MailData data in mailDataList)
         {
             EmailLine emailLine = Instantiate(emailLinePrefab, emailLineParent);
-            emailLine.Init(mails[i].mailDataSO, mails[i].mail);
+            emailLine.Init(data.mailDataSO, data.mail);
             emailLine.gameObject.SetActive(false);
-            mails[i].mail.Init();
-            mails[i].mail.OnChangeCatagory += (() =>ChangeEmailCategory(EEmailCategory.Remove));
+            data.mail.Init();
+
+            data.mail.OnChangeRemoveCatagory += emailLine.ChangeRemoveCategory;
+            data.mail.OnChangeRemoveCatagory += (() => ChangeAlignCategory(EEmailCategory.Remove));
+
             baseEmailLineList.Add(emailLine);
+
+            if (data.mailDataSO.mailCategory.ContainMask((int)EEmailCategory.Invisible))
+            {
+                data.mail.gameObject.SetActive(false);
+            }
         }
+    }
+
+    private void ChangeAlignCategory(EEmailCategory category)
+    {
+        currentCategory = category;
+        ChangeEmailCategory();
+    }
+
+    private void VisiableMail(object[] ps)
+    {
+        if (ps == null || !(ps[0] is EMailType))
+        {
+            Debug.LogError("들어온 Param이 null이거나 Type이 맞지않습니다.");
+            return;
+        }
+        EMailType type = (EMailType)ps[0];
+
+        EmailLine line = baseEmailLineList.Find(x => x.MailData.Type == type);
+
+        if (line.Category.ContainMask((int)EEmailCategory.Invisible))
+        {
+            line.Category = line.Category.RemoveMask((int)EEmailCategory.Invisible);
+        }
+
         SetEmailCategory();
     }
-    #region Category Button Function
-    private void ChangeReceiveEmail()
-    {
-        currentCategory = EEmailCategory.Receive;
-        ChangeEmailCategory(currentCategory);
-    }
-    private void ChangeHighlightEmail()
-    {
-        if(currentCategory == EEmailCategory.Favorite)
-        {
-            currentCategory = EEmailCategory.Receive;
-        }
-        else
-        {
-            currentCategory = EEmailCategory.Favorite;
-        }
-        ChangeEmailCategory(currentCategory);
-    }
-    private void ChangeSendEmail()
-    {
-        currentCategory = EEmailCategory.Send;
-        ChangeEmailCategory(currentCategory);
-    }
-    private void ChangeRemoveEmail()
-    {
-        currentCategory = EEmailCategory.Remove;
-        ChangeEmailCategory(currentCategory);
-    }
-    #endregion
 
     private void SuccessLogin(object[] o)
     {
@@ -111,79 +134,39 @@ public class EmailSite : Site
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin = true;
     }
 
+    private void ChangeEmailCategory()
+    {
+        HideAllMail();
+        HideAMailLineAll();
+
+        SetEmailCategory();
+    }
+
     private void SetEmailCategory()
     {
-        for(int i = 0; i < baseEmailLineList.Count; i++)
+        currentMailLineList = baseEmailLineList.Where(n =>
         {
-            baseEmailLineList[i].SetEmailCategory();
-        }
+            return n.Category.ContainMask((int)currentCategory)
+            && n.Category.ContainMask((int)EEmailCategory.Invisible) == false;
+
+        }).ToList();
+
+        ShowMailLineAll();
     }
 
-    private void SetActiveImage(EEmailCategory category)
-    {
-        foreach(GameObject img in activeImageList)
-        {
-            img.SetActive(false);
-        }
-
-        activeImageList[(int)category].SetActive(true);
-    }
-
-    private void ChangeEmailCategory(EEmailCategory category)
-    {
-        HideMail();
-        HideMailLine();
-        SetEmailCategory();
-        SetActiveImage(category);
-        switch (category)
-        {
-            case EEmailCategory.Receive:
-                {
-                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Receive
-                        || n.emailCategory == EEmailCategory.Favorite).ToList();
-                }
-                break;
-                
-            case EEmailCategory.Favorite:
-                {
-                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Favorite).ToList();
-                }
-                break;
-
-            case EEmailCategory.Send:
-                {
-                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Send).ToList();
-                }
-                break;
-
-            case EEmailCategory.Remove:
-                {
-                    currentMailLineList = baseEmailLineList.Where(n => n.emailCategory == EEmailCategory.Remove).ToList();
-                }
-                break;
-        }
-
-        for(int i = 0; i < currentMailLineList.Count; i++)
-        {
-            currentMailLineList[i].CheckStar();
-        }
-
-        ShowMailLine();
-    }
-
-    private void HideMail()
+    private void HideAllMail()
     {
         var mails = from mailLine in baseEmailLineList
-                    where mailLine.mail.isActiveAndEnabled == true
+                    where mailLine.IsActiveAndEnabled == true
                     select mailLine;
 
-        foreach(EmailLine mailLine in mails)
+        foreach (EmailLine mailLine in mails)
         {
-            mailLine.mail.HideMail();
+            mailLine.HideMail();
         }
     }
 
-    private void ShowMailLine()
+    private void ShowMailLineAll()
     {
         for (int i = 0; i < currentMailLineList.Count; i++)
         {
@@ -192,9 +175,9 @@ public class EmailSite : Site
         currentMailLineList.Clear();
     }
 
-    private void HideMailLine()
+    private void HideAMailLineAll()
     {
-        foreach(EmailLine emailLine in baseEmailLineList)
+        foreach (EmailLine emailLine in baseEmailLineList)
         {
             emailLine.gameObject.SetActive(false);
         }
@@ -202,12 +185,16 @@ public class EmailSite : Site
 
     protected override void ShowSite()
     {
-        if(CheckGoogleLogin() == false) {
+        if (CheckGoogleLogin() == false)
+        {
             return;
         }
+
         base.ShowSite();
     }
 
+
+    // 추후 위치 변경
     private bool CheckGoogleLogin()
     {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin)
@@ -228,5 +215,15 @@ public class EmailSite : Site
     protected override void ResetSite()
     {
         base.ResetSite();
+    }
+
+    public void OnApplicationQuit()
+    {
+        Debug.Log("MailData Category 저장을 하지 않는 디버그 코드가 실행중에 있습니다.");
+
+        foreach(var mailLine in baseEmailLineList)
+        {
+            mailLine.CurrentMail.DebugReset();
+        }
     }
 }
