@@ -29,14 +29,14 @@ public class QuestNotice : MonoBehaviour
 
     private void GoogleLoginSuccess(object[] emptyParam)
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.SuccessLoginMail);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.SuccessLoginMailSite);
 
         EventManager.StopListening(EQuestEvent.LoginGoogle, GoogleLoginSuccess);
     }
 
     private void ClearPoliceMiniGame(object[] emptyParam)
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.PoliceMiniGame);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenPoliceMail);
         // 여기에 뭐 드가야함?
 
         EventManager.StopListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
@@ -44,7 +44,7 @@ public class QuestNotice : MonoBehaviour
 
     private void ShowBlogDeleteGmail(object[] emptyParam)
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.BrunchDeleteMail);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenBrunchDeleteMail);
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Brunch });
 
         EventManager.StopListening(EQuestEvent.BlogCleanUp, ShowBlogDeleteGmail);

@@ -1518,6 +1518,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &365240554 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3358806218370546587, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+  m_PrefabInstance: {fileID: 1031627190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec50ac1b16311449a5d9a1b87406508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &388389273
 GameObject:
   m_ObjectHideFlags: 0
@@ -5710,9 +5721,25 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: mailDataList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
       propertyPath: mails.Array.data[1].mail
       value: 
       objectReference: {fileID: 10603039}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: mailDataList.Array.data[1].mail
+      value: 
+      objectReference: {fileID: 10603039}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: mailDataList.Array.data[3].mail
+      value: 
+      objectReference: {fileID: 365240554}
+    - target: {fileID: 3941499206783930147, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
+      propertyPath: mailDataList.Array.data[3].mailDataSO
+      value: 
+      objectReference: {fileID: 11400000, guid: bffef79bf012d2b449b2e8552d350088, type: 2}
     - target: {fileID: 5683413405113162297, guid: 1358113f82db7ef4d86abbe4b1180e7a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -7068,7 +7095,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4493819025310840816, guid: efe2631a1e6537b4ca9cb69355127e56, type: 3}
   m_PrefabInstance: {fileID: 4493819026600628859}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1307010449
+--- !u!114 &1307010458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7077,11 +7104,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 1307010441}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1635d2647e81aab45a337b0174b7e9e6, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isClick: 0
-  isInvisibility: 0
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &1307010459
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307010441}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 1325060129
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1313354418
 GameObject:
   m_ObjectHideFlags: 0
@@ -7425,7 +7476,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 399.99988, y: 0}
+  m_AnchoredPosition: {x: 399.99994, y: 0}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!225 &1395410940
@@ -13035,7 +13086,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4493819025310840818, guid: efe2631a1e6537b4ca9cb69355127e56, type: 3}
       propertyPath: m_Name
-      value: NotificationPanel
+      value: NoticePanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efe2631a1e6537b4ca9cb69355127e56, type: 3}

@@ -1,12 +1,14 @@
-public enum ENoticeType
+public enum ENoticeType 
 {
 	None = -1,	
-    EndNewsYoutube,
+    EndNewsCutScene,
 	PressHateButton,
-	FindPassword,
-    SuccessLoginMail,
-	PoliceMiniGame,
-	BrunchDeleteMail,
-	PoliceReplyMail,
+	EnterLoginSite,
+    SuccessLoginMailSite,
+	OpenPoliceMail,
+	OpenBrunchDeleteMail,
+	ClearPoliceMinigame,
+	OpenPoliceReplyMail,
+
 	End
 }

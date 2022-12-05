@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -59,5 +60,13 @@ public class NoticeDataSO : ScriptableObject
     {
         noticeDataType = (ENoticeType)(int)ENoticeType.End;
         noticeDataList = data;
-    }    
+    }
+
+    [ContextMenu("SetSOName")]
+    public void SetSOName()
+    {
+        string SO_PATH = $"Assets/Resources/NoticeData/NoticeData_{noticeDataType.ToString()}.asset";
+        
+        AssetDatabase.CreateAsset(this, SO_PATH);
+    }
 }
