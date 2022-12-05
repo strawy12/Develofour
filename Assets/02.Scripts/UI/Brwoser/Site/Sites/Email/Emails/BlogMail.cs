@@ -6,7 +6,8 @@ public class BlogMail : Mail
 {
     public override void ShowMail()
     {
-        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.BrunchDeleteMail);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenBrunchDeleteMail);
+
 
         EventManager.TriggerEvent(EQuestEvent.BlogCleanUp);
 

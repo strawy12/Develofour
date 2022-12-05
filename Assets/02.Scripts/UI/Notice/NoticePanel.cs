@@ -53,10 +53,10 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         EventManager.StartListening(ENoticeEvent.OpenNoticeSystem, (obj) => ImmediatelyStop());
     }
 
-    public void Notice(NoticeData data)
+    public void Notice(NoticeDataSO data)
     {
-        headText.SetText(data.head);
-        bodyText.SetText(data.body);
+        headText.SetText(data.Head);
+        bodyText.SetText(data.Body);
 
         rectTransform.anchorMin = new Vector2(1f, 0.5f);
         rectTransform.anchorMax = new Vector2(1f, 0.5f);

@@ -1,19 +1,18 @@
 using DG.Tweening;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.U2D.IK;
 
-public struct NoticeData
-{
-    public string head;
-    public string body;
-    public float delay;
-}
+
 
 public class NoticeSystem : MonoUI
 {
-    public static Action<NoticeData> OnGeneratedNotice;
+    public static Action<ENoticeType> OnGeneratedNotice;
 
     [SerializeField]
     private NoticePanel noticePanelTemp;
@@ -97,9 +96,38 @@ public class NoticeSystem : MonoUI
         });
     }
 
-    public void ShowNoticePanel(NoticeData data)
+    public NoticeDataSO GetTextData(ENoticeType noticeDataType)
     {
-        if (string.IsNullOrEmpty(data.head) || string.IsNullOrEmpty(data.body))
+        NoticeDataSO noticeDataSO = null;
+
+        try
+        {
+            noticeDataSO = Resources.Load<NoticeDataSO>($"NoticeData/NoticeData_{noticeDataType.ToString()}");
+        }
+        catch (System.NullReferenceException e)
+        {
+            Debug.Log($"NoticeData {noticeDataType} is null\n{e}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return noticeDataSO;
+    }
+
+
+    public void ShowNoticePanel(ENoticeType eNoticeDataType)
+    {
+        NoticeDataSO data = GetTextData(eNoticeDataType);
+
+        if(data == null)
+        {
+            Debug.LogError("Head나 Body 의 데이터가 없습니다");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(data.Head) || string.IsNullOrEmpty(data.Body))
         {
             Debug.LogError("Head나 Body 의 데이터가 없습니다");
             return;
@@ -108,9 +136,9 @@ public class NoticeSystem : MonoUI
         StartCoroutine(NoticeCoroutine(data));
     }
 
-    private IEnumerator NoticeCoroutine(NoticeData data)
+    private IEnumerator NoticeCoroutine(NoticeDataSO data)
     {
-        yield return new WaitForSeconds(data.delay);
+        yield return new WaitForSeconds(data.Delay);
 
         if (noticePanel != null)
         {
