@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ExtensionMethod
+namespace ExtenstionMethod
 {
     public static class QuaternionMethod
     {
