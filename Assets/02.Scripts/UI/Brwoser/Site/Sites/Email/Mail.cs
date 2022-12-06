@@ -1,3 +1,4 @@
+using ExtenstionMethod;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,6 +44,7 @@ public abstract class Mail : MonoBehaviour
 
     public virtual void HideMail()
     {
+        Debug.Log(11);
         gameObject.SetActive(false);
     }
 

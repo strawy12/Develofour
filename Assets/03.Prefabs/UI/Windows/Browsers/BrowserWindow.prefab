@@ -2577,7 +2577,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2158231575690959223, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
       propertyPath: mailDataList.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2158231575690959223, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
       propertyPath: mailDataList.Array.data[0].mail
@@ -2586,11 +2586,15 @@ PrefabInstance:
     - target: {fileID: 2158231575690959223, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
       propertyPath: mailDataList.Array.data[1].mail
       value: 
-      objectReference: {fileID: 6724955801479331251}
+      objectReference: {fileID: 2415479415698302157}
     - target: {fileID: 2158231575690959223, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
       propertyPath: mailDataList.Array.data[2].mail
       value: 
       objectReference: {fileID: 7592244411984218010}
+    - target: {fileID: 2158231575690959223, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
+      propertyPath: mailDataList.Array.data[3].mail
+      value: 
+      objectReference: {fileID: 3358806218370546587}
     - target: {fileID: 2158231575690959223, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
       propertyPath: mailDataList.Array.data[0].mailDataSO
       value: 
@@ -2603,6 +2607,10 @@ PrefabInstance:
       propertyPath: mailDataList.Array.data[2].mailDataSO
       value: 
       objectReference: {fileID: 11400000, guid: d0f97e73b648b6f4eb2f74b1c0e4936e, type: 2}
+    - target: {fileID: 2158231575690959223, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
+      propertyPath: mailDataList.Array.data[3].mailDataSO
+      value: 
+      objectReference: {fileID: 11400000, guid: bffef79bf012d2b449b2e8552d350088, type: 2}
     - target: {fileID: 2495693233118123781, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
       propertyPath: m_Alpha
       value: 0
@@ -2717,15 +2725,26 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3011640874258793179, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
   m_PrefabInstance: {fileID: 3116649871679968852}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6724955801479331251 stripped
+--- !u!114 &2415479415698302157 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8508222325536123879, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 776045411805131417, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
   m_PrefabInstance: {fileID: 3116649871679968852}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 354a8d9bb44a2be40beaa38cfbd19144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3358806218370546587 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 422336701585239503, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
+  m_PrefabInstance: {fileID: 3116649871679968852}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec50ac1b16311449a5d9a1b87406508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7592244411984218010 stripped
