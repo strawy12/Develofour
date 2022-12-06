@@ -15,7 +15,6 @@ public class FacebookPidPanel : MonoBehaviour
     private Sprite currentUserImage;
     [SerializeField]
     private string currentUserName;
-
     [SerializeField]
     private Image profileImage;
     [SerializeField]
