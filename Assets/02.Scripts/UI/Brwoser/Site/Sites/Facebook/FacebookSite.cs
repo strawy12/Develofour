@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class FacebookSite : Site
 {
-    void OnEnable()
-    {
-        Init();
-    }
     [Header("Pid")]
     [SerializeField]
     private List<FacebookPidPanelDataSO> pidList;

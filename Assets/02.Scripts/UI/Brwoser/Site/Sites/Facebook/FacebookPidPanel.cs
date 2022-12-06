@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class FacebookPidPanel : MonoBehaviour, IPoolable
+public class FacebookPidPanel : MonoBehaviour
 {
     //pid have to get PidText 피드텍스트는 있어야함
     public FacebookPidPanelDataSO pidDataSO;
@@ -42,10 +42,17 @@ public class FacebookPidPanel : MonoBehaviour, IPoolable
     [SerializeField]
     private TMP_InputField commentInputField;
 
+    [SerializeField]
+    private ContentSizeFitter csf;
+
+    [SerializeField]
+    private ContentSizeFitter commentcsf;
+
     private bool isImage = false;
 
     public void Init()
     {
+        commentSendButton.onClick.AddListener(CommentSend);
         CreateComment();
         profileImage.sprite = pidDataSO.profileImage;
         profileNameText.text = pidDataSO.profileNameText;
@@ -58,7 +65,7 @@ public class FacebookPidPanel : MonoBehaviour, IPoolable
             pidImage.sprite = pidDataSO.pidImage;
             pidImage.gameObject.SetActive(true);
             isImage = true;
-        }   
+        }
     }
 
     private void CreateComment()
@@ -74,7 +81,7 @@ public class FacebookPidPanel : MonoBehaviour, IPoolable
 
     public void CommentSend()
     {
-        if(commentInputField.text == null)
+        if (commentInputField.text == null)
         {
             return;
         }
@@ -83,12 +90,12 @@ public class FacebookPidPanel : MonoBehaviour, IPoolable
         comment.profileImage.sprite = currentUserImage;
         comment.profileNameText.text = currentUserName;
         comment.commentText.text = commentInputField.text;
-        comment.gameObject.SetActive(true);
         commentInputField.text = "";
+
+        commentcsf.enabled = true;
+        commentcsf.SetLayoutHorizontal();
+        commentcsf.SetLayoutVertical();
+        commentcsf.enabled = false;
     }
 
-    public void Reset()
-    {
-        
-    }
 }
