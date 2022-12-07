@@ -13,16 +13,18 @@ public class FacebookSite : Site
     [SerializeField]
     private FacebookPidPanel pidPrefab;
 
+    //Pid부분은 나중에 다시 만들어야함
+
     private void CreatePid()
     {
         //use Pooling!
-        for(int i = 0; i < pidList.Count; i++)
-        {
-            FacebookPidPanel pid = Instantiate(pidPrefab, pidParent);
-            pid.pidDataSO = pidList[i];
-            pid.Init();
-            pid.gameObject.SetActive(true);
-        }
+        //for(int i = 0; i < pidList.Count; i++)
+        //{
+        //    FacebookPidPanel pid = Instantiate(pidPrefab, pidParent);
+        //    pid.pidDataSO = pidList[i];
+        //    pid.Init();
+        //    pid.gameObject.SetActive(true);
+        //}
     }
 
     public override void Init()
