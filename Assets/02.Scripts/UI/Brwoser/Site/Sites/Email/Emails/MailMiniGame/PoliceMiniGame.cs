@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,6 +43,8 @@ public class PoliceMiniGame : MonoBehaviour
     private bool isCleared = false;
 
     public bool IsCleared { get { return isCleared; } }
+    public bool IsStarted { get { return isStarted; } }
+
 
     private int gameCount;
     private int answerCount = 0;
@@ -148,8 +148,6 @@ public class PoliceMiniGame : MonoBehaviour
         timerCoroutine = StartCoroutine(GameTimeCoroutine());
     }
 
-
-
     private void InputArrowKey(KeyCode key)
     {
         if (!isStarted) return;
@@ -230,5 +228,18 @@ public class PoliceMiniGame : MonoBehaviour
         {
             GameFail();
         }
+    }
+
+    public void InitializationGame()
+    {
+        isStarted = false;
+        currentTime = 0f;
+        answerCount = 0;
+
+        sendText.SetText("");
+        
+        GameFail();
+        
+        gameObject.SetActive(false);
     }
 }

@@ -45,6 +45,12 @@ public class PoliceMail : Mail
 
     public override void HideMail()
     {
+        if(miniGamePanel.IsStarted)
+        {
+            sendButtonPanel.SetActive(true);
+            miniGamePanel.InitializationGame();
+        }
+
         base.HideMail();
     }
 
@@ -62,6 +68,5 @@ public class PoliceMail : Mail
         SetContentPosition();
         isSendBtnClick = true;
     }
-
 
 }
