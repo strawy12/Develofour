@@ -235,6 +235,8 @@ public class PoliceMiniGame : MonoBehaviour
         isStarted = false;
         currentTime = 0f;
         answerCount = 0;
+
+        sendText.SetText("");
         
         GameFail();
         
