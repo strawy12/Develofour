@@ -31,7 +31,7 @@ public class NoticeSystem : MonoUI
 
     private NoticePanel noticePanel;
 
-    private bool isOpen = false; 
+    private bool isOpen = false;
 
     private void Awake()
     {
@@ -51,7 +51,7 @@ public class NoticeSystem : MonoUI
         EventManager.StartListening(ENoticeEvent.ClickNoticeBtn, ToggleNotice);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
- 
+
     private void CheckClose(object[] hits)
     {
         if (isOpen == false) return;
@@ -63,12 +63,14 @@ public class NoticeSystem : MonoUI
 
     private void ToggleNotice(object[] obj)
     {
-        if(isOpen)
+        if (isOpen)
         {
             Close();
         }
         else
         {
+            Debug.Log(55);
+
             Open();
         }
     }
@@ -78,10 +80,13 @@ public class NoticeSystem : MonoUI
         if (isOpen) return;
         isOpen = true;
 
+        Debug.Log(77);
+
+
         EventManager.TriggerEvent(ENoticeEvent.OpenNoticeSystem);
 
         SetActive(true);
-        
+
         rectTransform.DOKill();
         rectTransform.DOAnchorPosX(0f, Constant.NOTICE_DURATION);
     }
@@ -90,7 +95,7 @@ public class NoticeSystem : MonoUI
         if (!isOpen) return;
         isOpen = false;
         rectTransform.DOKill();
-        rectTransform.DOAnchorPosX(rectTransform.rect.width, Constant.NOTICE_DURATION).OnComplete(()=>
+        rectTransform.DOAnchorPosX(rectTransform.rect.width, Constant.NOTICE_DURATION).OnComplete(() =>
         {
             SetActive(false);
         });
@@ -121,7 +126,7 @@ public class NoticeSystem : MonoUI
     {
         NoticeDataSO data = GetTextData(eNoticeDataType);
 
-        if(data == null)
+        if (data == null)
         {
             Debug.LogError("Head나 Body 의 데이터가 없습니다");
             return;
@@ -146,19 +151,26 @@ public class NoticeSystem : MonoUI
         }
 
         NoticePanel panel = noticePanel = GetPanel();
-        panel.Init();
-        panel.OnCompeleted += EnqueuePanel;
+        panel.OnCompeleted += IncludePanel;
+        panel.OnClosed += PushPanel;
 
         panel.Notice(data);
     }
 
-    public void EnqueuePanel(NoticePanel panel)
+    public void IncludePanel(NoticePanel panel)
     {
         panel.transform.SetParent(noticePanelParant);
         noticePanelQueue.Enqueue(panel);
 
-        panel.OnCompeleted -= EnqueuePanel;
+        panel.OnCompeleted -= IncludePanel;
         noticePanel = null;
+    }
+
+    private void PushPanel(NoticePanel panel)
+    {
+        panel.gameObject.SetActive(false);
+        panel.OnClosed -= PushPanel;
+        noticePanelPool.Push(panel);
     }
 
     private NoticePanel GetPanel()
@@ -167,18 +179,20 @@ public class NoticeSystem : MonoUI
         if (noticePanelPool.Count <= 0)
         {
             panel = Instantiate(noticePanelTemp, Define.WindowCanvasTrm);
+            panel.Init();
         }
 
         else
         {
             panel = noticePanelPool.Pop();
+            panel.transform.SetParent(Define.WindowCanvasTrm);
         }
 
-        panel.SetActive(true);
+        panel.gameObject.SetActive(true);
 
         return panel;
     }
 
-   
+
 
 }

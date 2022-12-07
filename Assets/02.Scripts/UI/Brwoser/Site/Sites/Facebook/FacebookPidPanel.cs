@@ -10,6 +10,7 @@ public class FacebookPidPanel : MonoBehaviour
     //pid have to get PidText 피드텍스트는 있어야함
     public FacebookPidPanelDataSO pidDataSO;
 
+        
     //TODO - need Current User Data 현재는 창작자의 데이타 SO든 클래스든
     [SerializeField]
     private Sprite currentUserImage;

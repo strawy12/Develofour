@@ -7,6 +7,7 @@ public class EffectPlayer : SoundPlayer
     [SerializeField]
     private Sound.EEffect effectSoundID;
 
+
     public override void Init()
     {
         soundID = (int)effectSoundID;

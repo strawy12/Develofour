@@ -9,11 +9,11 @@ using ExtenstionMethod;
 
 public enum EEmailCategory
 {
-    None = 0x00, // 00000000
-    Receive = 0x01, // 00000001
-    Favorite = 0x02, // 00000010
-    Send = 0x04, // 00000100
-    Remove = 0x08, // 00001000
+    None = 0x00,      // 00000000
+    Receive = 0x01,   // 00000001
+    Favorite = 0x02,  // 00000010
+    Send = 0x04,      // 00000100
+    Remove = 0x08,    // 00001000
     Invisible = 0x10, // 00010000
 }
 

@@ -11,7 +11,6 @@ using UnityEngine.UIElements;
 
 public class CreateNoticeDataWindow : EditorWindow
 {
-
     private bool isNameInputFieldFocus = false;
     TextField nameInputField = null;
     TextField headInputField = null;
@@ -115,7 +114,7 @@ public class CreateNoticeDataWindow : EditorWindow
         if ('a' <= nameInputField.value[0] || nameInputField.value[0] <= 'z')
         {
             char replaceChar = char.ToUpper(valueText[0]);
-            valueText = valueText.Replace(valueText[0], replaceChar);
+            valueText = replaceChar + valueText.Substring(1);
         }
         //if (Enum.IsDefined(typeof(ENoticeType), nameInputField.value))
         //{

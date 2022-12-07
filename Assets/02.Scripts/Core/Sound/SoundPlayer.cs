@@ -11,6 +11,8 @@ public abstract class SoundPlayer : MonoBehaviour
     [SerializeField]
     protected AudioClip audioClip;
 
+    public AudioClip Clip { get => audioClip; set => audioClip = value; }
+
     [SerializeField]
     private float pitchRandmness;
 
@@ -53,10 +55,11 @@ public abstract class SoundPlayer : MonoBehaviour
         OnCompeleted = null;
     }
 
-    private void AudioSourceInit()
+    public void AudioSourceInit()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
+        audioSource.clip = Clip;
 
     }
 
@@ -92,4 +95,5 @@ public abstract class SoundPlayer : MonoBehaviour
         audioSource.Stop();
         OnCompeleted?.Invoke(this);
     }
+
 }
