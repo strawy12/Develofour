@@ -92,6 +92,7 @@ public class BrunchSite : Site
         postDatas.Remove(post.PostData);
         postListPanel.Init(postDatas.Count);
         postCntText.text = $"¿€«∞ {postDatas.Count}";
+
         if (postDatas.Count <= 0)
         {
             EventManager.TriggerEvent(EQuestEvent.EndBrunchPostCleanUp);
