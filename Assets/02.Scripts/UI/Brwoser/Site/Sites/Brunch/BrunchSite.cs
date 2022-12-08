@@ -73,7 +73,7 @@ public class BrunchSite : Site
     
     private void CreatePost()
     {
-        postListPanel.Init(postDatas.Count);
+        postListPanel.ChangeVerticalUICount(postDatas.Count);
         foreach (BrunchPostDataSO postData in postDatas)
         {
             BrunchPost post = Instantiate(brunchPostPrefab, postParent);
@@ -86,7 +86,7 @@ public class BrunchSite : Site
     private void RemovePost(BrunchPost post)
     {
         postDatas.Remove(post.PostData);
-        postListPanel.Init(postDatas.Count);
+        postListPanel.ChangeVerticalUICount(postDatas.Count);
         
         if(postDatas.Count <= 0)
         {
