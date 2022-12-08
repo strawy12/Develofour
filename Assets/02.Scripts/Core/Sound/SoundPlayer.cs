@@ -27,6 +27,11 @@ public abstract class SoundPlayer : MonoBehaviour
 
     private bool isInit;
 
+    public virtual void SetValue(AudioClip clip)
+    {
+        audioClip = clip;
+    }
+
     public virtual void Init()
     {
         if (isInit) return;
@@ -53,11 +58,11 @@ public abstract class SoundPlayer : MonoBehaviour
         OnCompeleted = null;
     }
 
-    private void AudioSourceInit()
+    public void AudioSourceInit()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
-
+        audioSource.clip = audioClip;
     }
 
     public void PlayClipWithVariablePitch()
@@ -92,4 +97,5 @@ public abstract class SoundPlayer : MonoBehaviour
         audioSource.Stop();
         OnCompeleted?.Invoke(this);
     }
+
 }

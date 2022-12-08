@@ -82,21 +82,23 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
             rectTransform.anchoredPosition = saveOriginalPos + dragPanelPos;
         }
+
+        
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        saveEndDragPos = eventData.position;
-        float moveDistance = saveBeginDragPos.x - saveEndDragPos.x;
+        //saveEndDragPos = eventData.position;
+        //float moveDistance = saveBeginDragPos.x - saveEndDragPos.x;
 
-        if (moveDistance < Constant.NOTICEDRAG_INTERVAL)
-        // 첫 시작 마우스 pos와 끝 마우스 pos의 격차가 일정 이상 존재한다면
-        {
-            isMove = true;
-            // 사라지도록 함
-        }
+        //if (moveDistance < Constant.NOTICEDRAG_INTERVAL)
+        //// 첫 시작 마우스 pos와 끝 마우스 pos의 격차가 일정 이상 존재한다면
+        //{
+        //    isMove = true;
+        //    // 사라지도록 함
+        //}
 
-        if (isMove)
+        if (isInvisibility)
         {
             isInvisibility = false;
 
