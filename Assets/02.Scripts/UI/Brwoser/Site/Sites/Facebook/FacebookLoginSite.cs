@@ -128,5 +128,4 @@ public class FacebookLoginSite : Site
         EventManager.StopListening(ELoginSiteEvent.FacebookNewPassword,NewPassword);
         
     }
-
 }

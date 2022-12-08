@@ -11,20 +11,26 @@ public class FacebookPidPanel : MonoBehaviour
     public FacebookPidPanelDataSO pidDataSO;
 
     //TODO - need Current User Data 현재는 창작자의 데이타 SO든 클래스든
+        
+    [Header("CurrentUserData")]
     [SerializeField]
     private Sprite currentUserImage;
     [SerializeField]
     private string currentUserName;
+
+    [Header("ProfileData")]
     [SerializeField]
-    private Image profileImage;
+    private FacebookPidProfileData profile;
+        
+    [Header("PidContentsData")]
     [SerializeField]
-    private TextMeshProUGUI profileNameText;
+    private FacebookPidContentsData contents;
+
+    [Header("CommentData")]
     [SerializeField]
-    private TextMeshProUGUI profileTimeText;
-    [SerializeField]
-    private TextMeshProUGUI pidText;
-    [SerializeField]
-    private Image pidImage;
+    private FacebookPidCommentParentData commentParent;
+
+    [Header("Other")]
     [SerializeField]
     private TextMeshProUGUI likeText;
     [SerializeField]
@@ -34,35 +40,22 @@ public class FacebookPidPanel : MonoBehaviour
     [SerializeField]
     private Button commentSendButton;
 
-    [SerializeField]
-    private FacebookPidComment commentPrefab;
-    [SerializeField]
-    private Transform commentParent;
-    [SerializeField]
-    private TMP_InputField commentInputField;
-
-    [SerializeField]
-    private ContentSizeFitter csf;
-
-    [SerializeField]
-    private ContentSizeFitter commentcsf;
-
     private bool isImage = false;
 
     public void Init()
     {
         commentSendButton.onClick.AddListener(CommentSend);
         CreateComment();
-        profileImage.sprite = pidDataSO.profileImage;
-        profileNameText.text = pidDataSO.profileNameText;
-        profileTimeText.text = pidDataSO.profileTimeText;
-        pidText.text = pidDataSO.pidText;
+        profile.profileImage.sprite = pidDataSO.profileImage;
+        profile.nameText.text = pidDataSO.profileNameText;
+        profile.timeText.text = pidDataSO.profileTimeText;
+        contents.pidText.text = pidDataSO.pidText;
         likeText.text = $"좋아요 {pidDataSO.likeCount}명";
         commentText.text = $"댓글 {pidDataSO.commentCount}명";
         if(pidDataSO.pidImage != null)
         {
-            pidImage.sprite = pidDataSO.pidImage;
-            pidImage.gameObject.SetActive(true);
+            contents.pidImage.sprite = pidDataSO.pidImage;
+            contents.pidImage.gameObject.SetActive(true);
             isImage = true;
         }
     }
@@ -72,7 +65,7 @@ public class FacebookPidPanel : MonoBehaviour
         Debug.Log(pidDataSO.commentList.Count);
         for(int i = 0; i < pidDataSO.commentList.Count; i++)
         {
-            FacebookPidComment comment = Instantiate(commentPrefab, commentParent);
+            FacebookPidComment comment = Instantiate(commentParent.commentPrefab, commentParent.commentParent);
             comment.Init(pidDataSO.commentList[i]);
             comment.gameObject.SetActive(true);
         }
@@ -80,21 +73,16 @@ public class FacebookPidPanel : MonoBehaviour
 
     public void CommentSend()
     {
-        if (commentInputField.text == null)
+        if (commentParent.commentInputField.text == null)
         {
             return;
         }
 
-        FacebookPidComment comment = Instantiate(commentPrefab, commentParent);
+        FacebookPidComment comment = Instantiate(commentParent.commentPrefab, commentParent.commentParent);
         comment.profileImage.sprite = currentUserImage;
         comment.profileNameText.text = currentUserName;
-        comment.commentText.text = commentInputField.text;
-        commentInputField.text = "";
-
-        commentcsf.enabled = true;
-        commentcsf.SetLayoutHorizontal();
-        commentcsf.SetLayoutVertical();
-        commentcsf.enabled = false;
+        comment.commentText.text = commentParent.commentInputField.text;
+        commentParent.commentInputField.text = "";
     }
 
 }
