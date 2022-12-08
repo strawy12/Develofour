@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -84,14 +84,14 @@ public class BrunchSite : Site
             post.OnRemove += RemovePost;
             post.gameObject.SetActive(true);
         }
-        postCntText.text = $"ÀÛÇ° {postDatas.Count}";
+        postCntText.text = $"ìž‘í’ˆ {postDatas.Count}";
     }
 
     private void RemovePost(BrunchPost post)
     {
         postDatas.Remove(post.PostData);
         postListPanel.ChangeVerticalUICount(postDatas.Count);
-        postCntText.text = $"ÀÛÇ° {postDatas.Count}";
+        postCntText.text = $"ìž‘í’ˆ {postDatas.Count}";
         
         if(postDatas.Count <= 0)
         {
