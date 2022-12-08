@@ -17,7 +17,7 @@ public class FavoriteBar : MonoBehaviour
     {
         CreatePool();
         EventManager.StartListening(EBrowserEvent.AddFavoriteSite, AddNewFavoritesButton);
-        EventManager.StartListening(EBrowserEvent.AddFavoriteSiteAll, AddNewFavoritesButton);
+        EventManager.StartListening(EBrowserEvent.AddFavoriteSiteAll, ShowAllFavoritesButton);
         EventManager.StartListening(EBrowserEvent.RemoveFavoriteSite, RemoveFavoritesButton);
         ReadSiteListsData();
     }

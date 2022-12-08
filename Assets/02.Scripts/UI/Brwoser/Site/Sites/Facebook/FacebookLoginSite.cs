@@ -28,13 +28,19 @@ public class FacebookLoginSite : Site
     public override void Init()
     {
         base.Init();
+
         failedIDcnt = 0;
+
         facebookIDInputField.asteriskChar = '·';
         facebookPasswordInputField.asteriskChar = '·';
+
         failedLoginText.text = "";
+
         LoginBtn.onClick.AddListener(LoginFacebook);
+
         facebookIDInputField.onSelect.AddListener((a) => SelectInputField(true));
         facebookIDInputField.onDeselect.AddListener((a) => SelectInputField(false));
+
         facebookPasswordInputField.onSelect.AddListener((a) => SelectInputField(true));
         facebookPasswordInputField.onSelect.AddListener((a) => SelectInputField(false));
 
@@ -45,12 +51,14 @@ public class FacebookLoginSite : Site
 
         EventManager.StartListening(ELoginSiteEvent.EmailRequestSite, RequestSite);
     }
+
     private void RequestSite(object[] ps)
     {
         if (!(ps[0] is ESiteLink)) { return; }
         if (requestSite != ESiteLink.None) { return; }
         requestSite = (ESiteLink)ps[0];
     }
+
     private void SelectInputField(bool isSelected)
     {
         Input.imeCompositionMode = isSelected ? IMECompositionMode.Off : IMECompositionMode.Auto;
@@ -82,6 +90,8 @@ public class FacebookLoginSite : Site
                     EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
                     requestSite = ESiteLink.None;
                 }
+
+                DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite = true;
             }
             else
             {
@@ -107,12 +117,16 @@ public class FacebookLoginSite : Site
 
     private void ClickForgetPassword()
     {
+
         if (facebookIDInputField.text == loginEmail)
         {
             failedLoginText.text = "등록된 Email에 비밀번호 변경메일을 보냈습니다.";
             EventManager.StartListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
-            EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.SnsPasswordChange });
+        
+            EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.SnsPasswordChange});
+            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.SnsSetNewPassword, 0f);
         }
+
         else
         {
             failedLoginText.text = "알맞은 이메일 혹은 전화번호를 적어주세요.";
@@ -124,8 +138,8 @@ public class FacebookLoginSite : Site
         if(param == null || !(param[0] is string)) { return; }
 
         passWord = param[0] as string;
+        DataManager.Inst.CurrentPlayer.CurrentChapterData.SNSPassword = passWord;
 
-        EventManager.StopListening(ELoginSiteEvent.FacebookNewPassword,NewPassword);
-        
+        EventManager.StopListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
     }
 }

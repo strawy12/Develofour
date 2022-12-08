@@ -19,6 +19,7 @@ public class FacebookNewPasswordMail : Mail
     private GameObject newPasswordPanel;
     [SerializeField]
     private GameObject completeMassagePanel;
+
     public override void Init()
     {
         base.Init();
@@ -47,7 +48,5 @@ public class FacebookNewPasswordMail : Mail
         newPasswordPanel.SetActive(false);
         completeMassagePanel.SetActive(true);
         EventManager.TriggerEvent(ELoginSiteEvent.FacebookNewPassword, new object[] { inputPassword.text });
-
     }
-    
 }
