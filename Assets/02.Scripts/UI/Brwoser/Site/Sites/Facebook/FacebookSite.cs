@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FacebookSite : Site
 {
@@ -12,8 +13,11 @@ public class FacebookSite : Site
 
     [SerializeField]
     private FacebookPidPanel pidPrefab;
-
+    [SerializeField]
+    private Button friendPanelBtn;
+    [SerializeField]
     //Pid부분은 나중에 다시 만들어야함
+
 
     private void CreatePid()
     {
