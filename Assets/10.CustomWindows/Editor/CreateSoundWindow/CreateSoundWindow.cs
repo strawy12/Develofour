@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -12,6 +12,7 @@ public class CreateSoundWindow : EditorWindow
 {
     private ObjectField clipField;
     private TextField nameField;
+    private Toggle isEffectToggle;
 
     [MenuItem("Tools/CreateSoundWindow")]
     public static void ShowWindow()
@@ -30,6 +31,7 @@ public class CreateSoundWindow : EditorWindow
 
         clipField = rootVisualElement.Q<ObjectField>("ClipField");
         nameField = rootVisualElement.Q<TextField>("NameField");
+        isEffectToggle = rootVisualElement.Q<Toggle>("IsEffectToggle");
 
         Button btn = rootVisualElement.Q<Button>("CtreateBtn");
         btn.RegisterCallback<MouseUpEvent>(x => CreateAudioPlayer());
@@ -37,11 +39,18 @@ public class CreateSoundWindow : EditorWindow
 
     private void CreateAudioPlayer()
     {
+        if (string.IsNullOrEmpty(nameField.value) ||
+            clipField.value == null)
+        {
+            Debug.LogError("NameField's value is Null or clipField's value is Null");
+            return;
+        }
+
         GameObject sound = GameObject.Find("Sound");
 
         if (sound == null)
         {
-            Debug.LogError("Sound¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("Soundë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -49,7 +58,7 @@ public class CreateSoundWindow : EditorWindow
 
         if (File.Exists(PATH) == false)
         {
-            Debug.LogError($"ENoticeType ÆÄÀÏÀÌ ÇØ´ç °æ·Î¿¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. ÆÄÀÏ À§Ä¡¸¦ ¿Å°ÜÁÖ¼¼¿ä. {PATH}");
+            Debug.LogError($"ENoticeType íŒŒì¼ì´ í•´ë‹¹ ê²½ë¡œì— ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. íŒŒì¼ ìœ„ì¹˜ë¥¼ ì˜®ê²¨ì£¼ì„¸ìš”. {PATH}");
             return;
         }
 
@@ -66,50 +75,48 @@ public class CreateSoundWindow : EditorWindow
 
 
         // Enum 
-        // File.Write ,File.Read  cs ÆÄÀÏÀ» ¸øÀÐ¾î¿À°í ¸ø ½á
+        // File.Write ,File.Read  cs íŒŒì¼ì„ ëª»ì½ì–´ì˜¤ê³  ëª» ì¨
         string text = "";
         using (StreamReader reader = new StreamReader(PATH))
         {
             text = reader.ReadToEnd();
+            text.Replace("\r", "");
         }
 
-        int cnt = 0;
         int length = text.Length - 1;
 
-        for (int i = length; i > 0; i--)
-        {
-            if (text[i] == '}')
-            {
-                if (cnt++ == 0)
-                    continue;
+        int idx = isEffectToggle.value ?  text.LastIndexOf("Count") : text.IndexOf("Count");
+        text = text.Substring(0, idx) + $"{valueText},\n" + text.Substring(idx-8);
 
-                text = text.Insert(i - 11, $"{valueText},\n        ");
-                break;
-            }
-        }
-
-        Debug.Log(text);
-      
-        return;
         using (StreamWriter writer = new StreamWriter(PATH))
         {
+            writer.Write(text);
 
-            //writer.Write(text);
-            //writer.Flush();
+            AssetDatabase.Refresh();
+            CompilationPipeline.RequestScriptCompilation();
+        }
 
-            //AssetDatabase.Refresh();
-            //CompilationPipeline.RequestScriptCompilation();
+        SoundPlayer soundPlayer = null;
+        int id = -1;
+
+        if (isEffectToggle.value)
+        {
+            soundPlayer = new GameObject(valueText).AddComponent<EffectPlayer>();
+            id = (int)Sound.EBgm.Count;
+        }
+
+        else
+        {
+            soundPlayer = new GameObject(valueText).AddComponent<BGMPlayer>();
+            id = (int)Sound.EEffect.Count;
         }
 
 
+        soundPlayer.SetValue(clipField.value as AudioClip);
 
-        EffectPlayer audioPlayer = new GameObject(nameField.text).AddComponent<EffectPlayer>();
+        soundPlayer.transform.SetParent(sound.transform);
+        soundPlayer.gameObject.SetActive(false);
 
-        audioPlayer.Clip = clipField.value as AudioClip;
-
-        audioPlayer.transform.SetParent(sound.transform);
-        audioPlayer.gameObject.SetActive(false);
-
-        audioPlayer.AudioSourceInit();
+        soundPlayer.AudioSourceInit();
     }
 }

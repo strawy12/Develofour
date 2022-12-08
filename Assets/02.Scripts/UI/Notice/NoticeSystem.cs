@@ -69,8 +69,6 @@ public class NoticeSystem : MonoUI
         }
         else
         {
-            Debug.Log(55);
-
             Open();
         }
     }
@@ -79,9 +77,6 @@ public class NoticeSystem : MonoUI
     {
         if (isOpen) return;
         isOpen = true;
-
-        Debug.Log(77);
-
 
         EventManager.TriggerEvent(ENoticeEvent.OpenNoticeSystem);
 
