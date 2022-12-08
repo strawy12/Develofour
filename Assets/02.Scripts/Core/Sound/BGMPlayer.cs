@@ -8,6 +8,12 @@ public class BGMPlayer : SoundPlayer
     [SerializeField]
     private Sound.EBgm bgmSoundID;
 
+    public override void SetValue(AudioClip clip)
+    {
+        base.SetValue(clip);
+        bgmSoundID = Sound.EBgm.Count;
+    }
+
     public override void Init()
     {
         soundID = (int)bgmSoundID;

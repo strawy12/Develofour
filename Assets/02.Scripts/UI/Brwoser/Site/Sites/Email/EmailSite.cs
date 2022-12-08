@@ -9,11 +9,11 @@ using ExtenstionMethod;
 
 public enum EEmailCategory
 {
-    None = 0x00, // 00000000
-    Receive = 0x01, // 00000001
-    Favorite = 0x02, // 00000010
-    Send = 0x04, // 00000100
-    Remove = 0x08, // 00001000
+    None = 0x00,      // 00000000
+    Receive = 0x01,   // 00000001
+    Favorite = 0x02,  // 00000010
+    Send = 0x04,      // 00000100
+    Remove = 0x08,    // 00001000
     Invisible = 0x10, // 00010000
 }
 
@@ -157,8 +157,12 @@ public class EmailSite : Site
     {
         currentMailLineList = baseEmailLineList.Where(n =>
         {
-            return n.Category.ContainMask((int)currentCategory)
-            && n.Category.ContainMask((int)EEmailCategory.Invisible) == false;
+            int category = n.Category;
+            bool flag1 = category.ContainMask((int)currentCategory);
+            bool flag2 = category.ContainMask((int)EEmailCategory.Invisible) == false;
+            bool flag3 = (currentCategory != EEmailCategory.Remove && category.ContainMask((int)EEmailCategory.Remove)) == false;
+
+            return flag1 && flag2 && flag3;
 
         }).ToList();
 

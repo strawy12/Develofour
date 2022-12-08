@@ -22,6 +22,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     private TMP_Text dateText;
 
     public Action<NoticePanel> OnCompeleted;
+    public Action<NoticePanel> OnClosed;
 
     private RectTransform rectTransform;
     private Image backgroundImage;
@@ -31,6 +32,9 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     private Coroutine stopDelayCoroutine = null;
 
     private bool isEnter;
+
+    private bool isCompleted = false;
+
 
     private void Bind()
     {
@@ -43,14 +47,14 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void Init()
     {
+        Debug.Log(22);
+
         Bind();
         OnCompeleted += (x) => Compelete();
 
         dragNotice.OnClickNotice += () => NoticePanelStartEndDrag();
         dragNotice.OnChangeAlpha += () => NoticePanelAlphalightly();
         dragNotice.OnDragNotice += () => OnCompeleted?.Invoke(this);
-
-        EventManager.StartListening(ENoticeEvent.OpenNoticeSystem, (obj) => ImmediatelyStop());
     }
 
     public void Notice(NoticeDataSO data)
@@ -65,6 +69,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         Vector2 pos = new Vector2(rectTransform.rect.width, NOTICE_POS.y);
         rectTransform.anchoredPosition = pos;
 
+        SetActive(true);
+
         EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
         rectTransform.DOAnchorPosX(NOTICE_POS.x, NOTICE_DURATION);
 
@@ -75,7 +81,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private void NoticePanelStartEndDrag()
     {
-        if(dragNotice.isClick) // 드래그 시작
+        if (dragNotice.isClick) // 드래그 시작
         {
             if (stopDelayCoroutine != null)
             {
@@ -83,7 +89,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
                 stopDelayCoroutine = null;
             }
         }
-        else if(!dragNotice.isClick)
+        else if (!dragNotice.isClick)
         {
             if (stopDelayCoroutine == null)
             {
@@ -100,7 +106,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         }
         else if (!dragNotice.isInvisibility)
         {
-            canvasGroup.alpha = 1f;
+            canvasGroup.alpha = 0.8f;
         }
     }
 
@@ -110,6 +116,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         rectTransform.DOKill();
         StopAllCoroutines();
         OnCompeleted?.Invoke(this);
+        EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }
 
     private void Compelete()
@@ -121,6 +128,16 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
             isEnter = false;
         }
+
+        Debug.Log(11);
+
+        if (isCompleted)
+        {
+            SetActive(false);
+            OnClosed?.Invoke(this);
+        }
+
+        isCompleted = !isCompleted;
     }
 
     private IEnumerator NoticeCoroutine()
@@ -156,6 +173,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private void NoticeStopEvent(object[] ps)
     {
+        if (isCompleted) return;
         ImmediatelyStop();
     }
 
@@ -166,8 +184,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private void OnDisable()
     {
-
-        EventManager.StartListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
+        EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }
 
     private void OnDestroy()

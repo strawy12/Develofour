@@ -7,6 +7,12 @@ public class EffectPlayer : SoundPlayer
     [SerializeField]
     private Sound.EEffect effectSoundID;
 
+
+    public override void SetValue(AudioClip clip)
+    {
+        base.SetValue(clip);
+        effectSoundID = Sound.EEffect.Count;
+    }
     public override void Init()
     {
         soundID = (int)effectSoundID;
