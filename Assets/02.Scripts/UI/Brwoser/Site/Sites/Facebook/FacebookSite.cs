@@ -22,6 +22,8 @@ public class FacebookSite : Site
     private FacebookFriendPanel facebookFriendPanel;
     [SerializeField]
     private GameObject homePanel;
+    [SerializeField]
+    private GameObject leftPanel;
     //Pid부분은 나중에 다시 만들어야함
     
     private void CreatePid()
@@ -62,13 +64,15 @@ public class FacebookSite : Site
 
     private void ShowHomePanel()
     {
-        homePanel.SetActive(true);
         facebookFriendPanel.gameObject.SetActive(false);
+        homePanel.SetActive(true);
+        leftPanel.SetActive(true);
     }
 
     private void ShowFriendPanel()
     {
-        facebookFriendPanel.gameObject.SetActive(true);
         homePanel.SetActive(false);
+        leftPanel.SetActive(false);
+        facebookFriendPanel.gameObject.SetActive(true);
     }
 }
