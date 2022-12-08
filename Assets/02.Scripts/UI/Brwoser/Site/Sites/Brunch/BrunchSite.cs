@@ -1,33 +1,36 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using TMPro;
 public class BrunchSite : Site
 {
+
+    [Header("WriterInfo")]
     [SerializeField]
     private GameObject writerInfoPanel;
     [SerializeField]
-    private GameObject workListPanel;
-
+    private Button writerInfoBtn;
+    [Header("PostList")]
     [SerializeField]
     private Transform postParent;
-    
-    [SerializeField]
-    private Button writerInfoBtn;
     [SerializeField]
     private Button postListBtn;
-    [SerializeField]
-    private Button workListBtn;
-    
     [SerializeField]
     private BrunchPost brunchPostPrefab;
     [SerializeField]
     private PostPanelParent postListPanel;
-    
-
     [SerializeField]
     private List<BrunchPostDataSO> postDatas = new List<BrunchPostDataSO>();
+    [SerializeField]
+    private TMP_Text postCntText;
+    [Header("WorkList")]
+    [SerializeField]
+    private GameObject workListPanel;
+    [SerializeField]
+    private Button workListBtn;
+    
 
     public void Awake()
     {
@@ -81,12 +84,14 @@ public class BrunchSite : Site
             post.OnRemove += RemovePost;
             post.gameObject.SetActive(true);
         }
+        postCntText.text = $"작품 {postDatas.Count}";
     }
 
     private void RemovePost(BrunchPost post)
     {
         postDatas.Remove(post.PostData);
         postListPanel.ChangeVerticalUICount(postDatas.Count);
+        postCntText.text = $"작품 {postDatas.Count}";
         
         if(postDatas.Count <= 0)
         {
