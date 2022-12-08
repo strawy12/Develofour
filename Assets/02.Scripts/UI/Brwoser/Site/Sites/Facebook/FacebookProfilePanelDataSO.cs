@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FacebookProfilePanelDataSO : MonoBehaviour
+[CreateAssetMenu(menuName = "SO/Site/Facebook/PidDataSO")]
+public class FacebookProfilePanelDataSO : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Sprite profileImage;
+    public string nameText;
+    public string infoText;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public List<FacebookPidPanel> pidList;
 }
