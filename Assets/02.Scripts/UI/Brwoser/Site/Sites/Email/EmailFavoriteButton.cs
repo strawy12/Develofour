@@ -35,9 +35,6 @@ public class EmailFavoriteButton : MonoBehaviour
         if (isChanging) return;
         isChanging = true;
 
-        isFavorited = !isFavorited;
-        OnChangeFavorited?.Invoke(isFavorited);
-
         Sequence sequence = DOTween.Sequence(); 
         if(isFavorited)
         {   
@@ -47,6 +44,9 @@ public class EmailFavoriteButton : MonoBehaviour
         {
             sequence.Append(fillStarImage.DOColor(Color.yellow, colorDuraction).OnComplete(() => isChanging = false));
         }
+
+        isFavorited = !isFavorited;
+        OnChangeFavorited?.Invoke(isFavorited);
     }
 
     public void ImmediatellyStop()
