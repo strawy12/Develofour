@@ -157,9 +157,11 @@ public class EmailSite : Site
     {
         currentMailLineList = baseEmailLineList.Where(n =>
         {
-            return n.Category.ContainMask((int)currentCategory)
-            && n.Category.ContainMask((int)EEmailCategory.Invisible) == false;
-
+            int category = n.Category;
+            bool flag1 = category.ContainMask((int)currentCategory);
+            bool flag2 = category.ContainMask((int)EEmailCategory.Invisible) == false;
+            bool flag3 = (currentCategory != EEmailCategory.Remove && category.ContainMask((int)EEmailCategory.Remove)) == false;
+            return flag1 && flag2 && flag3;
         }).ToList();
 
         ShowMailLineAll();
