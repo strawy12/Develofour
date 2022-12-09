@@ -29,13 +29,13 @@ public class FacebookSite : Site
     private void CreatePid()
     {
         //use Pooling!
-        //for(int i = 0; i < pidList.Count; i++)
-        //{
-        //    FacebookPidPanel pid = Instantiate(pidPrefab, pidParent);
-        //    pid.pidDataSO = pidList[i];
-        //    pid.Init();
-        //    pid.gameObject.SetActive(true);
-        //}
+        for (int i = 0; i < pidList.Count; i++)
+        {
+            FacebookPidPanel pid = Instantiate(pidPrefab, pidParent);
+            pid.pidDataSO = pidList[i];
+            pid.Init();
+            pid.gameObject.SetActive(true);
+        }
     }
 
     public override void Init()
