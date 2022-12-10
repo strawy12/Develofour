@@ -39,6 +39,20 @@ public partial class Sound : MonoBehaviour
         LoginSuccess,
         PoliceMinigameArrowSuccess,
         PoliceMinigameArrowFailed,
+        Reporter_01,
+        Reporter_02,
+        Reporter_03,
+        Reporter_04,
+        Reporter_05,
+        Reporter_06,
+        Reporter_07,
+        Reporter_08,
+        Reporter_09,
+        Reporter_10,
+        Reporter_11,
+        Reporter_12,
+        Reporter_13,
+        Reporter_14,
         Count
     }
 
