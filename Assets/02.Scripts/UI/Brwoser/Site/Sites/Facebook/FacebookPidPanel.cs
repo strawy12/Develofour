@@ -41,12 +41,13 @@ public class FacebookPidPanel : MonoBehaviour
     //private Button commentSendButton;
 
     private bool isImage = false;
+    private bool isCreate = false;
 
     public void Setting(FacebookPidPanelDataSO _pidDataSO)
     {
         pidDataSO = _pidDataSO;
         //commentSendButton.onClick.AddListener(CommentSend);
-        CreateComment();
+        if(isCreate) CreateComment();
         profile.profileImage.sprite = pidDataSO.profileImage;
         profile.nameText.text = pidDataSO.profileNameText;
         profile.timeText.text = pidDataSO.profileTimeText;
@@ -63,7 +64,7 @@ public class FacebookPidPanel : MonoBehaviour
 
     private void CreateComment()
     {
-        Debug.Log(pidDataSO.commentList.Count);
+        isCreate = true;
         for(int i = 0; i < pidDataSO.commentList.Count; i++)
         {
             FacebookPidComment comment = Instantiate(commentParent.commentPrefab, commentParent.commentParent);

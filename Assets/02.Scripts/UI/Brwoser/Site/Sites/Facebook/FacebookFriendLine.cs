@@ -12,6 +12,8 @@ public class FacebookFriendLine : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI nameText;
     [SerializeField]
+    private GameObject selectPanel;
+    [SerializeField]
     private Button button;
 
     public Action<FacebookFriendDataSO> OnSelect;
@@ -21,6 +23,15 @@ public class FacebookFriendLine : MonoBehaviour
     public void Init(FacebookFriendDataSO _friendData)
     {
         friendData = _friendData;
-        button.onClick.AddListener(() => { OnSelect?.Invoke(friendData); });
+        profileImage.sprite = friendData.profileImage;
+        nameText.text = friendData.nameText;
+
+        OnSelect += (x) => SetSelectPanel(true);
+        button.onClick.AddListener(() => { OnSelect?.Invoke(friendData); });   
+    }
+
+    public void SetSelectPanel(bool flag)
+    {
+        selectPanel.SetActive(flag);
     }
 }

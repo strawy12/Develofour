@@ -12,6 +12,10 @@ public class FacebookProfilePanel : MonoBehaviour
     private TextMeshProUGUI nameText;
     [SerializeField]
     private TextMeshProUGUI infoText;
+    [SerializeField]
+    private Image backgroundImage;
+
+    public RectTransform rect;
 
     [Header("Buttons")]
     [SerializeField]
@@ -28,24 +32,25 @@ public class FacebookProfilePanel : MonoBehaviour
     [SerializeField]
     private Transform pidParent;
 
+    //피드의 최대값
     [SerializeField]
     private List<FacebookPidPanel> pidList;
 
     public void Setting(FacebookFriendDataSO _data)
     {
-        for(int i = 0; i < pidList.Count; i++)
+        data = _data;
+        for (int i = 0; i < pidList.Count; i++)
         {
             pidList[i].gameObject.SetActive(false);
         }
-
-        data = _data;
         profileImage.sprite = data.profileImage;
         nameText.text = data.nameText;
         infoText.text = data.infoText;
-        friendAddButton.onClick.AddListener(() => FriendAdd());
-        sendMessageButton.onClick.AddListener(() => SendMessage());
+        backgroundImage.sprite = data.backgroundImage;
+        //friendAddButton.onClick.AddListener(() => FriendAdd());
+        //sendMessageButton.onClick.AddListener(() => SendMessage());
 
-        for(int i = 0; i < data.pidList.Count; i++)
+        for (int i = 0; i < data.pidList.Count; i++)
         {
             pidList[i].Setting(data.pidList[i]);
             pidList[i].gameObject.SetActive(true);
