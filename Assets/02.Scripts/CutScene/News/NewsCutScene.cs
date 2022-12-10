@@ -15,6 +15,9 @@ public class NewsCutScene : CutScene
     private TextBox textBox;
 
     [SerializeField]
+    private float textBoxStartDelay = 1f;
+
+    [SerializeField]
     private List<int> printTextCntList;
 
     [SerializeField]
@@ -127,7 +130,7 @@ public class NewsCutScene : CutScene
     protected override void ShowCutScene()
     {
         windowCanvas.enabled = false;
-        textBox.Init(ETextDataType.News);
+        textBox.Init(ETextDataType.News, TextBox.ETextBoxType.Simple);
         StartCoroutine(NewsCoroutine());
     }
 
@@ -169,7 +172,6 @@ public class NewsCutScene : CutScene
         #endregion
 
         yield return PrintText();
-
         #region 화면 전환
         newsAnchor.canvasGroup.alpha = 0f;
         newsTitle.Show(titleTextList[1]);
@@ -181,7 +183,6 @@ public class NewsCutScene : CutScene
         yield return new WaitForSeconds(delay);
 
         #endregion
-
 
         yield return PrintText();
 
@@ -199,13 +200,15 @@ public class NewsCutScene : CutScene
         stopIconImage.rectTransform.DOScale(Vector3.one * stopIconTargetSize, stopIconDuration);
         playBar.DOFade(1f, playBarDuration);
         Sound.OnPlayEffectSound.Invoke(Sound.EEffect.SpaceKeyDown);
-        yield return new WaitForSeconds(stopIconDuration);
+        yield return new WaitForSeconds(stopIconDuration/2f);
+        newsBanner.BannelStop();
+        yield return new WaitForSeconds(stopIconDuration/2f);
         #endregion
 
-        newsBanner.BannelStop();
 
         yield return new WaitForSeconds(1f);
 
+        textBox.SetTextBoxType(TextBox.ETextBoxType.Box);
         textBox.PrintText();
 
         yield return new WaitForSeconds(3f);
@@ -241,7 +244,10 @@ public class NewsCutScene : CutScene
             if (i != cnt - 1)
             { yield return new WaitForSeconds(1f); }
         }
+
+        textBox.HideBox();
     }
+
 
     private IEnumerator Speak()
     {
@@ -252,11 +258,14 @@ public class NewsCutScene : CutScene
         }
         if (delay == -1f) { yield break; }
 
+        currentNewsCharacter.StartSpeak();
+        
+        yield return new WaitForSeconds(textBoxStartDelay);
+
         textBox.PrintText();
 
-        currentNewsCharacter.StartSpeak();
 
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay - textBoxStartDelay);
         currentNewsCharacter.EndSpeak();
     }
 
