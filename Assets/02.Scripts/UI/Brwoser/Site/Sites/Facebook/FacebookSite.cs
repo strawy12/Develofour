@@ -13,10 +13,10 @@ public class FacebookSite : Site
     [SerializeField]
     private FacebookPidPanel pidPrefab;
     [Header("TopPanel")]
-    [SerializeField]
-    private Button friendPanelBtn;
-    [SerializeField]
-    private Button homePanelBtn;
+    //[SerializeField]
+    //private Button friendPanelBtn;
+    //[SerializeField]
+    //private Button homePanelBtn;
     [SerializeField]
     private FacebookFriendPanel facebookFriendPanel;
     [SerializeField]
@@ -106,14 +106,10 @@ public class FacebookSite : Site
     private void ShowHomePanel()
     {
         facebookFriendPanel.gameObject.SetActive(false);
-        homePanel.SetActive(true);
-        leftPanel.SetActive(true);
     }
 
     private void ShowFriendPanel()
     {
-        homePanel.SetActive(false);
-        leftPanel.SetActive(false);
         facebookFriendPanel.gameObject.SetActive(true);
     }
 }
