@@ -38,6 +38,7 @@ public class FacebookFriendPanel : MonoBehaviour
 
     public void Init()
     {
+        birthdayPanel.Init(friendDataList);
         allFriendBtn.onClick.AddListener(ShowAllFriend);
         birthdayBtn.onClick.AddListener(ShowBirthdayPanel);
         backBtn.onClick.AddListener(ShowCategory);

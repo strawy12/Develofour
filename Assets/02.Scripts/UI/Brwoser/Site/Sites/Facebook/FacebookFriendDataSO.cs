@@ -10,5 +10,8 @@ public class FacebookFriendDataSO : ScriptableObject
     public Sprite profileImage;
     public string nameText;
     public string infoText;
-    public List<FacebookPidPanelDataSO> pidList;    
+    public List<FacebookPidPanelDataSO> pidList;
+    [Header("Birthday")]
+    public int month;
+    public int day;
 }

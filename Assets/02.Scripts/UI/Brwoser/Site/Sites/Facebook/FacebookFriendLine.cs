@@ -30,6 +30,13 @@ public class FacebookFriendLine : MonoBehaviour
         button.onClick.AddListener(() => { OnSelect?.Invoke(friendData); });   
     }
 
+    public void Setting(FacebookFriendDataSO data)
+    {
+        profileImage.sprite = data.profileImage;
+        nameText.text = data.nameText;
+        this.gameObject.SetActive(true);
+    }
+
     public void SetSelectPanel(bool flag)
     {
         selectPanel.SetActive(flag);
