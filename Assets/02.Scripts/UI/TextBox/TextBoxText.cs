@@ -16,6 +16,12 @@ public class TextBoxText : MonoBehaviour
         set => messageText.maxVisibleCharacters = value;
     }
 
+    public Color color
+    {
+        get => messageText.color;
+        set => messageText.color = value;
+    }
+
     public RectTransform rectTransform
     {
         get => messageText.rectTransform;

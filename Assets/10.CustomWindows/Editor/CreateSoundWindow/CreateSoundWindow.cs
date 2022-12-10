@@ -89,8 +89,8 @@ public class CreateSoundWindow : EditorWindow
 
         int length = text.Length - 1;
 
-        int idx = isEffectToggle.value ?  text.LastIndexOf("Count") : text.IndexOf("Count");
-        text = text.Substring(0, idx) + $"{valueText},\n" + text.Substring(idx-8);
+        int idx = isEffectToggle.value ? text.LastIndexOf("Count") : text.IndexOf("Count");
+        text = text.Substring(0, idx) + $"{valueText},\n" + text.Substring(idx - 8);
 
         using (StreamWriter writer = new StreamWriter(PATH))
         {
