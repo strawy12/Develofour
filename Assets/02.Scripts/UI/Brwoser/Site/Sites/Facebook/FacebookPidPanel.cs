@@ -37,14 +37,14 @@ public class FacebookPidPanel : MonoBehaviour
     private TextMeshProUGUI commentText;
     [SerializeField]
     private Button commentButton;
-    [SerializeField]
-    private Button commentSendButton;
+    //[SerializeField]
+    //private Button commentSendButton;
 
     private bool isImage = false;
 
     public void Init()
     {
-        commentSendButton.onClick.AddListener(CommentSend);
+        //commentSendButton.onClick.AddListener(CommentSend);
         CreateComment();
         profile.profileImage.sprite = pidDataSO.profileImage;
         profile.nameText.text = pidDataSO.profileNameText;
@@ -71,18 +71,18 @@ public class FacebookPidPanel : MonoBehaviour
         }
     }
 
-    public void CommentSend()
-    {
-        if (commentParent.commentInputField.text == null)
-        {
-            return;
-        }
+    //public void CommentSend()
+    //{
+    //    if (commentParent.commentInputField.text == null)
+    //    {
+    //        return;
+    //    }
 
-        FacebookPidComment comment = Instantiate(commentParent.commentPrefab, commentParent.commentParent);
-        comment.profileImage.sprite = currentUserImage;
-        comment.profileNameText.text = currentUserName;
-        comment.commentText.text = commentParent.commentInputField.text;
-        commentParent.commentInputField.text = "";
-    }
+    //    FacebookPidComment comment = Instantiate(commentParent.commentPrefab, commentParent.commentParent);
+    //    comment.profileImage.sprite = currentUserImage;
+    //    comment.profileNameText.text = currentUserName;
+    //    comment.commentText.text = commentParent.commentInputField.text;
+    //    commentParent.commentInputField.text = "";
+    //}
 
 }
