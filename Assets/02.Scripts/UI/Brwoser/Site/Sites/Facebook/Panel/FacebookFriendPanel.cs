@@ -1,4 +1,4 @@
-using System.Collections;
+锘縰sing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -69,7 +69,7 @@ public class FacebookFriendPanel : MonoBehaviour
 
     private void SetProfilePanel(FacebookFriendDataSO data)
     {
-        Debug.Log("客");
+        Debug.Log("鞕�");
 
         profilePanel.gameObject.SetActive(true);
         profilePanel.Setting(data);
@@ -77,7 +77,7 @@ public class FacebookFriendPanel : MonoBehaviour
 
     private void ShowAllFriend()
     {
-        categoryTitleText.text = "葛电 模备";
+        categoryTitleText.text = "氇摖 旃滉惮";
         categoryPanel.SetActive(false);
         profilePanel.gameObject.SetActive(false);
         birthdayPanel.gameObject.SetActive(false);
@@ -87,7 +87,7 @@ public class FacebookFriendPanel : MonoBehaviour
 
     private void ShowCategory()
     {
-        categoryTitleText.text = "模备";
+        categoryTitleText.text = "旃滉惮";
         backBtn.gameObject.SetActive(false);
         friendLineParent.gameObject.SetActive(false);
         profilePanel.gameObject.SetActive(false);
