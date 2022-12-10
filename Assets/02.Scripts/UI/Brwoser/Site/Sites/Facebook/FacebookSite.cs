@@ -19,10 +19,10 @@ public class FacebookSite : Site
     private Button homePanelBtn;
     [SerializeField]
     private FacebookFriendPanel facebookFriendPanel;
-    //[SerializeField]
-    //private GameObject homePanel;
-    //[SerializeField]
-    //private GameObject leftPanel;
+    [SerializeField]
+    private GameObject homePanel;
+    [SerializeField]
+    private GameObject leftPanel;
 
     [Header("Friend")]
     [SerializeField]
@@ -73,7 +73,7 @@ public class FacebookSite : Site
     private void SetProfilePanel(FacebookFriendDataSO data)
     {
         Debug.Log("¿Í");
-        
+
         profilePanelPrefab.gameObject.SetActive(true);
         profilePanelPrefab.Setting(data);
     }
@@ -106,14 +106,14 @@ public class FacebookSite : Site
     private void ShowHomePanel()
     {
         facebookFriendPanel.gameObject.SetActive(false);
-        //homePanel.SetActive(true);
-        //leftPanel.SetActive(true);
+        homePanel.SetActive(true);
+        leftPanel.SetActive(true);
     }
 
     private void ShowFriendPanel()
     {
-        //homePanel.SetActive(false);
-        //leftPanel.SetActive(false);
+        homePanel.SetActive(false);
+        leftPanel.SetActive(false);
         facebookFriendPanel.gameObject.SetActive(true);
     }
 }
