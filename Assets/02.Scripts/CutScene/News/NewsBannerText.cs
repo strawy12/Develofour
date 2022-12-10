@@ -23,7 +23,6 @@ public class NewsBannerText : MonoBehaviour
     {
         currentText = GetComponent<TMP_Text>();
         contentSizeFitter = GetComponent<ContentSizeFitter>();
-
     }
 
     public void SetText(string textMsg)
