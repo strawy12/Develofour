@@ -1,13 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using UnityEngine.UI;
-using TMPro;
+using System;
 
 public class FacebookFriendPanel : MonoBehaviour
 {
-    private Image profileImage;
-    private TextMeshProUGUI nameText;
-    private TextMeshProUGUI infoText;
+    
 }
