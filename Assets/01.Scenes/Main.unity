@@ -1517,7 +1517,6 @@ GameObject:
   m_Component:
   - component: {fileID: 388389274}
   - component: {fileID: 388389276}
-  - component: {fileID: 388389275}
   m_Layer: 5
   m_Name: PlayBar
   m_TagString: Untagged
@@ -1551,27 +1550,6 @@ RectTransform:
   m_AnchoredPosition: {x: 8.5, y: -493}
   m_SizeDelta: {x: 1819, y: 54}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!223 &388389275
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 388389273}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 1
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: -1974244503
-  m_SortingOrder: 10
-  m_TargetDisplay: 0
 --- !u!225 &388389276
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2638,6 +2616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windowCanvas: {fileID: 1835440547}
   textBox: {fileID: 604864004}
+  textBoxStartDelay: 1
   printTextCntList: 050000000500000005000000
   noticeDelay: 0.5
   newsBannerText:
@@ -2669,7 +2648,7 @@ MonoBehaviour:
   stopIconStartAlpha: 0.75
   stopIconTargetSize: 1.2
   stopIconDuration: 1
-  cancelFullScreenDelay: 0.65
+  cancelFullScreenDelay: 0.5
   cancelFullScreenOffsetY: -170
   playBar: {fileID: 388389276}
   playBarDuration: 0.5
@@ -2756,6 +2735,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 715709451}
     m_Modifications:
+    - target: {fileID: 7620747429117780528, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620747429117780529, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620747429117780529, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620747429408977758, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620747429408977758, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620747429408977758, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620747429408977758, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620747429408977758, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620747429408977758, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620747429744710851, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
+      propertyPath: offsetSize.x
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 7620747429744710860, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2843,6 +2862,10 @@ PrefabInstance:
     - target: {fileID: 7620747429744710861, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
       propertyPath: m_Name
       value: TextBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620747431065426690, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
+      propertyPath: m_text
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4038e74f7d97b14795913ff95c710dd, type: 3}
@@ -7225,9 +7248,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerData:
     chapterDatas:
-    - isLogin: 0
-      isEnterLoginSite: 0
+    - isWindowLogin: 0
+      isEnterLoginGoogleSite: 0
       siteLinks: 
+      isLoginSNSSite: 0
+      SNSPassword: 
     currentChapterType: 0
 --- !u!1 &1372504573
 GameObject:
