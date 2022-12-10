@@ -8,7 +8,7 @@ using System;
 public class FacebookPidPanel : MonoBehaviour
 {
     //pid have to get PidText 피드텍스트는 있어야함
-    public FacebookPidPanelDataSO pidDataSO;
+    private FacebookPidPanelDataSO pidDataSO;
 
         
     //TODO - need Current User Data 현재는 창작자의 데이타 SO든 클래스든
@@ -38,15 +38,17 @@ public class FacebookPidPanel : MonoBehaviour
     private TextMeshProUGUI commentText;
     [SerializeField]
     private Button commentButton;
-    [SerializeField]
-    private Button commentSendButton;
+    //[SerializeField]
+    //private Button commentSendButton;
 
     private bool isImage = false;
+    private bool isCreate = false;
 
-    public void Init()
+    public void Setting(FacebookPidPanelDataSO _pidDataSO)
     {
-        commentSendButton.onClick.AddListener(CommentSend);
-        CreateComment();
+        pidDataSO = _pidDataSO;
+        //commentSendButton.onClick.AddListener(CommentSend);
+        if(isCreate) CreateComment();
         profile.profileImage.sprite = pidDataSO.profileImage;
         profile.nameText.text = pidDataSO.profileNameText;
         profile.timeText.text = pidDataSO.profileTimeText;
@@ -63,7 +65,7 @@ public class FacebookPidPanel : MonoBehaviour
 
     private void CreateComment()
     {
-        Debug.Log(pidDataSO.commentList.Count);
+        isCreate = true;
         for(int i = 0; i < pidDataSO.commentList.Count; i++)
         {
             FacebookPidComment comment = Instantiate(commentParent.commentPrefab, commentParent.commentParent);
@@ -72,18 +74,18 @@ public class FacebookPidPanel : MonoBehaviour
         }
     }
 
-    public void CommentSend()
-    {
-        if (commentParent.commentInputField.text == null)
-        {
-            return;
-        }
+    //public void CommentSend()
+    //{
+    //    if (commentParent.commentInputField.text == null)
+    //    {
+    //        return;
+    //    }
 
-        FacebookPidComment comment = Instantiate(commentParent.commentPrefab, commentParent.commentParent);
-        comment.profileImage.sprite = currentUserImage;
-        comment.profileNameText.text = currentUserName;
-        comment.commentText.text = commentParent.commentInputField.text;
-        commentParent.commentInputField.text = "";
-    }
+    //    FacebookPidComment comment = Instantiate(commentParent.commentPrefab, commentParent.commentParent);
+    //    comment.profileImage.sprite = currentUserImage;
+    //    comment.profileNameText.text = currentUserName;
+    //    comment.commentText.text = commentParent.commentInputField.text;
+    //    commentParent.commentInputField.text = "";
+    //}
 
 }
