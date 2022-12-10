@@ -42,7 +42,7 @@ public class FacebookPidPanel : MonoBehaviour
 
     private bool isImage = false;
 
-    public void Init(FacebookPidPanelDataSO _pidDataSO)
+    public void Setting(FacebookPidPanelDataSO _pidDataSO)
     {
         pidDataSO = _pidDataSO;
         //commentSendButton.onClick.AddListener(CommentSend);
