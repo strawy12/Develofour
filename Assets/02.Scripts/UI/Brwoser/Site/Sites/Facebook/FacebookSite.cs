@@ -1,17 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class FacebookSite : Site
 {
+    
     [Header("Pid")]
     [SerializeField]
     private List<FacebookPidPanelDataSO> pidList;
     [SerializeField]
     private Transform pidParent;
-
     [SerializeField]
-    private FacebookPidPanel pidPrefab;
+    private FacebookPidPanel pidPrefab; 
+
     [Header("TopPanel")]
     [SerializeField]
     private Button friendPanelBtn;
@@ -24,16 +24,7 @@ public class FacebookSite : Site
     [SerializeField]
     private GameObject leftPanel;
 
-    [Header("Friend")]
-    [SerializeField]
-    private List<FacebookFriendDataSO> friendList;
-    [SerializeField]
-    private FacebookProfilePanel profilePanelPrefab;
-    [SerializeField]
-    private FacebookFriendLine friendLinePrefab;
-    [SerializeField]
-    private Transform friendLineParent;
-    private List<FacebookFriendLine> friendLineList = new List<FacebookFriendLine>();
+ 
 
     //Pid부분은 나중에 다시 만들어야함
 
@@ -48,41 +39,11 @@ public class FacebookSite : Site
         }
     }
 
-    private void CreateFriend()
-    {
-        for(int i = 0; i < friendList.Count; i++)
-        {
-            FacebookFriendLine line = Instantiate(friendLinePrefab, friendLineParent);
-            line.OnSelect += (x) => LineSelectPanelSetActive();
-            line.OnSelect += SetProfilePanel;
-            line.Init(friendList[i]);
-            friendLineList.Add(line);
-            line.gameObject.SetActive(true);
-        }
-    }
-
-    private void LineSelectPanelSetActive()
-    {
-        for(int i = 0; i < friendLineList.Count; i++)
-        {
-            Debug.Log("lineSetActiveFalse");
-            friendLineList[i].SetSelectPanel(false);
-        }
-    }
-        
-    private void SetProfilePanel(FacebookFriendDataSO data)
-    {
-        Debug.Log("와");
-
-        profilePanelPrefab.gameObject.SetActive(true);
-        profilePanelPrefab.Setting(data);
-    }
-
     public override void Init()
     {
         CreatePid();
-        CreateFriend();
         base.Init();
+        facebookFriendPanel.Init();
         friendPanelBtn.onClick.AddListener(ShowFriendPanel);
         homePanelBtn.onClick.AddListener(ShowHomePanel);
     }
