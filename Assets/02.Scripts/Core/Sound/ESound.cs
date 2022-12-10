@@ -28,9 +28,6 @@ public partial class Sound : MonoBehaviour
         NewsAnchorVoice_07,
         NewsAnchorVoice_08,
         NewsAnchorVoice_09,
-        NewsAnchorVoice_10,
-        NewsAnchorVoice_11,
-        NewsAnchorVoice_12,
         #endregion
         WindowAlarmSound,
         YoutubeHateBtnSound,

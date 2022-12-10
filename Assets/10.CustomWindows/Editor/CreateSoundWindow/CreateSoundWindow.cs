@@ -39,10 +39,9 @@ public class CreateSoundWindow : EditorWindow
 
     private void CreateAudioPlayer()
     {
-        if (string.IsNullOrEmpty(nameField.value) ||
-            clipField.value == null)
+        if (clipField.value == null)
         {
-            Debug.LogError("NameField's value is Null or clipField's value is Null");
+            Debug.LogError("ClipField's value is Null");
             return;
         }
 
@@ -64,7 +63,12 @@ public class CreateSoundWindow : EditorWindow
 
         string valueText = nameField.value;
 
-        if ('a' <= nameField.value[0] || nameField.value[0] <= 'z')
+        if (string.IsNullOrEmpty(valueText))
+        {
+            valueText = ((AudioClip)clipField.value).name;
+        }
+
+        if ('a' <= valueText[0] || valueText[0] <= 'z')
         {
 
             char replaceChar = char.ToUpper(valueText[0]);
@@ -85,8 +89,8 @@ public class CreateSoundWindow : EditorWindow
 
         int length = text.Length - 1;
 
-        int idx = isEffectToggle.value ?  text.LastIndexOf("Count") : text.IndexOf("Count");
-        text = text.Substring(0, idx) + $"{valueText},\n" + text.Substring(idx-8);
+        int idx = isEffectToggle.value ? text.LastIndexOf("Count") : text.IndexOf("Count");
+        text = text.Substring(0, idx) + $"{valueText},\n" + text.Substring(idx - 8);
 
         using (StreamWriter writer = new StreamWriter(PATH))
         {
