@@ -157,8 +157,8 @@ public class NewsCutScene : CutScene
         #endregion
 
         #region 글리치 효과 적용
-        yield return new WaitForSeconds(glitchBeforeDelay);
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.Glitch);
+        yield return new WaitForSeconds(glitchBeforeDelay);
         digitalGlitch.StartEffect(glitchDuration, false);
         yield return new WaitForSeconds(glitchDuration);
         yield return new WaitForSeconds(glitchAfterDelay);
