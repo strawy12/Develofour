@@ -8,7 +8,7 @@ using System;
 public class FacebookPidPanel : MonoBehaviour
 {
     //pid have to get PidText 피드텍스트는 있어야함
-    public FacebookPidPanelDataSO pidDataSO;
+    private FacebookPidPanelDataSO pidDataSO;
 
     //TODO - need Current User Data 현재는 창작자의 데이타 SO든 클래스든
         
@@ -42,8 +42,9 @@ public class FacebookPidPanel : MonoBehaviour
 
     private bool isImage = false;
 
-    public void Init()
+    public void Init(FacebookPidPanelDataSO _pidDataSO)
     {
+        pidDataSO = _pidDataSO;
         //commentSendButton.onClick.AddListener(CommentSend);
         CreateComment();
         profile.profileImage.sprite = pidDataSO.profileImage;

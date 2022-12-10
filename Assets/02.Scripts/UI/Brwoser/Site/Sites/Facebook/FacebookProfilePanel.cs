@@ -19,14 +19,18 @@ public class FacebookProfilePanel : MonoBehaviour
     [SerializeField]
     private Button sendMessageButton;
 
+    //SO 받아야함
+    private FacebookFriendDataSO data;
+
     [SerializeField]
-    private FacebookProfilePanelDataSO data;
+    private FacebookPidPanel pidPanelPrefab;
 
     [SerializeField]
     private Transform pidParent;
 
-    public void Init()
+    public void Init(FacebookFriendDataSO _data)
     {
+        data = _data;
         profileImage.sprite = data.profileImage;
         nameText.text = data.nameText;
         infoText.text = data.infoText;
@@ -35,8 +39,10 @@ public class FacebookProfilePanel : MonoBehaviour
 
         for(int i = 0; i < data.pidList.Count; i++)
         {
-            FacebookPidPanel pid = Instantiate(data.pidList[i], pidParent);
-            pid.Init();
+            FacebookPidPanel pid = Instantiate(pidPanelPrefab, pidParent);
+            
+            pid.Init(data.pidList[i]);
+            //content size fitter 시간
             pid.gameObject.SetActive(true);
         }
     }
