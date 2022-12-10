@@ -9,11 +9,11 @@ using ExtenstionMethod;
 
 public enum EEmailCategory
 {
-    None = 0x00, // 00000000
-    Receive = 0x01, // 00000001
-    Favorite = 0x02, // 00000010
-    Send = 0x04, // 00000100
-    Remove = 0x08, // 00001000
+    None = 0x00,      // 00000000
+    Receive = 0x01,   // 00000001
+    Favorite = 0x02,  // 00000010
+    Send = 0x04,      // 00000100
+    Remove = 0x08,    // 00001000
     Invisible = 0x10, // 00010000
 }
 
@@ -142,7 +142,7 @@ public class EmailSite : Site
     private void SuccessLogin(object[] o)
     {
         EventManager.StopListening(EQuestEvent.LoginGoogle, SuccessLogin);
-        DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin = true;
+        DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
     }
 
     private void ChangeEmailCategory()
@@ -212,7 +212,7 @@ public class EmailSite : Site
     // 추후 위치 변경
     private bool CheckGoogleLogin()
     {
-        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLogin)
+        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
         {
             EventManager.TriggerEvent(ELoginSiteEvent.RequestSite, new object[] { ESiteLink.Email });
             EventManager.TriggerEvent<EBrowserEvent>(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY });

@@ -10,6 +10,7 @@ public enum ENoticeType
 	ClearPoliceMinigame,
 	OpenPoliceReplyMail,
 	EndBrunchPostDelete,
+	SnsSetNewPassword,
 
 	End
 }

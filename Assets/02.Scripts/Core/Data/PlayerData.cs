@@ -20,16 +20,19 @@ public class WriterData : ChapterData
 [System.Serializable]
 public class ChapterData
 {
-    public bool isLogin;
-    public bool isEnterLoginSite;
+    public bool isWindowLogin;
+    public bool isEnterLoginGoogleSite;
     public List<ESiteLink> siteLinks;
+    public bool isLoginSNSSite;
+    public string SNSPassword;
 
     public ChapterData()
     {
         siteLinks = new List<ESiteLink>();
         siteLinks.Add(ESiteLink.Youtube_News);
-        isEnterLoginSite = false;
-        isLogin = false;
+        isEnterLoginGoogleSite = false;
+        isWindowLogin = false;
+        isLoginSNSSite = false;
     }
 }
 
@@ -46,9 +49,9 @@ public class PlayerData
         chapterDatas = new ChapterData[(int)EChapterDataType.Count];
         chapterDatas[(int)EChapterDataType.Writer] = new WriterData();
     }
+
     public T TypeCastChapterData<T>() where T : ChapterData
     {
         return CurrentChapterData as T;
     }
-
 }

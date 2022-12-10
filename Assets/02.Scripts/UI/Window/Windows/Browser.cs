@@ -93,6 +93,14 @@ public class Browser : Window
             return null;
         }
 
+        foreach(Site usedSite in siteDictionary.Values)
+        {
+            if(usingSite != usedSite)
+            {
+                usedSite.SetActive(false);
+            }
+        }
+        
         WindowOpen();
         Site beforeSite = usingSite;
         usingSite?.OnUnused?.Invoke();

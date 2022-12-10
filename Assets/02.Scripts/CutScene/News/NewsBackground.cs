@@ -13,7 +13,8 @@ public class NewsBackground : MonoBehaviour
     {
         None = -1,
         AI_Regulation = 0,
-        AI_MurderCase
+        AI_MurderCase,
+        Regulation_Initiative
     }
 
     [SerializeField]

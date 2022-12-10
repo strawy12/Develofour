@@ -65,11 +65,11 @@ public class GmailLoginSite : Site
 
     protected override void ShowSite()
     {
-        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginSite)
+        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
         {
             NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.EnterLoginSite, 0f);
 
-            DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginSite = true;
+            DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
         }
 
         base.ShowSite();
@@ -83,6 +83,7 @@ public class GmailLoginSite : Site
             {
                 Debug.LogError("Google Login를 Trigger를 사용하여 클리어 했습니다. 빌드 전에 해당 Trigger를 삭제하세요");
             }
+
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
             EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 

@@ -14,6 +14,7 @@ public class NewsCutScene : CutScene
     [SerializeField]
     private TextBox textBox;
 
+
     [SerializeField]
     private List<int> printTextCntList;
 
@@ -107,7 +108,18 @@ public class NewsCutScene : CutScene
     private float playBarDuration = 0.5f;
     #endregion
 
-    private int anchorVoiceCnt = 0;
+    #region CG
+    [Header("CG")]
+    [SerializeField]
+    private Image cgImage;
+    [SerializeField]
+    private float cgFadeDuration = 0.75f;
+
+    [SerializeField]
+    private float screenFadeDuration = 2f;
+    #endregion
+
+    private int characterVoiceCnt = 0;
     private Queue<int> printTextCntQueue = new Queue<int>();
     private NewsCharacter currentNewsCharacter;
     private RectTransform rectTransform;
@@ -127,7 +139,7 @@ public class NewsCutScene : CutScene
     protected override void ShowCutScene()
     {
         windowCanvas.enabled = false;
-        textBox.Init(ETextDataType.News);
+        textBox.Init(ETextDataType.News, TextBox.ETextBoxType.Simple);
         StartCoroutine(NewsCoroutine());
     }
 
@@ -154,8 +166,8 @@ public class NewsCutScene : CutScene
         #endregion
 
         #region 글리치 효과 적용
-        yield return new WaitForSeconds(glitchBeforeDelay);
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.Glitch);
+        yield return new WaitForSeconds(glitchBeforeDelay);
         digitalGlitch.StartEffect(glitchDuration, false);
         yield return new WaitForSeconds(glitchDuration);
         yield return new WaitForSeconds(glitchAfterDelay);
@@ -168,10 +180,13 @@ public class NewsCutScene : CutScene
         //yield return new WaitForSeconds(newsScreenFadeDuration);
         #endregion
 
-        yield return PrintText();
+        yield return PrintText(true);
+
+        // 공윤선 기자 타임
 
         #region 화면 전환
         newsAnchor.canvasGroup.alpha = 0f;
+        characterVoiceCnt = 0;
         newsTitle.Show(titleTextList[1]);
         delay = newsBackground.ChangeBackground(NewsBackground.EBackgroundType.AI_MurderCase, true);
         newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIRegulation, newsScreenDuration);
@@ -182,46 +197,51 @@ public class NewsCutScene : CutScene
 
         #endregion
 
+        yield return PrintText(true);
 
-        yield return PrintText();
-
+        // 국회 AI 규제 발의
+        newsBackground.ChangeBackground(NewsBackground.EBackgroundType.Regulation_Initiative, true);
         newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIRegulationPass, newsScreenDuration);
         yield return new WaitForSeconds(newsScreenDuration);
 
-        yield return PrintText();
-
-        #region 일시정지 아이콘
-        stopIconImage.rectTransform.localScale = Vector3.one;
-        Color color = stopIconImage.color;
-        color.a = stopIconStartAlpha;
-        stopIconImage.color = color;
-        stopIconImage.DOFade(0f, stopIconDuration);
-        stopIconImage.rectTransform.DOScale(Vector3.one * stopIconTargetSize, stopIconDuration);
-        playBar.DOFade(1f, playBarDuration);
-        Sound.OnPlayEffectSound.Invoke(Sound.EEffect.SpaceKeyDown);
-        yield return new WaitForSeconds(stopIconDuration);
-        #endregion
-
+        yield return PrintText(true);
         newsBanner.BannelStop();
 
-        yield return new WaitForSeconds(1f);
+        // CG아트가 나온상태
+        cgImage.DOFade(1f, cgFadeDuration);
 
-        textBox.PrintText();
+        yield return PrintText(true);
 
-        yield return new WaitForSeconds(3f);
+        Sound.OnPlayEffectSound.Invoke(Sound.EEffect.SpaceKeyDown);
+
+        textBox.SetTextBoxType(TextBox.ETextBoxType.Box);
+        yield return PrintText(false);
 
         Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
-
-        #region 전체화면 해제
-        delay = cancelFullScreenDelay / 2f;
-        yield return new WaitForSeconds(delay);
-        rectTransform.anchoredPosition = rectTransform.anchoredPosition.ChangeValue(y: cancelFullScreenOffsetY);
-        yield return new WaitForSeconds(delay);
+        #region 일시정지 아이콘
+        //stopIconImage.rectTransform.localScale = Vector3.one;
+        //Color color = stopIconImage.color;
+        //color.a = stopIconStartAlpha;
+        //stopIconImage.color = color;
+        //stopIconImage.DOFade(0f, stopIconDuration);
+        //stopIconImage.rectTransform.DOScale(Vector3.one * stopIconTargetSize, stopIconDuration);
+        //playBar.DOFade(1f, playBarDuration);
+        //yield return new WaitForSeconds(stopIconDuration/2f);
+        //yield return new WaitForSeconds(stopIconDuration/2f);
         #endregion
 
+
+
+        #region 전체화면 해제
+        //delay = cancelFullScreenDelay / 2f;
+        //yield return new WaitForSeconds(delay);
+        //rectTransform.anchoredPosition = rectTransform.anchoredPosition.ChangeValue(y: cancelFullScreenOffsetY);
+        //yield return new WaitForSeconds(delay);
+        #endregion
+        cgImage.DOColor(Color.black, screenFadeDuration);
+        yield return new WaitForSeconds(screenFadeDuration);
+
         EndCutScene();
-
-
     }
 
     private void ShowNewsSceneNotice()
@@ -229,35 +249,62 @@ public class NewsCutScene : CutScene
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.EndNewsCutScene, noticeDelay);
     }
 
-    private IEnumerator PrintText()
+    private IEnumerator PrintText(bool isNews)
     {
         textBox.ShowBox();
-
         int cnt = printTextCntQueue.Dequeue();
 
         for (int i = 0; i < cnt; i++)
         {
-            yield return Speak();
+            if(isNews)
+            {
+                yield return NewsPrintText();
+            }
+
+            else
+            {
+                yield return WriterPrintText();
+            }
+
             if (i != cnt - 1)
-            { yield return new WaitForSeconds(1f); }
+            { 
+                yield return new WaitForSeconds(1f); 
+            }
         }
+        textBox.HideBox();
     }
 
-    private IEnumerator Speak()
+    private IEnumerator WriterPrintText()
     {
-        float delay = -1f;
-        if (Sound.OnPlayEffectSound != null)
-        {
-            delay = 3f;//Sound.OnPlayEffectSound.Invoke(Sound.EEffect.NewsAnchorVoice_01 + (anchorVoiceCnt++));
-        }
-        if (delay == -1f) { yield break; }
+            float delay = textBox.PrintText();
+            yield return new WaitForSeconds(delay+1f);
+    }
 
-        textBox.PrintText();
+    private IEnumerator NewsPrintText()
+    {
+        float delay = PlaySound();
+
+        if (delay == -1f) { yield break; }
 
         currentNewsCharacter.StartSpeak();
 
+        textBox.PrintText();
+
+
         yield return new WaitForSeconds(delay);
         currentNewsCharacter.EndSpeak();
+    }
+
+    private float PlaySound()
+    {
+        if (Sound.OnPlayEffectSound != null)
+        {
+            Sound.EEffect sound = currentNewsCharacter == newsAnchor ? Sound.EEffect.NewsAnchor_01 : Sound.EEffect.NewsReporter_01;
+
+            return Sound.OnPlayEffectSound.Invoke(sound + (characterVoiceCnt++));
+        }
+
+        return 0f;
     }
 
     protected override void EndCutScene()
@@ -275,7 +322,7 @@ public class NewsCutScene : CutScene
 
         rectTransform.anchoredPosition = rectTransform.anchoredPosition.ChangeValue(y: 0);
 
-        anchorVoiceCnt = 0;
+        characterVoiceCnt = 0;
         textBox.EndPrintText();
         newsScreen.Release();
         base.EndCutScene();

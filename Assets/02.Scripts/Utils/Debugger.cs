@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +17,7 @@ public class Debugger : MonoBehaviour
 {
     [SerializeField]
     private List<DebugEvent> debugEventList;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
