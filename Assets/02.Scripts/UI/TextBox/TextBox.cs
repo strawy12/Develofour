@@ -150,6 +150,7 @@ public class TextBox : MonoUI
 
         nameText.SetText("");
         messageText.SetText(RemoveCommandText(textData.text));
+        messageText.color = textData.color;
         bgImage.rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + offsetSize;
         isTextPrinted = false;
     }
@@ -165,6 +166,7 @@ public class TextBox : MonoUI
         triggerDictionary.Clear();
         messageText.SetText("");
         nameText.SetText(textData.name);
+        nameText.color = textData.color;
         StartCoroutine(PrintTextCoroutine(textData.text));
     }
 
