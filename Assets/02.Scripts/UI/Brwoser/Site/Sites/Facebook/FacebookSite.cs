@@ -60,14 +60,13 @@ public class FacebookSite : Site
 
     protected override void ShowSite()
     {
+        base.ShowSite();
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
        
         if(!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite)
         {
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookLoginSite, 0f });
         }
-
-        base.ShowSite();
     }
 
     private void ShowHomePanel()
