@@ -11,6 +11,6 @@ public enum ENoticeType
 	OpenPoliceReplyMail,
 	EndBrunchPostDelete,
 	SnsSetNewPassword,
-
+	WriterFacebookLoginSuccess,
 	End
 }
