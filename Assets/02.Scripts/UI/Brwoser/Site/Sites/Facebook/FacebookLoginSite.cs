@@ -94,7 +94,7 @@ public class FacebookLoginSite : Site
                 }
 
                 DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite = true;
-                NoticeSystem.OnGeneratedNotice(ENoticeType.WriterFacebookLoginSuccess, 0f);
+                NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
             }
             else
             {
