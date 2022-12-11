@@ -65,7 +65,6 @@ public class FacebookSite : Site
         if(!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite)
         {
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookLoginSite, 0f });
-            
         }
 
         base.ShowSite();
