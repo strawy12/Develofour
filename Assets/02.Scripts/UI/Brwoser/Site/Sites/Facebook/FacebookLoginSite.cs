@@ -76,6 +76,7 @@ public class FacebookLoginSite : Site
 
     private void LoginFacebook()
     {
+        failedLoginText.text = "";
         if (facebookIDInputField.text == loginEmail)
         { 
             if(facebookPasswordInputField.text == passWord)
