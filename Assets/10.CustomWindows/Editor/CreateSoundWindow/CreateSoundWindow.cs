@@ -63,7 +63,7 @@ public class CreateSoundWindow : EditorWindow
 
         string valueText = nameField.value;
 
-        if(string.IsNullOrEmpty(valueText))
+        if (string.IsNullOrEmpty(valueText))
         {
             valueText = ((AudioClip)clipField.value).name;
         }
