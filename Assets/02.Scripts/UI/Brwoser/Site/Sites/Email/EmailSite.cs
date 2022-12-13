@@ -215,7 +215,7 @@ public class EmailSite : Site
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
         {
             EventManager.TriggerEvent(ELoginSiteEvent.RequestSite, new object[] { ESiteLink.Email });
-            EventManager.TriggerEvent<EBrowserEvent>(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY });
+            EventManager.TriggerEvent<EBrowserEvent>(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY , false});
             EventManager.StartListening(EQuestEvent.LoginGoogle, SuccessLogin);
             return false;
         }
