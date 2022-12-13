@@ -109,7 +109,6 @@ public class Browser : Window
         {
             if (addUndo && usingSite != null)
             {
-                Debug.Log($"undo push {usingSite.SiteLink}");
                 undoSite.Push(usingSite);
             }
 

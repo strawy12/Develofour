@@ -48,7 +48,6 @@ public class WindowManager : MonoSingleton<WindowManager>
                     return;
                 }
             }
-            Debug.Log("ChangeBrowser in WinMgr");
             Browser.currentBrowser?.ChangeSite(link, delay);
         }
         else
