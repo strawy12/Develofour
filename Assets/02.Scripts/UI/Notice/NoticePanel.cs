@@ -12,6 +12,8 @@ using System.Diagnostics.Contracts;
 
 public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 {
+    public float noticeAlphalightly = 1f;
+
     [SerializeField]
     private TMP_Text headText;
 
@@ -100,13 +102,13 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private void NoticePanelAlphalightly()
     {
-        if (dragNotice.isInvisibility)
+        if (dragNotice.isInvisibility) 
         {
-            canvasGroup.alpha = 0.5f;
+            canvasGroup.alpha = noticeAlphalightly / 2;
         }
         else if (!dragNotice.isInvisibility)
         {
-            canvasGroup.alpha = 0.8f;
+            canvasGroup.alpha = noticeAlphalightly;
         }
     }
 
