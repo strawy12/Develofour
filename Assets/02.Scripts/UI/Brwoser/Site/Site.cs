@@ -30,6 +30,7 @@ public abstract class Site : MonoUI
 
     public Action OnUsed;
     public Action OnUnused;
+
     private bool isSubscribe;
 
     public virtual void Init()

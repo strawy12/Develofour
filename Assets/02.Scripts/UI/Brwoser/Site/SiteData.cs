@@ -7,4 +7,5 @@ public class SiteData
     public Sprite siteIconSprite;
     public string siteTitle;
     public string address;
+    public bool isCanUndo;
 }

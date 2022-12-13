@@ -71,13 +71,13 @@ public class Browser : Window
         }
     }
 
-    public void ChangeSite(ESiteLink eSiteLink, float loadDelay)
+    public void ChangeSite(ESiteLink eSiteLink, float loadDelay, bool addUndo = true)
     {
         Site site = null;
 
         if (siteDictionary.TryGetValue(eSiteLink, out site))
         {
-            ChangeSite(site, loadDelay);
+            ChangeSite(site, loadDelay, addUndo);
         }
         else
         {
@@ -93,14 +93,14 @@ public class Browser : Window
             return null;
         }
 
-        foreach(Site usedSite in siteDictionary.Values)
+        foreach (Site usedSite in siteDictionary.Values)
         {
-            if(usingSite != usedSite)
+            if (usingSite != usedSite)
             {
                 usedSite.SetActive(false);
             }
         }
-        
+
         WindowOpen();
         Site beforeSite = usingSite;
         usingSite?.OnUnused?.Invoke();
@@ -116,12 +116,13 @@ public class Browser : Window
             usingSite?.OnUsed?.Invoke();
         }));
 
+
         return beforeSite;
     }
 
     private IEnumerator LoadingSite(float loadDelay, Action Callback)
     {
-        if(loadDelay != 0)
+        if (loadDelay != 0)
         {
             loadingBar.StartLoading();
             yield return new WaitForSeconds(loadDelay);
@@ -142,13 +143,13 @@ public class Browser : Window
         redoSite.Push(beforeSite); // 앞으로 갈 사이트는 사용하던 사이트 
                                    // 뒤로 갈 사이트는 undosite의 top
     }
-
     public void RedoSite()
     {
         if (isLoading) return;
         if (redoSite.Count == 0) return;
 
         Site beforeSite = ChangeSite(redoSite.Pop(), Constant.LOADING_DELAY, false);
+        Debug.Log($"undo push {usingSite.SiteLink}");
         undoSite.Push(beforeSite);
         // 작동은 UndoSite함수의 정 반대로 
     }

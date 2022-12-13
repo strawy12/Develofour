@@ -40,6 +40,14 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             ESiteLink link = (ESiteLink)ps[0];
             float delay = (ps[1] is int) ? (int)ps[1] : (float)ps[1];
+            if(ps.Length >= 3)
+            {
+                if (ps[2] is bool) {
+                    bool isAddUndo = (bool)ps[2];
+                    Browser.currentBrowser?.ChangeSite(link, delay, isAddUndo);
+                    return;
+                }
+            }
             Browser.currentBrowser?.ChangeSite(link, delay);
         }
         else
