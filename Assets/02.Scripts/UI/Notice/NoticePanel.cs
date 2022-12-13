@@ -106,7 +106,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         }
         else if (!dragNotice.isInvisibility)
         {
-            canvasGroup.alpha = 0.8f;
+            canvasGroup.alpha = 1f;
         }
     }
 
