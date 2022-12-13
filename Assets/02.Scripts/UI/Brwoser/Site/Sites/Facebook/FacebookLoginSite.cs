@@ -76,6 +76,7 @@ public class FacebookLoginSite : Site
 
     private void LoginFacebook()
     {
+        failedLoginText.text = "";
         if (facebookIDInputField.text == loginEmail)
         { 
             if(facebookPasswordInputField.text == passWord)
@@ -94,6 +95,7 @@ public class FacebookLoginSite : Site
                 }
 
                 DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite = true;
+                NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
             }
             else
             {
