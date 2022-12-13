@@ -16,12 +16,16 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     [SerializeField]
     private TMP_Text headText;
-
     [SerializeField]
     private TMP_Text bodyText;
-
     [SerializeField]
     private TMP_Text dateText;
+
+    [SerializeField]
+    private Image iconImage;
+
+    [SerializeField]
+    private ContentSizeFitter csf;
 
     public Action<NoticePanel> OnCompeleted;
     public Action<NoticePanel> OnClosed;
@@ -63,6 +67,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         headText.SetText(data.Head);
         bodyText.SetText(data.Body);
+        iconImage = data.Icon;
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)csf.transform);
 
         rectTransform.anchorMin = new Vector2(1f, 0.5f);
         rectTransform.anchorMax = new Vector2(1f, 0.5f);

@@ -85,6 +85,7 @@ public class NoticeSystem : MonoUI
         rectTransform.DOKill();
         rectTransform.DOAnchorPosX(0f, Constant.NOTICE_DURATION);
     }
+
     public void Close()
     {
         if (!isOpen) return;
@@ -115,7 +116,6 @@ public class NoticeSystem : MonoUI
 
         return noticeDataSO;
     }
-
 
     public void ShowNoticePanel(ENoticeType eNoticeDataType, float delay)
     {
@@ -176,7 +176,6 @@ public class NoticeSystem : MonoUI
             panel = Instantiate(noticePanelTemp, Define.WindowCanvasTrm);
             panel.Init();
         }
-
         else
         {
             panel = noticePanelPool.Pop();
@@ -187,7 +186,4 @@ public class NoticeSystem : MonoUI
 
         return panel;
     }
-
-
-
 }
