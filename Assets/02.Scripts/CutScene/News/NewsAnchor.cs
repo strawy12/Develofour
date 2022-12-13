@@ -8,22 +8,6 @@ using UnityEngine.UI;
 
 public class NewsAnchor : NewsCharacter
 {
-    [SerializeField]
-    private float speakDelay = 0.2f;
-
-    [SerializeField]
-    private Vector2 speakOffset;
-
-    [SerializeField]
-    private Sprite faceSprite;
-
-    [SerializeField]
-    private Sprite speakFaceSprite;
-
-    [SerializeField]
-    private Image faceImage;
-
-
     public RectTransform rectTransform { get; private set; }
     public CanvasGroup canvasGroup { get; private set; }
 
@@ -42,10 +26,6 @@ public class NewsAnchor : NewsCharacter
     {
         if (isSpeak) return;
         isSpeak = true;
-
-       
-
-        StartCoroutine(SpeakCoroutine());
     }
 
     public override void EndSpeak()
@@ -54,18 +34,4 @@ public class NewsAnchor : NewsCharacter
         isSpeak = false;
     }
 
-    private IEnumerator SpeakCoroutine()
-    {
-        while (isSpeak)
-        {
-            faceImage.sprite = faceSprite;
-            faceImage.rectTransform.anchoredPosition += speakOffset;
-            yield return new WaitForSeconds(speakDelay);
-            faceImage.sprite = speakFaceSprite;
-            faceImage.rectTransform.anchoredPosition -= speakOffset;
-            yield return new WaitForSeconds(speakDelay);
-        }
-
-        faceImage.sprite = faceSprite;
-    }
 }
