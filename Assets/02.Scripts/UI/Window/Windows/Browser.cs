@@ -105,6 +105,7 @@ public class Browser : Window
         Site beforeSite = usingSite;
         usingSite?.OnUnused?.Invoke();
 
+
         StartCoroutine(LoadingSite(loadDelay, () =>
         {
             if (addUndo && usingSite != null)
@@ -114,6 +115,7 @@ public class Browser : Window
 
             usingSite = site;
             usingSite?.OnUsed?.Invoke();
+            browserBar.ChangeSiteData(site.SiteData); // 로딩이 다 되고 나서 바뀌게 해놈
         }));
 
 
