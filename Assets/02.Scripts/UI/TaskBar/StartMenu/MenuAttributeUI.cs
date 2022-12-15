@@ -39,15 +39,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         }
 
         EventManager.StartListening(EWindowEvent.ExpendMenu, ToggleMenu);
-        EventManager.StartListening(EWindowEvent.ActivePowerPanel, (obj) =>
-        {
-            isStop = (bool)obj[0];
-
-            if (isStop)
-            {
-                StopAllCoroutines();
-            }
-        });
+        EventManager.StartListening(EWindowEvent.ActivePowerPanel, ActivePowerPanel); 
 
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
@@ -62,7 +54,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         if(isStop) { return; }
         if (!isOpen) { return; }
 
-        if (Define.ExistInHits(gameObject, hits) == false)
+        if (Define.ExistInHits(gameObject, hits[0]) == false)
         {
             Close();
         }
@@ -117,18 +109,34 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         isExpand = false;
 
-        CheckCoroutine();
+        CheckExpendCoroutine();
         ContractPanel();
     }
 
-    private void CheckCoroutine()
+    private void CheckExpendCoroutine()
     {
-
         if (expandCoroutine != null)
         {
             StopCoroutine(expandCoroutine);
             expandCoroutine = null;
         }
+    }
+
+    private void ActivePowerPanel(object[] ps)
+    {
+        isStop = (bool)ps[0];
+
+        if (isStop)
+        {
+            StopAllCoroutines();
+        }
+
+        //else if (isExpand)
+        //{
+        //    PointerEventData data = new PointerEventData(EventSystem.current);
+        //    data.position = Input.mousePosition;
+        //    OnPointerExit(data);
+        //}
     }
 
     private bool Raycast(PointerEventData eventData)
@@ -154,11 +162,12 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         ExpandPanel();
     }
 
+    // 확장
     private void ExpandPanel()
     {
-        CheckCoroutine();
+        CheckExpendCoroutine();
 
-        DOTween.KillAll();
+        DOTween.KillAll(true);
 
         DOTween.To(
             () => rectTransform.sizeDelta.x,
@@ -170,9 +179,10 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         isExpand = true;
     }
 
+    //축소
     private void ContractPanel()
     {
-        DOTween.KillAll();
+        DOTween.KillAll(true);
 
         DOTween.To(
             () => rectTransform.sizeDelta.x,
