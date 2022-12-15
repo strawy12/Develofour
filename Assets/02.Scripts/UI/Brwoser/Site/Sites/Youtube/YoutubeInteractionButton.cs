@@ -124,7 +124,7 @@ public class YoutubeInteractionButton : MonoBehaviour
         isEffecting = false;
         
         image.enabled = true;
-
+        image.color = Color.black;
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
 
     }
