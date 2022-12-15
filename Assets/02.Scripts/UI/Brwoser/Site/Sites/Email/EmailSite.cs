@@ -65,7 +65,9 @@ public class EmailSite : Site
         favoriteBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Favorite));
         sendBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Send));
         removeBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Remove));
+
         EventManager.StartListening(EMailSiteEvent.VisiableMail, VisiableMail);
+        EventManager.StartListening(EEmailCategory.Favorite, FavoriteRefreshMail);
 
         currentCategory = EEmailCategory.Receive;
 
@@ -110,6 +112,11 @@ public class EmailSite : Site
     {
         currentCategory = category;
         ChangeEmailCategory();
+    }
+
+    private void FavoriteRefreshMail(object[] emptyObj)
+    {
+        ChangeAlignCategory(EEmailCategory.Favorite);
     }
 
     private async void VisiableMail(object[] ps)
@@ -216,7 +223,9 @@ public class EmailSite : Site
         {
             EventManager.TriggerEvent(ELoginSiteEvent.RequestSite, new object[] { ESiteLink.Email });
             EventManager.TriggerEvent<EBrowserEvent>(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY , false});
+            
             EventManager.StartListening(EQuestEvent.LoginGoogle, SuccessLogin);
+            
             return false;
         }
 
@@ -233,7 +242,7 @@ public class EmailSite : Site
     }
 
     public void OnApplicationQuit()
-    {
+    {   
         Debug.Log("MailData Category 저장을 하지 않는 디버그 코드가 실행중에 있습니다.");
 
         foreach(var mailLine in baseEmailLineList)

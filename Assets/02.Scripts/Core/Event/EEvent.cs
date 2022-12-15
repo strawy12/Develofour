@@ -67,6 +67,7 @@ public enum ELoginSiteEvent
     FacebookRequestSite,
     FacebookNewPassword,
 }
+
 public enum EMailSiteEvent
 {
     None = -1,

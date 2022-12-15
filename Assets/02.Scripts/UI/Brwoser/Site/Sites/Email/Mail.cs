@@ -16,6 +16,7 @@ public abstract class Mail : MonoBehaviour
 
     [SerializeField]
     private EmailFavoriteButton mailFavoriteButton;
+
     #endregion
     [SerializeField]
     protected MailDataSO mailData;
@@ -61,10 +62,11 @@ public abstract class Mail : MonoBehaviour
         {
             mailData.mailCategory |= (int)EEmailCategory.Favorite;
         }
-
         else
         {
             mailData.mailCategory = mailData.mailCategory.RemoveMask((int)EEmailCategory.Favorite);
+            //mailSite.ChangeAlignCategory(EEmailCategory.Favorite);
+            EventManager.TriggerEvent(EEmailCategory.Favorite);
         }
     }
 
