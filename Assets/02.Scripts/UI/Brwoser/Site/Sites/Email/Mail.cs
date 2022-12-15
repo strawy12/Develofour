@@ -65,8 +65,7 @@ public abstract class Mail : MonoBehaviour
         else
         {
             mailData.mailCategory = mailData.mailCategory.RemoveMask((int)EEmailCategory.Favorite);
-            //mailSite.ChangeAlignCategory(EEmailCategory.Favorite);
-            EventManager.TriggerEvent(EEmailCategory.Favorite);
+            EventManager.TriggerEvent(EMailSiteEvent.RefreshPavoriteMail);
         }
     }
 

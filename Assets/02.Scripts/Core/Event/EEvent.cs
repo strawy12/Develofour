@@ -74,6 +74,7 @@ public enum EMailSiteEvent
     PoliceGameClear,
     ShowBlogGmail,
     VisiableMail,
+    RefreshPavoriteMail,
 }
 #endregion
 

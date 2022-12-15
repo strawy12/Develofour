@@ -67,7 +67,7 @@ public class EmailSite : Site
         removeBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Remove));
 
         EventManager.StartListening(EMailSiteEvent.VisiableMail, VisiableMail);
-        EventManager.StartListening(EEmailCategory.Favorite, FavoriteRefreshMail);
+        EventManager.StartListening(EMailSiteEvent.RefreshPavoriteMail, FavoriteRefreshMail);
 
         currentCategory = EEmailCategory.Receive;
 
@@ -116,7 +116,7 @@ public class EmailSite : Site
 
     private void FavoriteRefreshMail(object[] emptyObj)
     {
-        ChangeAlignCategory(EEmailCategory.Favorite);
+        ChangeAlignCategory(currentCategory);
     }
 
     private async void VisiableMail(object[] ps)
