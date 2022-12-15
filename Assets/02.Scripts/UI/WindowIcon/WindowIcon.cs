@@ -10,7 +10,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 {
     public RectTransform rectTranstform { get; set; }
 
-    private int cilckCount = 0;
+    private int clickCount = 0;
 
     private Window targetWindow = null;
     private Sprite sprite;
@@ -57,10 +57,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if(eventData.button == PointerEventData.InputButton.Left)
         {
-            if (cilckCount != 0)
+            if (clickCount != 0)
             {
                 // 여기에서 이벤트 쏨
-                cilckCount = 0;
+                clickCount = 0;
 
                 if (targetWindow == null)
                 {
@@ -73,11 +73,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 WindowManager.Inst.SelectedObjectNull();
             }
-
             else 
             {
                 WindowManager.Inst.SelectObject(this);
-                cilckCount++;
+                clickCount++;
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
@@ -101,7 +100,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if(!isSelected)
         {
-            cilckCount = 0;
+            clickCount = 0;
         }
         selectedImage.gameObject.SetActive(isSelected);
     }
