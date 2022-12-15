@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class NoticeData
@@ -12,6 +13,8 @@ public class NoticeData
     public string body;
 
     public float delay;
+
+    public Image icon;
 }
 
 
@@ -53,6 +56,14 @@ public class NoticeDataSO : ScriptableObject
         get
         {
             return noticeDataList.delay;
+        }
+    }
+
+    public Image Icon
+    {
+        get
+        {
+            return noticeDataList.icon;
         }
     }
 
