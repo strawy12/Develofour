@@ -38,7 +38,7 @@ public class PowerPanel : MonoUI
     private void CheckClose(object[] hits)
     {
         if (isOpen == false) { return; }
-        if (Define.ExistInHits(gameObject, hits) == false)
+        if (Define.ExistInHits(gameObject, hits[0]) == false)
         {
             Close();
         }
@@ -61,7 +61,7 @@ public class PowerPanel : MonoUI
     private IEnumerator CloseEventDelay()
     {
         yield return new WaitForEndOfFrame();
-        EventManager.TriggerEvent(EWindowEvent.ActivePowerPanel, new object[1] { true });
+        EventManager.TriggerEvent(EWindowEvent.ActivePowerPanel, new object[1] { false });
     }
 
 }
