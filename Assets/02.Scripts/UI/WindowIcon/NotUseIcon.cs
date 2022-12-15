@@ -3,22 +3,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, ISelectable
 {
     //[SerializeField]
     //private Image iconImage;
     //[SerializeField]
     //private TMP_Text iconNameText;
 
+    private int clickCount = 0;
+
     [SerializeField]
     private Image selectedImage;
     [SerializeField]
     private Image pointerStayImage;
+    [SerializeField]
+    private Image shakingImage;
 
     [Header("Skaking Data")]
     [SerializeField]
@@ -30,10 +35,17 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField]
     private Color shakingColor;
 
-
-
     private bool isSelected = false;
     private bool isShaking = false;
+
+    public Action OnSelected { get; set; }
+    public Action OnUnSelected { get; set; }
+
+    private void Awake()
+    {
+        OnSelected += () => SelectedIcon(true);
+        OnUnSelected += () => SelectedIcon(false);
+    }
 
     private void Start()
     {
@@ -44,33 +56,48 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (isShaking) return;
 
-        if (isSelected)
+        if (clickCount != 0)
         {
-            ShakingIcon();
-            isSelected = false;
-            pointerStayImage.gameObject.SetActive(false);
-        }
+            clickCount = 0;
 
+            ShakingIcon();
+
+            WindowManager.Inst.SelectedObjectNull();
+        }
         else
         {
-            selectedImage.gameObject.SetActive(true);
-            isSelected = true;
+            WindowManager.Inst.SelectObject(this);
+            clickCount++;
         }
+    }
+
+    private void SelectedIcon(bool isSelected)
+    {
+        if (!isSelected)
+        {
+            clickCount = 0;
+        }
+        selectedImage.gameObject.SetActive(isSelected);
     }
 
     private void ShakingIcon()
     {
         if (isShaking) return;
+
         isShaking = true;
-        selectedImage.DOKill();
+        shakingImage.gameObject.SetActive(true);
+
+        shakingImage.DOKill();
         transform.DOKill(true);
-        Color originColor = selectedImage.color;
-        selectedImage.color = shakingColor;
+        Color originColor = shakingImage.color;
+        shakingImage.color = shakingColor;
         transform.DOShakePosition(duration, strength, vibrato).OnComplete(() =>
         {
-            selectedImage.color = originColor;
+            shakingImage.color = originColor;
             isShaking = false;
+
             selectedImage.gameObject.SetActive(false);
+            shakingImage.gameObject.SetActive(false);
         });
     }
 
@@ -82,7 +109,6 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isShaking) return;
         pointerStayImage.gameObject.SetActive(false);
     }
 }
