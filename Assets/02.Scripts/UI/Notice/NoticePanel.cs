@@ -64,10 +64,10 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     }
 
     public void Notice(NoticeDataSO data)
-    {
+    {   
         headText.SetText(data.Head);
         bodyText.SetText(data.Body);
-        iconImage = data.Icon;
+        iconImage.sprite = data.Icon;
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)csf.transform);
 
         rectTransform.anchorMin = new Vector2(1f, 0.5f);

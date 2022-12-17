@@ -14,7 +14,7 @@ public class NoticeData
 
     public float delay;
 
-    public Image icon;
+    public Sprite icon;
 }
 
 
@@ -59,7 +59,7 @@ public class NoticeDataSO : ScriptableObject
         }
     }
 
-    public Image Icon
+    public Sprite Icon
     {
         get
         {
