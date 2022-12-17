@@ -4,11 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextBoxText : MonoBehaviour
+public class ContentSizeFitterText : MonoBehaviour
 {
     private TMP_Text messageText;
     private ContentSizeFitter contentSizeFitter;
 
+    public TMP_Text TextUI => messageText;
     public string text => messageText.text;
     public int maxVisibleCharacters
     {

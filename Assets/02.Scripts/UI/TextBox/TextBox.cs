@@ -18,7 +18,7 @@ public class TextBox : MonoUI
 
     #region Binding º¯¼ö
     [SerializeField]
-    private TextBoxText messageText;
+    private ContentSizeFitterText messageText;
 
     [SerializeField]
     private TMP_Text nameText;
