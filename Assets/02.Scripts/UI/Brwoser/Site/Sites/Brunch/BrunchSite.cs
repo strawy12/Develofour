@@ -84,14 +84,14 @@ public class BrunchSite : Site
             post.OnRemove += RemovePost;
             post.gameObject.SetActive(true);
         }
-        postCntText.text = $"작품 {postDatas.Count}";
+        postCntText.text = $"글 {postDatas.Count}";
     }
 
     private void RemovePost(BrunchPost post)
     {
         postDatas.Remove(post.PostData);
         postListPanel.ChangeVerticalUICount(postDatas.Count);
-        postCntText.text = $"작품 {postDatas.Count}";
+        postCntText.text = $"글 {postDatas.Count}";
         
         if(postDatas.Count <= 0)
         {

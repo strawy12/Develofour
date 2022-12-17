@@ -9,5 +9,5 @@ public class BrunchPostDataSO : ScriptableObject
     public string wirteInfo;
     public string wirteDate;
 
-    public Sprite writeImage; 
+    public Sprite writeImage;
 }
