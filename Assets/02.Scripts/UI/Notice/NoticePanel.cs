@@ -137,8 +137,6 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
             isEnter = false;
         }
 
-        Debug.Log(11);
-
         if (isCompleted)
         {
             SetActive(false);

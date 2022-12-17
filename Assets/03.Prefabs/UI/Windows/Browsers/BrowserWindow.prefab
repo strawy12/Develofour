@@ -652,7 +652,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5683413405113162298}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -2477,18 +2477,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5401844675929173664}
     m_Modifications:
-    - target: {fileID: 2158231575690959223, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
-      propertyPath: mailDataList.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2158231575690959223, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
-      propertyPath: mailDataList.Array.data[4].mail
-      value: 
-      objectReference: {fileID: 1631069537624073069}
-    - target: {fileID: 2158231575690959223, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
-      propertyPath: mailDataList.Array.data[4].mailDataSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 195831e963f15ad4d9a170d9a3af58ff, type: 2}
     - target: {fileID: 3011640873645332085, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -2608,17 +2596,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3011640874258793179, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
   m_PrefabInstance: {fileID: 3116649871679968852}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1631069537624073069 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4459172287568639289, guid: 5e684b9402f052649ba727c938fc79a4, type: 3}
-  m_PrefabInstance: {fileID: 3116649871679968852}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d95720af29a15b9448b602ce6844c2bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &5607095945805009776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2830,10 +2807,6 @@ PrefabInstance:
     - target: {fileID: 202940645380285083, guid: 3a142acde637b7947afe481772cb7e1d, type: 3}
       propertyPath: m_Name
       value: LoginSite
-      objectReference: {fileID: 0}
-    - target: {fileID: 202940645380285083, guid: 3a142acde637b7947afe481772cb7e1d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a142acde637b7947afe481772cb7e1d, type: 3}
