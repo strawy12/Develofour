@@ -17,9 +17,7 @@ public class GmailLoginSite : Site
     [SerializeField]
     private TextMove textMove;
     [SerializeField]
-    private Toggle showPasswordToggle;
-    [SerializeField]
-    private LoginToggle checkToggle;
+    private PasswordToggle passwordToggle;
 
     private ESiteLink requestSite;
 
@@ -36,7 +34,7 @@ public class GmailLoginSite : Site
 
         gmailInputField.onValueChanged.AddListener((a) => Input.imeCompositionMode = IMECompositionMode.Off);
 
-        showPasswordToggle.onValueChanged.AddListener(ShowPassword);
+        passwordToggle.onValueChanged.AddListener(ShowPassword);
 
         EventManager.StartListening(ELoginSiteEvent.RequestSite, RequestSite);
     }
@@ -48,7 +46,6 @@ public class GmailLoginSite : Site
         gmailInputField.contentType = isShow ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
         gmailInputField.ForceLabelUpdate(); 
 
-        checkToggle.CheckMarkEffect(isShow);
     }
 
     private void SelectInputField(bool isSelected)
