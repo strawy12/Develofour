@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3385511818036585462}
   - component: {fileID: 5852994897941838511}
   - component: {fileID: 4872066679222730189}
+  - component: {fileID: 221855058033103527}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -90,8 +91,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 268813a7dabd0f649a5c2a6a3b8b427c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highLightImage: {fileID: 1144837973307029899}
+  duration: 0.2
+  maxAlpha: 0.8
+--- !u!114 &221855058033103527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920356872951440065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -121,10 +137,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5852994897941838511}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
-  highLightImage: {fileID: 1144837973307029899}
-  duration: 0.2
-  maxAlpha: 0.8
+      m_Calls:
+      - m_Target: {fileID: 4872066679222730189}
+        m_TargetAssemblyTypeName: HighlightUI, Assembly-CSharp
+        m_MethodName: ImmediatelyStop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3360020828798496976
 GameObject:
   m_ObjectHideFlags: 0

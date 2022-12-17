@@ -29,7 +29,7 @@ public class TextMove : MonoBehaviour
     private TMP_InputField gmailInputField;
 
     [SerializeField]
-    private TMP_Text gamilText;
+    private ContentSizeFitterText mailText;
 
     private RectTransform rectTransform;
 
@@ -83,12 +83,13 @@ public class TextMove : MonoBehaviour
         }
         isShaking = true;
         
-        gamilText.text = "다시 입력하세요.";
+        mailText.SetText("다시 입력하세요.");
+        rectTransform.sizeDelta = mailText.rectTransform.sizeDelta;
 
         Sequence sequence = DOTween.Sequence();
 
-        sequence.Append(gamilText.DOColor(shakingColor, colorDuration));
-        sequence.Join(gamilText.transform.DOShakePosition(shakeDuration, strength, vibrato));
+        sequence.Append(mailText.TextUI.DOColor(shakingColor, colorDuration));
+        sequence.Join(mailText.transform.DOShakePosition(shakeDuration, strength, vibrato));
 
         sequence.AppendCallback(() => isShaking = false);
     }

@@ -387,7 +387,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &7464018722428729524
 MonoBehaviour:
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 633861935930826996}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
   m_Name: 
@@ -540,8 +540,8 @@ RectTransform:
   m_Father: {fileID: 6383404621982097671}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.39999998}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -905,8 +905,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7031663139577921623}
   m_HandleRect: {fileID: 958600080493180209}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.6
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1440,7 +1440,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6698063698753001694
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1477,8 +1477,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec50ac1b16311449a5d9a1b87406508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mailCloseButton: {fileID: 4339088612392061793}
-  mailDestroyButton: {fileID: 6650878709438410840}
+  mailCloseButton: {fileID: 8988810134598444043}
+  mailDestroyButton: {fileID: 7340117028785897033}
   mailFavoriteButton: {fileID: 7875459755074143953}
   mailData: {fileID: 11400000, guid: bffef79bf012d2b449b2e8552d350088, type: 2}
   isCanDelete: 1
@@ -2542,22 +2542,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4acd54f07d853304d82b15eff78e9f2c, type: 3}
---- !u!114 &6650878709438410840 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3215940765050771072, guid: 4acd54f07d853304d82b15eff78e9f2c, type: 3}
-  m_PrefabInstance: {fileID: 8137437060811482840}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 268813a7dabd0f649a5c2a6a3b8b427c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &7218358826437210646 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1495539219682825422, guid: 4acd54f07d853304d82b15eff78e9f2c, type: 3}
   m_PrefabInstance: {fileID: 8137437060811482840}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7340117028785897033 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1526912038621698193, guid: 4acd54f07d853304d82b15eff78e9f2c, type: 3}
+  m_PrefabInstance: {fileID: 8137437060811482840}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9199311211966248620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2660,14 +2660,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7877284532842242453, guid: 13e6e216c10f9d34c96e31eecc05ded2, type: 3}
   m_PrefabInstance: {fileID: 9199311211966248620}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4339088612392061793 stripped
+--- !u!114 &8988810134598444043 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4872066679222730189, guid: 13e6e216c10f9d34c96e31eecc05ded2, type: 3}
+  m_CorrespondingSourceObject: {fileID: 221855058033103527, guid: 13e6e216c10f9d34c96e31eecc05ded2, type: 3}
   m_PrefabInstance: {fileID: 9199311211966248620}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 268813a7dabd0f649a5c2a6a3b8b427c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

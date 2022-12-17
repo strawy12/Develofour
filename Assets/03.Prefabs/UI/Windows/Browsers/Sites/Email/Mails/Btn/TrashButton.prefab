@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 629047934550482922}
   - component: {fileID: 2687946169687224908}
   - component: {fileID: 3215940765050771072}
+  - component: {fileID: 1526912038621698193}
   m_Layer: 5
   m_Name: TrashButton
   m_TagString: Untagged
@@ -166,8 +167,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 268813a7dabd0f649a5c2a6a3b8b427c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highLightImage: {fileID: 5817071462338919606}
+  duration: 0.2
+  maxAlpha: 0.8
+--- !u!114 &1526912038621698193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7390807102886198473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -197,7 +213,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2687946169687224908}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
-  highLightImage: {fileID: 5817071462338919606}
-  duration: 0.2
-  maxAlpha: 0.8
+      m_Calls:
+      - m_Target: {fileID: 3215940765050771072}
+        m_TargetAssemblyTypeName: HighlightUI, Assembly-CSharp
+        m_MethodName: ImmediatelyStop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
