@@ -1,6 +1,7 @@
 using DG.Tweening;
 using JetBrains.Annotations;
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -29,7 +30,6 @@ public class NoticeSystem : MonoUI
     private NoticePanel noticePanel;
 
     private bool isOpen = false;
-
     private void Awake()
     {
         Init();
@@ -117,7 +117,6 @@ public class NoticeSystem : MonoUI
     public void ShowNoticePanel(ENoticeType eNoticeDataType, float delay)
     {
         NoticeDataSO data = GetTextData(eNoticeDataType);
-
         if (data == null)
         {
             Debug.LogError("Head나 Body 의 데이터가 없습니다");
@@ -130,6 +129,11 @@ public class NoticeSystem : MonoUI
             return;
         }
 
+        var noticeList = noticePanelQueue.Where((x) => x.HeadText == data.Head);
+        if(noticeList.Count() >= 1) {
+            Debug.Log("이미 있는 알람임");
+            return;
+        }
         StartCoroutine(NoticeCoroutine(data, delay));
     }
 
@@ -145,16 +149,14 @@ public class NoticeSystem : MonoUI
         NoticePanel panel = noticePanel = GetPanel();
         panel.OnCompeleted += IncludePanel;
         panel.OnClosed += PushPanel;
-
         panel.Notice(data);
     }
 
     public void IncludePanel(NoticePanel panel)
     {
         panel.transform.SetParent(noticePanelParant);
-        noticePanelQueue.Enqueue(panel);
-
         panel.OnCompeleted -= IncludePanel;
+        panel.EnableDragComponnent(false);
         noticePanel = null;
     }
 
