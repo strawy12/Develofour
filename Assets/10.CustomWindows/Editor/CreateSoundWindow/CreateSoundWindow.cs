@@ -101,18 +101,15 @@ public class CreateSoundWindow : EditorWindow
         }
 
         SoundPlayer soundPlayer = null;
-        int id = -1;
 
         if (isEffectToggle.value)
         {
             soundPlayer = new GameObject(valueText).AddComponent<EffectPlayer>();
-            id = (int)Sound.EBgm.Count;
         }
 
         else
         {
             soundPlayer = new GameObject(valueText).AddComponent<BGMPlayer>();
-            id = (int)Sound.EEffect.Count;
         }
 
 

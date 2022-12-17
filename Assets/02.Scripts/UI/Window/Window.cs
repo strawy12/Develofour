@@ -50,6 +50,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);
         windowBar.OnSelected += SelectWindow;
+
     }
 
     public void WindowSelected(bool windowSelected)

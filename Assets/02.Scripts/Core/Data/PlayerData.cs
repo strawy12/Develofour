@@ -11,6 +11,13 @@ public enum EChapterDataType
     Count
 }
 
+public enum EYoutubeInterationType
+{
+    None,
+    Hate,
+    Like
+}
+
 [System.Serializable]
 public class WriterData : ChapterData
 {
@@ -21,6 +28,7 @@ public class WriterData : ChapterData
 public class ChapterData
 {
     public bool isWindowLogin;
+    public EYoutubeInterationType youtubeInterationType;
     public bool isEnterLoginGoogleSite;
     public List<ESiteLink> siteLinks;
     public bool isLoginSNSSite;
@@ -36,13 +44,18 @@ public class ChapterData
     }
 }
 
+public class QuestClearData
+{
+    public bool isPoliceMiniGameClear;
+}
+
 [System.Serializable]
 public class PlayerData
 {
     public ChapterData[] chapterDatas;
     public EChapterDataType currentChapterType;
     public ChapterData CurrentChapterData => chapterDatas[(int)currentChapterType];
-
+    public QuestClearData questClearData;
     public PlayerData()
     {
         currentChapterType = EChapterDataType.Writer;

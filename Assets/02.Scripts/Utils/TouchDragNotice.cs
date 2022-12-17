@@ -10,9 +10,6 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public bool isInvisibility = false;
 
     private bool HV = false;
-    private bool isPlma = false;
-
-    private bool isMove = false;
 
     private Vector3 saveOriginalPos;
     private Vector3 saveBeginDragPos;
@@ -46,8 +43,6 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        isMove = false;
-
         HV = Mathf.Abs(eventData.delta.x) > Mathf.Abs(eventData.delta.y);
      
         saveBeginDragPos = eventData.position;
@@ -57,8 +52,6 @@ public class TouchDragNotice : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         if (HV) // Horizontal
         {
-            isPlma = eventData.delta.x > 0; // right
-
             Vector3 dragPanelPos = eventData.position - (Vector2)saveBeginDragPos;
             dragPanelPos.y = 0;
             dragPanelPos.z = 0;
