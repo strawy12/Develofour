@@ -87,6 +87,8 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         isShaking = true;
         shakingImage.gameObject.SetActive(true);
 
+        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.NotUseIconClick);
+
         shakingImage.DOKill();
         transform.DOKill(true);
         Color originColor = shakingImage.color;
