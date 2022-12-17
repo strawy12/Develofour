@@ -219,10 +219,11 @@ public class EmailSite : Site
     // 추후 위치 변경
     private bool CheckGoogleLogin()
     {
+        Debug.Log(DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite);
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
         {
             EventManager.TriggerEvent(ELoginSiteEvent.RequestSite, new object[] { ESiteLink.Email });
-            EventManager.TriggerEvent<EBrowserEvent>(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY , false});
+            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY , false});
             
             EventManager.StartListening(EQuestEvent.LoginGoogle, SuccessLogin);
             
@@ -231,6 +232,7 @@ public class EmailSite : Site
 
         return true;
     }
+
     protected override void HideSite()
     {
         base.HideSite();
