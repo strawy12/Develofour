@@ -65,8 +65,6 @@ public class GmailLoginSite : Site
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
         {
             NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.EnterLoginSite, 0f);
-
-            DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
         }
 
         base.ShowSite();
@@ -83,6 +81,8 @@ public class GmailLoginSite : Site
 
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
             EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
+
+            DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
 
             if (requestSite == ESiteLink.None)
             {
