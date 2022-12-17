@@ -94,4 +94,11 @@ public class FavoriteBar : MonoBehaviour
             favoritesList[siteLink].gameObject.SetActive(false);
         }
     }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EBrowserEvent.AddFavoriteSite, AddNewFavoritesButton);
+        EventManager.StopListening(EBrowserEvent.AddFavoriteSiteAll, ShowAllFavoritesButton);
+        EventManager.StopListening(EBrowserEvent.RemoveFavoriteSite, RemoveFavoritesButton);
+    }
 }

@@ -11,6 +11,13 @@ public enum EChapterDataType
     Count
 }
 
+public enum EYoutubeInterationType
+{
+    None,
+    Hate,
+    Like
+}
+
 [System.Serializable]
 public class WriterData : ChapterData
 {
@@ -21,6 +28,7 @@ public class WriterData : ChapterData
 public class ChapterData
 {
     public bool isWindowLogin;
+    public EYoutubeInterationType youtubeInterationType;
     public bool isEnterLoginGoogleSite;
     public List<ESiteLink> siteLinks;
     public bool isLoginSNSSite;

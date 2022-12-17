@@ -159,6 +159,7 @@ public class Browser : Window
     public void ResetBrowser()
     {
         // EventManager.TriggerEvent(EEvent.ResetBrowser);
+        currentBrowser = null;
         usingSite = null;
 
         undoSite.Clear();
@@ -169,4 +170,5 @@ public class Browser : Window
     {
         currentBrowser = this;
     }
+
 }
