@@ -20,9 +20,6 @@ public class NoticeSystem : MonoUI
     [SerializeField]
     private Transform noticePanelParant;
 
-    [SerializeField]
-    private int maxPanelCount = 6;
-
     private Queue<NoticePanel> noticePanelQueue;
 
     private Stack<NoticePanel> noticePanelPool;
