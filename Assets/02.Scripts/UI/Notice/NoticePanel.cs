@@ -41,7 +41,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private bool isCompleted = false;
 
-
+    public string HeadText { get { return headText.text; } }
     private void Bind()
     {
         canvasGroup ??= GetComponent<CanvasGroup>();
@@ -64,10 +64,10 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     }
 
     public void Notice(NoticeDataSO data)
-    {
+    {   
         headText.SetText(data.Head);
         bodyText.SetText(data.Body);
-        iconImage = data.Icon;
+        iconImage.sprite = data.Icon;
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)csf.transform);
 
         rectTransform.anchorMin = new Vector2(1f, 0.5f);
@@ -86,7 +86,10 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }
-
+    public void EnableDragComponnent(bool value)
+    {
+        dragNotice.enabled = value;
+    }
     private void NoticePanelStartEndDrag()
     {
         if (dragNotice.isClick) // 드래그 시작
@@ -126,7 +129,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         OnCompeleted?.Invoke(this);
         EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }
-
+    
     private void Compelete()
     {
         if (isEnter)

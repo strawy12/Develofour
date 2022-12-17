@@ -44,13 +44,18 @@ public class ChapterData
     }
 }
 
+public class QuestClearData
+{
+    public bool isPoliceMiniGameClear;
+}
+
 [System.Serializable]
 public class PlayerData
 {
     public ChapterData[] chapterDatas;
     public EChapterDataType currentChapterType;
     public ChapterData CurrentChapterData => chapterDatas[(int)currentChapterType];
-
+    public QuestClearData questClearData;
     public PlayerData()
     {
         currentChapterType = EChapterDataType.Writer;

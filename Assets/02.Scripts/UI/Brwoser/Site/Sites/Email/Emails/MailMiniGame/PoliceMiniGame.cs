@@ -40,7 +40,15 @@ public class PoliceMiniGame : MonoBehaviour
     private Queue<PoliceGameArrow> arrowsPool;
 
     private bool isStarted = false;
-    private bool isCleared = false;
+    private bool isCleared {
+        get {
+            return DataManager.Inst.CurrentPlayer.questClearData.isPoliceMiniGameClear;
+        }
+        set
+        {
+            DataManager.Inst.CurrentPlayer.questClearData.isPoliceMiniGameClear = value;
+        }
+    }
 
     public bool IsCleared { get { return isCleared; } }
     public bool IsStarted { get { return isStarted; } }
@@ -206,7 +214,6 @@ public class PoliceMiniGame : MonoBehaviour
         }
 
         isCleared = true;
-
         EventManager.TriggerEvent(EMailSiteEvent.PoliceGameClear);
         isStarted = false;
 
