@@ -171,4 +171,9 @@ public class Browser : Window
         currentBrowser = this;
     }
 
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EBrowserEvent.OnUndoSite, UndoSite);
+    }
+
 }
