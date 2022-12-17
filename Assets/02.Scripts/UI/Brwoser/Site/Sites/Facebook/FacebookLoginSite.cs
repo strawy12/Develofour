@@ -131,6 +131,7 @@ public class FacebookLoginSite : Site
             EventManager.StartListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
         
             EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.SnsPasswordChange});
+
             NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.SnsSetNewPassword, 0f);
 
         }

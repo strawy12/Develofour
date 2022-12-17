@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class YoutubeInteractionButton : MonoBehaviour
 {
-    private static Action<bool> OnTriggerInteraction; 
+    private static Action<bool> OnTriggerInteraction;
 
     [SerializeField] private bool isHateBtn;
 
@@ -25,9 +25,9 @@ public class YoutubeInteractionButton : MonoBehaviour
     private Button button;
     private Image image;
     private RectTransform rectTransform;
-    
+
     private Vector3 originScale;
-    
+
     public UnityEvent OnClick { get { return button.onClick; } }
 
     private void Awake()
@@ -35,50 +35,68 @@ public class YoutubeInteractionButton : MonoBehaviour
         button = GetComponent<Button>();
         image = GetComponent<Image>();
         rectTransform = GetComponent<RectTransform>();
-        
+
         image.enabled = false;
         originScale = rectTransform.localScale;
-        
+
         button.onClick.AddListener(ClickEffect);
     }
 
     private void Start()
     {
+        EYoutubeInterationType type = DataManager.Inst.CurrentPlayer.CurrentChapterData.youtubeInterationType;
+
+        if (type != EYoutubeInterationType.None)
+        {
+            bool flag = type == EYoutubeInterationType.Hate;
+            if (isHateBtn == flag)
+            {
+                ButtonInteraction(isHateBtn);
+            }
+        }
+
         OnTriggerInteraction += ButtonInteraction;
     }
 
     private void ButtonInteraction(bool isHateButton)
     {
-        if(isHateBtn == isHateButton) // 누른 버튼이 같을 때
+
+        if (isHateBtn == isHateButton) // 누른 버튼이 같을 때
         {
-            if(isClicked)
+            EYoutubeInterationType type = EYoutubeInterationType.None;
+            if (isClicked)
             {
                 CancelButton();
             }
             else if (!isClicked)
             {
-                if(isHateBtn)
+                if (isHateBtn)
                 {
                     SelectHateButton();
+                    type = EYoutubeInterationType.Hate;
                 }
                 else if (!isHateBtn)
                 {
                     SelectLikeButton();
+                    type = EYoutubeInterationType.Like;
                 }
             }
+
+            DataManager.Inst.CurrentPlayer.CurrentChapterData.youtubeInterationType = type;
         }
-        else if(isHateBtn != isHateButton) // 다를 때
+        else if (isHateBtn != isHateButton) // 다를 때
         {
             if (isClicked)
             {
                 CancelButton();
             }
         }
+
     }
 
     private void ClickEffect()
     {
-        if(isEffecting)
+        if (isEffecting)
         {
             return;
         }
@@ -122,7 +140,7 @@ public class YoutubeInteractionButton : MonoBehaviour
     {
         isClicked = true;
         isEffecting = false;
-        
+
         image.enabled = true;
         image.color = Color.black;
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
@@ -133,10 +151,10 @@ public class YoutubeInteractionButton : MonoBehaviour
     {
         Sequence seq = DOTween.Sequence();
         isClicked = false;
-       
+
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
 
-        if(isHateBtn)
+        if (isHateBtn)
         {
             int num = int.Parse(peopleText.text);
             num -= 1;
@@ -150,5 +168,10 @@ public class YoutubeInteractionButton : MonoBehaviour
         {
             isEffecting = false;
         });
+    }
+
+    private void OnDestroy()
+    {
+        OnTriggerInteraction -= ButtonInteraction;
     }
 }

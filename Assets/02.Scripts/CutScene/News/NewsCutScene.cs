@@ -80,34 +80,6 @@ public class NewsCutScene : CutScene
     private float newsScreenDuration;
     #endregion
 
-    #region StopIcon
-    [Header("StopIcon")]
-    [SerializeField]
-    private Image stopIconImage;
-    [SerializeField]
-    private float stopIconStartAlpha = 0.75f;
-    [SerializeField]
-    private float stopIconTargetSize = 1.5f;
-    [SerializeField]
-    private float stopIconDuration = 0.5f;
-    #endregion
-
-    #region CancelFullScreen
-    [Header("CancelFullScreen")]
-    [SerializeField]
-    private float cancelFullScreenDelay = 2f;
-    [SerializeField]
-    private float cancelFullScreenOffsetY = -170f;
-    #endregion
-
-    #region PlayBar
-    [Header("PlayBar")]
-    [SerializeField]
-    private CanvasGroup playBar;
-    [SerializeField]
-    private float playBarDuration = 0.5f;
-    #endregion
-
     #region CG
     [Header("CG")]
     [SerializeField]
@@ -157,7 +129,6 @@ public class NewsCutScene : CutScene
 
         #region 시작 값
         digitalGlitch.Intensity = 1f;
-        playBar.alpha = 0f;
         newsAnchor.canvasGroup.alpha = 1f;
         newsReporter.image.ChangeImageAlpha(0f);
         currentNewsCharacter = newsAnchor;
@@ -218,26 +189,7 @@ public class NewsCutScene : CutScene
         yield return PrintText(false);
 
         Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
-        #region 일시정지 아이콘
-        //stopIconImage.rectTransform.localScale = Vector3.one;
-        //Color color = stopIconImage.color;
-        //color.a = stopIconStartAlpha;
-        //stopIconImage.color = color;
-        //stopIconImage.DOFade(0f, stopIconDuration);
-        //stopIconImage.rectTransform.DOScale(Vector3.one * stopIconTargetSize, stopIconDuration);
-        //playBar.DOFade(1f, playBarDuration);
-        //yield return new WaitForSeconds(stopIconDuration/2f);
-        //yield return new WaitForSeconds(stopIconDuration/2f);
-        #endregion
-
-
-
-        #region 전체화면 해제
-        //delay = cancelFullScreenDelay / 2f;
-        //yield return new WaitForSeconds(delay);
-        //rectTransform.anchoredPosition = rectTransform.anchoredPosition.ChangeValue(y: cancelFullScreenOffsetY);
-        //yield return new WaitForSeconds(delay);
-        #endregion
+        
         cgImage.DOColor(Color.black, screenFadeDuration);
         yield return new WaitForSeconds(screenFadeDuration);
 
