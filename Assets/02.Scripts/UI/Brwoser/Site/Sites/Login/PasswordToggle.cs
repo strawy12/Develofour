@@ -21,8 +21,6 @@ public class PasswordToggle : MonoBehaviour
     [SerializeField]
     private float checkDuration = 0.25f;
 
-    [SerializeField]
-    private HighlightUI highlightUI;
 
 
     public UnityEvent<bool> onValueChanged
@@ -44,7 +42,6 @@ public class PasswordToggle : MonoBehaviour
     private void Start()
     {
         toggle.onValueChanged.AddListener(OnValueChanged);
-        toggle.onValueChanged.AddListener((a) => highlightUI.ImmediatelyStop());
     }
 
     public void OnValueChanged(bool isOn)

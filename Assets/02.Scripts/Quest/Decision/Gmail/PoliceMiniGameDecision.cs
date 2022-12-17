@@ -16,7 +16,7 @@ public class PoliceMiniGameDecision : Decision
         isClear = true;
 
         OnChangedValue?.Invoke();
-        EventManager.StopListening(EMailSiteEvent.PoliceGameClear, MiniGameClear) ;
+        EventManager.StopListening(EMailSiteEvent.PoliceGameClear, MiniGameClear);
     }
 
     public override bool CheckDecision()
