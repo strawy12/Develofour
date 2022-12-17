@@ -38,7 +38,10 @@ public class PoliceMail : Mail
 
     public override void ShowMail()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenPoliceMail, 0f);
+        if (!DataManager.Inst.CurrentPlayer.questClearData.isPoliceMiniGameClear)
+        {
+            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenPoliceMail, 0f);
+        }
 
         base.ShowMail();
     }
