@@ -37,7 +37,7 @@ public class BrunchSite : Site
     [SerializeField]
     private Transform workPanelParent;
     [SerializeField]
-    private Dictionary<EWorkTitle ,BrunchSiteWorkPanel> workPanels = new Dictionary<EWorkTitle, BrunchSiteWorkPanel>();  
+    private Dictionary<EWorkKeys ,BrunchSiteWorkPanel> workPanels = new Dictionary<EWorkKeys, BrunchSiteWorkPanel>();  
     public void Awake()
     {
         workListBtn.onClick.AddListener(OnWorkListPanel);
@@ -85,12 +85,12 @@ public class BrunchSite : Site
     {
         foreach(BrunchWorkDataSO workData in workDataList)
         {
-            var postList = postDatas.Where((x) => x.workTitle == workData.titleName);
+            var postList = postDatas.Where((x) => x.workTitle == workData.workKey);
             BrunchSiteWorkPanel panel = Instantiate(workPanelPrefab, workPanelParent);
             workData.writeCnt = postList.Count();
             panel.Init(workData);
             panel.gameObject.SetActive(true);
-            workPanels.Add(workData.titleName, panel);
+            workPanels.Add(workData.workKey, panel);
         }
     }
 

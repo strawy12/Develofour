@@ -19,6 +19,7 @@ public class BrunchSiteWorkPanel : MonoBehaviour
     [SerializeField]
     private TMP_Text workThumbnailTitleText;
 
+    private int writeCount;
     public void Init(BrunchWorkDataSO workData)
     {
         this.workData = workData;
@@ -27,20 +28,21 @@ public class BrunchSiteWorkPanel : MonoBehaviour
 
     private void SettingPanel()
     {
-        workThumbnailTitleText.text = workData.titleName.ToString();
-        titleNameText.text = workData.titleName.ToString();
+        workThumbnailTitleText.text = workData.titleText;
+        titleNameText.text = workData.titleText;
         writeUserText.text = workData.userCnt.ToString();
-        writeCountText.text = workData.writeCnt.ToString();
+        writeCount = workData.writeCnt;
+        writeCountText.text = writeCount.ToString();
         workThumbnailImage.sprite = workData.workSprite;
     }
 
     public void DiminishWriteCnt()
     {
-        workData.writeCnt -= 1;
-        writeCountText.text = workData.writeCnt.ToString();
-        if (workData.writeCnt <= 0)
+        writeCount -= 1;
+        writeCountText.text = writeCount.ToString();
+        if (writeCount <= 0)
         {
-            workData.writeCnt = 0;
+            writeCount = 0;
         }
     }
 

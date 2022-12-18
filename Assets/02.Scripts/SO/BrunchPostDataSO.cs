@@ -8,6 +8,6 @@ public class BrunchPostDataSO : ScriptableObject
     public string wirteTitle;
     public string wirteInfo;
     public string wirteDate;
-    public EWorkTitle workTitle;
+    public EWorkKeys workTitle;
     public Sprite writeImage;
 }
