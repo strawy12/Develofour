@@ -27,6 +27,8 @@ public class InputManager : MonoSingleton<InputManager>
         {
             if (Input.GetMouseButtonDown(i))
             {
+                Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.MouseClick);
+
                 EventManager.TriggerEvent(EInputType.InputMouseDown, new object[1] { i });
             }
 
