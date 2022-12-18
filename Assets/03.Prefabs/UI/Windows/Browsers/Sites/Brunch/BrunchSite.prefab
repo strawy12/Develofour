@@ -487,8 +487,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 275986716969716585}
   m_HandleRect: {fileID: 275986716969716582}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.5555556
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -887,10 +887,10 @@ RectTransform:
   m_Father: {fileID: 4337058639664962255}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -1200, y: 0}
+  m_SizeDelta: {x: 723, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2663378301962714606
 CanvasRenderer:
@@ -945,13 +945,13 @@ MonoBehaviour:
   m_Padding:
     m_Left: 10
     m_Right: 0
-    m_Top: 0
+    m_Top: 20
     m_Bottom: 0
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 230, y: 400}
-  m_Spacing: {x: 0, y: 0}
+  m_Spacing: {x: 20, y: 20}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &2793525836313617578
@@ -2240,7 +2240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   siteLink: 6
   siteData:
-    siteIconSprite: {fileID: 0}
+    siteIconSprite: {fileID: 21300000, guid: f517c2885c189b4479d294b6e75d6271, type: 3}
     siteTitle: Brunch
     address: https://brunch.com/
     isCanUndo: 0
@@ -2263,6 +2263,10 @@ MonoBehaviour:
   postCntText: {fileID: 6972168885016630977}
   workListPanel: {fileID: 6294560567235074477}
   workListBtn: {fileID: 6972168884641737411}
+  workDataList:
+  - {fileID: 11400000, guid: adad234a094a5a34da80bf90e48bf4a5, type: 2}
+  workPanelPrefab: {fileID: 4000538407838857258}
+  workPanelParent: {fileID: 1418808709593871595}
 --- !u!1 &6294560567235074477
 GameObject:
   m_ObjectHideFlags: 0
@@ -4999,6 +5003,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BrunchWorkPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 1329420645591731123, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5650940089254132886, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5937330410879596414, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5017,7 +5029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5937330410879596414, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5937330410879596414, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
       propertyPath: m_AnchorMin.x
@@ -5025,15 +5037,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5937330410879596414, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5937330410879596414, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 230
       objectReference: {fileID: 0}
     - target: {fileID: 5937330410879596414, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 5937330410879596414, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5065,11 +5077,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5937330410879596414, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 5937330410879596414, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -200
       objectReference: {fileID: 0}
     - target: {fileID: 5937330410879596414, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5083,8 +5095,43 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6293321071556949166, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472324822577883564, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472324822577883564, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9bc97384391e03846b5303dd980c0e2b, type: 3}
+    - target: {fileID: 8472324822577883564, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472324822577883564, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472324822577883564, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
+--- !u!114 &4000538407838857258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3486565189169060290, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
+  m_PrefabInstance: {fileID: 569143422277951976}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64ffa22268ee0a44b1f2e69a2c1125a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6161947250281584278 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5937330410879596414, guid: 2e846862513e0074588ec8385cf9446c, type: 3}
