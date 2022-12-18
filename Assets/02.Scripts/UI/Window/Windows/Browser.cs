@@ -126,7 +126,7 @@ public class Browser : Window
     {
         if (loadDelay != 0)
         {
-            loadingBar.StartLoading();
+            loadingBar.StartLoading(loadDelay);
             yield return new WaitForSeconds(loadDelay);
         }
 
