@@ -19,7 +19,25 @@ public enum EEmailCategory
 
 public enum EMailType
 {
-    Default,
+    Default = 0,
+    Writer = 100,
+    WriterDummy1,   
+    WriterDummy2,
+    WriterDummy3,
+    WriterDummy4,
+    WriterDummy5,
+    WriterDummy6,
+    WriterDummy7,
+    WriterDummy8,
+    WriterDummy9, 
+    WriterDummy10,
+    WriterDummy11,
+    WriterDummy12,
+    WriterDummy13,
+    WriterDummy14,
+    WriterSendMail1,
+    WriterSendMail2,
+    WriterSendMail3,//DummyEnd 
     PoliceAttendance,
     BlogDelete,
     SnsPasswordChange,
@@ -98,7 +116,7 @@ public class EmailSite : Site
 
             data.mail.OnChangeRemoveCatagory += emailLine.ChangeRemoveCategory;
             data.mail.OnChangeRemoveCatagory += (() => ChangeAlignCategory(EEmailCategory.Remove));
-
+            
             baseEmailLineList.Add(emailLine);
 
             if (data.mailDataSO.mailCategory.ContainMask((int)EEmailCategory.Invisible))
