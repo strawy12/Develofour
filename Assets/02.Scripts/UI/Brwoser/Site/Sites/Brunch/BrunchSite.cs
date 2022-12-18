@@ -30,8 +30,14 @@ public class BrunchSite : Site
     private GameObject workListPanel;
     [SerializeField]
     private Button workListBtn;
-    
-
+    [SerializeField]
+    private List<BrunchWorkDataSO> workDataList;
+    [SerializeField]
+    private BrunchSiteWorkPanel workPanelPrefab;
+    [SerializeField]
+    private Transform workPanelParent;
+    [SerializeField]
+    private Dictionary<EWorkKeys ,BrunchSiteWorkPanel> workPanels = new Dictionary<EWorkKeys, BrunchSiteWorkPanel>();  
     public void Awake()
     {
         workListBtn.onClick.AddListener(OnWorkListPanel);
@@ -39,6 +45,7 @@ public class BrunchSite : Site
         writerInfoBtn.onClick.AddListener(OnWriterInfoPanel);
 
         CreatePost();
+        CreateWork();
     }
 
     public override void Init()
@@ -74,6 +81,20 @@ public class BrunchSite : Site
         base.ShowSite();
     }
     
+    private void CreateWork()
+    {
+        foreach(BrunchWorkDataSO workData in workDataList)
+        {
+            var postList = postDatas.Where((x) => x.workTitle == workData.workKey);
+            BrunchSiteWorkPanel panel = Instantiate(workPanelPrefab, workPanelParent);
+            workData.writeCnt = postList.Count();
+            panel.Init(workData);
+            panel.gameObject.SetActive(true);
+            workPanels.Add(workData.workKey, panel);
+        }
+    }
+
+
     private void CreatePost()
     {
         postListPanel.ChangeVerticalUICount(postDatas.Count);
@@ -84,15 +105,15 @@ public class BrunchSite : Site
             post.OnRemove += RemovePost;
             post.gameObject.SetActive(true);
         }
-        postCntText.text = $"작품 {postDatas.Count}";
+        postCntText.text = $"글 {postDatas.Count}";
     }
 
     private void RemovePost(BrunchPost post)
     {
         postDatas.Remove(post.PostData);
         postListPanel.ChangeVerticalUICount(postDatas.Count);
-        postCntText.text = $"작품 {postDatas.Count}";
-        
+        postCntText.text = $"글 {postDatas.Count}";
+        workPanels[post.PostData.workTitle].DiminishWriteCnt();
         if(postDatas.Count <= 0)
         {
             EventManager.TriggerEvent(EQuestEvent.EndBrunchPostCleanUp);
