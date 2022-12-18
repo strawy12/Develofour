@@ -61,6 +61,8 @@ public class PlayerData
         currentChapterType = EChapterDataType.Writer;
         chapterDatas = new ChapterData[(int)EChapterDataType.Count];
         chapterDatas[(int)EChapterDataType.Writer] = new WriterData();
+
+        questClearData = new QuestClearData();
     }
 
     public T TypeCastChapterData<T>() where T : ChapterData
