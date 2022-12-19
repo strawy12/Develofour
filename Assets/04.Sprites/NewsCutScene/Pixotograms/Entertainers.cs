@@ -30,7 +30,7 @@ public class Entertainers : MonoBehaviour
         yield return new WaitForSeconds(moveDuration);
     }
 
-    public IEnumerator PlayAnimation()
+    public IEnumerator ShowAnimation()
     {
         float imageDuration = entertainerA.ShowImage();
         entertainerB.ShowImage();
@@ -43,5 +43,16 @@ public class Entertainers : MonoBehaviour
 
         textDuration = entertainerB.ShowText();
         yield return new WaitForSeconds(textDuration);
+    }
+
+    public IEnumerator HideAnimation()
+    {
+        float duration = entertainerA.Hide(true);
+        entertainerB.Hide(true);
+
+        entertainerA.transform.DOScale(Vector3.zero, duration);
+        entertainerB.transform.DOScale(Vector3.zero, duration);
+
+        yield return new WaitForSeconds(duration);
     }
 }

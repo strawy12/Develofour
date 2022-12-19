@@ -24,6 +24,8 @@ public class CameraMove : MonoBehaviour
     private Vector3 originPos = new Vector3(0, 0, -10f);
     private float originFovAmount = 60;
 
+    private int count = 0;
+
     private void Awake()
     {
         mainCam = Define.MainCam;
@@ -35,7 +37,7 @@ public class CameraMove : MonoBehaviour
     public float Move()
     {
         mainCam = Define.MainCam;
-        CameraMoveInfo info = infoList[0];
+        CameraMoveInfo info = infoList[count++];
 
         Vector3 pos = info.movePos;
         pos.z = -10f;

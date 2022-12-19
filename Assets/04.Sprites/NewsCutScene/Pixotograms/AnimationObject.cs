@@ -42,9 +42,18 @@ public class AnimationObject : MonoBehaviour
     {
         StartCoroutine(ShowAnimation());
     }
-    public void Hide()
+    public float Hide(bool useDotween)
     {
-        canvasGroup.alpha = 0f;
+        if (useDotween)
+        {
+            canvasGroup.DOFade(0f, fadeDuration);
+            return fadeDuration;
+        }
+        else
+        {
+            canvasGroup.alpha = 0f;
+            return 0f;
+        }
     }
 
     public float ShowText()
@@ -66,7 +75,7 @@ public class AnimationObject : MonoBehaviour
 
     private void ShowInit()
     {
-        if(isInit) { return; }
+        if (isInit) { return; }
         isInit = true;
 
         if (text.maxVisibleCharacters != 0)

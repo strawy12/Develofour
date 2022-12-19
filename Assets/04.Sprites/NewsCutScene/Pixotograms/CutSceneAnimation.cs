@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -21,12 +22,18 @@ public class CutSceneAnimation : MonoBehaviour
 
     [Header("BodyGuard")]
     [SerializeField]
-    private AnimationObject bodyGuard;
+    private BodyGuard bodyGuard;
+    [SerializeField]
+    private float bodyGuardRedEyeDelay = 10f;
+
+    [SerializeField]
+    private CanvasGroup questions;
+
 
 
     private CanvasGroup canvasGroup;
 
-    
+
     private bool isInit = false;
 
     private void Init()
@@ -46,6 +53,10 @@ public class CutSceneAnimation : MonoBehaviour
 
     private IEnumerator PlayAnimation()
     {
+        // 선딜레이
+        yield return new WaitForSeconds(3f);
+
+
         canvasGroup.DOFade(1f, 1f);
         yield return new WaitForSeconds(1f);
 
@@ -57,17 +68,47 @@ public class CutSceneAnimation : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         // 화면 전환
-        house.Hide();
+        house.Hide(false);
         cameraMove.ResetCam();
 
         // 연예인 A,B 등장
-        yield return entertainers.PlayAnimation();
+        yield return entertainers.ShowAnimation();
 
         // delay
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4.5f);
         yield return entertainers.Move();
 
         // 경호원 등장
         yield return bodyGuard.ShowAnimation();
+
+        duration = xObject.DrawAnim();
+        yield return new WaitForSeconds(duration);
+
+        // Delay
+        yield return new WaitForSeconds(2f);
+        xObject.EraseAnim();
+
+        yield return entertainers.HideAnimation();
+
+        yield return bodyGuard.Move();
+
+        // 딜레이
+        yield return new WaitForSeconds(2f);
+        questions.DOFade(1f, 1f);
+        yield return new WaitForSeconds(bodyGuardRedEyeDelay);
+
+        duration = cameraMove.Move();
+        bodyGuard.ShowRedEye(duration);
+        yield return new WaitForSeconds(duration);
+
+        yield return new WaitForSeconds(2f);
+
+        duration = cameraMove.Move();
+        yield return new WaitForSeconds(duration);
+
+        duration = bodyGuard.ChangeColorRed();
+        yield return new WaitForSeconds(duration);
+
+        canvasGroup.DOFade(0f, 1f);
     }
 }
