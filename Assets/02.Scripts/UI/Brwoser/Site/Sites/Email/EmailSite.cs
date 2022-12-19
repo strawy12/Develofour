@@ -38,6 +38,7 @@ public enum EMailType
     WriterSendMail1,
     WriterSendMail2,
     WriterSendMail3,//DummyEnd 
+    WriterBusinessMail1,
     PoliceAttendance,
     BlogDelete,
     SnsPasswordChange,
