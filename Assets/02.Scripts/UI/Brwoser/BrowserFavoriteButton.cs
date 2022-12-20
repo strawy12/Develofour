@@ -9,8 +9,8 @@ public class BrowserFavoriteButton : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text titleText;
+    [SerializeField] private Button favoriteBtn;
 
-    private Button favoriteBtn;
     [SerializeField]
     private ESiteLink siteLink;
 
@@ -45,7 +45,6 @@ public class BrowserFavoriteButton : MonoBehaviour
         OnClick.AddListener(() => OpenTriggerWindow());
 
     }
-
     public void OpenTriggerWindow()
     {
         object[] ps = new object[2] { siteLink, Constant.LOADING_DELAY };

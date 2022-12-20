@@ -53,7 +53,6 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void Init()
     {
-        Debug.Log(22);
 
         Bind();
         OnCompeleted += (x) => Compelete();

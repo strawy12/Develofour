@@ -17,6 +17,7 @@ public enum ESiteLink
     Brunch,
     Facebook,
     FacebookLoginSite,
+    Home,
 }
 /// <summary>
 ///  블로그 사이트 이름
