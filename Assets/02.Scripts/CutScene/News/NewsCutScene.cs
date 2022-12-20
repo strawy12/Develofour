@@ -91,6 +91,9 @@ public class NewsCutScene : CutScene
     private float screenFadeDuration = 2f;
     #endregion
 
+    [SerializeField]
+    private CutSceneAnimation cutSceneAnimation;
+
     private int characterVoiceCnt = 0;
     private Queue<int> printTextCntQueue = new Queue<int>();
     private NewsCharacter currentNewsCharacter;
@@ -167,7 +170,7 @@ public class NewsCutScene : CutScene
         yield return new WaitForSeconds(delay);
 
         #endregion
-
+        cutSceneAnimation.Play();
         yield return PrintText(true);
 
         // 국회 AI 규제 발의
@@ -182,8 +185,6 @@ public class NewsCutScene : CutScene
         cgImage.DOFade(1f, cgFadeDuration);
 
         yield return PrintText(true);
-
-        Sound.OnPlayEffectSound.Invoke(Sound.EEffect.SpaceKeyDown);
 
         textBox.SetTextBoxType(TextBox.ETextBoxType.Box);
         yield return PrintText(false);
