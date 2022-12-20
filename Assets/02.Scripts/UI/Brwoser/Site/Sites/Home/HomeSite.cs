@@ -17,29 +17,38 @@ public class HomeSite : Site
 
     public override void Init()
     {
-        base.Init();
         favoriteBar.Init();
-        foreach(var data  in searchRecordDatas)
+        CheckData();
+        SeacrhPanel.onClick.AddListener(ShowRecordPanel);
+        recordPanel.OnCloseRecord += ShowSearchPanel;
+        base.Init();
+    }
+    private void CheckData()
+    {
+        foreach (var data in searchRecordDatas)
         {
-            if(data.characterDataType == DataManager.Inst.CurrentPlayer.currentChapterType)
+            if (data.characterDataType == DataManager.Inst.CurrentPlayer.currentChapterType)
             {
                 recordPanel.Init(data);
                 break;
             }
         }
-        SeacrhPanel.onClick.AddListener(ShowRecordPanel);
     }
-
     protected override void ShowSite()
     {
         base.ShowSite();
+        CheckData();
         favoriteBar.ReadSiteListsData();
     }
 
     private void ShowRecordPanel()
     {
         SeacrhPanel.gameObject.SetActive(false);
-        recordPanel.gameObject.SetActive(true);
+        recordPanel.OpenPanel();
     }
-
+    private void ShowSearchPanel()
+    {
+        SeacrhPanel.gameObject.SetActive(true);
+        recordPanel.gameObject.SetActive(false);
+    }
 }

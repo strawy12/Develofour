@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
+using System;
+
 public class HomeSearchRecord : MonoBehaviour
 {
     private HomeSearchRecordDataSO recordData;
-
     [SerializeField]
     private HomeSearchRecordPrefab recordPrefab;
     [SerializeField]
@@ -12,16 +14,17 @@ public class HomeSearchRecord : MonoBehaviour
     [SerializeField]
     private Transform contectTrm;
 
-    private List<HomeSearchRecordPrefab> poolPanels;
-
-    private void Awake()
-    {
-        CreatePool();
-    }
-
+    private List<HomeSearchRecordPrefab> poolPanels = new List<HomeSearchRecordPrefab>();
+    public Action OnCloseRecord;
+    private bool isOpen;
     public void Init(HomeSearchRecordDataSO data)
     {
-        HideAllPanel();
+        Debug.Log("11");
+        if (poolPanels.Count < 5)
+        {
+            CreatePool();
+        }
+
         recordData = data;
         SettingString();
     }
@@ -32,6 +35,7 @@ public class HomeSearchRecord : MonoBehaviour
             HomeSearchRecordPrefab obj = Instantiate(recordPrefab, contectTrm);
             obj.Release();
             poolPanels.Add(obj);
+            obj.gameObject.SetActive(false);
         }
     }
 
@@ -43,11 +47,25 @@ public class HomeSearchRecord : MonoBehaviour
         }
     }
 
-    private void HideAllPanel()
+    public void OpenPanel()
     {
-        foreach(var panel in poolPanels)
+        isOpen = true;
+        gameObject.SetActive(true);
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
+    }
+    private void CheckClose(object[] hits)
+    {
+        if (!isOpen) return;
+        if (Define.ExistInHits(gameObject, hits[0]) == false)
         {
-            panel.Release();
+            Close();
         }
+    }
+
+    public void Close()
+    {
+        EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
+        isOpen = false;
+        OnCloseRecord?.Invoke();
     }
 }
