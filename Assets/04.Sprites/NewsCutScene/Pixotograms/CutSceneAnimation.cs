@@ -98,16 +98,19 @@ public class CutSceneAnimation : MonoBehaviour
         yield return new WaitForSeconds(bodyGuardRedEyeDelay);
 
         duration = cameraMove.Move();
-        bodyGuard.ShowRedEye(duration);
+        yield return new WaitForSeconds(duration);
+
+        duration = bodyGuard.ShowRedEye();
         yield return new WaitForSeconds(duration);
 
         yield return new WaitForSeconds(2f);
 
-        duration = cameraMove.Move();
-        yield return new WaitForSeconds(duration);
+        cameraMove.ResetCam();
+        yield return new WaitForSeconds(1f);
 
         duration = bodyGuard.ChangeColorRed();
         yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(1f);
 
         canvasGroup.DOFade(0f, 1f);
     }

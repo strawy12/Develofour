@@ -17,10 +17,10 @@ public class BodyGuard : AnimationObject
     [Header("RedEye")]
     [SerializeField]
     private Image redEyeImage;
+    [SerializeField]
+    private float redEyeDuration;
 
     [Header("ChangeColor")]
-    [SerializeField]
-    private Image currentImage;
     [SerializeField]
     private Color changeColor;
     [SerializeField]
@@ -33,15 +33,16 @@ public class BodyGuard : AnimationObject
         yield return new WaitForSeconds(moveDuration);
     }
 
-    public void ShowRedEye(float duration)
+    public float ShowRedEye()
     {
-        redEyeImage.DOFade(1f, duration);
+        redEyeImage.DOFade(1f, redEyeDuration);
+        return redEyeDuration;
     }
 
     public float ChangeColorRed()
     {
         redEyeImage.DOFade(0f, changeDuration / 2f);
-        currentImage.DOColor(changeColor, changeDuration);
+        iconImage.DOColor(changeColor, changeDuration);
         return changeDuration;
     }
 }

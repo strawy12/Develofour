@@ -12,9 +12,9 @@ public class AnimationObject : MonoBehaviour
     [SerializeField]
     private TMP_Text text;
     [SerializeField]
-    private Image iconImage;
+    protected Image iconImage;
     [SerializeField]
-    private CanvasGroup canvasGroup;
+    protected CanvasGroup canvasGroup;
 
     [Header("Text")]
     [SerializeField]
