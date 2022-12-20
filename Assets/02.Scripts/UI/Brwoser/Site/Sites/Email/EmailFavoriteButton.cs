@@ -38,11 +38,11 @@ public class EmailFavoriteButton : MonoBehaviour
         Sequence sequence = DOTween.Sequence(); 
         if(isFavorited)
         {   
-            sequence.Append(fillStarImage.DOColor(new Color(0, 0, 0, 0), colorDuraction).OnComplete(() => isChanging = false));;
+            sequence.Append(fillStarImage.DOColor(new Color(0, 0, 0, 0), 0).OnComplete(() => isChanging = false));;
         }
         else
         {
-            sequence.Append(fillStarImage.DOColor(Color.yellow, colorDuraction).OnComplete(() => isChanging = false));
+            sequence.Append(fillStarImage.DOColor(Color.black, 0).OnComplete(() => isChanging = false));
         }
 
         isFavorited = !isFavorited;

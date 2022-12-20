@@ -68,8 +68,9 @@ public class PoliceMail : Mail
     {
         sendButtonPanel.SetActive(false);
         miniGamePanel.gameObject.SetActive(true);
+
         SetContentPosition();
+        
         isSendBtnClick = true;
     }
-
 }
