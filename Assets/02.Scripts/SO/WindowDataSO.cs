@@ -8,6 +8,7 @@ public enum EWindowType
     None,
     Notepad,
     Browser,
+    ImageViewer,
     End
 }
 [CreateAssetMenu(menuName = "SO/Window/Data")]
