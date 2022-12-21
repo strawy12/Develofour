@@ -7,13 +7,13 @@ using UnityEngine;
 using System.Linq;
 public class FavoriteBar : MonoBehaviour
 {
-    [SerializeField] private Transform favoritesParent;
-    [SerializeField] private BrowserFavoriteButton favoriteBtnPrefab;
-    [SerializeField] private Transform siteParent;
-    private Dictionary<ESiteLink, BrowserFavoriteButton> favoritesList = new Dictionary<ESiteLink, BrowserFavoriteButton>();
-    private List<ESiteLink> SiteLinkData { get { return DataManager.Inst.CurrentPlayer.CurrentChapterData.siteLinks; } }
+    [SerializeField] protected Transform favoritesParent;
+    [SerializeField] protected BrowserFavoriteButton favoriteBtnPrefab;
+    [SerializeField] protected Transform siteParent;
+    protected Dictionary<ESiteLink, BrowserFavoriteButton> favoritesList = new Dictionary<ESiteLink, BrowserFavoriteButton>();
+    protected List<ESiteLink> SiteLinkData { get { return DataManager.Inst.CurrentPlayer.CurrentChapterData.siteLinks; } }
 
-    public void Init()
+    public virtual void Init()
     {
         CreatePool();
         EventManager.StartListening(EBrowserEvent.AddFavoriteSite, AddNewFavoritesButton);
@@ -22,7 +22,7 @@ public class FavoriteBar : MonoBehaviour
         ReadSiteListsData();
     }
 
-    private void CreatePool()
+    protected void CreatePool()
     {
         for (int i = 0; i < siteParent.childCount; i++)
         {
@@ -33,20 +33,21 @@ public class FavoriteBar : MonoBehaviour
         }
     }
 
-    private void MakeFavoriteButton(Site site)
+    protected void MakeFavoriteButton(Site site)
     {
         ESiteLink siteLink = site.SiteLink;
         if (!favoritesList.ContainsKey(siteLink))
         {
             BrowserFavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
             button.SiteLink = siteLink;
+            Debug.Log(siteLink);
             button.Init(site.SiteData.siteIconSprite, site.SiteData.siteTitle);
             favoritesList.Add(siteLink, button);
             button.gameObject.SetActive(false);
         }
     }
 
-    private void ReadSiteListsData()
+    public void ReadSiteListsData()
     {
         foreach (ESiteLink sitelink in SiteLinkData)
         {
@@ -95,7 +96,7 @@ public class FavoriteBar : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         EventManager.StopListening(EBrowserEvent.AddFavoriteSite, AddNewFavoritesButton);
         EventManager.StopListening(EBrowserEvent.AddFavoriteSiteAll, ShowAllFavoritesButton);
