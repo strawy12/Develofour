@@ -34,7 +34,6 @@ public enum EMailType
     WriterDummy11,
     WriterDummy12,
     WriterDummy13,
-    WriterDummy14,
     WriterSendMail1,
     WriterSendMail2,
     WriterSendMail3,//DummyEnd 
