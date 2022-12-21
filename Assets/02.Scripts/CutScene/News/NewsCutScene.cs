@@ -91,6 +91,9 @@ public class NewsCutScene : CutScene
     private float screenFadeDuration = 2f;
     #endregion
 
+    [SerializeField]
+    private CutSceneAnimation cutSceneAnimation;
+
     private int characterVoiceCnt = 0;
     private Queue<int> printTextCntQueue = new Queue<int>();
     private NewsCharacter currentNewsCharacter;
@@ -144,7 +147,7 @@ public class NewsCutScene : CutScene
         yield return new WaitForSeconds(glitchAfterDelay);
         #endregion
 
-        newsTitle.Show(titleTextList[0]);
+        newsTitle.Show(false, titleTextList[0]);
 
         #region 뉴스 화면_1
         newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIMurder, newsScreenDuration);
@@ -158,7 +161,7 @@ public class NewsCutScene : CutScene
         #region 화면 전환
         newsAnchor.canvasGroup.alpha = 0f;
         characterVoiceCnt = 0;
-        newsTitle.Show(titleTextList[1]);
+        newsTitle.Show(true, titleTextList[1]);
         delay = newsBackground.ChangeBackground(NewsBackground.EBackgroundType.AI_MurderCase, true);
         newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIRegulation, newsScreenDuration);
         yield return new WaitForSeconds(newsScreenDuration);
@@ -167,10 +170,11 @@ public class NewsCutScene : CutScene
         yield return new WaitForSeconds(delay);
 
         #endregion
-
+        cutSceneAnimation.Play();
         yield return PrintText(true);
 
         // 국회 AI 규제 발의
+        newsTitle.Show(true, titleTextList[2]);
         newsBackground.ChangeBackground(NewsBackground.EBackgroundType.Regulation_Initiative, true);
         newsScreen.ChangeScreen(NewsScreen.ENewsScreenType.AIRegulationPass, newsScreenDuration);
         yield return new WaitForSeconds(newsScreenDuration);
@@ -183,9 +187,7 @@ public class NewsCutScene : CutScene
 
         yield return PrintText(true);
 
-        Sound.OnPlayEffectSound.Invoke(Sound.EEffect.SpaceKeyDown);
-
-        textBox.SetTextBoxType(TextBox.ETextBoxType.Box);
+        textBox.SetTextBoxType(TextBox.ETextBoxType.Simple);
         yield return PrintText(false);
 
         Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);

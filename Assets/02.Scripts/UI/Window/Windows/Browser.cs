@@ -17,6 +17,7 @@ public enum ESiteLink
     Brunch,
     Facebook,
     FacebookLoginSite,
+    Home,
 }
 /// <summary>
 ///  블로그 사이트 이름
@@ -126,7 +127,7 @@ public class Browser : Window
     {
         if (loadDelay != 0)
         {
-            loadingBar.StartLoading();
+            loadingBar.StartLoading(loadDelay);
             yield return new WaitForSeconds(loadDelay);
         }
 

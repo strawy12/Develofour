@@ -52,6 +52,8 @@ public partial class Sound : MonoBehaviour
         NewsReporter_14,
 
         NotUseIconClick,
+        MouseClickDown,
+        MouseClickUp,
 
         Count
     }
