@@ -92,7 +92,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         Sequence seq = DOTween.Sequence();
 
-        seq.Append(rectTransform.DOScale(1.5f, scaleGotDuration / 2));
+        seq.Append(rectTransform.DOScale(1.25f, scaleGotDuration / 2));
         seq.AppendCallback(() =>
         {
              rectTransform.DOScale(1f, scaleGotDuration / 2);
