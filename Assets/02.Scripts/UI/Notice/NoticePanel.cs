@@ -12,6 +12,7 @@ using System.Diagnostics.Contracts;
 
 public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 {
+    public float scaleGotDuration = 1f;
     public float noticeAlphalightly = 1f;
 
     [SerializeField]
@@ -53,7 +54,6 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void Init()
     {
-
         Bind();
         OnCompeleted += (x) => Compelete();
 
@@ -63,7 +63,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     }
 
     public void Notice(NoticeDataSO data)
-    {   
+    {
         headText.SetText(data.Head);
         bodyText.SetText(data.Body);
         iconImage.sprite = data.Icon;
@@ -81,10 +81,24 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
         rectTransform.DOAnchorPosX(NOTICE_POS.x, NOTICE_DURATION);
 
+        NoticeUXEmphasis();
+
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.WindowAlarmSound);
 
         stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }
+
+    public void NoticeUXEmphasis()
+    {
+        Sequence seq = DOTween.Sequence();
+
+        seq.Append(rectTransform.DOScale(1.25f, scaleGotDuration / 2));
+        seq.AppendCallback(() =>
+        {
+             rectTransform.DOScale(1f, scaleGotDuration / 2);
+        });
+    }
+
     public void EnableDragComponnent(bool value)
     {
         dragNotice.enabled = value;
