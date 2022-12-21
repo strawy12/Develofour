@@ -48,4 +48,5 @@ public class TextDataSO : ScriptableObject
             return (int)textDataList.Count;
         }
     }
+
 }
