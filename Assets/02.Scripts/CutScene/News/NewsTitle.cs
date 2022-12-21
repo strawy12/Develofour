@@ -1,3 +1,4 @@
+using Cinemachine;
 using DG.Tweening;
 using ExtenstionMethod;
 using System.Collections;
@@ -27,11 +28,11 @@ public class NewsTitle : MonoBehaviour
     private float titleDuration;
 
 
-    public void Show(string message = "")
+    public void Show(bool useFadeEffect, string message = "")
     {
         Sequence sequence = DOTween.Sequence();
 
-        SetTitleText(message);
+        SetTitleText(message, useFadeEffect);
         sequence.Append(LogoEffect(true));
         sequence.Append(TitleEffect(true));
         sequence.Join(TitleWidthEffect(true));
@@ -46,10 +47,23 @@ public class NewsTitle : MonoBehaviour
         sequence.Join(TitleWidthEffect(false));
     }
 
-    public void SetTitleText(string message)
+    public void SetTitleText(string message, bool useFadeEffect)
     {
         if (string.IsNullOrEmpty(message)) { return; }
-        titleText.SetText(message);
+
+        if (useFadeEffect)
+        {
+            Sequence seq = DOTween.Sequence();
+            seq.Append(titleText.DOFade(0f, 1f));
+            seq.AppendCallback(() => titleText.SetText(message));
+            seq.Append(titleText.DOFade(1f, 0.75f));
+        }
+
+        else
+        {
+            titleText.SetText(message);
+        }
+
     }
 
     private Tween LogoEffect(bool isOpen)
@@ -59,7 +73,7 @@ public class NewsTitle : MonoBehaviour
 
     private Tween TitleEffect(bool isOpen)
     {
- 
+
         return titleCanvasGroup.DOFade(isOpen ? 1f : 0f, titleDuration);
     }
 
