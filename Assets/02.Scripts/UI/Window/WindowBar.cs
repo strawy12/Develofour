@@ -48,6 +48,11 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         }
     }
 
+    public void SetNameText(string msg)
+    {
+        windowName.text = msg; 
+    }
+
     public void Update()
     {
         if(isClicked)
