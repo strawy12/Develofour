@@ -66,6 +66,7 @@ public class TextBox : MonoUI
     {
         if (GameManager.Inst.GameState != EGameState.UI) return;
         if (isActive == false) return;
+
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             if (isTextPrinted)

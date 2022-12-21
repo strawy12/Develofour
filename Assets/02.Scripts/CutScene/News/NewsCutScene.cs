@@ -186,7 +186,7 @@ public class NewsCutScene : CutScene
 
         yield return PrintText(true);
 
-        textBox.SetTextBoxType(TextBox.ETextBoxType.Box);
+        textBox.SetTextBoxType(TextBox.ETextBoxType.Simple);
         yield return PrintText(false);
 
         Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
