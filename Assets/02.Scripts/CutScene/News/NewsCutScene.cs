@@ -14,7 +14,6 @@ public class NewsCutScene : CutScene
     [SerializeField]
     private TextBox textBox;
 
-
     [SerializeField]
     private List<int> printTextCntList;
 
