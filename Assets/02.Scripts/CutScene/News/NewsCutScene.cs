@@ -23,6 +23,11 @@ public class NewsCutScene : CutScene
     [SerializeField]
     private string[] newsBannerText;
 
+    #region HotKeyGuide
+    [Header("HotKey Guide")]
+    [SerializeField]
+    private GameObject hotKeyGuideObject;
+    #endregion
 
     #region Glitch
     [Header("Glitch")]
@@ -274,6 +279,8 @@ public class NewsCutScene : CutScene
         ShowNewsSceneNotice();
 
         rectTransform.anchoredPosition = rectTransform.anchoredPosition.ChangeValue(y: 0);
+
+        hotKeyGuideObject.SetActive(false);
 
         characterVoiceCnt = 0;
         textBox.EndPrintText();

@@ -24,7 +24,6 @@ public class Debugger : MonoBehaviour
         {
             EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
         }
-
         if (Input.GetKeyDown(KeyCode.V))
         {
             Time.timeScale = 10;
