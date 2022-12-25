@@ -25,11 +25,6 @@ public class Debugger : MonoBehaviour
             EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            EventManager.TriggerEvent(ECutSceneEvent.SkipCutScene);
-        }
-
         if (Input.GetKeyDown(KeyCode.V))
         {
             Time.timeScale = 10;

@@ -31,10 +31,6 @@ public partial class Sound : MonoBehaviour
         NewsAnchor_03,
         NewsAnchor_04,
         NewsAnchor_05,
-        NewsAnchor_06,
-        NewsAnchor_07,
-        NewsAnchor_08,
-        NewsAnchor_09,
 
         NewsReporter_01,
         NewsReporter_02,
