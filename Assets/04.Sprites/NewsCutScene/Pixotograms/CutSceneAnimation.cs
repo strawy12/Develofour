@@ -105,8 +105,10 @@ public class CutSceneAnimation : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        cameraMove.ResetCam();
-        yield return new WaitForSeconds(1f);
+        //cameraMove.ResetCam();
+        //yield return new WaitForSeconds(1f);
+        duration = cameraMove.Move();
+        yield return new WaitForSeconds(duration);
 
         duration = bodyGuard.ChangeColorRed();
         yield return new WaitForSeconds(duration);

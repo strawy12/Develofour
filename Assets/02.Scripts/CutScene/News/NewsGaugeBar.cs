@@ -52,10 +52,9 @@ public class NewsGaugeBar : MonoBehaviour
     
     private void Skip()
     {
-        gameObject.SetActive(false);
+        EventManager.TriggerEvent(ECutSceneEvent.SkipCutScene);
 
         InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyStay: OnKeyDownSkip, onKeyUp: OnKeyDownSkip);
-        EventManager.TriggerEvent(ECutSceneEvent.SkipCutScene);
     }
 
     private void SetPercentText()
