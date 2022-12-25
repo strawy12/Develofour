@@ -60,6 +60,8 @@ public class Browser : Window
         browserBar.OnRedo?.AddListener(RedoSite);
 
         EventManager.StartListening(EBrowserEvent.OnUndoSite, UndoSite);
+
+        ChangeSite(ESiteLink.Home, 1f, false);
     }
 
     private void BindingStart()
