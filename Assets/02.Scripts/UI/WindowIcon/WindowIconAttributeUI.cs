@@ -2,11 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class WindowIconAttributeUI : MonoUI
 {
     static public Action<Vector2, WindowIconDataSO> OnCreateMenu;
+
+    [SerializeField]
+    private Button openPropertyBtn;
 
     [SerializeField]
     private PropertyUI propertyUI;
@@ -28,13 +32,15 @@ public class WindowIconAttributeUI : MonoUI
 
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
         OnCreateMenu += CreateMenu;
+
+        openPropertyBtn.onClick?.AddListener(CreateProperty);
     }
 
     private void CheckClose(object[] hits)
     {
         if (!isOpen) return;
 
-        if (Define.ExistInHits(gameObject, hits) == false)
+        if (Define.ExistInHits(gameObject, hits[0]) == false)
         {
             CloseMenu();
         }
@@ -72,6 +78,8 @@ public class WindowIconAttributeUI : MonoUI
 
     public void CreateProperty()
     {
+        Debug.Log("click");
+        Debug.Log(windowPropertyData.name);
         propertyUI.CreatePropertyUI(windowPropertyData);
         CloseMenu();
     }

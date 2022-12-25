@@ -93,6 +93,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             targetWindow = WindowManager.Inst.CreateWindow(windowData.windowType, windowData.windowTitleID);
         }
+        targetWindow.OnClosed += CloseTargetWindow;
         targetWindow.WindowOpen();
     }
 
@@ -104,6 +105,12 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
         selectedImage.gameObject.SetActive(isSelected);
     }
+
+    public void CloseTargetWindow(int a)
+    {
+        targetWindow.OnClosed -= CloseTargetWindow;
+        targetWindow = null;
+    }    
 
     void CreateAttributeUI(PointerEventData eventData)
     {
