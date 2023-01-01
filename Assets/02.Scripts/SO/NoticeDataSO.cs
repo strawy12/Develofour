@@ -73,6 +73,7 @@ public class NoticeDataSO : ScriptableObject
         noticeDataList = data;
     }
 
+#if UNITY_EDITOR
     [ContextMenu("SetSOName")]
     public void SetSOName()
     {
@@ -80,4 +81,6 @@ public class NoticeDataSO : ScriptableObject
         
         AssetDatabase.CreateAsset(this, SO_PATH);
     }
+#endif
+
 }

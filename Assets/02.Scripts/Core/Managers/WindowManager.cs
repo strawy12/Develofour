@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -52,14 +51,14 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
         else
         {
-            Browser browser = CreateWindow(EWindowType.Browser, 0) as Browser;
+            Browser browser = CreateWindow(EWindowType.Browser, 0) as Browser; 
+            
             ESiteLink link = (ESiteLink)ps[0];
             float delay = (ps[1] is int) ? (int)ps[1] : (float)ps[1];
-
             browser.ChangeSite(link, delay);
+
         }
     }
-
     public Window GetWindow(EWindowType windowType, int titleId)
     {
         return windowDictionary[windowType].Find((x) => x.WindowData.windowTitleID == titleId);

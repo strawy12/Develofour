@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using DG.Tweening;
 using Random = UnityEngine.Random;
-using UnityEditorInternal;
 
 [RequireComponent(typeof(Camera))]
 public class DigitalGlitch : MonoBehaviour
