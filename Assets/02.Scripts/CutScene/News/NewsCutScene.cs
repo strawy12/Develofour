@@ -103,6 +103,7 @@ public class NewsCutScene : CutScene
     private NewsCharacter currentNewsCharacter;
     private RectTransform rectTransform;
 
+    private int currentPlaySoundID = -1;
 
     protected override void StartCutScene()
     {
@@ -258,6 +259,7 @@ public class NewsCutScene : CutScene
         if (Sound.OnPlayEffectSound != null)
         {
             Sound.EEffect sound = currentNewsCharacter == newsAnchor ? Sound.EEffect.NewsAnchor_01 : Sound.EEffect.NewsReporter_01;
+            currentPlaySoundID = (int)sound + characterVoiceCnt;
 
             return Sound.OnPlayEffectSound.Invoke(sound + (characterVoiceCnt++));
         }
@@ -271,6 +273,9 @@ public class NewsCutScene : CutScene
         newsBanner.BannelStop();
 
         Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
+
+        // 될지 의문임
+        Sound.OnImmediatelyStop(currentPlaySoundID);
 
         windowCanvas.enabled = true;
 

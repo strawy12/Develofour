@@ -1,9 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
+public enum ESoundPlayerType
+{
+    None = -1,
+    BGM,
+    Effect,
+}
 
 [RequireComponent(typeof(AudioSource))]
 public abstract class SoundPlayer : MonoBehaviour
@@ -24,6 +30,8 @@ public abstract class SoundPlayer : MonoBehaviour
     public int SoundID => soundID;
     public float AudioClipLength => audioClip.length;
 
+    protected ESoundPlayerType currentPlayerType = ESoundPlayerType.None;
+    public ESoundPlayerType PlayerType => currentPlayerType;
 
     private bool isInit;
 

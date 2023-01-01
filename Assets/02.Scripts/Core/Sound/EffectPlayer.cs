@@ -15,6 +15,7 @@ public class EffectPlayer : SoundPlayer
     }
     public override void Init()
     {
+        currentPlayerType = ESoundPlayerType.Effect;
         soundID = (int)effectSoundID;
         base.Init();
     }
