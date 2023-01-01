@@ -14,7 +14,7 @@ public class BrunchPost : MonoBehaviour
     [SerializeField]
     private Button settingBtn;
     [SerializeField]
-    private Button removeBtn;
+    private BrunchPostRemoveButton removeBtn;
 
     private BrunchPostDataSO postData;
     public Action<BrunchPost> OnRemove;
@@ -22,7 +22,7 @@ public class BrunchPost : MonoBehaviour
     private void Awake()
     {
         settingBtn.onClick.AddListener(OpenRemovePanel);
-        removeBtn.onClick.AddListener(Remove);
+        removeBtn.Onclick.AddListener(Remove);
     }
 
     public void Init(BrunchPostDataSO postData)
@@ -32,18 +32,19 @@ public class BrunchPost : MonoBehaviour
         novelInfoText.text = postData.wirteDate;
         novelImage.sprite = postData.writeImage;
         this.postData = postData;
+        removeBtn.Init();
     }
 
     public void Remove() 
     {
         OnRemove?.Invoke(this);
 
-        removeBtn.gameObject.SetActive(false);
+        removeBtn.Close();
         gameObject.SetActive(false);
     }
 
     public void OpenRemovePanel()
     {
-        removeBtn.gameObject.SetActive(true);
+        removeBtn.Open();
     }
 }

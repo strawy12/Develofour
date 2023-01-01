@@ -49,7 +49,7 @@ public class FacebookLoginSite : Site
         facebookPasswordInputField.contentType = TMP_InputField.ContentType.Password;
         facebookPasswordInputField.ActivateInputField();
 
-        EventManager.StartListening(ELoginSiteEvent.EmailRequestSite, RequestSite);
+        EventManager.StartListening(ELoginSiteEvent.FacebookRequestSite, RequestSite);
     }
 
     private void RequestSite(object[] ps)
@@ -84,9 +84,10 @@ public class FacebookLoginSite : Site
                 Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
                 EventManager.TriggerEvent(ELoginSiteEvent.FacebookLoignSuccess);
 
+                Debug.Log(requestSite);
                 if (requestSite == ESiteLink.None)
                 {
-                    EventManager.TriggerEvent(EBrowserEvent.OnUndoSite);
+                    EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
                 }
                 else
                 {
