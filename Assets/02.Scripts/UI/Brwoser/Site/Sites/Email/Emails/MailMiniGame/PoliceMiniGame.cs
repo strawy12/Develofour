@@ -40,8 +40,10 @@ public class PoliceMiniGame : MonoBehaviour
     private Queue<PoliceGameArrow> arrowsPool;
 
     private bool isStarted = false;
-    private bool isCleared {
-        get {
+    private bool isCleared
+    {
+        get
+        {
             return DataManager.Inst.CurrentPlayer.questClearData.isPoliceMiniGameClear;
         }
         set
@@ -95,9 +97,17 @@ public class PoliceMiniGame : MonoBehaviour
         arrow.transform.SetParent(arrowPoolParent);
     }
 
+    private void PushAll()
+    {
+        foreach (PoliceGameArrow arrow in arrows)
+        {
+            arrow.Push();
+        }
+    }
+
     private PoliceGameArrow GetArrow()
     {
-        if(arrowsPool.Count != 0)
+        if (arrowsPool.Count != 0)
         {
             return arrowsPool.Dequeue();
         }
@@ -118,18 +128,17 @@ public class PoliceMiniGame : MonoBehaviour
 
         InputManager.Inst.AddKeyInput(KeyCode.D, onKeyDown: GameClear);
 
-        for (KeyCode key = KeyCode.UpArrow; key <= KeyCode.LeftArrow; key++)
-        {
-            KeyCode keyCode = key;
-            InputManager.Inst.AddKeyInput(key, onKeyDown: () => InputArrowKey(keyCode));
-        }
+        InputManager.Inst.AddKeyInput(KeyCode.RightArrow, onKeyDown: InputRightArrowKey);
+        InputManager.Inst.AddKeyInput(KeyCode.LeftArrow, onKeyDown: InputLeftArrowKey);
+        InputManager.Inst.AddKeyInput(KeyCode.UpArrow, onKeyDown: InputUpArrowKey);
+        InputManager.Inst.AddKeyInput(KeyCode.DownArrow, onKeyDown: InputDownArrowKey);
     }
 
     public IEnumerator SettingNewGame(float delay)
     {
         isDelay = true;
 
-        if(timerCoroutine != null)
+        if (timerCoroutine != null)
         {
             StopCoroutine(timerCoroutine);
             timerCoroutine = null;
@@ -156,19 +165,75 @@ public class PoliceMiniGame : MonoBehaviour
         timerCoroutine = StartCoroutine(GameTimeCoroutine());
     }
 
-    private void InputArrowKey(KeyCode key)
+    private void InputRightArrowKey()
     {
         if (!isStarted) return;
         if (isDelay) return;
         if (arrows.Count == 0 || arrows.Peek().IsInputed) return;
-
-        if (key == arrows.Peek().AnswerKey)
+        Debug.Log("input numbering");
+        if (KeyCode.RightArrow == arrows.Peek().AnswerKey)
         {
             arrows.Dequeue().Succcess();
 
             sendText.SetText(string.Format("{0}{1}", sendText.text, currentMsg[sendText.text.Length]));
         }
+        else
+        {
+            arrows.Peek().Fail();
+        }
 
+        CheckClear();
+    }
+    private void InputDownArrowKey()
+    {
+        if (!isStarted) return;
+        if (isDelay) return;
+        if (arrows.Count == 0 || arrows.Peek().IsInputed) return;
+        Debug.Log("input numbering");
+        if (KeyCode.DownArrow == arrows.Peek().AnswerKey)
+        {
+            arrows.Dequeue().Succcess();
+
+            sendText.SetText(string.Format("{0}{1}", sendText.text, currentMsg[sendText.text.Length]));
+        }
+        else
+        {
+            arrows.Peek().Fail();
+        }
+
+        CheckClear();
+    }
+    private void InputUpArrowKey()
+    {
+        if (!isStarted) return;
+        if (isDelay) return;
+        if (arrows.Count == 0 || arrows.Peek().IsInputed) return;
+        Debug.Log("input numbering");
+        if (KeyCode.UpArrow == arrows.Peek().AnswerKey)
+        {
+            arrows.Dequeue().Succcess();
+
+            sendText.SetText(string.Format("{0}{1}", sendText.text, currentMsg[sendText.text.Length]));
+        }
+        else
+        {
+            arrows.Peek().Fail();
+        }
+
+        CheckClear();
+    }
+    private void InputLeftArrowKey()
+    {
+        if (!isStarted) return;
+        if (isDelay) return;
+        if (arrows.Count == 0 || arrows.Peek().IsInputed) return;
+        Debug.Log("input numbering");
+        if (KeyCode.LeftArrow == arrows.Peek().AnswerKey)
+        {
+            arrows.Dequeue().Succcess();
+
+            sendText.SetText(string.Format("{0}{1}", sendText.text, currentMsg[sendText.text.Length]));
+        }
         else
         {
             arrows.Peek().Fail();
@@ -185,7 +250,7 @@ public class PoliceMiniGame : MonoBehaviour
             if (answerCount >= gameCount)
             {
                 GameClear();
-                return ;
+                return;
             }
             else
             {
@@ -196,10 +261,14 @@ public class PoliceMiniGame : MonoBehaviour
 
     private void GameFail()
     {
-        foreach (PoliceGameArrow arrow in arrows)
-        {
-            arrow.Pop();
-        }
+        InputManager.Inst.RemoveKeyInput(KeyCode.D, onKeyDown: GameClear);
+
+        InputManager.Inst.RemoveKeyInput(KeyCode.RightArrow, onKeyDown: InputRightArrowKey);
+        InputManager.Inst.RemoveKeyInput(KeyCode.LeftArrow, onKeyDown: InputLeftArrowKey);
+        InputManager.Inst.RemoveKeyInput(KeyCode.UpArrow, onKeyDown: InputUpArrowKey);
+        InputManager.Inst.RemoveKeyInput(KeyCode.DownArrow, onKeyDown: InputDownArrowKey);
+
+        PushAll();
         arrows.Clear();
         isStarted = false;
     }
@@ -208,11 +277,12 @@ public class PoliceMiniGame : MonoBehaviour
     {
         InputManager.Inst.RemoveKeyInput(KeyCode.D, onKeyDown: GameClear);
 
-        for (KeyCode key = KeyCode.UpArrow; key <= KeyCode.LeftArrow; key++)
-        {
-            InputManager.Inst.RemoveKeyInput(key, onKeyDown: () => InputArrowKey(key));
-        }
-
+        InputManager.Inst.RemoveKeyInput(KeyCode.RightArrow, onKeyDown: InputRightArrowKey);
+        InputManager.Inst.RemoveKeyInput(KeyCode.LeftArrow, onKeyDown: InputLeftArrowKey);
+        InputManager.Inst.RemoveKeyInput(KeyCode.UpArrow, onKeyDown: InputUpArrowKey);
+        InputManager.Inst.RemoveKeyInput(KeyCode.DownArrow, onKeyDown: InputDownArrowKey);
+        PushAll();
+        arrows.Clear();
         isCleared = true;
         EventManager.TriggerEvent(EMailSiteEvent.PoliceGameClear);
         isStarted = false;
@@ -244,9 +314,9 @@ public class PoliceMiniGame : MonoBehaviour
         answerCount = 0;
 
         sendText.SetText("");
-        
+
         GameFail();
-        
+
         gameObject.SetActive(false);
     }
 }
