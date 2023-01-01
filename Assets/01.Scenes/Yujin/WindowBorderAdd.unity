@@ -2333,7 +2333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236512058593766888, guid: 6ec969cf8c714f7d93aeb95258386764, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 31
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2236512058593766888, guid: 6ec969cf8c714f7d93aeb95258386764, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5731,7 +5731,6 @@ GameObject:
   - component: {fileID: 765487220}
   - component: {fileID: 765487219}
   - component: {fileID: 765487218}
-  - component: {fileID: 765487221}
   m_Layer: 5
   m_Name: HotKeyGuide
   m_TagString: Untagged
@@ -5748,7 +5747,7 @@ RectTransform:
   m_GameObject: {fileID: 765487216}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9998435, y: 0.9998435, z: 0.9998435}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1151389295}
@@ -5759,7 +5758,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -15, y: -15}
-  m_SizeDelta: {x: 500, y: 150}
+  m_SizeDelta: {x: 499.99988, y: 150}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &765487218
 MonoBehaviour:
@@ -5814,18 +5813,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765487216}
   m_CullTransparentMesh: 1
---- !u!225 &765487221
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765487216}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
 --- !u!1 &767451939
 GameObject:
   m_ObjectHideFlags: 0
@@ -17064,10 +17051,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BrowserWindow
       objectReference: {fileID: 0}
-    - target: {fileID: 6582525702599834076, guid: 53fc46ea8b5944b992f5d662c3fedb02, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53fc46ea8b5944b992f5d662c3fedb02, type: 3}
 --- !u!224 &3202783121311137809 stripped
@@ -17093,10 +17076,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1226968990}
     m_Modifications:
-    - target: {fileID: 8714131769260723467, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8714131769592482417, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -17185,18 +17164,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ImageViewer
       objectReference: {fileID: 0}
-    - target: {fileID: 8714131770058068976, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8714131770344241466, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9012537632793965303, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
 --- !u!1001 &4493819026600628859
@@ -17206,6 +17173,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1226968990}
     m_Modifications:
+    - target: {fileID: 4493819025061182715, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -2560004193487277870, guid: 1675bf177ad148c19298e5c4d8e0852e, type: 2}
+    - target: {fileID: 4493819025061182715, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4493819025310840816, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -17293,6 +17268,22 @@ PrefabInstance:
     - target: {fileID: 4493819025310840818, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
       propertyPath: m_Name
       value: NoticePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493819025454528061, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -2560004193487277870, guid: 1675bf177ad148c19298e5c4d8e0852e, type: 2}
+    - target: {fileID: 4493819025454528061, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493819025884274928, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -2560004193487277870, guid: 1675bf177ad148c19298e5c4d8e0852e, type: 2}
+    - target: {fileID: 4493819025884274928, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}

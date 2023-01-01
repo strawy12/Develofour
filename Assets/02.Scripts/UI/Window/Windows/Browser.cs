@@ -43,25 +43,23 @@ public class Browser : Window
     protected override void Init()
     {
         base.Init();
+
         undoSite = new Stack<Site>();
         redoSite = new Stack<Site>();
         siteDictionary = new Dictionary<ESiteLink, Site>();
-
         BindingStart();
         //OnUndoSite += UndoSite;
         //OnOpenSite += ChangeSite;
         OnSelected += SelectedBrowser;
 
         OnClosed += (a) => ResetBrowser();
-
         browserBar.Init();
         browserBar.OnClose?.AddListener(WindowClose);
         browserBar.OnUndo?.AddListener(UndoSite);
         browserBar.OnRedo?.AddListener(RedoSite);
 
         EventManager.StartListening(EBrowserEvent.OnUndoSite, UndoSite);
-
-        ChangeSite(ESiteLink.Home, 1f, false);
+        ChangeSite(ESiteLink.Home, 0f, false);
     }
 
     private void BindingStart()

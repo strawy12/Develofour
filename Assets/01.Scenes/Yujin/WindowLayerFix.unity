@@ -5731,7 +5731,6 @@ GameObject:
   - component: {fileID: 765487220}
   - component: {fileID: 765487219}
   - component: {fileID: 765487218}
-  - component: {fileID: 765487221}
   m_Layer: 5
   m_Name: HotKeyGuide
   m_TagString: Untagged
@@ -5748,7 +5747,7 @@ RectTransform:
   m_GameObject: {fileID: 765487216}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9998435, y: 0.9998435, z: 0.9998435}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1151389295}
@@ -5759,7 +5758,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -15, y: -15}
-  m_SizeDelta: {x: 500, y: 150}
+  m_SizeDelta: {x: 499.99988, y: 150}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &765487218
 MonoBehaviour:
@@ -5814,18 +5813,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765487216}
   m_CullTransparentMesh: 1
---- !u!225 &765487221
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765487216}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
 --- !u!1 &767451939
 GameObject:
   m_ObjectHideFlags: 0
@@ -17093,6 +17080,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1226968990}
     m_Modifications:
+    - target: {fileID: 1479380527356236413, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1974244503
+      objectReference: {fileID: 0}
+    - target: {fileID: 1479380527356236413, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
+      propertyPath: m_OverrideSorting
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8714131769260723467, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
@@ -17184,6 +17179,10 @@ PrefabInstance:
     - target: {fileID: 8714131769592482418, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
       propertyPath: m_Name
       value: ImageViewer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714131769592482418, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8714131770058068976, guid: a36382cac86a4c67adf89ecdb6fad64a, type: 3}
       propertyPath: m_hasFontAssetChanged
