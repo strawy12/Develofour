@@ -19,7 +19,6 @@ public class HomeSearchRecord : MonoBehaviour
     private bool isOpen;
     public void Init(HomeSearchRecordDataSO data)
     {
-        Debug.Log("11");
         if (poolPanels.Count < 5)
         {
             CreatePool();
