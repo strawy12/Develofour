@@ -7,21 +7,25 @@ using UnityEngine.UI;
 
 public partial class Sound : MonoBehaviour
 {
-    public static Func<int, float> OnPlaySound {get;private set;}
     public static Func<EBgm,float> OnPlayBGMSound { get; private set; }
     public static Func<EEffect,float> OnPlayEffectSound { get; private set; }
+    public static Action<int> OnImmediatelyStop { get; private set; }
 
     private Dictionary<int, SoundPlayer> soundPlayerDictionary;
     private Dictionary<int, Queue<SoundPlayer>> soundPlayerPoolDictionary;
+
+    private List<SoundPlayer> soundPlayerList; 
 
     private void Awake()
     {
         soundPlayerDictionary = new Dictionary<int, SoundPlayer>();
         soundPlayerPoolDictionary = new Dictionary<int, Queue<SoundPlayer>>();
+        soundPlayerList = new List<SoundPlayer>();
 
-        OnPlaySound += CreateSoundPlayer;
-        OnPlayBGMSound += (id) => CreateSoundPlayer((int)id);
-        OnPlayEffectSound += (id) => CreateSoundPlayer((int)id);
+        OnPlayBGMSound += CreateBGMSoundPlayer;
+        OnPlayEffectSound += CreateEffectSoundPlayer;
+
+        OnImmediatelyStop += ImmediatelyStop;
 
         AddSoundPlayer();
     }
@@ -41,6 +45,16 @@ public partial class Sound : MonoBehaviour
             soundPlayerPoolDictionary[soundPlayer.SoundID].Enqueue(soundPlayer);
         }
     }
+
+    private float CreateBGMSoundPlayer(EBgm type)
+    {
+        return CreateSoundPlayer((int)type);
+    }
+    private float CreateEffectSoundPlayer(EEffect type)
+    {
+        return CreateSoundPlayer((int)type);
+    }
+
 
     private float CreateSoundPlayer(int soundID)
     {
@@ -65,6 +79,8 @@ public partial class Sound : MonoBehaviour
             soundPlayer = soundPlayerPoolDictionary[soundID].Dequeue();
         }
 
+        soundPlayerList.Add(soundPlayer);
+
         soundPlayer.Init();
         soundPlayer.gameObject.SetActive(true);
 
@@ -86,12 +102,24 @@ public partial class Sound : MonoBehaviour
         player.Release();
         player.gameObject.SetActive(false);
         soundPlayerPoolDictionary[id].Enqueue(player);
+        soundPlayerList.Remove(player);
+    }
+
+    private void ImmediatelyStop(int soundID)
+    {
+        var list = soundPlayerList.FindAll(x => x.SoundID == soundID);
+
+        foreach(SoundPlayer player in list)
+        {
+            player.ImmediatelyStop();
+            soundPlayerList.Remove(player);
+        }
     }
 
     private void OnDestroy()
     {
-        OnPlaySound -= CreateSoundPlayer;
-        OnPlayBGMSound -= (id) => CreateSoundPlayer((int)id);
-        OnPlayEffectSound -= (id) => CreateSoundPlayer((int)id);
+        OnPlayBGMSound -= CreateBGMSoundPlayer;
+        OnPlayEffectSound -= CreateEffectSoundPlayer;
+        OnImmediatelyStop -= ImmediatelyStop;
     }
 }

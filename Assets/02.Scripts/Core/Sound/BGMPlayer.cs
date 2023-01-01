@@ -16,6 +16,7 @@ public class BGMPlayer : SoundPlayer
 
     public override void Init()
     {
+        currentPlayerType = ESoundPlayerType.BGM;
         soundID = (int)bgmSoundID;
         base.Init();
 
