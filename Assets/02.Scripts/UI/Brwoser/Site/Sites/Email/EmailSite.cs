@@ -237,7 +237,6 @@ public class EmailSite : Site
     // 추후 위치 변경
     private bool CheckGoogleLogin()
     {
-        Debug.Log(DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite);
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
         {
             EventManager.TriggerEvent(ELoginSiteEvent.RequestSite, new object[] { ESiteLink.Email });

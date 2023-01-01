@@ -16,7 +16,7 @@ public class PoliceMiniGame : MonoBehaviour
     private Transform arrowPoolParent;
 
     [SerializeField]
-    private Transform arrowParent;
+    private HorizontalLayoutGroup arrowParent;
 
     [SerializeField]
     private float characterTime = 0.1f;
@@ -60,7 +60,7 @@ public class PoliceMiniGame : MonoBehaviour
     private int answerCount = 0;
     private float currentTime = 0f;
 
-    private string currentMsg = "";
+    private Queue<string> currentMsgWordQueue;
 
     private bool isDelay = false;
 
@@ -147,19 +147,23 @@ public class PoliceMiniGame : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         sendText.SetText("");
-        currentMsg = sendTextMessageList[answerCount];
-        currentTime = characterTime * currentMsg.Length;
+        currentMsgWordQueue = new Queue<string>(sendTextMessageList[answerCount].Split(' '));
+        currentTime = characterTime * currentMsgWordQueue.Count;
+        arrowParent.enabled = true;
 
-        for (int i = 0; i < currentMsg.Length; i++)
+        for (int i = 0; i < currentMsgWordQueue.Count; i++)
         {
             PoliceGameArrow arrow = GetArrow();
             arrow.ResetObject();
-            arrow.transform.SetParent(arrowParent);
+            arrow.transform.SetParent(arrowParent.transform);
             arrow.Init();
             arrows.Enqueue(arrow);
             arrow.gameObject.SetActive(true);
         }
 
+        LayoutRebuilder.ForceRebuildLayoutImmediate(arrowParent.transform as RectTransform);
+        arrowParent.enabled = false;
+        
         isDelay = false;
 
         timerCoroutine = StartCoroutine(GameTimeCoroutine());
@@ -170,12 +174,12 @@ public class PoliceMiniGame : MonoBehaviour
         if (!isStarted) return;
         if (isDelay) return;
         if (arrows.Count == 0 || arrows.Peek().IsInputed) return;
-        Debug.Log("input numbering");
+
         if (KeyCode.RightArrow == arrows.Peek().AnswerKey)
         {
             arrows.Dequeue().Succcess();
 
-            sendText.SetText(string.Format("{0}{1}", sendText.text, currentMsg[sendText.text.Length]));
+            sendText.SetText(string.Format("{0} {1}", sendText.text, currentMsgWordQueue.Dequeue()));
         }
         else
         {
@@ -189,12 +193,12 @@ public class PoliceMiniGame : MonoBehaviour
         if (!isStarted) return;
         if (isDelay) return;
         if (arrows.Count == 0 || arrows.Peek().IsInputed) return;
-        Debug.Log("input numbering");
+
         if (KeyCode.DownArrow == arrows.Peek().AnswerKey)
         {
             arrows.Dequeue().Succcess();
 
-            sendText.SetText(string.Format("{0}{1}", sendText.text, currentMsg[sendText.text.Length]));
+            sendText.SetText(string.Format("{0} {1}", sendText.text, currentMsgWordQueue.Dequeue()));
         }
         else
         {
@@ -208,12 +212,12 @@ public class PoliceMiniGame : MonoBehaviour
         if (!isStarted) return;
         if (isDelay) return;
         if (arrows.Count == 0 || arrows.Peek().IsInputed) return;
-        Debug.Log("input numbering");
+
         if (KeyCode.UpArrow == arrows.Peek().AnswerKey)
         {
             arrows.Dequeue().Succcess();
 
-            sendText.SetText(string.Format("{0}{1}", sendText.text, currentMsg[sendText.text.Length]));
+            sendText.SetText(string.Format("{0} {1}", sendText.text, currentMsgWordQueue.Dequeue()));
         }
         else
         {
@@ -227,12 +231,12 @@ public class PoliceMiniGame : MonoBehaviour
         if (!isStarted) return;
         if (isDelay) return;
         if (arrows.Count == 0 || arrows.Peek().IsInputed) return;
-        Debug.Log("input numbering");
+
         if (KeyCode.LeftArrow == arrows.Peek().AnswerKey)
         {
             arrows.Dequeue().Succcess();
 
-            sendText.SetText(string.Format("{0}{1}", sendText.text, currentMsg[sendText.text.Length]));
+            sendText.SetText(string.Format("{0} {1}", sendText.text, currentMsgWordQueue.Dequeue()));
         }
         else
         {
