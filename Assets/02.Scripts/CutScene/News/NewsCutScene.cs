@@ -273,9 +273,7 @@ public class NewsCutScene : CutScene
         Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
 
         windowCanvas.enabled = true;
-        EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Youtube_News, 0 });
 
-        Window.currentWindow?.WindowMaximum();
         ShowNewsSceneNotice();
 
         rectTransform.anchoredPosition = rectTransform.anchoredPosition.ChangeValue(y: 0);
@@ -286,6 +284,9 @@ public class NewsCutScene : CutScene
         textBox.EndPrintText();
         newsScreen.Release();
         base.EndCutScene();
+
+        EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Youtube_News, 0 });
+        Window.currentWindow?.WindowMaximum();
     }
 
 }
