@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class TestSite : Site
 {
-    
+    public override void Release()
+    {
+
+    }
 }

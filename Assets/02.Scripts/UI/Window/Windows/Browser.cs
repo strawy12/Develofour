@@ -162,7 +162,10 @@ public class Browser : Window
         // EventManager.TriggerEvent(EEvent.ResetBrowser);
         currentBrowser = null;
         usingSite = null;
-
+        foreach(var sitePair in siteDictionary)
+        {
+            sitePair.Value.Release();
+        }
         undoSite.Clear();
         redoSite.Clear();
     }

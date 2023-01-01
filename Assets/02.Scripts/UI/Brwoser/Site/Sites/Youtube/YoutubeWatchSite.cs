@@ -21,4 +21,9 @@ public class YoutubeWatchSite : Site
         EventManager.TriggerEvent(EYoutubeSiteEvent.ClickHateBtn);
         hateBtn.OnClick.RemoveListener(ClickHateBtn);
     }
+
+    public override void Release()
+    {
+        
+    }
 }

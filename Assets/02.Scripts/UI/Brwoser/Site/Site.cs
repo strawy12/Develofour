@@ -59,6 +59,8 @@ public abstract class Site : MonoUI
         }
     }
 
+    public abstract void Release();
+
     protected virtual void ShowSite()
     {
         SetActive(true);

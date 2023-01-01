@@ -101,5 +101,9 @@ public class GmailLoginSite : Site
         }
     }
 
+    public override void Release()
+    {
+        gmailInputField.text = "비밀번호 입력하기";
+    }
 }
 

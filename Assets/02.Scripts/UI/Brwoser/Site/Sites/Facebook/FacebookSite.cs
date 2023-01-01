@@ -82,4 +82,9 @@ public class FacebookSite : Site
         leftPanel.SetActive(false);
         facebookFriendPanel.gameObject.SetActive(true);
     }
+
+    public override void Release()
+    {
+        ShowHomePanel();
+    }
 }

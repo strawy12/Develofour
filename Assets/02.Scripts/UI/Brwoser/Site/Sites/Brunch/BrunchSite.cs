@@ -38,6 +38,7 @@ public class BrunchSite : Site
     private Transform workPanelParent;
     [SerializeField]
     private Dictionary<EWorkKeys ,BrunchSiteWorkPanel> workPanels = new Dictionary<EWorkKeys, BrunchSiteWorkPanel>();  
+   
     public void Awake()
     {
         workListBtn.onClick.AddListener(OnWorkListPanel);
@@ -118,5 +119,10 @@ public class BrunchSite : Site
         {
             EventManager.TriggerEvent(EQuestEvent.EndBrunchPostCleanUp);
         }
+    }
+
+    public override void Release()
+    {
+        OnWriterInfoPanel();
     }
 }

@@ -151,4 +151,12 @@ public class FacebookLoginSite : Site
 
         EventManager.StopListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
     }
+
+    public override void Release()
+    {
+        failedLoginText.color = Color.black;
+        failedLoginText.text = "";
+        facebookIDInputField.text = "이메일 입력하기";
+        facebookPasswordInputField.text = "비밀번호 입력하기";
+    }
 }

@@ -270,4 +270,9 @@ public class EmailSite : Site
             mailLine.CurrentMail.DebugReset();
         }
     }
+
+    public override void Release()
+    {
+        ChangeEmailCategory();
+    }
 }

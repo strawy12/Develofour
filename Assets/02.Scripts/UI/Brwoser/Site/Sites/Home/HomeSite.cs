@@ -51,4 +51,9 @@ public class HomeSite : Site
         SeacrhPanel.gameObject.SetActive(true);
         recordPanel.gameObject.SetActive(false);
     }
+
+    public override void Release()
+    {
+        recordPanel.Close();
+    }
 }
