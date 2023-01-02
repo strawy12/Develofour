@@ -188,6 +188,7 @@ public class PoliceMiniGame : MonoBehaviour
 
         CheckClear();
     }
+
     private void InputDownArrowKey()
     {
         if (!isStarted) return;
