@@ -77,6 +77,9 @@ public class EmailSite : Site
     private List<EmailLine> baseEmailLineList = new List<EmailLine>();
     private List<EmailLine> currentMailLineList = new List<EmailLine>();
 
+    private int newMailNumber = 0;
+
+
     public override void Init()
     {
         receiveBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Receive));
@@ -147,20 +150,17 @@ public class EmailSite : Site
         EMailType type = (EMailType)ps[0];
 
         EmailLine line = baseEmailLineList.Find(x => x.MailData.Type == type);
-
+        line.mailNumber = newMailNumber++;
         float delay = 0f;
         if(ps.Length == 2)
         {
             delay = (ps[1] is float) ? (float)ps[1] : (int)ps[1];
         }
-
         await Task.Delay((int)(delay * 1000));
-
         if (line.Category.ContainMask((int)EEmailCategory.Invisible))
         {
             line.Category = line.Category.RemoveMask((int)EEmailCategory.Invisible);
         }
-
         SetEmailCategory();
     }
 
@@ -180,7 +180,8 @@ public class EmailSite : Site
 
     private void SetEmailCategory()
     {
-        currentMailLineList = baseEmailLineList.OrderByDescending((x) => x.MailData.Month).ThenByDescending((x) => x.MailData.Day).Where(n =>
+        
+        currentMailLineList = baseEmailLineList.OrderByDescending((x) => x.MailData.Month).ThenByDescending((x) => x.MailData.Day).ThenByDescending((x)=>x.mailNumber).Where(n =>
         {
             int category = n.Category;
             bool flag1 = category.ContainMask((int)currentCategory);
@@ -208,7 +209,6 @@ public class EmailSite : Site
 
     private void ShowMailLineAll()
     {
-        currentMailLineList.OrderByDescending((x) => x.MailData.Month).ThenByDescending((x) => x.MailData.Day);
         for (int i = 0; i < currentMailLineList.Count; i++)
         {
             currentMailLineList[i].gameObject.SetActive(true);
