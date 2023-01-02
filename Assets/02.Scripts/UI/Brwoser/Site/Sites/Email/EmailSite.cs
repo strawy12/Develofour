@@ -180,7 +180,7 @@ public class EmailSite : Site
 
     private void SetEmailCategory()
     {
-        currentMailLineList = baseEmailLineList.Where(n =>
+        currentMailLineList = baseEmailLineList.OrderByDescending((x) => x.MailData.Month).ThenByDescending((x) => x.MailData.Day).Where(n =>
         {
             int category = n.Category;
             bool flag1 = category.ContainMask((int)currentCategory);
@@ -208,9 +208,11 @@ public class EmailSite : Site
 
     private void ShowMailLineAll()
     {
+        currentMailLineList.OrderByDescending((x) => x.MailData.Month).ThenByDescending((x) => x.MailData.Day);
         for (int i = 0; i < currentMailLineList.Count; i++)
         {
             currentMailLineList[i].gameObject.SetActive(true);
+            currentMailLineList[i].transform.SetSiblingIndex(i);
         }
         currentMailLineList.Clear();
     }
