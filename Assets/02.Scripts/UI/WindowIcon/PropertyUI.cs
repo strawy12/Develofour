@@ -16,7 +16,15 @@ public class PropertyUI : MonoUI
     [SerializeField]
     private Text iconName;
     [SerializeField]
+    private Text iconLocation;
+    [SerializeField]
     private Text iconByte;
+    [SerializeField]
+    private Text iconMadeData;
+    [SerializeField]
+    private Text iconFixData;
+    [SerializeField]
+    private Text iconAcessData;
 
     private void Awake()
     {
@@ -33,7 +41,11 @@ public class PropertyUI : MonoUI
     {
         iconImage.sprite = windowIconDataSO.iconSprite;
         iconName.text = windowIconDataSO.iconName;
+        iconLocation.text = windowIconDataSO.iconLocation;
         iconByte.text = windowIconDataSO.iconByte;
+        iconMadeData.text = windowIconDataSO.iconMadeData;
+        iconFixData.text = windowIconDataSO.iconFixData;
+        iconAcessData.text = windowIconDataSO.iconAcessData;
 
         SetActive(true);
         //SetActive(true);
