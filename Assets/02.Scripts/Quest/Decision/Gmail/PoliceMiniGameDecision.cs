@@ -12,9 +12,10 @@ public class PoliceMiniGameDecision : Decision
     
     private void MiniGameClear(object[] dummy)
     {
+        Debug.Log("게임 클리어");
         if (isClear) { return; }
         isClear = true;
-
+        
         OnChangedValue?.Invoke();
         EventManager.StopListening(EMailSiteEvent.PoliceGameClear, MiniGameClear);
     }
