@@ -77,6 +77,8 @@ public class EmailSite : Site
     private List<EmailLine> baseEmailLineList = new List<EmailLine>();
     private List<EmailLine> currentMailLineList = new List<EmailLine>();
 
+    private int newMailNumber = 0;
+
     [SerializeField]
     private TextMeshProUGUI receiveMailCntText;
     private int receiveMailCnt = 0;
@@ -102,7 +104,7 @@ public class EmailSite : Site
 
     private void ClearPoliceMiniGame(object[] ps)
     {
-        Debug.Log("ÀÌ°Ç ¿Ö ¾ÈµÊ?");
+        Debug.Log("ì´ê±´ ì™œ ì•ˆë¨?");
         SettingReceiveMailCount();
     }
 
@@ -168,21 +170,19 @@ public class EmailSite : Site
     {
         if (ps == null || !(ps[0] is EMailType))
         {
-            Debug.LogError("µé¾î¿Â ParamÀÌ nullÀÌ°Å³ª TypeÀÌ ¸ÂÁö¾Ê½À´Ï´Ù.");
+            Debug.LogError("ë“¤ì–´ì˜¨ Paramì´ nullì´ê±°ë‚˜ Typeì´ ë§žì§€ì•ŠìŠµë‹ˆë‹¤.");
             return;
         }
         EMailType type = (EMailType)ps[0];
 
         EmailLine line = baseEmailLineList.Find(x => x.MailData.Type == type);
-
+        line.mailNumber = newMailNumber++;
         float delay = 0f;
         if(ps.Length == 2)
         {
             delay = (ps[1] is float) ? (float)ps[1] : (int)ps[1];
         }
-
         await Task.Delay((int)(delay * 1000));
-
         if (line.Category.ContainMask((int)EEmailCategory.Invisible))
         {
             line.Category = line.Category.RemoveMask((int)EEmailCategory.Invisible);
@@ -208,7 +208,8 @@ public class EmailSite : Site
 
     private void SetEmailCategory()
     {
-        currentMailLineList = baseEmailLineList.Where(n =>
+        
+        currentMailLineList = baseEmailLineList.OrderByDescending((x) => x.MailData.Month).ThenByDescending((x) => x.MailData.Day).ThenByDescending((x)=>x.mailNumber).Where(n =>
         {
             int category = n.Category;
             bool flag1 = category.ContainMask((int)currentCategory);
@@ -239,6 +240,7 @@ public class EmailSite : Site
         for (int i = 0; i < currentMailLineList.Count; i++)
         {
             currentMailLineList[i].gameObject.SetActive(true);
+            currentMailLineList[i].transform.SetSiblingIndex(i);
         }
         currentMailLineList.Clear();
     }
@@ -262,7 +264,7 @@ public class EmailSite : Site
     }
 
 
-    // ÃßÈÄ À§Ä¡ º¯°æ
+    // ì¶”í›„ ìœ„ì¹˜ ë³€ê²½
     private bool CheckGoogleLogin()
     {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
@@ -290,7 +292,7 @@ public class EmailSite : Site
 
     public void OnApplicationQuit()
     {   
-        Debug.Log("MailData Category ÀúÀåÀ» ÇÏÁö ¾Ê´Â µð¹ö±× ÄÚµå°¡ ½ÇÇàÁß¿¡ ÀÖ½À´Ï´Ù.");
+        Debug.Log("MailData Category ì €ìž¥ì„ í•˜ì§€ ì•ŠëŠ” ë””ë²„ê·¸ ì½”ë“œê°€ ì‹¤í–‰ì¤‘ì— ìžˆìŠµë‹ˆë‹¤.");
 
         foreach(var mailLine in baseEmailLineList)
         {
