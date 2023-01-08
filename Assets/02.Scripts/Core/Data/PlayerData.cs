@@ -30,6 +30,7 @@ public class ChapterData
     public bool isWindowLogin;
     public EYoutubeInterationType youtubeInterationType;
     public bool isEnterLoginGoogleSite;
+    public bool isEnterBranchMail;
     public List<ESiteLink> siteLinks;
     public bool isLoginSNSSite;
     public string SNSPassword;
@@ -41,6 +42,7 @@ public class ChapterData
         isEnterLoginGoogleSite = false;
         isWindowLogin = false;
         isLoginSNSSite = false;
+        isEnterBranchMail = false;
     }
 }
 
