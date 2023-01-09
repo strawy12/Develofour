@@ -6,7 +6,7 @@ using UnityEngine;
 public class DiscordChattingPanel : MonoBehaviour
 {
     [SerializeField]
-    private DiscordMessagePanel messagePrefab; 
+    private DiscordMessagePanel messagePrefab;
 
     [SerializeField]
     private Transform poolParents;
@@ -24,18 +24,15 @@ public class DiscordChattingPanel : MonoBehaviour
 
     private void CreatePool()
     {
-        for(int i = 0; i < 50; i++)
-        {
-            DiscordMessagePanel poolObj = Instantiate(messagePrefab, poolParents);
+        DiscordMessagePanel poolObj = Instantiate(messagePrefab, poolParents);
 
-            messagePoolList.Add(poolObj);
-            poolObj.gameObject.SetActive(false);
-        }
+        messagePoolList.Add(poolObj);
+        poolObj.gameObject.SetActive(false);
     }
 
     public void Push(DiscordMessagePanel pushObj)
     {
-        if(messageList.Contains(pushObj))
+        if (messageList.Contains(pushObj))
         {
             messageList.Remove(pushObj);
         }
@@ -45,9 +42,9 @@ public class DiscordChattingPanel : MonoBehaviour
 
     private DiscordMessagePanel Pop()
     {
-        if(messagePoolList.Count <= 0)
+        if (messagePoolList.Count <= 0)
         {
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 10; i++)
             {
                 DiscordMessagePanel poolObj = Instantiate(messagePrefab, poolParents);
                 messagePoolList.Add(poolObj);
@@ -56,10 +53,10 @@ public class DiscordChattingPanel : MonoBehaviour
         }
 
         DiscordMessagePanel popObj = messagePoolList[0];
-        
+
         messagePoolList.Remove(popObj);
         messageList.Add(popObj);
-        
+
         return popObj;
     }
 
@@ -67,7 +64,7 @@ public class DiscordChattingPanel : MonoBehaviour
     {
         DiscordMessagePanel messagePanel = Pop();
 
-        if(data.isMine)
+        if (data.isMine)
         {
             messagePanel.SettingChatData(data, playerProfileData);
         }
