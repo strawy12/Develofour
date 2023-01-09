@@ -87,11 +87,11 @@ public class FacebookLoginSite : Site
                 Debug.Log(requestSite);
                 if (requestSite == ESiteLink.None)
                 {
-                    EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
+                    EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY, false });
                 }
                 else
                 {
-                    EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
+                    EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY, false });
                     requestSite = ESiteLink.None;
                 }
 
