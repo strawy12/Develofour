@@ -1,17 +1,17 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class Discord : Window
 {
-    List<DiscordChatDataListSO> chatDataList; // ´ëÈ­ ÇÑ ³»¿ª
-    List<DiscordTalkDataListSO> talkDataList; // ´ëÈ­ ÇÒ ³»¿ª
+    List<DiscordChatDataListSO> chatDataList; // ëŒ€í™” í•œ ë‚´ì—­
+    List<DiscordTalkDataListSO> talkDataList; // ëŒ€í™” í•  ë‚´ì—­
 
     private DiscordChatDataListSO currentChatData;
     private DiscordTalkDataListSO currentTalkData;
     
-    private string currentUserName; // ÇöÀç ´ëÈ­ ÁßÀÎ »ó´ë ´Ğ³×ÀÓ
+    private string currentUserName; // í˜„ì¬ ëŒ€í™” ì¤‘ì¸ ìƒëŒ€ ë‹‰ë„¤ì„
 
     [SerializeField]
     private DiscordChattingPanel chattingPanel;
