@@ -8,8 +8,11 @@ public class BlogMail : Mail
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenBrunchDeleteMail, 0f);
 
-
-        EventManager.TriggerEvent(EQuestEvent.ShowBrunchGmail);
+        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterBranchMail)
+        {
+            EventManager.TriggerEvent(EQuestEvent.ShowBrunchGmail);
+            DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterBranchMail = true;
+        }
 
         base.ShowMail();
     }

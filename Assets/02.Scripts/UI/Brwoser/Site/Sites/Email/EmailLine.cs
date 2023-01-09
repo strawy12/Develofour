@@ -22,6 +22,8 @@ public class EmailLine : MonoBehaviour
     [SerializeField]
     private Button mailButton;
 
+    public int mailNumber;
+
     public int Category
     {
         get
