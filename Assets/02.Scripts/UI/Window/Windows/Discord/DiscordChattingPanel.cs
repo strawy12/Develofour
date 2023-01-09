@@ -17,11 +17,17 @@ public class DiscordChattingPanel : MonoBehaviour
     public DiscordProfileDataSO playerProfileData;
     public DiscordProfileDataSO opponentProfileData;
 
+    public void Init()
+    {
+        CreatePool();
+    }
+
     private void CreatePool()
     {
         for(int i = 0; i < 50; i++)
         {
             DiscordMessagePanel poolObj = Instantiate(messagePrefab, poolParents);
+
             messagePoolList.Add(poolObj);
             poolObj.gameObject.SetActive(false);
         }
@@ -58,7 +64,6 @@ public class DiscordChattingPanel : MonoBehaviour
     }
 
     public DiscordMessagePanel CreatePanel(DiscordChatData data)
-    // 얻어온 데이터를 쓸 Panel을 만들음
     {
         DiscordMessagePanel messagePanel = Pop();
 
@@ -69,7 +74,6 @@ public class DiscordChattingPanel : MonoBehaviour
         else
         {
             messagePanel.SettingChatData(data, opponentProfileData);
-
         }
 
         return messagePanel;

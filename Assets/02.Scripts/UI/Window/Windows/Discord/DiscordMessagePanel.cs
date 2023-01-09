@@ -30,7 +30,6 @@ public class DiscordMessagePanel : MonoBehaviour
         timeText.text = null;
 
         profileImage.sprite = null;
-
         messageImage.sprite = null;
     }
 

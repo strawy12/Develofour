@@ -16,8 +16,7 @@ public class Discord : Window
     [SerializeField]
     private DiscordChattingPanel chattingPanel;
 
-    DiscordChatDataListSO GetChatDataList(string userName)
-        // 채팅 데이터를 얻어옴
+    DiscordChatDataListSO GetChatDataList(string userName) 
     {
         foreach(DiscordChatDataListSO chatData in chatDataList)
         {
@@ -30,7 +29,6 @@ public class Discord : Window
     }
 
     void SettingChattingPanel(string userName)
-        // 채팅을 하고 있는 대상을 바꿈
     {
         currentUserName = userName;
 
