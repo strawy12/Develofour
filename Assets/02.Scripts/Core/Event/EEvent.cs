@@ -9,6 +9,7 @@ public enum ECoreEvent
 public enum EQuestEvent
 {
     None = -1,
+    WriterWindowsLoginSuccess,
     HateBtnClicked,
     LoginGoogle,
     PoliceMiniGameClear,

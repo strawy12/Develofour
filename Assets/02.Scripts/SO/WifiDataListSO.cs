@@ -27,6 +27,11 @@ public class WifiDataListSO : ScriptableObject
     {
         get => wifiDataList.Count;
     }
+
+    public void Sort()
+    {
+        wifiDataList.Sort();
+    }
         
 
 }
