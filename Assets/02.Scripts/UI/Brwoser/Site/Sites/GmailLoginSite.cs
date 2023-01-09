@@ -90,7 +90,7 @@ public class GmailLoginSite : Site
             }
             else
             {
-                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
+                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY , false});
                 requestSite = ESiteLink.None;
             }
         }
