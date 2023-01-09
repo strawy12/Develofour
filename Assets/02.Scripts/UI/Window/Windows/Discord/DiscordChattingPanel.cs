@@ -44,12 +44,9 @@ public class DiscordChattingPanel : MonoBehaviour
     {
         if (messagePoolList.Count <= 0)
         {
-            for (int i = 0; i < 10; i++)
-            {
-                DiscordMessagePanel poolObj = Instantiate(messagePrefab, poolParents);
-                messagePoolList.Add(poolObj);
-                poolObj.gameObject.SetActive(false);
-            }
+            DiscordMessagePanel poolObj = Instantiate(messagePrefab, poolParents);
+            messagePoolList.Add(poolObj);
+            poolObj.gameObject.SetActive(false);
         }
 
         DiscordMessagePanel popObj = messagePoolList[0];
