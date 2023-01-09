@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DiscordChattingPanel : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+{ 
+    [SerializeField]
+    private TMP_Text stateText;
 
-    // Update is called once per frame
-    void Update()
+    private DiscordProfileDataSO playerProfile;
+    private DiscordProfileDataSO userProfile;
+
+    public IEnumerator WaitingTypingCoroutine(float delay)
     {
-        
+        stateText.text = $"{userProfile.userName}님이 입력하고 있어요...";
+        yield return new WaitForSeconds(delay);
     }
+    
+
 }

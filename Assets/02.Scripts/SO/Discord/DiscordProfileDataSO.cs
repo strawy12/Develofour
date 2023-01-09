@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiscordProfileDataSO : MonoBehaviour
+[CreateAssetMenu(menuName ="SO/Discord/ProfileData")]
+public class DiscordProfileDataSO : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public string userName;
+    public Sprite userSprite;
+    public string statusMsg;
+    public string infoMsg;
+    public bool isFriend;
 }
