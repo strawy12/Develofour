@@ -6,12 +6,16 @@ using UnityEngine;
 public class DiscordChattingPanel : MonoBehaviour
 {
     [SerializeField]
-    private DiscordMessagePanel messagePrefab; 
+    private DiscordMessagePanel messagePrefab;
 
+    [SerializeField]
+    private Transform MessageParent;
     [SerializeField]
     private Transform poolParents;
     [SerializeField]
     private TMP_Text stateText;
+    [SerializeField]
+    private TMP_Text inputChatingText;
     private List<DiscordMessagePanel> messagePoolList;
     private List<DiscordMessagePanel> messageList;
 
@@ -58,26 +62,41 @@ public class DiscordChattingPanel : MonoBehaviour
         return popObj;
     }
 
-    public DiscordMessagePanel CreatePanel(DiscordChatData data)
-    // 얻어온 데이터를 쓸 Panel을 만들음
+    public void CreatePanel(DiscordChatData data)
     {
         DiscordMessagePanel messagePanel = Pop();
-
-        if(data.isMine)
+        if (data.isMine)
         {
             messagePanel.SettingChatData(data, playerProfileData);
         }
         else
         {
             messagePanel.SettingChatData(data, opponentProfileData);
-
         }
-
-        return messagePanel;
+        messagePanel.transform.SetParent(MessageParent);
+        messagePanel.gameObject.SetActive(true);
     }
-    public IEnumerator WaitingTypingCoroutine(float delay)
+
+    public IEnumerator WaitingTypingCoroutine(DiscordChatData data)
     {
-        stateText.text = $"{opponentProfileData.userName}님이 입력하고 있어요...";
-        yield return new WaitForSeconds(delay);
+        DiscordMessagePanel messagePanel = Pop();
+
+        if (data.isMine)
+        {
+            inputChatingText.text = "...";
+            yield return new WaitForSeconds(data.typingDelay);
+            messagePanel.SettingChatData(data, playerProfileData);
+            inputChatingText.text = "";
+        }
+        else
+        {
+            stateText.text = $"{opponentProfileData.userName}님이 입력하고 있어요...";
+            yield return new WaitForSeconds(data.typingDelay);
+            messagePanel.SettingChatData(data, opponentProfileData);
+            stateText.text = "";
+        }
+        messagePanel.transform.SetParent(MessageParent);
+        messagePanel.gameObject.SetActive(true);
+
     }
 }
