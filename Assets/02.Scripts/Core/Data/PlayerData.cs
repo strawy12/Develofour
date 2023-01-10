@@ -33,7 +33,8 @@ public class ChapterData
     public bool isEnterBranchMail;
     public List<ESiteLink> siteLinks;
     public bool isLoginSNSSite;
-    public string SNSPassword;
+    public string snsPassword;
+    public bool isLoginWindows;
 
     public ChapterData()
     {

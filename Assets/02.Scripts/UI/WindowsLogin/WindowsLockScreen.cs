@@ -63,13 +63,13 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        isDrag = true;
         beginPosY = eventData.position.y;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         if (anyKeyUp) return;
-        isDrag = true;
 
         float movementY = eventData.position.y - beginPosY;
         if (movementY < 0f) return;

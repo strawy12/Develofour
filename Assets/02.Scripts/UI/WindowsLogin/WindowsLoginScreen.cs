@@ -36,8 +36,20 @@ public class WindowsLoginScreen : MonoBehaviour
     [SerializeField]
     private Button loginFailConfirmBtn;
 
-
     private void Start()
+    {
+        Init();
+        
+        if (DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginWindows)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        Subscribe();
+    }
+
+    private void Init()
     {
         passwordField.Init();
         passwordField.SetPassword(password);
@@ -51,6 +63,10 @@ public class WindowsLoginScreen : MonoBehaviour
 
         loginFailConfirmBtn.onClick.AddListener(OpenLoginInputUI);
 
+    }
+
+    private void Subscribe()
+    {
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyUp: Confirm);
     }
 
@@ -67,7 +83,10 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            EventManager.TriggerEvent(EQuestEvent.WriterWindowsLoginSuccess);
+            DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginWindows = true;
+            EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
+
+            gameObject.SetActive(false);
         }));
     }
 

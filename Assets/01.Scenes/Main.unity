@@ -799,8 +799,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 62183644}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 44.714256, y: -19.88274, z: -74.39337}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2975,6 +2975,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 350305747}
   m_CullTransparentMesh: 1
+--- !u!1 &354204015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 354204016}
+  - component: {fileID: 354204017}
+  - component: {fileID: 354204018}
+  m_Layer: 0
+  m_Name: WriterWindowsLoginQuest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &354204016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354204015}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1738250653}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &354204017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354204015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92d5ff9fa6fa4b158ec13d75af755d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentEvent: 5
+  decisionList:
+  - {fileID: 354204018}
+--- !u!114 &354204018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354204015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f0dc71bb6a967b47bf3a62f50d5d8eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chapterDataType: 0
 --- !u!1 &365210458
 GameObject:
   m_ObjectHideFlags: 0
@@ -10548,6 +10609,7 @@ GameObject:
   - component: {fileID: 1096776292}
   - component: {fileID: 1096776291}
   - component: {fileID: 1096776290}
+  - component: {fileID: 1096776293}
   m_Layer: 0
   m_Name: WIndowsLoginCanvas
   m_TagString: Untagged
@@ -10639,6 +10701,18 @@ Canvas:
   m_SortingLayerID: 1534325031
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &1096776293
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096776288}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1097339279
 GameObject:
   m_ObjectHideFlags: 0
@@ -13468,7 +13542,8 @@ MonoBehaviour:
       isEnterBranchMail: 0
       siteLinks: 
       isLoginSNSSite: 0
-      SNSPassword: 
+      snsPassword: 
+      isLoginWindows: 0
     currentChapterType: 0
 --- !u!1 &1372504573
 GameObject:
@@ -14253,6 +14328,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1440278889}
   - component: {fileID: 1440278890}
+  - component: {fileID: 1440278891}
   m_Layer: 0
   m_Name: WriterWindows
   m_TagString: Untagged
@@ -14292,6 +14368,20 @@ MonoBehaviour:
   prefix: 
   backColor: {r: 1, g: 0.8117648, b: 0, a: 1}
   fontColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &1440278891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440278888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ede604af2c25f142a0bfa550ab1d07b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowsCanvas: {fileID: 1835440549}
+  windowsLoginCanvas: {fileID: 1096776293}
 --- !u!1 &1442558245
 GameObject:
   m_ObjectHideFlags: 0
@@ -16315,6 +16405,7 @@ Transform:
   - {fileID: 800131114}
   - {fileID: 877734329}
   - {fileID: 1647214174}
+  - {fileID: 354204016}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16995,6 +17086,7 @@ GameObject:
   - component: {fileID: 1835440547}
   - component: {fileID: 1835440546}
   - component: {fileID: 1835440545}
+  - component: {fileID: 1835440549}
   m_Layer: 5
   m_Name: WriterWindowsCanvas
   m_TagString: WindowCanvas
@@ -17091,6 +17183,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &1835440549
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835440544}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1858752656
 GameObject:
   m_ObjectHideFlags: 0

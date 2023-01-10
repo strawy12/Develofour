@@ -133,7 +133,7 @@ public class FacebookLoginSite : Site
         if(param == null || !(param[0] is string)) { return; }
 
         password = param[0] as string;
-        DataManager.Inst.CurrentPlayer.CurrentChapterData.SNSPassword = password;
+        DataManager.Inst.CurrentPlayer.CurrentChapterData.snsPassword = password;
         passwordField.SetPassword(password);
 
         EventManager.StopListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);

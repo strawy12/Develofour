@@ -9,12 +9,12 @@ public enum ECoreEvent
 public enum EQuestEvent
 {
     None = -1,
-    WriterWindowsLoginSuccess,
     HateBtnClicked,
     LoginGoogle,
     PoliceMiniGameClear,
     ShowBrunchGmail,
     EndBrunchPostCleanUp,
+    WriterWindowsLoginSuccess,
     
 }
 
@@ -24,6 +24,7 @@ public enum EWindowEvent
     ClickNoticeBtn,
     ActivePowerPanel,
     ExpendMenu,
+    WindowsSuccessLogin,
 }
 
 public enum ENoticeEvent
