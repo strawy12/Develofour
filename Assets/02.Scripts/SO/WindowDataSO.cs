@@ -9,6 +9,7 @@ public enum EWindowType
     Notepad,
     Browser,
     ImageViewer,
+    Discord,
     End
 }
 [CreateAssetMenu(menuName = "SO/Window/Data")]

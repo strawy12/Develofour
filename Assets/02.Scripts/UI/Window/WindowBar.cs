@@ -82,7 +82,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         if (eventData.position.x > Define.MaxWindowSize.x || 
            eventData.position.x < 0 ||
            eventData.position.y > Define.MaxWindowSize.y||
-           eventData.position.y < 50)
+           eventData.position.y < 100)
         {
             return;
         }
