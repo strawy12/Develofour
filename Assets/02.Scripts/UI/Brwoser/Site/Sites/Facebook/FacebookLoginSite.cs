@@ -9,13 +9,13 @@ public class FacebookLoginSite : Site
     [SerializeField]
     private string loginEmail;
     [SerializeField]
-    private string passWord;
+    private string password;
     [SerializeField]
     private Button LoginBtn;
     [SerializeField]
     private TMP_InputField facebookIDInputField;
     [SerializeField]
-    private TMP_InputField facebookPasswordInputField;
+    private PasswordInputField passwordField;
     [SerializeField]
     private Button forgetPasswordBtn;
     [SerializeField]
@@ -27,27 +27,20 @@ public class FacebookLoginSite : Site
     public override void Init()
     {
         base.Init();
+        passwordField.SetPassword(password);
 
         failedIDcnt = 0;
-
-        facebookIDInputField.asteriskChar = '·';
-        facebookPasswordInputField.asteriskChar = '·';
 
         failedLoginText.text = "";
         failedLoginText.color = Color.black;
 
+        facebookIDInputField.onValueChanged.AddListener((a) => Input.imeCompositionMode = IMECompositionMode.Off);
         LoginBtn.onClick.AddListener(LoginFacebook);
 
-        facebookIDInputField.onSelect.AddListener((a) => SelectInputField(true));
-        facebookIDInputField.onDeselect.AddListener((a) => SelectInputField(false));
-
-        facebookPasswordInputField.onSelect.AddListener((a) => SelectInputField(true));
-        facebookPasswordInputField.onSelect.AddListener((a) => SelectInputField(false));
+        passwordField.OnSuccessLogin += LoginSuccess;
+        passwordField.OnFailLogin += LoginFail;
 
         forgetPasswordBtn?.onClick.AddListener(ClickForgetPassword);
-
-        facebookPasswordInputField.contentType = TMP_InputField.ContentType.Password;
-        facebookPasswordInputField.ActivateInputField();
 
         EventManager.StartListening(ELoginSiteEvent.FacebookRequestSite, RequestSite);
     }
@@ -61,51 +54,43 @@ public class FacebookLoginSite : Site
         failedLoginText.color = Color.black;
     }
 
-    private void SelectInputField(bool isSelected)
+    private void LoginSuccess()
     {
-        Input.imeCompositionMode = isSelected ? IMECompositionMode.Off : IMECompositionMode.Auto;
-    }
+        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
+        EventManager.TriggerEvent(ELoginSiteEvent.FacebookLoignSuccess);
 
-    private void Update()
-    {
-        if(facebookPasswordInputField.isFocused || facebookIDInputField.isFocused)
+        Debug.Log(requestSite);
+        if (requestSite == ESiteLink.None)
         {
-            Input.imeCompositionMode = IMECompositionMode.Off;
+            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
         }
+        else
+        {
+            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
+            requestSite = ESiteLink.None;
+        }
+
+        // TODO
+        // 구조 변경 해야함
+        DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite = true;
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
     }
 
+    private void LoginFail()
+    {
+        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
+
+        failedLoginText.text = "비밀번호가 일치하지 않습니다.";
+        failedLoginText.color = Color.red;
+    }
     private void LoginFacebook()
     {
         failedLoginText.text = "";
         if (facebookIDInputField.text == loginEmail)
-        { 
-            if(facebookPasswordInputField.text == passWord)
-            {
-                Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
-                EventManager.TriggerEvent(ELoginSiteEvent.FacebookLoignSuccess);
-
-                Debug.Log(requestSite);
-                if (requestSite == ESiteLink.None)
-                {
-                    EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
-                }
-                else
-                {
-                    EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
-                    requestSite = ESiteLink.None;
-                }
-
-                DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite = true;
-                NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
-            }
-            else
-            {
-                Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
-                
-                failedLoginText.text = "비밀번호가 일치하지 않습니다.";
-                failedLoginText.color = Color.red;
-            }
+        {
+            passwordField.TryLogin();
         }
+
         else
         {
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
@@ -147,8 +132,9 @@ public class FacebookLoginSite : Site
     {
         if(param == null || !(param[0] is string)) { return; }
 
-        passWord = param[0] as string;
-        DataManager.Inst.CurrentPlayer.CurrentChapterData.SNSPassword = passWord;
+        password = param[0] as string;
+        DataManager.Inst.CurrentPlayer.CurrentChapterData.snsPassword = password;
+        passwordField.SetPassword(password);
 
         EventManager.StopListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
     }

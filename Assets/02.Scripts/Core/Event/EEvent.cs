@@ -14,6 +14,7 @@ public enum EQuestEvent
     PoliceMiniGameClear,
     ShowBrunchGmail,
     EndBrunchPostCleanUp,
+    WriterWindowsLoginSuccess,
     
 }
 
@@ -23,6 +24,7 @@ public enum EWindowEvent
     ClickNoticeBtn,
     ActivePowerPanel,
     ExpendMenu,
+    WindowsSuccessLogin,
 }
 
 public enum ENoticeEvent
