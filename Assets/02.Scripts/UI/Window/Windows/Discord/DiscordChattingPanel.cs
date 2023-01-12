@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,15 +20,29 @@ public class DiscordChattingPanel : MonoBehaviour
     private List<DiscordMessagePanel> messagePoolList;
     private List<DiscordMessagePanel> messageList;
 
+    [HideInInspector]
     public DiscordProfileDataSO playerProfileData;
+    [HideInInspector]
     public DiscordProfileDataSO opponentProfileData;
 
+    private void Awake()
+    {
+        messagePoolList = new List<DiscordMessagePanel>();
+        messageList = new List<DiscordMessagePanel>();
+        CreatePool();
+
+    }
+    public void PushAllPanel()
+    {
+
+    }
     private void CreatePool()
     {
         for(int i = 0; i < 50; i++)
         {
             DiscordMessagePanel poolObj = Instantiate(messagePrefab, poolParents);
             messagePoolList.Add(poolObj);
+            poolObj.Init();
             poolObj.gameObject.SetActive(false);
         }
     }
@@ -39,6 +54,7 @@ public class DiscordChattingPanel : MonoBehaviour
             messageList.Remove(pushObj);
         }
         pushObj.gameObject.SetActive(false);
+        pushObj.Release();
         messagePoolList.Add(pushObj);
     }
 
@@ -46,12 +62,7 @@ public class DiscordChattingPanel : MonoBehaviour
     {
         if(messagePoolList.Count <= 0)
         {
-            for (int i = 0; i < 50; i++)
-            {
-                DiscordMessagePanel poolObj = Instantiate(messagePrefab, poolParents);
-                messagePoolList.Add(poolObj);
-                poolObj.gameObject.SetActive(false);
-            }
+            CreatePool();
         }
 
         DiscordMessagePanel popObj = messagePoolList[0];
@@ -62,16 +73,21 @@ public class DiscordChattingPanel : MonoBehaviour
         return popObj;
     }
 
-    public void CreatePanel(DiscordChatData data)
+    public void CreatePanel(DiscordChatData data, DiscordProfileDataSO opponentProfile)
     {
         DiscordMessagePanel messagePanel = Pop();
+        opponentProfileData = opponentProfile;
         if (data.isMine)
         {
-            messagePanel.SettingChatData(data, playerProfileData);
+            messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data));
         }
         else
         {
-            messagePanel.SettingChatData(data, opponentProfileData);
+            if (opponentProfileData == null)
+            {
+                Debug.Log("opponentProfileData is null");
+            }
+            messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data));
         }
         messagePanel.transform.SetParent(MessageParent);
         messagePanel.gameObject.SetActive(true);
@@ -85,18 +101,42 @@ public class DiscordChattingPanel : MonoBehaviour
         {
             inputChatingText.text = "...";
             yield return new WaitForSeconds(data.typingDelay);
-            messagePanel.SettingChatData(data, playerProfileData);
+            messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data));
             inputChatingText.text = "";
         }
         else
         {
             stateText.text = $"{opponentProfileData.userName}님이 입력하고 있어요...";
             yield return new WaitForSeconds(data.typingDelay);
-            messagePanel.SettingChatData(data, opponentProfileData);
+            messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data));
             stateText.text = "";
         }
         messagePanel.transform.SetParent(MessageParent);
         messagePanel.gameObject.SetActive(true);
 
+    }
+
+    private bool CheckShowMsgPanelProfile(DiscordChatData data)
+    {
+        if (messageList.Count <= 1)
+        {
+            return true;
+        }
+
+        DiscordMessagePanel lastMessage = messageList[messageList.Count- 2]; // 전메세지;
+        if(lastMessage.ChatData == null) { 
+            Debug.Log("Null LastMessage Data");
+        }
+        if (lastMessage.ChatData.isMine != data.isMine)
+        {
+            return true;
+        }
+        TimeSpan timeSpan = new TimeSpan(0, minutes: 5, 0);
+        if (lastMessage.ChatData.sendDateTime.Subtract(lastMessage.ChatData.sendDateTime) > timeSpan)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

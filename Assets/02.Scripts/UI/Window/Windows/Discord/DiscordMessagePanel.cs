@@ -7,58 +7,103 @@ using UnityEngine.UI;
 
 public class DiscordMessagePanel : MonoBehaviour
 {
+    [Header("Message")]
     [SerializeField]
     private TMP_Text messageText;
     [SerializeField]
     private TMP_Text userNameText;
     [SerializeField]
     private TMP_Text timeText;
-
     [SerializeField]
     private Image profileImage;
     [SerializeField]
-    private Image messageImage;
+    private DiscordMessageImagePanel messageImagePanel;
+
+    [Header("PanelSizeSetting")]
+    [SerializeField]
+    private float spacing;
 
     private DiscordProfileDataSO currentProfileData;
-
+    private DiscordChatData currentChatData;
+    public DiscordChatData ChatData
+    {
+        get
+        {
+            return currentChatData;
+        }
+    }
+    public string UserName
+    {
+        get
+        {
+            return currentProfileData.userName;
+        }
+    }
+    private RectTransform rectTransform;
     public void Init()
     {
-        currentProfileData = null;
+        rectTransform ??= GetComponent<RectTransform>();
 
-        messageText.text = null;
-        userNameText.text = null;
-        timeText.text = null;
+        messageText.text = "";
+        userNameText.text = "";
+        //timeText.text = null;
 
         profileImage.sprite = null;
-
-        messageImage.sprite = null;
     }
 
-    public void SettingChatData(DiscordChatData data, DiscordProfileDataSO profileData)
+    public void SettingChatData(DiscordChatData data, DiscordProfileDataSO profileData, bool showProfile)
     {
+        currentChatData = data;
         currentProfileData = profileData;
-        
         messageText.text = data.message;
-        userNameText.text = profileData.userName;
-        timeText.text = data.sendTimeText;
-
-        profileImage.sprite = profileData.userSprite;
-        
+        //timeText.text = data.sendTimeText;
+        //timeText.gameObject.SetActive(true);
         if (data.msgSprite != null)
         {
-            messageImage.sprite = data.msgSprite;
+            messageImagePanel.SettingImage(data.msgSprite);
+            messageImagePanel.gameObject.SetActive(true);
         }
         else
         {
-            messageImage.gameObject.SetActive(false);
+            messageImagePanel.gameObject.SetActive(false);
+        }
+
+        if (showProfile)
+        {
+            profileImage.sprite = profileData.userSprite;
+            userNameText.text = profileData.userName;
+
+            profileImage.gameObject.SetActive(true);
+            userNameText.gameObject.SetActive(true);
+
         }
     }
 
-    public void Reset()
+    public void AutoSettingMessagePanelSize()
     {
-        messageText.text = "";
-        messageImage = null;
-        messageImage.gameObject.SetActive(false);
+        float newVertical = 0f;
+
+        if (messageText.gameObject.activeSelf)
+        {
+            newVertical += messageText.rectTransform.sizeDelta.y + spacing;
+        }
+        if (userNameText.gameObject.activeSelf)
+        {
+            newVertical += userNameText.rectTransform.sizeDelta.y + spacing;
+        }
+        if (messageImagePanel.gameObject.activeSelf)
+        {
+            newVertical += messageImagePanel.SizeDelta.y + spacing;
+        }
+
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, newVertical);
     }
 
+    public void Release()
+    {
+        messageText.text = "";
+        messageImagePanel = null;
+        messageImagePanel.Release();
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 0);
+    }
 }

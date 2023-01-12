@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class Discord : Window
 {
-    List<DiscordChatDataListSO> chatDataList; // 대화 한 내역
-    List<DiscordTalkDataListSO> talkDataList; // 대화 할 내역
+    [SerializeField]
+    private List<DiscordChatDataListSO> chatDataList; // 대화 한 내역
+    [SerializeField]
+    private List<DiscordTalkDataListSO> talkDataList; // 대화 할 내역
 
     private DiscordChatDataListSO currentChatData;
     private DiscordTalkDataListSO currentTalkData;
@@ -16,23 +18,46 @@ public class Discord : Window
     [SerializeField]
     private DiscordChattingPanel chattingPanel;
 
-    DiscordChatDataListSO GetChatDataList(string userName)
-        // 채팅 데이터를 얻어옴
+    protected override void Init()
     {
-        foreach(DiscordChatDataListSO chatData in chatDataList)
-        {
-            if(userName == chatData.opponentProfileData.userName)
-            {
-                currentChatData = chatData;
-            }
-        }
-        return currentChatData;
+        base.Init();
     }
 
-    void SettingChattingPanel(string userName)
+    public void Update()
+    {
+        Debug.LogWarning("디버그 코드");
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            SettingChattingPanel(chatDataList[0].opponentProfileData.userName);
+        }
+    }
+
+    public DiscordChatDataListSO GetChatDataList(string userName)
+    {
+        DiscordChatDataListSO newChatData = null;
+        foreach (DiscordChatDataListSO chatDataList in chatDataList)
+        {
+            if(userName == chatDataList.opponentProfileData.userName)
+            {
+                newChatData = chatDataList;
+            }
+        }
+        if(newChatData == null)
+        {
+            Debug.LogWarning("userName을 찾을 수 없습니다.");
+        }
+        return newChatData;
+    }
+
+    public void SettingChattingPanel(string userName)
         // 채팅을 하고 있는 대상을 바꿈
     {
         currentUserName = userName;
+        currentChatData = GetChatDataList(currentUserName);
 
+        foreach(DiscordChatData chatData in currentChatData.chatDataList)
+        {
+            chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData);
+        }
     }
 }
