@@ -20,6 +20,8 @@ public class DiscordChattingPanel : MonoBehaviour
     private List<DiscordMessagePanel> messagePoolList;
     private List<DiscordMessagePanel> messageList;
 
+    private Coroutine currentTalkCoroutine; 
+
     [HideInInspector]
     public DiscordProfileDataSO playerProfileData;
     [HideInInspector]
@@ -34,7 +36,10 @@ public class DiscordChattingPanel : MonoBehaviour
     }
     public void PushAllPanel()
     {
-
+        foreach(DiscordMessagePanel panel in messageList)
+        {
+            Push(panel);
+        }
     }
     private void CreatePool()
     {
@@ -92,7 +97,7 @@ public class DiscordChattingPanel : MonoBehaviour
         messagePanel.transform.SetParent(MessageParent);
         messagePanel.gameObject.SetActive(true);
     }
-
+    //talk 데이터 함수
     public IEnumerator WaitingTypingCoroutine(DiscordChatData data)
     {
         DiscordMessagePanel messagePanel = Pop();
@@ -111,8 +116,10 @@ public class DiscordChattingPanel : MonoBehaviour
             messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data));
             stateText.text = "";
         }
+
         messagePanel.transform.SetParent(MessageParent);
         messagePanel.gameObject.SetActive(true);
+        inputChatingText.text = "#채팅에 메세지 보내기";
 
     }
 
@@ -124,18 +131,15 @@ public class DiscordChattingPanel : MonoBehaviour
         }
 
         DiscordMessagePanel lastMessage = messageList[messageList.Count- 2]; // 전메세지;
-        if(lastMessage.ChatData == null) { 
-            Debug.Log("Null LastMessage Data");
-        }
         if (lastMessage.ChatData.isMine != data.isMine)
         {
             return true;
         }
-        TimeSpan timeSpan = new TimeSpan(0, minutes: 5, 0);
-        if (lastMessage.ChatData.sendDateTime.Subtract(lastMessage.ChatData.sendDateTime) > timeSpan)
-        {
-            return true;
-        }
+        //TimeSpan timeSpan = new TimeSpan(0, minutes: 5, 0);
+        //if (lastMessage.ChatData.sendDateTime.Subtract(lastMessage.ChatData.sendDateTime) > timeSpan)
+        //{
+        //    return true;
+        //}
 
         return false;
     }

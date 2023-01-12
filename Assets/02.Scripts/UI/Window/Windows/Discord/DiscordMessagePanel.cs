@@ -13,8 +13,6 @@ public class DiscordMessagePanel : MonoBehaviour
     [SerializeField]
     private TMP_Text userNameText;
     [SerializeField]
-    private TMP_Text timeText;
-    [SerializeField]
     private Image profileImage;
     [SerializeField]
     private DiscordMessageImagePanel messageImagePanel;
@@ -46,7 +44,6 @@ public class DiscordMessagePanel : MonoBehaviour
 
         messageText.text = "";
         userNameText.text = "";
-        //timeText.text = null;
 
         profileImage.sprite = null;
     }
@@ -56,8 +53,6 @@ public class DiscordMessagePanel : MonoBehaviour
         currentChatData = data;
         currentProfileData = profileData;
         messageText.text = data.message;
-        //timeText.text = data.sendTimeText;
-        //timeText.gameObject.SetActive(true);
         if (data.msgSprite != null)
         {
             messageImagePanel.SettingImage(data.msgSprite);

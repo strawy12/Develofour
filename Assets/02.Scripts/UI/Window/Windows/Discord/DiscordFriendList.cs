@@ -83,7 +83,6 @@ public class DiscordFriendList : MonoBehaviour
     {
         //속성 열어줌
         DiscordAttributePanel attributeData = attribuePanel.GetComponentInChildren<DiscordAttributePanel>();
-        Debug.Log(attributeData);
         attributeData.data = line.myData;
         AttributeFriendLine = line;
         attribuePanel.transform.position = pos;
