@@ -27,13 +27,9 @@ public class DiscordFriendList : MonoBehaviour
     [SerializeField]
     private DiscordArea discordArea;
 
-    void Start()
+    public void Init()
     {
-        Init();
-    }
-
-    private void Init()
-    {
+        Debug.Log("실행됨");
         foreach (var friend in friendList)
         {
             if (friend.isFriend)
@@ -80,6 +76,7 @@ public class DiscordFriendList : MonoBehaviour
         }
         currentFriendLine = line;
         //클릭됬을때 해당 메세지창 보여주면 됨
+        EventManager.TriggerEvent(EDiscordEvent.ShowChattingPanel, new object[] { line.myData.userName }) ;
     }
 
     public void RightClickLine(Vector2 pos, DiscordFriendLine line)

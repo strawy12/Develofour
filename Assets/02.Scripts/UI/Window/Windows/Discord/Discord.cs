@@ -18,9 +18,18 @@ public class Discord : Window
     [SerializeField]
     private DiscordChattingPanel chattingPanel;
 
+    public DiscordFriendList friendList;
+
+    void Start()
+    {
+        Init();
+    }
+
     protected override void Init()
     {
         base.Init();
+        EventManager.StartListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
+        friendList.Init();
     }
 
     public void Update()
@@ -28,7 +37,7 @@ public class Discord : Window
         Debug.LogWarning("디버그 코드");
         if (Input.GetKeyDown(KeyCode.J))
         {
-            SettingChattingPanel(chatDataList[0].opponentProfileData.userName);
+            //SettingChattingPanel(chatDataList[0].opponentProfileData.userName);
         }
     }
 
@@ -49,9 +58,13 @@ public class Discord : Window
         return newChatData;
     }
 
-    public void SettingChattingPanel(string userName)
+    public void SettingChattingPanel(object[] param)
         // 채팅을 하고 있는 대상을 바꿈
     {
+
+        if (!(param[0] is string) || param[0] == null) return;
+        string userName = param[0] as string;
+         
         currentUserName = userName;
         currentChatData = GetChatDataList(currentUserName);
 

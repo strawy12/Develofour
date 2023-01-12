@@ -94,3 +94,9 @@ public enum EInputType
     InputMouseUp,
 }
 
+public enum EDiscordEvent
+{
+    None = -1,
+    ShowChattingPanel,
+}
+
