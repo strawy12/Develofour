@@ -23,15 +23,6 @@ public class Discord : Window
         base.Init();
     }
 
-    public void Update()
-    {
-        Debug.LogWarning("디버그 코드");
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            SettingChattingPanel(chatDataList[0].opponentProfileData.userName);
-        }
-    }
-
     public DiscordChatDataListSO GetChatDataList(string userName)
     {
         DiscordChatDataListSO newChatData = null;
@@ -55,6 +46,7 @@ public class Discord : Window
         currentUserName = userName;
         currentChatData = GetChatDataList(currentUserName);
 
+        chattingPanel.PushAllPanel();
         foreach(DiscordChatData chatData in currentChatData.chatDataList)
         {
             chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData);
