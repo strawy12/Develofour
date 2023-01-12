@@ -10,6 +10,7 @@ public class DiscordFriendLine : MonoBehaviour, IPointerEnterHandler, IPointerEx
 {
     public Action<DiscordFriendLine> OnLeftClickPanel;
     public Action<Vector2, DiscordFriendLine> OnRightClickPanel;
+    public DiscordProfileDataSO myData;
 
     [SerializeField]
     private GameObject highlightPanel;
@@ -84,6 +85,7 @@ public class DiscordFriendLine : MonoBehaviour, IPointerEnterHandler, IPointerEx
         }
         else if (eventData.button == PointerEventData.InputButton.Left)
         {
+            noticePanel.SetActive(false);
             selectPanel.SetActive(true);
             OnLeftClickPanel?.Invoke(this);
         }

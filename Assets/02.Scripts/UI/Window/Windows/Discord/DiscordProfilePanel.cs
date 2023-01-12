@@ -1,19 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.EventSystems;
 
-public class DiscordProfilePanel : MonoBehaviour
+public class DiscordProfilePanel : MonoBehaviour, IPointerClickHandler
 {
-    //있는거 public으로 그냥 박기
-    // Start is called before the first frame update
-    void Start()
+    //AttributePanel -> Profile
+    public Image profileImage;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI memoText;
+
+    public void OnPointerClick(PointerEventData eventData)
     {
-        
+        if(eventData.button == PointerEventData.InputButton.Left)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ReSetting(DiscordProfileDataSO data)
     {
-        
+        profileImage.sprite = data.userSprite;
+        nameText.text = data.userName;
+        memoText.text = data.infoMsg;
+        this.gameObject.SetActive(true);
     }
 }

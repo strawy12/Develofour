@@ -12,6 +12,9 @@ public class DiscordFriendList : MonoBehaviour
     private List<DiscordProfileDataSO> friendList;
 
     [SerializeField]
+    private Dictionary<string, DiscordFriendLine> friendLineDic = new Dictionary<string, DiscordFriendLine>();
+
+    [SerializeField]
     private DiscordFriendLine friendLinePrefab;
 
     private DiscordFriendLine beforeFriendLine = null; //과거 좌클릭한 라인
@@ -21,24 +24,34 @@ public class DiscordFriendList : MonoBehaviour
     [SerializeField]    
     private GameObject attribuePanel;
 
+    [SerializeField]
+    private DiscordArea discordArea;
+
     void Start()
     {
-        foreach(var friend in friendList)
-        {
-            if(friend.isFriend)
-            {
-                CreateFriendLine(friend);
-            }
-        }
+        Init();
     }
 
-    private void CreateFriendLine(DiscordProfileDataSO data)
+    private void Init()
+    {
+        foreach (var friend in friendList)
+        {
+            if (friend.isFriend)
+            {
+                friendLineDic[friend.userName] = CreateFriendLine(friend);
+            }
+        }
+
+        discordArea.OnAttributePanelOff += delegate { attribuePanel.SetActive(false); };
+    }
+
+    private DiscordFriendLine CreateFriendLine(DiscordProfileDataSO data)
     {
         DiscordFriendLine friendLine = Instantiate(friendLinePrefab, this.transform);
 
         friendLine.OnLeftClickPanel += LeftClickLine;
         friendLine.OnRightClickPanel += RightClickLine;
-
+        friendLine.myData = data;
         friendLine.ProfileImage.sprite = data.userSprite;
         if(data.statusMsg == string.Empty)
         {
@@ -53,8 +66,9 @@ public class DiscordFriendList : MonoBehaviour
             friendLine.StatusText.text = data.statusMsg;
         }
 
-        //FriendDictionary[data] = friendLine;
         friendLine.gameObject.SetActive(true);
+
+        return friendLine;
     }
 
     public void LeftClickLine(DiscordFriendLine line)
@@ -70,15 +84,33 @@ public class DiscordFriendList : MonoBehaviour
 
     public void RightClickLine(Vector2 pos, DiscordFriendLine line)
     {
+        //속성 열어줌
+        DiscordAttributePanel attributeData = attribuePanel.GetComponentInChildren<DiscordAttributePanel>();
+        Debug.Log(attributeData);
+        attributeData.data = line.myData;
         AttributeFriendLine = line;
         attribuePanel.transform.position = pos;
         attribuePanel.gameObject.SetActive(true);
     }
 
-    public void NewMessage()
+    //세로운 메세지 왔을때 노티스패널 키고 맨 위로 올리는 함수 
+    public void NewMessage(DiscordProfileDataSO data)
     {
+        foreach(var friend in friendList)
+        {
+            if(friend == data)
+            {
+                //이미 프렌드 리스트에 받은 사람이 있음
+                friendLineDic[data.userName].transform.SetAsFirstSibling();
+                friendLineDic[data.userName].NoticePanel.SetActive(true);
+                return;
+            }
+        }
 
-        //세로운 메세지 왔을때 노티스패널 키고 맨 위로 올리는 함수 
+        //프렌드 리스트에 없으니 새로 생성해줘야함
+        DiscordFriendLine line = CreateFriendLine(data);
+        line.transform.SetAsFirstSibling();
+        line.NoticePanel.SetActive(true);
+        return;
     }
-
 }
