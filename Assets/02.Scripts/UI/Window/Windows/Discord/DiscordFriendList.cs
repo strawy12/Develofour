@@ -113,4 +113,16 @@ public class DiscordFriendList : MonoBehaviour
         line.NoticePanel.SetActive(true);
         return;
     }
+
+    //
+    //              ¿¹½Ã¿ë
+    //
+    //void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.P))
+    //    {
+    //        NewMessage(debugData);
+    //    }
+    //}
+
 }
