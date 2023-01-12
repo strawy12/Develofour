@@ -336,11 +336,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   messagePrefab: {fileID: 9124312584566874880}
   MessageParent: {fileID: 7476547286523457895}
-  poolParents: {fileID: 0}
+  poolParents: {fileID: 5879748722746730543}
   stateText: {fileID: 0}
   inputChatingText: {fileID: 4353514734419377856}
   playerProfileData: {fileID: 11400000, guid: d26e4fca08d2bb448becf3e7b01a54c4, type: 2}
   opponentProfileData: {fileID: 0}
+--- !u!1 &2150849568161836728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5879748722746730543}
+  m_Layer: 5
+  m_Name: Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &5879748722746730543
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2150849568161836728}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3080260720472818154}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -150, y: 20}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3458072676884916438
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,6 +741,7 @@ RectTransform:
   m_Children:
   - {fileID: 489422325294780491}
   - {fileID: 4321752543046592097}
+  - {fileID: 5879748722746730543}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
