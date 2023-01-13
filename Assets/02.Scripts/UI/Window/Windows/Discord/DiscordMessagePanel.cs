@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("Message")]
     [SerializeField]
@@ -125,5 +125,13 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     public void OnPointerExit(PointerEventData eventData)
     {
         backgroundImage.enabled = false;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Left && currentChatData.msgSprite != null)
+        {
+
+        }
     }
 }
