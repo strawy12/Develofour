@@ -36,9 +36,8 @@ public class DiscordChattingPanel : MonoBehaviour
     }
     public void PushAllPanel()
     {
-        foreach(DiscordMessagePanel panel in messageList)
-        {
-            Push(panel);
+        while (messageList.Count != 0) { 
+            Push(messageList[0]);
         }
     }
     private void CreatePool()

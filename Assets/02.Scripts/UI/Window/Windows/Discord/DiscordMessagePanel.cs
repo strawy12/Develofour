@@ -97,7 +97,6 @@ public class DiscordMessagePanel : MonoBehaviour
     public void Release()
     {
         messageText.text = "";
-        messageImagePanel = null;
         messageImagePanel.Release();
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 0);
     }
