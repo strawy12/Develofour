@@ -72,27 +72,39 @@ public class DiscordMessagePanel : MonoBehaviour
             userNameText.gameObject.SetActive(true);
 
         }
+        else
+        {
+            profileImage.gameObject.SetActive(false);
+            userNameText.gameObject.SetActive(false);
+        }
+        AutoSettingMessagePanelSize();
     }
 
-    public void AutoSettingMessagePanelSize()
+    public void AutoSettingMessagePanelSize(bool isDifferentUserName = false) 
     {
         float newVertical = 0f;
 
         if (messageText.gameObject.activeSelf)
         {
-            newVertical += messageText.rectTransform.sizeDelta.y + spacing;
+            newVertical += messageText.rectTransform.sizeDelta.y;
         }
         if (userNameText.gameObject.activeSelf)
         {
-            newVertical += userNameText.rectTransform.sizeDelta.y + spacing;
+            newVertical += userNameText.rectTransform.sizeDelta.y;
         }
         if (messageImagePanel.gameObject.activeSelf)
         {
-            newVertical += messageImagePanel.SizeDelta.y + spacing;
+            newVertical += messageImagePanel.SizeDelta.y;
         }
-
+        if(isDifferentUserName)
+        {
+            newVertical += 15;
+        }
+        newVertical += spacing;
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, newVertical);
     }
+
+
 
     public void Release()
     {

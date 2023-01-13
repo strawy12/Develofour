@@ -132,6 +132,7 @@ public class DiscordChattingPanel : MonoBehaviour
         DiscordMessagePanel lastMessage = messageList[messageList.Count- 2]; // 전메세지;
         if (lastMessage.ChatData.isMine != data.isMine)
         {
+            lastMessage.AutoSettingMessagePanelSize(true);
             return true;
         }
         //TimeSpan timeSpan = new TimeSpan(0, minutes: 5, 0);

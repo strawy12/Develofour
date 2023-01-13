@@ -55,6 +55,7 @@ public class DiscordMessageImagePanel : MonoBehaviour
 
     private void PanelSizeSetting()
     {
+        rectTransform ??= GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, msgImage.rectTransform.sizeDelta.y);
     }
 }
