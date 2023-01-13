@@ -22,8 +22,6 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     [SerializeField]
     private float spacing;
 
-    [Header("Background")]
-    [SerializeField]
     private Image backgroundImage;
 
     private DiscordProfileDataSO currentProfileData;
@@ -45,6 +43,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     private RectTransform rectTransform;
     public void Init()
     {
+        backgroundImage ??= GetComponent<Image>();
         rectTransform ??= GetComponent<RectTransform>();
 
         messageText.text = "";
