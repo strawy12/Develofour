@@ -39,7 +39,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         windowRectTransform = rectTrm;
         if (windowName != null)
         {
-            windowName.text = $"{windowData.windowType} - {windowName.text}";
+            //windowName.text = $"{windowData.windowType} - {windowName.text}";
         }
 
         if (iconImage != null)
