@@ -4,8 +4,9 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class DiscordMessagePanel : MonoBehaviour
+public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Message")]
     [SerializeField]
@@ -20,6 +21,10 @@ public class DiscordMessagePanel : MonoBehaviour
     [Header("PanelSizeSetting")]
     [SerializeField]
     private float spacing;
+
+    [Header("Background")]
+    [SerializeField]
+    private Image backgroundImage;
 
     private DiscordProfileDataSO currentProfileData;
     private DiscordChatData currentChatData;
@@ -111,5 +116,15 @@ public class DiscordMessagePanel : MonoBehaviour
         messageText.text = "";
         messageImagePanel.Release();
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 0);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        backgroundImage.enabled = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        backgroundImage.enabled = false;
     }
 }

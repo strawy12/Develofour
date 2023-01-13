@@ -12,7 +12,7 @@ public class DiscordChattingPanel : MonoBehaviour
     [SerializeField]
     private Transform MessageParent;
     [SerializeField]
-    private Transform poolParents;
+    private Transform poolParent;
     [SerializeField]
     private TMP_Text stateText;
     [SerializeField]
@@ -44,7 +44,8 @@ public class DiscordChattingPanel : MonoBehaviour
     {
         for(int i = 0; i < 50; i++)
         {
-            DiscordMessagePanel poolObj = Instantiate(messagePrefab, poolParents);
+            DiscordMessagePanel poolObj = Instantiate(messagePrefab, poolParent);
+            poolObj.transform.SetParent(poolParent);
             messagePoolList.Add(poolObj);
             poolObj.Init();
             poolObj.gameObject.SetActive(false);
@@ -58,6 +59,7 @@ public class DiscordChattingPanel : MonoBehaviour
             messageList.Remove(pushObj);
         }
         pushObj.gameObject.SetActive(false);
+        pushObj.transform.SetParent(poolParent);
         pushObj.Release();
         messagePoolList.Add(pushObj);
     }
@@ -70,7 +72,8 @@ public class DiscordChattingPanel : MonoBehaviour
         }
 
         DiscordMessagePanel popObj = messagePoolList[0];
-        
+        popObj.transform.SetParent(MessageParent);
+
         messagePoolList.Remove(popObj);
         messageList.Add(popObj);
         
@@ -93,7 +96,6 @@ public class DiscordChattingPanel : MonoBehaviour
             }
             messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data));
         }
-        messagePanel.transform.SetParent(MessageParent);
         messagePanel.gameObject.SetActive(true);
     }
     //talk 데이터 함수
@@ -116,7 +118,6 @@ public class DiscordChattingPanel : MonoBehaviour
             stateText.text = "";
         }
 
-        messagePanel.transform.SetParent(MessageParent);
         messagePanel.gameObject.SetActive(true);
         inputChatingText.text = "#채팅에 메세지 보내기";
 
