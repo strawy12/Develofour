@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DiscordArea : MonoBehaviour, IPointerClickHandler
+public class DiscordArea : MonoBehaviour, IPointerDownHandler
 {
     public Action OnAttributePanelOff;
-    public void OnPointerClick(PointerEventData eventData)
+
+    public void OnPointerDown(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
             OnAttributePanelOff?.Invoke();
         }
