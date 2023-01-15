@@ -29,7 +29,6 @@ public class DiscordFriendList : MonoBehaviour
 
     public void Init()
     {
-        Debug.Log("½ÇÇàµÊ");
         foreach (var friend in friendList)
         {
             if (friend.isFriend)

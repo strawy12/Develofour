@@ -21,6 +21,9 @@ public class Discord : Window
 
     public DiscordFriendList friendList;
 
+    [SerializeField]
+    private DiscordImagePanel imagePanel;
+
     void Start()
     {
         Init();
@@ -30,6 +33,7 @@ public class Discord : Window
     {
         base.Init();
         EventManager.StartListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
+        imagePanel.Init();
         friendList.Init();
     }
 

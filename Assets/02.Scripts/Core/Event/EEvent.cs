@@ -98,5 +98,6 @@ public enum EDiscordEvent
 {
     None = -1,
     ShowChattingPanel,
+    ShowImagePanel,
 }
 

@@ -41,6 +41,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
         }
     }
     private RectTransform rectTransform;
+
     public void Init()
     {
         backgroundImage ??= GetComponent<Image>();
@@ -129,7 +130,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         if(eventData.button == PointerEventData.InputButton.Left && currentChatData.msgSprite != null)
         {
-
+            EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSprite }); ;
         }
     }
 }

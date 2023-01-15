@@ -963,7 +963,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2010677825
 RectTransform:
   m_ObjectHideFlags: 0
@@ -982,8 +982,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 0, y: -40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2010677827
 CanvasRenderer:
@@ -2359,7 +2359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16078432, g: 0.16862746, b: 0.18431373, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4082,6 +4082,7 @@ MonoBehaviour:
   talkDataList: []
   chattingPanel: {fileID: 7914551935511545452}
   friendList: {fileID: 854796316785872031}
+  imagePanel: {fileID: 4275869489974158943}
 --- !u!1 &4507461156816542638
 GameObject:
   m_ObjectHideFlags: 0
@@ -4885,14 +4886,14 @@ GameObject:
   - component: {fileID: 5450231575970380000}
   - component: {fileID: 1232704989832816705}
   - component: {fileID: 7260819588086168434}
-  - component: {fileID: 7806500853543922369}
+  - component: {fileID: 4275869489974158943}
   m_Layer: 5
   m_Name: ImagePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5450231575970380000
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4911,8 +4912,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 0, y: -40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1232704989832816705
 CanvasRenderer:
@@ -4952,7 +4953,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7806500853543922369
+--- !u!114 &4275869489974158943
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4961,12 +4962,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6779419164394158969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c98d0c5e7be54ce43a74bd564eeeb6bd, type: 3}
+  m_Script: {fileID: 11500000, guid: aaf6fbfb3e6e8144382d11a589e705e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profileImage: {fileID: 0}
-  nameText: {fileID: 0}
-  memoText: {fileID: 0}
+  profileImage: {fileID: 3467328964067947204}
 --- !u!1 &6824097644490121300
 GameObject:
   m_ObjectHideFlags: 0
@@ -5294,6 +5293,7 @@ GameObject:
   - component: {fileID: 8190837852555749276}
   - component: {fileID: 528610124}
   - component: {fileID: 7922804159538616544}
+  - component: {fileID: 5963719942365792945}
   m_Layer: 5
   m_Name: Profile
   m_TagString: Untagged
@@ -5435,6 +5435,21 @@ MonoBehaviour:
   bluePanel: {fileID: 8816178455289428607}
   profilePanel: {fileID: 2010677828}
 --- !u!114 &7922804159538616544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8478303055217809974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baae34b2c7d70cf4b996b613de33b5c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 0}
+  bluePanel: {fileID: 8816178455289428607}
+  profilePanel: {fileID: 0}
+--- !u!114 &5963719942365792945
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
