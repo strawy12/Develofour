@@ -23,7 +23,7 @@ public class DiscordChatData
             return new DateTime(year, month, day);
         }
     }
- 
+    public bool isTalked = false;
 }
 
 [CreateAssetMenu(menuName = "SO/Discord/ChatDataList")]

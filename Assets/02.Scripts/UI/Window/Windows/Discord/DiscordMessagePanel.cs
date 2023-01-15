@@ -108,8 +108,6 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, newVertical);
     }
 
-
-
     public void Release()
     {
         messageText.text = "";

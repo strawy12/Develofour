@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ public class Discord : Window
 
     private DiscordChatDataListSO currentChatData;
     private DiscordTalkDataListSO currentTalkData;
-    
+
     private string currentUserName; // 현재 대화 중인 상대 닉네임
 
     [SerializeField]
@@ -32,18 +33,27 @@ public class Discord : Window
         friendList.Init();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
 
+            currentTalkData = GetTalkDataList("테스트");
+
+            //chattingPanel.StartTalk(currentTalkData);
+        }
+    }
     public DiscordChatDataListSO GetChatDataList(string userName)
     {
         DiscordChatDataListSO newChatData = null;
         foreach (DiscordChatDataListSO chatDataList in chatDataList)
         {
-            if(userName == chatDataList.opponentProfileData.userName)
+            if (userName == chatDataList.opponentProfileData.userName)
             {
                 newChatData = chatDataList;
             }
         }
-        if(newChatData == null)
+        if (newChatData == null)
         {
             Debug.LogWarning("userName을 찾을 수 없습니다.");
         }
@@ -51,19 +61,71 @@ public class Discord : Window
     }
 
     public void SettingChattingPanel(object[] param)
-        // 채팅을 하고 있는 대상을 바꿈
+    // 채팅을 하고 있는 대상을 바꿈
     {
 
         if (!(param[0] is string) || param[0] == null) return;
         string userName = param[0] as string;
-         
+
         currentUserName = userName;
         currentChatData = GetChatDataList(currentUserName);
-
+        currentTalkData = GetTalkDataList(currentUserName);
         chattingPanel.PushAllPanel();
-        foreach(DiscordChatData chatData in currentChatData.chatDataList)
+
+        if (currentChatData != null)
         {
-            chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData);
+            foreach (DiscordChatData chatData in currentChatData.chatDataList)
+            {
+                chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData);
+            }
         }
+        if (currentTalkData != null)
+        {
+            foreach (DiscordChatData talkData in currentTalkData.chatDataList)
+            {
+                if (talkData.isTalked)
+                    chattingPanel.CreatePanel(talkData, currentChatData.opponentProfileData);
+            }
+        }
+    }
+
+    public void StartTalkChat(object[] param)
+    {
+        if (!(param[0] is string) || param[0] == null) return;
+
+        string userName = param[0] as string;
+
+
+
+        currentTalkData = GetTalkDataList(userName);
+
+        if (!currentTalkData.isCoimpleteTalk)
+        {
+            if (userName == currentUserName)
+            {
+                //chattingPanel.StartTalk(currentTalkData);
+            }
+            else
+            {
+                
+            }
+        }
+    }
+
+    private DiscordTalkDataListSO GetTalkDataList(string userName)
+    {
+        foreach (DiscordTalkDataListSO talkList in talkDataList)
+        {
+            if (talkList.opponentProfileData.userName == userName)
+            {
+                return talkList;
+            }
+        }
+        return null;
+    }
+
+    public void StopTalk(object[] param)
+    {
+        chattingPanel.StopTalk();
     }
 }

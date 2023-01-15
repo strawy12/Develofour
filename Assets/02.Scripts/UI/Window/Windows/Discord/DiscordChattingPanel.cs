@@ -20,7 +20,8 @@ public class DiscordChattingPanel : MonoBehaviour
     private List<DiscordMessagePanel> messagePoolList;
     private List<DiscordMessagePanel> messageList;
 
-    private Coroutine currentTalkCoroutine; 
+    private Coroutine currentTalkCoroutine;
+    private bool isInputed = false;
 
     [HideInInspector]
     public DiscordProfileDataSO playerProfileData;
@@ -34,6 +35,7 @@ public class DiscordChattingPanel : MonoBehaviour
         CreatePool();
 
     }
+    #region Pooling
     public void PushAllPanel()
     {
         while (messageList.Count != 0) { 
@@ -51,7 +53,6 @@ public class DiscordChattingPanel : MonoBehaviour
             poolObj.gameObject.SetActive(false);
         }
     }
-
     public void Push(DiscordMessagePanel pushObj)
     {
         if(messageList.Contains(pushObj))
@@ -63,7 +64,6 @@ public class DiscordChattingPanel : MonoBehaviour
         pushObj.Release();
         messagePoolList.Add(pushObj);
     }
-
     private DiscordMessagePanel Pop()
     {
         if(messagePoolList.Count <= 0)
@@ -79,7 +79,8 @@ public class DiscordChattingPanel : MonoBehaviour
         
         return popObj;
     }
-
+    #endregion
+    #region 채팅 생성
     public void CreatePanel(DiscordChatData data, DiscordProfileDataSO opponentProfile)
     {
         DiscordMessagePanel messagePanel = Pop();
@@ -98,31 +99,73 @@ public class DiscordChattingPanel : MonoBehaviour
         }
         messagePanel.gameObject.SetActive(true);
     }
-    //talk 데이터 함수
-    public IEnumerator WaitingTypingCoroutine(DiscordChatData data)
+
+    public void StartTalk(DiscordTalkDataListSO talkList, bool isOpen) 
+    {
+
+        if (isOpen)
+        {
+           StartCoroutine(TalkCoroutine(talkList));
+        }
+        else
+        {
+            
+        }
+    }
+    public IEnumerator TalkCoroutine(DiscordTalkDataListSO talkList)
+    {
+        foreach (DiscordChatData chatData in talkList.chatDataList)
+        {
+            if (chatData.isTalked) continue;
+
+            isInputed = true;
+            WaitingTyping(chatData);
+            yield return new WaitForSeconds(chatData.typingDelay);
+            TalkChat(chatData);
+            yield return new WaitUntil(() => isInputed == false);
+        }
+        talkList.isCoimpleteTalk = true;
+        yield break;
+    }
+    public void StopTalk()
+    {
+        StopCoroutine(currentTalkCoroutine);
+
+        stateText.text = "";
+        isInputed = false;
+    }
+    private void TalkChat(DiscordChatData data)
     {
         DiscordMessagePanel messagePanel = Pop();
+        if (data.isMine)
+        {
+            messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data));
+        }
+        else
+        {
+            messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data));
+        }   
+        messagePanel.gameObject.SetActive(true);
 
+        //end
+        data.isTalked = true;
+        isInputed = false;
+        inputChatingText.text = "#채팅에 메세지 보내기";
+
+        stateText.text = "";
+    }
+    public void WaitingTyping(DiscordChatData data)
+    {
         if (data.isMine)
         {
             inputChatingText.text = "...";
-            yield return new WaitForSeconds(data.typingDelay);
-            messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data));
-            inputChatingText.text = "";
         }
         else
         {
             stateText.text = $"{opponentProfileData.userName}님이 입력하고 있어요...";
-            yield return new WaitForSeconds(data.typingDelay);
-            messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data));
-            stateText.text = "";
         }
 
-        messagePanel.gameObject.SetActive(true);
-        inputChatingText.text = "#채팅에 메세지 보내기";
-
     }
-
     private bool CheckShowMsgPanelProfile(DiscordChatData data)
     {
         if (messageList.Count <= 1)
@@ -141,7 +184,9 @@ public class DiscordChattingPanel : MonoBehaviour
         //{
         //    return true;
         //}
+       
 
         return false;
     }
+    #endregion
 }
