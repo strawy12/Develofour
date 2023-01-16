@@ -100,7 +100,7 @@ public class WindowManager : MonoSingleton<WindowManager>
         selectedObject = null;
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -116,7 +116,7 @@ public class WindowManager : MonoSingleton<WindowManager>
 
             foreach (RaycastResult hit in hits)
             {
-                if (hit.gameObject.GetComponent<ISelectable>() == selectedObject)
+                if (selectedObject.IsSelected(hit.gameObject))
                 {
                     return;
                 }

@@ -25,6 +25,7 @@ public enum EWindowEvent
     ActivePowerPanel,
     ExpendMenu,
     WindowsSuccessLogin,
+    CreateWindow,
 }
 
 public enum ENoticeEvent

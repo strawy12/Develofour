@@ -3,54 +3,111 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class TargetWindowPanels : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler
+using System;
+
+public class TargetWindowPanels : MonoUI, IPointerEnterHandler, IPointerExitHandler
 {
     private bool isEnter;
-    public bool IsEnter { get { return isEnter; } }
-    private Image targetWindowPanelUI;
-    public RectTransform TargetTransform 
-    {
-        get 
-        { 
-            if(targetWindowPanelUI == null) targetWindowPanelUI = GetComponent<Image>();
-            return targetWindowPanelUI?.rectTransform;
-        } 
-    }
-    private void Awake()
-    {
-        targetWindowPanelUI = GetComponent<Image>();
-    }
+    private bool isShow;
+
+    public bool IsShow => isShow;
+
+    [SerializeField]
+    protected TargetWindowPanel targetWindowPanelTemp;
+
+    private const float HIDE_DELAY_TIME = 1.25f;
+
+    private Coroutine hideDelayCoroutine = null;
+
+    public Func<bool> OnUnSelectIgnoreFlag;
+
     public void Init()
     {
+        canvasGroup = GetComponent<CanvasGroup>();
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
-
     }
+
+
 
     public void CheckClose(object[] hits)
     {
         if (gameObject.activeSelf == false) return;
-        if(Define.ExistInHits(gameObject, hits[0]) == false)
+        if (OnUnSelectIgnoreFlag != null && OnUnSelectIgnoreFlag.Invoke()) return;
+
+        if (Define.ExistInHits(gameObject, hits[0]) == false)
         {
             isEnter = false;
-            CloseTargetWindowPanelUI();
+            Hide();
         }
+
     }
-    public void OpenTargetWindowPanelUI()
+
+    public void Show()
     {
-        targetWindowPanelUI.gameObject.SetActive(true);
+        Debug.Log("11");
+        SetActive(true);
+        isShow = true;
     }
-    public void CloseTargetWindowPanelUI()
+    public void Hide()
     {
-        targetWindowPanelUI.gameObject.SetActive(false);
+        Debug.Log("22");
+        SetActive(false);
+        isShow = false;
+    }
+
+    public TargetWindowPanel AddTargetPanel(Window targetWindow)
+    {
+        if (targetWindow == null) { return null; }
+
+        TargetWindowPanel panel = GetTargetPanel();
+        panel.Init(targetWindow);
+
+        return panel;
+    }
+
+    private TargetWindowPanel GetTargetPanel()
+    {
+        // 풀링을 할 수도 있어 함수를 따로 뺌
+
+        TargetWindowPanel panel = null;
+
+        if (panel == null)
+        {
+            panel = Instantiate(targetWindowPanelTemp, targetWindowPanelTemp.transform.parent);
+        }
+
+        panel.gameObject.SetActive(true);
+        return panel;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         isEnter = false;
+
+        if (hideDelayCoroutine != null)
+        {
+            StopCoroutine(hideDelayCoroutine);
+        }
+
+        hideDelayCoroutine = StartCoroutine(HideDelay());
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         isEnter = true;
+
+        if (hideDelayCoroutine != null)
+        {
+            StopCoroutine(hideDelayCoroutine);
+            hideDelayCoroutine = null;
+        }
+    }
+
+    private IEnumerator HideDelay()
+    {
+        yield return new WaitForSeconds(HIDE_DELAY_TIME);
+
+        Hide();
+        hideDelayCoroutine = null;
     }
 }

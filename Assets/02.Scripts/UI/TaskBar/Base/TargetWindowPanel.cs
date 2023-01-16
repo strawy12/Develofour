@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+
     [SerializeField]
     private Image windowIcon;
     [SerializeField]
@@ -15,27 +16,32 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField]
     private Image highlightedImage;
     [SerializeField]
-    private Button openBtn;
+    private Button showBtn;
     [SerializeField]
     private Button closeBtn;
 
-    public Action<int> OnOpen;
-    public Action OnClose;
+    private Window targetWindow;
+    public Window TargetWindow => targetWindow;
+
+    public Action<TargetWindowPanel> OnClick;
+    public Action<TargetWindowPanel> OnClose;
     private bool isSelected = false;
-    private int windowTitleID;
-    public int WindowTitleId { get { return windowTitleID; } }
+
     public void Init(Window window)
     {
         windowIcon.sprite = window.WindowData.iconSprite;
         windowTitle.text = $"{window.WindowData.name} - ";
-        openBtn.onClick.AddListener(Open);
-        closeBtn.onClick.AddListener(OnPressCloseButton);
-        windowTitleID = window.WindowData.windowTitleID;
+
+        showBtn.onClick.AddListener(ClickPanel);
+        closeBtn.onClick.AddListener(Close);
+        targetWindow = window;
+
+        targetWindow.OnClosed += (a) => Close();
     }
 
     public bool CheckWindowTitle(int titleID)
     {
-        if(windowTitleID == titleID)
+        if(targetWindow.WindowData.windowTitleID == titleID)
         {
             return true;
         }
@@ -47,20 +53,34 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
         isSelected = value;
         highlightedImage.gameObject.SetActive(value);
     }
-    public void Open()
+
+    public void WindowOpen()
     {
-        OnOpen?.Invoke(windowTitleID);
+        // 여기서는 윈도우를 생성한다.
+    }
+
+    public void ShowWindow()
+    {
+        targetWindow?.WindowOpen();
+    }
+
+    public void WindowHide()
+    {
+        targetWindow?.WindowOpen();
+
     }
 
     public void Close()
     {
+        OnClose?.Invoke(this);
         Destroy(this.gameObject);
     }
 
-    public void OnPressCloseButton()
+    private void ClickPanel()
     {
-        OnClose?.Invoke();
+        OnClick?.Invoke(this);
     }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         highlightedImage.gameObject.SetActive(true);
@@ -72,4 +92,5 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
         highlightedImage.gameObject.SetActive(false);
         closeBtn.gameObject.SetActive(false);
     }
+
 }

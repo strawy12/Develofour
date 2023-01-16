@@ -16,6 +16,8 @@ public class TaskBar : MonoBehaviour
     [SerializeField]
     private int poolCnt = 10;
     private Stack<TaskIcon> taskIconPool;
+
+    // 
     private Dictionary<int, TaskIcon> taskIcons;
 
     private void Awake()
@@ -39,16 +41,17 @@ public class TaskBar : MonoBehaviour
     private void Start()
     {
         //AddFixedIcons();
+        EventManager.StartListening(EWindowEvent.CreateWindow, AddIcon);
     }
 
     private void AddFixedIcons()
     {
-        for(int i = 0; i < taskIconParent.childCount; i++)
+        for (int i = 0; i < taskIconParent.childCount; i++)
         {
             FixedTaskIcon icon = taskIconParent.GetChild(i).GetComponent<FixedTaskIcon>();
             if (icon != null)
             {
-                taskIcons.Add((int)icon.WindowPrefab.WindowData.windowType, icon);
+                //taskIcons.Add((int)icon.WindowPrefab.WindowData.windowType, icon);
             }
 
             // key는 자식의 WindowType Enum
@@ -56,19 +59,36 @@ public class TaskBar : MonoBehaviour
         }
     }
 
+    public void AddIcon(object[] ps)
+    {
+        if (ps == null || ps.Length <= 0 || !(ps[0] is Window))
+        {
+            Debug.LogError("TaskBar Icon Add Failed");
+            return;
+        }
+
+        AddIcon(ps[0] as Window);
+    }
+
     public void AddIcon(Window window)
     {
-        if(!taskIcons.ContainsKey((int)window.WindowData.windowType))
+        // 생성되어있는 TaskIcon에 해당 윈도우를 담는 아이콘이 존재하는지 여부
+
+        TaskIcon taskIcon;
+
+        Debug.Log(window.WindowData.windowType);
+        // 존재하지 않다면
+        if (taskIcons.TryGetValue((int)window.WindowData.windowType, out taskIcon) == false)
         {
-            TaskIcon taskIcon = CreateTaskIcon();
-            taskIcon.Init((int)window.WindowData.windowType);
+            taskIcon = CreateTaskIcon();
+
+            taskIcon.Init(window.WindowData);
+            taskIcon.OnClose += RemoveTaskIcon;
             taskIcon.gameObject.SetActive(true);
-            taskIcon.AddWindow(window);
+            taskIcons.Add((int)window.WindowData.windowType, taskIcon);
         }
-        else
-        {
-            taskIcons.Add((int)window.WindowData.windowType, taskIcons[(int)window.WindowData.windowType]);
-        }
+
+        taskIcon.AddWindow(window);
     }
 
     private TaskIcon CreateTaskIcon()
@@ -77,6 +97,7 @@ public class TaskBar : MonoBehaviour
         {
             CreatePool(1);
         }
+
         TaskIcon newTaskIcon = taskIconPool.Pop();
 
         return newTaskIcon;
@@ -84,6 +105,7 @@ public class TaskBar : MonoBehaviour
 
     public void RemoveTaskIcon(TaskIcon icon)
     {
+        icon.gameObject.SetActive(false);
         taskIconPool.Push(icon);
         icon.CloseIcon();
     }

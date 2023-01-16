@@ -7,4 +7,6 @@ public interface ISelectable
 {
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
+
+    public bool IsSelected(GameObject hitObject);
 }

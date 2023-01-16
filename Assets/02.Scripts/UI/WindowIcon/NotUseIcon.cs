@@ -50,6 +50,13 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         pointerStayImage.gameObject.SetActive(false);
     }
 
+    public bool IsSelected(GameObject hitObject)
+    {
+        bool flag1 = hitObject == gameObject;
+
+        return flag1 && isSelected;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if (isShaking) return;
@@ -75,6 +82,8 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             clickCount = 0;
         }
+
+        this.isSelected = isSelected;
         selectedImage.gameObject.SetActive(isSelected);
     }
 
@@ -111,4 +120,6 @@ public class NotUseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         pointerStayImage.gameObject.SetActive(false);
     }
+
+
 }
