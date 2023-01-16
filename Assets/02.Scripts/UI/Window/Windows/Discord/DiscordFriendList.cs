@@ -21,7 +21,9 @@ public class DiscordFriendList : MonoBehaviour
     private DiscordFriendLine currentFriendLine = null; //현재 좌클릭한 라인
     private DiscordFriendLine AttributeFriendLine = null; //우클릭 한 라인
 
-    [SerializeField]    
+    public DiscordFriendLine CurrentFriendLine { get { return currentFriendLine; } }
+
+    [SerializeField]
     private GameObject attribuePanel;
 
     [SerializeField]
@@ -49,9 +51,9 @@ public class DiscordFriendList : MonoBehaviour
         friendLine.OnRightClickPanel += RightClickLine;
         friendLine.myData = data;
         friendLine.ProfileImage.sprite = data.userSprite;
-        if(data.statusMsg == string.Empty)
+        if (data.statusMsg == string.Empty)
         {
-            friendLine.NameText.text = data.userName; 
+            friendLine.NameText.text = data.userName;
         }
         else
         {
@@ -76,7 +78,7 @@ public class DiscordFriendList : MonoBehaviour
         }
         currentFriendLine = line;
         //클릭됬을때 해당 메세지창 보여주면 됨
-        EventManager.TriggerEvent(EDiscordEvent.ShowChattingPanel, new object[] { line.myData.userName }) ;
+        EventManager.TriggerEvent(EDiscordEvent.ShowChattingPanel, new object[] { line.myData.userName });
     }
 
     public void RightClickLine(Vector2 pos, DiscordFriendLine line)
@@ -92,9 +94,9 @@ public class DiscordFriendList : MonoBehaviour
     //세로운 메세지 왔을때 노티스패널 키고 맨 위로 올리는 함수 
     public void NewMessage(DiscordProfileDataSO data)
     {
-        foreach(var friend in friendList)
+        foreach (var friend in friendList)
         {
-            if(friend == data)
+            if (friend == data)
             {
                 //이미 프렌드 리스트에 받은 사람이 있음
                 friendLineDic[data.userName].transform.SetAsFirstSibling();

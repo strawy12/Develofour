@@ -40,7 +40,7 @@ public class Discord : Window
 
             currentTalkData = GetTalkDataList("Å×½ºÆ®");
 
-            //chattingPanel.StartTalk(currentTalkData);
+            chattingPanel.StartTalk(currentTalkData);
         }
     }
     public DiscordChatDataListSO GetChatDataList(string userName)
@@ -103,7 +103,7 @@ public class Discord : Window
         {
             if (userName == currentUserName)
             {
-                //chattingPanel.StartTalk(currentTalkData);
+                chattingPanel.StartTalk(currentTalkData);
             }
             else
             {
@@ -128,4 +128,14 @@ public class Discord : Window
     {
         chattingPanel.StopTalk();
     }
+
+#if UNITY_EDITOR
+    private void OnApplicationQuit()
+    {
+        foreach (DiscordTalkDataListSO talkList in talkDataList)
+        {
+            talkList.Reset();
+        }
+    }
+#endif
 }
