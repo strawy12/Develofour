@@ -10,4 +10,12 @@ public class DiscordTalkDataListSO : ScriptableObject
 
     public bool isCoimpleteTalk = false;
     public List<DiscordChatData> chatDataList;
+    public void Reset()
+    {
+        foreach (DiscordChatData chatData in chatDataList)
+        {
+            isCoimpleteTalk = false;
+            chatData.Reset();
+        }
+    }
 }

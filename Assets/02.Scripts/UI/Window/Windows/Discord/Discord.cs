@@ -33,20 +33,14 @@ public class Discord : Window
     {
         base.Init();
         EventManager.StartListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
+<<<<<<< HEAD
         imagePanel.Init();
+=======
+        EventManager.StartListening(EDiscordEvent.StartTalk, StartTalkChat);
+>>>>>>> DiscordScroll
         friendList.Init();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-
-            currentTalkData = GetTalkDataList("Å×½ºÆ®");
-
-            //chattingPanel.StartTalk(currentTalkData);
-        }
-    }
     public DiscordChatDataListSO GetChatDataList(string userName)
     {
         DiscordChatDataListSO newChatData = null;
@@ -107,7 +101,7 @@ public class Discord : Window
         {
             if (userName == currentUserName)
             {
-                //chattingPanel.StartTalk(currentTalkData);
+                chattingPanel.StartTalk(currentTalkData);
             }
             else
             {
@@ -132,4 +126,25 @@ public class Discord : Window
     {
         chattingPanel.StopTalk();
     }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
+        EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
+    }
+
+    private void OnDisable()
+    { 
+        EventManager.StopListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
+        EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
+    }
+#if UNITY_EDITOR
+    private void OnApplicationQuit()
+    {
+        foreach (DiscordTalkDataListSO talkList in talkDataList)
+        {
+            talkList.Reset();
+        }
+    }
+#endif
 }

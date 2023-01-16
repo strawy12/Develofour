@@ -24,6 +24,12 @@ public class DiscordChatData
         }
     }
     public bool isTalked = false;
+
+    public void Reset()
+    {
+        isTalked = false;
+    }
+
 }
 
 [CreateAssetMenu(menuName = "SO/Discord/ChatDataList")]
@@ -33,4 +39,11 @@ public class DiscordChatDataListSO : ScriptableObject
     public DiscordProfileDataSO opponentProfileData;
 
     public List<DiscordChatData> chatDataList;
+    public void Reset()
+    {
+        foreach (DiscordChatData chatData in chatDataList)
+        {
+            chatData.Reset();
+        }
+    }
 }

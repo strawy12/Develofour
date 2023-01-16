@@ -35,7 +35,6 @@ public class DiscordMessageImagePanel : MonoBehaviour
 
     public void SettingImage(Sprite sprite)
     {
-        Debug.Log($"x:{sprite.bounds.size.x}. y:{sprite.bounds.size.y}");
         msgImage.rectTransform.sizeDelta = sprite.bounds.size * 30;
         msgImage.sprite = sprite;
         PanelSizeSetting();

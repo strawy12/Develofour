@@ -27,7 +27,8 @@ public class DiscordChattingPanel : MonoBehaviour
     public DiscordProfileDataSO playerProfileData;
     [HideInInspector]
     public DiscordProfileDataSO opponentProfileData;
-
+    [SerializeField]
+    private DiscordFriendList friendList;
     private void Awake()
     {
         messagePoolList = new List<DiscordMessagePanel>();
@@ -38,13 +39,14 @@ public class DiscordChattingPanel : MonoBehaviour
     #region Pooling
     public void PushAllPanel()
     {
-        while (messageList.Count != 0) { 
+        while (messageList.Count != 0)
+        {
             Push(messageList[0]);
         }
     }
     private void CreatePool()
     {
-        for(int i = 0; i < 50; i++)
+        for (int i = 0; i < 50; i++)
         {
             DiscordMessagePanel poolObj = Instantiate(messagePrefab, poolParent);
             poolObj.transform.SetParent(poolParent);
@@ -55,7 +57,7 @@ public class DiscordChattingPanel : MonoBehaviour
     }
     public void Push(DiscordMessagePanel pushObj)
     {
-        if(messageList.Contains(pushObj))
+        if (messageList.Contains(pushObj))
         {
             messageList.Remove(pushObj);
         }
@@ -66,7 +68,7 @@ public class DiscordChattingPanel : MonoBehaviour
     }
     private DiscordMessagePanel Pop()
     {
-        if(messagePoolList.Count <= 0)
+        if (messagePoolList.Count <= 0)
         {
             CreatePool();
         }
@@ -76,7 +78,7 @@ public class DiscordChattingPanel : MonoBehaviour
 
         messagePoolList.Remove(popObj);
         messageList.Add(popObj);
-        
+
         return popObj;
     }
     #endregion
@@ -100,17 +102,11 @@ public class DiscordChattingPanel : MonoBehaviour
         messagePanel.gameObject.SetActive(true);
     }
 
-    public void StartTalk(DiscordTalkDataListSO talkList, bool isOpen) 
+    public void StartTalk(DiscordTalkDataListSO talkList)
     {
-
-        if (isOpen)
-        {
-           StartCoroutine(TalkCoroutine(talkList));
-        }
-        else
-        {
-            
-        }
+        opponentProfileData = talkList.opponentProfileData;
+        StartCoroutine(TalkCoroutine(talkList));
+        
     }
     public IEnumerator TalkCoroutine(DiscordTalkDataListSO talkList)
     {
@@ -136,17 +132,24 @@ public class DiscordChattingPanel : MonoBehaviour
     }
     private void TalkChat(DiscordChatData data)
     {
-        DiscordMessagePanel messagePanel = Pop();
-        if (data.isMine)
+
+        if (friendList.CurrentFriendLine.myData != opponentProfileData)
         {
-            messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data));
+            friendList.NewMessage(opponentProfileData);
         }
         else
         {
-            messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data));
-        }   
-        messagePanel.gameObject.SetActive(true);
-
+            DiscordMessagePanel messagePanel = Pop();
+            if (data.isMine)
+            {
+                messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data));
+            }
+            else
+            {
+                messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data));
+            }
+            messagePanel.gameObject.SetActive(true);
+        }
         //end
         data.isTalked = true;
         isInputed = false;
@@ -156,6 +159,7 @@ public class DiscordChattingPanel : MonoBehaviour
     }
     public void WaitingTyping(DiscordChatData data)
     {
+        if (friendList.CurrentFriendLine.myData != opponentProfileData) return;
         if (data.isMine)
         {
             inputChatingText.text = "...";
@@ -173,18 +177,12 @@ public class DiscordChattingPanel : MonoBehaviour
             return true;
         }
 
-        DiscordMessagePanel lastMessage = messageList[messageList.Count- 2]; // 전메세지;
+        DiscordMessagePanel lastMessage = messageList[messageList.Count - 2]; // 전메세지;
         if (lastMessage.ChatData.isMine != data.isMine)
         {
             lastMessage.AutoSettingMessagePanelSize(true);
             return true;
         }
-        //TimeSpan timeSpan = new TimeSpan(0, minutes: 5, 0);
-        //if (lastMessage.ChatData.sendDateTime.Subtract(lastMessage.ChatData.sendDateTime) > timeSpan)
-        //{
-        //    return true;
-        //}
-       
 
         return false;
     }
