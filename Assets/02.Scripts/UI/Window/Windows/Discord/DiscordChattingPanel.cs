@@ -135,7 +135,6 @@ public class DiscordChattingPanel : MonoBehaviour
 
         if (friendList.CurrentFriendLine.myData != opponentProfileData)
         {
-            Debug.Log("´Ù¸¥ Ã¢");
             friendList.NewMessage(opponentProfileData);
         }
         else

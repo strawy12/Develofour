@@ -30,19 +30,10 @@ public class Discord : Window
     {
         base.Init();
         EventManager.StartListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
+        EventManager.StartListening(EDiscordEvent.StartTalk, StartTalkChat);
         friendList.Init();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-
-            currentTalkData = GetTalkDataList("Å×½ºÆ®");
-
-            chattingPanel.StartTalk(currentTalkData);
-        }
-    }
     public DiscordChatDataListSO GetChatDataList(string userName)
     {
         DiscordChatDataListSO newChatData = null;
