@@ -120,6 +120,17 @@ public class Discord : Window
         chattingPanel.StopTalk();
     }
 
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
+        EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
+    }
+
+    private void OnDisable()
+    { 
+        EventManager.StopListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
+        EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
+    }
 #if UNITY_EDITOR
     private void OnApplicationQuit()
     {
