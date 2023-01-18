@@ -22,7 +22,6 @@ public class DiscordChattingPanel : MonoBehaviour
 
     private Coroutine currentTalkCoroutine;
     private bool isInputed = false;
-
     [HideInInspector]
     public DiscordProfileDataSO playerProfileData;
     [HideInInspector]
