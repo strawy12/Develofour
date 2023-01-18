@@ -27,8 +27,8 @@ public class Discord : Window
     [SerializeField]
     private DiscordLogin discordLogin;
 
+    private void Start()
 
-    void Start()
     {
         Debug.Log("디스코드 디버그용 스타트. ");
         Init();
@@ -102,14 +102,7 @@ public class Discord : Window
 
         if (!currentTalkData.isCoimpleteTalk)
         {
-            if (userName == currentUserName)
-            {
-                chattingPanel.StartTalk(currentTalkData);
-            }
-            else
-            {
-                
-            }
+            chattingPanel.StartTalk(currentTalkData);
         }
     }
 
@@ -137,7 +130,7 @@ public class Discord : Window
     }
 
     private void OnDisable()
-    { 
+    {
         EventManager.StopListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
         EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
     }
@@ -147,6 +140,16 @@ public class Discord : Window
         foreach (DiscordTalkDataListSO talkList in talkDataList)
         {
             talkList.Reset();
+        }
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            object[] ps = new object[1] { "테스트" };
+
+            StartTalkChat(ps);
+
         }
     }
 #endif

@@ -10,7 +10,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 {
     [Header("Message")]
     [SerializeField]
-    private TMP_Text messageText;
+    private DiscordMessageText messageText;
     [SerializeField]
     private TMP_Text userNameText;
     [SerializeField]
@@ -47,7 +47,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
         backgroundImage ??= GetComponent<Image>();
         rectTransform ??= GetComponent<RectTransform>();
 
-        messageText.text = "";
+        messageText.SettingMessage("");
         userNameText.text = "";
 
         profileImage.sprite = null;
@@ -57,7 +57,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         currentChatData = data;
         currentProfileData = profileData;
-        messageText.text = data.message;
+        messageText.SettingMessage(data.message);
         if (data.msgSprite != null)
         {
             messageImagePanel.SettingImage(data.msgSprite);
@@ -91,7 +91,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
         if (messageText.gameObject.activeSelf)
         {
-            newVertical += messageText.rectTransform.sizeDelta.y;
+            newVertical += messageText.MessageRect.sizeDelta.y;
         }
         if (userNameText.gameObject.activeSelf)
         {
@@ -111,7 +111,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void Release()
     {
-        messageText.text = "";
+        messageText.SettingMessage("");
         messageImagePanel.Release();
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 0);
     }
