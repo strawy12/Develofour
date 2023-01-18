@@ -55,7 +55,7 @@ public class CreateSoundWindow : EditorWindow
 
         const string PATH = "Assets/02.Scripts/Core/Sound/ESound.cs";
 
-        if (File.Exists(PATH) == false)
+        if (System.IO.File.Exists(PATH) == false)
         {
             Debug.LogError($"ENoticeType 파일이 해당 경로에 존재하지 않습니다. 파일 위치를 옮겨주세요. {PATH}");
             return;

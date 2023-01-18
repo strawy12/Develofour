@@ -42,9 +42,9 @@ public class DataManager : MonoSingleton<DataManager>
         Debug.LogError("PlayerData 실행 시 매번 초기화 되는 디버깅 코드가 존재합니다.");
         return;
 #endif
-        if (File.Exists(SAVE_PATH + SAVE_FILE))
+        if (System.IO.File.Exists(SAVE_PATH + SAVE_FILE))
         {
-            string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
+            string data = System.IO.File.ReadAllText(SAVE_PATH + SAVE_FILE);
             playerData = JsonUtility.FromJson<PlayerData>(data);
         }
         else
@@ -57,7 +57,7 @@ public class DataManager : MonoSingleton<DataManager>
         CheckDirectory();
 
         string data = JsonUtility.ToJson(playerData);
-        File.WriteAllText(SAVE_PATH + SAVE_FILE, data);
+        System.IO.File.WriteAllText(SAVE_PATH + SAVE_FILE, data);
     }
 
     private void OnDestroy()
