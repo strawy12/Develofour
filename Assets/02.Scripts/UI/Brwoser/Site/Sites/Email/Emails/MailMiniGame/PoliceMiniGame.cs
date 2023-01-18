@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -66,8 +67,12 @@ public class PoliceMiniGame : MonoBehaviour
 
     private Coroutine timerCoroutine = null;
 
+
+    public Action OnGameClear;
+
     public void Init()
     {
+        // 여기서 저장된 Data에 따라서 isClear 여부 체크
         arrows = new Queue<PoliceGameArrow>();
         arrowsPool = new Queue<PoliceGameArrow>();
         CreatePool();
@@ -291,7 +296,8 @@ public class PoliceMiniGame : MonoBehaviour
         EventManager.TriggerEvent(EMailSiteEvent.PoliceGameClear);
         isStarted = false;
 
-        sendButton.SuccessEffect();
+        OnGameClear?.Invoke();
+        //sendButton.SuccessEffect();
     }
 
     private IEnumerator GameTimeCoroutine()

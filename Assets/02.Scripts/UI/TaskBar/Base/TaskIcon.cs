@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.Windows.Speech;
+using static System.Collections.Specialized.BitVector32;
+using static UnityEngine.Rendering.DebugUI;
 
 public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -12,7 +15,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     protected TaskIconAttribute attributePanel;
     [SerializeField]
-    protected TargetWindowPanel targetWindowPanelTemp;
+    protected TargetWindowPanels targetWindowPanels;
 
     [SerializeField]
     protected Image iconImage;
@@ -21,140 +24,255 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     protected Image highlightedImage;
 
-    [SerializeField]
-    protected List<Window> windowList = new List<Window>();
+    protected List<TargetWindowPanel> targetPanelList = new List<TargetWindowPanel>();
 
     protected bool isFixed = false;
     protected bool isSelectedTarget = false;
+    private bool isEnter = false;
+    private bool isClick = false;
 
     public Action<TaskIcon> OnClose;
 
-    public void Init(int windowType)
-    {
-        attributePanel.Init();
-        this.windowType = windowType;
+    private const float SHOW_TARGET_PANELS_DELAY_TIME = 1.5f;
 
-        attributePanel.OnCloseTaskIcon += CloseIcon;
+    private static TargetWindowPanels showTargetPanels = null;
+
+    private Coroutine showTargetPanelDelayCoroutine = null;
+
+
+    #region Task Icon
+
+    // TaskIcon은 Window에 대한 정보는 Type만 가지고 있고 
+    // TargetWindowPanel이 Window에 대한 정보를 가지고있다.
+    // TargetWindowPanels는 단순히 UI이며 TargetWidnowPanel은 TaskIcon가 관리한다.
+    public void Init(WindowDataSO windowData)
+    {
+        this.windowType = (int)windowData.windowType;
+
+        attributePanel.Init();
+        targetWindowPanels.Init();
+
+        SetIcon(windowData.iconSprite);
+
+        targetWindowPanels.OnUnSelectIgnoreFlag += () => isEnter && !isClick;
+        attributePanel.OnCloseWindow += CloseIcon;
         attributePanel.OnOpenWindow += ShowFirstWindow;
+    }
+
+    public void SetIcon(Sprite sprite)
+    {
+        iconImage.sprite = sprite;
     }
 
     public void CloseIcon()
     {
         Release();
-        Destroy(this.gameObject);
         //TODO : attributePanel 종료
     }
 
     public void Release()
     {
-        attributePanel.OnCloseTaskIcon -= CloseIcon;
+        attributePanel.OnCloseWindow -= CloseIcon;
         attributePanel.OnOpenWindow -= ShowFirstWindow;
         windowType = (int)EWindowType.None;
-        while (windowList.Count != 0)
+
+        while (targetPanelList.Count != 0)
         {
-            windowList[0].WindowClose();
+            targetPanelList[0].Close();
             //window의 OnClose에서 remove를 시켜줄꺼임
+        }
+    }
+
+    protected virtual void ClickIcon()
+    {
+        if (targetPanelList.Count <= 0) return;
+
+        isClick = true;
+
+        if (isSelectedTarget)
+        {
+            HideWindow();
+        }
+
+        else
+        {
+            ShowWindow();
+        }
+
+        if (targetPanelList.Count > 1)
+        {
+            StopShowTargetPanelsDelayCoroutine();
+
+            if (targetWindowPanels.IsShow)
+            {
+                HideTargetPanels();
+            }
+
+            else
+            {
+                ShowTargetPanels();
+            }
+
+        }
+
+        isClick = false;
+
+        attributePanel.Hide();
+    }
+    #endregion
+
+    #region Window Show & Hide
+    // 여기선 그냥 누르면 보여주기만 할 꺼임
+    protected void ShowWindow(Window window = null)
+    {
+        if (window == null && targetPanelList.Count == 1)
+        {
+            window = targetPanelList[0].TargetWindow;
+        }
+
+        if (window == null) return;
+
+        if (!window.IsSelected())
+        {
+            window.WindowOpen();
+        }
+    }
+
+    private void HideWindow()
+    {
+        if (targetPanelList.Count == 1)
+        {
+            if (targetPanelList[0].TargetWindow.IsSelected())
+            {
+                // WARNING
+                // 이대로 써도 될지 생각해보기
+                targetPanelList[0].TargetWindow.WindowMinimum();
+            }
         }
     }
 
     //fixed라면 override해서 if(cnt != 0) base() else { 윈도우 생성 }
     public virtual void ShowFirstWindow()
     {
-        if (windowList.Count != 0)
+        if (targetPanelList.Count != 0)
         {
-            ShowWindow(windowList[0]);
+            targetPanelList[0].ShowWindow();
             attributePanel.Hide();
         }
     }
 
-    public void RemoveWindow(int titleID)
+    #endregion
+
+    #region Window Manage
+    public void AddWindow(Window window)
     {
-        for (int i = 0; i < windowList.Count; i++)
+        TargetWindowPanel panel = AddTargetPanel(window);
+
+        if (panel == null)
         {
-            if (windowList[i].WindowData.windowTitleID == titleID)
-            {
-                windowList.RemoveAt(i);
-                //window의 OnClose에서 remove를 시켜줄꺼임
-            }
+            Debug.LogError("TargetWindowPanel이 null 입니다.");
+            return;
         }
 
-        if (windowList.Count < 1)
+        window.OnSelected += () => SelectedWindow(true);
+        window.OnUnSelected += () => SelectedWindow(false);
+
+        window.OnUnSelectIgnoreFlag += () => isEnter && !isClick;
+
+        activeImage.gameObject.SetActive(true);
+    }
+
+
+
+    public void SelectedWindow(bool isSelected)
+    {
+        isSelectedTarget = isSelected;
+        activeImage.gameObject.SetActive(isSelected);
+    }
+
+    public void RemoveTargetPanel(TargetWindowPanel panel)
+    {
+        targetPanelList.Remove(panel);
+
+        if (targetPanelList.Count <= 0)
         {
             activeImage.gameObject.SetActive(false);
             if (!isFixed)
             {
-                OnClose.Invoke(this);
+                OnClose?.Invoke(this);
                 CloseIcon();
             }
         }
     }
 
-    protected void ShowWindow(Window window) // 여기선 그냥 누르면 보여주기만 할 꺼임
-    {
+    #endregion
 
+    #region TargetPanel
+    public TargetWindowPanel AddTargetPanel(Window window)
+    {
+        TargetWindowPanel panel = targetWindowPanels.AddTargetPanel(window);
+        if (panel == null) return null;
+
+        panel.OnClose += RemoveTargetPanel;
+        panel.OnClick += HideTargetPanels;
+
+        targetPanelList.Add(panel);
+
+        return panel;
     }
 
-    protected void ShowWindow() // 여기선 그냥 누르면 보여주기만 할 꺼임
+    #endregion
+
+    #region TargetPaenels
+
+    private IEnumerator ShowTargetPanelsDelay()
     {
-        if (windowList.Count == 1)
+        if (!targetWindowPanels.IsShow)
         {
-            Debug.Log(windowList[0].IsSelected);
-            if (windowList[0].IsSelected)
-            {
-                windowList[0].WindowMinimum();
-            }
-            else
-            {
-                windowList[0].WindowOpen();
-            }
-            attributePanel.Hide();
+            yield return new WaitForSeconds(SHOW_TARGET_PANELS_DELAY_TIME);
+            ShowTargetPanels();
         }
-        else if (windowList.Count >= 2)
+
+        showTargetPanelDelayCoroutine = null;
+    }
+
+    private void StopShowTargetPanelsDelayCoroutine()
+    {
+        if (showTargetPanelDelayCoroutine != null)
         {
-            // 복수 보여주기
+            StopCoroutine(showTargetPanelDelayCoroutine);
         }
+
+        showTargetPanelDelayCoroutine = null;
     }
 
-
-    public void AddWindow(Window window)
+    private void ShowTargetPanels()
     {
-        window.OnClosed += RemoveWindow;
-        window.OnSelected += () => SelectedWindow(true);
-        window.OnUnSelected += () => SelectedWindow(false);
+        StopShowTargetPanelsDelayCoroutine();
 
-        window.CreatedWindow();
-
-        windowList.Add(window);
-
-        activeImage.gameObject.SetActive(true);
+        showTargetPanels = targetWindowPanels;
+        targetWindowPanels.Show();
     }
 
-    public void SelectedWindow(bool isSelected)
+    private void HideTargetPanels()
     {
-        isSelectedTarget = isSelected;
-        highlightedImage.gameObject.SetActive(isSelected);
+        StopShowTargetPanelsDelayCoroutine();
+
+        targetWindowPanels.Hide();
     }
 
-    //public void TargetWindowPanelClose(int titleID)
-    //{
+    #endregion
 
-    //}
-
-
-    protected virtual void LeftClick()
-    {
-        if (windowList.Count <= 0) return;
-        ShowWindow();
-    }
-
+    #region EventSystem Func
     public void OnPointerClick(PointerEventData eventData)
     {
         switch (eventData.button)
         {
             case PointerEventData.InputButton.Left:
-                LeftClick();
+                ClickIcon();
                 break;
             case PointerEventData.InputButton.Right:
+                HideTargetPanels();
                 attributePanel.Show();
                 break;
         }
@@ -162,12 +280,24 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isSelectedTarget)
+        isEnter = true;
+        highlightedImage.gameObject.SetActive(true);
+
+        if (targetPanelList.Count >= 1)
         {
-            highlightedImage.gameObject.SetActive(true);
-        }
-        if (windowList.Count >= 1)
-        {
+            if (targetWindowPanels.IsShow)
+            {
+                targetWindowPanels.OnPointerEnter(eventData);
+            }
+            else
+            {
+                if (showTargetPanelDelayCoroutine != null)
+                {
+                    StopCoroutine(showTargetPanelDelayCoroutine);
+                }
+
+                showTargetPanelDelayCoroutine = StartCoroutine(ShowTargetPanelsDelay());
+            }
             // Attribute 오픈
         }
 
@@ -175,9 +305,16 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!isSelectedTarget)
+        isEnter = false;
+        highlightedImage.gameObject.SetActive(false);
+
+        StopShowTargetPanelsDelayCoroutine();
+
+        if (targetWindowPanels.IsShow)
         {
-            highlightedImage.gameObject.SetActive(false);
+            targetWindowPanels.OnPointerExit(eventData);
         }
     }
+
+    #endregion
 }

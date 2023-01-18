@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -287,6 +287,8 @@ public class EmailSite : Site
         base.ResetSite();
     }
 
+#if UNITY_EDITOR
+
     public void OnApplicationQuit()
     {   
         foreach(var mailLine in baseEmailLineList)
@@ -294,4 +296,5 @@ public class EmailSite : Site
             mailLine.CurrentMail.DebugReset();
         }
     }
+#endif
 }
