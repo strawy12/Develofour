@@ -24,7 +24,7 @@ public class Discord : Window
     [SerializeField]
     private DiscordMessageImagePanel imagePanel;
 
-    void Start()
+    private void Start()
     {
         Init();
     }
@@ -95,14 +95,7 @@ public class Discord : Window
 
         if (!currentTalkData.isCoimpleteTalk)
         {
-            if (userName == currentUserName)
-            {
-                chattingPanel.StartTalk(currentTalkData);
-            }
-            else
-            {
-                
-            }
+            chattingPanel.StartTalk(currentTalkData);
         }
     }
 
@@ -130,7 +123,7 @@ public class Discord : Window
     }
 
     private void OnDisable()
-    { 
+    {
         EventManager.StopListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
         EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
     }
@@ -140,6 +133,16 @@ public class Discord : Window
         foreach (DiscordTalkDataListSO talkList in talkDataList)
         {
             talkList.Reset();
+        }
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            object[] ps = new object[1] { "Å×½ºÆ®" };
+
+            StartTalkChat(ps);
+
         }
     }
 #endif

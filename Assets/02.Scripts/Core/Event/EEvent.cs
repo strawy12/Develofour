@@ -1,4 +1,4 @@
-public enum ECoreEvent 
+public enum ECoreEvent
 {
     None = -1,
     LeftButtonClick,
@@ -14,7 +14,7 @@ public enum EQuestEvent
     PoliceMiniGameClear,
     ShowBrunchGmail,
     EndBrunchPostCleanUp,
-    
+
 }
 
 public enum EWindowEvent
@@ -31,6 +31,7 @@ public enum ENoticeEvent
     GeneratedNotice,
     OpenNoticeSystem,
     ClickNoticeBtn,
+    DiscordNotice,
 }
 
 public enum EBrowserEvent
@@ -81,7 +82,7 @@ public enum EMailSiteEvent
 public enum ECutSceneEvent
 {
     None = -1,
-    ShowCutScene ,
+    ShowCutScene,
     SkipCutScene,
     EndNewsCutScene,
 }
@@ -101,4 +102,3 @@ public enum EDiscordEvent
     ShowImagePanel,
     StartTalk,
 }
-
