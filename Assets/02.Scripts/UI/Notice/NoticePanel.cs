@@ -88,6 +88,33 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }
 
+    public void Notice(string head, string body, Sprite icon)
+    {
+        headText.SetText(head);
+        bodyText.SetText(body);
+        iconImage.sprite = icon;
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)csf.transform);
+
+        rectTransform.anchorMin = new Vector2(1f, 0.5f);
+        rectTransform.anchorMax = new Vector2(1f, 0.5f);
+        rectTransform.pivot = new Vector2(1f, 0.5f);
+
+        Vector2 pos = new Vector2(rectTransform.rect.width, NOTICE_POS.y);
+        rectTransform.anchoredPosition = pos;
+
+        SetActive(true);
+
+        EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
+        rectTransform.DOAnchorPosX(NOTICE_POS.x, NOTICE_DURATION);
+
+        NoticeUXEmphasis();
+
+        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.WindowAlarmSound);
+
+        stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
+    }
+
+
     public void NoticeUXEmphasis()
     {
         Sequence seq = DOTween.Sequence();
@@ -95,7 +122,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         seq.Append(rectTransform.DOScale(1.25f, scaleGotDuration / 2));
         seq.AppendCallback(() =>
         {
-             rectTransform.DOScale(1f, scaleGotDuration / 2);
+            rectTransform.DOScale(1f, scaleGotDuration / 2);
         });
     }
 
@@ -124,7 +151,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private void NoticePanelAlphalightly()
     {
-        if (dragNotice.isInvisibility) 
+        if (dragNotice.isInvisibility)
         {
             canvasGroup.alpha = noticeAlphalightly / 2;
         }
@@ -142,7 +169,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         OnCompeleted?.Invoke(this);
         EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }
-    
+
     private void Compelete()
     {
         if (isEnter)

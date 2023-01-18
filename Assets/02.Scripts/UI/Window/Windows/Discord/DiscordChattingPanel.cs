@@ -22,7 +22,6 @@ public class DiscordChattingPanel : MonoBehaviour
 
     private Coroutine currentTalkCoroutine;
     private bool isInputed = false;
-
     [HideInInspector]
     public DiscordProfileDataSO playerProfileData;
     [HideInInspector]
@@ -106,7 +105,7 @@ public class DiscordChattingPanel : MonoBehaviour
     {
         opponentProfileData = talkList.opponentProfileData;
         StartCoroutine(TalkCoroutine(talkList));
-        
+
     }
     public IEnumerator TalkCoroutine(DiscordTalkDataListSO talkList)
     {
@@ -133,9 +132,11 @@ public class DiscordChattingPanel : MonoBehaviour
     private void TalkChat(DiscordChatData data)
     {
 
-        if (friendList.CurrentFriendLine.myData != opponentProfileData)
+        if (friendList.CurrentFriendLine == null || friendList.CurrentFriendLine.myData != opponentProfileData)
         {
             friendList.NewMessage(opponentProfileData);
+            object[] ps = new object[3] { opponentProfileData.userName, data.message, opponentProfileData.userSprite };
+            EventManager.TriggerEvent(ENoticeEvent.DiscordNotice, ps);
         }
         else
         {
@@ -159,6 +160,7 @@ public class DiscordChattingPanel : MonoBehaviour
     }
     public void WaitingTyping(DiscordChatData data)
     {
+        if (friendList.CurrentFriendLine == null) return;
         if (friendList.CurrentFriendLine.myData != opponentProfileData) return;
         if (data.isMine)
         {
