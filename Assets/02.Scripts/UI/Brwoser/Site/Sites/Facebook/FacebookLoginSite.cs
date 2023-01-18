@@ -90,7 +90,6 @@ public class FacebookLoginSite : Site
         {
             passwordField.TryLogin();
         }
-
         else
         {
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);

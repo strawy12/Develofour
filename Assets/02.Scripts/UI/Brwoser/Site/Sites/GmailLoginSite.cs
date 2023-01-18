@@ -80,6 +80,20 @@ public class GmailLoginSite : Site
 
         if (requestSite == ESiteLink.None)
         {
+            Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
+            EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
+
+            DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
+
+            if (requestSite == ESiteLink.None)
+            {
+                EventManager.TriggerEvent(EBrowserEvent.OnUndoSite);
+            }
+            else
+            {
+                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY , false});
+                requestSite = ESiteLink.None;
+            }
             EventManager.TriggerEvent(EBrowserEvent.OnUndoSite);
         }
         else
