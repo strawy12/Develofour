@@ -11,6 +11,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public RectTransform rectTranstform { get; set; }
 
     private int clickCount = 0;
+    private bool isSelected = false;
 
     private Window targetWindow = null;
     private Sprite sprite;
@@ -37,6 +38,12 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         Bind();
         Init();
+    }
+
+    public bool IsSelected(GameObject hitObject)
+    {
+        bool flag1 = hitObject == gameObject;
+        return isSelected && flag1;
     }
 
     private void Bind()
@@ -103,6 +110,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             clickCount = 0;
         }
+
+        this.isSelected = isSelected;
         selectedImage.gameObject.SetActive(isSelected);
     }
 
@@ -131,4 +140,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         pointerStayImage.gameObject.SetActive(false);
     }
+
+
 }

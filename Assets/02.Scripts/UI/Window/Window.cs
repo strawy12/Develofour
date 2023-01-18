@@ -20,7 +20,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     protected bool isSelected;
 
-    public bool IsSelected { get { return isSelected; } }
     protected RectTransform rectTransform;
 
     public Action<int> OnClosed;
@@ -29,10 +28,12 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public Action OnUnSelected { get; set; }
     
     public WindowDataSO WindowData { get { return windowData; } }
-    
+
     private Vector3 windowPos;
 
     private Canvas windowCanvas;
+
+    public Func<bool> OnUnSelectIgnoreFlag;
 
     protected virtual void Init()
     {
@@ -46,15 +47,36 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         windowBar.Init(windowData, rectTransform);
         OnSelected += () => WindowSelected(true);
         OnUnSelected += () => WindowSelected(false);
+
         windowBar.OnClose?.AddListener(WindowClose);
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);
         windowBar.OnSelected += SelectWindow;
+    }
 
+    // SelectableObject를 위한 함수
+    public bool IsSelected(GameObject hitObject)
+    {
+        // 지금 현재 클릭한 오브젝트와 내 오브젝트가 같거나
+        bool flag1 = hitObject == gameObject;
+
+        // 선택 취소 무시 플래그가 true 이거나  
+        bool flag2 = OnUnSelectIgnoreFlag != null && OnUnSelectIgnoreFlag.Invoke();
+
+        // 선택되었다고한다면
+        return (flag1  && isSelected) || flag2;
+    }
+
+    public bool IsSelected()
+    {
+        bool flag = OnUnSelectIgnoreFlag != null && OnUnSelectIgnoreFlag.Invoke();
+        return isSelected || flag;
     }
 
     public void WindowSelected(bool windowSelected)
     {
+        if (isSelected == windowSelected) return;
+
         isSelected = windowSelected;
 
         if(windowCanvas == null)
@@ -64,7 +86,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
         if(isSelected)
         {
-            windowCanvas.sortingOrder = windowMaxCnt;
+            windowCanvas.sortingOrder = windowMaxCnt + 1;
         }
         if (!isSelected)
         {
@@ -82,6 +104,12 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         OnClosed?.Invoke(windowData.windowTitleID);
 
         windowMaxCnt--;
+
+        if(isSelected)
+        {
+            WindowManager.Inst.SelectedObjectNull();
+        }
+
         Destroy(gameObject);
     }
     
@@ -119,6 +147,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         
         SetCurrentWindow(this);
         SetActive(true);
+
     }
 
     public void SetCurrentWindow(Window selecetedWindow)
@@ -131,6 +160,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         Init();
         WindowOpen();
         windowMaxCnt++;
+
+        EventManager.TriggerEvent(EWindowEvent.CreateWindow, new object[] { this });
     }
 
     public void OnPointerClick(PointerEventData eventData)

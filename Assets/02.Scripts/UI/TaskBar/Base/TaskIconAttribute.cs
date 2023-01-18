@@ -14,24 +14,19 @@ public class TaskIconAttribute : MonoBehaviour
     [SerializeField]
     private Button closeButton;
 
-    public Action OnCloseTaskIcon;
+    public Action OnCloseWindow;
     public Action OnOpenWindow;
 
     public void Init()
     {
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
-        openButton.onClick.AddListener(() => OnCloseTaskIcon?.Invoke());
-        closeButton.onClick.AddListener(() => OnOpenWindow?.Invoke());
+        openButton.onClick.AddListener(WindowOpen);
+        closeButton.onClick.AddListener(WindowClose);
     }
-
-    private void Open()
-    {
-        gameObject.SetActive(true);
-    }
-    public void CheckClose(object hits)
+    public void CheckClose(object[] hits)
     {
         if (gameObject.activeSelf == false) return;
-        if (Define.ExistInHits(gameObject, hits) == false)
+        if (Define.ExistInHits(gameObject, hits[0]) == false)
         {
             Hide();
         }
@@ -45,6 +40,16 @@ public class TaskIconAttribute : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void WindowOpen()
+    {
+        OnOpenWindow?.Invoke();
+    }
+
+    public void WindowClose()
+    {
+        OnCloseWindow?.Invoke();
     }
 
 

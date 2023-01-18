@@ -45,6 +45,7 @@ public class PasswordInputField : MonoBehaviour
             return;
         }
 
+#if UNITY_EDITOR
         if (passwordField.text == password || passwordField.text == "11")
         {
             if (passwordField.text == "11")
@@ -54,6 +55,14 @@ public class PasswordInputField : MonoBehaviour
 
             OnSuccessLogin?.Invoke();
         }
+
+#else
+        if (passwordField.text == password)
+        {
+        OnSuccessLogin?.Invoke();
+        }
+#endif
+
         else
         {
             OnFailLogin?.Invoke();
