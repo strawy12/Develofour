@@ -24,17 +24,24 @@ public class Discord : Window
     [SerializeField]
     private DiscordMessageImagePanel imagePanel;
 
+    [SerializeField]
+    private DiscordLogin discordLogin;
+
+
     void Start()
     {
+        Debug.Log("디스코드 디버그용 스타트. ");
         Init();
     }
 
     protected override void Init()
     {
         base.Init();
+
         EventManager.StartListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
         EventManager.StartListening(EDiscordEvent.StartTalk, StartTalkChat);
         friendList.Init();
+        discordLogin.Init();
     }
 
     public DiscordChatDataListSO GetChatDataList(string userName)

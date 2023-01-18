@@ -97,7 +97,7 @@ public class GmailLoginSite : Site
         else
         {
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
-            textMove.FaliedInput();
+            textMove.FaliedInput("다시 입력하세요");
         }
     }
 
