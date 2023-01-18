@@ -23,7 +23,7 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private Window targetWindow;
     public Window TargetWindow => targetWindow;
 
-    public Action<TargetWindowPanel> OnClick;
+    public Action OnClick;
     public Action<TargetWindowPanel> OnClose;
     private bool isSelected = false;
 
@@ -66,8 +66,7 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void WindowHide()
     {
-        targetWindow?.WindowOpen();
-
+        targetWindow?.WindowMinimum();
     }
 
     public void Close()
@@ -78,7 +77,8 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     private void ClickPanel()
     {
-        OnClick?.Invoke(this);
+        OnClick?.Invoke();
+        ShowWindow();
     }
 
     public void OnPointerEnter(PointerEventData eventData)

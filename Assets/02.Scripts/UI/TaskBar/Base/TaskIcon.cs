@@ -142,7 +142,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         if (targetPanelList.Count == 1)
         {
-            if (!targetPanelList[0].TargetWindow.IsSelected())
+            if (targetPanelList[0].TargetWindow.IsSelected())
             {
                 // WARNING
                 // 이대로 써도 될지 생각해보기
@@ -182,18 +182,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         activeImage.gameObject.SetActive(true);
     }
 
-    public TargetWindowPanel AddTargetPanel(Window window)
-    {
-        TargetWindowPanel panel = targetWindowPanels.AddTargetPanel(window);
-        if (panel == null) return null;
-
-        panel.OnClose += RemoveTargetPanel;
-        panel.OnClick += ShowWindow;
-
-        targetPanelList.Add(panel);
-
-        return panel;
-    }
 
 
     public void SelectedWindow(bool isSelected)
@@ -215,6 +203,22 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 CloseIcon();
             }
         }
+    }
+
+    #endregion
+
+    #region TargetPanel
+    public TargetWindowPanel AddTargetPanel(Window window)
+    {
+        TargetWindowPanel panel = targetWindowPanels.AddTargetPanel(window);
+        if (panel == null) return null;
+
+        panel.OnClose += RemoveTargetPanel;
+        panel.OnClick += HideTargetPanels;
+
+        targetPanelList.Add(panel);
+
+        return panel;
     }
 
     #endregion
@@ -268,6 +272,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 ClickIcon();
                 break;
             case PointerEventData.InputButton.Right:
+                HideTargetPanels();
                 attributePanel.Show();
                 break;
         }

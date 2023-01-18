@@ -44,13 +44,11 @@ public class TargetWindowPanels : MonoUI, IPointerEnterHandler, IPointerExitHand
 
     public void Show()
     {
-        Debug.Log("11");
         SetActive(true);
         isShow = true;
     }
     public void Hide()
     {
-        Debug.Log("22");
         SetActive(false);
         isShow = false;
     }
