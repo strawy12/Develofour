@@ -5,6 +5,7 @@ using System;
 [System.Serializable]
 public class DiscordChatData
 {
+    [Multiline]
     public string message;
     [Header("보낸 날짜")]
     public int year;
