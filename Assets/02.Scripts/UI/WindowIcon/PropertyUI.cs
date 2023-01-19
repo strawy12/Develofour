@@ -24,7 +24,7 @@ public class PropertyUI : MonoUI
     [SerializeField]
     private Text iconFixData;
     [SerializeField]
-    private Text iconAcessData;
+    private Text iconAccessData;
 
     private void Awake()
     {
@@ -45,7 +45,7 @@ public class PropertyUI : MonoUI
         iconByte.text = windowIconDataSO.iconByte;
         iconMadeData.text = windowIconDataSO.iconMadeData;
         iconFixData.text = windowIconDataSO.iconFixData;
-        iconAcessData.text = windowIconDataSO.iconAcessData;
+        iconAccessData.text = windowIconDataSO.iconAccessData;
 
         SetActive(true);
         //SetActive(true);

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Libraay/fileSO")]
+[CreateAssetMenu(menuName = "SO/Library/fileSO")]
 public class FileSO : ScriptableObject
 {
     public EWindowType windowType;
@@ -16,7 +16,7 @@ public class FileSO : ScriptableObject
     public string iconByte;
     public string iconMadeData;
     public string iconFixData;
-    public string iconAcessData;
+    public string iconAccessData;
 
     public DirectorySO parent;
 }
