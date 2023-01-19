@@ -39,9 +39,9 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
 
-    private void Bind()
+    public void Bind()
     {
-        rectTranstform = GetComponent<RectTransform>();
+        rectTranstform ??= GetComponent<RectTransform>();
     }
 
     public bool IsSelected(GameObject hitObject)
@@ -50,7 +50,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         return isSelected && flag1;
     }
 
-    private void Init()
+    public void Init()
     {
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
@@ -59,6 +59,14 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         OnUnSelected += () => SelectedIcon(false);
     }
    
+    public void SetFileData(FileSO newFileData)
+    {
+        fileData = newFileData;
+        iconNameText.text = fileData.windowTitle;
+        iconImage.sprite = newFileData.windowIcon;
+        sprite = newFileData.windowIcon;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if(eventData.button == PointerEventData.InputButton.Left)
