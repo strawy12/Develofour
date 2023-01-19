@@ -40,6 +40,18 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
+
+    public FileSO File
+    {
+        get 
+        { 
+            return file; 
+        }
+        set 
+        {
+            file = value; 
+        }
+    }
     
     private Vector3 windowPos;
     private Canvas windowCanvas;
@@ -52,7 +64,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
 
-        windowBar.Init(windowData, rectTransform);
+        windowBar.Init(windowAlteration, file, rectTransform);
         OnSelected += () => WindowSelected(true);
         OnUnSelected += () => WindowSelected(false);
 
@@ -109,7 +121,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowClose()
     {
-        OnClosed?.Invoke(windowData.windowTitleID);
+        OnClosed?.Invoke(file.windowType);
 
         windowMaxCnt--;
 
@@ -129,7 +141,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowMaximum()
     {
-        if(!windowData.isMaximum)
+        if(!windowAlteration.isMaximum)
         {
             Vector2 size = Constant.MAX_CANVAS_SIZE;
             size.y -= 50;
@@ -138,14 +150,14 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
             windowPos = rectTransform.localPosition;
             rectTransform.localPosition = new Vector3(0, 25, 0);
 
-            windowData.isMaximum = true;
+            windowAlteration.isMaximum = true;
         }
         else
         {
             rectTransform.localPosition = windowPos;
-            rectTransform.sizeDelta = windowData.size;
+            rectTransform.sizeDelta = windowAlteration.size;
 
-            windowData.isMaximum = false;
+            windowAlteration.isMaximum = false;
         }
     }
 

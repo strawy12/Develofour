@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Window/Alteration")]
-public class WindowAlterationSO : ScriptableObject
+public class WindowAlterationSO : ScriptableObject 
 {
     [HideInInspector]
     public bool isMaximum;

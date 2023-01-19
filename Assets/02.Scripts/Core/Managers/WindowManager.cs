@@ -68,17 +68,18 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             // Browser가 존재하지않을 때 하나를 새로 생성시킨다
             // 여기서 생성이 되면 자동으로 Browser.currentBrowser로 지정된다
-            CreateWindow(EWindowType.Browser, 0);
+            CreateWindow(EWindowType.Browser, null);
         }
 
 
         Browser.currentBrowser?.ChangeSite(link, delay);
     }
 
+    // TODO : 같은 이름의 윈도우를 실행 시켰을 때 키 값이 겹칠 수 있음. (나중에 구분 할 수 있는 코드 짜야함)
     // 다른 키값 하나가 더 있으야함
-    public Window GetWindow(EWindowType windowType)
+    public Window GetWindow(EWindowType windowType, string windowName)
     {
-        return windowDictionary[windowType];
+        return windowDictionary[windowType].Find(x => x.File.windowName == windowName);
     }
 
     // 다른 키 값 하나가 더 있어야 구분 가능
@@ -89,8 +90,13 @@ public class WindowManager : MonoSingleton<WindowManager>
     }
 
     // 
-    public Window CreateWindow(EWindowType windowType)
+    public Window CreateWindow(EWindowType windowType, FileSO file = null)
     {
+        if(file == null)
+        {
+            // null이면 기본 FileSO를 리소스로드로 찾아서 넣을거임
+        }
+
         Window window = GetWindowPrefab(windowType);
         window.CreatedWindow();
         windowDictionary[windowType].Add(window);

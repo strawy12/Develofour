@@ -17,9 +17,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Sprite sprite;
 
     [SerializeField]
-    private WindowDataSO windowData;
-
-    [SerializeField]
     private Image iconImage;
     [SerializeField]
     private Image selectedImage;
@@ -28,9 +25,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     [SerializeField]
     private TMP_Text iconNameText;
-
-    [SerializeField]
-    private WindowIconDataSO windowIconData;
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
@@ -96,10 +90,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-        targetWindow = WindowManager.Inst.GetWindow(windowData.windowType, windowData.windowTitleID);
+        targetWindow = WindowManager.Inst.GetWindow(targetWindow.File.windowType, targetWindow.File.windowName);
         if (targetWindow == null)
         {
-            targetWindow = WindowManager.Inst.CreateWindow(windowData.windowType, windowData.windowTitleID);
+            targetWindow = WindowManager.Inst.CreateWindow(targetWindow.File.windowType, targetWindow.File);
         }
         targetWindow.OnClosed += CloseTargetWindow;
         targetWindow.WindowOpen();
@@ -129,7 +123,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         mousePos.y -= Constant.MAX_CANVAS_POS.y;
         mousePos.z = 0f;
 
-        WindowIconAttributeUI.OnCreateMenu?.Invoke(mousePos, windowIconData);
+        WindowIconAttributeUI.OnCreateMenu?.Invoke(mousePos, targetWindow.File);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

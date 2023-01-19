@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PropertyUI : MonoUI
+public class PropertyUI : MonoUI 
 {
     [SerializeField]
     private Button closeButton;
