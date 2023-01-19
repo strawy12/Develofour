@@ -23,6 +23,13 @@ public class Library : Window
     [SerializeField]
     private DirectorySO currentDirectory;
 
+    #region Redo & Undo
+    [Header("Redo & Undo")]
+    private Stack<DirectorySO> undoStack;
+
+    private Stack<DirectorySO> redoStack;
+    #endregion
+
     #region UI
     [SerializeField]
     private Button undoBtn;
@@ -74,6 +81,9 @@ public class Library : Window
     {
         base.Init();
         currentDirectory = file as DirectorySO;
+        undoStack = new Stack<DirectorySO>();
+        redoStack = new Stack<DirectorySO>();
+        
     }
 
     private void CreateChildren()
@@ -84,5 +94,34 @@ public class Library : Window
             icon.SetFileData(file);
         }
     }
-    
+
+
+    public void UndoSite(object[] emptyParam) => UndoSite();
+    public void UndoSite()
+    {
+        //count가 0이면 알파값 내리는게 맞을듯
+        if (undoStack.Count == 0) return;
+        DirectorySO data = undoStack.Pop();
+        redoStack.Push(currentDirectory);
+        ChangeDirectory(data);
+    }
+
+    public void RedoSite(object[] emptyParam) => RedoSite();
+    public void RedoSite()
+    {
+        //count가 0이면 알파값 내리는게 맞을듯
+        if (redoStack.Count == 0) return;
+        DirectorySO data = redoStack.Pop();
+        undoStack.Push(currentDirectory);
+        ChangeDirectory(data);
+    }
+
+    public void ChangeDirectory(DirectorySO SO)
+    {
+        //현재 디렉토리를 SO디렉토리로 바꾸고 다시 View든 Show든 Create해주면 됨
+        //맨 위에있는 사진과 이름 바꿔야함
+        //ㅁㅁㅁㅁ 검색 이름 바꾸기
+        //주소 바꾸기
+    }
+
 }
