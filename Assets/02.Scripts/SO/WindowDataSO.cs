@@ -10,6 +10,7 @@ public enum EWindowType
     Browser,
     ImageViewer,
     Discord,
+    Library,
     End
 }
 [CreateAssetMenu(menuName = "SO/Window/Data")]
