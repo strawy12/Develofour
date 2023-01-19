@@ -29,6 +29,9 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField]
     private TMP_Text iconNameText;
 
+    [SerializeField]
+    private FileSO fileData;
+
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
 
@@ -38,18 +41,19 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         Init();
     }
 
+
+    public void Bind()
+    {
+        rectTranstform ??= GetComponent<RectTransform>();
+    }
+
     public bool IsSelected(GameObject hitObject)
     {
         bool flag1 = hitObject == gameObject;
         return isSelected && flag1;
     }
 
-    private void Bind()
-    {
-        rectTranstform = GetComponent<RectTransform>();
-    }
-
-    private void Init()
+    public void Init()
     {
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
@@ -58,6 +62,14 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         OnUnSelected += () => SelectedIcon(false);
     }
    
+    public void SetFileData(FileSO newFileData)
+    {
+        fileData = newFileData;
+        iconNameText.text = fileData.windowName;
+        iconImage.sprite = newFileData.iconSprite;
+        sprite = newFileData.iconSprite;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if(eventData.button == PointerEventData.InputButton.Left)

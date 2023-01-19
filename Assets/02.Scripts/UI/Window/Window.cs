@@ -25,6 +25,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     [Header("Window Data")]
     [SerializeField]
     protected WindowAlterationSO windowAlteration; // 위도우 위치 크기 정보
+    [SerializeField]
     protected FileSO file;
 
     [SerializeField]
@@ -34,7 +35,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     protected RectTransform rectTransform;
 
-    public Action<string> OnClosed;
+    public Action<int> OnClosed;
     public Func<bool> OnUnSelectIgnoreFlag;
 
     public Action OnSelected { get; set; }
@@ -45,6 +46,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         get 
         { 
             return file; 
+        }
+        set 
+        {
+            file = value; 
         }
     }
     
@@ -116,7 +121,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowClose()
     {
-        OnClosed?.Invoke(file.name);
+        OnClosed?.Invoke((int)file.windowType);
 
         windowMaxCnt--;
 
@@ -170,10 +175,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         currentWindow = selecetedWindow;
     }
 
-    public void CreatedWindow(FileSO file)
+    public void CreatedWindow()
     {
-        this.file = file;
-
         Init();
         WindowOpen();
         windowMaxCnt++;

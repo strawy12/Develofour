@@ -24,7 +24,7 @@ public class PropertyUI : MonoUI
     [SerializeField]
     private Text iconFixData;
     [SerializeField]
-    private Text iconAcessData;
+    private Text iconAccessData;
 
     private void Awake()
     {
@@ -37,6 +37,7 @@ public class PropertyUI : MonoUI
         confirmButton.onClick?.AddListener(ClosePropertyTab);
     }
 
+
     public void CreatePropertyUI(FileSO file)
     {
         iconImage.sprite = file.iconSprite;
@@ -46,7 +47,7 @@ public class PropertyUI : MonoUI
         iconByte.text = file.windowIconData.iconByte;
         iconMadeData.text = file.windowIconData.iconMadeData;
         iconFixData.text = file.windowIconData.iconFixData;
-        iconAcessData.text = file.windowIconData.iconAcessData;
+        iconAccessData.text = file.windowIconData.iconAcessData;
 
         SetActive(true);
     }

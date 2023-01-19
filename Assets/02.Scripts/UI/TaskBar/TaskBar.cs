@@ -76,6 +76,7 @@ public class TaskBar : MonoBehaviour
 
         TaskIcon taskIcon;
 
+        // 존재하지 않다면
         if (taskIcons.TryGetValue((int)window.File.windowType, out taskIcon) == false)
         {
             taskIcon = CreateTaskIcon();

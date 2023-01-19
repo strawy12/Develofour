@@ -39,6 +39,7 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
         targetWindow.OnClosed += (a) => Close();
     }
 
+
     public void SelectedTargetWindow(bool value)
     {
         isSelected = value;
