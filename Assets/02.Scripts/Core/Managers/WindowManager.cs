@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +14,10 @@ public class WindowPrefabElement
 
 public class WindowManager : MonoSingleton<WindowManager>
 {
-    // ÀÌ°Å´Â µ¿ÀûÀ¸·Î »ı¼ºµÈ Window ¸ğÀ½
+    // ì´ê±°ëŠ” ë™ì ìœ¼ë¡œ ìƒì„±ëœ Window ëª¨ìŒ
     private Dictionary<EWindowType, List<Window>> windowDictionary = new Dictionary<EWindowType, List<Window>>();
 
-    // ÇÁ¸®ÆÕ
+    // í”„ë¦¬íŒ¹
     [SerializeField]
     private List<WindowPrefabElement> windowPrefabList = new List<WindowPrefabElement>();
 
@@ -45,7 +45,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         if (!windowDictionary.ContainsKey(EWindowType.Browser))
         {
-            Debug.LogError("Browser TypeÀÌ Dictionary¿¡ µé¾î°¡ÀÖÁö¾Ê½À´Ï´Ù");
+            Debug.LogError("Browser Typeì´ Dictionaryì— ë“¤ì–´ê°€ìˆì§€ì•ŠìŠµë‹ˆë‹¤");
             return;
         }
 
@@ -66,8 +66,8 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
         else
         {
-            // Browser°¡ Á¸ÀçÇÏÁö¾ÊÀ» ¶§ ÇÏ³ª¸¦ »õ·Î »ı¼º½ÃÅ²´Ù
-            // ¿©±â¼­ »ı¼ºÀÌ µÇ¸é ÀÚµ¿À¸·Î Browser.currentBrowser·Î ÁöÁ¤µÈ´Ù
+            // Browserê°€ ì¡´ì¬í•˜ì§€ì•Šì„ ë•Œ í•˜ë‚˜ë¥¼ ìƒˆë¡œ ìƒì„±ì‹œí‚¨ë‹¤
+            // ì—¬ê¸°ì„œ ìƒì„±ì´ ë˜ë©´ ìë™ìœ¼ë¡œ Browser.currentBrowserë¡œ ì§€ì •ëœë‹¤
             CreateWindow(EWindowType.Browser, null);
         }
 
@@ -75,15 +75,15 @@ public class WindowManager : MonoSingleton<WindowManager>
         Browser.currentBrowser?.ChangeSite(link, delay);
     }
 
-    // TODO : °°Àº ÀÌ¸§ÀÇ À©µµ¿ì¸¦ ½ÇÇà ½ÃÄ×À» ¶§ Å° °ªÀÌ °ãÄ¥ ¼ö ÀÖÀ½. (³ªÁß¿¡ ±¸ºĞ ÇÒ ¼ö ÀÖ´Â ÄÚµå Â¥¾ßÇÔ)
-    // ´Ù¸¥ Å°°ª ÇÏ³ª°¡ ´õ ÀÖÀ¸¾ßÇÔ
+    // TODO : ê°™ì€ ì´ë¦„ì˜ ìœˆë„ìš°ë¥¼ ì‹¤í–‰ ì‹œì¼°ì„ ë•Œ í‚¤ ê°’ì´ ê²¹ì¹  ìˆ˜ ìˆìŒ. (ë‚˜ì¤‘ì— êµ¬ë¶„ í•  ìˆ˜ ìˆëŠ” ì½”ë“œ ì§œì•¼í•¨)
+    // ë‹¤ë¥¸ í‚¤ê°’ í•˜ë‚˜ê°€ ë” ìˆìœ¼ì•¼í•¨
     public Window GetWindow(EWindowType windowType, string windowName)
     {
         return windowDictionary[windowType].Find(x => x.File.windowName == windowName);
     }
 
-    // ´Ù¸¥ Å° °ª ÇÏ³ª°¡ ´õ ÀÖ¾î¾ß ±¸ºĞ °¡´É
-    // ¸Ş¸ğÀå1, ¸Ş¸ğÀå2 ±¸º°
+    // ë‹¤ë¥¸ í‚¤ ê°’ í•˜ë‚˜ê°€ ë” ìˆì–´ì•¼ êµ¬ë¶„ ê°€ëŠ¥
+    // ë©”ëª¨ì¥1, ë©”ëª¨ì¥2 êµ¬ë³„
     public bool IsExistWindow(EWindowType windowType)
     {
         return windowDictionary.ContainsKey(windowType);
@@ -94,7 +94,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         if(file == null)
         {
-            // nullÀÌ¸é ±âº» FileSO¸¦ ¸®¼Ò½º·Îµå·Î Ã£¾Æ¼­ ³ÖÀ»°ÅÀÓ
+            // nullì´ë©´ ê¸°ë³¸ FileSOë¥¼ ë¦¬ì†ŒìŠ¤ë¡œë“œë¡œ ì°¾ì•„ì„œ ë„£ì„ê±°ì„
         }
 
         Window window = GetWindowPrefab(windowType);
