@@ -6,6 +6,15 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
+public enum EWindowType // 확장자
+{
+    None,
+    Notepad,
+    Browser,
+    ImageViewer,
+    Discord,
+    End
+}
 
 [RequireComponent(typeof(GraphicRaycaster))]
 public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
@@ -13,27 +22,28 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public static int windowMaxCnt;
     public static Window currentWindow;
 
+    [Header("Window Data")]
+    [SerializeField]
+    protected WindowAlterationSO windowAlteration; // 위도우 위치 크기 정보
+    [SerializeField]
+    protected FileSO file;
+
     [SerializeField]
     protected WindowBar windowBar;
-    [SerializeField]
-    protected WindowDataSO windowData;
 
     protected bool isSelected;
 
     protected RectTransform rectTransform;
 
     public Action<int> OnClosed;
+    public Func<bool> OnUnSelectIgnoreFlag;
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
     
-    public WindowDataSO WindowData { get { return windowData; } }
-
     private Vector3 windowPos;
-
     private Canvas windowCanvas;
 
-    public Func<bool> OnUnSelectIgnoreFlag;
 
     protected virtual void Init()
     {
@@ -42,8 +52,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
 
-        windowData.isMaximum = false;
-      
         windowBar.Init(windowData, rectTransform);
         OnSelected += () => WindowSelected(true);
         OnUnSelected += () => WindowSelected(false);
