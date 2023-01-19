@@ -6,4 +6,13 @@ using UnityEngine;
 public class DirectorySO : FileSO
 {
     public List<FileSO> children;
+
+    [ContextMenu("SetParentInChildren")]
+    public void SetParentInChildren()
+    {
+        foreach(FileSO child in children)
+        {
+            child.parent = this;
+        }
+    }
 }
