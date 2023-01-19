@@ -18,7 +18,7 @@ public class FileSO : ScriptableObject
 
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
     public Sprite iconSprite;
-    public string windowName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
+    //public string windowName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public WindowIconData windowIconData;
     public bool isMultiple; // 윈도우를 여러번 킬 수 있냐
 }

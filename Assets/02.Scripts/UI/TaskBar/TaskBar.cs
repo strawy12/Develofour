@@ -76,16 +76,14 @@ public class TaskBar : MonoBehaviour
 
         TaskIcon taskIcon;
 
-        Debug.Log(window.WindowData.windowType);
-        // 존재하지 않다면
-        if (taskIcons.TryGetValue((int)window.WindowData.windowType, out taskIcon) == false)
+        if (taskIcons.TryGetValue((int)window.File.windowType, out taskIcon) == false)
         {
             taskIcon = CreateTaskIcon();
 
-            taskIcon.Init(window.WindowData);
+            taskIcon.Init(window.File);
             taskIcon.OnClose += RemoveTaskIcon;
             taskIcon.gameObject.SetActive(true);
-            taskIcons.Add((int)window.WindowData.windowType, taskIcon);
+            taskIcons.Add((int)window.File.windowType, taskIcon);
         }
 
         taskIcon.AddWindow(window);

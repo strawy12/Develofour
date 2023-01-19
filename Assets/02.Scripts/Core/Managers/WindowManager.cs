@@ -68,7 +68,7 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             // Browser가 존재하지않을 때 하나를 새로 생성시킨다
             // 여기서 생성이 되면 자동으로 Browser.currentBrowser로 지정된다
-            CreateWindow(EWindowType.Browser, null);
+            CreateWindow(EWindowType.Browser);
         }
 
 
@@ -79,7 +79,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     // 다른 키값 하나가 더 있으야함
     public Window GetWindow(EWindowType windowType, string windowName)
     {
-        return windowDictionary[windowType].Find(x => x.File.windowName == windowName);
+        return windowDictionary[windowType].Find(x => x.File.name == windowName);
     }
 
     // 다른 키 값 하나가 더 있어야 구분 가능
@@ -98,7 +98,7 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
 
         Window window = GetWindowPrefab(windowType);
-        window.CreatedWindow();
+        window.CreatedWindow(file);
         windowDictionary[windowType].Add(window);
         return window;
     }

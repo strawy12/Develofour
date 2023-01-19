@@ -29,23 +29,14 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void Init(Window window)
     {
-        windowIcon.sprite = window.WindowData.iconSprite;
-        windowTitle.text = $"{window.WindowData.name} - ";
+        windowIcon.sprite = window.File.iconSprite;
+        windowTitle.text = $"{window.File.name} - ";
 
         showBtn.onClick.AddListener(ClickPanel);
         closeBtn.onClick.AddListener(Close);
         targetWindow = window;
 
         targetWindow.OnClosed += (a) => Close();
-    }
-
-    public bool CheckWindowTitle(int titleID)
-    {
-        if(targetWindow.WindowData.windowTitleID == titleID)
-        {
-            return true;
-        }
-        return false;
     }
 
     public void SelectedTargetWindow(bool value)

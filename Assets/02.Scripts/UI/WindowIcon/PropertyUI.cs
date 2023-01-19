@@ -40,7 +40,7 @@ public class PropertyUI : MonoUI
     public void CreatePropertyUI(FileSO file)
     {
         iconImage.sprite = file.iconSprite;
-        iconName.text = file.windowName;
+        iconName.text = file.name;
 
         iconLocation.text = file.windowIconData.iconLocation;
         iconByte.text = file.windowIconData.iconByte;
