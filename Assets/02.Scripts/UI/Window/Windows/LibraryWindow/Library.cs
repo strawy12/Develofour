@@ -73,7 +73,7 @@ public class Library : Window
     protected override void Init()
     {
         base.Init();
-        currentDirectory = fileSO as DirectorySO;
+        currentDirectory = file as DirectorySO;
     }
 
     private void CreateChildren()

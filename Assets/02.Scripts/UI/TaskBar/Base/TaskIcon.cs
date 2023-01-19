@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
-using UnityEngine.Windows.Speech;
-using static System.Collections.Specialized.BitVector32;
-using static UnityEngine.Rendering.DebugUI;
 
 public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -45,14 +42,14 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     // TaskIcon은 Window에 대한 정보는 Type만 가지고 있고 
     // TargetWindowPanel이 Window에 대한 정보를 가지고있다.
     // TargetWindowPanels는 단순히 UI이며 TargetWidnowPanel은 TaskIcon가 관리한다.
-    public void Init(WindowDataSO windowData)
+    public void Init(FileSO windowFile)
     {
-        this.windowType = (int)windowData.windowType;
+        this.windowType = (int)windowFile.windowType;
 
         attributePanel.Init();
         targetWindowPanels.Init();
 
-        SetIcon(windowData.iconSprite);
+        SetIcon(windowFile.iconSprite);
 
         targetWindowPanels.OnUnSelectIgnoreFlag += () => isEnter && !isClick;
         attributePanel.OnCloseWindow += CloseIcon;
