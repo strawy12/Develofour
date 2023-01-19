@@ -28,7 +28,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     [SerializeField]
     private FileSO fileData;
-
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
 
@@ -37,7 +36,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         Bind();
         Init();
     }
-
 
     public void Bind()
     {
@@ -102,6 +100,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
+        if(fileData is DirectorySO)
+        {
+            EventManager.TriggerEvent(ELibraryEvent.OpenFile, new object[1] { fileData });
+            return;
+        }
         targetWindow = WindowManager.Inst.GetWindow(targetWindow.File.windowType, targetWindow.File.windowName);
         if (targetWindow == null)
         {
@@ -128,7 +131,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         targetWindow = null;
     }    
 
-    void CreateAttributeUI(PointerEventData eventData)
+    private void CreateAttributeUI(PointerEventData eventData)
     {
         Vector3 mousePos = eventData.position;
         mousePos.x -= Constant.MAX_CANVAS_POS.x;
