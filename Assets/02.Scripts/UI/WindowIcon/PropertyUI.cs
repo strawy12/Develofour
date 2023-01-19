@@ -43,11 +43,11 @@ public class PropertyUI : MonoUI
         iconImage.sprite = file.iconSprite;
         iconName.text = file.name;
 
-        iconLocation.text = file.windowIconData.iconLocation;
-        iconByte.text = file.windowIconData.iconByte;
-        iconMadeData.text = file.windowIconData.iconMadeData;
-        iconFixData.text = file.windowIconData.iconFixData;
-        iconAccessData.text = file.windowIconData.iconAcessData;
+        iconLocation.text = file.GetFileLocation();
+        iconByte.text = file.GetFileBytes().ToString();
+        //iconMadeData.text = file.windowIconData.iconMadeData;
+        //iconFixData.text = file.windowIconData.iconFixData;
+        //iconAccessData.text = file.windowIconData.iconAcessData;
 
         SetActive(true);
     }

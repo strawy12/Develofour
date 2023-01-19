@@ -17,7 +17,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Sprite sprite;
 
     [SerializeField]
-    private FileSO file;
+    private FileSO fileData;
 
     [SerializeField]
     private Image iconImage;
@@ -28,9 +28,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     [SerializeField]
     private TMP_Text iconNameText;
-
-    [SerializeField]
-    private FileSO fileData;
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
@@ -65,9 +62,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void SetFileData(FileSO newFileData)
     {
         fileData = newFileData;
-        iconNameText.text = fileData.windowName;
+        iconNameText.text = fileData.name;
         iconImage.sprite = newFileData.iconSprite;
-        sprite = newFileData.iconSprite;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -105,10 +101,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-        targetWindow = WindowManager.Inst.GetWindow(file.windowType, file.name);
+        targetWindow = WindowManager.Inst.GetWindow(fileData.windowType, fileData.name);
         if (targetWindow == null)
         {
-            targetWindow = WindowManager.Inst.CreateWindow(file.windowType, file);
+            targetWindow = WindowManager.Inst.CreateWindow(fileData.windowType, fileData);
         }
         targetWindow.OnClosed += CloseTargetWindow;
         targetWindow.WindowOpen(); 
@@ -138,7 +134,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         mousePos.y -= Constant.MAX_CANVAS_POS.y;
         mousePos.z = 0f;
 
-        WindowIconAttributeUI.OnCreateMenu?.Invoke(mousePos, file);
+        WindowIconAttributeUI.OnCreateMenu?.Invoke(mousePos, fileData);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

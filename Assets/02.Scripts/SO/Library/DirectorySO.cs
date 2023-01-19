@@ -6,4 +6,16 @@ using UnityEngine;
 public class DirectorySO : FileSO
 {
     public List<FileSO> children;
+
+    public override int GetFileBytes()
+    {
+        int bytes = 0;
+
+        foreach(FileSO child in children)
+        {
+            bytes += child.GetFileBytes();
+        }
+
+        return bytes;
+    }
 }
