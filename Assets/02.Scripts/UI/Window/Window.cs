@@ -13,7 +13,7 @@ public enum EWindowType // 확장자
     Browser,
     ImageViewer,
     Discord,
-    Directory,
+    Library,
     End
 }
 
