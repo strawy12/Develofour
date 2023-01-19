@@ -37,10 +37,10 @@ public class PropertyUI : MonoUI
         confirmButton.onClick?.AddListener(ClosePropertyTab);
     }
 
-    public void CreatePropertyUI(WindowIconDataSO windowIconDataSO)
+    public void CreatePropertyUI(FileSO windowIconDataSO)
     {
-        iconImage.sprite = windowIconDataSO.iconSprite;
-        iconName.text = windowIconDataSO.iconName;
+        iconImage.sprite = windowIconDataSO.windowIcon;
+        iconName.text = windowIconDataSO.windowTitle;
         iconLocation.text = windowIconDataSO.iconLocation;
         iconByte.text = windowIconDataSO.iconByte;
         iconMadeData.text = windowIconDataSO.iconMadeData;

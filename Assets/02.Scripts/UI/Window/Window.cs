@@ -17,7 +17,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     protected WindowBar windowBar;
     [SerializeField]
     protected WindowDataSO windowData;
-
+    [SerializeField]
+    protected FileSO fileSO;
     protected bool isSelected;
 
     protected RectTransform rectTransform;

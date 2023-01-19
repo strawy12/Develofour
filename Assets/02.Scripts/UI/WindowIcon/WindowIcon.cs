@@ -17,8 +17,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Sprite sprite;
 
     [SerializeField]
-    private WindowDataSO windowData;
-    [SerializeField]
     private Image iconImage;
     [SerializeField]
     private Image selectedImage;
@@ -29,7 +27,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private TMP_Text iconNameText;
 
     [SerializeField]
-    private WindowIconDataSO windowIconData;
+    private FileSO fileData;
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
@@ -40,15 +38,16 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         Init();
     }
 
-    public bool IsSelected(GameObject hitObject)
-    {
-        bool flag1 = hitObject == gameObject;
-        return isSelected && flag1;
-    }
 
     private void Bind()
     {
         rectTranstform = GetComponent<RectTransform>();
+    }
+
+    public bool IsSelected(GameObject hitObject)
+    {
+        bool flag1 = hitObject == gameObject;
+        return isSelected && flag1;
     }
 
     private void Init()
@@ -95,10 +94,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-        targetWindow = WindowManager.Inst.GetWindow(windowData.windowType, windowData.windowTitleID);
+        targetWindow = WindowManager.Inst.GetWindow(fileData.windowType, fileData.windowTitleID);
         if (targetWindow == null)
         {
-            targetWindow = WindowManager.Inst.CreateWindow(windowData.windowType, windowData.windowTitleID);
+            targetWindow = WindowManager.Inst.CreateWindow(fileData.windowType, fileData.windowTitleID);
         }
         targetWindow.OnClosed += CloseTargetWindow;
         targetWindow.WindowOpen();
@@ -128,7 +127,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         mousePos.y -= Constant.MAX_CANVAS_POS.y;
         mousePos.z = 0f;
 
-        WindowIconAttributeUI.OnCreateMenu?.Invoke(mousePos, windowIconData);
+        WindowIconAttributeUI.OnCreateMenu?.Invoke(mousePos, fileData);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
