@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
@@ -18,10 +19,13 @@ public class Library : Window
 
     private Queue<WindowIcon> poolQueue;
     private List<WindowIcon> iconList = new List<WindowIcon>();
-    #endregion
 
+    #endregion
     [SerializeField]
     private DirectorySO currentDirectory;
+
+    [SerializeField]
+    private FileAddressPanel fileAddressPanel;
 
     #region UI
     [SerializeField]
@@ -29,7 +33,7 @@ public class Library : Window
     [SerializeField]
     private Button redoBtn;
     #endregion
-    
+
     #region pooling
     private void CreatePool()
     {
@@ -43,7 +47,13 @@ public class Library : Window
             icon.gameObject.SetActive(false);
         }
     }
-
+    private void PushAll()
+    {
+        foreach (WindowIcon icon in iconList)
+        {
+            Push(icon);
+        }
+    }
     private void Push(WindowIcon icon)
     {
         if (iconList.Contains(icon))
@@ -56,10 +66,10 @@ public class Library : Window
         }
         icon.transform.SetParent(poolParent);
         icon.gameObject.SetActive(false);
-    } 
+    }
     private WindowIcon Pop()
     {
-        if(poolQueue.Count <= 0)
+        if (poolQueue.Count <= 0)
         {
             CreatePool();
         }
@@ -70,19 +80,44 @@ public class Library : Window
     }
     #endregion
 
+
+    private void Awake()
+    {
+        Init();
+    }
+
     protected override void Init()
     {
         base.Init();
         currentDirectory = file as DirectorySO;
+        SetLibrary();
+        EventManager.StartListening(ELibraryEvent.OpenFile, OnFileOpen);
+    }
+
+    private void SetLibrary()
+    {
+        windowBar.SetNameText(currentDirectory.windowName);
+        CreateChildren();
     }
 
     private void CreateChildren()
     {
+        PushAll();
         foreach (FileSO file in currentDirectory.children)
         {
             WindowIcon icon = Pop();
             icon.SetFileData(file);
         }
     }
-    
+
+    private void OnFileOpen(object[] ps)
+    {
+        if (ps[0] is DirectorySO)
+        {
+            currentDirectory = ps[0] as DirectorySO;
+            SetLibrary();
+        }
+    }
+
+
 }
