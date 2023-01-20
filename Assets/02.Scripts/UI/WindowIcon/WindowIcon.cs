@@ -28,9 +28,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     [SerializeField]
     private TMP_Text iconNameText;
-
+    [SerializeField]
+    private bool isBackground;
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
+
 
     public void Awake()
     {
@@ -100,7 +102,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-        if(fileData is DirectorySO)
+        if(fileData is DirectorySO && isBackground == false)
         {
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
             return;

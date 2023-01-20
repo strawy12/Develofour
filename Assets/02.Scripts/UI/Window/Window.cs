@@ -26,7 +26,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     [Header("Window Data")]
     [SerializeField]
     protected WindowAlterationSO windowAlteration; // 위도우 위치 크기 정보
-    [SerializeField]
     protected FileSO file;
 
     [SerializeField]

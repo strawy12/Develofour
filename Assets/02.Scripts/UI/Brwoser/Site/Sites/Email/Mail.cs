@@ -37,7 +37,12 @@ public abstract class Mail : MonoBehaviour
         mailDestroyButton.OnClick +=(DestroyMail);
         mailFavoriteButton.Init(mailData.isFavorited);
     }
-
+    [ContextMenu("BindBtns")]
+    public void BindBtns()
+    {
+        mailCloseButton = transform.Find("TopBar/BackButton").GetComponent<HighlightBtn>();
+        mailDestroyButton = transform.Find("TopBar/TrashButton").GetComponent<HighlightBtn>();
+    }
     public virtual void ShowMail()
     {
         gameObject.SetActive(true);
