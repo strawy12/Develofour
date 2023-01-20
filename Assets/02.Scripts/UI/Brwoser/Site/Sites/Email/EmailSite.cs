@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -169,7 +169,6 @@ public class EmailSite : Site
     {
         if (ps == null || !(ps[0] is EMailType))
         {
-            Debug.LogError("?¤ì–´??Param??null?´ê±°??Type??ë§ì??ŠìŠµ?ˆë‹¤.");
             return;
         }
         EMailType type = (EMailType)ps[0];
@@ -262,8 +261,6 @@ public class EmailSite : Site
         base.ShowSite();
     }
 
-
-    // ì¶”í›„ ?„ì¹˜ ë³€ê²?
     private bool CheckGoogleLogin()
     {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
@@ -293,8 +290,6 @@ public class EmailSite : Site
 
     public void OnApplicationQuit()
     {   
-        Debug.LogError("MailData Category ?€?¥ì„ ?˜ì? ?ŠëŠ” ?”ë²„ê·?ì½”ë“œê°€ ?¤í–‰ì¤‘ì— ?ˆìŠµ?ˆë‹¤.");
-
         foreach(var mailLine in baseEmailLineList)
         {
             mailLine.CurrentMail.DebugReset();
