@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class QuestData
+{
+    public EQuestEvent currentEvent;
+    public List<bool> decisionList;
+    public bool isClear;
+}
+
 
 public class Quest : MonoBehaviour
 {
@@ -11,6 +18,7 @@ public class Quest : MonoBehaviour
 
     [SerializeField]
     private List<Decision> decisionList;
+
 
 
     private void Start()
