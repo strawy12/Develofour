@@ -5,6 +5,8 @@ using UnityEngine;
 
 public abstract class Decision : MonoBehaviour
 {
+    public string decisionName;
+
     public Action OnChangedValue;
     public bool isClear;
 
