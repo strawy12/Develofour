@@ -44,7 +44,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         if (windowName != null)
         {
             // FileSO
-            windowName.text = $"{file.windowName} - {windowName.text}";
+            windowName.text = $"{file.name} - {windowName.text}";
         }
 
         if (iconImage != null)

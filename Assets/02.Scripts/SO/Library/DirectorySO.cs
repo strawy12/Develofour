@@ -7,12 +7,15 @@ public class DirectorySO : FileSO
 {
     public List<FileSO> children;
 
-    [ContextMenu("SetParentInChildren")]
-    public void SetParentInChildren()
+    public override int GetFileBytes()
     {
+        int bytes = 0;
+
         foreach(FileSO child in children)
         {
-            child.parent = this;
+            bytes += child.GetFileBytes();
         }
+
+        return bytes;
     }
 }

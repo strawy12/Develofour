@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 
+public struct DateTime
+{
+    // 추후 변수 추가 예정
+}
+
 [System.Serializable]
 public struct WindowIconData
 {
-    public string iconLocation;
-    public string iconByte;
-    public string iconMadeData;
-    public string iconFixData;
-    public string iconAcessData;
+    public int bytes;
+    public DateTime madeDate;
+    public DateTime lastFixDate;
+    public DateTime lastAccessDate;
 
 }
 
@@ -19,8 +23,61 @@ public class FileSO : ScriptableObject
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
     public Sprite iconSprite;
     public string windowName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
-    public WindowIconData windowIconData;
+    public WindowIconData fileData;
     public bool isMultiple; // 윈도우를 여러번 킬 수 있냐
+
+    #region GetFileData
+
+    [ContextMenu("GetFileLocation")]
+    public string GetFileLocation()
+    {
+        if(parent == null)
+        {
+            return this.name + '\\';
+        } 
+
+        string location = string.Format("{0}{1}\\", parent.GetFileLocation(), this.name);
+        return location;
+    }
+
+    [ContextMenu("GetFileBytes")]
+    public void Test()
+    {
+        Debug.Log(GetFileBytes());
+    }
+
+    public virtual int GetFileBytes()
+    {
+        return fileData.bytes;
+    }
+
+
+    // DateTime To String 함수는 Define 클래스에 만들기!
+    public string GetFixDate()
+    {
+        return "";
+    }
+
+    public string GetAccessDate()
+    {
+        return "";
+    }
+
+    public string MadeDate()
+    {
+        return "";
+    }
+    #endregion
+
+    public void OpenFile()
+    {
+        // AccessDate 시간을 변경해줄 예정
+    }
+
+    public void FixFile()
+    {
+        // FixDate 시간을 변경해줄 예정
+    }
 }
 
 // Window - Data - Icon - File

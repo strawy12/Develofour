@@ -111,9 +111,12 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             }
 
         }
+        else
+        {
+            HideTargetPanels();
+        }
 
         isClick = false;
-
         attributePanel.Hide();
     }
     #endregion
