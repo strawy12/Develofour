@@ -101,7 +101,7 @@ public class EmailSite : Site
         ChangeEmailCategory();
         ShowMailLineAll();
     }
-
+    
     private void ClearPoliceMiniGame(object[] ps)
     {
         SettingReceiveMailCount();
@@ -260,7 +260,6 @@ public class EmailSite : Site
 
         base.ShowSite();
     }
-
 
     private bool CheckGoogleLogin()
     {

@@ -103,7 +103,7 @@ public class CreateNoticeDataWindow : EditorWindow
         const string PATH = "Assets/02.Scripts/UI/Notice/ENoticeType.cs";
 
         #region Bug Exception
-        if (File.Exists(PATH) == false)
+        if (System.IO.File.Exists(PATH) == false)
         {
             Debug.LogError($"ENoticeType 파일이 해당 경로에 존재하지 않습니다. 파일 위치를 옮겨주세요. {PATH}");
             return;

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +6,16 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
+public enum EWindowType // í™•ì¥ì
+{
+    None,
+    Notepad,
+    Browser,
+    ImageViewer,
+    Discord,
+    Directory,
+    End
+}
 
 [RequireComponent(typeof(GraphicRaycaster))]
 public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
@@ -13,27 +23,35 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public static int windowMaxCnt;
     public static Window currentWindow;
 
+    [Header("Window Data")]
+    [SerializeField]
+    protected WindowAlterationSO windowAlteration; // ìœ„ë„ìš° ìœ„ì¹˜ í¬ê¸° ì •ë³´
+    protected FileSO file;
+
     [SerializeField]
     protected WindowBar windowBar;
-    [SerializeField]
-    protected WindowDataSO windowData;
 
     protected bool isSelected;
 
     protected RectTransform rectTransform;
 
-    public Action<int> OnClosed;
+    public Action<string> OnClosed;
+    public Func<bool> OnUnSelectIgnoreFlag;
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
+
+    public FileSO File
+    {
+        get 
+        { 
+            return file; 
+        }
+    }
     
-    public WindowDataSO WindowData { get { return windowData; } }
-
     private Vector3 windowPos;
-
     private Canvas windowCanvas;
 
-    public Func<bool> OnUnSelectIgnoreFlag;
 
     protected virtual void Init()
     {
@@ -42,9 +60,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
 
-        windowData.isMaximum = false;
-      
-        windowBar.Init(windowData, rectTransform);
+        windowBar.Init(windowAlteration, file, rectTransform);
         OnSelected += () => WindowSelected(true);
         OnUnSelected += () => WindowSelected(false);
 
@@ -54,16 +70,16 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         windowBar.OnSelected += SelectWindow;
     }
 
-    // SelectableObject¸¦ À§ÇÑ ÇÔ¼ö
+    // SelectableObjectë¥¼ ìœ„í•œ í•¨ìˆ˜
     public bool IsSelected(GameObject hitObject)
     {
-        // Áö±İ ÇöÀç Å¬¸¯ÇÑ ¿ÀºêÁ§Æ®¿Í ³» ¿ÀºêÁ§Æ®°¡ °°°Å³ª
+        // ì§€ê¸ˆ í˜„ì¬ í´ë¦­í•œ ì˜¤ë¸Œì íŠ¸ì™€ ë‚´ ì˜¤ë¸Œì íŠ¸ê°€ ê°™ê±°ë‚˜
         bool flag1 = hitObject == gameObject;
 
-        // ¼±ÅÃ Ãë¼Ò ¹«½Ã ÇÃ·¡±×°¡ true ÀÌ°Å³ª  
+        // ì„ íƒ ì·¨ì†Œ ë¬´ì‹œ í”Œë˜ê·¸ê°€ true ì´ê±°ë‚˜  
         bool flag2 = OnUnSelectIgnoreFlag != null && OnUnSelectIgnoreFlag.Invoke();
 
-        // ¼±ÅÃµÇ¾ú´Ù°íÇÑ´Ù¸é
+        // ì„ íƒë˜ì—ˆë‹¤ê³ í•œë‹¤ë©´
         return (flag1  && isSelected) || flag2;
     }
 
@@ -101,7 +117,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowClose()
     {
-        OnClosed?.Invoke(windowData.windowTitleID);
+        OnClosed?.Invoke(file.name);
 
         windowMaxCnt--;
 
@@ -121,7 +137,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowMaximum()
     {
-        if(!windowData.isMaximum)
+        if(!windowAlteration.isMaximum)
         {
             Vector2 size = Constant.MAX_CANVAS_SIZE;
             size.y -= 50;
@@ -130,14 +146,14 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
             windowPos = rectTransform.localPosition;
             rectTransform.localPosition = new Vector3(0, 25, 0);
 
-            windowData.isMaximum = true;
+            windowAlteration.isMaximum = true;
         }
         else
         {
             rectTransform.localPosition = windowPos;
-            rectTransform.sizeDelta = windowData.size;
+            rectTransform.sizeDelta = windowAlteration.size;
 
-            windowData.isMaximum = false;
+            windowAlteration.isMaximum = false;
         }
     }
 
@@ -155,8 +171,9 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         currentWindow = selecetedWindow;
     }
 
-    public void CreatedWindow()
+    public void CreatedWindow(FileSO file)
     {
+        this.file = file;   
         Init();
         WindowOpen();
         windowMaxCnt++;

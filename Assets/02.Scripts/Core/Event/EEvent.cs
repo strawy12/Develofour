@@ -35,7 +35,12 @@ public enum ENoticeEvent
     OpenNoticeSystem,
     ClickNoticeBtn,
 }
-
+public enum ELibraryEvent
+{
+    None = -1,
+    IconClickOpenFile,
+    ButtonOpenFile,
+}
 public enum EBrowserEvent
 {
     None = -1,

@@ -17,7 +17,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Sprite sprite;
 
     [SerializeField]
-    private WindowDataSO windowData;
+    private FileSO fileData;
+
     [SerializeField]
     private Image iconImage;
     [SerializeField]
@@ -27,17 +28,21 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     [SerializeField]
     private TMP_Text iconNameText;
-
     [SerializeField]
-    private WindowIconDataSO windowIconData;
-
+    private bool isBackground;
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
+
 
     public void Awake()
     {
         Bind();
         Init();
+    }
+
+    public void Bind()
+    {
+        rectTranstform ??= GetComponent<RectTransform>();
     }
 
     public bool IsSelected(GameObject hitObject)
@@ -46,12 +51,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         return isSelected && flag1;
     }
 
-    private void Bind()
-    {
-        rectTranstform = GetComponent<RectTransform>();
-    }
-
-    private void Init()
+    public void Init()
     {
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
@@ -60,6 +60,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         OnUnSelected += () => SelectedIcon(false);
     }
    
+    public void SetFileData(FileSO newFileData)
+    {
+        fileData = newFileData;
+        iconNameText.text = fileData.name;
+        iconImage.sprite = newFileData.iconSprite;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if(eventData.button == PointerEventData.InputButton.Left)
@@ -95,13 +102,18 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-        targetWindow = WindowManager.Inst.GetWindow(windowData.windowType, windowData.windowTitleID);
+        if(fileData is DirectorySO && isBackground == false)
+        {
+            EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
+            return;
+        }
+        targetWindow = WindowManager.Inst.GetWindow(fileData.windowType, fileData.name);
         if (targetWindow == null)
         {
-            targetWindow = WindowManager.Inst.CreateWindow(windowData.windowType, windowData.windowTitleID);
+            targetWindow = WindowManager.Inst.CreateWindow(fileData.windowType, fileData);
         }
         targetWindow.OnClosed += CloseTargetWindow;
-        targetWindow.WindowOpen();
+        targetWindow.WindowOpen(); 
     }
 
     private void SelectedIcon(bool isSelected)
@@ -115,20 +127,20 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         selectedImage.gameObject.SetActive(isSelected);
     }
 
-    public void CloseTargetWindow(int a)
+    public void CloseTargetWindow(string a)
     {
         targetWindow.OnClosed -= CloseTargetWindow;
         targetWindow = null;
     }    
 
-    void CreateAttributeUI(PointerEventData eventData)
+    private void CreateAttributeUI(PointerEventData eventData)
     {
         Vector3 mousePos = eventData.position;
         mousePos.x -= Constant.MAX_CANVAS_POS.x;
         mousePos.y -= Constant.MAX_CANVAS_POS.y;
         mousePos.z = 0f;
 
-        WindowIconAttributeUI.OnCreateMenu?.Invoke(mousePos, windowIconData);
+        WindowIconAttributeUI.OnCreateMenu?.Invoke(mousePos, fileData);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
