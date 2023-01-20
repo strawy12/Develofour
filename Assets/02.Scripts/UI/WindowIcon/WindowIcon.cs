@@ -33,6 +33,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Awake()
     {
+        Debug.Log("테스트용 코드");
         Bind();
         Init();
     }

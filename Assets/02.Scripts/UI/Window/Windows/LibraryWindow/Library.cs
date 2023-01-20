@@ -17,7 +17,7 @@ public class Library : Window
     [SerializeField]
     private Transform iconParent;
 
-    private Queue<WindowIcon> poolQueue;
+    private Queue<WindowIcon> poolQueue = new Queue<WindowIcon>();
     private List<WindowIcon> iconList = new List<WindowIcon>();
 
     #endregion
