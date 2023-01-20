@@ -55,9 +55,9 @@ public class Library : Window
     }
     private void PushAll()
     {
-        foreach (WindowIcon icon in iconList)
+        while(iconList.Count > 0)
         {
-            Push(icon);
+            Push(iconList[0]);
         }
     }
     private void Push(WindowIcon icon)
