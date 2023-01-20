@@ -5,6 +5,7 @@ using System.IO;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -21,6 +22,16 @@ public class TodoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     private SuccessRateBar successRateBar;
     [SerializeField]
     private CanvasGroupBtn expendBtn;
+    [SerializeField]
+    private TMP_Text valueText;
+
+    public UnityAction OnClick
+    {
+        set
+        {
+            expendBtn.onClick.AddListener(value);
+        }
+    }
 
     private static TodoPanel selectedPanel;
 
@@ -29,7 +40,7 @@ public class TodoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         todoData = data;
 
-        SetUI(); 
+        SetUI();
     }
 
     public void SetUI()
@@ -65,7 +76,7 @@ public class TodoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(selectedPanel == this)
+        if (selectedPanel == this)
         {
             selectedPanel.UnSelected();
             selectedPanel = null;
