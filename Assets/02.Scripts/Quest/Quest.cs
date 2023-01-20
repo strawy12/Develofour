@@ -9,29 +9,28 @@ public class Quest : MonoBehaviour
     [SerializeField]
     private QuestDataSO questData;
 
-    private List<DecisionData> decisionDataList;
-
     private void Start()
     {
-        decisionDataList = questData.decisionDataList;
-        foreach (var decisionData in decisionDataList)
+        foreach (var decisionData in questData.decisionDataList)
         {
             decisionData.decision.Init();
             decisionData.SettingDecisionClear();
         }
 
-        if (CheckDecisions())
+        if (CheckDecisions() || questData.isClear)
         {
+            questData.ChangeSuccessRate(100);
+            questData.isClear = true;
             Destroy(gameObject);
             return;
         }
-        foreach (var decisionData in decisionDataList)
+
+        foreach (var decisionData in questData.decisionDataList)
         {
             decisionData.decision.OnChangedValue += CheckClearQuest;
         }
 
     }
-
     private void CheckClearQuest()
     {
         if (CheckDecisions())
@@ -42,7 +41,7 @@ public class Quest : MonoBehaviour
 
     private bool CheckDecisions()
     {
-        foreach (var decisionData in decisionDataList)
+        foreach (var decisionData in questData.decisionDataList)
         {
             if (!decisionData.decision.CheckDecision())
             {
@@ -61,14 +60,14 @@ public class Quest : MonoBehaviour
 
     public void OnDestroy()
     {
-        foreach (var decisionData in decisionDataList)
+        foreach (var decisionData in questData.decisionDataList)
         {
             decisionData.isClaer = decisionData.decision.CheckDecision();
         }
     }
     public void OnApplicationQuit()
     {
-        foreach (var decisionData in decisionDataList)
+        foreach (var decisionData in questData.decisionDataList)
         {
             decisionData.isClaer = decisionData.decision.CheckDecision();
         }

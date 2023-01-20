@@ -31,7 +31,8 @@ public class QuestDataSO : ScriptableObject
         successRate += value;
         OnChangeSuccessRate?.Invoke();
     }
-    public bool IsClear { get { return successRate >= 100; } }
+    
+    public bool isClear;
 
     
 }
