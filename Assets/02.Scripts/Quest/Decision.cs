@@ -6,11 +6,16 @@ using UnityEngine;
 public abstract class Decision : MonoBehaviour
 {
     public Action OnChangedValue;
-    private void Awake()
+    public bool isClear;
+
+    public virtual void SettingClear(bool clear)
     {
-        Init();
+        isClear = clear;
     }
 
     public abstract void Init();
-    public abstract bool CheckDecision();
+    public virtual bool CheckDecision()
+    {
+        return isClear;
+    }
 }

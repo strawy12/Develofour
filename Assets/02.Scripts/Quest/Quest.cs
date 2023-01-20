@@ -7,23 +7,27 @@ using UnityEngine;
 public class Quest : MonoBehaviour
 {
     [SerializeField]
-    private EQuestEvent currentEvent;
+    private QuestDataSO questData;
 
-    [SerializeField]
-    private List<Decision> decisionList;
-
+    private List<DecisionData> decisionDataList;
 
     private void Start()
     {
+        decisionDataList = questData.decisionDataList;
+        foreach (var decisionData in decisionDataList)
+        {
+            decisionData.decision.Init();
+            decisionData.SettingDecisionClear();
+        }
+
         if (CheckDecisions())
         {
             Destroy(gameObject);
             return;
         }
-
-        foreach (var decision in decisionList)
+        foreach (var decisionData in decisionDataList)
         {
-            decision.OnChangedValue += CheckClearQuest;
+            decisionData.decision.OnChangedValue += CheckClearQuest;
         }
 
     }
@@ -38,9 +42,9 @@ public class Quest : MonoBehaviour
 
     private bool CheckDecisions()
     {
-        foreach (var decision in decisionList)
+        foreach (var decisionData in decisionDataList)
         {
-            if (!decision.CheckDecision())
+            if (!decisionData.decision.CheckDecision())
             {
                 return false;
             }
@@ -51,7 +55,22 @@ public class Quest : MonoBehaviour
 
     private void QuestClear()
     {
-        EventManager.TriggerEvent(currentEvent);
+        EventManager.TriggerEvent(questData.questEvent);
         Destroy(gameObject);
+    }
+
+    public void OnDestroy()
+    {
+        foreach (var decisionData in decisionDataList)
+        {
+            decisionData.isClaer = decisionData.decision.CheckDecision();
+        }
+    }
+    public void OnApplicationQuit()
+    {
+        foreach (var decisionData in decisionDataList)
+        {
+            decisionData.isClaer = decisionData.decision.CheckDecision();
+        }
     }
 }
