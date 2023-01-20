@@ -33,7 +33,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Awake()
     {
-        Debug.Log("테스트용 코드");
         Bind();
         Init();
     }
@@ -103,7 +102,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if(fileData is DirectorySO)
         {
-            EventManager.TriggerEvent(ELibraryEvent.OpenFile, new object[1] { fileData });
+            EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
             return;
         }
 

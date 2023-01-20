@@ -38,7 +38,8 @@ public enum ENoticeEvent
 public enum ELibraryEvent
 {
     None = -1,
-    OpenFile,
+    IconClickOpenFile,
+    ButtonOpenFile,
 }
 public enum EBrowserEvent
 {

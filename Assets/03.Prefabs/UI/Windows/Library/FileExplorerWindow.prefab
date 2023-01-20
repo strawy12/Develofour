@@ -157,7 +157,9 @@ MonoBehaviour:
   currentDirectory: {fileID: 11400000, guid: 7455332d06453454d8cd428a89224472, type: 2}
   fileAddressPanel: {fileID: 0}
   undoBtn: {fileID: 5572772802771207648}
+  undoText: {fileID: 5281368211800874699}
   redoBtn: {fileID: 2596098485150747864}
+  redoText: {fileID: 3116103424854691864}
 --- !u!1 &1100080455051486342
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +544,6 @@ GameObject:
   - component: {fileID: 7236357158269709390}
   - component: {fileID: 7602231900202599983}
   - component: {fileID: 465733207403558526}
-  - component: {fileID: 2189884311827311792}
   m_Layer: 5
   m_Name: SettingBar
   m_TagString: Untagged
@@ -612,23 +613,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2189884311827311792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2050660605858490493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ef039f1792d4734840001b726ec70ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maximumBtn: {fileID: 2443976743654103554}
-  minimumBtn: {fileID: 8204574331234550298}
-  closeBtn: {fileID: 4243087309908620159}
-  iconImage: {fileID: 0}
-  windowName: {fileID: 0}
 --- !u!1 &2173958753303485503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,8 +1558,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4282598211
+  m_fontColor: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1902,7 +1886,6 @@ GameObject:
   - component: {fileID: 5471765559981055208}
   - component: {fileID: 5731887452594034325}
   - component: {fileID: 5139764434960932059}
-  - component: {fileID: 1051642874693195431}
   m_Layer: 5
   m_Name: FunctionBar
   m_TagString: Untagged
@@ -1970,23 +1953,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1051642874693195431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3636553353985853544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ef039f1792d4734840001b726ec70ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maximumBtn: {fileID: 0}
-  minimumBtn: {fileID: 0}
-  closeBtn: {fileID: 5572772802771207648}
-  iconImage: {fileID: 0}
-  windowName: {fileID: 0}
 --- !u!1 &3758560154227375088
 GameObject:
   m_ObjectHideFlags: 0
@@ -3988,7 +3954,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4855,7 +4821,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &71476678858929647
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4958,8 +4924,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8799675846967232666}
   m_HandleRect: {fileID: 1991341588965455355}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.99880004
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

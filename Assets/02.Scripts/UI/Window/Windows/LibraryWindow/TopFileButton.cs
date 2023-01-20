@@ -19,6 +19,6 @@ public class TopFileButton : MonoBehaviour
     private void OpenFIle()
     {
         object[] ps = new object[1] { fileData };
-        EventManager.TriggerEvent(ELibraryEvent.OpenFile, ps);
+        EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, ps);
     }
 }

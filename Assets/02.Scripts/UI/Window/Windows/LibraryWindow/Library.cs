@@ -37,7 +37,11 @@ public class Library : Window
     [SerializeField]
     private Button undoBtn;
     [SerializeField]
+    private TextMeshProUGUI undoText;
+    [SerializeField]
     private Button redoBtn;
+    [SerializeField]
+    private TextMeshProUGUI redoText;
     #endregion
 
     #region pooling
@@ -55,7 +59,7 @@ public class Library : Window
     }
     private void PushAll()
     {
-        while(iconList.Count > 0)
+        while (iconList.Count > 0)
         {
             Push(iconList[0]);
         }
@@ -99,9 +103,12 @@ public class Library : Window
         currentDirectory = file as DirectorySO;
         undoStack = new Stack<DirectorySO>();
         redoStack = new Stack<DirectorySO>();
-        
+        SetHighlightImage();
         SetLibrary();
-        EventManager.StartListening(ELibraryEvent.OpenFile, OnFileOpen);
+        EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
+        EventManager.StartListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
+        undoBtn.onClick.AddListener(UndoFile);
+        redoBtn.onClick.AddListener(RedoFile);
     }
 
     private void SetLibrary()
@@ -121,41 +128,58 @@ public class Library : Window
     }
 
 
-    public void UndoSite(object[] emptyParam) => UndoSite();
-    public void UndoSite()
+    public void UndoFile(object[] emptyParam) => UndoFile();
+    public void UndoFile()
     {
         //count가 0이면 알파값 내리는게 맞을듯
         if (undoStack.Count == 0) return;
         DirectorySO data = undoStack.Pop();
         redoStack.Push(currentDirectory);
-        ChangeDirectory(data);
+        EventManager.TriggerEvent(ELibraryEvent.ButtonOpenFile, new object[1] { data });
     }
 
-    public void RedoSite(object[] emptyParam) => RedoSite();
-    public void RedoSite()
+    public void RedoFile(object[] emptyParam) => RedoFile();
+    public void RedoFile()
     {
         //count가 0이면 알파값 내리는게 맞을듯
         if (redoStack.Count == 0) return;
         DirectorySO data = redoStack.Pop();
         undoStack.Push(currentDirectory);
-        ChangeDirectory(data);
+        EventManager.TriggerEvent(ELibraryEvent.ButtonOpenFile, new object[1] { data });
     }
 
-    public void ChangeDirectory(DirectorySO SO)
+    private void OnClickIcon(object[] ps)
     {
-        //현재 디렉토리를 SO디렉토리로 바꾸고 다시 View든 Show든 Create해주면 됨
-        //맨 위에있는 사진과 이름 바꿔야함
-        //ㅁㅁㅁㅁ 검색 이름 바꾸기
-        //주소 바꾸기
+        if(redoStack.Count != 0)
+        {
+            redoStack.Pop();
+        }
+        undoStack.Push(currentDirectory);
+        OnFileOpen(ps);
     }
+
     private void OnFileOpen(object[] ps)
     {
         if (ps[0] is DirectorySO)
-        {
+        {   
+            SetHighlightImage();
             currentDirectory = ps[0] as DirectorySO;
             SetLibrary();
         }
     }
 
+    private void SetHighlightImage()
+    {
+        Debug.Log("undoStack의 count = " + undoStack.Count);
+        Debug.Log("redoStack의 count = " + redoStack.Count);
+        if (undoStack.Count == 0)
+            undoText.color = new Color32(50, 50, 50, 120);
+        else
+            undoText.color = new Color32(50, 50, 50, 255);
 
+        if (redoStack.Count == 0)
+            redoText.color = new Color32(50, 50, 50, 120);
+        else
+            redoText.color = new Color32(50, 50, 50, 255);
+    }
 }
