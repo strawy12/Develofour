@@ -3,22 +3,55 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class TopFileButton : MonoBehaviour
+public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private Button fileBtn;
+    [SerializeField]
     private TMP_Text fileName;
-
-    private FileSO fileData;
+    [SerializeField]
+    private Image fileImage;
+    [SerializeField]
+    private GameObject highrightedImage;
+    private DirectorySO currentDirectory;
 
     public void Init()
     {
-        fileBtn.onClick.AddListener(OpenFIle);
+        fileName.text = "";
+        fileImage.sprite = null;
+        currentDirectory = null;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            OpenFIle();
+        }
+    }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        highrightedImage.gameObject.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        highrightedImage.gameObject.SetActive(false);
+    }
+
+    public void SetDirectory(DirectorySO directoryData)
+    {
+        highrightedImage.gameObject.SetActive(false);
+        currentDirectory = directoryData;
+        fileName.text = directoryData.windowName;
+        fileImage.sprite = directoryData.iconSprite;
     }
 
     private void OpenFIle()
     {
-        object[] ps = new object[1] { fileData };
+        object[] ps = new object[1] { currentDirectory };
         EventManager.TriggerEvent(ELibraryEvent.OpenFile, ps);
     }
+
+
 }

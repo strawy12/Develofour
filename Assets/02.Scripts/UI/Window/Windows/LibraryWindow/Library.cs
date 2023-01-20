@@ -100,13 +100,16 @@ public class Library : Window
         undoStack = new Stack<DirectorySO>();
         redoStack = new Stack<DirectorySO>();
         
+        fileAddressPanel.Init();
         SetLibrary();
+
         EventManager.StartListening(ELibraryEvent.OpenFile, OnFileOpen);
     }
 
     private void SetLibrary()
     {
         windowBar.SetNameText(currentDirectory.windowName);
+        fileAddressPanel.SetButtons(currentDirectory);
         CreateChildren();
     }
 
