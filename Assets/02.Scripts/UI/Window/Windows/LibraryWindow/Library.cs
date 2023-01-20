@@ -81,6 +81,7 @@ public class Library : Window
         }
         WindowIcon icon = poolQueue.Dequeue();
         iconList.Add(icon);
+        icon.transform.SetParent(iconParent);
         icon.gameObject.SetActive(true);
         return icon;
     }
