@@ -25,10 +25,6 @@ public class WindowsLoginDecision : Decision
         EventManager.StopListening(EWindowEvent.WindowsSuccessLogin, WindowsLogin);
     }
 
-    public override bool CheckDecision()
-    {
-        return isClear;
-    }
 
 
 }

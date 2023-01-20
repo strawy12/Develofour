@@ -9,12 +9,14 @@ public class Quest : MonoBehaviour
     [SerializeField]
     private QuestDataSO questData;
 
+    public List<Decision> decisionList;
+
     private void Start()
     {
-        foreach (var decisionData in questData.decisionDataList)
+        for (int i = 0; i < decisionList.Count; i++)
         {
-            decisionData.decision.Init();
-            decisionData.SettingDecisionClear();
+            decisionList[i].Init();
+            decisionList[i].isClear = questData.decisionClearList[i]; 
         }
 
         if (CheckDecisions() || questData.isClear)
@@ -25,9 +27,9 @@ public class Quest : MonoBehaviour
             return;
         }
 
-        foreach (var decisionData in questData.decisionDataList)
+        foreach (var decision in decisionList)
         {
-            decisionData.decision.OnChangedValue += CheckClearQuest;
+            decision.OnChangedValue += CheckClearQuest;
         }
 
     }
@@ -41,9 +43,9 @@ public class Quest : MonoBehaviour
 
     private bool CheckDecisions()
     {
-        foreach (var decisionData in questData.decisionDataList)
+        foreach (var decision in decisionList)
         {
-            if (!decisionData.decision.CheckDecision())
+            if (!decision.CheckDecision())
             {
                 return false;
             }
@@ -60,16 +62,17 @@ public class Quest : MonoBehaviour
 
     public void OnDestroy()
     {
-        foreach (var decisionData in questData.decisionDataList)
+       for(int i = 0; i< decisionList.Count; i++)
         {
-            decisionData.isClaer = decisionData.decision.CheckDecision();
+            questData.decisionClearList[i] = decisionList[i].CheckDecision();
+
         }
     }
     public void OnApplicationQuit()
     {
-        foreach (var decisionData in questData.decisionDataList)
+        for (int i = 0; i < decisionList.Count; i++)
         {
-            decisionData.isClaer = decisionData.decision.CheckDecision();
+            questData.decisionClearList[i] = decisionList[i].CheckDecision();
         }
     }
 }

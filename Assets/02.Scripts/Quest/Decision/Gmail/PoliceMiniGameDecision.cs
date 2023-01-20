@@ -17,9 +17,4 @@ public class PoliceMiniGameDecision : Decision
         OnChangedValue?.Invoke();
         EventManager.StopListening(EMailSiteEvent.PoliceGameClear, MiniGameClear);
     }
-
-    public override bool CheckDecision()
-    {
-        return true;
-    }
 }

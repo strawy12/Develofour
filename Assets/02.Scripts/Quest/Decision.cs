@@ -8,11 +8,6 @@ public abstract class Decision : MonoBehaviour
     public Action OnChangedValue;
     public bool isClear;
 
-    public virtual void SettingClear(bool clear)
-    {
-        isClear = clear;
-    }
-
     public abstract void Init();
     public virtual bool CheckDecision()
     {
