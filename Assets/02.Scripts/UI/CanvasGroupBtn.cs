@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CanvasGroupBtn : MonoBehaviour
+[RequireComponent(typeof(CanvasGroup))]
+public class CanvasGroupBtn : Button
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public CanvasGroup canvasGroup { get; private set; }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Awake()
     {
-        
+        base.Awake();
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 }

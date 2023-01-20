@@ -30,6 +30,15 @@ public abstract class Mail : MonoBehaviour
 
     private int originMask;
 
+
+    [ContextMenu("BindBtns")]
+    public void BindBtns()
+    {
+        mailCloseButton = transform.Find("TopBar/BackButton").GetComponent<HighlightBtn>();
+        mailDestroyButton = transform.Find("TopBar/TrashButton").GetComponent<HighlightBtn>();
+    }
+
+
     public virtual void Init()
     {
         originMask = mailData.mailCategory;
