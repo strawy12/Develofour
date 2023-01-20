@@ -79,5 +79,7 @@ public class DiscordLogin : MonoBehaviour
     {
         Debug.Log("성공");
         //성공을 알리는 이벤트
+
+        //Discord Identification 켜기
     }
 }
