@@ -1,9 +1,9 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class TodoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
-    private TodoData todoData;
+    private QuestDataSO questData;
 
     [SerializeField]
     private TMP_Text nameText;
@@ -25,29 +25,30 @@ public class TodoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     [SerializeField]
     private TMP_Text valueText;
 
-    public UnityAction OnClick
-    {
-        set
-        {
-            expendBtn.onClick.AddListener(value);
-        }
-    }
+    public Action<TodoPanel> OnClick;
+    public QuestDataSO QuestData => questData;
 
+    // 해당 변수는 Expend 기준이 아닌 Enter가 기준이다.
     private static TodoPanel selectedPanel;
 
-
-    public void Init(TodoData data)
+    public void Init(QuestDataSO data)
     {
-        todoData = data;
+        questData = data;
+        expendBtn.onClick.AddListener(ClickExpendBtn);
 
         SetUI();
     }
 
     public void SetUI()
     {
-        nameText.text = todoData.todoName;
-        categoryText.text = todoData.category;
-        successRateBar.SetRateBar(todoData.SuccessRate);
+        nameText.text = questData.questText.head;
+        categoryText.text = questData.category.ToString();
+        successRateBar.SetRateBar(questData.SuccessRate);
+    }
+
+    public void ClickExpendBtn()
+    {
+        OnClick?.Invoke(this);
     }
 
 

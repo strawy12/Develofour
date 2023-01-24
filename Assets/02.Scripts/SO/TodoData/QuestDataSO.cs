@@ -10,14 +10,41 @@ public class DecisionData
     public bool isComplete;
 }
 
-[CreateAssetMenu(menuName = "SO/QuestData")]
+[System.Serializable]
+public class QuestText
+{
+    [Header("퀘스트 제목")] 
+    public string head;
+
+    [Header("퀘스트 짧은 소개")]
+    [TextArea(1,3)]
+    public string body;
+
+    [Header("퀘스트 자세한 소개")]
+    [TextArea(5,10)]
+    public string detailBody;
+}
+
+public enum EQuestCategory
+{
+    None,
+    End
+}
+
+[CreateAssetMenu(menuName = "SO/Quest/QuestData")]
 public class QuestDataSO : ScriptableObject
 {
-    public string questName;
     public EQuestEvent questEvent;
+    public EQuestCategory category;
+
+    public QuestText questText;
+
     private int successRate = 0;
+
+    [HideInInspector]
     public List<DecisionData> decisionClearList; 
     public Action OnChangeSuccessRate;
+    [HideInInspector]
     public bool isClear;
     public int SuccessRate { get => successRate; }
 
