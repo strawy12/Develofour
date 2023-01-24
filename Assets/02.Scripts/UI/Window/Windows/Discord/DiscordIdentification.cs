@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class DiscordIdentification : MonoBehaviour
@@ -9,33 +10,51 @@ public class DiscordIdentification : MonoBehaviour
     public string identificationAnswerText;
     public string PINAnswerText;
 
-    public DiscordHideAndShow identificationHidePanel;
+    //public DiscordHideAndShow identificationHidePanel;
     public DiscordHideAndShow PINHidePanel;
     public TMP_InputField identificationInputfield;
+    public TextMove identificationTextmove;
     public TMP_InputField PINInputfield;
+    public TextMove PINTextmove;
+
+    public GameObject loginPanel;
+
+    public Button loginBtn;
+
+    void Start()
+    {
+        Debug.Log("DiscordIdentification 스크립트 11 디버그 코드 사용중");
+    }
+
+    public void Init()
+    {
+        loginBtn.onClick.AddListener(OnClickSubmisstion);
+    }
 
     public void OnClickSubmisstion()
     {
         if (identificationInputfield.text == identificationAnswerText && identificationInputfield.text == PINAnswerText
             || identificationInputfield.text == "11" && PINInputfield.text == "11")
         {
-            this.gameObject.SetActive(false);   
+            if(identificationInputfield.text == "11")
+            {
+                Debug.Log("DiscordIdentification 스크립트 11 디버그 코드 ");
+            }
+            loginPanel.SetActive(false);
         }
         else
         {
             //
             if (identificationInputfield.text != identificationAnswerText)
             {
-                currentIdInputFieldText.gameObject.SetActive(false);
-                wrongIDInputFieldText.gameObject.SetActive(true);
-                wrongIDInputFieldText.GetComponent<TextMove>().FaliedInput("<b>이메일 또는 전화번호 </b>- <i><size=85%> 유효하지 않은 아이디입니다.</i>");
+                identificationInputfield.gameObject.SetActive(true);
+                //identificationTextmove.FaliedInput("<b>이메일 또는 전화번호 </b>- <i><size=85%> 유효하지 않은 아이디입니다.</i>");
             }
 
-            if (passwordInputField.text != answerPassword)
+            if (PINInputfield.text != PINAnswerText)
             {
-                currentPasswordInputFieldText.gameObject.SetActive(false);
-                wrongPasswordInputFieldText.gameObject.SetActive(true);
-                wrongPasswordInputFieldText.GetComponent<TextMove>().FaliedInput("<b>비밀번호 </b>- <i><size=85%> 유효하지 않은 비밀번호입니다.</i>");
+                PINInputfield.gameObject.SetActive(true);
+                //PINTextmove.FaliedInput("<b>비밀번호 </b>- <i><size=85%> 유효하지 않은 비밀번호입니다.</i>");
             }
         }
     }

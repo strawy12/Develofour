@@ -63,9 +63,9 @@ public class TextMove : MonoBehaviour
         Vector3 targetPos = isSelect ? selectPos : originPos;
         Vector3 targetScale = isSelect ? selectScale : Vector3.one;
 
-        seletedInputFieldBackGround.gameObject.SetActive(isSelect);
+        seletedInputFieldBackGround?.gameObject.SetActive(isSelect);
         
-        if(gmailInputField.text != "")
+        if(gmailInputField?.text != "")
         {
             return;
         }

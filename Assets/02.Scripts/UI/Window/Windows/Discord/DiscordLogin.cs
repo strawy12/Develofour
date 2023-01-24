@@ -14,10 +14,10 @@ public class DiscordLogin : MonoBehaviour
     private string answerPassword;
 
     [SerializeField]
-    private TMP_InputField IDInputField;
+    private DiscordInputField IDInputField;
 
     [SerializeField]
-    private TMP_InputField passwordInputField;
+    private DiscordInputField passwordInputField;
 
     [SerializeField]
     private Button loginButton;
@@ -34,23 +34,49 @@ public class DiscordLogin : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI currentPasswordInputFieldText;
 
+    public DiscordAccountPanel IDAccountPanel;
+    public DiscordAccountPanel pwAccountPanel;
+
+    public DiscordIdentification identificationPanel;
+    public GameObject loginPanel;
+
     public void Init()
     {
+        identificationPanel.Init();
+        IDAccountPanel.Init();
+        pwAccountPanel.Init();
+        IDAccountPanel.OnClick += SetIDText;
+        pwAccountPanel.OnClick += SetPWText;
+        IDInputField.OnShowAccount += ShowIDAccountPanel;
+        passwordInputField.OnShowAccount += ShowPWAccountPanel;
         loginButton.onClick.AddListener(OnClickLogin);
-        IDInputField.onValueChanged.AddListener((a) => Input.imeCompositionMode = IMECompositionMode.Off);
-        passwordInputField.onValueChanged.AddListener((a) => Input.imeCompositionMode = IMECompositionMode.Off);
+    }
+
+    public void SetIDText(string str)
+    {
+        IDInputField.text.text = str;
+    }
+
+    public void SetPWText(string str)
+    {
+        passwordInputField.text.text = str;
+    }
+
+
+    public void ShowIDAccountPanel()
+    {
+        IDAccountPanel.gameObject.SetActive(true);
+    }
+
+    public void ShowPWAccountPanel()
+    {
+        pwAccountPanel.gameObject.SetActive(true);
     }
 
     public void OnClickLogin()
     {
-        if(IDInputField.text == answerID && passwordInputField.text == answerPassword
-            || IDInputField.text == "11" && passwordInputField.text == "11")
+        if(IDInputField.text.text == answerID && passwordInputField.text.text == answerPassword)
         {
-            if(IDInputField.text == "11")
-            {
-                Debug.Log("비밀번호를 11로 입력하여 로그인");
-            }
-
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
 
             SuccessLogin();
@@ -58,18 +84,18 @@ public class DiscordLogin : MonoBehaviour
         else
         {
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
-            if(IDInputField.text != answerID)
+            if(IDInputField.text.text != answerID)
             {
                 currentIdInputFieldText.gameObject.SetActive(false);
                 wrongIDInputFieldText.gameObject.SetActive(true);
-                wrongIDInputFieldText.GetComponent<TextMove>().FaliedInput("<b>이메일 또는 전화번호 </b>- <i><size=85%> 유효하지 않은 아이디입니다.</i>");
+                //wrongIDInputFieldText.GetComponent<TextMove>().FaliedInput("<b>이메일 또는 전화번호 </b>- <i><size=85%> 유효하지 않은 아이디입니다.</i>");
             }
 
-            if(passwordInputField.text != answerPassword)
+            if(passwordInputField.text.text != answerPassword)
             {
                 currentPasswordInputFieldText.gameObject.SetActive(false);
                 wrongPasswordInputFieldText.gameObject.SetActive(true);
-                wrongPasswordInputFieldText.GetComponent<TextMove>().FaliedInput("<b>비밀번호 </b>- <i><size=85%> 유효하지 않은 비밀번호입니다.</i>");
+                //wrongPasswordInputFieldText.GetComponent<TextMove>().FaliedInput("<b>비밀번호 </b>- <i><size=85%> 유효하지 않은 비밀번호입니다.</i>");
             }
 
         }
@@ -77,9 +103,11 @@ public class DiscordLogin : MonoBehaviour
 
     public void SuccessLogin()
     {
-        Debug.Log("성공");
+        //Debug.Log("성공");
         //성공을 알리는 이벤트
 
         //Discord Identification 켜기
+        identificationPanel.gameObject.SetActive(true);
+        loginPanel.SetActive(false);
     }
 }
