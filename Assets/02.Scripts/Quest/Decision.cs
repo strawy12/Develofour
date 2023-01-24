@@ -5,12 +5,14 @@ using UnityEngine;
 
 public abstract class Decision : MonoBehaviour
 {
+    public string decisionName;
+
     public Action OnChangedValue;
-    private void Awake()
-    {
-        Init();
-    }
+    public bool isClear;
 
     public abstract void Init();
-    public abstract bool CheckDecision();
+    public virtual bool CheckDecision()
+    {
+        return isClear;
+    }
 }

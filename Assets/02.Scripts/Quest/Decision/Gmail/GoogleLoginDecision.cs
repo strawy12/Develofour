@@ -4,24 +4,18 @@ using UnityEngine;
 
 public class GoogleLoginDecision : Decision
 {
-    private bool successLogin = false;
     public override void Init()
     {
-        successLogin = false;
+        isClear = false;
         EventManager.StartListening(ELoginSiteEvent.LoginSuccess, SuccessLogin);
     }
 
     private void SuccessLogin(object[] obj)
     {
-        successLogin = true;
+        isClear = true;
         OnChangedValue?.Invoke();
         EventManager.StopListening(ELoginSiteEvent.LoginSuccess, SuccessLogin);
     }
 
-
-    public override bool CheckDecision()
-    {
-        return successLogin;
-    }
 
 }

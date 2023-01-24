@@ -14,17 +14,23 @@ public class QuestData
 public class Quest : MonoBehaviour
 {
     [SerializeField]
-    private EQuestEvent currentEvent;
+    private QuestDataSO questData;
 
-    [SerializeField]
-    private List<Decision> decisionList;
-
+    public List<Decision> decisionList;
 
 
     private void Start()
     {
-        if (CheckDecisions())
+        for (int i = 0; i < decisionList.Count; i++)
         {
+            decisionList[i].Init();
+            decisionList[i].isClear = questData.decisionClearList[i].isComplete; 
+        }
+
+        if (CheckDecisions() || questData.isClear)
+        {
+            questData.ChangeSuccessRate(100);
+            questData.isClear = true;
             Destroy(gameObject);
             return;
         }
@@ -35,7 +41,6 @@ public class Quest : MonoBehaviour
         }
 
     }
-
     private void CheckClearQuest()
     {
         if (CheckDecisions())
@@ -59,7 +64,25 @@ public class Quest : MonoBehaviour
 
     private void QuestClear()
     {
-        EventManager.TriggerEvent(currentEvent);
+        EventManager.TriggerEvent(questData.questEvent);
         Destroy(gameObject);
+    }
+
+    public void SaveDecisionDatas()
+    {
+        foreach (Decision decision in decisionList)
+        {
+            DecisionData data = questData.decisionClearList.Find(x => x.decisionName == decision.decisionName);
+            data.isComplete = decision.CheckDecision();
+        }
+    }
+
+    public void OnDestroy()
+    {
+        SaveDecisionDatas();
+    }
+    public void OnApplicationQuit()
+    {
+        SaveDecisionDatas();
     }
 }
