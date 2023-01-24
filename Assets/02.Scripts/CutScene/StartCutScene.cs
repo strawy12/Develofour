@@ -18,17 +18,33 @@ public class StartCutScene : MonoBehaviour
     private bool isEnd;
 
     public GameObject loadingSpr;
+    public GameObject loadingText;
+
+    public CanvasGroup group;
+
+    void Awake()
+    {
+        group.alpha = 1;        
+    }
 
     void Start()
     {
         StartCoroutine(OnType(mainTexts[0], 0.1f, scripts[0]));
         Flicker(underBarText);
+
+        Debug.Log("S를 누를시 스타트 컷씬이 스킵되는 코드가 있습니다.");
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && !isPlaying)
+        if (Input.GetKeyDown(KeyCode.S))
         {
+            Destroy(this.gameObject);
+        }
+        if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        {
+            if (isPlaying)
+                return;
             ShowText();
         }
     }
@@ -95,6 +111,7 @@ public class StartCutScene : MonoBehaviour
         underBarText.gameObject.SetActive(false);
 
         loadingSpr.gameObject.SetActive(true);
+        loadingText.gameObject.SetActive(true);
         loadingSpr.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), 3f).OnComplete(() => { SetActiveThisObject(); });
     }
 
