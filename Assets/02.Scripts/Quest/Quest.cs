@@ -16,7 +16,7 @@ public class Quest : MonoBehaviour
         for (int i = 0; i < decisionList.Count; i++)
         {
             decisionList[i].Init();
-            decisionList[i].isClear = questData.decisionClearList[i]; 
+            decisionList[i].isClear = questData.decisionClearList[i].isComplete; 
         }
 
         if (CheckDecisions() || questData.isClear)
@@ -60,19 +60,21 @@ public class Quest : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void SaveDecisionDatas()
+    {
+        foreach (Decision decision in decisionList)
+        {
+            DecisionData data = questData.decisionClearList.Find(x => x.decisionName == decision.decisionName);
+            data.isComplete = decision.CheckDecision();
+        }
+    }
+
     public void OnDestroy()
     {
-       for(int i = 0; i< decisionList.Count; i++)
-        {
-            questData.decisionClearList[i] = decisionList[i].CheckDecision();
-
-        }
+        SaveDecisionDatas();
     }
     public void OnApplicationQuit()
     {
-        for (int i = 0; i < decisionList.Count; i++)
-        {
-            questData.decisionClearList[i] = decisionList[i].CheckDecision();
-        }
+        SaveDecisionDatas();
     }
 }
