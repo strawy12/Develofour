@@ -11,17 +11,18 @@ public class SuccessRateBar : MonoBehaviour
     [SerializeField] private TMP_Text successRateText;
     [SerializeField] private List<Image> successRateFieldList;
 
-    public void SetRateBar(int rate)
+    public void SetRateBar(float rate)
     {
+        rate *= MAX_RATE;
         rate = Mathf.Clamp(rate, 0, MAX_RATE);
         successRateText.text = $"{rate}%";
-        SetRateField(rate);
+        SetRateField((int)rate);
     }
 
     private void SetRateField(int rate)
     {
         int cnt = 0;
-
+        Debug.Log(rate);
         if (rate > 0f)
         {
             int fieldMaxRate = MAX_RATE / successRateFieldList.Count;

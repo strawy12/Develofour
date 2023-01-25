@@ -7,9 +7,7 @@ public class Quest : MonoBehaviour
 {
     [SerializeField]
     private QuestDataSO questData;
-
     public List<Decision> decisionList;
-
 
     private void Start()
     {
@@ -31,6 +29,7 @@ public class Quest : MonoBehaviour
         foreach (var decision in decisionList)
         {
             decision.OnChangedValue += CheckClearQuest;
+            decision.OnChangedValue += ChangeRate;
             //decision.OnClearPanel += ShowClearDecisionPanel;
         }
     }
@@ -39,6 +38,11 @@ public class Quest : MonoBehaviour
     //    NoticeSystem.OnGeneratedNotice.Invoke(EQuestEvent)
     //}
 
+    private void ChangeRate()
+    {
+        SaveDecisionDatas();
+        questData.OnChangeSuccessRate.Invoke();
+    }
     private void LoadQuestDatas()
     {
         foreach (Decision decision in decisionList)
@@ -72,7 +76,7 @@ public class Quest : MonoBehaviour
     private void QuestClear()
     {
         EventManager.TriggerEvent(questData.questEvent);
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
     public void SaveDecisionDatas()
@@ -97,6 +101,14 @@ public class Quest : MonoBehaviour
     private void OnApplicationQuit()
     {
         questData.isClear = false;
+        foreach(var data in questData.decisionClearList)
+        {
+            data.isComplete = false;
+        }
+        foreach(var data in decisionList)
+        {
+            data.isClear = false;
+        }
     }
 #endif
 }

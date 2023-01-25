@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 [System.Serializable]
 public class DecisionData
 {
@@ -41,17 +41,20 @@ public class QuestDataSO : ScriptableObject
 
     public QuestText questText;
 
-    private int successRate = 0;
-
     public List<DecisionData> decisionClearList; 
     public Action OnChangeSuccessRate;
     public bool isClear;
-    public int SuccessRate { get => successRate; }
 
-    public void ChangeSuccessRate(int value)
+    public float CalcRate()
     {
-        successRate += value;
-        successRate = Mathf.Clamp(successRate, 0, 100);
-        OnChangeSuccessRate?.Invoke();
+        var clearList = decisionClearList.Where((x) => x.isComplete).ToList();
+        int count = clearList.Count;
+        if(decisionClearList.Count > 0) {
+            Debug.Log($"clearList : {clearList.Count}, decisionClearList : {decisionClearList.Count}");
+            float rate = count / decisionClearList.Count;
+            Debug.Log(rate);
+            return rate;
+        }
+        return 0;
     }
 }

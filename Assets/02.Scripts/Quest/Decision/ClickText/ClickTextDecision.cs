@@ -22,8 +22,7 @@ public class ClickTextDecision : Decision
         {
             isClear = true;
             Debug.Log("Complete");
-            OnChangedValue.Invoke();
-            //OnClearPanel.Invoke(this);
+            OnChangedValue?.Invoke();
             CheckDecision();
             NoticeSystem.OnGeneratedNotice.Invoke(decisionNoticeType, 0);
             EventManager.StopListening(decisionEvent, Click);

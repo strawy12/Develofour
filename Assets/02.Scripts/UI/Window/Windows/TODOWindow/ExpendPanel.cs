@@ -82,7 +82,7 @@ public class ExpendPanel : MonoBehaviour
         titleText.text = data.questText.head;
         statusText.text = data.isClear ? "완료" : "진행중";
         categoryText.text = data.category.ToString();
-        successRateText.text = $"{data.SuccessRate.ToString()}%";
+        successRateText.text = $"{data.CalcRate()}%";
 
         bodyText.text = data.questText.detailBody;
     }

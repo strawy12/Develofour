@@ -35,7 +35,7 @@ public class TodoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         questData = data;
         expendBtn.onClick.AddListener(ClickExpendBtn);
-
+        questData.OnChangeSuccessRate += SetSuccestRateBar;
         SetUI();
     }
 
@@ -43,7 +43,7 @@ public class TodoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         nameText.text = questData.questText.head;
         categoryText.text = questData.category.ToString();
-        successRateBar.SetRateBar(questData.SuccessRate);
+        successRateBar.SetRateBar(questData.CalcRate());
     }
 
     public void ClickExpendBtn()
@@ -67,6 +67,12 @@ public class TodoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         expendBtn.canvasGroup.DOFade(0f, 0.2f);
         expendBtn.canvasGroup.interactable = false;
         expendBtn.canvasGroup.blocksRaycasts = false;
+    }
+    public void SetSuccestRateBar()
+    {
+        Debug.Log("SetSuccestRateBar");
+        float rate = questData.CalcRate();
+        successRateBar.SetRateBar(rate);
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
