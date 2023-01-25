@@ -37,11 +37,16 @@ public class DiscordLogin : MonoBehaviour
     public DiscordAccountPanel IDAccountPanel;
     public DiscordAccountPanel pwAccountPanel;
 
+    public DiscordLoginBackground background;
+
     public DiscordIdentification identificationPanel;
     public GameObject loginPanel;
 
+    private bool isLogin;
+
     public void Init()
     {
+        background.OnIDPWPanelOff += SetIDPWPanel;
         identificationPanel.Init();
         IDAccountPanel.Init();
         pwAccountPanel.Init();
@@ -50,6 +55,15 @@ public class DiscordLogin : MonoBehaviour
         IDInputField.OnShowAccount += ShowIDAccountPanel;
         passwordInputField.OnShowAccount += ShowPWAccountPanel;
         loginButton.onClick.AddListener(OnClickLogin);
+    }
+
+    public void SetIDPWPanel()
+    {
+        if(!isLogin)
+        {
+            IDAccountPanel.gameObject.SetActive(false);
+            pwAccountPanel.gameObject.SetActive(false);
+        }    
     }
 
     public void SetIDText(string str)
@@ -107,6 +121,7 @@ public class DiscordLogin : MonoBehaviour
         //성공을 알리는 이벤트
 
         //Discord Identification 켜기
+        isLogin = true;
         identificationPanel.gameObject.SetActive(true);
         loginPanel.SetActive(false);
     }
