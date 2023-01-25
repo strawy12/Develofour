@@ -8,8 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.U2D.IK;
-
-
+using TMPro.EditorUtilities;
 
 public class NoticeSystem : MonoUI
 {
@@ -32,21 +31,40 @@ public class NoticeSystem : MonoUI
     private bool isOpen = false;
     private void Awake()
     {
+        Bind();
+    }
+
+    private void Start()
+    {
         Init();
     }
 
-    private void Init()
+    private void Bind()
     {
         noticePanelQueue = new Queue<NoticePanel>();
         noticePanelPool = new Stack<NoticePanel>();
 
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
+    }
+
+    private void Init()
+    {
+        FixedNoticePanelInit();
 
         OnGeneratedNotice += ShowNoticePanel;
 
         EventManager.StartListening(ENoticeEvent.ClickNoticeBtn, ToggleNotice);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
+    }
+
+    private void FixedNoticePanelInit()
+    {
+        for(int i = 0; i < noticePanelParant.childCount; i++)
+        {
+            NoticePanel panel = noticePanelParant.GetChild(i).GetComponent<NoticePanel>();
+            panel.Init(false);
+        }
     }
 
     private void CheckClose(object[] hits)
@@ -146,7 +164,7 @@ public class NoticeSystem : MonoUI
             noticePanel.ImmediatelyStop();
         }
 
-        NoticePanel panel = noticePanel = GetPanel();
+        NoticePanel panel = noticePanel = GetPanel(data.CanDeleted);
         panel.OnCompeleted += IncludePanel;
         panel.OnClosed += PushPanel;
         panel.Notice(data);
@@ -156,7 +174,6 @@ public class NoticeSystem : MonoUI
     {
         panel.transform.SetParent(noticePanelParant);
         panel.OnCompeleted -= IncludePanel;
-        panel.EnableDragComponnent(false);
         noticePanel = null;
     }
 
@@ -167,13 +184,13 @@ public class NoticeSystem : MonoUI
         noticePanelPool.Push(panel);
     }
 
-    private NoticePanel GetPanel()
+    private NoticePanel GetPanel(bool canDelete)
     {
         NoticePanel panel;
         if (noticePanelPool.Count <= 0)
         {
             panel = Instantiate(noticePanelTemp, Define.WindowCanvasTrm);
-            panel.Init();
+            panel.Init(canDelete);
         }
         else
         {
