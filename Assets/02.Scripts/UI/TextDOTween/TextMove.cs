@@ -63,9 +63,9 @@ public class TextMove : MonoBehaviour
         Vector3 targetPos = isSelect ? selectPos : originPos;
         Vector3 targetScale = isSelect ? selectScale : Vector3.one;
 
-        seletedInputFieldBackGround.gameObject.SetActive(isSelect);
+        seletedInputFieldBackGround?.gameObject.SetActive(isSelect);
         
-        if(gmailInputField.text != "")
+        if(gmailInputField?.text != "")
         {
             return;
         }
@@ -74,7 +74,7 @@ public class TextMove : MonoBehaviour
         sequence.Join(rectTransform.DOAnchorPosY(targetPos.y, moveDuration));
     }
 
-    public void FaliedInput()
+    public void FaliedInput(string text)
     {
         if(isShaking)
         {
@@ -82,7 +82,7 @@ public class TextMove : MonoBehaviour
         }
         isShaking = true;
         
-        mailText.SetText("다시 입력하세요.");
+        mailText.SetText(text);
         rectTransform.sizeDelta = mailText.rectTransform.sizeDelta;
 
         Sequence sequence = DOTween.Sequence();

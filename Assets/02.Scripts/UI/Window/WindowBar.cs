@@ -43,7 +43,6 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         windowRectTransform = rectTrm;
         if (windowName != null)
         {
-            // FileSO
             windowName.text = $"{file.name} - {windowName.text}";
         }
 
