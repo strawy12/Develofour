@@ -11918,6 +11918,7 @@ Transform:
   - {fileID: 1370896005}
   - {fileID: 2134682847}
   - {fileID: 642315068}
+  - {fileID: 2068408923}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -20429,6 +20430,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2065901427}
   m_CullTransparentMesh: 1
+--- !u!1 &2068408922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2068408923}
+  - component: {fileID: 2068408924}
+  m_Layer: 0
+  m_Name: ResourceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2068408923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068408922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1173218108}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2068408924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068408922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce22f1a56fd06d40a564a8a476a903e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageVierwerList:
+  - {fileID: 11400000, guid: 1ad5fb4818bf48e7b4545d1693983745, type: 2}
+  - {fileID: 11400000, guid: bedba445e84b3654d94f7280251b592b, type: 2}
+  - {fileID: 11400000, guid: 431fff43a9090d844a92e4e9e3b2d3f9, type: 2}
+  - {fileID: 11400000, guid: 71140ce999937fe4caad1b81b4c1ed25, type: 2}
+  - {fileID: 11400000, guid: b77ed75a29a5a1f4ca08b43fc08d6403, type: 2}
+  - {fileID: 11400000, guid: 20205552131e9a4468c0ab9fce20c539, type: 2}
+  - {fileID: 11400000, guid: a81d211a579b1924f96c41b12af6cb1a, type: 2}
 --- !u!1 &2075804483
 GameObject:
   m_ObjectHideFlags: 0
