@@ -15,6 +15,7 @@ public class NoticeData
     public float delay;
 
     public Sprite icon;
+    public bool isCanRemove;
 }
 
 
@@ -27,6 +28,7 @@ public class NoticeDataSO : ScriptableObject
     [SerializeField]
     private NoticeData noticeDataList;
 
+  
     public ENoticeType NoticeDataType
     {
         get

@@ -13,15 +13,11 @@ public class Quest : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < decisionList.Count; i++)
-        {
-            decisionList[i].Init();
-            decisionList[i].isClear = questData.decisionClearList[i]; 
-        }
+        LoadQuestData();
 
         if (CheckDecisions() || questData.isClear)
         {
-            questData.ChangeSuccessRate(100);
+            //questData.ChangeSuccessRate(100);
             questData.isClear = true;
             Destroy(gameObject);
             return;
@@ -30,8 +26,22 @@ public class Quest : MonoBehaviour
         foreach (var decision in decisionList)
         {
             decision.OnChangedValue += CheckClearQuest;
+            decision.OnClearPanel += ShowClearDecisionPanel;
         }
 
+    }
+    private void ShowClearDecisionPanel(Decision decision) 
+    {
+        
+    }
+
+    private void LoadQuestData()
+    {
+        for (int i = 0; i < decisionList.Count; i++)
+        {
+            decisionList[i].Init();
+            decisionList[i].isClear = questData.decisionClearList[i];
+        }
     }
     private void CheckClearQuest()
     {

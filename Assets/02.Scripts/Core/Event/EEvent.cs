@@ -15,6 +15,8 @@ public enum EQuestEvent
     ShowBrunchGmail,
     EndBrunchPostCleanUp,
     WriterWindowsLoginSuccess,
+    DecisionNoticePanel,
+    QuestNoticePanel,
     
 }
 

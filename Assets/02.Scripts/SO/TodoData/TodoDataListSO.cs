@@ -14,7 +14,7 @@ public class TodoData
 
     public Action OnChangeSuccessRate;
     public int SuccessRate { get => successRate; }
-    public void ChangeSuccessRate(int value)
+    public void ChangeSuccessRate(int value)                        
     {
         successRate += value;
         OnChangeSuccessRate?.Invoke();
