@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Quest : MonoBehaviour
 {
     [SerializeField]
     private QuestDataSO questData;
 
     public List<Decision> decisionList;
+
 
     private void Start()
     {
@@ -40,7 +40,7 @@ public class Quest : MonoBehaviour
         for (int i = 0; i < decisionList.Count; i++)
         {
             decisionList[i].Init();
-            decisionList[i].isClear = questData.decisionClearList[i];
+            decisionList[i].isClear = questData.decisionClearList[i].isComplete;
         }
     }
     private void CheckClearQuest()
@@ -70,19 +70,21 @@ public class Quest : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void SaveDecisionDatas()
+    {
+        foreach (Decision decision in decisionList)
+        {
+            DecisionData data = questData.decisionClearList.Find(x => x.decisionName == decision.decisionName);
+            data.isComplete = decision.CheckDecision();
+        }
+    }
+
     public void OnDestroy()
     {
-       for(int i = 0; i< decisionList.Count; i++)
-        {
-            questData.decisionClearList[i] = decisionList[i].CheckDecision();
-
-        }
+        SaveDecisionDatas();
     }
     public void OnApplicationQuit()
     {
-        for (int i = 0; i < decisionList.Count; i++)
-        {
-            questData.decisionClearList[i] = decisionList[i].CheckDecision();
-        }
+        SaveDecisionDatas();
     }
 }
