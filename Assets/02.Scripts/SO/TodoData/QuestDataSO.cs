@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,14 +13,16 @@ public class DecisionData
 [System.Serializable]
 public class QuestText
 {
-    [Header("Äù½ºÆ® Á¦¸ñ")] 
+    [Header("í€˜ìŠ¤íŠ¸ ì œëª©")] 
     public string head;
 
-    [Header("Äù½ºÆ® ÂªÀº ¼Ò°³")]
+    // Noticeì— ë“¤ì–´ê°ˆ ë‚´ìš©?
+    [Header("í€˜ìŠ¤íŠ¸ ì§§ì€ ì†Œê°œ")]
     [TextArea(1,3)]
     public string body;
 
-    [Header("Äù½ºÆ® ÀÚ¼¼ÇÑ ¼Ò°³")]
+    // TODO UIì˜ ë‚´ìš©ì— ë“¤ì–´ê°
+    [Header("í€˜ìŠ¤íŠ¸ ìì„¸í•œ ì†Œê°œ")]
     [TextArea(5,10)]
     public string detailBody;
 }
@@ -35,7 +37,7 @@ public enum EQuestCategory
 public class QuestDataSO : ScriptableObject
 {
     public EQuestEvent questEvent;
-    public EQuestCategory category;
+    public EQuestCategory category; // stringìœ¼ë¡œ ë°”ê¿€ê¹Œ ê³ ë¯¼ì¤‘
 
     public QuestText questText;
 
