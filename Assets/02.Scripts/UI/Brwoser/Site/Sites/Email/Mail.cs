@@ -9,10 +9,10 @@ public abstract class Mail : MonoBehaviour
 {
     #region ¹öÆ°µé
     [SerializeField]
-    private Button mailCloseButton;
+    private HighlightBtn mailCloseButton;
 
     [SerializeField]
-    private Button mailDestroyButton;
+    private HighlightBtn mailDestroyButton;
 
     [SerializeField]
     private EmailFavoriteButton mailFavoriteButton;
@@ -33,11 +33,16 @@ public abstract class Mail : MonoBehaviour
     public virtual void Init()
     {
         originMask = mailData.mailCategory;
-        mailCloseButton.onClick.AddListener(HideMail);
-        mailDestroyButton.onClick.AddListener(DestroyMail);
+        mailCloseButton.OnClick +=(HideMail);
+        mailDestroyButton.OnClick +=(DestroyMail);
         mailFavoriteButton.Init(mailData.isFavorited);
     }
-
+    [ContextMenu("BindBtns")]
+    public void BindBtns()
+    {
+        mailCloseButton = transform.Find("TopBar/BackButton").GetComponent<HighlightBtn>();
+        mailDestroyButton = transform.Find("TopBar/TrashButton").GetComponent<HighlightBtn>();
+    }
     public virtual void ShowMail()
     {
         gameObject.SetActive(true);

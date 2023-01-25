@@ -28,23 +28,28 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
     private float clickDelay = 0.75f;
     private float clickDelayTime = 0.0f;
     private Vector2 offsetPos = Vector2.zero;
+    
+    private WindowAlterationSO windowAlteration;
+    private FileSO file;
 
-    private WindowDataSO windowData;
     private RectTransform windowRectTransform;
 
-    public void Init(WindowDataSO winData, RectTransform rectTrm) 
+    public void Init(WindowAlterationSO windowAlteration, FileSO file, RectTransform rectTrm) 
     {
-        windowData = winData;
-        
+        this.windowAlteration = windowAlteration;
+        this.file = file;
+
+
         windowRectTransform = rectTrm;
         if (windowName != null)
         {
-            //windowName.text = $"{windowData.windowType} - {windowName.text}";
+            windowName.text = $"{file.name} - {windowName.text}";
         }
 
         if (iconImage != null)
         {
-            iconImage.sprite = winData.iconSprite;
+            // FileSO
+            iconImage.sprite = file.iconSprite;
         }
     }
 
@@ -68,7 +73,8 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (windowData.isMaximum) { return; }
+        // WindowTransform
+        if (windowAlteration.isMaximum) { return; }
 
         isDrag = true;
         Vector2 mousePos = Define.CanvasMousePos;
@@ -82,7 +88,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         if (eventData.position.x > Define.MaxWindowSize.x || 
            eventData.position.x < 0 ||
            eventData.position.y > Define.MaxWindowSize.y||
-           eventData.position.y < 50)
+           eventData.position.y < 100)
         {
             return;
         }

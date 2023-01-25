@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class WindowIconAttributeUI : MonoUI
 {
-    static public Action<Vector2, WindowIconDataSO> OnCreateMenu;
+    static public Action<Vector2, FileSO> OnCreateMenu;
 
     [SerializeField]
     private Button openPropertyBtn;
@@ -17,7 +17,7 @@ public class WindowIconAttributeUI : MonoUI
 
     public RectTransform rectTransform;
 
-    private WindowIconDataSO windowPropertyData;
+    private FileSO windowPropertyData;
     private bool isOpen = false;
 
     void Awake()
@@ -46,7 +46,7 @@ public class WindowIconAttributeUI : MonoUI
         }
     }
 
-    public void CreateMenu(Vector2 mousePos, WindowIconDataSO windowIconData)
+    public void CreateMenu(Vector2 mousePos, FileSO fileData)
     {
         Vector2 offset = Vector2.zero;
 
@@ -65,7 +65,7 @@ public class WindowIconAttributeUI : MonoUI
         rectTransform.anchoredPosition = mousePos;
 
         SetActive(true);
-        windowPropertyData = windowIconData;
+        windowPropertyData = fileData;
         isOpen = true;
     }
 

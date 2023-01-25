@@ -68,9 +68,21 @@ public class PoliceMail : Mail
     {
         sendButtonPanel.SetActive(false);
         miniGamePanel.gameObject.SetActive(true);
+        miniGamePanel.OnGameClear += MiniGameClear;
 
         SetContentPosition();
         
         isSendBtnClick = true;
+    }
+
+    private void MiniGameClear()
+    {
+        miniGamePanel.OnGameClear -= MiniGameClear;
+        miniGamePanel.gameObject.SetActive(false);
+        sendButtonPanel.SetActive(true);
+
+        SetContentPosition();
+
+        isSendBtnClick = false;
     }
 }

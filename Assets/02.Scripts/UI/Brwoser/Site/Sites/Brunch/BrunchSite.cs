@@ -37,7 +37,9 @@ public class BrunchSite : Site
     [SerializeField]
     private Transform workPanelParent;
     [SerializeField]
-    private Dictionary<EWorkKeys ,BrunchSiteWorkPanel> workPanels = new Dictionary<EWorkKeys, BrunchSiteWorkPanel>();  
+    private Dictionary<EWorkKeys ,BrunchSiteWorkPanel> workPanels = new Dictionary<EWorkKeys, BrunchSiteWorkPanel>();
+    [SerializeField]
+    private TMP_InputField profileInputField;
     public void Awake()
     {
         workListBtn.onClick.AddListener(OnWorkListPanel);
@@ -51,6 +53,7 @@ public class BrunchSite : Site
     public override void Init()
     {
         base.Init();
+        profileInputField.readOnly = true;
     }
     #region OnOffPanel
     public void OnWriterInfoPanel()

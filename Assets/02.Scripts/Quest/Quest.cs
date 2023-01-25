@@ -7,7 +7,7 @@ using UnityEngine;
 public class Quest : MonoBehaviour
 {
     [SerializeField]
-    private EQuestEvent currentEvent; 
+    private EQuestEvent currentEvent;
 
     [SerializeField]
     private List<Decision> decisionList;
@@ -15,23 +15,38 @@ public class Quest : MonoBehaviour
 
     private void Start()
     {
+        if (CheckDecisions())
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         foreach (var decision in decisionList)
         {
             decision.OnChangedValue += CheckClearQuest;
         }
+
     }
 
     private void CheckClearQuest()
+    {
+        if (CheckDecisions())
+        {
+            QuestClear();
+        }
+    }
+
+    private bool CheckDecisions()
     {
         foreach (var decision in decisionList)
         {
             if (!decision.CheckDecision())
             {
-                return;
+                return false;
             }
         }
 
-        QuestClear();
+        return true;
     }
 
     private void QuestClear()

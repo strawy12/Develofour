@@ -21,7 +21,7 @@ public class InputManager : MonoSingleton<InputManager>
     }
 
     void Update()
-    {
+    { 
         // ¸¶¿ì½º
         for (int i = 0; i < (int)EMouseType.Cnt; i++)
         {

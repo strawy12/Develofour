@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +10,11 @@ public class GmailLoginSite : Site
     private bool isShowToggleClick = false;
 
     [SerializeField]
-    private string passWord;
+    private string password;
     [SerializeField]
     private Button gmailLoginButton;
     [SerializeField]
-    private TMP_InputField gmailInputField;
+    private PasswordInputField passwordField;
     [SerializeField]
     private TextMove textMove;
     [SerializeField]
@@ -24,15 +25,15 @@ public class GmailLoginSite : Site
     public override void Init()
     {
         base.Init();
-        gmailInputField.asteriskChar = '·';
+        passwordField.SetPassword(password);
 
-        gmailInputField.onSubmit?.AddListener((a) => LoginGoogle());
-        gmailLoginButton.onClick?.AddListener(LoginGoogle);
+        gmailLoginButton.onClick?.AddListener(passwordField.TryLogin);
 
-        gmailInputField.onSelect.AddListener((a) => SelectInputField(true));
-        gmailInputField.onDeselect.AddListener((a) => SelectInputField(false));
+        passwordField.OnSuccessLogin += SuccessLogin;
+        passwordField.OnFailLogin += FailLogin;
 
-        gmailInputField.onValueChanged.AddListener((a) => Input.imeCompositionMode = IMECompositionMode.Off);
+        passwordField.onSelect.AddListener((a) => SelectInputField(true));
+        passwordField.onDeselect.AddListener((a) => SelectInputField(false));
 
         passwordToggle.onValueChanged.AddListener(ShowPassword);
 
@@ -43,8 +44,8 @@ public class GmailLoginSite : Site
     {
         isShowToggleClick = true;
  
-        gmailInputField.contentType = isShow ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
-        gmailInputField.ForceLabelUpdate(); 
+        passwordField.InputField.contentType = isShow ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
+        passwordField.InputField.ForceLabelUpdate();
 
     }
 
@@ -70,15 +71,15 @@ public class GmailLoginSite : Site
         base.ShowSite();
     }
 
-    private void LoginGoogle()
+    private void SuccessLogin()
     {
-        if (gmailInputField.text == passWord || gmailInputField.text == "11")
-        {
-            if (gmailInputField.text == "11")
-            {
-                Debug.LogError("Google Login를 Trigger를 사용하여 클리어 했습니다. 빌드 전에 해당 Trigger를 삭제하세요");
-            }
+        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
+        EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 
+        DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
+
+        if (requestSite == ESiteLink.None)
+        {
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
             EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 
@@ -90,15 +91,24 @@ public class GmailLoginSite : Site
             }
             else
             {
-                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
+                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY , false});
                 requestSite = ESiteLink.None;
             }
+            EventManager.TriggerEvent(EBrowserEvent.OnUndoSite);
         }
         else
         {
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
             textMove.FaliedInput("다시 입력하세요");
+            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
+            requestSite = ESiteLink.None;
         }
+    }
+
+    private void FailLogin()
+    {
+        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
+        textMove.FaliedInput("틀린 비밀번호입니다");
     }
 
 }

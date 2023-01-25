@@ -61,8 +61,8 @@ public class Discord : Window
         return newChatData;
     }
 
+
     public void SettingChattingPanel(object[] param)
-    // 채팅을 하고 있는 대상을 바꿈
     {
 
         if (!(param[0] is string) || param[0] == null) return;

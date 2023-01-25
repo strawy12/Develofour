@@ -86,7 +86,7 @@ namespace UnityGuidRegenerator
                 if (!EditorUtility.DisplayCancelableProgressBar("Scanning Assets folder", MakeRelativePath(_assetsPath, filePath),
                     counter / (float)filesPaths.Count))
                 {
-                    string contents = File.ReadAllText(filePath);
+                    string contents = System.IO.File.ReadAllText(filePath);
 
                     IEnumerable<string> guids = GetGuids(contents);
                     bool isFirstGuid = true;
@@ -131,7 +131,7 @@ namespace UnityGuidRegenerator
                 EditorUtility.DisplayProgressBar("Regenerating GUIDs", MakeRelativePath(_assetsPath, filePath), counter / (float)guidsInFileMapKeysCount);
                 counter++;
 
-                string contents = File.ReadAllText(filePath);
+                string contents = System.IO.File.ReadAllText(filePath);
                 foreach (string oldGuid in guidsInFileMap[filePath])
                 {
                     if (!ownGuids.Contains(oldGuid))
@@ -143,7 +143,7 @@ namespace UnityGuidRegenerator
 
                     contents = contents.Replace("guid: " + oldGuid, "guid: " + newGuid);
                 }
-                File.WriteAllText(filePath, contents);
+                System.IO.File.WriteAllText(filePath, contents);
             }
 
             EditorUtility.ClearProgressBar();

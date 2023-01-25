@@ -5,7 +5,7 @@ public enum ECoreEvent
     ChangeBGM,
     OpenTextBox,
 }
-
+    
 public enum EQuestEvent
 {
     None = -1,
@@ -14,7 +14,7 @@ public enum EQuestEvent
     PoliceMiniGameClear,
     ShowBrunchGmail,
     EndBrunchPostCleanUp,
-
+    WriterWindowsLoginSuccess,
 }
 
 public enum EWindowEvent
@@ -23,6 +23,8 @@ public enum EWindowEvent
     ClickNoticeBtn,
     ActivePowerPanel,
     ExpendMenu,
+    WindowsSuccessLogin,
+    CreateWindow,
 }
 
 public enum ENoticeEvent
@@ -33,7 +35,12 @@ public enum ENoticeEvent
     ClickNoticeBtn,
     DiscordNotice,
 }
-
+public enum ELibraryEvent
+{
+    None = -1,
+    IconClickOpenFile,
+    ButtonOpenFile,
+}
 public enum EBrowserEvent
 {
     None = -1,
