@@ -95,10 +95,14 @@ public class NoticeSystem : MonoUI
         });
     }
 
-    public void OpenDecisionNotice(Decision decision, float delay)
-    {
-        //main에 NoticeData 설정관련 함수 있음.
-    }
+    //public void OpenDecisionNotice(Decision decision, float delay)
+    //{
+    //    //main에 NoticeData 설정관련 함수 있음.
+    //    string head = decision.decisionName;
+    //    string body = "작업을 완료했습니다.";
+    //    Sprite sprite = ;
+
+    //}
 
     public NoticeDataSO GetTextData(ENoticeType noticeDataType)
     {

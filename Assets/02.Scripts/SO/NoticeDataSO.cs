@@ -16,6 +16,14 @@ public class NoticeData
 
     public Sprite icon;
     public bool isCanRemove;
+
+    public void SetNoticeData(string headTitle, string bodyInfo, float noticeDelay, Sprite noticeIcon)
+    {
+        head = headTitle;
+        body = bodyInfo;
+        delay = noticeDelay;
+        icon = noticeIcon;
+    }
 }
 
 
