@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -7,7 +7,7 @@ public class DiscordChatData
 {
     [Multiline]
     public string message;
-    [Header("º¸³½ ³¯Â¥")]
+    [Header("ë³´ë‚¸ ë‚ ì§œ")]
     public int year;
     public int month;
     public int day;

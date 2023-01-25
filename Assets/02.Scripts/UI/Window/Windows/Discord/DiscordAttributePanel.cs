@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,7 +12,7 @@ public class DiscordAttributePanel : MonoBehaviour, IPointerEnterHandler, IPoint
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //ÇÁ·ÎÇÊ ¿­¾îÁÜ
+        //í”„ë¡œí•„ ì—´ì–´ì¤Œ
         if(eventData.button == PointerEventData.InputButton.Left)
         { 
             if(data == null)
