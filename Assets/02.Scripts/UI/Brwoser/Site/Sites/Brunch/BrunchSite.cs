@@ -20,7 +20,7 @@ public class BrunchSite : Site
     [SerializeField]
     private BrunchPost brunchPostPrefab;
     [SerializeField]
-    private PostPanelParent postListPanel;
+    private PanelSettingChildVerticalSize postListPanel;
     [SerializeField]
     private List<BrunchPostDataSO> postDatas = new List<BrunchPostDataSO>();
     [SerializeField]

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(ContentSizeFitter))]
 public class ContentSizeFitterText : MonoBehaviour
 {
     private TMP_Text messageText;

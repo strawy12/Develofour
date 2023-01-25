@@ -4,52 +4,133 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class DiscordMessagePanel : MonoBehaviour
+public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    [Header("Message")]
     [SerializeField]
-    private TMP_Text messageText;
+    private DiscordMessageText messageText;
     [SerializeField]
     private TMP_Text userNameText;
     [SerializeField]
-    private TMP_Text timeText;
-
-    [SerializeField]
     private Image profileImage;
     [SerializeField]
-    private Image messageImage;
+    private DiscordMessageImagePanel messageImagePanel;
+
+    [Header("PanelSizeSetting")]
+    [SerializeField]
+    private float spacing;
+
+    private Image backgroundImage;
 
     private DiscordProfileDataSO currentProfileData;
+    private DiscordChatData currentChatData;
+    public DiscordChatData ChatData
+    {
+        get
+        {
+            return currentChatData;
+        }
+    }
+    public string UserName
+    {
+        get
+        {
+            return currentProfileData.userName;
+        }
+    }
+    private RectTransform rectTransform;
 
     public void Init()
     {
-        currentProfileData = null;
+        backgroundImage ??= GetComponent<Image>();
+        rectTransform ??= GetComponent<RectTransform>();
 
-        messageText.text = null;
-        userNameText.text = null;
-        timeText.text = null;
+        messageText.SettingMessage("");
+        userNameText.text = "";
 
         profileImage.sprite = null;
-        messageImage.sprite = null;
     }
 
-    public void SettingChatData(DiscordChatData data, DiscordProfileDataSO profileData)
+    public void SettingChatData(DiscordChatData data, DiscordProfileDataSO profileData, bool showProfile)
     {
+        currentChatData = data;
         currentProfileData = profileData;
-        
-        messageText.text = data.message;
-        userNameText.text = profileData.userName;
-        timeText.text = data.sendTimeText;
-
-        profileImage.sprite = profileData.userSprite;
-        
+        messageText.SettingMessage(data.message);
         if (data.msgSprite != null)
         {
-            messageImage.sprite = data.msgSprite;
+            messageImagePanel.SettingImage(data.msgSprite);
+            messageImagePanel.gameObject.SetActive(true);
         }
         else
         {
-            messageImage.gameObject.SetActive(false);
+            messageImagePanel.gameObject.SetActive(false);
+        }
+
+        if (showProfile)
+        {
+            profileImage.sprite = profileData.userSprite;
+            userNameText.text = profileData.userName;
+
+            profileImage.gameObject.SetActive(true);
+            userNameText.gameObject.SetActive(true);
+
+        }
+        else
+        {
+            profileImage.gameObject.SetActive(false);
+            userNameText.gameObject.SetActive(false);
+        }
+        AutoSettingMessagePanelSize();
+    }
+
+    public void AutoSettingMessagePanelSize(bool isDifferentUserName = false) 
+    {
+        float newVertical = 0f;
+
+        if (messageText.gameObject.activeSelf)
+        {
+            newVertical += messageText.MessageRect.sizeDelta.y;
+        }
+        if (userNameText.gameObject.activeSelf)
+        {
+            newVertical += userNameText.rectTransform.sizeDelta.y;
+        }
+        if (messageImagePanel.gameObject.activeSelf)
+        {
+            newVertical += messageImagePanel.SizeDelta.y;
+        }
+        if(isDifferentUserName)
+        {
+            newVertical += 15;
+        }
+        newVertical += spacing;
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, newVertical);
+    }
+
+    public void Release()
+    {
+        messageText.SettingMessage("");
+        messageImagePanel.Release();
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 0);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        backgroundImage.enabled = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        backgroundImage.enabled = false;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Left && currentChatData.msgSprite != null)
+        {
+            EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSprite }); ;
         }
     }
 }

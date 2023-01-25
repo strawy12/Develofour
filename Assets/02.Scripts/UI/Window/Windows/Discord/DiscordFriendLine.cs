@@ -1,11 +1,17 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class DiscordFriendLine : MonoBehaviour
+public class DiscordFriendLine : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    public Action<DiscordFriendLine> OnLeftClickPanel;
+    public Action<Vector2, DiscordFriendLine> OnRightClickPanel;
+    public DiscordProfileDataSO myData;
+
     [SerializeField]
     private GameObject highlightPanel;
 
@@ -44,4 +50,49 @@ public class DiscordFriendLine : MonoBehaviour
         set { nameText = value; }
     }
 
+    [SerializeField]
+    private TextMeshProUGUI statusNameText;
+    public TextMeshProUGUI StatusNameText
+    {
+        get => statusNameText;
+        set { statusNameText = value; }
+    }
+
+    [SerializeField]
+    private TextMeshProUGUI statusText;
+    public TextMeshProUGUI StatusText
+    {
+        get => statusText;
+        set { statusText = value; }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        highlightPanel.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        highlightPanel.SetActive(false);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            OnRightClickPanel?.Invoke(eventData.position, this);
+            //우클릭 창 만들기
+        }
+        else if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            noticePanel.SetActive(false);
+            selectPanel.SetActive(true);
+            OnLeftClickPanel?.Invoke(this);
+        }
+    }
+
+    public void QuitSelectPanel()
+    {
+        selectPanel.SetActive(false);
+    }
 }

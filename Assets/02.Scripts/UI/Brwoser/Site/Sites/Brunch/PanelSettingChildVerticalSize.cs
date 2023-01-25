@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PostPanelParent : MonoBehaviour
+public class PanelSettingChildVerticalSize : MonoBehaviour
 {
     [SerializeField]
     private RectTransform blogPostPanelRect;

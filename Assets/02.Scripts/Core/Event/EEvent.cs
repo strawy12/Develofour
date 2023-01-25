@@ -1,11 +1,11 @@
-public enum ECoreEvent 
+public enum ECoreEvent
 {
     None = -1,
     LeftButtonClick,
     ChangeBGM,
     OpenTextBox,
 }
-
+    
 public enum EQuestEvent
 {
     None = -1,
@@ -15,7 +15,6 @@ public enum EQuestEvent
     ShowBrunchGmail,
     EndBrunchPostCleanUp,
     WriterWindowsLoginSuccess,
-    
 }
 
 public enum EWindowEvent
@@ -34,6 +33,7 @@ public enum ENoticeEvent
     GeneratedNotice,
     OpenNoticeSystem,
     ClickNoticeBtn,
+    DiscordNotice,
 }
 public enum ELibraryEvent
 {
@@ -89,7 +89,7 @@ public enum EMailSiteEvent
 public enum ECutSceneEvent
 {
     None = -1,
-    ShowCutScene ,
+    ShowCutScene,
     SkipCutScene,
     EndNewsCutScene,
 }
@@ -102,3 +102,10 @@ public enum EInputType
     InputMouseUp,
 }
 
+public enum EDiscordEvent
+{
+    None = -1,
+    ShowChattingPanel,
+    ShowImagePanel,
+    StartTalk,
+}

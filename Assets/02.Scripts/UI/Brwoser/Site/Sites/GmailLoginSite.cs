@@ -98,6 +98,8 @@ public class GmailLoginSite : Site
         }
         else
         {
+            Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
+            textMove.FaliedInput("다시 입력하세요");
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
             requestSite = ESiteLink.None;
         }
@@ -106,7 +108,7 @@ public class GmailLoginSite : Site
     private void FailLogin()
     {
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
-        textMove.FaliedInput();
+        textMove.FaliedInput("틀린 비밀번호입니다");
     }
 
 }
