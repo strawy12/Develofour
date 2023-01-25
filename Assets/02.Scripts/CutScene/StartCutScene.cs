@@ -30,10 +30,17 @@ public class StartCutScene : MonoBehaviour
 
     void Start()
     {
+        CutSceneStart();
+        Debug.Log("S를 누를시 스타트 컷씬이 스킵되는 코드가 있습니다.");
+    }
+
+    void CutSceneStart()
+    {
+        EventManager.StartListening(EInputType.InputMouseDown, ShowText);
+        InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyDown: ShowText);
         StartCoroutine(OnType(mainTexts[0], 0.1f, scripts[0]));
         Flicker(underBarText);
-
-        Debug.Log("S를 누를시 스타트 컷씬이 스킵되는 코드가 있습니다.");
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
     }
 
     void Update()
@@ -41,12 +48,6 @@ public class StartCutScene : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             Destroy(this.gameObject);
-        }
-        if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-        {
-            if (isPlaying)
-                return;
-            ShowText();
         }
     }
 
@@ -68,6 +69,9 @@ public class StartCutScene : MonoBehaviour
 
     private void ShowText()
     {
+        if (isPlaying)
+            return;
+
         if (cnt != scripts.Length - 1)
         {
             StartCoroutine(OnType(mainTexts[cnt], 0.1f, scripts[cnt]));
@@ -78,6 +82,10 @@ public class StartCutScene : MonoBehaviour
         }
     }
 
+    private void ShowText(object[] obj)
+    {
+        ShowText();
+    }
 
     IEnumerator OnType(TextMeshProUGUI text, float interval, string Say)
     {
@@ -104,16 +112,21 @@ public class StartCutScene : MonoBehaviour
     {
         Debug.Log("와");
         isEnd = true;
+        EventManager.StopListening(EInputType.InputMouseDown, ShowText);
+        InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyDown: ShowText);
         StopCoroutine(OnFlicker(underBarText));
         foreach (var text in mainTexts)
         {
             text.gameObject.SetActive(false);
         }
         underBarText.gameObject.SetActive(false);
-
         loadingSpr.gameObject.SetActive(true);
         loadingText.gameObject.SetActive(true);
-        loadingSpr.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), 3f).OnComplete(() => { SetActiveThisObject(); });
+        loadingSpr.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), 3f).OnComplete(() => 
+        { 
+            SetActiveThisObject();
+            GameManager.Inst.ChangeGameState(EGameState.Game);
+        });
     }
 
     public void SetActiveThisObject()
