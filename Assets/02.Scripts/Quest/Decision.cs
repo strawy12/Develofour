@@ -15,8 +15,6 @@ public abstract class Decision : MonoBehaviour
 
     public virtual bool CheckDecision()
     {
-        OnChangedValue.Invoke();
-        OnClearPanel.Invoke(this);
         return isClear;
     }
 }

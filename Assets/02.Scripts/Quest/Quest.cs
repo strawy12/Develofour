@@ -13,7 +13,12 @@ public class Quest : MonoBehaviour
 
     private void Start()
     {
-        LoadQuestData();
+        Init();
+        questData.isClear = false;
+    }
+    public void Init()
+    {
+        LoadQuestDatas();
 
         if (CheckDecisions() || questData.isClear)
         {
@@ -26,21 +31,21 @@ public class Quest : MonoBehaviour
         foreach (var decision in decisionList)
         {
             decision.OnChangedValue += CheckClearQuest;
-            decision.OnClearPanel += ShowClearDecisionPanel;
+            //decision.OnClearPanel += ShowClearDecisionPanel;
         }
-
     }
-    private void ShowClearDecisionPanel(Decision decision) 
-    {
-        
-    }
+    //private void ShowClearDecisionPanel(Decision decision) 
+    //{
+    //    NoticeSystem.OnGeneratedNotice.Invoke(EQuestEvent)
+    //}
 
-    private void LoadQuestData()
+    private void LoadQuestDatas()
     {
-        for (int i = 0; i < decisionList.Count; i++)
+        foreach (Decision decision in decisionList)
         {
-            decisionList[i].Init();
-            decisionList[i].isClear = questData.decisionClearList[i].isComplete;
+            decision.Init();
+            DecisionData data = questData.decisionClearList.Find(x => x.decisionName == decision.decisionName);
+            decision.isClear = data.isComplete;
         }
     }
     private void CheckClearQuest()
@@ -83,8 +88,15 @@ public class Quest : MonoBehaviour
     {
         SaveDecisionDatas();
     }
-    public void OnApplicationQuit()
+    //public void OnApplicationQuit()
+    //{
+    //    SaveDecisionDatas();
+    //}
+
+#if UNITY_EDITOR
+    private void OnApplicationQuit()
     {
-        SaveDecisionDatas();
+        questData.isClear = false;
     }
+#endif
 }

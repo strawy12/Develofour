@@ -43,10 +43,8 @@ public class QuestDataSO : ScriptableObject
 
     private int successRate = 0;
 
-    [HideInInspector]
     public List<DecisionData> decisionClearList; 
     public Action OnChangeSuccessRate;
-    [HideInInspector]
     public bool isClear;
     public int SuccessRate { get => successRate; }
 

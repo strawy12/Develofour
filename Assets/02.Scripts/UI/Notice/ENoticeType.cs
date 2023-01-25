@@ -12,5 +12,6 @@ public enum ENoticeType
 	EndBrunchPostDelete,
 	SnsSetNewPassword,
 	WriterFacebookLoginSuccess,
+	ClickOwnerName,
 	End
 }

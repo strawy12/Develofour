@@ -14,7 +14,7 @@ using UnityEngine.U2D.IK;
 public class NoticeSystem : MonoUI
 {
     public static Action<ENoticeType, float> OnGeneratedNotice;
-    public static Action<Decision, float> OnDecisionPanel;
+    //public static Action<Decision, float> OnDecisionPanel;
 
     [SerializeField]
     private NoticePanel noticePanelTemp;
@@ -97,7 +97,6 @@ public class NoticeSystem : MonoUI
 
     //public void OpenDecisionNotice(Decision decision, float delay)
     //{
-    //    //main에 NoticeData 설정관련 함수 있음.
     //    string head = decision.decisionName;
     //    string body = "작업을 완료했습니다.";
     //    Sprite sprite = ;
