@@ -100,8 +100,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
             return;
         }
 
+        Debug.Log(windowMaxCnt);
         if(isSelected)
         {
+            Debug.Log(name);
             windowCanvas.sortingOrder = windowMaxCnt + 1;
         }
         if (!isSelected)

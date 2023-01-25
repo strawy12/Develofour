@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,13 +21,14 @@ public class ImageViewer : Window
     {
         base.Init();
 
+        imageData = ResourceManager.Inst.SetImageData(file.name);
+
         windowBar.SetNameText($"{imageData.imageName}.{imageData.extensionType.ToString().ToLower()}");
 
         imageViwerImage.sprite = imageData.imageSprite;
 
         SetImageResolusion();
     }
-
 
     public void SetImageResolusion()
     {
