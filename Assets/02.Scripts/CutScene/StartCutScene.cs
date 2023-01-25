@@ -47,6 +47,7 @@ public class StartCutScene : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
+            GameManager.Inst.ChangeGameState(EGameState.Game);
             Destroy(this.gameObject);
         }
     }
