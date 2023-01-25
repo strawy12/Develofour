@@ -3,6 +3,9 @@
 public struct DateTime
 {
     // 추후 변수 추가 예정
+    public DateTime(int year, int month, int day)
+    {
+    }
 }
 
 [System.Serializable]
