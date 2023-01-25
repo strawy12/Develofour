@@ -13,6 +13,7 @@ public class StartCutScene : MonoBehaviour
     public string[] scripts;
 
     private int cnt = 0;
+    public int underBarWidth = -750;
 
     private bool isPlaying;
     private bool isEnd;
@@ -86,7 +87,7 @@ public class StartCutScene : MonoBehaviour
             text.text += item;
             Vector3 pos = mainTexts[cnt].rectTransform.anchoredPosition;
             yield return new WaitForSeconds(interval);
-            underBarText.rectTransform.anchoredPosition = new Vector3(mainTexts[cnt].rectTransform.rect.width + 150, pos.y, pos.z);
+            underBarText.rectTransform.anchoredPosition = new Vector3(mainTexts[cnt].rectTransform.rect.width + underBarWidth, pos.y, pos.z);
         }
         EndText();
     }
@@ -95,7 +96,7 @@ public class StartCutScene : MonoBehaviour
     {
         mainTexts[++cnt].text += ">> ";
         Vector3 pos = mainTexts[cnt].rectTransform.anchoredPosition;
-        underBarText.rectTransform.anchoredPosition = new Vector3(mainTexts[cnt].rectTransform.rect.width + 150, pos.y, pos.z);
+        underBarText.rectTransform.anchoredPosition = new Vector3(mainTexts[cnt].rectTransform.rect.width + underBarWidth, pos.y, pos.z);
         isPlaying = false;
     }
 
