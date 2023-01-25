@@ -12,7 +12,6 @@ public class DiscordChatData
     public int month;
     public int day;
 
-    [Header("")]
     public bool isMine;
     public Sprite msgSprite;
     public float typingDelay;
