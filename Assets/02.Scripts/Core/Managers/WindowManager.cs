@@ -79,6 +79,12 @@ public class WindowManager : MonoSingleton<WindowManager>
     // 다른 키값 하나가 더 있으야함
     public Window GetWindow(EWindowType windowType, string windowName)
     {
+        Debug.Log(windowName);
+        if(windowType == EWindowType.ImageViewer)
+        {
+            //GetImage();
+        }
+
         return windowDictionary[windowType].Find(x => x.File.name == windowName);
     }
 
