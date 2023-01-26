@@ -8,7 +8,7 @@ public class Notepad : Window
     [SerializeField]
     private TMP_InputField inputField;
 
-    public NotepadDataSO data;
+    public NotepadDataSO currentData;
 
     protected override void Init()
     {
@@ -17,19 +17,19 @@ public class Notepad : Window
 
         OnSelected += inputField.ActivateInputField;
         OnUnSelected += () => inputField.DeactivateInputField();
-        data = ResourceManager.Inst.GetNotepadData(file.name);
+        currentData = ResourceManager.Inst.GetNotepadData(file.name);
 
         SetText();
     }
 
     public void SetText()
     {
-        if(data == null)
+        if(currentData == null)
         {
             Debug.Log("Notepad Data∞° Null¿”");
             return;
         }
-        inputField.text = data.scripts;
+        inputField.text = currentData.scripts;
     }
 
 
