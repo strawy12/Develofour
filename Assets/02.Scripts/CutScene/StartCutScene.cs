@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -33,7 +33,7 @@ public class StartCutScene : MonoBehaviour
     void Start()
     {
         CutSceneStart();
-        Debug.Log("S¸¦ ´©¸¦½Ã ½ºÅ¸Æ® ÄÆ¾ÀÀÌ ½ºÅµµÇ´Â ÄÚµå°¡ ÀÖ½À´Ï´Ù.");
+        Debug.Log("Së¥¼ ëˆ„ë¥¼ì‹œ ìŠ¤íƒ€íŠ¸ ì»·ì”¬ì´ ìŠ¤í‚µë˜ëŠ” ì½”ë“œê°€ ìˆìŠµë‹ˆë‹¤.");
     }
 
     void CutSceneStart()
@@ -113,7 +113,7 @@ public class StartCutScene : MonoBehaviour
 
     private void EndCutScene()
     {
-        Debug.Log("ÇöÀç ·Îµù ½Ã°£ 0.5ÃÊ ³ªÁß¿¡ ¼öÁ¤");
+        Debug.Log("í˜„ì¬ ë¡œë”© ì‹œê°„ 0.5ì´ˆ ë‚˜ì¤‘ì— ìˆ˜ì •");
         isEnd = true;
         EventManager.StopListening(EInputType.InputMouseDown, ShowText);
         InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyDown: ShowText);
