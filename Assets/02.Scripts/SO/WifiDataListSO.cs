@@ -7,6 +7,7 @@ public class WifiData
 {
     public int wifiPower;
     public string wifiName;
+    public string wifiAccessLog;
 }
 
 [CreateAssetMenu(menuName ="SO/List/WifiDataList")]

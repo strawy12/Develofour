@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public enum EImageExtensionType
@@ -14,8 +15,9 @@ public enum EImageExtensionType
 [CreateAssetMenu(menuName = "SO/Window/ImageViewer/Data")] 
 public class ImageViewerDataSO : ScriptableObject
 {
-    public Sprite imageSprite;
+    public string fileName;
     public string imageName;
+    public Sprite imageSprite;
     public EImageExtensionType extensionType;
 
     public string imagePin;

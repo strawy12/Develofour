@@ -43,7 +43,6 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         windowRectTransform = rectTrm;
         if (windowName != null)
         {
-            // FileSO
             windowName.text = $"{file.name} - {windowName.text}";
         }
 
@@ -84,7 +83,6 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log(eventData.position.y);
         if (isDrag == false) { return; }
         if (eventData.position.x > Define.MaxWindowSize.x || 
            eventData.position.x < 0 ||

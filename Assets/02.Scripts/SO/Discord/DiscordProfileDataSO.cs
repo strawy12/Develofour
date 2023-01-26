@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 [CreateAssetMenu(menuName = "SO/Discord/ProfileData")]
 public class DiscordProfileDataSO : ScriptableObject
 {
@@ -8,4 +9,6 @@ public class DiscordProfileDataSO : ScriptableObject
     public string statusMsg;
     public string infoMsg;
     public bool isFriend;
+
 }
+

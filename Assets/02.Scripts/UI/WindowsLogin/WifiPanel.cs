@@ -13,6 +13,8 @@ public class WifiPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     private List<Image> wifiPowerImageList;
     [SerializeField]
     private TMP_Text wifiNameText;
+    [SerializeField]
+    private TMP_Text wifiAccessLogText;
 
     [SerializeField]
     private float highlightAlpha;
@@ -46,7 +48,7 @@ public class WifiPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void SetWifiNameText()
     {
-        wifiNameText.SetText($"{wifiData.wifiName}\n<color=#999999>보안</color>");
+        wifiNameText.SetText($"{wifiData.wifiName}\n<color=#999999>{wifiData.wifiAccessLog}전에 로그인 됨</color>");
     }
 
     public void SetWifiPowerUI()
