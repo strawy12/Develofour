@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -23,6 +23,8 @@ public class StartCutScene : MonoBehaviour
 
     public CanvasGroup group;
 
+    public float loadingDuration = 0.5f;
+
     void Awake()
     {
         group.alpha = 1;        
@@ -31,7 +33,7 @@ public class StartCutScene : MonoBehaviour
     void Start()
     {
         CutSceneStart();
-        Debug.Log("S¸¦ ´©¸¦½Ã ½ºÅ¸Æ® ÄÆ¾ÀÀÌ ½ºÅµµÇ´Â ÄÚµå°¡ ÀÖ½À´Ï´Ù.");
+        Debug.Log("Së¥¼ ëˆ„ë¥¼ì‹œ ìŠ¤íƒ€íŠ¸ ì»·ì”¬ì´ ìŠ¤í‚µë˜ëŠ” ì½”ë“œê°€ ìˆìŠµë‹ˆë‹¤.");
     }
 
     void CutSceneStart()
@@ -48,7 +50,7 @@ public class StartCutScene : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
-            Destroy(this.gameObject);
+            EndCutScene();
         }
     }
 
@@ -111,7 +113,7 @@ public class StartCutScene : MonoBehaviour
 
     private void EndCutScene()
     {
-        Debug.Log("¿Í");
+        Debug.Log("í˜„ì¬ ë¡œë”© ì‹œê°„ 0.5ì´ˆ ë‚˜ì¤‘ì— ìˆ˜ì •");
         isEnd = true;
         EventManager.StopListening(EInputType.InputMouseDown, ShowText);
         InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyDown: ShowText);
@@ -123,7 +125,7 @@ public class StartCutScene : MonoBehaviour
         underBarText.gameObject.SetActive(false);
         loadingSpr.gameObject.SetActive(true);
         loadingText.gameObject.SetActive(true);
-        loadingSpr.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), 3f).OnComplete(() => 
+        loadingSpr.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), loadingDuration).OnComplete(() => 
         { 
             SetActiveThisObject();
             GameManager.Inst.ChangeGameState(EGameState.Game);
