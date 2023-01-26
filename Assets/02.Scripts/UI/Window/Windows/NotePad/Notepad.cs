@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -26,7 +26,7 @@ public class Notepad : Window
     {
         if(currentData == null)
         {
-            Debug.Log("Notepad Data°¡ NullÀÓ");
+            Debug.Log("Notepad Dataê°€ Nullìž„");
             return;
         }
         inputField.text = currentData.scripts;
