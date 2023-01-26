@@ -17,4 +17,6 @@ public class ImageViewerDataSO : ScriptableObject
     public Sprite imageSprite;
     public string imageName;
     public EImageExtensionType extensionType;
+
+    public string imagePin;
 }

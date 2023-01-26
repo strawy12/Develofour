@@ -7,10 +7,6 @@ using UnityEngine.UI;
 public class WindowPinInput : MonoUI
 {
     [SerializeField]
-    private string pinPassword;
-
-
-    [SerializeField]
     private TMP_InputField pinInputField;
 
     [SerializeField]
@@ -36,7 +32,7 @@ public class WindowPinInput : MonoUI
 
     private void CheckPinPassword()
     {
-        if (pinInputField.text == pinPassword)
+        if (pinInputField.text == WindowPinManager.Inst.windowPin)
         {
             DataManager.Inst.CurrentPlayer.CurrentChapterData.isWindowPinPasswordClear = true;
             CloseWindowPinLock();
