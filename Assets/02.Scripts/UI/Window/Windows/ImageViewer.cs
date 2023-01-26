@@ -20,7 +20,7 @@ public class ImageViewer : Window
     {
         base.Init();
 
-        imageData = ResourceManager.Inst.SetImageData(file.name);
+        imageData = ResourceManager.Inst.GetImageData(file.name);
 
         windowBar.SetNameText($"{imageData.imageName}.{imageData.extensionType.ToString().ToLower()}");
 

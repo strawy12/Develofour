@@ -63,7 +63,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void SetFileData(FileSO newFileData)
     {
         fileData = newFileData;
-        iconNameText.text = fileData.name;
+        iconNameText.text = fileData.windowName;
         iconImage.sprite = newFileData.iconSprite;
     }
 
