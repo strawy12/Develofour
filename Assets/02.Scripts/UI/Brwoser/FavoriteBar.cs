@@ -40,7 +40,6 @@ public class FavoriteBar : MonoBehaviour
         {
             BrowserFavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
             button.SiteLink = siteLink;
-            Debug.Log(siteLink);
             button.Init(site.SiteData.siteIconSprite, site.SiteData.siteTitle);
             favoritesList.Add(siteLink, button);
             button.gameObject.SetActive(false);
