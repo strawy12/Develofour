@@ -23,6 +23,8 @@ public class StartCutScene : MonoBehaviour
 
     public CanvasGroup group;
 
+    public float loadingDuration = 0.5f;
+
     void Awake()
     {
         group.alpha = 1;        
@@ -48,7 +50,7 @@ public class StartCutScene : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
-            Destroy(this.gameObject);
+            EndCutScene();
         }
     }
 
@@ -111,7 +113,7 @@ public class StartCutScene : MonoBehaviour
 
     private void EndCutScene()
     {
-        Debug.Log("와");
+        Debug.Log("현재 로딩 시간 0.5초 나중에 수정");
         isEnd = true;
         EventManager.StopListening(EInputType.InputMouseDown, ShowText);
         InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyDown: ShowText);
@@ -123,7 +125,7 @@ public class StartCutScene : MonoBehaviour
         underBarText.gameObject.SetActive(false);
         loadingSpr.gameObject.SetActive(true);
         loadingText.gameObject.SetActive(true);
-        loadingSpr.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), 3f).OnComplete(() => 
+        loadingSpr.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), loadingDuration).OnComplete(() => 
         { 
             SetActiveThisObject();
             GameManager.Inst.ChangeGameState(EGameState.Game);
