@@ -9,6 +9,7 @@ using System;
 
 using static Constant;
 using System.Diagnostics.Contracts;
+using System.Linq.Expressions;
 
 public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 {
@@ -25,8 +26,10 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     [SerializeField]
     private Image iconImage;
 
+    private ContentSizeFitter contentSizeFitter;
+
     [SerializeField]
-    private ContentSizeFitter csf;
+    private bool canDeleted = true;
 
     public Action<NoticePanel> OnCompeleted;
     public Action<NoticePanel> OnClosed;
@@ -41,7 +44,6 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     private bool isEnter;
 
     private bool isCompleted = false;
-    private bool isCanRemove = false;
 
     public string HeadText { get { return headText.text; } }
     private void Bind()
@@ -51,24 +53,34 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         backgroundImage ??= GetComponent<Image>();
 
         dragNotice ??= GetComponent<TouchDragNotice>();
+        contentSizeFitter ??= GetComponent<ContentSizeFitter>();
     }
 
-    public void Init()
+    public void Init(bool canDelete)
     {
         Bind();
+
+        if(!canDeleted)
+        {
+            EnableTouchDragNotice(false);
+            SetActive(true);
+            return;
+        }
+        
+        canDeleted = canDelete;
         OnCompeleted += (x) => Compelete();
 
-        dragNotice.OnClickNotice += () => NoticePanelStartEndDrag();
-        dragNotice.OnChangeAlpha += () => NoticePanelAlphalightly();
-        dragNotice.OnDragNotice += () => OnCompeleted?.Invoke(this);
+        dragNotice.OnClickNotice += Drag;
+        dragNotice.OnChangeAlpha += ChangeAlpha;
+        dragNotice.OnDragNotice += ImmediatelyStop;
     }
 
     public void Notice(NoticeDataSO data)
-    {
+    { 
         headText.SetText(data.Head);
         bodyText.SetText(data.Body);
         iconImage.sprite = data.Icon;
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)csf.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
 
         rectTransform.anchorMin = new Vector2(1f, 0.5f);
         rectTransform.anchorMax = new Vector2(1f, 0.5f);
@@ -88,7 +100,6 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }
-
     public void Notice(string head, string body, Sprite icon)
     {
         headText.SetText(head);
@@ -127,30 +138,36 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         });
     }
 
-    public void EnableDragComponnent(bool value)
+    private void StartDrag()
     {
-        dragNotice.enabled = value;
-    }
-    private void NoticePanelStartEndDrag()
-    {
-        if (dragNotice.isClick) // 드래그 시작
+        if (stopDelayCoroutine != null)
         {
-            if (stopDelayCoroutine != null)
-            {
-                StopCoroutine(stopDelayCoroutine);
-                stopDelayCoroutine = null;
-            }
-        }
-        else if (!dragNotice.isClick)
-        {
-            if (stopDelayCoroutine == null)
-            {
-                stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
-            }
+            StopCoroutine(stopDelayCoroutine);
+            stopDelayCoroutine = null;
         }
     }
 
-    private void NoticePanelAlphalightly()
+    private void EndDrag()
+    {
+        if (stopDelayCoroutine == null)
+        {
+            stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
+        }
+    }
+
+    private void Drag()
+    {
+        if (dragNotice.isClick)
+        {
+            StartDrag();
+        }
+        else
+        {
+            EndDrag();
+        }
+    }
+
+    private void ChangeAlpha()
     {
         if (dragNotice.isInvisibility)
         {
@@ -171,6 +188,11 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }
 
+    public void EnableTouchDragNotice(bool isEnabled)
+    {
+        dragNotice.enabled = isEnabled;
+    }
+
     private void Compelete()
     {
         if (isEnter)
@@ -187,6 +209,12 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
             OnClosed?.Invoke(this);
         }
 
+        if (canDeleted == false)
+        {
+            EnableTouchDragNotice(false);
+        }
+
+        StopAllCoroutines();
         isCompleted = !isCompleted;
     }
 

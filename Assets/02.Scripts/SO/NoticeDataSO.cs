@@ -14,16 +14,9 @@ public class NoticeData
 
     public float delay;
 
-    public Sprite icon;
-    public bool isCanRemove;
+    public bool canDeleted = true;
 
-    public void SetNoticeData(string headTitle, string bodyInfo, float noticeDelay, Sprite noticeIcon)
-    {
-        head = headTitle;
-        body = bodyInfo;
-        delay = noticeDelay;
-        icon = noticeIcon;
-    }
+    public Sprite icon;
 }
 
 
@@ -36,46 +29,12 @@ public class NoticeDataSO : ScriptableObject
     [SerializeField]
     private NoticeData noticeDataList;
 
-  
-    public ENoticeType NoticeDataType
-    {
-        get
-        {
-            return noticeDataType;
-        }
-    }
-
-    public string Head
-    {
-        get
-        {
-            return noticeDataList.head;
-        }
-    }
-
-    public string Body
-    {
-        get
-        {
-            return noticeDataList.body;
-        }
-    }
-
-    public float Delay
-    {
-        get
-        {
-            return noticeDataList.delay;
-        }
-    }
-
-    public Sprite Icon
-    {
-        get
-        {
-            return noticeDataList.icon;
-        }
-    }
+    public ENoticeType NoticeDataType => noticeDataType;
+    public string Head => noticeDataList.head;
+    public string Body => noticeDataList.body;
+    public float Delay => noticeDataList.delay;
+    public Sprite Icon => noticeDataList.icon;
+    public bool CanDeleted => noticeDataList.canDeleted;
 
     public void SetNoticeData(NoticeData data)
     {
