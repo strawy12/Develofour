@@ -9,6 +9,9 @@ public class WindowPinInput : MonoUI
     private bool isHideFinSeeStay;
 
     [SerializeField]
+    private TextMeshPro pinGuideText;
+
+    [SerializeField]
     private TMP_InputField pinInputField;
 
     [SerializeField]
@@ -95,6 +98,9 @@ public class WindowPinInput : MonoUI
 
     private void CloseWindowPinLock()
     {
+        pinInputField.text = "";
+        pinInputField.contentType = TMP_InputField.ContentType.Pin;
+
         SetActive(false);
     }
 
