@@ -208,8 +208,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -16}
-  m_SizeDelta: {x: 60, y: 33.8}
+  m_AnchoredPosition: {x: 0, y: -5}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8302766137979973731
 CanvasRenderer:
@@ -338,12 +338,12 @@ GameObject:
   - component: {fileID: 8154711400767030865}
   - component: {fileID: 2198397676183694896}
   m_Layer: 5
-  m_Name: PuzzlePullImageIcon
+  m_Name: DefaultIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7144530945994159918
 RectTransform:
   m_ObjectHideFlags: 0
@@ -351,7 +351,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8866773644990791201}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -379,12 +379,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59398e7646ef40d99b2438c62181ec6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windowData: {fileID: 11400000, guid: 03756ffb1db143798246dae7bd83f3d0, type: 2}
+  fileData: {fileID: 0}
   iconImage: {fileID: 4176014346314821053}
   selectedImage: {fileID: 7364831179288070795}
   pointerStayImage: {fileID: 8467408114170334377}
   iconNameText: {fileID: 6104184404871456397}
-  windowIconData: {fileID: 11400000, guid: 95682e0e13282f5418a2ff8ca84137e2, type: 2}
+  isBackground: 0
 --- !u!222 &8154711400767030865
 CanvasRenderer:
   m_ObjectHideFlags: 0

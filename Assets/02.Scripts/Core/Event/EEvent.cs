@@ -40,6 +40,7 @@ public enum ELibraryEvent
     None = -1,
     IconClickOpenFile,
     ButtonOpenFile,
+    AddFile,
 }
 public enum EBrowserEvent
 {

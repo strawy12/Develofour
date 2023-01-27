@@ -379,12 +379,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windowAlteration: {fileID: 11400000, guid: ac314cbae41ab9c4f8efc7a69c7869fb, type: 2}
   windowBar: {fileID: 2346294266999850850}
+  installFile: {fileID: 11400000, guid: 4d65edcd44daca24888cfbfc545eacc4, type: 2}
   screenList:
   - {fileID: 4752737656808045175}
   - {fileID: 5004789010806360420}
   - {fileID: 3004972934731170746}
-  - {fileID: 2020315157348649670}
-  nextBtn: {fileID: 7517825290007298285}
+  - {fileID: 1442305141}
+  nextBtn: {fileID: 922570730}
   backBtn: {fileID: 4667048544704173855}
   cancelBtn: {fileID: 3049673240528550949}
 --- !u!114 &549334407979132769
@@ -1721,7 +1722,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB9C8\uCE68"
+  m_text: "\uB2E4\uC74C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1675bf177ad148c19298e5c4d8e0852e, type: 2}
   m_sharedMaterial: {fileID: -2560004193487277870, guid: 1675bf177ad148c19298e5c4d8e0852e, type: 2}
@@ -6081,6 +6082,7 @@ GameObject:
   - component: {fileID: 5114701866028747934}
   - component: {fileID: 8993014349847076932}
   - component: {fileID: 7517825290007298285}
+  - component: {fileID: 922570730}
   m_Layer: 5
   m_Name: EndButton
   m_TagString: Untagged
@@ -6191,6 +6193,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &922570730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5563258820266237998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5fcb982ce865be45b853e0d83c8070a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentBtn: {fileID: 7517825290007298285}
+  buttonText: {fileID: 6446443264914430125}
 --- !u!1 &6014952703436327882
 GameObject:
   m_ObjectHideFlags: 0
@@ -6457,9 +6473,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2517725604830312720}
-  - component: {fileID: 2020315157348649670}
+  - component: {fileID: 1442305141}
   m_Layer: 5
-  m_Name: 4th_Screen
+  m_Name: End_Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6486,7 +6502,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -15}
   m_SizeDelta: {x: 0, y: -30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2020315157348649670
+--- !u!114 &1442305141
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6495,9 +6511,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7096294722252396132}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 057f5069e46ca544c8ccc2bd9ffdc274, type: 3}
+  m_Script: {fileID: 11500000, guid: 488021b9350337d4a8d6a83f086cecbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  windowOpenToggle: {fileID: 1311168624835681017}
 --- !u!1 &7601187507870143107
 GameObject:
   m_ObjectHideFlags: 0

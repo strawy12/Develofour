@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class InstallerWindow : Window
 {
     [SerializeField]
+    private FileSO installFile;
+    [SerializeField]
     private List<InstallerScreen> screenList;
     [SerializeField]
     private TextButton nextBtn;
@@ -14,6 +16,7 @@ public class InstallerWindow : Window
     private Button backBtn;
     [SerializeField]
     private Button cancelBtn;
+
 
     private int currentIdx = 0;
 
@@ -61,4 +64,15 @@ public class InstallerWindow : Window
         windowBar.CloseBtn.interactable = false;
         cancelBtn.interactable = false;
     }
+
+    public void EndInstall(bool isWindowOpen)
+    {
+        FileManager.Inst.AddFile(installFile, "C/Background");
+
+        if(isWindowOpen)
+        {
+            // À©µµ¿ì ¿ÀÇÂ!
+        }
+    }
+
 }

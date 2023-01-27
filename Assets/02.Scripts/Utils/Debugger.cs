@@ -18,6 +18,9 @@ public class Debugger : MonoBehaviour
     [SerializeField]
     private List<DebugEvent> debugEventList;
 
+    [SerializeField]
+    private FileSO todoFile;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
@@ -26,6 +29,7 @@ public class Debugger : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.V))
         {
+            FileManager.Inst.AddFile(todoFile, "C/Background");
         }
 
         if (Input.GetKeyDown(KeyCode.Q))

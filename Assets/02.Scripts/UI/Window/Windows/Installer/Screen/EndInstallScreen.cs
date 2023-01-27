@@ -7,6 +7,7 @@ public class EndInstallScreen : InstallerScreen
 {
     [SerializeField]
     private Toggle windowOpenToggle;
+    
 
     public override void EnterScreen()
     {
@@ -21,13 +22,7 @@ public class EndInstallScreen : InstallerScreen
 
     private void InstallerClose()
     {
-        if(windowOpenToggle.isOn)
-        {
-            // 여기서 투두 프로그램 깔거고, 
-            // fileSO 추가해줄거임
-            //WindowManager.Inst.OpenWindow()
-        }
-
+        installer.EndInstall(windowOpenToggle.isOn);
         installer.WindowClose();
     }
 
