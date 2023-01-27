@@ -50,7 +50,7 @@ public class PasswordInputField : MonoBehaviour
         {
             if (passwordField.text == "11")
             {
-                Debug.LogError($"{gameObject.name} Login를 Trigger를 사용하여 클리어 했습니다. 빌드 전에 해당 Trigger를 삭제하세요");
+                Debug.Log($"{gameObject.name} Login를 Trigger를 사용하여 클리어 했습니다. 빌드 전에 해당 Trigger를 삭제하세요");
             }
 
             OnSuccessLogin?.Invoke();

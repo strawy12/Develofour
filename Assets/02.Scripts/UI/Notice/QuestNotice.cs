@@ -14,7 +14,7 @@ public class QuestNotice : MonoBehaviour
     { 
         EventManager.StartListening(EQuestEvent.HateBtnClicked, HateBtnClicked);
         EventManager.StartListening(EQuestEvent.LoginGoogle, GoogleLoginSuccess);
-        EventManager.StartListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
+        //EventManager.StartListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
         EventManager.StartListening(EQuestEvent.ShowBrunchGmail, ShowBrunchPostCleanUpMail);
         EventManager.StartListening(EQuestEvent.EndBrunchPostCleanUp, EndClearBrunchPost);
     }
@@ -36,13 +36,13 @@ public class QuestNotice : MonoBehaviour
         EventManager.StopListening(EQuestEvent.LoginGoogle, GoogleLoginSuccess);
     }
 
-    private void ClearPoliceMiniGame(object[] emptyParam)
-    {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ClearPoliceMinigame, POLICE_REPLY_DELAY);
-        EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] {EMailType.PoliceReply, POLICE_REPLY_DELAY });
+    //private void ClearPoliceMiniGame(object[] emptyParam)
+    //{
+    //    NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ClearPoliceMinigame, POLICE_REPLY_DELAY);
+    //    EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] {EMailType.PoliceReply, POLICE_REPLY_DELAY });
 
-        EventManager.StopListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
-    }
+    //    EventManager.StopListening(EQuestEvent.PoliceMiniGameClear, ClearPoliceMiniGame);
+    //}
 
     private void ShowBrunchPostCleanUpMail(object[] emptyParam)
     {
