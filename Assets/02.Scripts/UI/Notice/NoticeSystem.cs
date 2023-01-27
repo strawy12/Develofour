@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using JetBrains.Annotations;
 using System;
 using System.Linq;
@@ -14,6 +14,7 @@ using UnityEngine.U2D.IK;
 public class NoticeSystem : MonoUI
 {
     public static Action<ENoticeType, float> OnGeneratedNotice;
+    //public static Action<Decision, float> OnDecisionPanel;
 
     [SerializeField]
     private NoticePanel noticePanelTemp;
@@ -95,6 +96,14 @@ public class NoticeSystem : MonoUI
         });
     }
 
+    //public void OpenDecisionNotice(Decision decision, float delay)
+    //{
+    //    string head = decision.decisionName;
+    //    string body = "ì‘ì—…ì„ ì™„ë£Œí–ˆìŠµë‹ˆë‹¤.";
+    //    Sprite sprite = ;
+
+    //}
+
     public NoticeDataSO GetTextData(ENoticeType noticeDataType)
     {
         NoticeDataSO noticeDataSO = null;
@@ -120,20 +129,19 @@ public class NoticeSystem : MonoUI
         NoticeDataSO data = GetTextData(eNoticeDataType);
         if (data == null)
         {
-            Debug.LogError("Head³ª Body ÀÇ µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù");
+            Debug.LogError("Headë‚˜ Body ì˜ ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤");
             return;
         }
 
         if (string.IsNullOrEmpty(data.Head) || string.IsNullOrEmpty(data.Body))
         {
-            Debug.LogError("Head³ª Body ÀÇ µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù");
+            Debug.LogError("Headë‚˜ Body ì˜ ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤");
             return;
         }
 
         var noticeList = noticePanelQueue.Where((x) => x.HeadText == data.Head);
-        if (noticeList.Count() >= 1)
-        {
-            Debug.Log("ÀÌ¹Ì ÀÖ´Â ¾Ë¶÷ÀÓ");
+        if(noticeList.Count() >= 1) {
+            Debug.Log("ì´ë¯¸ ìˆëŠ” ì•ŒëŒì„");
             return;
         }
         StartCoroutine(NoticeCoroutine(data, delay));

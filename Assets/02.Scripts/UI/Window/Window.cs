@@ -191,4 +191,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         WindowManager.Inst.SelectObject(this);
         SetCurrentWindow(this);
     }
+#if UNITY_EDITOR
+    public void Reset()
+    {
+        windowBar = GetComponentInChildren<WindowBar>();  
+    }
+#endif
 }

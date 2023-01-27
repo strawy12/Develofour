@@ -15,8 +15,14 @@ public enum EQuestEvent
     ShowBrunchGmail,
     EndBrunchPostCleanUp,
     WriterWindowsLoginSuccess,
+    GetOwnerInfo,
 }
+public enum EDecisionEvent
+{
+    None = -1,
+    ClickOwnerNameText,
 
+}
 public enum EWindowEvent
 {
     None = -1,

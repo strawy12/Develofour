@@ -41,6 +41,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     private bool isEnter;
 
     private bool isCompleted = false;
+    private bool isCanRemove = false;
 
     public string HeadText { get { return headText.text; } }
     private void Bind()
