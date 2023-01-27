@@ -14,6 +14,10 @@ public class WindowPinInput : MonoUI
     [SerializeField]
     private Button closeButton;
 
+    private FileSO currentFile;
+
+    private List<FileSO> additionFileList = new List<FileSO>();
+
     private void Start()
     {
         Init();
@@ -28,14 +32,35 @@ public class WindowPinInput : MonoUI
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);
+        
+        EventManager.StartListening(EWindowEvent.OpenWindowPin, PinOpen);
+    }
+
+    private void PinOpen(object[] ps)
+    {
+        if (ps == null || ps.Length == 0 || !(ps[0] is FileSO))
+        {
+            Debug.LogError("WindowPin에 들어온 파일이 올바르지 않습니다.");
+            return;
+        }
+
+        SetActive(true);
+
+        currentFile = (FileSO)ps[0];
     }
 
     private void CheckPinPassword()
     {
-        if (pinInputField.text == WindowPinManager.Inst.windowPin)
+        if (pinInputField.text == currentFile.windowPin)
         {
-            DataManager.Inst.CurrentPlayer.CurrentChapterData.isWindowPinPasswordClear = true;
+            pinInputField.text = "";
+
+            currentFile.isWindowLockClear = true;
+
+            WindowManager.Inst.WindowOpen(currentFile.windowType, currentFile);
             CloseWindowPinLock();
+            
+            additionFileList.Add(currentFile);
         }
         else
         {
@@ -48,4 +73,13 @@ public class WindowPinInput : MonoUI
         SetActive(false);
     }
 
+    private void OnApplicationQuit()
+    {
+        Debug.LogError("디버깅을 위해 추가한 파일들을 모두 제거합니다");
+
+        foreach (FileSO file in additionFileList)
+        {
+            file.isWindowLockClear = false;
+        }
+    }
 }

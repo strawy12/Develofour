@@ -15,9 +15,6 @@ public class NotePad : Window
 
         OnSelected += inputField.ActivateInputField;
         OnUnSelected += () => inputField.DeactivateInputField();
-
     }
-
-
 
 }

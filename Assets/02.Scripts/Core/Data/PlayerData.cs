@@ -36,8 +36,6 @@ public class ChapterData
     public string snsPassword;
     public bool isLoginWindows;
 
-    public bool isWindowPinPasswordClear;
-
     public ChapterData()
     {
         siteLinks = new List<ESiteLink>();
