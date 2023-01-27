@@ -9,6 +9,9 @@ using Random = UnityEngine.Random;
 
 public class WindowsLoginScreen : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject windowLoginCanvas;
+
     [Header("Password")]
     [SerializeField]
     private PasswordInputField passwordField;
@@ -86,7 +89,7 @@ public class WindowsLoginScreen : MonoBehaviour
             DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginWindows = true;
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
 
-            gameObject.SetActive(false);
+            windowLoginCanvas.SetActive(false);
         }));
     }
 

@@ -19,15 +19,9 @@ public class TodoWindow : Window
     private List<TodoPanel> todoPanelList;
 
 
-    private void Start()
-    {
-        // test
-        Init();
-    }
-
     protected override void Init()
     {
-        //base.Init();
+        base.Init();
         todoPanelList = new List<TodoPanel>();
         InitExpendPanel();
         CreateTodoPanels();

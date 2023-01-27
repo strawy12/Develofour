@@ -18,7 +18,7 @@ public class StartCutScene : MonoBehaviour
     private bool isPlaying;
     private bool isEnd;
 
-    public GameObject loadingSpr;
+    public GameObject loadingImage;
     public GameObject loadingText;
 
     public CanvasGroup group;
@@ -123,9 +123,9 @@ public class StartCutScene : MonoBehaviour
             text.gameObject.SetActive(false);
         }
         underBarText.gameObject.SetActive(false);
-        loadingSpr.gameObject.SetActive(true);
+        loadingImage.gameObject.SetActive(true);
         loadingText.gameObject.SetActive(true);
-        loadingSpr.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), loadingDuration).OnComplete(() => 
+        loadingImage.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), loadingDuration).OnComplete(() => 
         { 
             SetActiveThisObject();
             GameManager.Inst.ChangeGameState(EGameState.Game);
