@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HateBtnDecision : Decision
 {
-    private bool isClickHateBtn;
 
     public override void Init()
     {
@@ -13,16 +12,11 @@ public class HateBtnDecision : Decision
 
     private void ClickHateBtn(object[] emptyParam)
     {
-        if (isClickHateBtn) { return; }
-        isClickHateBtn = true;
+        if (isClear) { return; }
+        isClear = true;
 
         OnChangedValue?.Invoke();
         EventManager.StopListening(EYoutubeSiteEvent.ClickHateBtn, ClickHateBtn);
-    }
-
-    public override bool CheckDecision()
-    {
-        return isClickHateBtn;
     }
 
 

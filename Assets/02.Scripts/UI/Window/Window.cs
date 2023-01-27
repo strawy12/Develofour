@@ -14,6 +14,7 @@ public enum EWindowType // 확장자
     ImageViewer,
     Discord,
     Directory,
+    Installer,
     End
 }
 
@@ -50,12 +51,12 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     }
     
     private Vector3 windowPos;
-    private Canvas windowCanvas;
+    private Canvas currentCanvas;
 
 
     protected virtual void Init()
     {
-        windowCanvas = GetComponent<Canvas>();
+        currentCanvas = GetComponent<Canvas>();
 
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
@@ -95,22 +96,22 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
         isSelected = windowSelected;
 
-        if(windowCanvas == null)
+        if(currentCanvas == null)
         {
             return;
         }
 
         if(isSelected)
         {
-            windowCanvas.sortingOrder = windowMaxCnt + 1;
+            currentCanvas.sortingOrder = windowMaxCnt + 1;
         }
         if (!isSelected)
         {
-            windowCanvas.sortingOrder -= 1;
+            currentCanvas.sortingOrder -= 1;
 
-            if (windowCanvas.sortingOrder <= 0)
+            if (currentCanvas.sortingOrder <= 0)
             {
-                windowCanvas.sortingOrder = 1;
+                currentCanvas.sortingOrder = 1;
             }
         }
     }
@@ -191,4 +192,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         WindowManager.Inst.SelectObject(this);
         SetCurrentWindow(this);
     }
+#if UNITY_EDITOR
+    public void Reset()
+    {
+        windowBar = GetComponentInChildren<WindowBar>();  
+    }
+#endif
 }

@@ -89,4 +89,9 @@ public static class Define
     {
         return new Color(Random.value, Random.value, Random.value, Random.value);
     }
+
+    public static bool IsBoundOver(int idx, int maxCnt)
+    {
+        return idx < 0 || idx >= maxCnt;
+    }
 }

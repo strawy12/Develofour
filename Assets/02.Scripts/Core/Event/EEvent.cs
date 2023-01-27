@@ -15,8 +15,14 @@ public enum EQuestEvent
     ShowBrunchGmail,
     EndBrunchPostCleanUp,
     WriterWindowsLoginSuccess,
+    GetOwnerInfo,
 }
+public enum EDecisionEvent
+{
+    None = -1,
+    ClickOwnerNameText,
 
+}
 public enum EWindowEvent
 {
     None = -1,
@@ -25,6 +31,7 @@ public enum EWindowEvent
     ExpendMenu,
     WindowsSuccessLogin,
     CreateWindow,
+    OpenWindowPin,
 }
 
 public enum ENoticeEvent
@@ -40,6 +47,7 @@ public enum ELibraryEvent
     None = -1,
     IconClickOpenFile,
     ButtonOpenFile,
+    AddFile,
 }
 public enum EBrowserEvent
 {

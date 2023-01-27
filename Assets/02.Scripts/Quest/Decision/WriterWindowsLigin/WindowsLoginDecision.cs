@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class WindowsLoginDecision : Decision
 {
-    private bool isLoginWindows;
-
     [SerializeField]
     private EChapterDataType chapterDataType;
 
@@ -20,17 +18,13 @@ public class WindowsLoginDecision : Decision
     {
         if (DataManager.Inst.CurrentPlayer.chapterDatas[(int)chapterDataType].isLoginWindows)
         {
-            isLoginWindows = true;
+            isClear = true;
         }
 
         OnChangedValue?.Invoke();
         EventManager.StopListening(EWindowEvent.WindowsSuccessLogin, WindowsLogin);
     }
 
-    public override bool CheckDecision()
-    {
-        return isLoginWindows;
-    }
 
 
 }

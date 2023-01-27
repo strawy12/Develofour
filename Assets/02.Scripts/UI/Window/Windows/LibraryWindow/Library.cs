@@ -50,6 +50,7 @@ public class Library : Window
         for (int i = 0; i < 50; i++)
         {
             WindowIcon icon = Instantiate(iconPrefab, poolParent);
+            
             icon.Bind();
             icon.Init();
 
