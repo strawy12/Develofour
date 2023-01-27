@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +15,7 @@ public class EndInstallScreen : InstallerScreen
         NextBtn.interactable = true;
         NextBtn.onClick.RemoveAllListeners();
 
-        NextBtn.text = "��ħ";
+        NextBtn.text = "마침";
 
         NextBtn.onClick.AddListener(InstallerClose);
     }
