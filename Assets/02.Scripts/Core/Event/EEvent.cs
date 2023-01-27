@@ -25,6 +25,7 @@ public enum EWindowEvent
     ExpendMenu,
     WindowsSuccessLogin,
     CreateWindow,
+    OpenWindowPin,
 }
 
 public enum ENoticeEvent

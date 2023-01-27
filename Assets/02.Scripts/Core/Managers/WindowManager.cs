@@ -89,6 +89,25 @@ public class WindowManager : MonoSingleton<WindowManager>
         return windowDictionary.ContainsKey(windowType);
     }
 
+    public Window WindowOpen(EWindowType windowType, FileSO file = null)
+    {
+        Window targetWindow = GetWindow(file.windowType, file.name);
+
+        if (targetWindow == null)
+        {
+            if(!file.isWindowLockClear)
+            {
+                EventManager.TriggerEvent(EWindowEvent.OpenWindowPin, new object[1] { file });
+                return null;
+            }
+
+            targetWindow = CreateWindow(file.windowType, file);
+        }
+
+        targetWindow.WindowOpen();
+        return targetWindow;
+    }
+
     // 
     public Window CreateWindow(EWindowType windowType, FileSO file = null)
     {
