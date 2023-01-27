@@ -13,6 +13,9 @@ public class WindowPinInput : MonoUI
     private Button confirmButton;
     [SerializeField]
     private Button closeButton;
+    [SerializeField]
+    private Button hidePinSeeButton;
+
 
     private FileSO currentFile;
 
@@ -32,6 +35,7 @@ public class WindowPinInput : MonoUI
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);
+        hidePinSeeButton.onClick?.AddListener(HidePinMarkSee);
         
         EventManager.StartListening(EWindowEvent.OpenWindowPin, PinOpen);
     }
@@ -67,6 +71,13 @@ public class WindowPinInput : MonoUI
             pinInputField.text = "";
         }
     }
+
+    private void HidePinMarkSee() 
+    { 
+    
+    
+    }
+
 
     private void CloseWindowPinLock()
     {
