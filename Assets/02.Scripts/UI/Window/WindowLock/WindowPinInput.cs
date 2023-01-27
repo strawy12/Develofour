@@ -9,7 +9,7 @@ public class WindowPinInput : MonoUI
     private bool isHideFinSeeStay;
 
     [SerializeField]
-    private TextMeshPro pinGuideText;
+    private TMP_Text pinGuideText;
 
     [SerializeField]
     private TMP_InputField pinInputField;
@@ -58,6 +58,7 @@ public class WindowPinInput : MonoUI
         SetActive(true);
 
         currentFile = (FileSO)ps[0];
+        pinGuideText.SetText(currentFile.windowPinHintGuide);
     }
 
     private void CheckPinPassword()
