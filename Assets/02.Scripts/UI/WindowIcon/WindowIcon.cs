@@ -30,10 +30,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private TMP_Text iconNameText;
     [SerializeField]
     private bool isBackground;
-
     private bool isInit = false;
 
     public FileSO File => fileData;
+
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
@@ -74,7 +74,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void SetFileData(FileSO newFileData)
     {
         fileData = newFileData;
-        iconNameText.text = fileData.name;
+        iconNameText.text = fileData.windowName;
         iconImage.sprite = newFileData.iconSprite;
 
         
@@ -115,21 +115,25 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
+        Debug.Log(fileData.name);
+
         if(fileData is DirectorySO && isBackground == false)
         {
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
             return;
         }
 
-        targetWindow = WindowManager.Inst.GetWindow(fileData.windowType, fileData.name);
+        targetWindow = WindowManager.Inst.WindowOpen(fileData.windowType, fileData);
 
-        if (targetWindow == null)
+        if(targetWindow == null) 
         {
-            targetWindow = WindowManager.Inst.CreateWindow(fileData.windowType, fileData); 
+            return;
         }
+
         targetWindow.OnClosed += CloseTargetWindow;
         targetWindow.WindowOpen(); 
     }
+
 
     private void SelectedIcon(bool isSelected)
     {
@@ -167,6 +171,4 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         pointerStayImage.gameObject.SetActive(false);
     }
-
-
 }

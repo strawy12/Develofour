@@ -29,6 +29,9 @@ public class FileSO : ScriptableObject
     public WindowIconData fileData;
     public bool isMultiple; // 윈도우를 여러번 킬 수 있냐
 
+    public bool isWindowLockClear;
+    public string windowPin;
+
     #region GetFileData
 
     [ContextMenu("GetFileLocation")]
