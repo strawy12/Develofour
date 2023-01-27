@@ -2,16 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public enum EWindowType
-{
-    None,
-    Notepad,
-    Browser,
-    ImageViewer,
-    Discord,
-    End
-}
 [CreateAssetMenu(menuName = "SO/Window/Data")]
 public class WindowDataSO : ScriptableObject
 {

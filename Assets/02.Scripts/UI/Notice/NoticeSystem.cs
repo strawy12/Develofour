@@ -48,6 +48,7 @@ public class NoticeSystem : MonoUI
 
         EventManager.StartListening(ENoticeEvent.ClickNoticeBtn, ToggleNotice);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
+        EventManager.StartListening(ENoticeEvent.DiscordNotice, DiscordNotice);
     }
 
     private void CheckClose(object[] hits)
@@ -193,5 +194,18 @@ public class NoticeSystem : MonoUI
         panel.gameObject.SetActive(true);
 
         return panel;
+    }
+
+    private void DiscordNotice(object[] param)
+    {
+        if (!(param[0] is string) || !(param[1] is string) || !(param[2] is Sprite)) return;
+
+        NoticePanel panel = noticePanel = GetPanel();
+
+        string head = param[0] as string;
+        string body = param[1] as string;
+        Sprite icon = param[2] as Sprite;
+
+        panel.Notice(head, body, icon);
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -101,10 +101,9 @@ public class EmailSite : Site
         ChangeEmailCategory();
         ShowMailLineAll();
     }
-
+    
     private void ClearPoliceMiniGame(object[] ps)
     {
-        Debug.Log("이건 왜 안됨?");
         SettingReceiveMailCount();
     }
 
@@ -170,7 +169,6 @@ public class EmailSite : Site
     {
         if (ps == null || !(ps[0] is EMailType))
         {
-            Debug.LogError("들어온 Param이 null이거나 Type이 맞지않습니다.");
             return;
         }
         EMailType type = (EMailType)ps[0];
@@ -263,8 +261,6 @@ public class EmailSite : Site
         base.ShowSite();
     }
 
-
-    // 추후 위치 변경
     private bool CheckGoogleLogin()
     {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
@@ -290,13 +286,14 @@ public class EmailSite : Site
         base.ResetSite();
     }
 
+#if UNITY_EDITOR
+
     public void OnApplicationQuit()
     {   
-        Debug.Log("MailData Category 저장을 하지 않는 디버그 코드가 실행중에 있습니다.");
-
         foreach(var mailLine in baseEmailLineList)
         {
             mailLine.CurrentMail.DebugReset();
         }
     }
+#endif
 }
