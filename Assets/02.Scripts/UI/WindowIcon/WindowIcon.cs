@@ -30,9 +30,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private TMP_Text iconNameText;
     [SerializeField]
     private bool isBackground;
+    private bool isInit = false;
 
-    [SerializeField]
-    private WindowPinInput windowPinLock;
+    public FileSO File => fileData;
+
 
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
@@ -40,7 +41,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Awake()
     {
-        Bind();
         Init();
     }
 
@@ -55,8 +55,15 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         return isSelected && flag1;
     }
 
-    public void Init()
+    public void Init(bool isBackground = false)
     {
+        if (isInit) return;
+        isInit = true;
+
+        Bind();
+
+        this.isBackground = isBackground;
+
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
 
@@ -69,6 +76,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         fileData = newFileData;
         iconNameText.text = fileData.windowName;
         iconImage.sprite = newFileData.iconSprite;
+
+        
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -162,11 +171,4 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         pointerStayImage.gameObject.SetActive(false);
     }
-
-    public void SetWindowPinLock(WindowPinInput windowPin)
-    {
-        windowPinLock = windowPin;
-    }
-
-
 }
