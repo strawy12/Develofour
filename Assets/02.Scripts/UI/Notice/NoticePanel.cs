@@ -100,12 +100,13 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }
+
     public void Notice(string head, string body, Sprite icon)
     {
         headText.SetText(head);
         bodyText.SetText(body);
         iconImage.sprite = icon;
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)csf.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
 
         rectTransform.anchorMin = new Vector2(1f, 0.5f);
         rectTransform.anchorMax = new Vector2(1f, 0.5f);

@@ -37,11 +37,15 @@ public enum EMailType
     WriterSendMail1,
     WriterSendMail2,
     WriterSendMail3,//DummyEnd 
-    WriterBusinessMail1,
-    PoliceAttendance,
-    BlogDelete,
     SnsPasswordChange,
-    PoliceReply,
+    InsuranceMail07,
+    InsuranceMail08,
+    InsuranceMail09,
+    InsuranceMail10,
+    GYMClosedMail,
+    YoutubePaymentMail,
+    EventWinning01,
+    EventWinning02,
 }
 
 [Serializable]
