@@ -26,11 +26,6 @@ public class Debugger : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.V))
         {
-            Time.timeScale = 10;
-        }
-        if (Input.GetKeyUp(KeyCode.V))
-        {
-            Time.timeScale = 1;
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
