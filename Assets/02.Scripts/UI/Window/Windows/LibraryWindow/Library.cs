@@ -178,8 +178,6 @@ public class Library : Window
 
     private void SetHighlightImage()
     {
-        Debug.Log("undoStack¿« count = " + undoStack.Count);
-        Debug.Log("redoStack¿« count = " + redoStack.Count);
         if (undoStack.Count == 0)
             undoText.color = new Color32(50, 50, 50, 120);
         else
