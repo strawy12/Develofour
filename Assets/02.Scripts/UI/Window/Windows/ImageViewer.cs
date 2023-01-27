@@ -20,13 +20,14 @@ public class ImageViewer : Window
     {
         base.Init();
 
+        imageData = ResourceManager.Inst.GetImageData(file.name);
+
         windowBar.SetNameText($"{imageData.imageName}.{imageData.extensionType.ToString().ToLower()}");
 
         imageViwerImage.sprite = imageData.imageSprite;
 
         SetImageResolusion();
     }
-
 
     public void SetImageResolusion()
     {

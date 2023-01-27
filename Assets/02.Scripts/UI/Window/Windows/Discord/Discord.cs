@@ -1,36 +1,156 @@
-ï»¿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class Discord : Window
 {
-    List<DiscordChatDataListSO> chatDataList; // ëŒ€í™” í•œ ë‚´ì—­
-    List<DiscordTalkDataListSO> talkDataList; // ëŒ€í™” í•  ë‚´ì—­
+    [SerializeField]
+    private List<DiscordChatDataListSO> chatDataList; // ´ëÈ­ ÇÑ ³»¿ª
+    [SerializeField]
+    private List<DiscordTalkDataListSO> talkDataList; // ´ëÈ­ ÇÒ ³»¿ª
 
     private DiscordChatDataListSO currentChatData;
     private DiscordTalkDataListSO currentTalkData;
-    
-    private string currentUserName; // í˜„ì¬ ëŒ€í™” ì¤‘ì¸ ìƒëŒ€ ë‹‰ë„¤ì„
+
+    private string currentUserName; // ÇöÀç ´ëÈ­ ÁßÀÎ »ó´ë ´Ğ³×ÀÓ
 
     [SerializeField]
     private DiscordChattingPanel chattingPanel;
 
-    DiscordChatDataListSO GetChatDataList(string userName) 
+    public DiscordFriendList friendList;
+
+    [SerializeField]
+    private DiscordMessageImagePanel imagePanel;
+
+    [SerializeField]
+    private DiscordLogin discordLogin;
+
+    private void Start()
+
     {
-        foreach(DiscordChatDataListSO chatData in chatDataList)
+        Debug.Log("µğ½ºÄÚµå µğ¹ö±×¿ë ½ºÅ¸Æ®. ");
+        Init();
+    }
+
+    protected override void Init()
+    {
+        base.Init();
+
+        EventManager.StartListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
+        EventManager.StartListening(EDiscordEvent.StartTalk, StartTalkChat);
+        friendList.Init();
+        discordLogin.Init();
+    }
+
+    public DiscordChatDataListSO GetChatDataList(string userName)
+    {
+        DiscordChatDataListSO newChatData = null;
+        foreach (DiscordChatDataListSO chatDataList in chatDataList)
         {
-            if(userName == chatData.opponentProfileData.userName)
+            if (userName == chatDataList.opponentProfileData.userName)
             {
-                currentChatData = chatData;
+                newChatData = chatDataList;
             }
         }
-        return currentChatData;
+        if (newChatData == null)
+        {
+            Debug.LogWarning("userNameÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        }
+        return newChatData;
     }
 
-    void SettingChattingPanel(string userName)
+
+    public void SettingChattingPanel(object[] param)
     {
-        currentUserName = userName;
 
+        if (!(param[0] is string) || param[0] == null) return;
+        string userName = param[0] as string;
+
+        currentUserName = userName;
+        currentChatData = GetChatDataList(currentUserName);
+        currentTalkData = GetTalkDataList(currentUserName);
+        chattingPanel.PushAllPanel();
+
+        if (currentChatData != null)
+        {
+            foreach (DiscordChatData chatData in currentChatData.chatDataList)
+            {
+                chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData);
+            }
+        }
+        if (currentTalkData != null)
+        {
+            foreach (DiscordChatData talkData in currentTalkData.chatDataList)
+            {
+                if (talkData.isTalked)
+                    chattingPanel.CreatePanel(talkData, currentChatData.opponentProfileData);
+            }
+        }
     }
+
+    public void StartTalkChat(object[] param)
+    {
+        if (!(param[0] is string) || param[0] == null) return;
+
+        string userName = param[0] as string;
+
+
+
+        currentTalkData = GetTalkDataList(userName);
+
+        if (!currentTalkData.isCoimpleteTalk)
+        {
+            chattingPanel.StartTalk(currentTalkData);
+        }
+    }
+
+    private DiscordTalkDataListSO GetTalkDataList(string userName)
+    {
+        foreach (DiscordTalkDataListSO talkList in talkDataList)
+        {
+            if (talkList.opponentProfileData.userName == userName)
+            {
+                return talkList;
+            }
+        }
+        return null;
+    }
+
+    public void StopTalk(object[] param)
+    {
+        chattingPanel.StopTalk();
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
+        EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
+        EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
+    }
+#if UNITY_EDITOR
+    private void OnApplicationQuit()
+    {
+        foreach (DiscordTalkDataListSO talkList in talkDataList)
+        {
+            talkList.Reset();
+        }
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            object[] ps = new object[1] { "Å×½ºÆ®" };
+
+            StartTalkChat(ps);
+
+        }
+    }
+#endif
 }

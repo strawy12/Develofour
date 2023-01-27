@@ -18,6 +18,14 @@ public class QuestNotice : MonoBehaviour
         EventManager.StartListening(EQuestEvent.ShowBrunchGmail, ShowBrunchPostCleanUpMail);
         EventManager.StartListening(EQuestEvent.EndBrunchPostCleanUp, EndClearBrunchPost);
     }
+    /// <summary>
+    /// object[] = {Decision}
+    /// </summary>
+    /// <param name="ps"></param>
+    private void OnDecisionNotice(object[] ps) 
+    {
+
+    }
 
     private void HateBtnClicked(object[] emptyParam)
     {

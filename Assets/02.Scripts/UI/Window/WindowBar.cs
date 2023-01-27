@@ -16,7 +16,9 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text windowName;
 
-
+    public Button MaximumBtn => maximumBtn;
+    public Button MinimumBtn => minimumBtn;
+    public Button CloseBtn => closeBtn;
     public UnityEvent OnClose   { get { return closeBtn.onClick; } }
     public UnityEvent OnMinimum { get { return minimumBtn.onClick; } }
     public UnityEvent OnMaximum { get { return maximumBtn.onClick; } }
@@ -30,27 +32,26 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
     private Vector2 offsetPos = Vector2.zero;
     
     private WindowAlterationSO windowAlteration;
-    private FileSO file;
+    private FileSO currentFile;
 
     private RectTransform windowRectTransform;
 
     public void Init(WindowAlterationSO windowAlteration, FileSO file, RectTransform rectTrm) 
     {
         this.windowAlteration = windowAlteration;
-        this.file = file;
+        this.currentFile = file;
 
 
         windowRectTransform = rectTrm;
         if (windowName != null)
         {
-            // FileSO
-            windowName.text = $"{file.name} - {windowName.text}";
+            windowName.text = $"{currentFile.name} - {windowName.text}";
         }
 
         if (iconImage != null)
         {
             // FileSO
-            iconImage.sprite = file.iconSprite;
+            iconImage.sprite = currentFile.iconSprite;
         }
     }
 
@@ -84,7 +85,6 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log(eventData.position.y);
         if (isDrag == false) { return; }
         if (eventData.position.x > Define.MaxWindowSize.x || 
            eventData.position.x < 0 ||

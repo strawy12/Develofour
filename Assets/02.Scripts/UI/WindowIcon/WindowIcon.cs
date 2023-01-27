@@ -30,13 +30,17 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private TMP_Text iconNameText;
     [SerializeField]
     private bool isBackground;
+    private bool isInit = false;
+
+    public FileSO File => fileData;
+
+
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
 
 
     public void Awake()
     {
-        Bind();
         Init();
     }
 
@@ -51,8 +55,15 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         return isSelected && flag1;
     }
 
-    public void Init()
+    public void Init(bool isBackground = false)
     {
+        if (isInit) return;
+        isInit = true;
+
+        Bind();
+
+        this.isBackground = isBackground;
+
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
 
@@ -63,8 +74,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void SetFileData(FileSO newFileData)
     {
         fileData = newFileData;
-        iconNameText.text = fileData.name;
+        iconNameText.text = fileData.windowName;
         iconImage.sprite = newFileData.iconSprite;
+
+        
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -102,19 +115,25 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
+        Debug.Log(fileData.name);
+
         if(fileData is DirectorySO && isBackground == false)
         {
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
             return;
         }
-        targetWindow = WindowManager.Inst.GetWindow(fileData.windowType, fileData.name);
-        if (targetWindow == null)
+
+        targetWindow = WindowManager.Inst.WindowOpen(fileData.windowType, fileData);
+
+        if(targetWindow == null) 
         {
-            targetWindow = WindowManager.Inst.CreateWindow(fileData.windowType, fileData);
+            return;
         }
+
         targetWindow.OnClosed += CloseTargetWindow;
         targetWindow.WindowOpen(); 
     }
+
 
     private void SelectedIcon(bool isSelected)
     {
@@ -152,6 +171,4 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         pointerStayImage.gameObject.SetActive(false);
     }
-
-
 }

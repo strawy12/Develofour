@@ -50,6 +50,7 @@ public class Library : Window
         for (int i = 0; i < 50; i++)
         {
             WindowIcon icon = Instantiate(iconPrefab, poolParent);
+            
             icon.Bind();
             icon.Init();
 
@@ -173,8 +174,6 @@ public class Library : Window
 
     private void SetHighlightImage()
     {
-        Debug.Log("undoStackÀÇ count = " + undoStack.Count);
-        Debug.Log("redoStackÀÇ count = " + redoStack.Count);
         if (undoStack.Count == 0)
             undoText.color = new Color32(50, 50, 50, 120);
         else

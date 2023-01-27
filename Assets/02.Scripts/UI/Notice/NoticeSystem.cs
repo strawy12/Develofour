@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using JetBrains.Annotations;
 using System;
 using System.Linq;
@@ -13,6 +13,7 @@ using TMPro.EditorUtilities;
 public class NoticeSystem : MonoUI
 {
     public static Action<ENoticeType, float> OnGeneratedNotice;
+    //public static Action<Decision, float> OnDecisionPanel;
 
     [SerializeField]
     private NoticePanel noticePanelTemp;
@@ -56,6 +57,7 @@ public class NoticeSystem : MonoUI
 
         EventManager.StartListening(ENoticeEvent.ClickNoticeBtn, ToggleNotice);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
+        EventManager.StartListening(ENoticeEvent.DiscordNotice, DiscordNotice);
     }
 
     private void FixedNoticePanelInit()
@@ -112,6 +114,14 @@ public class NoticeSystem : MonoUI
         });
     }
 
+    //public void OpenDecisionNotice(Decision decision, float delay)
+    //{
+    //    string head = decision.decisionName;
+    //    string body = "ì‘ì—…ì„ ì™„ë£Œí–ˆìŠµë‹ˆë‹¤.";
+    //    Sprite sprite = ;
+
+    //}
+
     public NoticeDataSO GetTextData(ENoticeType noticeDataType)
     {
         NoticeDataSO noticeDataSO = null;
@@ -137,19 +147,19 @@ public class NoticeSystem : MonoUI
         NoticeDataSO data = GetTextData(eNoticeDataType);
         if (data == null)
         {
-            Debug.LogError("Head³ª Body ÀÇ µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù");
+            Debug.LogError("Headë‚˜ Body ì˜ ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤");
             return;
         }
 
         if (string.IsNullOrEmpty(data.Head) || string.IsNullOrEmpty(data.Body))
         {
-            Debug.LogError("Head³ª Body ÀÇ µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù");
+            Debug.LogError("Headë‚˜ Body ì˜ ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤");
             return;
         }
 
         var noticeList = noticePanelQueue.Where((x) => x.HeadText == data.Head);
         if(noticeList.Count() >= 1) {
-            Debug.Log("ÀÌ¹Ì ÀÖ´Â ¾Ë¶÷ÀÓ");
+            Debug.Log("ì´ë¯¸ ìˆëŠ” ì•ŒëŒì„");
             return;
         }
         StartCoroutine(NoticeCoroutine(data, delay));
@@ -201,5 +211,18 @@ public class NoticeSystem : MonoUI
         panel.gameObject.SetActive(true);
 
         return panel;
+    }
+
+    private void DiscordNotice(object[] param)
+    {
+        if (!(param[0] is string) || !(param[1] is string) || !(param[2] is Sprite)) return;
+
+        NoticePanel panel = noticePanel = GetPanel(true);
+
+        string head = param[0] as string;
+        string body = param[1] as string;
+        Sprite icon = param[2] as Sprite;
+
+        //panel.Notice(head, body, icon);
     }
 }

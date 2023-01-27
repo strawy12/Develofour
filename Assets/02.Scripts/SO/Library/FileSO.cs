@@ -3,6 +3,9 @@
 public struct DateTime
 {
     // 추후 변수 추가 예정
+    public DateTime(int year, int month, int day)
+    {
+    }
 }
 
 [System.Serializable]
@@ -25,6 +28,9 @@ public class FileSO : ScriptableObject
     public string windowName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public WindowIconData fileData;
     public bool isMultiple; // 윈도우를 여러번 킬 수 있냐
+
+    public bool isWindowLockClear;
+    public string windowPin;
 
     #region GetFileData
 
