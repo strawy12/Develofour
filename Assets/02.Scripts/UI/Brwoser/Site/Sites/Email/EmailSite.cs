@@ -44,6 +44,8 @@ public enum EMailType
     InsuranceMail10,
     GYMClosedMail,
     YoutubePaymentMail,
+    EventWinning01,
+    EventWinning02,
 }
 
 [Serializable]
