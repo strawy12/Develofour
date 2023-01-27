@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class WindowPinInput : MonoUI
 {
+    private bool isHideFinSeeStay;
+
     [SerializeField]
     private TMP_InputField pinInputField;
 
@@ -28,6 +30,8 @@ public class WindowPinInput : MonoUI
 
     private void Init()
     {
+        isHideFinSeeStay = false;
+
         pinInputField.asteriskChar = '¡Ü';
         pinInputField.contentType = TMP_InputField.ContentType.Pin;
 
@@ -73,9 +77,19 @@ public class WindowPinInput : MonoUI
     }
 
     private void HidePinMarkSee() 
-    { 
-    
-    
+    {
+        if(!isHideFinSeeStay)
+        {
+            pinInputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+            isHideFinSeeStay = true;
+        }
+        else if(isHideFinSeeStay)
+        {
+            pinInputField.contentType = TMP_InputField.ContentType.Pin;
+            isHideFinSeeStay = false;
+        }
+
+        pinInputField.ForceLabelUpdate();
     }
 
 
