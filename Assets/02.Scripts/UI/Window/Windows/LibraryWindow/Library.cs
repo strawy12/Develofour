@@ -33,9 +33,6 @@ public class Library : Window
     [SerializeField]
     private FileAddressPanel fileAddressPanel;
 
-    [SerializeField]
-    private WindowPinInput pinInput;
-
     #region UI
     [SerializeField]
     private Button undoBtn;
@@ -53,7 +50,6 @@ public class Library : Window
         for (int i = 0; i < 50; i++)
         {
             WindowIcon icon = Instantiate(iconPrefab, poolParent);
-            icon.SetWindowPinLock(pinInput);
             
             icon.Bind();
             icon.Init();
