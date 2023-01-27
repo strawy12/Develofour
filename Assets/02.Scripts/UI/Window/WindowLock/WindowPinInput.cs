@@ -75,7 +75,7 @@ public class WindowPinInput : MonoUI
 
     private void OnApplicationQuit()
     {
-        Debug.LogError("디버깅을 위해 추가한 파일들을 모두 제거합니다");
+        Debug.LogError("디버깅을 위해 파일들의 LockClear 기록을 모두 제거합니다");
 
         foreach (FileSO file in additionFileList)
         {
