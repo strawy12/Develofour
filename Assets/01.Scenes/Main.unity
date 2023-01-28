@@ -3282,8 +3282,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC54C\uB9BC \uBAA9\uB85D"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2119cb3591594b14b01748abdc63dc31, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2119cb3591594b14b01748abdc63dc31, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1675bf177ad148c19298e5c4d8e0852e, type: 2}
+  m_sharedMaterial: {fileID: -2560004193487277870, guid: 1675bf177ad148c19298e5c4d8e0852e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -12262,6 +12262,8 @@ GameObject:
   - component: {fileID: 1778540841}
   - component: {fileID: 1778540842}
   - component: {fileID: 1778540843}
+  - component: {fileID: 1778540845}
+  - component: {fileID: 1778540844}
   m_Layer: 0
   m_Name: OwnerProfileQuset
   m_TagString: Untagged
@@ -12299,6 +12301,8 @@ MonoBehaviour:
   questData: {fileID: 11400000, guid: bab0d96369ed4a441964a4a2dbbcd618, type: 2}
   decisionList:
   - {fileID: 1778540843}
+  - {fileID: 1778540845}
+  - {fileID: 1778540844}
 --- !u!114 &1778540843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12314,6 +12318,36 @@ MonoBehaviour:
   decisionName: "\uC8FC\uC778\uC758 \uC774\uB984 \uC54C\uC544\uB0B4\uAE30"
   isClear: 0
   decisionEvent: 0
+--- !u!114 &1778540844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778540840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24da902b1a74d6a4987b67123370ba26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decisionName: "\uC8FC\uC778\uC758 \uC774\uBA54\uC77C \uC54C\uC544\uB0B4\uAE30"
+  isClear: 0
+  decisionEvent: 2
+--- !u!114 &1778540845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778540840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24da902b1a74d6a4987b67123370ba26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decisionName: "\uC8FC\uC778\uC758 \uC0DD\uC77C \uC54C\uC544\uB0B4\uAE30"
+  isClear: 0
+  decisionEvent: 1
 --- !u!1 &1807521539
 GameObject:
   m_ObjectHideFlags: 0
@@ -56807,7 +56841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d077a668da5fc2a4bad62ece88906be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  decisionEvent: 0
+  decisionEvent: 1
 --- !u!224 &6157510364215075541
 RectTransform:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public enum EDecisionEvent
     None = -1,
     ClickOwnerNameText,
     ClickOwnerBirthdayText,
-
+    ClickOwnerEMailText,
 }
 public enum EWindowEvent
 {
