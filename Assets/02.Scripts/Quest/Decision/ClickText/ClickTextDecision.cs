@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -19,7 +19,7 @@ public class ClickTextDecision : Decision
         {
             isClear = true;
             OnChangedValue?.Invoke();
-            NoticeSystem.OnNotice.Invoke(decisionName, "ÀÛ¾÷À» ¿Ï·áÇß½À´Ï´Ù.", null); 
+            NoticeSystem.OnNotice.Invoke(decisionName, "ì‘ì—…ì„ ì™„ë£Œí–ˆìŠµë‹ˆë‹¤.", null); 
             EventManager.StopListening(decisionEvent, Click);
         }
     }
