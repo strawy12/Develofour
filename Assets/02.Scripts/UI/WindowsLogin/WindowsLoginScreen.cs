@@ -88,7 +88,7 @@ public class WindowsLoginScreen : MonoBehaviour
         {
             DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginWindows = true;
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
-
+            NoticeSystem.OnGeneratedNotice(ENoticeType.ConnectUSB, 0f);
             windowLoginCanvas.SetActive(false);
         }));
     }

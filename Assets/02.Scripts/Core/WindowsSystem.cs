@@ -13,7 +13,7 @@ public class WindowsSystem : MonoBehaviour
 
     private void Start()
     {
-        EventManager.StartListening(EQuestEvent.WriterWindowsLoginSuccess, OpenWindowsCanvas);
+        //EventManager.StartListening(EQuestEvent.WriterWindowsLoginSuccess, OpenWindowsCanvas);
     }
 
     private void OpenWindowsCanvas(object[] empty)  
@@ -23,6 +23,6 @@ public class WindowsSystem : MonoBehaviour
         windowsCanvas.DOFade(1f, 0.5f);
         windowsLoginCanvas.DOFade(0f, 0.75f).OnComplete(() => windowsLoginCanvas.gameObject.SetActive(false));
 
-        EventManager.StopListening(EQuestEvent.WriterWindowsLoginSuccess, OpenWindowsCanvas);
+        //EventManager.StopListening(EQuestEvent.WriterWindowsLoginSuccess, OpenWindowsCanvas);
     }
 }

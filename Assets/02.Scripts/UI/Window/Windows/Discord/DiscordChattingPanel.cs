@@ -135,8 +135,8 @@ public class DiscordChattingPanel : MonoBehaviour
         if (friendList.CurrentFriendLine == null || friendList.CurrentFriendLine.myData != opponentProfileData)
         {
             friendList.NewMessage(opponentProfileData);
-            object[] ps = new object[3] { opponentProfileData.userName, data.message, opponentProfileData.userSprite };
-            EventManager.TriggerEvent(ENoticeEvent.DiscordNotice, ps);
+
+            NoticeSystem.OnNotice.Invoke(opponentProfileData.userName, data.message, opponentProfileData.userSprite);
         }
         else
         {

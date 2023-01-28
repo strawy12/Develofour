@@ -38,12 +38,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
 
-
-    public void Awake()
-    {
-        Init();
-    }
-
     public void Bind()
     {
         rectTranstform ??= GetComponent<RectTransform>();
@@ -115,8 +109,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-        Debug.Log(fileData.name);
-
         if(fileData is DirectorySO && isBackground == false)
         {
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });

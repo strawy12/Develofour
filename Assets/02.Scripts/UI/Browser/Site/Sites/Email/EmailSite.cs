@@ -195,7 +195,6 @@ public class EmailSite : Site
 
     private void SuccessLogin(object[] o)
     {
-        EventManager.StopListening(EQuestEvent.LoginGoogle, SuccessLogin);
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
     }
 
@@ -271,8 +270,6 @@ public class EmailSite : Site
         {
             EventManager.TriggerEvent(ELoginSiteEvent.RequestSite, new object[] { ESiteLink.Email });
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY , false});
-            
-            EventManager.StartListening(EQuestEvent.LoginGoogle, SuccessLogin);
             
             return false;
         }

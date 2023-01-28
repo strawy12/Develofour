@@ -37,22 +37,22 @@ public enum EQuestCategory
 public class QuestDataSO : ScriptableObject
 {
     public EQuestEvent questEvent;
-    public EQuestCategory category; // string으로 바꿀까 고민중
+    public EQuestCategory category; // string으로 바꿀까 고민중 
+
 
     public QuestText questText;
 
     public List<DecisionData> decisionClearList; 
     public Action OnChangeSuccessRate;
     public bool isClear;
+    public bool isActive;
 
     public float CalcRate()
     {
         var clearList = decisionClearList.Where((x) => x.isComplete).ToList();
         int count = clearList.Count;
         if(decisionClearList.Count > 0) {
-            Debug.Log($"clearList : {clearList.Count}, decisionClearList : {decisionClearList.Count}");
-            float rate = count / decisionClearList.Count;
-            Debug.Log(rate);
+            float rate = (float)count / decisionClearList.Count;
             return rate;
         }
         return 0;

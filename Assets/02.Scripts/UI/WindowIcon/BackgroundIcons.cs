@@ -26,6 +26,7 @@ public class BackgroundIcons : MonoBehaviour
 
         WindowIcon[] icons = GetComponentsInChildren<WindowIcon>();
         iconList.AddRange(icons);
+        iconList.ForEach(x => x.Init(true));
     }
 
     private void RefreshIcons(object[] ep)

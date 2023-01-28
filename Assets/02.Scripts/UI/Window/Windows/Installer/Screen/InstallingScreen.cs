@@ -37,8 +37,7 @@ public class InstallingScreen : InstallerScreen
 
         while (installBarFillTrm.localScale.x < 1f)
         {
-            Debug.Log(11);
-            float fillSpeed = Random.Range(0.5f, 5f);
+            float fillSpeed = Random.Range(1f, 10f);
             Vector3 newScale = installBarFillTrm.localScale;
             newScale.x += Time.deltaTime * fillSpeed;
             installBarFillTrm.localScale = newScale;

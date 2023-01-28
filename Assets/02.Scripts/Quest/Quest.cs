@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,15 +7,22 @@ public class Quest : MonoBehaviour
 {
     [SerializeField]
     private QuestDataSO questData;
-    public List<Decision> decisionList;
 
-    private void Start()
+    public QuestDataSO QuestData
     {
-        Init();
-        questData.isClear = false;
+        get
+        {
+            return questData;
+        }
     }
+
+    [SerializeField]
+    private List<Decision> decisionList;
+
     public void Init()
     {
+ 
+
         LoadQuestDatas();
 
         if (CheckDecisions() || questData.isClear)
@@ -32,7 +39,14 @@ public class Quest : MonoBehaviour
             decision.OnChangedValue += ChangeRate;
             //decision.OnClearPanel += ShowClearDecisionPanel;
         }
+
+        if (questData.isActive == false)
+        {
+            NoticeSystem.OnNotice.Invoke(questData.questText.head, questData.questText.body, null); // sprite 넣어야함
+        }
+        questData.isActive = true;
     }
+    
     //private void ShowClearDecisionPanel(Decision decision) 
     //{
     //    NoticeSystem.OnGeneratedNotice.Invoke(EQuestEvent)
@@ -76,6 +90,12 @@ public class Quest : MonoBehaviour
     private void QuestClear()
     {
         EventManager.TriggerEvent(questData.questEvent);
+        questData.isClear = true;
+        questData.isActive = false;
+
+        Release();
+
+        gameObject.SetActive(false);
         //Destroy(gameObject);
     }
 
@@ -88,6 +108,16 @@ public class Quest : MonoBehaviour
         }
     }
 
+    public void Release()
+    {
+        foreach (var decision in decisionList)
+        {
+            decision.OnChangedValue -= CheckClearQuest;
+            decision.OnChangedValue -= ChangeRate;
+        }
+    }
+
+
     public void OnDestroy()
     {
         SaveDecisionDatas();
@@ -98,9 +128,11 @@ public class Quest : MonoBehaviour
     //}
 
 #if UNITY_EDITOR
-    private void OnApplicationQuit()
+
+    public void DebugReset()
     {
         questData.isClear = false;
+        questData.isActive = false;
         foreach(var data in questData.decisionClearList)
         {
             data.isComplete = false;
