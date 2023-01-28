@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class QuestManager : MonoSingleton<QuestManager>
@@ -69,5 +70,10 @@ public class QuestManager : MonoSingleton<QuestManager>
                 }
             }
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        questList.ForEach(x => x.DebugReset());
     }
 }

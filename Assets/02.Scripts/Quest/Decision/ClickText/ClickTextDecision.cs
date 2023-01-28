@@ -10,7 +10,6 @@ public class ClickTextDecision : Decision
 
     public override void Init()
     {
-        Debug.Log("StartListening");
         EventManager.StartListening(decisionEvent, Click);
     }
 

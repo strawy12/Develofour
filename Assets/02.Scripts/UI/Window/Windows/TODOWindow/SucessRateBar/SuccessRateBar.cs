@@ -22,7 +22,6 @@ public class SuccessRateBar : MonoBehaviour
     private void SetRateField(int rate)
     {
         int cnt = 0;
-        Debug.Log(rate);
         if (rate > 0f)
         {
             int fieldMaxRate = MAX_RATE / successRateFieldList.Count;

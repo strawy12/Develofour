@@ -70,7 +70,6 @@ public class TodoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     }
     public void SetSuccestRateBar()
     {
-        Debug.Log("SetSuccestRateBar");
         float rate = questData.CalcRate();
         successRateBar.SetRateBar(rate);
     }

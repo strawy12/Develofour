@@ -52,9 +52,7 @@ public class QuestDataSO : ScriptableObject
         var clearList = decisionClearList.Where((x) => x.isComplete).ToList();
         int count = clearList.Count;
         if(decisionClearList.Count > 0) {
-            Debug.Log($"clearList : {clearList.Count}, decisionClearList : {decisionClearList.Count}");
-            float rate = count / decisionClearList.Count;
-            Debug.Log(rate);
+            float rate = (float)count / decisionClearList.Count;
             return rate;
         }
         return 0;

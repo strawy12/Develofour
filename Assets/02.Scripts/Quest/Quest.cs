@@ -128,20 +128,8 @@ public class Quest : MonoBehaviour
     //}
 
 #if UNITY_EDITOR
-    private void OnDisable()
-    {
-        questData.isClear = false;
-        questData.isActive = false;
-        foreach (var data in questData.decisionClearList)
-        {
-            data.isComplete = false;
-        }
-        foreach (var data in decisionList)
-        {
-            data.isClear = false;
-        }
-    }
-    private void OnApplicationQuit()
+
+    public void DebugReset()
     {
         questData.isClear = false;
         questData.isActive = false;
