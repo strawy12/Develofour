@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,7 +63,7 @@ public abstract class Site : MonoUI
     {
         if(!CheckGoogleLogin())
         {
-            if (gameObject.GetComponent<GmailLoginSite>() == null && gameObject.GetComponent<HomeSite>() == null) //·Î±×ÀÎ »çÀÌÆ®°¡ ¾Æ´Ï¶ó¸é È¤Àº È¨ »çÀÌÆ®°¡ ¾Æ´Ï¶ó¸é
+            if (gameObject.GetComponent<GmailLoginSite>() == null && gameObject.GetComponent<HomeSite>() == null) //ë¡œê·¸ì¸ ì‚¬ì´íŠ¸ê°€ ì•„ë‹ˆë¼ë©´ í˜¹ì€ í™ˆ ì‚¬ì´íŠ¸ê°€ ì•„ë‹ˆë¼ë©´
             {
                 EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY, false });
                 return;
