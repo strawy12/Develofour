@@ -45,12 +45,18 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public FileSO File
     {
-        get 
-        { 
-            return file; 
+        get
+        {
+            return file;
         }
     }
-    
+
+    public int SortingOrder
+    {
+        get => currentCanvas.sortingOrder;
+        set => currentCanvas.sortingOrder = value;
+    }
+
     private Vector3 windowPos;
     private Canvas currentCanvas;
 
@@ -70,6 +76,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);
         windowBar.OnSelected += SelectWindow;
+
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
 
     // SelectableObject를 위한 함수
@@ -82,7 +90,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         bool flag2 = OnUnSelectIgnoreFlag != null && OnUnSelectIgnoreFlag.Invoke();
 
         // 선택되었다고한다면
-        return (flag1  && isSelected) || flag2;
+        return (flag1 && isSelected) || flag2;
     }
 
     public bool IsSelected()
@@ -96,25 +104,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         if (isSelected == windowSelected) return;
 
         isSelected = windowSelected;
-
-        if(currentCanvas == null)
-        {
-            return;
-        }
-
-        if(isSelected)
-        {
-            currentCanvas.sortingOrder = windowMaxCnt + 1;
-        }
-        if (!isSelected)
-        {
-            currentCanvas.sortingOrder -= 1;
-
-            if (currentCanvas.sortingOrder <= 0)
-            {
-                currentCanvas.sortingOrder = 1;
-            }
-        }
     }
 
     public void WindowClose()
@@ -123,14 +112,14 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
         windowMaxCnt--;
 
-        if(isSelected)
+        if (isSelected)
         {
             WindowManager.Inst.SelectedObjectNull();
         }
 
         Destroy(gameObject);
     }
-    
+
     public void WindowMinimum()
     {
         WindowManager.Inst.SelectedObjectNull();
@@ -139,7 +128,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowMaximum()
     {
-        if(!windowAlteration.isMaximum)
+        if (!windowAlteration.isMaximum)
         {
             Vector2 size = Constant.MAX_CANVAS_SIZE;
             size.y -= 50;
@@ -162,7 +151,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public void WindowOpen()
     {
         WindowManager.Inst.SelectObject(this);
-        
+
         SetCurrentWindow(this);
         SetActive(true);
 
@@ -175,7 +164,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void CreatedWindow(FileSO file)
     {
-        this.file = file;   
+        this.file = file;
         Init();
         WindowOpen();
         windowMaxCnt++;
@@ -188,6 +177,16 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         SelectWindow();
     }
 
+    private void CheckSelected(object[] hits)
+    {
+        if (currentWindow == this) return;
+
+        if (Define.ExistInHits(gameObject, hits[0]))
+        {
+            SelectWindow();
+        }
+    }
+
     protected void SelectWindow()
     {
         WindowManager.Inst.SelectObject(this);
@@ -196,7 +195,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 #if UNITY_EDITOR
     public void Reset()
     {
-        windowBar = GetComponentInChildren<WindowBar>();  
+        windowBar = GetComponentInChildren<WindowBar>();
     }
 #endif
 }

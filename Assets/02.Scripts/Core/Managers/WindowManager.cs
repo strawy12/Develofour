@@ -12,10 +12,14 @@ public class WindowPrefabElement
     public Window windowPrefab;
 }
 
+
+
+
 public class WindowManager : MonoSingleton<WindowManager>
 {
     // 이거는 동적으로 생성된 Window 모음
     private Dictionary<EWindowType, List<Window>> windowDictionary = new Dictionary<EWindowType, List<Window>>();
+    private LinkedList<Window> windowOrderList = new LinkedList<Window>();
 
     // 프리팹
     [SerializeField]
@@ -95,7 +99,7 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         if (targetWindow == null)
         {
-            if(!file.isWindowLockClear)
+            if (!file.isWindowLockClear)
             {
                 EventManager.TriggerEvent(EWindowEvent.OpenWindowPin, new object[1] { file });
                 return null;
@@ -111,7 +115,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     // 
     public Window CreateWindow(EWindowType windowType, FileSO file = null)
     {
-        if(file == null)
+        if (file == null)
         {
             // null이면 기본 FileSO를 리소스로드로 찾아서 넣을거임
         }
@@ -133,9 +137,37 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     public void SelectObject(ISelectable target)
     {
+        if (selectedObject == target) return;
+
         selectedObject?.OnUnSelected?.Invoke();
         selectedObject = target;
+
+        if(target is Window)
+        {
+            SetWindowOrder(target as Window);
+        }
+
         selectedObject?.OnSelected?.Invoke();
+    }
+
+    private void SetWindowOrder(Window targetWindow)
+    {
+        if (targetWindow == null) return;
+        if (windowOrderList.First?.Value == targetWindow) return;
+
+        if (windowOrderList.Contains(targetWindow))
+        {
+            windowOrderList.Remove(targetWindow);
+        }
+
+        windowOrderList.AddFirst(targetWindow);
+
+        int order = windowOrderList.Count;
+
+        foreach(Window window in windowOrderList)
+        {
+            window.SortingOrder = order--;
+        }
     }
 
     public void SelectedObjectNull()

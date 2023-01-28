@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -76,7 +77,7 @@ public static class Define
 
         foreach (RaycastResult hit in hits as List<RaycastResult>)
         {
-            if (hit.gameObject == obj)
+            if (hit.gameObject == obj && (obj.transform.IsChildOf(hit.gameObject.transform) || hit.gameObject.transform.IsChildOf(obj.transform)))
             {
                 return true;
             }
