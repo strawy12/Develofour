@@ -96,7 +96,7 @@ public class Library : Window
     private void Awake()
     {
         Init();
-    }
+     }
 
     protected override void Init()
     {
@@ -158,6 +158,7 @@ public class Library : Window
         {
             redoStack.Pop();
         }
+
         undoStack.Push(currentDirectory);
         OnFileOpen(ps);
     }
@@ -183,5 +184,17 @@ public class Library : Window
             redoText.color = new Color32(50, 50, 50, 120);
         else
             redoText.color = new Color32(50, 50, 50, 255);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
+        EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
+        EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
     }
 }
