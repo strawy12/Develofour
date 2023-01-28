@@ -59,6 +59,8 @@ public class Browser : Window
 
         EventManager.StartListening(EBrowserEvent.OnUndoSite, UndoSite);
         ChangeSite(ESiteLink.Home, 0f, false);
+        EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
+
     }
 
     private void BindingStart()

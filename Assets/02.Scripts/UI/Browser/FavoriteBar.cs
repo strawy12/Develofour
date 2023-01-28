@@ -28,6 +28,8 @@ public class FavoriteBar : MonoBehaviour
         {
             Site site = siteParent.GetChild(i).GetComponent<Site>();
 
+            if (!site.SiteData.isHaveFavorite) continue; 
+
             MakeFavoriteButton(site);
             site.gameObject.SetActive(false);
         }
