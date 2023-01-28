@@ -152,9 +152,10 @@ MonoBehaviour:
     siteIconSprite: {fileID: 21300000, guid: 993aff8f8efc4337aaf0d131f358a933, type: 3}
     siteTitle: Google_Login
     address: https://accounts.zoogle.com/v3/signin
+    isHaveFavorite: 0
   password: 
   gmailLoginButton: {fileID: 202940646084039971}
-  passwordField: {fileID: 0}
+  passwordField: {fileID: 1898502986}
   textMove: {fileID: 9102198955533366125}
   passwordToggle: {fileID: 3307981222705542378}
 --- !u!225 &202940645380285081
@@ -1199,7 +1200,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4283519313
-  m_fontColor: {r: 0.31764707, g: 0.31764707, b: 0.31764707, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1602,6 +1603,7 @@ GameObject:
   - component: {fileID: 6520210884251775933}
   - component: {fileID: 81875164488371094}
   - component: {fileID: 8458268782347410563}
+  - component: {fileID: 1898502986}
   m_Layer: 5
   m_Name: GmailInputField
   m_TagString: Untagged
@@ -1767,6 +1769,20 @@ MonoBehaviour:
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
+--- !u!114 &1898502986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349903507862955896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c42edd60bf0d7d94d832bce23e0d71e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passwordField: {fileID: 8458268782347410563}
+  password: 
 --- !u!1 &2122497544415549792
 GameObject:
   m_ObjectHideFlags: 0

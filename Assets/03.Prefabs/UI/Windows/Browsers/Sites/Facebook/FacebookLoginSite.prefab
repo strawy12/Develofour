@@ -694,6 +694,7 @@ GameObject:
   - component: {fileID: 2440979619084359650}
   - component: {fileID: 6808152951289491791}
   - component: {fileID: 2283945883668394621}
+  - component: {fileID: 284223973019020630}
   m_Layer: 5
   m_Name: PasswordInputField
   m_TagString: Untagged
@@ -859,6 +860,20 @@ MonoBehaviour:
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
+--- !u!114 &284223973019020630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6117385386337502951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c42edd60bf0d7d94d832bce23e0d71e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passwordField: {fileID: 2283945883668394621}
+  password: 
 --- !u!1 &7073562347774731081
 GameObject:
   m_ObjectHideFlags: 0
@@ -1066,11 +1081,12 @@ MonoBehaviour:
     siteIconSprite: {fileID: 21300000, guid: 8d1c4238523a408c961747d873f6956e, type: 3}
     siteTitle: Starbook_Login
     address: https://accounts.starbook.com/v3/signin
+    isHaveFavorite: 0
   loginEmail: writer1111@gmail.com
-  passWord: asdihiuasndiusnduina
+  password: 
   LoginBtn: {fileID: 7162217387572067826}
   facebookIDInputField: {fileID: 1500962091490604114}
-  facebookPasswordInputField: {fileID: 2283945883668394621}
+  passwordField: {fileID: 284223973019020630}
   forgetPasswordBtn: {fileID: 115832618533146968}
   failedLoginText: {fileID: 1678589962612229389}
 --- !u!1 &7162217386318608141
