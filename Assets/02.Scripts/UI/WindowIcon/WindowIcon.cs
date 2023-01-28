@@ -38,12 +38,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
 
-
-    public void Awake()
-    {
-        Init();
-    }
-
     public void Bind()
     {
         rectTranstform ??= GetComponent<RectTransform>();

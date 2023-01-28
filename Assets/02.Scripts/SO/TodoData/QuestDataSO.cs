@@ -37,13 +37,15 @@ public enum EQuestCategory
 public class QuestDataSO : ScriptableObject
 {
     public EQuestEvent questEvent;
-    public EQuestCategory category; // string으로 바꿀까 고민중
+    public EQuestCategory category; // string으로 바꿀까 고민중 
+
 
     public QuestText questText;
 
     public List<DecisionData> decisionClearList; 
     public Action OnChangeSuccessRate;
     public bool isClear;
+    public bool isActive;
 
     public float CalcRate()
     {

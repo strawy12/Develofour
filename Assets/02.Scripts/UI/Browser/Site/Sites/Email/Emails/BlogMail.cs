@@ -10,7 +10,7 @@ public class BlogMail : Mail
 
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterBranchMail)
         {
-            EventManager.TriggerEvent(EQuestEvent.ShowBrunchGmail);
+            //EventManager.TriggerEvent(EQuestEvent.ShowBrunchGmail);
             DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterBranchMail = true;
         }
 

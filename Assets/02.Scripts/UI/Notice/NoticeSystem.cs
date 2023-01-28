@@ -8,13 +8,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.U2D.IK;
-using TMPro.EditorUtilities;
 
 public class NoticeSystem : MonoUI
 {
     public static Action<ENoticeType, float> OnGeneratedNotice;
     //public static Action<Decision, float> OnDecisionPanel;
-
+    public static Action<string, string, Sprite> OnNotice;
     [SerializeField]
     private NoticePanel noticePanelTemp;
 
@@ -54,10 +53,9 @@ public class NoticeSystem : MonoUI
         FixedNoticePanelInit();
 
         OnGeneratedNotice += ShowNoticePanel;
-
+        OnNotice += Notice;
         EventManager.StartListening(ENoticeEvent.ClickNoticeBtn, ToggleNotice);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
-        EventManager.StartListening(ENoticeEvent.DiscordNotice, DiscordNotice);
     }
 
     private void FixedNoticePanelInit()
@@ -213,16 +211,9 @@ public class NoticeSystem : MonoUI
         return panel;
     }
 
-    private void DiscordNotice(object[] param)
+    private void Notice(string head, string body, Sprite icon)
     {
-        if (!(param[0] is string) || !(param[1] is string) || !(param[2] is Sprite)) return;
-
         NoticePanel panel = noticePanel = GetPanel(true);
-
-        string head = param[0] as string;
-        string body = param[1] as string;
-        Sprite icon = param[2] as Sprite;
-
-        //panel.Notice(head, body, icon);
+        panel.Notice(head, body, icon);
     }
 }

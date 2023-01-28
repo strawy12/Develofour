@@ -69,9 +69,11 @@ public class InstallerWindow : Window
     {
         FileManager.Inst.AddFile(installFile, "C/Background");
 
+        QuestManager.Inst.AddQuest(EQuestEvent.GetOwnerInfo);
+
         if(isWindowOpen)
         {
-            // À©µµ¿ì ¿ÀÇÂ!
+            WindowManager.Inst.WindowOpen(EWindowType.TodoWindow, installFile);
         }
     }
 

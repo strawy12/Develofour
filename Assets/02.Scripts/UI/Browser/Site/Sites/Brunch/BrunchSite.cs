@@ -117,9 +117,5 @@ public class BrunchSite : Site
         postListPanel.ChangeVerticalUICount(postDatas.Count);
         postCntText.text = $"글 {postDatas.Count}";
         workPanels[post.PostData.workTitle].DiminishWriteCnt();
-        if(postDatas.Count <= 0)
-        {
-            EventManager.TriggerEvent(EQuestEvent.EndBrunchPostCleanUp);
-        }
     }
 }

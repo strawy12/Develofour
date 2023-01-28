@@ -35,7 +35,6 @@ public enum ENoticeEvent
     GeneratedNotice,
     OpenNoticeSystem,
     ClickNoticeBtn,
-    DiscordNotice,
 }
 public enum ELibraryEvent
 {
