@@ -179,8 +179,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     private void CheckSelected(object[] hits)
     {
-        if (currentWindow == this) return;
-
+        
         if (Define.ExistInHits(gameObject, hits[0]))
         {
             SelectWindow();
@@ -192,6 +191,12 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         WindowManager.Inst.SelectObject(this);
         SetCurrentWindow(this);
     }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
+    }
+
 #if UNITY_EDITOR
     public void Reset()
     {

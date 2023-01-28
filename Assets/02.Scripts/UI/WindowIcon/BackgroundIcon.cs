@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class BackgroundIcon : WindowIcon, ISelectable
 {
-    public Action OnSelected;
-    public Action OnUnSelected; 
+    public Action OnSelected { get; set; }
+    public Action OnUnSelected { get; set; } 
 
     public bool IsSelected(GameObject hitObject)
     {
-        if ()
-            return IsSelected;
+        bool flag1 = hitObject == gameObject;
+        return isSelected && flag1;
     }
 
     protected override void Select()

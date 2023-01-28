@@ -11,7 +11,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public RectTransform rectTranstform { get; set; }
 
     private int clickCount = 0;
-    private bool isSelected = false;
+    protected bool isSelected = false;
 
     private Window targetWindow = null;
     private Sprite sprite;
@@ -81,18 +81,17 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 {
                     targetWindow.WindowOpen();
                 }
-                WindowManager.Inst.SelectedObjectNull();
+                UnSelect();
             }
             else
             {
-                //WindowManager.Inst.SelectObject(this);
                 Select();
                 clickCount++;
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            //WindowManager.Inst.SelectObject(this);
+            Select();
             CreateAttributeUI(eventData);
         }
     }
@@ -117,7 +116,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
 
-    private void SelectedIcon(bool isSelected)
+    public void SelectedIcon(bool isSelected)
     {
         if (!isSelected)
         {
@@ -157,11 +156,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     protected virtual void Select()
     {
-        
+        EventManager.TriggerEvent(ELibraryEvent.SelectIcon, new object[1] { this });
     }
 
     protected virtual void UnSelect()
     {
-        
+        EventManager.TriggerEvent(ELibraryEvent.SelectNull);
     }
 }
