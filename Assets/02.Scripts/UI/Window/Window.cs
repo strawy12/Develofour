@@ -76,8 +76,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         windowBar.OnMinimum?.AddListener(WindowMinimum);
         windowBar.OnMaximum?.AddListener(WindowMaximum);
         windowBar.OnSelected += SelectWindow;
-
-        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
 
     // SelectableObject를 위한 함수
@@ -117,6 +115,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
             WindowManager.Inst.SelectedObjectNull();
         }
 
+        OnDestroy();
         Destroy(gameObject);
     }
 
@@ -179,7 +178,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     private void CheckSelected(object[] hits)
     {
-        
         if (Define.ExistInHits(gameObject, hits[0]))
         {
             SelectWindow();
@@ -193,6 +191,14 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     }
 
     private void OnDestroy()
+    {
+        EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
+    }
+    private void OnEnable()
+    {
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckSelected);
+    }
+    private void OnDisable()
     {
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }

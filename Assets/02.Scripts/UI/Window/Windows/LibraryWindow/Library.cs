@@ -93,11 +93,6 @@ public class Library : Window
     #endregion
 
 
-    private void Awake()
-    {
-        Init();
-     }
-
     protected override void Init()
     {
         base.Init();

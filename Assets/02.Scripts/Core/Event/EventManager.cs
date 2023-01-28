@@ -12,7 +12,6 @@ public class EventManager
         Action<object[]> thisEvent;
         string key = $"{typeof(T).ToString()}_{eventName.ToString()}";
         {
-
             if (eventDictionary.TryGetValue(key, out thisEvent))
             {
                 thisEvent += listener;
