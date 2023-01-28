@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -61,11 +61,30 @@ public abstract class Site : MonoUI
 
     protected virtual void ShowSite()
     {
+        if(!CheckGoogleLogin())
+        {
+            if (gameObject.GetComponent<GmailLoginSite>() == null && gameObject.GetComponent<HomeSite>() == null) //로그인 사이트가 아니라면 혹은 홈 사이트가 아니라면
+            {
+                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY, false });
+                return;
+            }
+        }
+
         SetActive(true);
     }
 
     protected virtual void HideSite()
     {
         SetActive(false);
+    }
+
+    private bool CheckGoogleLogin()
+    {
+        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

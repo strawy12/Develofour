@@ -257,10 +257,10 @@ public class EmailSite : Site
 
     protected override void ShowSite()
     {
-        if (CheckGoogleLogin() == false)
-        {
-            return;
-        }
+        //if (CheckGoogleLogin() == false)
+        //{
+        //    return;
+        //}
 
         base.ShowSite();
     }
