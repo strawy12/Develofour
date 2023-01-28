@@ -43,7 +43,7 @@ public class Library : Window
     [SerializeField]
     private TextMeshProUGUI redoText;
     #endregion
-
+    private WindowIcon selectIcon;
     #region pooling
     private void CreatePool()
     {
@@ -93,11 +93,6 @@ public class Library : Window
     #endregion
 
 
-    private void Awake()
-    {
-        Init();
-     }
-
     protected override void Init()
     {
         base.Init();
@@ -110,6 +105,8 @@ public class Library : Window
         SetLibrary();
         EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StartListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
+        EventManager.StartListening(ELibraryEvent.SelectIcon, SelectIcon);
+        EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
         undoBtn.onClick.AddListener(UndoFile);
         redoBtn.onClick.AddListener(RedoFile);
     }
@@ -185,16 +182,41 @@ public class Library : Window
         else
             redoText.color = new Color32(50, 50, 50, 255);
     }
+    public void SelectIcon(object[] ps)
+    {
+        if (ps[0] == null || !(ps[0] is WindowIcon)) return;
 
+        WindowIcon icon = ps[0] as WindowIcon;
+
+        if (selectIcon == icon) return;
+
+        selectIcon?.SelectedIcon(false);
+        selectIcon = icon;
+
+        selectIcon?.SelectedIcon(true);
+    }
+
+    public void SelectNull(object[] dummy)
+    {
+        selectIcon?.SelectedIcon(false);
+        selectIcon = null;
+    }
     private void OnDisable()
     {
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
+        EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
+        EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
+
     }
 
     private void OnDestroy()
     {
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
+        EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
+        EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
+
+
     }
 }

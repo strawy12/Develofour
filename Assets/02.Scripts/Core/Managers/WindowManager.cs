@@ -123,6 +123,7 @@ public class WindowManager : MonoSingleton<WindowManager>
         Window window = GetWindowPrefab(windowType);
         window.CreatedWindow(file);
         windowDictionary[windowType].Add(window);
+        window.OnClosed += (s) => windowOrderList.Remove(window);
         return window;
     }
 

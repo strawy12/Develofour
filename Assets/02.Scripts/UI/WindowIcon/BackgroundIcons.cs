@@ -6,11 +6,11 @@ using UnityEngine;
 public class BackgroundIcons : MonoBehaviour
 {
     [SerializeField]
-    private WindowIcon iconPrefab;
+    private BackgroundIcon iconPrefab;
     [SerializeField]
     private DirectorySO backgroundDirectory;
 
-    private List<WindowIcon> iconList;
+    private List<BackgroundIcon> iconList;
 
     private void Start()
     {
@@ -22,9 +22,9 @@ public class BackgroundIcons : MonoBehaviour
 
     private void IconListInit()
     {
-        iconList = new List<WindowIcon>();
+        iconList = new List<BackgroundIcon>();
 
-        WindowIcon[] icons = GetComponentsInChildren<WindowIcon>();
+        BackgroundIcon[] icons = GetComponentsInChildren<BackgroundIcon>();
         iconList.AddRange(icons);
         iconList.ForEach(x => x.Init(true));
     }
@@ -41,8 +41,9 @@ public class BackgroundIcons : MonoBehaviour
 
     private void CreateIcon(FileSO file)
     {
-        WindowIcon icon = Instantiate(iconPrefab, transform);
+        BackgroundIcon icon = Instantiate(iconPrefab, transform);
         icon.Init(true);
+        Debug.Log(file);
         icon.SetFileData(file);
         icon.name = file.name;
         icon.gameObject.SetActive(true);
