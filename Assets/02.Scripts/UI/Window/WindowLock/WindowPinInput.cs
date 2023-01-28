@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class WindowPinInput : MonoUI
 {
+    private bool isHideFinSeeStay;
+
+    [SerializeField]
+    private TMP_Text pinGuideText;
+
     [SerializeField]
     private TMP_InputField pinInputField;
 
@@ -13,6 +18,9 @@ public class WindowPinInput : MonoUI
     private Button confirmButton;
     [SerializeField]
     private Button closeButton;
+    [SerializeField]
+    private Button hidePinSeeButton;
+
 
     private FileSO currentFile;
 
@@ -25,6 +33,8 @@ public class WindowPinInput : MonoUI
 
     private void Init()
     {
+        isHideFinSeeStay = false;
+
         pinInputField.asteriskChar = '¡Ü';
         pinInputField.contentType = TMP_InputField.ContentType.Pin;
 
@@ -32,6 +42,7 @@ public class WindowPinInput : MonoUI
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);
+        hidePinSeeButton.onClick?.AddListener(HidePinMarkSee);
         
         EventManager.StartListening(EWindowEvent.OpenWindowPin, PinOpen);
     }
@@ -47,6 +58,7 @@ public class WindowPinInput : MonoUI
         SetActive(true);
 
         currentFile = (FileSO)ps[0];
+        pinGuideText.SetText(currentFile.windowPinHintGuide);
     }
 
     private void CheckPinPassword()
@@ -68,8 +80,28 @@ public class WindowPinInput : MonoUI
         }
     }
 
+    private void HidePinMarkSee() 
+    {
+        if(!isHideFinSeeStay)
+        {
+            pinInputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+            isHideFinSeeStay = true;
+        }
+        else if(isHideFinSeeStay)
+        {
+            pinInputField.contentType = TMP_InputField.ContentType.Pin;
+            isHideFinSeeStay = false;
+        }
+
+        pinInputField.ForceLabelUpdate();
+    }
+
+
     private void CloseWindowPinLock()
     {
+        pinInputField.text = "";
+        pinInputField.contentType = TMP_InputField.ContentType.Pin;
+
         SetActive(false);
     }
 

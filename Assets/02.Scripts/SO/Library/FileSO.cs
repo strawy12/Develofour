@@ -31,6 +31,7 @@ public class FileSO : ScriptableObject
 
     public bool isWindowLockClear;
     public string windowPin;
+    public string windowPinHintGuide;
 
     #region GetFileData
 
