@@ -9,18 +9,13 @@ public enum ECoreEvent
 public enum EQuestEvent
 {
     None = -1,
-    HateBtnClicked,
-    LoginGoogle,
-    PoliceMiniGameClear,
-    ShowBrunchGmail,
-    EndBrunchPostCleanUp,
-    WriterWindowsLoginSuccess,
     GetOwnerInfo,
 }
 public enum EDecisionEvent
 {
     None = -1,
     ClickOwnerNameText,
+    ClickOwnerBirthdayText,
 
 }
 public enum EWindowEvent
