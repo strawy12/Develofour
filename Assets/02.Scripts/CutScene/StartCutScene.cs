@@ -13,7 +13,7 @@ public class StartCutScene : MonoBehaviour
     public string[] scripts;
 
     private int cnt = 0;
-    public int underBarWidth = -750;
+    public int underBarWidth ;
 
     private bool isPlaying;
     private bool isEnd;
