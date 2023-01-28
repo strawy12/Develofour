@@ -17,7 +17,7 @@ public class FileAddressPanel : MonoBehaviour
 
     private FileSO currentFileSO;
 
-    private void CreatePanel()
+    private void CreateBtn()
     {
         for (int i = 0; i < 15; i++)
         {
@@ -31,7 +31,7 @@ public class FileAddressPanel : MonoBehaviour
     {
         if(buttonPool.Count <= 0)
         {
-            CreatePanel();
+            CreateBtn();
         }
         TopFileButton button = buttonPool.Dequeue();
         button.gameObject.SetActive(true);
@@ -63,7 +63,7 @@ public class FileAddressPanel : MonoBehaviour
 
     public void Init()
     {
-        CreatePanel();
+        CreateBtn();
     }
 
     public void SetButtons(DirectorySO directoryData)
