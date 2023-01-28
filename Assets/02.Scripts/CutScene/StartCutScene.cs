@@ -49,7 +49,6 @@ public class StartCutScene : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            GameManager.Inst.ChangeGameState(EGameState.Game);
             EndCutScene();
         }
     }
@@ -127,8 +126,8 @@ public class StartCutScene : MonoBehaviour
         loadingText.gameObject.SetActive(true);
         loadingImage.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), loadingDuration).OnComplete(() => 
         { 
-            SetActiveThisObject();
             GameManager.Inst.ChangeGameState(EGameState.Game);
+            SetActiveThisObject();
         });
     }
 

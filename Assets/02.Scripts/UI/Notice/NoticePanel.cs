@@ -76,29 +76,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     }
 
     public void Notice(NoticeDataSO data)
-    { 
-        headText.SetText(data.Head);
-        bodyText.SetText(data.Body);
-        iconImage.sprite = data.Icon;
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
-
-        rectTransform.anchorMin = new Vector2(1f, 0.5f);
-        rectTransform.anchorMax = new Vector2(1f, 0.5f);
-        rectTransform.pivot = new Vector2(1f, 0.5f);
-
-        Vector2 pos = new Vector2(rectTransform.rect.width, NOTICE_POS.y);
-        rectTransform.anchoredPosition = pos;
-
-        SetActive(true);
-
-        EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
-        rectTransform.DOAnchorPosX(NOTICE_POS.x, NOTICE_DURATION);
-
-        NoticeUXEmphasis();
-
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.WindowAlarmSound);
-
-        stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
+    {
+        Notice(data.Head, data.Body, data.Icon);
     }
 
     public void Notice(string head, string body, Sprite icon)
