@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System;
 
-public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, ISelectable
+public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public RectTransform rectTranstform { get; set; }
 
@@ -35,18 +35,9 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public FileSO File => fileData;
 
 
-    public Action OnSelected { get; set; }
-    public Action OnUnSelected { get; set; }
-
     public void Bind()
     {
         rectTranstform ??= GetComponent<RectTransform>();
-    }
-
-    public bool IsSelected(GameObject hitObject)
-    {
-        bool flag1 = hitObject == gameObject;
-        return isSelected && flag1;
     }
 
     public void Init(bool isBackground = false)
@@ -61,22 +52,20 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
 
-        OnSelected += () => SelectedIcon(true);
-        OnUnSelected += () => SelectedIcon(false);
     }
-   
+
     public void SetFileData(FileSO newFileData)
     {
         fileData = newFileData;
         iconNameText.text = fileData.windowName;
         iconImage.sprite = newFileData.iconSprite;
 
-        
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
             if (clickCount != 0)
             {
@@ -94,22 +83,23 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 WindowManager.Inst.SelectedObjectNull();
             }
-            else 
+            else
             {
-                WindowManager.Inst.SelectObject(this);
+                //WindowManager.Inst.SelectObject(this);
+                Select();
                 clickCount++;
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            WindowManager.Inst.SelectObject(this);
+            //WindowManager.Inst.SelectObject(this);
             CreateAttributeUI(eventData);
         }
     }
 
     private void OpenWindow()
     {
-        if(fileData is DirectorySO && isBackground == false)
+        if (fileData is DirectorySO && isBackground == false)
         {
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
             return;
@@ -117,19 +107,19 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         targetWindow = WindowManager.Inst.WindowOpen(fileData.windowType, fileData);
 
-        if(targetWindow == null) 
+        if (targetWindow == null)
         {
             return;
         }
 
         targetWindow.OnClosed += CloseTargetWindow;
-        targetWindow.WindowOpen(); 
+        targetWindow.WindowOpen();
     }
 
 
     private void SelectedIcon(bool isSelected)
     {
-        if(!isSelected)
+        if (!isSelected)
         {
             clickCount = 0;
         }
@@ -142,7 +132,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         targetWindow.OnClosed -= CloseTargetWindow;
         targetWindow = null;
-    }    
+    }
 
     private void CreateAttributeUI(PointerEventData eventData)
     {
@@ -162,5 +152,16 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerExit(PointerEventData eventData)
     {
         pointerStayImage.gameObject.SetActive(false);
+    }
+
+
+    protected virtual void Select()
+    {
+        
+    }
+
+    protected virtual void UnSelect()
+    {
+        
     }
 }
