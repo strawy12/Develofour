@@ -5447,7 +5447,6 @@ GameObject:
   - component: {fileID: 883548140}
   - component: {fileID: 883548139}
   - component: {fileID: 883548138}
-  - component: {fileID: 883548141}
   m_Layer: 5
   m_Name: User
   m_TagString: Untagged
@@ -5527,19 +5526,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883548136}
   m_CullTransparentMesh: 1
---- !u!114 &883548141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883548136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d077a668da5fc2a4bad62ece88906be7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  decisionEvent: 0
 --- !u!1 &885348973
 GameObject:
   m_ObjectHideFlags: 0
@@ -7329,7 +7315,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1096776289
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9993,17 +9979,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1367869424 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4409635790151297910, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
-  m_PrefabInstance: {fileID: 4493819026600628859}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1370896004
 GameObject:
   m_ObjectHideFlags: 0
@@ -10257,7 +10232,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1395410938}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -11089,6 +11064,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2692344291048593052, guid: 001374ed6a9efe44283ebd07ea851ce9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517291291953479120, guid: 001374ed6a9efe44283ebd07ea851ce9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517291291953479120, guid: 001374ed6a9efe44283ebd07ea851ce9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517291292784757188, guid: 001374ed6a9efe44283ebd07ea851ce9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517291292784757188, guid: 001374ed6a9efe44283ebd07ea851ce9, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -12087,14 +12078,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FileExplorerWindow
       objectReference: {fileID: 0}
-    - target: {fileID: 1991341588965455355, guid: e34b2b92e63a03349858f23f9fc27d0b, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1991341588965455355, guid: e34b2b92e63a03349858f23f9fc27d0b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4382593054383337245, guid: e34b2b92e63a03349858f23f9fc27d0b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -12179,14 +12162,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7306831151649264193, guid: e34b2b92e63a03349858f23f9fc27d0b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8204700551265969367, guid: e34b2b92e63a03349858f23f9fc27d0b, type: 3}
-      propertyPath: windowAlteration
-      value: 
-      objectReference: {fileID: 11400000, guid: 6353d44a50632d74ba0fde79929a8981, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e34b2b92e63a03349858f23f9fc27d0b, type: 3}
 --- !u!1 &1772455224
@@ -13775,6 +13750,7 @@ GameObject:
   - component: {fileID: 1937368239}
   - component: {fileID: 1937368241}
   - component: {fileID: 1937368240}
+  - component: {fileID: 1937368242}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -13816,7 +13792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -13899,6 +13875,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1937368238}
   m_CullTransparentMesh: 1
+--- !u!114 &1937368242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937368238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d077a668da5fc2a4bad62ece88906be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decisionEvent: 0
 --- !u!1 &1949163263
 GameObject:
   m_ObjectHideFlags: 0
@@ -49555,14 +49544,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4493819025310840817, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
-      propertyPath: canDeleted
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4493819025310840817, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
-      propertyPath: contentSizeFitter
-      value: 
-      objectReference: {fileID: 1367869424}
     - target: {fileID: 4493819025310840818, guid: 400596eaa17645dc988f1a59a689cd4a, type: 3}
       propertyPath: m_Name
       value: NoticePanel
@@ -55300,8 +55281,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 19
+  m_fontSizeBase: 19
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

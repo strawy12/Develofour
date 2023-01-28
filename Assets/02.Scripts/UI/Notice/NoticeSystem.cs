@@ -214,6 +214,8 @@ public class NoticeSystem : MonoUI
     private void Notice(string head, string body, Sprite icon)
     {
         NoticePanel panel = noticePanel = GetPanel(true);
+        panel.OnCompeleted += IncludePanel;
+        panel.OnClosed += PushPanel;
         panel.Notice(head, body, icon);
     }
 }

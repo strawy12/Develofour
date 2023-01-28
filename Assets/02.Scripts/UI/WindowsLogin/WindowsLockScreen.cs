@@ -34,7 +34,9 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private void Update()
     {
-        if (anyKeyUp) return;
+        if (GameManager.Inst.GameState != EGameState.Game) { return; }
+        if (anyKeyUp) { return; }
+
         if (Input.anyKey)
         {
             holdingDown = true;
