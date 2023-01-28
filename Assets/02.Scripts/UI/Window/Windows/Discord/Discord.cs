@@ -27,13 +27,6 @@ public class Discord : Window
     [SerializeField]
     private DiscordLogin discordLogin;
 
-    private void Start()
-
-    {
-        Debug.Log("디스코드 디버그용 스타트. ");
-        Init();
-    }
-
     protected override void Init()
     {
         base.Init();

@@ -13,7 +13,6 @@ public class Notepad : Window
     protected override void Init()
     {
         base.Init();
-        inputField.onSelect.AddListener((s) => SelectWindow());
 
         OnSelected += inputField.ActivateInputField;
         OnUnSelected += () => inputField.DeactivateInputField();
