@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +6,7 @@ using TMPro;
 
 public class DiscordIdentification : MonoBehaviour
 {
-    [Header("ºñ¹Ğ¹øÈ£")]
+    [Header("ë¹„ë°€ë²ˆí˜¸")]
     public string identificationAnswerText;
     public string PINAnswerText;
 
@@ -21,40 +21,44 @@ public class DiscordIdentification : MonoBehaviour
 
     public Button loginBtn;
 
+    public TextMove wrongText;
+
     void Start()
     {
-        Debug.Log("DiscordIdentification ½ºÅ©¸³Æ® 11 µğ¹ö±× ÄÚµå »ç¿ëÁß");
+        Debug.Log("DiscordIdentification ìŠ¤í¬ë¦½íŠ¸ 11 ë””ë²„ê·¸ ì½”ë“œ ì‚¬ìš©ì¤‘");
     }
 
-    public void Init()
+    public void Init(string IDAnswer, string PINAnswer)
     {
+        identificationAnswerText = IDAnswer;
+        PINAnswerText = PINAnswer;
         loginBtn.onClick.AddListener(OnClickSubmisstion);
     }
 
     public void OnClickSubmisstion()
     {
-        if (identificationInputfield.text == identificationAnswerText && identificationInputfield.text == PINAnswerText
+        if (identificationInputfield.text == identificationAnswerText && PINInputfield.text == PINAnswerText
             || identificationInputfield.text == "11" && PINInputfield.text == "11")
         {
             if(identificationInputfield.text == "11")
             {
-                Debug.Log("DiscordIdentification ½ºÅ©¸³Æ® 11 µğ¹ö±× ÄÚµå ");
+                Debug.Log("DiscordIdentification ìŠ¤í¬ë¦½íŠ¸ 11 ë””ë²„ê·¸ ì½”ë“œ ");
             }
             loginPanel.SetActive(false);
         }
         else
         {
-            //
+            wrongText.FaliedInput("í‹€ë ¸ìŠµë‹ˆë‹¤.");
             if (identificationInputfield.text != identificationAnswerText)
             {
                 identificationInputfield.gameObject.SetActive(true);
-                //identificationTextmove.FaliedInput("<b>ÀÌ¸ŞÀÏ ¶Ç´Â ÀüÈ­¹øÈ£ </b>- <i><size=85%> À¯È¿ÇÏÁö ¾ÊÀº ¾ÆÀÌµğÀÔ´Ï´Ù.</i>");
+                //identificationTextmove.FaliedInput("<b>ì´ë©”ì¼ ë˜ëŠ” ì „í™”ë²ˆí˜¸ </b>- <i><size=85%> ìœ íš¨í•˜ì§€ ì•Šì€ ì•„ì´ë””ì…ë‹ˆë‹¤.</i>");
             }
 
             if (PINInputfield.text != PINAnswerText)
             {
                 PINInputfield.gameObject.SetActive(true);
-                //PINTextmove.FaliedInput("<b>ºñ¹Ğ¹øÈ£ </b>- <i><size=85%> À¯È¿ÇÏÁö ¾ÊÀº ºñ¹Ğ¹øÈ£ÀÔ´Ï´Ù.</i>");
+                //PINTextmove.FaliedInput("<b>ë¹„ë°€ë²ˆí˜¸ </b>- <i><size=85%> ìœ íš¨í•˜ì§€ ì•Šì€ ë¹„ë°€ë²ˆí˜¸ì…ë‹ˆë‹¤.</i>");
             }
         }
     }
