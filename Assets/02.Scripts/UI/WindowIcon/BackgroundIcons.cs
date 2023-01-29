@@ -43,7 +43,6 @@ public class BackgroundIcons : MonoBehaviour
     {
         BackgroundIcon icon = Instantiate(iconPrefab, transform);
         icon.Init(true);
-        Debug.Log(file);
         icon.SetFileData(file);
         icon.name = file.name;
         icon.gameObject.SetActive(true);
