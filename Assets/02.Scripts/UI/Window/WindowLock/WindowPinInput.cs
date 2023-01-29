@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,10 +7,13 @@ using UnityEngine.UI;
 
 public class WindowPinInput : MonoUI
 {
+    private bool isShaking = false;
     private bool isHideFinSeeStay;
 
     [SerializeField]
     private TMP_Text pinGuideText;
+    [SerializeField]
+    private TMP_Text answerMarkText;
 
     [SerializeField]
     private TMP_InputField pinInputField;
@@ -21,6 +25,20 @@ public class WindowPinInput : MonoUI
     [SerializeField]
     private Button hidePinSeeButton;
 
+    [SerializeField]
+    private Image answerPanel;
+
+    [Header("Shaking Data")]
+    [SerializeField]
+    private int strength;
+    [SerializeField]
+    private int vibrato;
+    [SerializeField]
+    private float duration;
+    [SerializeField]
+    private Color answerTextColor;
+    [SerializeField]
+    private Color wrongAnswerTextColor;
 
     private FileSO currentFile;
 
@@ -65,19 +83,18 @@ public class WindowPinInput : MonoUI
     {
         if (pinInputField.text == currentFile.windowPin)
         {
-            pinInputField.text = "";
-
             currentFile.isWindowLockClear = true;
 
-            WindowManager.Inst.WindowOpen(currentFile.windowType, currentFile);
-            CloseWindowPinLock();
-            
+            PinAnswerTextChange();
+        
             additionFileList.Add(currentFile);
         }
         else
         {
-            pinInputField.text = "";
+            PinWrongAnswer();
         }
+
+            pinInputField.text = "";
     }
 
     private void HidePinMarkSee() 
@@ -96,6 +113,41 @@ public class WindowPinInput : MonoUI
         pinInputField.ForceLabelUpdate();
     }
 
+    private void PinAnswerTextChange()
+    {
+        answerMarkText.color = answerTextColor;
+
+        answerMarkText.SetText("정답입니다.");
+        answerPanel.gameObject.SetActive(true);
+
+        answerMarkText.rectTransform.DOShakePosition(1, 0, 0).OnComplete(() =>
+        {
+            answerMarkText.SetText("");
+            answerPanel.gameObject.SetActive(false);
+
+            WindowManager.Inst.WindowOpen(currentFile.windowType, currentFile);
+
+            CloseWindowPinLock();
+
+        });
+    }
+
+    private void PinWrongAnswer()
+    {
+        if (isShaking) return;
+
+        answerMarkText.color = wrongAnswerTextColor;
+        answerMarkText.SetText("오답입니다.");
+
+        isShaking = true;
+
+        answerMarkText.rectTransform.DOKill(true);
+        answerMarkText.rectTransform.DOShakePosition(duration, strength, vibrato).OnComplete(() =>
+        {
+            answerMarkText.SetText("");
+            isShaking = false;
+        });
+    }
 
     private void CloseWindowPinLock()
     {
