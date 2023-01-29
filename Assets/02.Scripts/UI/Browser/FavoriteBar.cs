@@ -52,7 +52,10 @@ public class FavoriteBar : MonoBehaviour
     {
         foreach (ESiteLink sitelink in SiteLinkData)
         {
-            favoritesList[sitelink].gameObject.SetActive(true);
+            if (favoritesList.ContainsKey(sitelink))
+            {
+                favoritesList[sitelink].gameObject.SetActive(true);
+            }
             return;
         }
     }

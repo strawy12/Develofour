@@ -14,4 +14,9 @@ public class HomeProfile : MonoBehaviour, IPointerClickHandler
     {
         LoginPanel.gameObject.SetActive(true);
     }
+
+    public void HidePanel()
+    {
+        LoginPanel.gameObject.SetActive(false);
+    }
 }

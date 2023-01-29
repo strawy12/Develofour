@@ -45,6 +45,12 @@ public class HomeSite : Site , IPointerClickHandler
         favoriteBar.ReadSiteListsData();
     }
 
+    protected override void HideSite()
+    {
+        base.HideSite();
+        profilePanel.HidePanel();
+    }
+
     private void ShowRecordPanel()
     {
         SeacrhPanel.gameObject.SetActive(false);
