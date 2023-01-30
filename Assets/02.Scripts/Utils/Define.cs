@@ -1,4 +1,4 @@
-using Cinemachine;
+﻿using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,7 +71,7 @@ public static class Define
     {
         if (hits == null || !(hits is List<RaycastResult>))
         {
-            Debug.LogError("Hits�� null�̰ų� Ÿ���� ���� �ʽ��ϴ�");
+            Debug.LogError("Hits가 null이거나 타입이 맞지 않습니다");
             return true;
         }
 
@@ -83,6 +83,23 @@ public static class Define
             }
         }
 
+        return false;
+    }
+
+    public static bool ExistInFirstHits(GameObject obj, object hits)
+    {
+        if (hits == null || !(hits is List<RaycastResult>))
+        {
+            Debug.LogError("Hits가 null이거나 타입이 맞지 않습니다");
+            return true;
+        }
+
+        List<RaycastResult> rayList = hits as List<RaycastResult>;
+        RaycastResult hit = rayList[0];
+        if (obj.transform.IsChildOf(hit.gameObject.transform) || hit.gameObject.transform.IsChildOf(obj.transform))
+        {
+            return true;
+        }
         return false;
     }
 
