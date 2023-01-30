@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 3577339963766284071}
   - component: {fileID: 3577339963766284073}
   - component: {fileID: 3577339963766284072}
+  - component: {fileID: 1527847956992503028}
   m_Layer: 5
   m_Name: ImageView
   m_TagString: Untagged
@@ -198,6 +199,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1527847956992503028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577339963766284070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f5f2d73cc3035c41843db9debb2a54b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageScale: 1
 --- !u!1 &6088058740988682744
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,7 +799,8 @@ MonoBehaviour:
   windowAlteration: {fileID: 11400000, guid: 03756ffb1db143798246dae7bd83f3d0, type: 2}
   windowBar: {fileID: 6917183933024086645}
   imageData: {fileID: 11400000, guid: 1ad5fb4818bf48e7b4545d1693983745, type: 2}
-  imageViwerImage: {fileID: 3577339963766284072}
+  imageViewerImage: {fileID: 3577339963766284072}
+  imageEnlargement: {fileID: 1527847956992503028}
 --- !u!114 &8714131769592482422
 MonoBehaviour:
   m_ObjectHideFlags: 0

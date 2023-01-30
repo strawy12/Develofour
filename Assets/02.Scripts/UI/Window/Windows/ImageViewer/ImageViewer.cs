@@ -10,11 +10,16 @@ public class ImageViewer : Window
     private ImageViewerDataSO imageData;
 
     [SerializeField]
-    private Image imageViwerImage;
+    private Image imageViewerImage;
+
+    [SerializeField]
+    private ImageEnlargement imageEnlargement;
 
     private readonly Vector2 MAXSIZE = new Vector2(1173.333f, 660f);
 
     private const float RATIO = 1.636363636363636f;
+
+    private float saveImageScale = 1f;
 
     protected override void Init()
     {
@@ -24,34 +29,33 @@ public class ImageViewer : Window
 
         windowBar.SetNameText($"{imageData.imageName}.{imageData.extensionType.ToString().ToLower()}");
 
-        imageViwerImage.sprite = imageData.imageSprite;
+        imageViewerImage.sprite = imageData.imageSprite;
 
         SetImageResolusion();
     }
 
     public void SetImageResolusion()
     {
-        Vector2 size = imageViwerImage.sprite.rect.size;
+        Vector2 size = imageViewerImage.sprite.rect.size;
         Vector2 originSize = size;
 
         size.x /= RATIO;
         size.y /= RATIO;
 
+        imageViewerImage.rectTransform.sizeDelta = size;
+
+        float scale = 1f;
         if(size.y > MAXSIZE.y)
         {
-            size.y = MAXSIZE.y;
-            size.x = (originSize.x * size.y) / originSize.y;
+            scale = MAXSIZE.y / size.y;
         }
-
         else if(size.x > MAXSIZE.x)
         {
-            size.x = MAXSIZE.x;
-            size.y = (size.x * originSize.y) / originSize.x;
+            scale = MAXSIZE.x / size.x;
         }
 
-        imageViwerImage.rectTransform.sizeDelta = size;
+        imageViewerImage.transform.localScale = Vector3.one * scale;
+
+        imageEnlargement.imageScale = imageViewerImage.transform.localScale.x;
     }
-
-    
-
 }
