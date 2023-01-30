@@ -74,7 +74,7 @@ public class StartCutScene : MonoBehaviour
         if (isPlaying)
             return;
 
-        if (cnt != scripts.Length - 1)
+        if (cnt != scripts.Length)
         {
             StartCoroutine(OnType(mainTexts[cnt], 0.1f, scripts[cnt]));
         }
@@ -104,7 +104,12 @@ public class StartCutScene : MonoBehaviour
 
     private void EndText()
     {
-        mainTexts[++cnt].text += ">> ";
+        if(++cnt == scripts.Length)
+        {
+            isPlaying = false;
+            return;
+        }
+        mainTexts[cnt].text += ">> ";
         Vector3 pos = mainTexts[cnt].rectTransform.anchoredPosition;
         underBarText.rectTransform.anchoredPosition = new Vector3(mainTexts[cnt].rectTransform.rect.width + underBarWidth, pos.y, pos.z);
         isPlaying = false;

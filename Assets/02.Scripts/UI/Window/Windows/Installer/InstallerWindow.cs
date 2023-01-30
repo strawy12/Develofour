@@ -65,16 +65,18 @@ public class InstallerWindow : Window
         cancelBtn.interactable = false;
     }
 
-    public void EndInstall(bool isWindowOpen)
+    public void EndInstall()
     {
         FileManager.Inst.AddFile(installFile, "C/Background");
 
         QuestManager.Inst.AddQuest(EQuestEvent.GetOwnerInfo);
+    }
 
-        if(isWindowOpen)
+    public void CheckOpenWindow(bool isWindowOpen)
+    {
+        if (isWindowOpen)
         {
             WindowManager.Inst.WindowOpen(EWindowType.TodoWindow, installFile);
         }
     }
-
 }
