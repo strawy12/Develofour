@@ -10,6 +10,9 @@ public class Notepad : Window
 
     public NotepadDataSO currentData;
 
+    [SerializeField]
+    private float scrollValue = 7;
+
     protected override void Init()
     {
         base.Init();
@@ -17,7 +20,7 @@ public class Notepad : Window
         OnSelected += inputField.ActivateInputField;
         OnUnSelected += () => inputField.DeactivateInputField();
         currentData = ResourceManager.Inst.GetNotepadData(file.name);
-
+        inputField.scrollSensitivity = scrollValue;
         SetText();
     }
 
