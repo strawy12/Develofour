@@ -16,7 +16,8 @@ public class NoticeSystem : MonoUI
     public static Action<string, string, Sprite> OnNotice;
     [SerializeField]
     private NoticePanel noticePanelTemp;
-
+    [SerializeField]
+    private NoticeOutline noticeOutline;
     [SerializeField]
     private Transform noticePanelParant;
 
@@ -175,6 +176,7 @@ public class NoticeSystem : MonoUI
         NoticePanel panel = noticePanel = GetPanel(data.CanDeleted);
         panel.OnCompeleted += IncludePanel;
         panel.OnClosed += PushPanel;
+        noticeOutline.StartOutline();
         panel.Notice(data);
     }
 
@@ -216,6 +218,7 @@ public class NoticeSystem : MonoUI
         NoticePanel panel = noticePanel = GetPanel(true);
         panel.OnCompeleted += IncludePanel;
         panel.OnClosed += PushPanel;
+        noticeOutline.StartOutline();
         panel.Notice(head, body, icon);
     }
 }
