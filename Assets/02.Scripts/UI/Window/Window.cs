@@ -178,7 +178,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     private void CheckSelected(object[] hits)
     {
-        if(Define.ExistInFirstHits(gameObject, hits[0]))
+        if (Define.ExistInFirstHits(gameObject, hits[0]))
         {
             SelectWindow();
         }

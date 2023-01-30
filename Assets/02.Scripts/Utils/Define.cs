@@ -95,6 +95,12 @@ public static class Define
         }
 
         List<RaycastResult> rayList = hits as List<RaycastResult>;
+
+        if(rayList.Count == 0)
+        {
+            return false;
+        }
+
         RaycastResult hit = rayList[0];
         if (obj.transform.IsChildOf(hit.gameObject.transform) || hit.gameObject.transform.IsChildOf(obj.transform))
         {
