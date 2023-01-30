@@ -31,10 +31,10 @@ public class ImageViewer : Window
 
         imageViewerImage.sprite = imageData.imageSprite;
 
-        SetImageResolusion();
+        SetImageSizeReset();
     }
 
-    public void SetImageResolusion()
+    public void SetImageSizeReset()
     {
         Vector2 size = imageViewerImage.sprite.rect.size;
         Vector2 originSize = size;

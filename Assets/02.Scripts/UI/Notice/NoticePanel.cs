@@ -85,11 +85,13 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         headText.SetText(head);
         bodyText.SetText(body);
         iconImage.sprite = icon;
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
-
+        
         rectTransform.anchorMin = new Vector2(1f, 0.5f);
         rectTransform.anchorMax = new Vector2(1f, 0.5f);
-        rectTransform.pivot = new Vector2(1f, 0.5f);
+        rectTransform.pivot = new Vector2(1f, 0f);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
 
         Vector2 pos = new Vector2(rectTransform.rect.width, NOTICE_POS.y);
         rectTransform.anchoredPosition = pos;

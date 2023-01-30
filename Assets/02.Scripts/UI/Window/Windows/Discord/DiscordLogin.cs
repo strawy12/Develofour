@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,11 +7,15 @@ using TMPro;
 
 public class DiscordLogin : MonoBehaviour
 {
-    [Header("Á¤´ä")]
+    [Header("ê¸°ë³¸ ë¡œê·¸ì¸ ì •ë‹µ")]
     [SerializeField]
     private string answerID;
     [SerializeField]
     private string answerPassword;
+
+    [Header("ë³¸ì¸ í™•ì¸ ë¡œê·¸ì¸ ì •ë‹µ")]
+    public string identificationAnswerText;
+    public string PINAnswerText;
 
     [SerializeField]
     private DiscordInputField IDInputField;
@@ -22,13 +26,13 @@ public class DiscordLogin : MonoBehaviour
     [SerializeField]
     private Button loginButton;
 
-    [Header("¿À´äÅØ½ºÆ®")]
+    [Header("ì˜¤ë‹µí…ìŠ¤íŠ¸")]
     [SerializeField]
     private TextMeshProUGUI wrongIDInputFieldText;
     [SerializeField]
     private TextMeshProUGUI wrongPasswordInputFieldText;
 
-    [Header("±âº»ÅØ½ºÆ®")]
+    [Header("ê¸°ë³¸í…ìŠ¤íŠ¸")]
     [SerializeField]
     private TextMeshProUGUI currentIdInputFieldText;
     [SerializeField]
@@ -47,7 +51,7 @@ public class DiscordLogin : MonoBehaviour
     public void Init()
     {
         background.OnIDPWPanelOff += SetIDPWPanel;
-        identificationPanel.Init();
+        identificationPanel.Init(identificationAnswerText, PINAnswerText);
         IDAccountPanel.Init();
         pwAccountPanel.Init();
         IDAccountPanel.OnClick += SetIDText;
@@ -102,14 +106,14 @@ public class DiscordLogin : MonoBehaviour
             {
                 currentIdInputFieldText.gameObject.SetActive(false);
                 wrongIDInputFieldText.gameObject.SetActive(true);
-                //wrongIDInputFieldText.GetComponent<TextMove>().FaliedInput("<b>ÀÌ¸ŞÀÏ ¶Ç´Â ÀüÈ­¹øÈ£ </b>- <i><size=85%> À¯È¿ÇÏÁö ¾ÊÀº ¾ÆÀÌµğÀÔ´Ï´Ù.</i>");
+                //wrongIDInputFieldText.GetComponent<TextMove>().FaliedInput("<b>ì´ë©”ì¼ ë˜ëŠ” ì „í™”ë²ˆí˜¸ </b>- <i><size=85%> ìœ íš¨í•˜ì§€ ì•Šì€ ì•„ì´ë””ì…ë‹ˆë‹¤.</i>");
             }
 
             if(passwordInputField.text.text != answerPassword)
             {
                 currentPasswordInputFieldText.gameObject.SetActive(false);
                 wrongPasswordInputFieldText.gameObject.SetActive(true);
-                //wrongPasswordInputFieldText.GetComponent<TextMove>().FaliedInput("<b>ºñ¹Ğ¹øÈ£ </b>- <i><size=85%> À¯È¿ÇÏÁö ¾ÊÀº ºñ¹Ğ¹øÈ£ÀÔ´Ï´Ù.</i>");
+                //wrongPasswordInputFieldText.GetComponent<TextMove>().FaliedInput("<b>ë¹„ë°€ë²ˆí˜¸ </b>- <i><size=85%> ìœ íš¨í•˜ì§€ ì•Šì€ ë¹„ë°€ë²ˆí˜¸ì…ë‹ˆë‹¤.</i>");
             }
 
         }
@@ -117,10 +121,10 @@ public class DiscordLogin : MonoBehaviour
 
     public void SuccessLogin()
     {
-        //Debug.Log("¼º°ø");
-        //¼º°øÀ» ¾Ë¸®´Â ÀÌº¥Æ®
+        //Debug.Log("ì„±ê³µ");
+        //ì„±ê³µì„ ì•Œë¦¬ëŠ” ì´ë²¤íŠ¸
 
-        //Discord Identification ÄÑ±â
+        //Discord Identification ì¼œê¸°
         isLogin = true;
         identificationPanel.gameObject.SetActive(true);
         loginPanel.SetActive(false);
