@@ -28,9 +28,9 @@ public class InstallingScreen : InstallerScreen
 
     private void EndInstall()
     {
+        installer.EndInstall();
         NextBtn.interactable = true;
     }
-
     private IEnumerator InstallBarFill()
     {
         installBarFillTrm.localScale = new Vector3(0, 1, 1);
@@ -46,6 +46,7 @@ public class InstallingScreen : InstallerScreen
         }
 
         installBarFillTrm.localScale = Vector3.one;
+
         EndInstall();
     }
 }

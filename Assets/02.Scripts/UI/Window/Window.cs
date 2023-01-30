@@ -154,6 +154,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         SetCurrentWindow(this);
         SetActive(true);
 
+        rectTransform.localPosition = windowAlteration.pos;
+        rectTransform.sizeDelta = windowAlteration.size;
+
+        windowAlteration.isMaximum = false;
     }
 
     public void SetCurrentWindow(Window selecetedWindow)
@@ -178,7 +182,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     private void CheckSelected(object[] hits)
     {
-        if (Define.ExistInHits(gameObject, hits[0]))
+        if (Define.ExistInFirstHits(gameObject, hits[0]))
         {
             SelectWindow();
         }
