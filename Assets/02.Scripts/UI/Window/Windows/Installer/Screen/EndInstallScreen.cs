@@ -22,7 +22,7 @@ public class EndInstallScreen : InstallerScreen
 
     private void InstallerClose()
     {
-        installer.EndInstall(windowOpenToggle.isOn);
+        installer.CheckOpenWindow(windowOpenToggle.isOn);
         installer.WindowClose();
     }
 
