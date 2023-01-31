@@ -5,13 +5,18 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Site/Facebook/FriendDataSO")]
 public class FacebookFriendDataSO : ScriptableObject
 {
-    public bool isFriend = false;
     public Sprite backgroundImage;
     public Sprite profileImage;
     public string nameText;
-    public string infoText;
+    public string friendCountText;
     public List<FacebookPidPanelDataSO> pidList;
-    [Header("Birthday")]
-    public int month;
-    public int day;
+
+    [Header("Information")]
+    public string highSchool;
+    public string universal;
+    public string phoneNumber;
+    public int birthYear;
+    public int birthMonth;
+    public int birthDay;
+    public string lovePerson;
 }
