@@ -115,11 +115,12 @@ public class WindowPinInput : MonoUI
 
     private void PinAnswerTextChange()
     {
+        Debug.Log("체인지");
         answerMarkText.color = answerTextColor;
 
         answerMarkText.SetText("정답입니다.");
         answerPanel.gameObject.SetActive(true);
-
+        
         answerMarkText.rectTransform.DOShakePosition(1, 0, 0).OnComplete(() =>
         {
             answerMarkText.SetText("");

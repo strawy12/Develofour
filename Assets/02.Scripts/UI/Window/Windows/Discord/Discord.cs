@@ -30,7 +30,6 @@ public class Discord : Window
     protected override void Init()
     {
         base.Init();
-
         EventManager.StartListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
         EventManager.StartListening(EDiscordEvent.StartTalk, StartTalkChat);
         friendList.Init();
