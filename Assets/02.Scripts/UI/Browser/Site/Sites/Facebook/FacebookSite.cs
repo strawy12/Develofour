@@ -6,7 +6,7 @@ public class FacebookSite : Site
     
     [Header("Pid")]
     [SerializeField]
-    private List<FacebookPidPanelDataSO> pidList;
+    private List<FacebookPidPanelDataSO> pidDataList;
     [SerializeField]
     private Transform pidParent;
     [SerializeField]
@@ -24,25 +24,34 @@ public class FacebookSite : Site
     [SerializeField]
     private GameObject leftPanel;
 
- 
+    private List<FacebookPidPanel> pidList = new List<FacebookPidPanel>();
 
     //Pid부분은 나중에 다시 만들어야함
 
     private void CreatePid()
     {
         //use Pooling!
-        for (int i = 0; i < pidList.Count; i++)
+        for (int i = 0; i < pidDataList.Count; i++)
         {
             FacebookPidPanel pid = Instantiate(pidPrefab, pidParent);
-            pid.Setting(pidList[i]);
             pid.gameObject.SetActive(true);
+            pidList.Add(pid);
         }
+       
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)pidParent);
     }
 
+    private void SettingPid()
+    {
+        for (int i = 0; i < pidDataList.Count; i++)
+        {
+            pidList[i].Setting(pidDataList[i]);
+        }
+    }
     public override void Init()
     {
-        CreatePid();
         base.Init();
+        CreatePid();
         facebookFriendPanel.Init();
         friendPanelBtn.onClick.AddListener(ShowFriendPanel);
         homePanelBtn.onClick.AddListener(ShowHomePanel);
@@ -60,13 +69,17 @@ public class FacebookSite : Site
 
     protected override void ShowSite()
     {
+        Debug.Log("1");
         base.ShowSite();
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
        
         if(!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite)
         {
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookLoginSite, 0f, false});
+            return;
         }
+        SettingPid();
+
     }
 
     private void ShowHomePanel()
