@@ -13,13 +13,13 @@ public class FacebookBirthdayPanel : MonoBehaviour
     [SerializeField]
     private int currentDay;
 
-    public void Init(List<FacebookFriendDataSO> friendList)
+    public void Init(List<FacebookProfileDataSO> friendList)
     {
         int cnt = 0;
         for(int i = 0; i < friendList.Count; i++)
         {
-            if(friendList[i].day == currentDay 
-                && friendList[i].month == currentMonth)
+            if(friendList[i].birthDay == currentDay 
+                && friendList[i].birthMonth == currentMonth)
             {
                 if (cnt > facebookFriendLineList.Count) 
                     { Debug.LogError("배열 값 넘어 섬"); return; }

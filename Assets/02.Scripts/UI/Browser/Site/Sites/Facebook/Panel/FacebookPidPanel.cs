@@ -10,9 +10,9 @@ public class FacebookPidPanel : MonoBehaviour
     //pid have to get PidText 피드텍스트는 있어야함
     private FacebookPidPanelDataSO pidDataSO;
 
-        
+
     //TODO - need Current User Data 현재는 창작자의 데이타 SO든 클래스든
-        
+
     [Header("CurrentUserData")]
     [SerializeField]
     private Sprite currentUserImage;
@@ -22,7 +22,7 @@ public class FacebookPidPanel : MonoBehaviour
     [Header("ProfileData")]
     [SerializeField]
     private FacebookPidProfileData profile;
-        
+
     [Header("PidContentsData")]
     [SerializeField]
     private FacebookPidContentsData contents;
@@ -33,45 +33,60 @@ public class FacebookPidPanel : MonoBehaviour
 
     [Header("Other")]
     [SerializeField]
-    private TextMeshProUGUI likeText;
+    private TMP_Text likeText;
     [SerializeField]
-    private TextMeshProUGUI commentText;
+    private TMP_Text commentText;
     [SerializeField]
     private Button commentButton;
     //[SerializeField]
     //private Button commentSendButton;
 
-    private bool isImage = false;
     private bool isCreate = false;
-
-    public void Setting(FacebookPidPanelDataSO _pidDataSO)
+    private bool isHome = false;
+    private float commenntsHeight = 0;
+    private RectTransform rectTransform;
+    public void Setting(FacebookPidPanelDataSO _pidDataSO, bool isHome = false)
     {
         pidDataSO = _pidDataSO;
-        //commentSendButton.onClick.AddListener(CommentSend);
-        if(isCreate) CreateComment();
+        this.isHome = isHome;
+        if (!isCreate) CreateComment();
         profile.profileImage.sprite = pidDataSO.profileImage;
         profile.nameText.text = pidDataSO.profileNameText;
         profile.timeText.text = pidDataSO.profileTimeText;
-        contents.pidText.text = pidDataSO.pidText;
         likeText.text = $"좋아요 {pidDataSO.likeCount}명";
         commentText.text = $"댓글 {pidDataSO.commentCount}명";
-        if(pidDataSO.pidImage != null)
-        {
-            contents.pidImage.sprite = pidDataSO.pidImage;
-            contents.pidImage.gameObject.SetActive(true);
-            isImage = true;
-        }
+
+    }
+
+
+    private void SetContent()
+    {
+        rectTransform ??= GetComponent<RectTransform>();
+
+        float newHieght = rectTransform.sizeDelta.y;
+        commentParent.Setting(commenntsHeight);
+
+        newHieght += commenntsHeight;
+        newHieght += contents.RectTrm.sizeDelta.y;
+        newHieght += 120f;
+
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, newHieght);
+
     }
 
     private void CreateComment()
     {
         isCreate = true;
-        for(int i = 0; i < pidDataSO.commentList.Count; i++)
+        commenntsHeight = 0f;
+        for (int i = 0; i < pidDataSO.commentList.Count; i++)
         {
             FacebookPidComment comment = Instantiate(commentParent.commentPrefab, commentParent.commentParent);
-            comment.Init(pidDataSO.commentList[i]);
+            comment.Setting(pidDataSO.commentList[i]);
             comment.gameObject.SetActive(true);
+            commenntsHeight += comment.RectTrm.sizeDelta.y;
         }
+        if(isHome)
+        contents.Setting(pidDataSO.pidText, SetContent, pidDataSO.pidImage);
     }
 
     //public void CommentSend()

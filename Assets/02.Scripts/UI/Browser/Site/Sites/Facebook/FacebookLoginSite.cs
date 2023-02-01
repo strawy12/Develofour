@@ -59,7 +59,6 @@ public class FacebookLoginSite : Site
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
         EventManager.TriggerEvent(ELoginSiteEvent.FacebookLoignSuccess);
 
-        Debug.Log(requestSite);
         if (requestSite == ESiteLink.None)
         {
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });

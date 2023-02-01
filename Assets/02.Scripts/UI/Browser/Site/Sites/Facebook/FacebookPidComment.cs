@@ -7,10 +7,22 @@ using TMPro;
 
 public class FacebookPidComment : MonoBehaviour
 {
-    public Image profileImage;
-    public TextMeshProUGUI profileNameText;
-    public TextMeshProUGUI commentText;
+    [SerializeField]
+    private Image profileImage;
+    [SerializeField]
+    private TMP_Text profileNameText;
+    [SerializeField]
+    private TMP_Text commentText;
 
+    private RectTransform rectTransform;
+
+    public RectTransform RectTrm
+    {
+        get
+        {
+            return rectTransform;
+        }
+    }
     public void Init(Sprite sprite, string name, string comment)
     {
         profileImage.sprite = sprite;
@@ -18,10 +30,30 @@ public class FacebookPidComment : MonoBehaviour
         commentText.text = comment;
     }
 
-    public void Init(FacebookPidCommentData data)
+    public void Setting(FacebookPidCommentData data)
     {
+        rectTransform = (RectTransform)transform;
+        float newHieght = 0f;
+
         profileImage.sprite = data.profileImage;
         profileNameText.text = data.profileNameText;
+
         commentText.text = data.pidText;
+
+        Vector2 size = commentText.rectTransform.sizeDelta;
+        for (int i = 0; i < commentText.text.Length; i++)
+        {
+            if (commentText.text[i] == '\n')
+            {
+                size.y += 16.2f;
+            }
+        }
+        commentText.rectTransform.sizeDelta = size;
+
+        newHieght += commentText.rectTransform.sizeDelta.y;
+        newHieght += profileNameText.rectTransform.sizeDelta.y;
+        newHieght += 8f;
+        
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, newHieght);
     }
 }

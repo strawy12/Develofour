@@ -16,11 +16,11 @@ public class FacebookFriendLine : MonoBehaviour
     [SerializeField]
     private Button button;
 
-    public Action<FacebookFriendDataSO> OnSelect;
+    public Action<FacebookProfileDataSO> OnSelect;
 
-    private FacebookFriendDataSO friendData;
+    private FacebookProfileDataSO friendData;
 
-    public void Init(FacebookFriendDataSO _friendData)
+    public void Init(FacebookProfileDataSO _friendData)
     {
         friendData = _friendData;
         profileImage.sprite = friendData.profileImage;
@@ -30,7 +30,7 @@ public class FacebookFriendLine : MonoBehaviour
         button.onClick.AddListener(() => { OnSelect?.Invoke(friendData); });   
     }
 
-    public void Setting(FacebookFriendDataSO data)
+    public void Setting(FacebookProfileDataSO data)
     {
         profileImage.sprite = data.profileImage;
         nameText.text = data.nameText;
