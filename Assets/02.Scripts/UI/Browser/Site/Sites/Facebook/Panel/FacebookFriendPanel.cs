@@ -6,23 +6,6 @@ using UnityEngine.UI;
 using TMPro;
 public class FacebookFriendPanel : MonoBehaviour
 {
-    [Header("Catecory")]
-    [SerializeField]
-    private TMP_Text categoryTitleText;
-    [SerializeField]
-    private Button backBtn;
-    [SerializeField]
-    private GameObject categoryPanel;
-    [SerializeField]
-    private Button requestBtn;
-    [SerializeField]
-    private Button allFriendBtn;
-    [SerializeField]
-    private Button birthdayBtn;
-
-    [Header("Birthday")]
-    [SerializeField]
-    private FacebookBirthdayPanel birthdayPanel;
 
     [Header("Friend")]
     [SerializeField]
@@ -38,10 +21,6 @@ public class FacebookFriendPanel : MonoBehaviour
 
     public void Init()
     {
-        birthdayPanel.Init(friendDataList);
-        allFriendBtn.onClick.AddListener(ShowAllFriend);
-        birthdayBtn.onClick.AddListener(ShowBirthdayPanel);
-        backBtn.onClick.AddListener(ShowCategory);
         CreateFriend();
     }
 
@@ -77,27 +56,6 @@ public class FacebookFriendPanel : MonoBehaviour
 
     private void ShowAllFriend()
     {
-        categoryTitleText.text = "모든 친구";
-        categoryPanel.SetActive(false);
-        profilePanel.gameObject.SetActive(false);
-        birthdayPanel.gameObject.SetActive(false);
-        backBtn.gameObject.SetActive(true);
         friendLineParent.gameObject.SetActive(true);
-    }
-
-    private void ShowCategory()
-    {
-        categoryTitleText.text = "친구";
-        backBtn.gameObject.SetActive(false);
-        friendLineParent.gameObject.SetActive(false);
-        profilePanel.gameObject.SetActive(false);
-        birthdayPanel.gameObject.SetActive(false);
-        categoryPanel.SetActive(true);
-    }
-
-    private void ShowBirthdayPanel()
-    {
-        profilePanel.gameObject.SetActive(false);
-        birthdayPanel.gameObject.SetActive(true);
     }
 }
