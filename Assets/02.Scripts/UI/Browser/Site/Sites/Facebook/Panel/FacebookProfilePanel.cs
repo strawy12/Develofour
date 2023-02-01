@@ -6,6 +6,8 @@ using TMPro;
 
 public class FacebookProfilePanel : MonoBehaviour
 {
+    public FacebookFriendDataSO DEBUGDATA;
+
     [Header("Profile")]
     [SerializeField]
     private Image profileImage;
@@ -23,9 +25,6 @@ public class FacebookProfilePanel : MonoBehaviour
 
     //SO 받아야함
     private FacebookFriendDataSO data;
-
-    [SerializeField]
-    private FacebookPidPanel pidPanelPrefab;
 
     [SerializeField]
     private Transform pidParent;

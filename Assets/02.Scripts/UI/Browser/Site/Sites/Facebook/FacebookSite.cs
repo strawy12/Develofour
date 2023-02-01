@@ -26,6 +26,8 @@ public class FacebookSite : Site
 
     private List<FacebookPidPanel> pidList = new List<FacebookPidPanel>();
 
+    public FacebookProfilePanel profile;
+
     //Pid부분은 나중에 다시 만들어야함
 
     private void CreatePid()
