@@ -40,7 +40,7 @@ public class FacebookSite : Site
             pid.gameObject.SetActive(true);
             pidList.Add(pid);
         }
-        myProfile.Setting(myProfileData);
+        //myProfile.Setting(myProfileData);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)pidParent);
     }
 
@@ -105,7 +105,6 @@ public class FacebookSite : Site
     {
         homePanel.SetActive(false);
         facebookFriendPanel.gameObject.SetActive(false);
-        myProfile.gameObject.SetActive(true);
-
+        myProfile.Setting(myProfileData);
     }
 }

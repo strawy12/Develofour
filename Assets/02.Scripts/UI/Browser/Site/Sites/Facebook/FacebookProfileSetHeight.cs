@@ -1,24 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class FacebookProfileSetHeight : MonoBehaviour
 {
     public GameObject child;
+    public float duration = 0.5f;
+    public void Update()
+    {
+
+    }
 
     public void Setting()
     {
-        Task.Run(() => SetHeight());
+        StartCoroutine(SetHeight());
     }
 
-    async Task SetHeight()
+    private IEnumerator SetHeight()
     {
-        await Task.Delay(300);
-
+        yield return new WaitForSeconds(duration);
         float currentWidth = gameObject.GetComponent<RectTransform>().sizeDelta.x;
         float childHeight = child.GetComponent<RectTransform>().sizeDelta.y;
-        gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(currentWidth, childHeight + 200);
+        gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(currentWidth, childHeight + 100);
     }
+
 }

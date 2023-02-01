@@ -47,7 +47,6 @@ public class FacebookPidPanel : MonoBehaviour
     private RectTransform rectTransform;
     public void Setting(FacebookPidPanelDataSO _pidDataSO, bool isHome = false)
     {
-        Debug.Log("Pid Setting");
         pidDataSO = _pidDataSO;
         this.isHome = isHome;
         if (!isCreate) CreateComment();
@@ -62,13 +61,11 @@ public class FacebookPidPanel : MonoBehaviour
 
     private void SetContent()
     {
-        Debug.Log("setContent");
         rectTransform ??= GetComponent<RectTransform>();
 
         float newHieght = rectTransform.sizeDelta.y;
         commentParent.Setting(commenntsHeight);
 
-        Debug.Log(commenntsHeight);
         newHieght += commenntsHeight;
         newHieght += contents.RectTrm.sizeDelta.y;
         newHieght += 120f;

@@ -46,7 +46,6 @@ public class FacebookPidContentsData : MonoBehaviour
                 size.y += 38;
             }
         }
-        Debug.Log("size.y:" + size.y);
         pidText.rectTransform.sizeDelta = size;
         newHieght += pidText.rectTransform.sizeDelta.y;
 

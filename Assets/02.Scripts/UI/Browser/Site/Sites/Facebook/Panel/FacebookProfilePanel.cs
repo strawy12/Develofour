@@ -29,24 +29,27 @@ public class FacebookProfilePanel : MonoBehaviour
     [SerializeField]
     private Transform pidParent;
 
-    //피드의 최대값
     [SerializeField]
-    private List<FacebookPidPanel> pidList;
+    private FacebookPidPanel pidPrefab;
 
     public FacebookProfileSetHeight profileRect;
 
     public void Setting(FacebookProfileDataSO _data)
     {
         data = _data;
-        for (int i = 0; i < pidList.Count; i++)
+        Transform[] childList = pidParent.GetComponentsInChildren<Transform>();
+        for (int i = 1; i < childList.Length; i++)
         {
-            pidList[i].gameObject.SetActive(false);
+            Destroy(childList[i].gameObject);
+            Debug.Log("삭제");
         }
 
         for (int i = 0; i < data.pidList.Count; i++)
         {
-            pidList[i].Setting(data.pidList[i]);
-            pidList[i].gameObject.SetActive(true);
+            Debug.Log("생성");
+            FacebookPidPanel pid = Instantiate(pidPrefab, pidParent) as FacebookPidPanel;
+            pid.Setting(data.pidList[i]);
+            pid.gameObject.SetActive(true);
         }
 
         profileImage.sprite = data.profileImage;
@@ -109,7 +112,7 @@ public class FacebookProfilePanel : MonoBehaviour
         {
             lovePersonText.text = "● 현재 " + data.lovePerson + " 과(와) 연애중";
         }
-
+        gameObject.SetActive(true);
         profileRect.Setting();
     }
 

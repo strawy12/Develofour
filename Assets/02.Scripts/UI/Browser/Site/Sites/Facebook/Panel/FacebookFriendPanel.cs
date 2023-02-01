@@ -51,7 +51,7 @@ public class FacebookFriendPanel : MonoBehaviour
         Debug.Log("와");
 
         profilePanel.gameObject.SetActive(true);
-        profilePanel.Setting(data);
+        //profilePanel.Setting(data);
     }
 
     private void ShowAllFriend()
