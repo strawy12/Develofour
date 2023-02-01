@@ -42,14 +42,14 @@ public class FacebookPidPanel : MonoBehaviour
     //private Button commentSendButton;
 
     private bool isCreate = false;
-
+    private bool isHome = false;
     private float commenntsHeight = 0;
     private RectTransform rectTransform;
-    public void Setting(FacebookPidPanelDataSO _pidDataSO)
+    public void Setting(FacebookPidPanelDataSO _pidDataSO, bool isHome = false)
     {
         Debug.Log("Pid Setting");
         pidDataSO = _pidDataSO;
-        //commentSendButton.onClick.AddListener(CommentSend);
+        this.isHome = isHome;
         if (!isCreate) CreateComment();
         profile.profileImage.sprite = pidDataSO.profileImage;
         profile.nameText.text = pidDataSO.profileNameText;
@@ -71,7 +71,7 @@ public class FacebookPidPanel : MonoBehaviour
         Debug.Log(commenntsHeight);
         newHieght += commenntsHeight;
         newHieght += contents.RectTrm.sizeDelta.y;
-        newHieght += 100f;
+        newHieght += 120f;
 
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, newHieght);
 
@@ -79,7 +79,6 @@ public class FacebookPidPanel : MonoBehaviour
 
     private void CreateComment()
     {
-        Debug.Log("?");
         isCreate = true;
         commenntsHeight = 0f;
         for (int i = 0; i < pidDataSO.commentList.Count; i++)
@@ -89,7 +88,7 @@ public class FacebookPidPanel : MonoBehaviour
             comment.gameObject.SetActive(true);
             commenntsHeight += comment.RectTrm.sizeDelta.y;
         }
-
+        if(isHome)
         contents.Setting(pidDataSO.pidText, SetContent, pidDataSO.pidImage);
     }
 

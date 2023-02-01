@@ -10,8 +10,7 @@ public class FacebookSite : Site
     [SerializeField]
     private Transform pidParent;
     [SerializeField]
-    private FacebookPidPanel pidPrefab; 
-
+    private FacebookPidPanel pidPrefab;
     [Header("TopPanel")]
     [SerializeField]
     private Button friendPanelBtn;
@@ -22,11 +21,13 @@ public class FacebookSite : Site
     [SerializeField]
     private GameObject homePanel;
     [SerializeField]
-    private GameObject leftPanel;
-
+    private Button myProfileBtn;
+    [SerializeField]
+    private FacebookProfileDataSO myProfileData;
+    
     private List<FacebookPidPanel> pidList = new List<FacebookPidPanel>();
 
-    public FacebookProfilePanel profile;
+    public FacebookProfilePanel myProfile;
 
     //Pid부분은 나중에 다시 만들어야함
 
@@ -39,7 +40,7 @@ public class FacebookSite : Site
             pid.gameObject.SetActive(true);
             pidList.Add(pid);
         }
-       
+        myProfile.Setting(myProfileData);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)pidParent);
     }
 
@@ -47,7 +48,7 @@ public class FacebookSite : Site
     {
         for (int i = 0; i < pidDataList.Count; i++)
         {
-            pidList[i].Setting(pidDataList[i]);
+            pidList[i].Setting(pidDataList[i], true);
         }
     }
     public override void Init()
@@ -57,6 +58,9 @@ public class FacebookSite : Site
         facebookFriendPanel.Init();
         friendPanelBtn.onClick.AddListener(ShowFriendPanel);
         homePanelBtn.onClick.AddListener(ShowHomePanel);
+        myProfileBtn.onClick.AddListener(ShowMyProfile);
+
+
     }
 
     protected override void HideSite()
@@ -71,7 +75,6 @@ public class FacebookSite : Site
 
     protected override void ShowSite()
     {
-        Debug.Log("1");
         base.ShowSite();
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
        
@@ -87,14 +90,22 @@ public class FacebookSite : Site
     private void ShowHomePanel()
     {
         facebookFriendPanel.gameObject.SetActive(false);
+        myProfile.gameObject.SetActive(false);
         homePanel.SetActive(true);
-        leftPanel.SetActive(true);
     }
 
     private void ShowFriendPanel()
     {
         homePanel.SetActive(false);
-        leftPanel.SetActive(false);
+        myProfile.gameObject.SetActive(false);
+
         facebookFriendPanel.gameObject.SetActive(true);
+    }
+    private void ShowMyProfile()
+    {
+        homePanel.SetActive(false);
+        facebookFriendPanel.gameObject.SetActive(false);
+        myProfile.gameObject.SetActive(true);
+
     }
 }

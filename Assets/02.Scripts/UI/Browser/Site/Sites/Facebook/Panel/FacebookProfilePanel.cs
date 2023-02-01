@@ -6,7 +6,7 @@ using TMPro;
 
 public class FacebookProfilePanel : MonoBehaviour
 {
-    public FacebookFriendDataSO DEBUGDATA;
+    public FacebookProfileDataSO DEBUGDATA;
 
     [Header("Profile")]
     [SerializeField]
@@ -24,7 +24,7 @@ public class FacebookProfilePanel : MonoBehaviour
     public TextMeshProUGUI lovePersonText;
 
     //SO 받아야함
-    private FacebookFriendDataSO data;
+    private FacebookProfileDataSO data;
 
     [SerializeField]
     private Transform pidParent;
@@ -35,7 +35,7 @@ public class FacebookProfilePanel : MonoBehaviour
 
     public FacebookProfileSetHeight profileRect;
 
-    public void Setting(FacebookFriendDataSO _data)
+    public void Setting(FacebookProfileDataSO _data)
     {
         data = _data;
         for (int i = 0; i < pidList.Count; i++)

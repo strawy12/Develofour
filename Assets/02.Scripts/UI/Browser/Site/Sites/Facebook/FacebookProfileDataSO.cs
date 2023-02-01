@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Site/Facebook/FriendDataSO")]
-public class FacebookFriendDataSO : ScriptableObject
+[CreateAssetMenu(menuName = "SO/Site/Facebook/:ProfileDataSO")]
+public class FacebookProfileDataSO : ScriptableObject
 {
     public Sprite backgroundImage;
     public Sprite profileImage;

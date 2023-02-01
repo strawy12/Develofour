@@ -13,7 +13,7 @@ public class FacebookBirthdayPanel : MonoBehaviour
     [SerializeField]
     private int currentDay;
 
-    public void Init(List<FacebookFriendDataSO> friendList)
+    public void Init(List<FacebookProfileDataSO> friendList)
     {
         int cnt = 0;
         for(int i = 0; i < friendList.Count; i++)

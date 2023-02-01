@@ -9,7 +9,7 @@ public class FacebookFriendPanel : MonoBehaviour
 
     [Header("Friend")]
     [SerializeField]
-    private List<FacebookFriendDataSO> friendDataList;
+    private List<FacebookProfileDataSO> friendDataList;
     [SerializeField]
     private FacebookProfilePanel profilePanel;
     [SerializeField]
@@ -46,7 +46,7 @@ public class FacebookFriendPanel : MonoBehaviour
         }
     }
 
-    private void SetProfilePanel(FacebookFriendDataSO data)
+    private void SetProfilePanel(FacebookProfileDataSO data)
     {
         Debug.Log("와");
 
