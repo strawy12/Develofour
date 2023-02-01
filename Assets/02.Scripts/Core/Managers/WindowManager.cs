@@ -104,10 +104,8 @@ public class WindowManager : MonoSingleton<WindowManager>
                 EventManager.TriggerEvent(EWindowEvent.OpenWindowPin, new object[1] { file });
                 return null;
             }
-
             targetWindow = CreateWindow(file.windowType, file);
         }
-
         targetWindow.WindowOpen();
         return targetWindow;
     }

@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ using Random = UnityEngine.Random;
 
 public class WindowsLoginScreen : MonoBehaviour
 {
+    private int failedLoginCnt = 0;
     [SerializeField]
     private GameObject windowLoginCanvas;
 
@@ -32,6 +34,8 @@ public class WindowsLoginScreen : MonoBehaviour
     private float loadingTurnSpeed;
 
     [Header("Login")]
+    [SerializeField]
+    private TMP_Text loginFailText;
     [SerializeField]
     private GameObject loginInputUI;
     [SerializeField]
@@ -62,7 +66,7 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.onDeselect.AddListener((a) => placeHoldText.gameObject.SetActive(true));
 
         passwordField.InputField.contentType = TMP_InputField.ContentType.Pin;
-        passwordField.InputField.characterLimit = 4;
+        passwordField.InputField.characterLimit = 6;
 
         loginFailConfirmBtn.onClick.AddListener(OpenLoginInputUI);
 
@@ -129,6 +133,11 @@ public class WindowsLoginScreen : MonoBehaviour
     }
     private void OpenLoginFailUI()
     {
+        failedLoginCnt++;
+
+        if (failedLoginCnt >= 5)
+            loginFailText.SetText("»ß»ß-»ß»ß-»ß»ß-»ß»ß-»ß»ß");
+
         loginFailUI.SetActive(true);
         loginInputUI.SetActive(false);
     }

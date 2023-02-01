@@ -23,6 +23,8 @@ public class DiscordIdentification : MonoBehaviour
 
     public TextMove wrongText;
 
+    public DiscordRomePuzzle romePuzzle;
+
     void Start()
     {
         Debug.Log("DiscordIdentification 스크립트 11 디버그 코드 사용중");
@@ -33,22 +35,31 @@ public class DiscordIdentification : MonoBehaviour
         identificationAnswerText = IDAnswer;
         PINAnswerText = PINAnswer;
         loginBtn.onClick.AddListener(OnClickSubmisstion);
+        romePuzzle.Init();
     }
 
     public void OnClickSubmisstion()
     {
+        Debug.Log("DiscordIdentification 스크립트 11 디버그 코드 ");
+
+        if(!romePuzzle.IsAnswer())
+        {
+            wrongText.FaliedInput("보안 문자가 틀렸습니다.");
+            return;
+        }
+
         if (identificationInputfield.text == identificationAnswerText && PINInputfield.text == PINAnswerText
             || identificationInputfield.text == "11" && PINInputfield.text == "11")
         {
             if(identificationInputfield.text == "11")
             {
-                Debug.Log("DiscordIdentification 스크립트 11 디버그 코드 ");
+                
             }
             loginPanel.SetActive(false);
         }
         else
         {
-            wrongText.FaliedInput("틀렸습니다.");
+            wrongText.FaliedInput("본인 확인 질문이 틀렸습니다.");
             if (identificationInputfield.text != identificationAnswerText)
             {
                 identificationInputfield.gameObject.SetActive(true);

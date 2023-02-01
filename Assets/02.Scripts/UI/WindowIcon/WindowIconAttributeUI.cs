@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,6 +48,7 @@ public class WindowIconAttributeUI : MonoUI
 
     public void CreateMenu(Vector2 mousePos, FileSO fileData)
     {
+        Debug.Log("메뉴생성");
         Vector2 offset = Vector2.zero;
 
         if (Mathf.Abs(Constant.MAX_CANVAS_POS.x - mousePos.x) < rectTransform.rect.width)
