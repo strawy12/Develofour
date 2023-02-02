@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -85,16 +85,17 @@ public class FacebookLoginSite : Site
         }
 
         // TODO
-        // ±¸Á¶ º¯°æ ÇØ¾ßÇÔ
+        // êµ¬ì¡° ë³€ê²½ í•´ì•¼í•¨
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite = true;
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
+
+        // NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
     }
 
     private void LoginFail()
     {
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
 
-        failedLoginText.text = "ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.";
+        failedLoginText.text = "ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.";
         failedLoginText.color = Color.red;
     }
     private void LoginFacebook()
@@ -110,12 +111,12 @@ public class FacebookLoginSite : Site
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
             if(failedIDcnt < 3)
             {
-                failedLoginText.text = "µî·ÏµÇÁö¾ÊÀº ÀÌ¸ŞÀÏ È¤Àº ÀüÈ­¹øÈ£ ÀÔ´Ï´Ù.";
+                failedLoginText.text = "ë“±ë¡ë˜ì§€ì•Šì€ ì´ë©”ì¼ í˜¹ì€ ì „í™”ë²ˆí˜¸ ì…ë‹ˆë‹¤.";
                 failedLoginText.color = Color.red;
             }
             else
             {
-                failedLoginText.text = "°³ÀÎÁ¤º¸¸¦ È®ÀÎ ÇÒ ¼ö ÀÖ´Â »çÀÌÆ®¸¦ µé¾î°¡ º¸¼¼¿ä.";
+                failedLoginText.text = "ê°œì¸ì •ë³´ë¥¼ í™•ì¸ í•  ìˆ˜ ìˆëŠ” ì‚¬ì´íŠ¸ë¥¼ ë“¤ì–´ê°€ ë³´ì„¸ìš”.";
                 failedLoginText.color = Color.black;
             }
             failedIDcnt++;
@@ -126,18 +127,18 @@ public class FacebookLoginSite : Site
     {
         if (facebookIDInputField.text == loginEmail)
         {
-            failedLoginText.text = "µî·ÏµÈ Email¿¡ ºñ¹Ğ¹øÈ£ º¯°æ¸ŞÀÏÀ» º¸³Â½À´Ï´Ù.";
+            failedLoginText.text = "ë“±ë¡ëœ Emailì— ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ë©”ì¼ì„ ë³´ëƒˆìŠµë‹ˆë‹¤.";
             failedLoginText.color = Color.black; 
             EventManager.StartListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
         
             EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.SnsPasswordChange});
 
-            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.SnsSetNewPassword, 0f);
+            // NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.SnsSetNewPassword, 0f);
 
         }
         else
         {
-            failedLoginText.text = "¾Ë¸ÂÀº ÀÌ¸ŞÀÏ È¤Àº ÀüÈ­¹øÈ£¸¦ Àû¾îÁÖ¼¼¿ä.";
+            failedLoginText.text = "ì•Œë§ì€ ì´ë©”ì¼ í˜¹ì€ ì „í™”ë²ˆí˜¸ë¥¼ ì ì–´ì£¼ì„¸ìš”.";
             failedLoginText.color = Color.red;
         }
     }

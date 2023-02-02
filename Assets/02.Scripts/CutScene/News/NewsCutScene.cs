@@ -205,7 +205,7 @@ public class NewsCutScene : CutScene
 
     private void ShowNewsSceneNotice()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.EndNewsCutScene, noticeDelay);
+        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.EndNewsCutScene, noticeDelay);
     }
 
     private IEnumerator PrintText(bool isNews)

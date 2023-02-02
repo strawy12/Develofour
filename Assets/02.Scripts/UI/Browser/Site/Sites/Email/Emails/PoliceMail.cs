@@ -40,7 +40,7 @@ public class PoliceMail : Mail
     {
         if (!DataManager.Inst.CurrentPlayer.questClearData.isPoliceMiniGameClear)
         {
-            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenPoliceMail, 0f);
+            //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenPoliceMail, 0f);
         }
 
         base.ShowMail();
