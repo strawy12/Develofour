@@ -87,7 +87,8 @@ public class FacebookLoginSite : Site
         // TODO
         // 구조 변경 해야함
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite = true;
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
+
+        // NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
     }
 
     private void LoginFail()
@@ -132,7 +133,7 @@ public class FacebookLoginSite : Site
         
             EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.SnsPasswordChange});
 
-            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.SnsSetNewPassword, 0f);
+            // NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.SnsSetNewPassword, 0f);
 
         }
         else

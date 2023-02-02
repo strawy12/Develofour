@@ -6,7 +6,7 @@ public class BlogMail : Mail
 {
     public override void ShowMail()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenBrunchDeleteMail, 0f);
+        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.OpenBrunchDeleteMail, 0f);
 
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterBranchMail)
         {
