@@ -60,6 +60,7 @@ public class DiscordLogin : MonoBehaviour
         IDInputField.OnShowAccount += ShowIDAccountPanel;
         passwordInputField.OnShowAccount += ShowPWAccountPanel;
         loginButton.onClick.AddListener(OnClickLogin);
+        InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: OnClickLogin);
     }
 
     public void SetIDPWPanel()
@@ -126,6 +127,7 @@ public class DiscordLogin : MonoBehaviour
         //성공을 알리는 이벤트
 
         //Discord Identification 켜기
+        InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: OnClickLogin);
         isLogin = true;
         identificationPanel.gameObject.SetActive(true);
         loginPanel.SetActive(false);
