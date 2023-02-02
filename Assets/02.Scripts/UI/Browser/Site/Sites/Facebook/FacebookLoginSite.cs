@@ -43,6 +43,18 @@ public class FacebookLoginSite : Site
         forgetPasswordBtn?.onClick.AddListener(ClickForgetPassword);
 
         EventManager.StartListening(ELoginSiteEvent.FacebookRequestSite, RequestSite);
+
+        facebookIDInputField.onSubmit.AddListener(delegate { LoginFacebook(); });
+        passwordField.InputField.onSubmit.AddListener(delegate { LoginFacebook(); });
+        InputManager.Inst.AddKeyInput(KeyCode.Tab, onKeyDown: InputTap);
+    }
+
+    private void InputTap()
+    {
+        if(facebookIDInputField.isFocused)
+        {
+            passwordField.InputField.ActivateInputField();
+        }
     }
 
     private void RequestSite(object[] ps)
@@ -58,7 +70,7 @@ public class FacebookLoginSite : Site
     {
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
         EventManager.TriggerEvent(ELoginSiteEvent.FacebookLoignSuccess);
-
+        InputManager.Inst.RemoveKeyInput(KeyCode.Tab, onKeyDown: InputTap);
         if (requestSite == ESiteLink.None)
         {
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
@@ -84,6 +96,7 @@ public class FacebookLoginSite : Site
     }
     private void LoginFacebook()
     {
+
         failedLoginText.text = "";
         if (facebookIDInputField.text == loginEmail)
         {

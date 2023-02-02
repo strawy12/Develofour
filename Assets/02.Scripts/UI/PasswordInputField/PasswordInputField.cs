@@ -28,7 +28,7 @@ public class PasswordInputField : MonoBehaviour
         passwordField.asteriskChar = '¡¤';
         passwordField.contentType = ContentType.Password;
 
-        passwordField.onSubmit?.AddListener((a) => TryLogin());
+        passwordField.onSubmit.AddListener((a) => TryLogin());
 
         passwordField.onValueChanged.AddListener((a) => Input.imeCompositionMode = IMECompositionMode.Off);
     }
