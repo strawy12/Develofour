@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -25,10 +25,10 @@ public class PasswordInputField : MonoBehaviour
 
     public void Init()
     {
-        passwordField.asteriskChar = '¡¤';
+        passwordField.asteriskChar = 'Â·';
         passwordField.contentType = ContentType.Password;
 
-        passwordField.onSubmit?.AddListener((a) => TryLogin());
+        passwordField.onSubmit.AddListener((a) => TryLogin());
 
         passwordField.onValueChanged.AddListener((a) => Input.imeCompositionMode = IMECompositionMode.Off);
     }
@@ -50,7 +50,7 @@ public class PasswordInputField : MonoBehaviour
         {
             if (passwordField.text == "11")
             {
-                Debug.LogError($"{gameObject.name} Login¸¦ Trigger¸¦ »ç¿ëÇÏ¿© Å¬¸®¾î Çß½À´Ï´Ù. ºôµå Àü¿¡ ÇØ´ç Trigger¸¦ »èÁ¦ÇÏ¼¼¿ä");
+                Debug.LogError($"{gameObject.name} Loginë¥¼ Triggerë¥¼ ì‚¬ìš©í•˜ì—¬ í´ë¦¬ì–´ í–ˆìŠµë‹ˆë‹¤. ë¹Œë“œ ì „ì— í•´ë‹¹ Triggerë¥¼ ì‚­ì œí•˜ì„¸ìš”");
             }
 
             OnSuccessLogin?.Invoke();

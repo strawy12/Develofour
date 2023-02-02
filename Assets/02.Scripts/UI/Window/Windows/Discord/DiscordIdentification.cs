@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class DiscordIdentification : MonoBehaviour
 {
@@ -36,6 +37,24 @@ public class DiscordIdentification : MonoBehaviour
         PINAnswerText = PINAnswer;
         loginBtn.onClick.AddListener(OnClickSubmisstion);
         romePuzzle.Init();
+
+        identificationInputfield.onSubmit.AddListener(delegate { OnClickSubmisstion(); });
+        PINInputfield.onSubmit.AddListener(delegate { OnClickSubmisstion(); });
+        romePuzzle.inputField.onSubmit.AddListener(delegate { OnClickSubmisstion(); });
+        PINInputfield.onValueChanged.AddListener((a) => Input.imeCompositionMode = IMECompositionMode.Off);
+        InputManager.Inst.AddKeyInput(KeyCode.Tab, onKeyDown: OnInputTap);
+    }
+
+    private void OnInputTap()
+    {
+        if(identificationInputfield.isFocused)
+        {
+            PINInputfield.ActivateInputField();
+        }
+        else if(PINInputfield.isFocused)
+        {
+            romePuzzle.inputField.ActivateInputField();
+        }
     }
 
     public void OnClickSubmisstion()
@@ -55,7 +74,7 @@ public class DiscordIdentification : MonoBehaviour
             {
                 
             }
-            loginPanel.SetActive(false);
+            Clear();
         }
         else
         {
@@ -72,5 +91,11 @@ public class DiscordIdentification : MonoBehaviour
                 //PINTextmove.FaliedInput("<b>비밀번호 </b>- <i><size=85%> 유효하지 않은 비밀번호입니다.</i>");
             }
         }
+    }
+
+    private void Clear()
+    {
+        InputManager.Inst.RemoveKeyInput(KeyCode.Tab, onKeyDown: OnInputTap);
+        loginPanel.SetActive(false);
     }
 }

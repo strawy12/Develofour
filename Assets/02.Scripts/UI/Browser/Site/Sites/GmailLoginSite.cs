@@ -36,7 +36,6 @@ public class GmailLoginSite : Site
         passwordField.onDeselect.AddListener((a) => SelectInputField(false));
 
         passwordToggle.onValueChanged.AddListener(ShowPassword);
-
         EventManager.StartListening(ELoginSiteEvent.RequestSite, RequestSite);
     }
 
