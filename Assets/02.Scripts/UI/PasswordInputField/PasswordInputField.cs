@@ -13,7 +13,7 @@ public class PasswordInputField : MonoBehaviour
     public SelectionEvent onDeselect => passwordField.onDeselect;
     public OnChangeEvent onValueChanged => passwordField.onValueChanged;
 
-    public Action OnSuccessLogin;
+    public Action OnSuccessLogin; 
     public Action OnFailLogin;
 
     [SerializeField]

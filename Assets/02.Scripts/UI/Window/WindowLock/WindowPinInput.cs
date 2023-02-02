@@ -62,7 +62,7 @@ public class WindowPinInput : MonoUI
         
         EventManager.StartListening(EWindowEvent.OpenWindowPin, PinOpen);
     }
-
+    
     private void PinOpen(object[] ps)
     {
         if (ps == null || ps.Length == 0 || !(ps[0] is FileSO))
@@ -77,6 +77,8 @@ public class WindowPinInput : MonoUI
         pinGuideText.SetText(currentFile.windowPinHintGuide);
 
         Input.imeCompositionMode = IMECompositionMode.On;
+
+        InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
     }
 
     private void CheckPinPassword()
@@ -115,7 +117,6 @@ public class WindowPinInput : MonoUI
 
     private void PinAnswerTextChange()
     {
-        Debug.Log("체인지");
         answerMarkText.color = answerTextColor;
 
         answerMarkText.SetText("정답입니다.");
@@ -157,6 +158,8 @@ public class WindowPinInput : MonoUI
 
         Input.imeCompositionMode = IMECompositionMode.Off;
 
+        InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
+        
         SetActive(false);
     }
 

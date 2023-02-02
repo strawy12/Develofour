@@ -46,6 +46,7 @@ public class FacebookLoginSite : Site
 
         facebookIDInputField.onSubmit.AddListener(delegate { LoginFacebook(); });
         passwordField.InputField.onSubmit.AddListener(delegate { LoginFacebook(); });
+
         InputManager.Inst.AddKeyInput(KeyCode.Tab, onKeyDown: InputTap);
     }
 
@@ -70,7 +71,9 @@ public class FacebookLoginSite : Site
     {
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
         EventManager.TriggerEvent(ELoginSiteEvent.FacebookLoignSuccess);
+
         InputManager.Inst.RemoveKeyInput(KeyCode.Tab, onKeyDown: InputTap);
+
         if (requestSite == ESiteLink.None)
         {
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
