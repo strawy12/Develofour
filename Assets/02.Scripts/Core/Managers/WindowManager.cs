@@ -25,6 +25,10 @@ public class WindowManager : MonoSingleton<WindowManager>
     [SerializeField]
     private List<WindowPrefabElement> windowPrefabList = new List<WindowPrefabElement>();
 
+    [SerializeField]
+    private float favoriteSiteChangeDelay = 1;
+    private bool isChanging;
+
     private void Awake()
     {
         InitDictionary();
@@ -36,10 +40,18 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     private void InitDictionary()
     {
+
         for (EWindowType type = EWindowType.None + 1; type < EWindowType.End; type++)
         {
             windowDictionary.Add(type, new List<Window>());
         }
+    }
+
+    private IEnumerator SetDelay()
+    {
+        isChanging = true;
+        yield return new WaitForSeconds(favoriteSiteChangeDelay);
+        isChanging = false;
     }
 
     // ps[0] = SiteLink
@@ -47,6 +59,13 @@ public class WindowManager : MonoSingleton<WindowManager>
     // ps[2] = Undo Flag
     public void CheckBrowserWindow(object[] ps)
     {
+        if (isChanging)
+        {
+            return;
+        }
+
+        StartCoroutine(SetDelay());
+
         if (!windowDictionary.ContainsKey(EWindowType.Browser))
         {
             Debug.LogError("Browser Type이 Dictionary에 들어가있지않습니다");
@@ -141,7 +160,7 @@ public class WindowManager : MonoSingleton<WindowManager>
         selectedObject?.OnUnSelected?.Invoke();
         selectedObject = target;
 
-        if(target is Window)
+        if (target is Window)
         {
             SetWindowOrder(target as Window);
         }
@@ -163,7 +182,7 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         int order = windowOrderList.Count;
 
-        foreach(Window window in windowOrderList)
+        foreach (Window window in windowOrderList)
         {
             window.SortingOrder = order--;
         }
