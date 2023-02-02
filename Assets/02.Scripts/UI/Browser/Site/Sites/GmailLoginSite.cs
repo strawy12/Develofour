@@ -36,7 +36,15 @@ public class GmailLoginSite : Site
         passwordField.onDeselect.AddListener((a) => SelectInputField(false));
 
         passwordToggle.onValueChanged.AddListener(ShowPassword);
+
         EventManager.StartListening(ELoginSiteEvent.RequestSite, RequestSite);
+
+        InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: GmailLoginButtonClick);
+    }
+
+    private void GmailLoginButtonClick()
+    {
+        gmailLoginButton.onClick?.Invoke();
     }
 
     private void ShowPassword(bool isShow)
@@ -45,7 +53,6 @@ public class GmailLoginSite : Site
  
         passwordField.InputField.contentType = isShow ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
         passwordField.InputField.ForceLabelUpdate();
-
     }
 
     private void SelectInputField(bool isSelected)
@@ -93,7 +100,10 @@ public class GmailLoginSite : Site
                 EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY , false});
                 requestSite = ESiteLink.None;
             }
+
             EventManager.TriggerEvent(EBrowserEvent.OnUndoSite);
+
+            InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: GmailLoginButtonClick);
         }
         else
         {
