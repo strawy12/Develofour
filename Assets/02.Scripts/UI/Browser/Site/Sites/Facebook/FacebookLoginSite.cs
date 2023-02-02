@@ -24,9 +24,11 @@ public class FacebookLoginSite : Site
     private ESiteLink requestSite;
 
     private int failedIDcnt = 0;
+
     public override void Init()
     {
         base.Init();
+        passwordField.InputField.asteriskChar = '¡¤';
         passwordField.SetPassword(password);
 
         failedIDcnt = 0;

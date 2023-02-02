@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -25,6 +25,7 @@ public class GmailLoginSite : Site
     public override void Init()
     {
         base.Init();
+        passwordField.InputField.asteriskChar = 'Â·';
         passwordField.SetPassword(password);
 
         gmailLoginButton.onClick?.AddListener(passwordField.TryLogin);
@@ -108,7 +109,7 @@ public class GmailLoginSite : Site
         else
         {
             Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
-            textMove.FaliedInput("´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä");
+            textMove.FaliedInput("ë‹¤ì‹œ ìž…ë ¥í•˜ì„¸ìš”");
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
             requestSite = ESiteLink.None;
         }
@@ -117,7 +118,7 @@ public class GmailLoginSite : Site
     private void FailLogin()
     {
         Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
-        textMove.FaliedInput("Æ²¸° ºñ¹Ð¹øÈ£ÀÔ´Ï´Ù");
+        textMove.FaliedInput("í‹€ë¦° ë¹„ë°€ë²ˆí˜¸ìž…ë‹ˆë‹¤");
     }
 
 }
