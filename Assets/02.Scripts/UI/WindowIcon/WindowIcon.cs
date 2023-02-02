@@ -58,11 +58,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void SetFileData(FileSO newFileData)
     {
+        if(newFileData == null)
+        {
+            return;
+        }
         fileData = newFileData;
         iconNameText.text = fileData.windowName;
         iconImage.sprite = newFileData.iconSprite;
-
-
     }
 
     public void OnPointerClick(PointerEventData eventData)

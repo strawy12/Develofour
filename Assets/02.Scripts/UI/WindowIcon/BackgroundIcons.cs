@@ -32,7 +32,6 @@ public class BackgroundIcons : MonoBehaviour
     private void RefreshIcons(object[] ep)
     {
         var newList = backgroundDirectory.children.Except(iconList.Select(x => x.File).ToList()).ToList();
-
         foreach (var file in newList)
         {
             CreateIcon(file);
@@ -41,6 +40,10 @@ public class BackgroundIcons : MonoBehaviour
 
     private void CreateIcon(FileSO file)
     {
+        if(file == null)
+        {
+            return;
+        }
         BackgroundIcon icon = Instantiate(iconPrefab, transform);
         icon.Init(true);
         icon.SetFileData(file);
