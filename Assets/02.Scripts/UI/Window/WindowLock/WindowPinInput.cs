@@ -54,9 +54,7 @@ public class WindowPinInput : MonoUI
         isHideFinSeeStay = false;
 
         pinInputField.asteriskChar = '¡Ü';
-        pinInputField.contentType = TMP_InputField.ContentType.Pin;
-
-        pinInputField.onValueChanged.AddListener((a) => Input.imeCompositionMode = IMECompositionMode.Off);
+        pinInputField.contentType = TMP_InputField.ContentType.Password;
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);
@@ -77,6 +75,8 @@ public class WindowPinInput : MonoUI
 
         currentFile = (FileSO)ps[0];
         pinGuideText.SetText(currentFile.windowPinHintGuide);
+
+        Input.imeCompositionMode = IMECompositionMode.On;
     }
 
     private void CheckPinPassword()
@@ -101,12 +101,12 @@ public class WindowPinInput : MonoUI
     {
         if(!isHideFinSeeStay)
         {
-            pinInputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+            pinInputField.contentType = TMP_InputField.ContentType.Standard;
             isHideFinSeeStay = true;
         }
         else if(isHideFinSeeStay)
         {
-            pinInputField.contentType = TMP_InputField.ContentType.Pin;
+            pinInputField.contentType = TMP_InputField.ContentType.Password;
             isHideFinSeeStay = false;
         }
 
@@ -153,7 +153,9 @@ public class WindowPinInput : MonoUI
     private void CloseWindowPinLock()
     {
         pinInputField.text = "";
-        pinInputField.contentType = TMP_InputField.ContentType.Pin;
+        pinInputField.contentType = TMP_InputField.ContentType.Password;
+
+        Input.imeCompositionMode = IMECompositionMode.Off;
 
         SetActive(false);
     }
