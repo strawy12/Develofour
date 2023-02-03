@@ -99,10 +99,6 @@ public class Library : Window
     }
     #endregion
     private bool isSetLibrary = false;
-    private void Awake()
-    {
-        ALLFileAddList();
-    }
 
     protected override void Init()
     {
@@ -110,6 +106,7 @@ public class Library : Window
         currentDirectory = file as DirectorySO;
         undoStack = new Stack<DirectorySO>();
         redoStack = new Stack<DirectorySO>();
+        ALLFileAddList();
 
         fileAddressPanel.Init();
         SetHighlightImage();
@@ -119,6 +116,7 @@ public class Library : Window
         EventManager.StartListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
+        searchInputField.onSubmit.AddListener(delegate { SearchFile(); });
         searchBtn.onClick.AddListener(SearchFile);
         undoBtn.onClick.AddListener(UndoFile);
         redoBtn.onClick.AddListener(RedoFile);
@@ -140,11 +138,13 @@ public class Library : Window
             WindowIcon icon = Pop();
             icon.SetFileData(file);
         }
+        ALLFileAddList();
         isSetLibrary = false;
     }
 
     private void ALLFileAddList()
     {
+        fileList.Clear();
         Queue<DirectorySO> directories = new Queue<DirectorySO>();
         directories.Enqueue(currentDirectory);
         int i = 0;
@@ -190,7 +190,7 @@ public class Library : Window
             {
                 continue;
             }
-            if (file.windowName.Contains(searchInputField.text))
+            if (file.windowName.Contains(searchInputField.text, StringComparison.OrdinalIgnoreCase))
             {
                 foundFileList.Add(file);
             }
