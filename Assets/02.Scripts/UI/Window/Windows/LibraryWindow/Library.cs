@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -32,7 +33,10 @@ public class Library : Window
     #endregion
     [SerializeField]
     private FileAddressPanel fileAddressPanel;
-
+    [SerializeField]
+    private TMP_InputField searchInputField;
+    [SerializeField]
+    private Button searchBtn;
     #region UI
     [SerializeField]
     private Button undoBtn;
@@ -44,13 +48,16 @@ public class Library : Window
     private TextMeshProUGUI redoText;
     #endregion
     private WindowIcon selectIcon;
+
+    private List<FileSO> fileList = new List<FileSO>();
+    private List<FileSO> foundFileList = new List<FileSO>();
     #region pooling
     private void CreatePool()
     {
         for (int i = 0; i < 50; i++)
         {
             WindowIcon icon = Instantiate(iconPrefab, poolParent);
-            
+
             icon.Bind();
             icon.Init();
 
@@ -91,7 +98,11 @@ public class Library : Window
         return icon;
     }
     #endregion
-
+    private bool isSetLibrary = false;
+    private void Awake()
+    {
+        ALLFileAddList();
+    }
 
     protected override void Init()
     {
@@ -107,6 +118,8 @@ public class Library : Window
         EventManager.StartListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StartListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
+        searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
+        searchBtn.onClick.AddListener(SearchFile);
         undoBtn.onClick.AddListener(UndoFile);
         redoBtn.onClick.AddListener(RedoFile);
     }
@@ -116,6 +129,7 @@ public class Library : Window
         windowBar.SetNameText(currentDirectory.windowName);
         fileAddressPanel.SetButtons(currentDirectory);
         CreateChildren();
+        searchInputField.text = "";
     }
 
     private void CreateChildren()
@@ -126,6 +140,74 @@ public class Library : Window
             WindowIcon icon = Pop();
             icon.SetFileData(file);
         }
+        isSetLibrary = false;
+    }
+
+    private void ALLFileAddList()
+    {
+        Queue<DirectorySO> directories = new Queue<DirectorySO>();
+        directories.Enqueue(currentDirectory);
+        int i = 0;
+        while (directories.Count != 0)
+        {
+            DirectorySO directory = directories.Dequeue();
+            i++;
+            if (i > 10000)
+            {
+                Debug.LogWarning("while문이 계속해서 실행중입니다.");
+                break;
+            }
+            foreach (FileSO file in directory.children)
+            {
+                fileList.Add(file);
+                if (file is DirectorySO)
+                {
+                    directories.Enqueue(file as DirectorySO);
+                }
+            }
+        }
+    }
+    private void CheckSearchInputTextLength(string text)
+    {
+        if (isSetLibrary) return;
+
+        if (text.Length == 0)
+        {
+            SetLibrary();
+        }
+    }
+    private void SearchFile()
+    {
+        foundFileList.Clear();
+        if (searchInputField.text.Length < 2)
+        {
+            return;
+        }
+
+        foreach (FileSO file in fileList)
+        {
+            if (file == null)
+            {
+                continue;
+            }
+            if (file.windowName.Contains(searchInputField.text))
+            {
+                foundFileList.Add(file);
+            }
+        }
+
+        ShowFoundFile();
+    }
+
+    private void ShowFoundFile()
+    {
+        PushAll();
+        foreach (FileSO file in foundFileList)
+        {
+            WindowIcon icon = Pop();
+            icon.SetFileData(file);
+        }
+        fileAddressPanel.SetEmptyBtn();
     }
 
 
@@ -151,7 +233,7 @@ public class Library : Window
 
     private void OnClickIcon(object[] ps)
     {
-        if(redoStack.Count != 0)
+        if (redoStack.Count != 0)
         {
             redoStack.Pop();
         }
@@ -163,7 +245,7 @@ public class Library : Window
     private void OnFileOpen(object[] ps)
     {
         if (ps[0] is DirectorySO)
-        {   
+        {
             SetHighlightImage();
             currentDirectory = ps[0] as DirectorySO;
             SetLibrary();
@@ -201,6 +283,7 @@ public class Library : Window
         selectIcon?.SelectedIcon(false);
         selectIcon = null;
     }
+
     private void OnDisable()
     {
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
