@@ -28,7 +28,7 @@ public class FacebookLoginSite : Site
     public override void Init()
     {
         base.Init();
-        passwordField.InputField.asteriskChar = '¡¤';
+        passwordField.InputField.asteriskChar = 'Â·';
         passwordField.SetPassword(password);
 
         failedIDcnt = 0;
