@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class WindowPinInput : MonoUI
 {
     private bool isShaking = false;
-    private bool isHideFinSeeStay;
 
     [SerializeField]
     private TMP_Text pinGuideText;
@@ -22,8 +21,6 @@ public class WindowPinInput : MonoUI
     private Button confirmButton;
     [SerializeField]
     private Button closeButton;
-    [SerializeField]
-    private Button hidePinSeeButton;
 
     [SerializeField]
     private Image answerPanel;
@@ -51,14 +48,8 @@ public class WindowPinInput : MonoUI
 
     private void Init()
     {
-        isHideFinSeeStay = false;
-
-        pinInputField.asteriskChar = '¡Ü';
-        pinInputField.contentType = TMP_InputField.ContentType.Password;
-
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);
-        hidePinSeeButton.onClick?.AddListener(HidePinMarkSee);
         
         EventManager.StartListening(EWindowEvent.OpenWindowPin, PinOpen);
     }
@@ -99,22 +90,6 @@ public class WindowPinInput : MonoUI
             pinInputField.text = "";
     }
 
-    private void HidePinMarkSee() 
-    {
-        if(!isHideFinSeeStay)
-        {
-            pinInputField.contentType = TMP_InputField.ContentType.Standard;
-            isHideFinSeeStay = true;
-        }
-        else if(isHideFinSeeStay)
-        {
-            pinInputField.contentType = TMP_InputField.ContentType.Password;
-            isHideFinSeeStay = false;
-        }
-
-        pinInputField.ForceLabelUpdate();
-    }
-
     private void PinAnswerTextChange()
     {
         answerMarkText.color = answerTextColor;
@@ -130,7 +105,6 @@ public class WindowPinInput : MonoUI
             WindowManager.Inst.WindowOpen(currentFile.windowType, currentFile);
 
             CloseWindowPinLock();
-
         });
     }
 
@@ -154,7 +128,6 @@ public class WindowPinInput : MonoUI
     private void CloseWindowPinLock()
     {
         pinInputField.text = "";
-        pinInputField.contentType = TMP_InputField.ContentType.Password;
 
         Input.imeCompositionMode = IMECompositionMode.Off;
 
