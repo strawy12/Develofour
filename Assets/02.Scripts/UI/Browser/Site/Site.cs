@@ -63,7 +63,7 @@ public abstract class Site : MonoUI
     {
         if(!CheckGoogleLogin())
         {
-            if (gameObject.GetComponent<GmailLoginSite>() == null && gameObject.GetComponent<HomeSite>() == null) //로그인 사이트가 아니라면 혹은 홈 사이트가 아니라면
+            if (siteLink != ESiteLink.GoogleLogin && siteLink != ESiteLink.Home) //로그인 사이트가 아니라면 혹은 홈 사이트가 아니라면
             {
                 EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY, false });
                 return;

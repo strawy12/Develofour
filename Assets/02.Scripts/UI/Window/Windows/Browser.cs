@@ -39,10 +39,11 @@ public class Browser : Window
 
     private bool isLoading = false;
 
+    private Coroutine loadingCoroutine;
+
     protected override void Init()
     {
         base.Init();
-
         undoSite = new Stack<Site>();
         redoSite = new Stack<Site>();
         siteDictionary = new Dictionary<ESiteLink, Site>();
@@ -95,6 +96,12 @@ public class Browser : Window
             return null;
         }
 
+        if (loadingCoroutine != null)
+        {
+            StopCoroutine(loadingCoroutine);
+            loadingBar.StopLoading();
+        }
+
         foreach (Site usedSite in siteDictionary.Values)
         {
             if (usingSite != usedSite)
@@ -107,8 +114,7 @@ public class Browser : Window
         Site beforeSite = usingSite;
         usingSite?.OnUnused?.Invoke();
 
-
-        StartCoroutine(LoadingSite(loadDelay, () =>
+        loadingCoroutine = StartCoroutine(LoadingSite(loadDelay, () =>
         {
             if (addUndo && usingSite != null)
             {
@@ -120,20 +126,21 @@ public class Browser : Window
             browserBar.ChangeSiteData(site.SiteData); // 로딩이 다 되고 나서 바뀌게 해놈
         }));
 
-
         return beforeSite;
     }
 
     private IEnumerator LoadingSite(float loadDelay, Action Callback)
     {
+        isLoading = true;
         if (loadDelay != 0)
         {
             loadingBar.StartLoading(loadDelay);
             yield return new WaitForSeconds(loadDelay);
         }
-
-        Callback?.Invoke();
         loadingBar.StopLoading();
+        Callback?.Invoke();   
+        isLoading = false;
+        loadingCoroutine = null;
     }
 
     public void UndoSite(object[] emptyParam) => UndoSite();

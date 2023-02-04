@@ -263,20 +263,6 @@ public class EmailSite : Site
 
         base.ShowSite();
     }
-
-    private bool CheckGoogleLogin()
-    {
-        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
-        {
-            EventManager.TriggerEvent(ELoginSiteEvent.RequestSite, new object[] { ESiteLink.Email });
-            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY , false});
-            
-            return false;
-        }
-
-        return true;
-    }
-
     protected override void HideSite()
     {
         base.HideSite();
