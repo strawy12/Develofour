@@ -10,6 +10,8 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 {
     public float imageScale = 1f;
 
+    public float maxImageScale = 4f;
+
     public float zoomSpeed = 0.1f;
 
     [SerializeField]
@@ -63,6 +65,11 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         Vector3 enlarScale = image.transform.localScale + delta;
 
         if (enlarScale.x <= imageScale)
+        {
+            return;
+        }
+
+        if (enlarScale.x >= maxImageScale)
         {
             return;
         }
