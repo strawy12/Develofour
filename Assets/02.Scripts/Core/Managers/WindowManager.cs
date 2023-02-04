@@ -59,12 +59,6 @@ public class WindowManager : MonoSingleton<WindowManager>
     // ps[2] = Undo Flag
     public void CheckBrowserWindow(object[] ps)
     {
-        if (isChanging)
-        {
-            return;
-        }
-
-        StartCoroutine(SetDelay());
 
         if (!windowDictionary.ContainsKey(EWindowType.Browser))
         {
