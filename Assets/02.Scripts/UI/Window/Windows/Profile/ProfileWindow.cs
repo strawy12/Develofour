@@ -4,7 +4,5 @@ using UnityEngine;
 
 public class ProfileWindow : Window
 {
-    [SerializeField]
-    private ProfilePanel profilePanel;
 
 }
