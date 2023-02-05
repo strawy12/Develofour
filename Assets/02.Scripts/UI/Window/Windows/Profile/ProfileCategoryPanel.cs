@@ -11,6 +11,13 @@ public class ProfileCategoryPanel : MonoBehaviour
 
     public EProfileCategory profileCategory;
 
-    [SerializeField]
     private ProfileInfoPanel infoPanel; 
+
+    //info패널을 들고있음
+
+    public void ChangeValue(string key)
+    {
+        infoPanel.Setting(key);
+    }
+
 }
