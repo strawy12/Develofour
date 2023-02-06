@@ -6,6 +6,10 @@ public class ProfileInfoCategory : MonoBehaviour
 {
     public enum EOwnerProfile
     {
-        
+        None = -1,
+        OwnerName,
+        OwnerEmail,
+        OwnerUniversity,
+
     }
 }

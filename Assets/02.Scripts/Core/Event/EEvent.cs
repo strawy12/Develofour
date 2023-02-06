@@ -119,8 +119,12 @@ public enum EAiChatData
     None = -1,
     FirstAiChat,
     LastAiChat,
-
-    //디버그용
     Email,
     Password,
+}
+public enum EProfileEvent
+{
+    None = -1,
+    FindInfoText,
+
 }
