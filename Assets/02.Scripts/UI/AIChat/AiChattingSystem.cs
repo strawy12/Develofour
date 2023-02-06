@@ -58,12 +58,8 @@ public class AiChattingSystem : MonoBehaviour
             return;
         }
 
-        if (string.IsNullOrEmpty(data.Head) || string.IsNullOrEmpty(data.Body))
-        {
-            Debug.LogError("Head나 Body 의 데이터가 없습니다");
-            return;
-        }
-
+        // 이거 주석 지우고 UI에 넣어주면 됨
+        /* 
         var noticeList = noticePanelQueue.Where((x) => x.HeadText == data.Head);
         if (noticeList.Count() >= 1)
         {
@@ -71,7 +67,6 @@ public class AiChattingSystem : MonoBehaviour
             return;
         }
         StartCoroutine(NoticeCoroutine(data, delay));
+        */
     }
-
-
 }
