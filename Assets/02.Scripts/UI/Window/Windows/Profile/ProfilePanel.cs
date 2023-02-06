@@ -107,5 +107,8 @@ public class ProfilePanel : MonoBehaviour
             categoryPanel.ChangeValue(ps[1] as string);
         }
     }
-
+    public void HideCategoryParentPanel()
+    {
+        categoryPanelParent.gameObject.SetActive(false);
+    }
 }
