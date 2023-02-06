@@ -29,19 +29,13 @@ public class AiChattingSystem : MonoBehaviour
 
     }
 
-    private void AiChattingUpdate(EAiChatData aiChatData, float delay)
-    {
-
-    }
-
-
     public TextDataSO GetTextData(EAiChatData aiChatDataType)
     {
         TextDataSO aiTextData = null;
 
         try
         {
-            aiTextData = Resources.Load<TextDataSO>($"TextData/TextData_{aiChatDataType.ToString()}");
+            aiTextData = Resources.Load<TextDataSO>($"TextData/TextData_{aiChatDataType}");
         }
         catch (System.NullReferenceException e)
         {
@@ -54,4 +48,30 @@ public class AiChattingSystem : MonoBehaviour
         
         return aiTextData;
     }
+    
+    private void AiChattingUpdate(EAiChatData aiChatDataType, float delay)
+    {
+        TextDataSO data = GetTextData(aiChatDataType);
+        if (data == null)
+        {
+            Debug.LogError("얻어온 text의 데이터가 없습니다");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(data.Head) || string.IsNullOrEmpty(data.Body))
+        {
+            Debug.LogError("Head나 Body 의 데이터가 없습니다");
+            return;
+        }
+
+        var noticeList = noticePanelQueue.Where((x) => x.HeadText == data.Head);
+        if (noticeList.Count() >= 1)
+        {
+            Debug.Log("이미 있는 알람임");
+            return;
+        }
+        StartCoroutine(NoticeCoroutine(data, delay));
+    }
+
+
 }
