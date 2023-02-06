@@ -113,3 +113,10 @@ public enum EDiscordEvent
     ShowImagePanel,
     StartTalk,
 }
+
+public enum EProfileEvent
+{
+    None = -1,
+    FindInfoText,
+
+}
