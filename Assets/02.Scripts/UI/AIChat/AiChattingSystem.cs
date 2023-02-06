@@ -30,7 +30,7 @@ public class AiChattingSystem : MonoBehaviour
         {
             Debug.LogError("ÃªÆÐ³Î ³Ö¾îÁà¾ßÇÔ");
         }
-        OnGeneratedChat += profileChatPanel.AddText;
+        //OnGeneratedChat += profileChatPanel.AddText;
 
     }
 

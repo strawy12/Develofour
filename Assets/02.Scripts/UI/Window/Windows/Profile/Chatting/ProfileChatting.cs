@@ -65,7 +65,8 @@ public class ProfileChatting : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            AiChattingSystem.OnGeneratedChat(EAiChatData.Email);
+            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAiChatData.Email });
+
         }
     }
 
@@ -77,8 +78,17 @@ public class ProfileChatting : MonoBehaviour
         }
     }
 
-    public void AddText(EAiChatData data)
-    {
+    //public void AddText(EAiChatData data)
+    public void AddText(object[] ps)
+    { 
+        if(!(ps[0] is EAiChatData))
+        {
+            Debug.Log("다른타입");
+            return;
+        }
+
+        EAiChatData data = (EAiChatData)ps[0];
+
         if(!chatDataDictionary.ContainsKey(data))
         {
             Debug.Log("해당 ENUM에 대한 키값이 존재하지 않음");
@@ -111,6 +121,9 @@ public class ProfileChatting : MonoBehaviour
     public void Init()
     {
         //스크롤뷰 가장 밑으로 내리기;
+        EventManager.StartListening(EProfileEvent.SendMessage, AddText);
+
+        
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
         DictionaryToList();

@@ -126,5 +126,5 @@ public enum EProfileEvent
 {
     None = -1,
     FindInfoText,
-
+    SendMessage,
 }
