@@ -6,7 +6,10 @@ public class ClickText : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     private EDecisionEvent decisionEvent;
-
+    [SerializeField]
+    private List<EProfileCategory> categories = new List<EProfileCategory>();
+    [SerializeField]
+    private string infoName;
     private bool isComplete = false;
 
     public void OnPointerClick(PointerEventData eventData)
@@ -16,6 +19,10 @@ public class ClickText : MonoBehaviour, IPointerClickHandler
             Debug.Log("Click");
             isComplete = true;
             EventManager.TriggerEvent(decisionEvent);
+            foreach (var category in categories)
+            {
+                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { category, infoName });
+            }
         }
     }
 }
