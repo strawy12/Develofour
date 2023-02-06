@@ -51,19 +51,23 @@ public class ProfileChatting : MonoBehaviour
     [SerializeField]
     private ContentSizeFitter contentSizeFitter;
 
+    [SerializeField]
+    private ProfileChattingSaveSO saveData;
+
     void Start()
     {
         Debug.Log("디버그용 스타트");
         Init();
     }
 
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            AddText(EProfileChatting.Password);
-        }
-    }
+    //디버그용 
+    //void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.P))
+    //    {
+    //        AddText(EProfileChatting.Password);
+    //    }
+    //}
 
     public void DictionaryToList()
     {
@@ -79,6 +83,18 @@ public class ProfileChatting : MonoBehaviour
         {
             Debug.Log("해당 ENUM에 대한 키값이 존재하지 않음");
         }
+        
+        foreach(var save in saveData.saveList)
+        {
+            if(save == data)
+            {
+                Debug.Log("동일한 데이터");
+                return;
+            }
+        }
+
+        saveData.saveList.Add(data);
+
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
         obj.gameObject.SetActive(true);
@@ -98,7 +114,29 @@ public class ProfileChatting : MonoBehaviour
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
         DictionaryToList();
+        GetSaveSetting();
         SetScrollView();
+    }
+
+    public void GetSaveSetting()
+    {
+        foreach(var save in saveData.saveList)
+        {
+            AddSaveText(save);
+        }
+        SetScrollView();
+    }
+
+    public void AddSaveText(EProfileChatting data)
+    {
+        if (!chatDataDictionary.ContainsKey(data))
+        {
+            Debug.Log("해당 ENUM에 대한 키값이 존재하지 않음");
+        }
+
+        GameObject obj = Instantiate(textPrefab, textParent);
+        obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
+        obj.gameObject.SetActive(true);
     }
     
     public void ShowPanel()
@@ -127,5 +165,11 @@ public class ProfileChatting : MonoBehaviour
             showImage.SetActive(true);
             isMoving = false;
         });
+    }
+
+    public void OnApplicationQuit()
+    {
+        Debug.Log("디버그 용으로 Profile의 ChatDataSaveSO의 값을 매번 초기화 시키고 있습니다.");
+        saveData.saveList.Clear();
     }
 }
