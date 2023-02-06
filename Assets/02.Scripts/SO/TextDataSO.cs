@@ -8,7 +8,7 @@ public enum ETextDataType
 }
 
 [System.Serializable]
-public class TextData
+public class TextData 
 {
     public string name;
     public Color color;

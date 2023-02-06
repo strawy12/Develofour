@@ -113,3 +113,11 @@ public enum EDiscordEvent
     ShowImagePanel,
     StartTalk,
 }
+
+public enum EAiChatData
+{
+    None = -1,
+    FirstAiChat,
+    LastAiChat,
+
+}
