@@ -1,15 +1,29 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
+using TMPro;
+
+public enum EProfileChatting
+{
+    Email,
+    Password,
+}
+
+[Serializable]
+public struct ChatData
+{
+    public EProfileChatting eChat;
+    public string script;
+};
 
 public class ProfileChatting : MonoBehaviour
 {
-    [Header("¿òÁ÷ÀÓ °ü·Ã")]
+    [Header("ì›€ì§ì„ ê´€ë ¨")]
     [SerializeField]
     private Button OpenCloseButton;
-
     [SerializeField]
     private GameObject showImage;
     [SerializeField]
@@ -21,28 +35,77 @@ public class ProfileChatting : MonoBehaviour
     [SerializeField]
     private float moveDuration;
     private bool isMoving;
-    private bool isHide;
+    private RectTransform movePanelRect;
 
-    private RectTransform rect;
+    [Header("ì±„íŒ…ê´€ë ¨")]
+    [SerializeField]
+    private List<ChatData> chatDataList;
+    private Dictionary<EProfileChatting, string> chatDataDictionary = new Dictionary<EProfileChatting, string>();
+
+    [SerializeField]
+    private GameObject textPrefab;
+    [SerializeField]
+    private Transform textParent;
+    [SerializeField]
+    private ScrollRect scroll;
+    [SerializeField]
+    private ContentSizeFitter contentSizeFitter;
 
     void Start()
     {
-        Debug.Log("µğ¹ö±×¿ë ½ºÅ¸Æ®");
+        Debug.Log("ë””ë²„ê·¸ìš© ìŠ¤íƒ€íŠ¸");
         Init();
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            AddText(EProfileChatting.Password);
+        }
+    }
+
+    public void DictionaryToList()
+    {
+        foreach(var data in chatDataList)
+        {
+            chatDataDictionary.Add(data.eChat, data.script);
+        }
+    }
+
+    public void AddText(EProfileChatting data)
+    {
+        if(!chatDataDictionary.ContainsKey(data))
+        {
+            Debug.Log("í•´ë‹¹ ENUMì— ëŒ€í•œ í‚¤ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ");
+        }
+        GameObject obj = Instantiate(textPrefab, textParent);
+        obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
+        obj.gameObject.SetActive(true);
+        SetScrollView();
+    }
+
+    //ìœˆë„ìš°ë¥¼ ì˜¤í”ˆí• ë•Œë§ˆë‹¤ ì‹¤í–‰í•´ì¤˜ì•¼í•¨
+    private void SetScrollView()
+    {
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
+        scroll.verticalNormalizedPosition = 0;
     }
 
     public void Init()
     {
-        //½ºÅ©·Ñºä °¡Àå ¹ØÀ¸·Î ³»¸®±â;
+        //ìŠ¤í¬ë¡¤ë·° ê°€ì¥ ë°‘ìœ¼ë¡œ ë‚´ë¦¬ê¸°;
         OpenCloseButton.onClick.AddListener(HidePanel);
-        rect = GetComponent<RectTransform>();
+        movePanelRect = GetComponent<RectTransform>();
+        DictionaryToList();
+        SetScrollView();
     }
     
     public void ShowPanel()
     {
         if (isMoving) return;
         isMoving = true;
-        rect.DOAnchorPosX(showValue, moveDuration).SetEase(Ease.Linear).OnComplete(() =>
+        movePanelRect.DOAnchorPosX(showValue, moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
             OpenCloseButton.onClick.RemoveAllListeners();
             OpenCloseButton.onClick.AddListener(HidePanel);
@@ -56,7 +119,7 @@ public class ProfileChatting : MonoBehaviour
     {
         if (isMoving) return;
         isMoving = true;
-        rect.DOAnchorPosX(hideValue, moveDuration).SetEase(Ease.Linear).OnComplete(() =>
+        movePanelRect.DOAnchorPosX(hideValue, moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
             OpenCloseButton.onClick.RemoveAllListeners();
             OpenCloseButton.onClick.AddListener(ShowPanel);

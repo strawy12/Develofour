@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 1751316755991580906}
   - component: {fileID: 6149179120041435589}
   - component: {fileID: 108400668864649999}
-  - component: {fileID: 7352150701695098001}
+  - component: {fileID: 1057146454657339365}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7352150701695098001
+--- !u!114 &1057146454657339365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,24 +299,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 575084577021973217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 3dd5c9747bbffaf44b8930385255ce1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 2622755449340382809}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
-  m_Inertia: 1
+  m_Inertia: 0
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1127695394106867149}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 8267603657575727963}
-  m_HorizontalScrollbarVisibility: 2
+  m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 2
-  m_HorizontalScrollbarSpacing: -3
-  m_VerticalScrollbarSpacing: -3
+  m_HorizontalScrollbarSpacing: 0
+  m_VerticalScrollbarSpacing: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2857,7 +2857,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000018887968}
+  m_AnchoredPosition: {x: 0, y: -0.000011444092}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3861481731877312488
@@ -3397,6 +3397,16 @@ MonoBehaviour:
   hideValue: 330
   showValue: 0
   moveDuration: 0.6
+  chatDataList:
+  - eChat: 0
+    script: "Email \uAD00\uB828 \uB300\uD654 \uB300\uD654 \uB300\uD654 \uB300\uD654
+      \uB300\uD654"
+  - eChat: 1
+    script: "Password \u3141\u3134\u3147\u3139\u3141\u3134\u3147\u3139\u3141\u3134\u3147\u3139\u3141\u3134\u3147\u3139\u3141\u3134\u3147\u3139\u3141\u3134\u3147\u3139\u3141\u3134\u3147\u3139\u3141\u3134\u3147\u3139\u3141\u3134\u3147\u3139\u3141\u3134\u3147\u3139\u3141\u3134\u3147\u3139"
+  textPrefab: {fileID: 7960924418570385611}
+  textParent: {fileID: 2622755449340382809}
+  scroll: {fileID: 1057146454657339365}
+  contentSizeFitter: {fileID: 856095732459076223}
 --- !u!1 &8686025214607120693
 GameObject:
   m_ObjectHideFlags: 0
@@ -3544,7 +3554,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1679286669200092870, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1679286669200092870, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
       propertyPath: m_AnchorMin.x
@@ -3552,7 +3562,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1679286669200092870, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1679286669200092870, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3560,7 +3570,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1679286669200092870, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 95.07
       objectReference: {fileID: 0}
     - target: {fileID: 1679286669200092870, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3596,7 +3606,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1679286669200092870, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -77.535
       objectReference: {fileID: 0}
     - target: {fileID: 1679286669200092870, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3614,10 +3624,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChattingText
       objectReference: {fileID: 0}
+    - target: {fileID: 9072555769397862126, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
 --- !u!224 &350389785250482403 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1679286669200092870, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
+  m_PrefabInstance: {fileID: 1410422674680686117}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7960924418570385611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9072555769397862126, guid: 0bedf6d6bab0d06478f78b577a7db9a5, type: 3}
   m_PrefabInstance: {fileID: 1410422674680686117}
   m_PrefabAsset: {fileID: 0}
