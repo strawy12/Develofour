@@ -5,6 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="SO/Profile/Chat/Save")]
 public class ProfileChattingSaveSO : ScriptableObject
 {
+    [Header("기록용")]
     [SerializeField]
-    public List<EProfileChatting> saveList;
+    public List<ChatData> chatDataList;
+
+    [Header("저장용")]
+    [SerializeField]
+    public List<EAiChatData> saveList;
 }

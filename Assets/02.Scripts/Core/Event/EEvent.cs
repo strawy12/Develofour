@@ -120,4 +120,7 @@ public enum EAiChatData
     FirstAiChat,
     LastAiChat,
 
+    //디버그용
+    Email,
+    Password,
 }

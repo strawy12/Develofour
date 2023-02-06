@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AiChattingSystem : MonoBehaviour
 {
-    public static Action<EAiChatData, float> OnGeneratedNotice;
+    public static Action<EAiChatData> OnGeneratedChat;
+
+    [SerializeField]
+    private ProfileChatting profileChatPanel;
 
     private void Awake()
     {
@@ -25,7 +26,11 @@ public class AiChattingSystem : MonoBehaviour
 
     private void Init()
     {
-        OnGeneratedNotice += AiChattingUpdate;
+        if(profileChatPanel == null)
+        {
+            Debug.LogError("챗패널 넣어줘야함");
+        }
+        OnGeneratedChat += profileChatPanel.AddText;
 
     }
 
@@ -49,24 +54,24 @@ public class AiChattingSystem : MonoBehaviour
         return aiTextData;
     }
     
-    private void AiChattingUpdate(EAiChatData aiChatDataType, float delay)
-    {
-        TextDataSO data = GetTextData(aiChatDataType);
-        if (data == null)
-        {
-            Debug.LogError("얻어온 text의 데이터가 없습니다");
-            return;
-        }
+    //private void AiChattingUpdate(EAiChatData aiChatDataType)
+    //{
+    //    TextDataSO data = GetTextData(aiChatDataType);
+    //    if (data == null)
+    //    {
+    //        Debug.LogError("얻어온 text의 데이터가 없습니다");
+    //        return;
+    //    }
 
-        // 이거 주석 지우고 UI에 넣어주면 됨
-        /* 
-        var noticeList = noticePanelQueue.Where((x) => x.HeadText == data.Head);
-        if (noticeList.Count() >= 1)
-        {
-            Debug.Log("이미 있는 알람임");
-            return;
-        }
-        StartCoroutine(NoticeCoroutine(data, delay));
-        */
-    }
+    //    // 이거 주석 지우고 UI에 넣어주면 됨
+    //    /* 
+    //    var noticeList = noticePanelQueue.Where((x) => x.HeadText == data.Head);
+    //    if (noticeList.Count() >= 1)
+    //    {
+    //        Debug.Log("이미 있는 알람임");
+    //        return;
+    //    }
+    //    StartCoroutine(NoticeCoroutine(data, delay));
+    //    */
+    //}
 }

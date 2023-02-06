@@ -15,7 +15,8 @@ public enum EProfileChatting
 [Serializable]
 public struct ChatData
 {
-    public EProfileChatting eChat;
+    public EAiChatData eChat;
+    [TextArea]
     public string script;
 };
 
@@ -38,9 +39,8 @@ public class ProfileChatting : MonoBehaviour
     private RectTransform movePanelRect;
 
     [Header("채팅관련")]
-    [SerializeField]
-    private List<ChatData> chatDataList;
-    private Dictionary<EProfileChatting, string> chatDataDictionary = new Dictionary<EProfileChatting, string>();
+
+    private Dictionary<EAiChatData, string> chatDataDictionary = new Dictionary<EAiChatData, string>();
 
     [SerializeField]
     private GameObject textPrefab;
@@ -52,7 +52,7 @@ public class ProfileChatting : MonoBehaviour
     private ContentSizeFitter contentSizeFitter;
 
     [SerializeField]
-    private ProfileChattingSaveSO saveData;
+    private ProfileChattingSaveSO SOData;
 
     void Start()
     {
@@ -61,30 +61,30 @@ public class ProfileChatting : MonoBehaviour
     }
 
     //디버그용 
-    //void Update()
-    //{
-    //    if(Input.GetKeyDown(KeyCode.P))
-    //    {
-    //        AddText(EProfileChatting.Password);
-    //    }
-    //}
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            AiChattingSystem.OnGeneratedChat(EAiChatData.Email);
+        }
+    }
 
     public void DictionaryToList()
     {
-        foreach(var data in chatDataList)
+        foreach(var data in SOData.chatDataList)
         {
             chatDataDictionary.Add(data.eChat, data.script);
         }
     }
 
-    public void AddText(EProfileChatting data)
+    public void AddText(EAiChatData data)
     {
         if(!chatDataDictionary.ContainsKey(data))
         {
             Debug.Log("해당 ENUM에 대한 키값이 존재하지 않음");
         }
         
-        foreach(var save in saveData.saveList)
+        foreach(var save in SOData.saveList)
         {
             if(save == data)
             {
@@ -93,7 +93,7 @@ public class ProfileChatting : MonoBehaviour
             }
         }
 
-        saveData.saveList.Add(data);
+        SOData.saveList.Add(data);
 
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
@@ -120,14 +120,14 @@ public class ProfileChatting : MonoBehaviour
 
     public void GetSaveSetting()
     {
-        foreach(var save in saveData.saveList)
+        foreach(var save in SOData.saveList)
         {
             AddSaveText(save);
         }
         SetScrollView();
     }
 
-    public void AddSaveText(EProfileChatting data)
+    public void AddSaveText(EAiChatData data)
     {
         if (!chatDataDictionary.ContainsKey(data))
         {
@@ -170,6 +170,6 @@ public class ProfileChatting : MonoBehaviour
     public void OnApplicationQuit()
     {
         Debug.Log("디버그 용으로 Profile의 ChatDataSaveSO의 값을 매번 초기화 시키고 있습니다.");
-        saveData.saveList.Clear();
+        SOData.saveList.Clear();
     }
 }
