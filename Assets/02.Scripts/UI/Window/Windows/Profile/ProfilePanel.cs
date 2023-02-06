@@ -59,8 +59,19 @@ public class ProfilePanel : MonoBehaviour
             ProfileCategoryData categoryData = data.categoryData;
             ProfileCategoryPanel categoryPanel = Instantiate(categoryPanelPrefab, categoryPanelParent);
             ProfileInfoPanel infoPanel = GetInfoPanel(data.category);
+            
             categoryPanel.Init(data.category, categoryData.categoryNameText, infoPanel);
-            categoryPanel.gameObject.SetActive(false);
+            infoPanel.Init(data);
+
+            if(data.isShowCategory)
+            {
+                categoryPanel.gameObject.SetActive(true);
+            }
+            else
+            {
+                categoryPanel.gameObject.SetActive(false);
+            }
+
             categoryPanels.Add(data.category,categoryPanel);
         }
     }

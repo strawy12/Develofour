@@ -33,6 +33,7 @@ public class ProfileInfoDataSO : ScriptableObject
         {
             data.isShow = false;
         }
+
         isShowCategory = false;
     }
 }

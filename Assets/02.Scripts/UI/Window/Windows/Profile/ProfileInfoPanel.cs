@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class ProfileInfoPanel : MonoBehaviour
 { 
@@ -9,15 +10,17 @@ public class ProfileInfoPanel : MonoBehaviour
 
     //동적 저장을 위해서는 활성화 비활성화 여부를 들고있는 SO 혹은 Json이 저장 정보를 불러오고 저장
 
-    public ProfileInfoDataSO saveData;
 
     [SerializeField]
     public List<ProfileInfoText> infoTextList;
 
+    private ProfileInfoDataSO saveData;
 
-    public void Init()
+    public void Init(ProfileInfoDataSO profileInfoDataSO)
     {
+        saveData = profileInfoDataSO;
 
+        Setting();
     }
 
     public void Setting()//켰을때 기초 세팅
