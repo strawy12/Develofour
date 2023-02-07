@@ -54,22 +54,6 @@ public class ProfileChatting : MonoBehaviour
     [SerializeField]
     private ProfileChattingSaveSO SOData;
 
-    void Start()
-    {
-        Debug.Log("디버그용 스타트");
-        Init();
-    }
-
-    //디버그용 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAiChatData.Email });
-
-        }
-    }
-
     public void DictionaryToList()
     {
         foreach(var data in SOData.chatDataList)

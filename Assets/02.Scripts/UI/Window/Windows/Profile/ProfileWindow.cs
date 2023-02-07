@@ -10,14 +10,15 @@ public class ProfileWindow : Window
 
     [SerializeField]
     private Button profileSystemBtn;
-
+    [SerializeField]
+    private ProfileChatting profileChatting;
     [SerializeField]
     private Button infoSearchBtn;
 
     protected override void Init()
     {
         base.Init();
-        Debug.Log("ProfileWindowInit");
+        profileChatting.Init();
         profilePanel.Init();
         profileSystemBtn.onClick.AddListener(ShowProfileCategoryPanel);
     }

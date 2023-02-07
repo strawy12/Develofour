@@ -53,7 +53,6 @@ public class ProfilePanel : MonoBehaviour
 
     private void CreateCategoryPanel()
     {
-        Debug.Log("CreateCategoryPanel");
         foreach(ProfileInfoDataSO data in infoDataList)
         {
             ProfileCategoryData categoryData = data.categoryData;
