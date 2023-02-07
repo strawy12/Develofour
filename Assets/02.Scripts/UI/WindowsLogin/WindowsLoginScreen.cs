@@ -43,11 +43,16 @@ public class WindowsLoginScreen : MonoBehaviour
     [SerializeField]
     private Button loginFailConfirmBtn;
 
+    [Header("GuestScreen")]
+    [SerializeField]
+    private Button guestLoginButton;
+
+
     private void Start()
     {
         Init();
         
-        if (DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginWindows)
+        if (DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin)
         {
             gameObject.SetActive(false);
             return;
@@ -68,8 +73,9 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.InputField.contentType = TMP_InputField.ContentType.Pin;
         passwordField.InputField.characterLimit = 6;
 
-        loginFailConfirmBtn.onClick.AddListener(OpenLoginInputUI);
+        loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
 
+        guestLoginButton.onClick?.AddListener(WindowGuestLogin);
     }
 
     private void Subscribe()
@@ -90,7 +96,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginWindows = true;
+            DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin = true;
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             NoticeSystem.OnGeneratedNotice(ENoticeType.ConnectUSB, 0f);
             windowLoginCanvas.SetActive(false);
@@ -131,6 +137,7 @@ public class WindowsLoginScreen : MonoBehaviour
         loginFailUI.SetActive(false);
         loginInputUI.SetActive(true);
     }
+
     private void OpenLoginFailUI()
     {
         failedLoginCnt++;
@@ -141,4 +148,14 @@ public class WindowsLoginScreen : MonoBehaviour
         loginFailUI.SetActive(true);
         loginInputUI.SetActive(false);
     }
+
+    private void WindowGuestLogin()
+    {
+        DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin = true;
+        EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
+        NoticeSystem.OnGeneratedNotice(ENoticeType.ConnectUSB, 0f);
+        windowLoginCanvas.SetActive(false);
+    }
+
+
 }

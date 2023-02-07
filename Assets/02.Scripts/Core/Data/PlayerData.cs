@@ -34,7 +34,10 @@ public class ChapterData
     public List<ESiteLink> siteLinks;
     public bool isLoginSNSSite;
     public string snsPassword;
-    public bool isLoginWindows;
+    
+    public bool isAdminWindowLogin;
+    public bool isGuestWindowLogin;
+
 
     public ChapterData()
     {
