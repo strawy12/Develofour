@@ -43,6 +43,11 @@ public class WindowsLoginScreen : MonoBehaviour
     [SerializeField]
     private Button loginFailConfirmBtn;
 
+    [Header("GuestScreen")]
+    [SerializeField]
+    private Button guestLoginButton;
+
+
     private void Start()
     {
         Init();
@@ -68,8 +73,9 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.InputField.contentType = TMP_InputField.ContentType.Pin;
         passwordField.InputField.characterLimit = 6;
 
-        loginFailConfirmBtn.onClick.AddListener(OpenLoginInputUI);
+        loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
 
+        guestLoginButton.onClick?.AddListener(SuccessLogin);
     }
 
     private void Subscribe()
@@ -131,6 +137,7 @@ public class WindowsLoginScreen : MonoBehaviour
         loginFailUI.SetActive(false);
         loginInputUI.SetActive(true);
     }
+
     private void OpenLoginFailUI()
     {
         failedLoginCnt++;

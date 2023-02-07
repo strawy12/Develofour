@@ -9,6 +9,8 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 {
     [SerializeField]
     private GameObject loginScreen;
+    [SerializeField]
+    private GameObject loginChoice;
 
     [SerializeField]
     private float targetMovementY;
@@ -99,6 +101,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private void OpenLoginScreen()
     {
         loginScreen.SetActive(true);
+        loginChoice.SetActive(true);
         gameObject.SetActive(false);
     }
 
