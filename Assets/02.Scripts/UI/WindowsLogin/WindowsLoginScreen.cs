@@ -52,7 +52,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         Init();
         
-        if (DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginWindows)
+        if (DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin)
         {
             gameObject.SetActive(false);
             return;
@@ -75,7 +75,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
 
-        guestLoginButton.onClick?.AddListener(SuccessLogin);
+        guestLoginButton.onClick?.AddListener(WindowGuestLogin);
     }
 
     private void Subscribe()
@@ -96,7 +96,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginWindows = true;
+            DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin = true;
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             NoticeSystem.OnGeneratedNotice(ENoticeType.ConnectUSB, 0f);
             windowLoginCanvas.SetActive(false);
@@ -148,4 +148,14 @@ public class WindowsLoginScreen : MonoBehaviour
         loginFailUI.SetActive(true);
         loginInputUI.SetActive(false);
     }
+
+    private void WindowGuestLogin()
+    {
+        DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin = true;
+        EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
+        NoticeSystem.OnGeneratedNotice(ENoticeType.ConnectUSB, 0f);
+        windowLoginCanvas.SetActive(false);
+    }
+
+
 }
