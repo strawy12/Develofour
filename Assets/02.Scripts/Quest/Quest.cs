@@ -55,7 +55,7 @@ public class Quest : MonoBehaviour
     private void ChangeRate()
     {
         SaveDecisionDatas();
-        questData.OnChangeSuccessRate.Invoke();
+        questData.OnChangeSuccessRate?.Invoke();
     }
     private void LoadQuestDatas()
     {
