@@ -113,3 +113,18 @@ public enum EDiscordEvent
     ShowImagePanel,
     StartTalk,
 }
+
+public enum EAiChatData
+{
+    None = -1,
+    FirstAiChat,
+    LastAiChat,
+    Email,
+    Password,
+}
+public enum EProfileEvent
+{
+    None = -1,
+    FindInfoText,
+    SendMessage,
+}

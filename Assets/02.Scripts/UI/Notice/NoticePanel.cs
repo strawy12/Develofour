@@ -244,7 +244,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private void OnDisable()
     {
-        EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
+        EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent); 
     }
 
     private void OnDestroy()
