@@ -16,6 +16,7 @@ public enum EWindowType // 확장자
     Directory,
     Installer,
     TodoWindow,
+    ProfileWindow,
     End
 }
 
