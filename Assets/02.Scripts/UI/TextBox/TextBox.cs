@@ -8,6 +8,7 @@ using static Sound;
 using System.Collections.Generic;
 using ExtenstionMethod;
 
+
 public class TextBox : MonoUI
 {
     public enum ETextBoxType
@@ -15,7 +16,6 @@ public class TextBox : MonoUI
         Simple,
         Box,
     }
-
     #region Binding º¯¼ö
     [SerializeField]
     private ContentSizeFitterText messageText;

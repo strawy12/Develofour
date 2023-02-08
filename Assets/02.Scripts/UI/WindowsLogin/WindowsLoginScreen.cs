@@ -42,7 +42,8 @@ public class WindowsLoginScreen : MonoBehaviour
     private GameObject loginFailUI;
     [SerializeField]
     private Button loginFailConfirmBtn;
-
+    [SerializeField]
+    private WindowLoginMonologObj loginMonolog;
     [Header("GuestScreen")]
     [SerializeField]
     private Button guestLoginButton;
@@ -98,8 +99,8 @@ public class WindowsLoginScreen : MonoBehaviour
         {
             DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin = true;
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
-            NoticeSystem.OnGeneratedNotice(ENoticeType.ConnectUSB, 0f);
             windowLoginCanvas.SetActive(false);
+            loginMonolog.SeccessLogin();
         }));
     }
 
@@ -153,8 +154,8 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin = true;
         EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
-        NoticeSystem.OnGeneratedNotice(ENoticeType.ConnectUSB, 0f);
         windowLoginCanvas.SetActive(false);
+        loginMonolog.SeccessLogin();
     }
 
 

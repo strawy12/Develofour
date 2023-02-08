@@ -5,6 +5,7 @@ public enum ETextDataType
 {
     None,
     News,
+    USBMonolog,
 }
 
 [System.Serializable]
