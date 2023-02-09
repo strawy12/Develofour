@@ -50,6 +50,7 @@ public enum EMailType
     NevarWarringMail,
     NevarCompleteMail,
     YeonGoHealthMail,
+    OrangeYoungMail,
 }
 
 [Serializable]
