@@ -52,6 +52,8 @@ public enum EMailType
     YeonGoHealthMail,
     OrangeYoungMail,
     HarmonyMassegeMail,
+    UkktubePremiumMail,
+    BranchDormantMail,
 }
 
 [Serializable]
