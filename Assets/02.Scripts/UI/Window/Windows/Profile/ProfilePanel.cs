@@ -97,9 +97,11 @@ public class ProfilePanel : MonoBehaviour
         EProfileCategory category = (EProfileCategory)ps[0];
         if (categoryPanels.ContainsKey(category))
         {
+            Debug.Log("ShowCategory");
             ProfileCategoryPanel categoryPanel = categoryPanels[category];
             if (!categoryPanel.gameObject.activeSelf)
             {
+                Debug.Log("ShowCategory2");
                 categoryPanel.gameObject.SetActive(true);
                 SaveShowCategory(category);
             }
@@ -110,4 +112,14 @@ public class ProfilePanel : MonoBehaviour
     {
         categoryPanelParent.gameObject.SetActive(false);
     }
+
+#if UNITY_EDITOR
+    private void OnApplicationQuit()
+    {
+        foreach(var data in infoDataList)
+        {
+            data.Reset();
+        }
+    }
+#endif
 }
