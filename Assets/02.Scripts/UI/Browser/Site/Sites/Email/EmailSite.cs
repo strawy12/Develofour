@@ -51,6 +51,7 @@ public enum EMailType
     NevarCompleteMail,
     YeonGoHealthMail,
     OrangeYoungMail,
+    HarmonyMassegeMail,
 }
 
 [Serializable]
