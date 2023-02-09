@@ -46,6 +46,9 @@ public enum EMailType
     YoutubePaymentMail,
     EventWinning01,
     EventWinning02,
+    ZooogleNewIPMail,
+    NevarWarringMail,
+    NevarCompleteMail,
 }
 
 [Serializable]
