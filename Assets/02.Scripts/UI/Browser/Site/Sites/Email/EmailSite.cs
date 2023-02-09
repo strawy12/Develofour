@@ -49,6 +49,7 @@ public enum EMailType
     ZooogleNewIPMail,
     NevarWarringMail,
     NevarCompleteMail,
+    YeonGoHealthMail,
 }
 
 [Serializable]
