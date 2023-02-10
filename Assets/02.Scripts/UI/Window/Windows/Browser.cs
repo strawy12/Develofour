@@ -17,6 +17,7 @@ public enum ESiteLink
     Brunch,
     Facebook,
     FacebookLoginSite,
+    FacebookPasswordResetSite,
     Home,
 }
 /// <summary>

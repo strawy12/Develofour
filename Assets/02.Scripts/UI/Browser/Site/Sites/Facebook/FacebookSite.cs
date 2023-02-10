@@ -59,8 +59,6 @@ public class FacebookSite : Site
         friendPanelBtn.onClick.AddListener(ShowFriendPanel);
         homePanelBtn.onClick.AddListener(ShowHomePanel);
         myProfileBtn.onClick.AddListener(ShowMyProfile);
-
-
     }
 
     protected override void HideSite()
