@@ -46,6 +46,14 @@ public enum EMailType
     YoutubePaymentMail,
     EventWinning01,
     EventWinning02,
+    ZooogleNewIPMail,
+    NevarWarringMail,
+    NevarCompleteMail,
+    YeonGoHealthMail,
+    OrangeYoungMail,
+    HarmonyMassegeMail,
+    UkktubePremiumMail,
+    BranchDormantMail,
 }
 
 [Serializable]
