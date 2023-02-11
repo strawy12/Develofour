@@ -78,8 +78,14 @@ public class FacebookSite : Site
        
         if(!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite && DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
         {
-            Debug.Log("asdf");  
-            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookLoginSite, 0f, false});
+            if(FacebookLoginSite.isResettingPassword)
+            {
+                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookPasswordResetSite, 0f, false });
+            }
+            else
+            {
+                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookLoginSite, 0f, false});
+            }
             return;
         }
         SettingPid();
