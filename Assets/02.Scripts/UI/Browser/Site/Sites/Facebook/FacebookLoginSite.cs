@@ -129,14 +129,14 @@ public class FacebookLoginSite : Site
     {
         if (facebookIDInputField.text == loginEmail)
         {
-            failedLoginText.text = "등록된 Email에 비밀번호 변경메일을 보냈습니다.";
-            failedLoginText.color = Color.black; 
+            //failedLoginText.text = "등록된 Email에 비밀번호 변경메일을 보냈습니다.";
+            //failedLoginText.color = Color.black; 
+
+            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookPasswordResetSite, 0f, false });
+
             EventManager.StartListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
-        
-            EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.SnsPasswordChange});
-
+       
             // NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.SnsSetNewPassword, 0f);
-
         }
         else
         {

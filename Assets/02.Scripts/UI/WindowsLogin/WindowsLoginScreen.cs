@@ -42,17 +42,15 @@ public class WindowsLoginScreen : MonoBehaviour
     private GameObject loginFailUI;
     [SerializeField]
     private Button loginFailConfirmBtn;
-    [SerializeField]
-    private WindowLoginMonologObj loginMonolog;
     [Header("GuestScreen")]
     [SerializeField]
     private Button guestLoginButton;
-
+    private bool isFirst = true;
 
     private void Start()
     {
         Init();
-        
+
         if (DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin)
         {
             gameObject.SetActive(false);
@@ -86,7 +84,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void Confirm()
     {
-        if(loginFailConfirmBtn.gameObject.activeSelf)
+        if (loginFailConfirmBtn.gameObject.activeSelf)
         {
             OpenLoginInputUI();
         }
@@ -100,7 +98,12 @@ public class WindowsLoginScreen : MonoBehaviour
             DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin = true;
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             windowLoginCanvas.SetActive(false);
-            loginMonolog.SeccessLogin();
+            if (isFirst)
+            {
+                MonologSystem.OnEndMonologEvent += USBNoticeFunc;
+                MonologSystem.OnStartMonolog(ETextDataType.USBMonolog);
+            }
+            isFirst = false;
         }));
     }
 
@@ -155,8 +158,18 @@ public class WindowsLoginScreen : MonoBehaviour
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin = true;
         EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
         windowLoginCanvas.SetActive(false);
-        loginMonolog.SeccessLogin();
+        if (isFirst)
+        {
+            MonologSystem.OnEndMonologEvent += USBNoticeFunc;
+            MonologSystem.OnStartMonolog(ETextDataType.USBMonolog);
+        }
+        isFirst = false;
     }
 
-
+    private void USBNoticeFunc()
+    {
+        Debug.Log("1");
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
+        MonologSystem.OnEndMonologEvent -= USBNoticeFunc;
+    }
 }
