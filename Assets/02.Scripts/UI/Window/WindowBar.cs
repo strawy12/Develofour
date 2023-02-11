@@ -41,7 +41,6 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         this.windowAlteration = windowAlteration;
         this.currentFile = file;
 
-
         windowRectTransform = rectTrm;
         if (windowName != null)
         {
