@@ -36,6 +36,8 @@ public class WindowManager : MonoSingleton<WindowManager>
     private void Start()
     {
         EventManager.StartListening(EBrowserEvent.OnOpenSite, CheckBrowserWindow);
+
+        Sound.OnPlayBGMSound(Sound.EBgm.StartBGM);
     }
 
     private void InitDictionary()

@@ -127,7 +127,7 @@ public class NewsCutScene : CutScene
     {
         float delay = 0f;
         rectTransform ??= GetComponent<RectTransform>();
-        Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.NewsBGM);
+        //Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.NewsBGM);
         newsAnchor.Init();
         newsReporter.Init();
         newsBanner.Init();
@@ -145,7 +145,7 @@ public class NewsCutScene : CutScene
         #endregion
 
         #region 글리치 효과 적용
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.Glitch);
+        //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.Glitch);
         yield return new WaitForSeconds(glitchBeforeDelay);
         digitalGlitch.StartEffect(glitchDuration, false);
         yield return new WaitForSeconds(glitchDuration);
@@ -195,7 +195,7 @@ public class NewsCutScene : CutScene
         textBox.SetTextBoxType(TextBox.ETextBoxType.Simple);
         yield return PrintText(false);
 
-        Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
+        //Sound.OnPlayEffectSound.Invoke(Sound.EEffect.EscKeyDown);
         
         cgImage.DOColor(Color.black, screenFadeDuration);
         yield return new WaitForSeconds(screenFadeDuration);
@@ -258,10 +258,10 @@ public class NewsCutScene : CutScene
     {
         if (Sound.OnPlayEffectSound != null)
         {
-            Sound.EEffect sound = currentNewsCharacter == newsAnchor ? Sound.EEffect.NewsAnchor_01 : Sound.EEffect.NewsReporter_01;
-            currentPlaySoundID = (int)sound + characterVoiceCnt;
+           // Sound.EEffect sound = currentNewsCharacter == newsAnchor ? Sound.EEffect.NewsAnchor_01 : Sound.EEffect.NewsReporter_01;
+           // currentPlaySoundID = (int)sound + characterVoiceCnt;
 
-            return Sound.OnPlayEffectSound.Invoke(sound + (characterVoiceCnt++));
+           // return Sound.OnPlayEffectSound.Invoke(sound + (characterVoiceCnt++));
         }
 
         return 0f;
@@ -272,7 +272,7 @@ public class NewsCutScene : CutScene
         digitalGlitch.ImmediatelyStop();
         newsBanner.BannelStop();
 
-        Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
+        //Sound.OnPlayBGMSound?.Invoke(Sound.EBgm.WriterBGM);
 
         // 될지 의문임
         Sound.OnImmediatelyStop(currentPlaySoundID);

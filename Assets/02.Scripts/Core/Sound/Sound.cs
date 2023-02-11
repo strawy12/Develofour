@@ -7,14 +7,14 @@ using UnityEngine.UI;
 
 public partial class Sound : MonoBehaviour
 {
-    public static Func<EBgm,float> OnPlayBGMSound { get; private set; }
-    public static Func<EEffect,float> OnPlayEffectSound { get; private set; }
+    public static Func<EBgm, float> OnPlayBGMSound { get; private set; }
+    public static Func<EEffect, float> OnPlayEffectSound { get; private set; }
     public static Action<int> OnImmediatelyStop { get; private set; }
 
     private Dictionary<int, SoundPlayer> soundPlayerDictionary;
     private Dictionary<int, Queue<SoundPlayer>> soundPlayerPoolDictionary;
 
-    private List<SoundPlayer> soundPlayerList; 
+    private List<SoundPlayer> soundPlayerList;
 
     private void Awake()
     {
@@ -27,23 +27,27 @@ public partial class Sound : MonoBehaviour
 
         OnImmediatelyStop += ImmediatelyStop;
 
-        AddSoundPlayer();
+        AddSoundPlayers();
     }
 
-    private void AddSoundPlayer()
+    private void AddSoundPlayers()
     {
-        int count = transform.childCount;
+        List<SoundPlayer> soundPlayers = new List<SoundPlayer>();
 
-        for(int i = 0; i < count; i++)
+        for (int n = 0; n < 2; n++)
         {
-            SoundPlayer soundPlayer = transform.GetChild(i).GetComponent<SoundPlayer>();
-            soundPlayer.Init();
+            for (int i = 0; i < transform.GetChild(n).childCount; i++)
+            {
+                SoundPlayer soundPlayer = transform.GetChild(n).GetChild(i).GetComponent<SoundPlayer>();
+                soundPlayer.Init();
 
-            soundPlayerDictionary[soundPlayer.SoundID] = soundPlayer;
+                soundPlayerDictionary[soundPlayer.SoundID] = soundPlayer;
 
-            soundPlayerPoolDictionary[soundPlayer.SoundID] = new Queue<SoundPlayer>();
-            soundPlayerPoolDictionary[soundPlayer.SoundID].Enqueue(soundPlayer);
+                soundPlayerPoolDictionary[soundPlayer.SoundID] = new Queue<SoundPlayer>();
+                soundPlayerPoolDictionary[soundPlayer.SoundID].Enqueue(soundPlayer);
+            }
         }
+
     }
 
     private float CreateBGMSoundPlayer(EBgm type)
@@ -63,7 +67,7 @@ public partial class Sound : MonoBehaviour
 
         object[] ps = new object[1] { soundID };
 
-        if(soundID < (int)EBgm.Count)
+        if (soundID < (int)EBgm.End)
         {
             EventManager.TriggerEvent(ECoreEvent.ChangeBGM, ps);
         }
@@ -109,7 +113,7 @@ public partial class Sound : MonoBehaviour
     {
         var list = soundPlayerList.FindAll(x => x.SoundID == soundID);
 
-        foreach(SoundPlayer player in list)
+        foreach (SoundPlayer player in list)
         {
             player.ImmediatelyStop();
             soundPlayerList.Remove(player);

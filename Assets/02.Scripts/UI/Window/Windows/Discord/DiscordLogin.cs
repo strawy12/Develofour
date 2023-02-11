@@ -97,13 +97,13 @@ public class DiscordLogin : MonoBehaviour
     {
         if(IDInputField.text.text == answerID && passwordInputField.text.text == answerPassword)
         {
-            Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
+          //  Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
 
             SuccessLogin();
         }
         else
         {
-            Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
+           // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
             if(IDInputField.text.text != answerID)
             {
                 currentIdInputFieldText.gameObject.SetActive(false);

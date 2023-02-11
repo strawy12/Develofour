@@ -87,13 +87,13 @@ public class PoliceGameArrow : MonoBehaviour
     public void Fail()
     {
         isInputed = true;
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.PoliceMinigameArrowFailed);
+      //  Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.PoliceMinigameArrowFailed);
         arrowImage.rectTransform.DOShakePosition(1f, 10f, 30).OnComplete(() => { isInputed = false; });
     }
 
     public void Succcess()
     {
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.PoliceMinigameArrowSuccess);
+      //  Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.PoliceMinigameArrowSuccess);
         Sequence seq = DOTween.Sequence();
         seq.Append(arrowImage.rectTransform.DOScale(0.6f, 0.075f));
         seq.Join(arrowImage.DOFade(0.1f, 0.175f));

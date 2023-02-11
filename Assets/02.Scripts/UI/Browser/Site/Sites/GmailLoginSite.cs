@@ -80,14 +80,14 @@ public class GmailLoginSite : Site
 
     private void SuccessLogin()
     {
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
+       // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
         EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
 
         if (requestSite == ESiteLink.None)
         {
-            Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
+            //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
             EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 
             DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
@@ -108,7 +108,7 @@ public class GmailLoginSite : Site
         }
         else
         {
-            Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
+          //  Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
             textMove.FaliedInput("다시 입력하세요");
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
             requestSite = ESiteLink.None;
@@ -117,7 +117,7 @@ public class GmailLoginSite : Site
 
     private void FailLogin()
     {
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
+       // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
         textMove.FaliedInput("틀린 비밀번호입니다");
     }
 
