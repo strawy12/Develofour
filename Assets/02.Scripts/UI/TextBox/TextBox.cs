@@ -278,6 +278,7 @@ public class TextBox : MonoUI
         isTextPrinted = false;
         GameManager.Inst.ChangeGameState(EGameState.Game);
         MonologSystem.OnEndMonologEvent?.Invoke();
+        
         HideBox();
     }
     #endregion
