@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 public class FacebookLoginSite : Site
 {
+    public static bool isResettingPassword = false;
+
     [SerializeField]
     private string loginEmail;
     [SerializeField]
@@ -28,6 +30,7 @@ public class FacebookLoginSite : Site
     public override void Init()
     {
         base.Init();
+
         passwordField.InputField.asteriskChar = '·';
         passwordField.SetPassword(password);
 
@@ -133,6 +136,7 @@ public class FacebookLoginSite : Site
             //failedLoginText.color = Color.black; 
 
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookPasswordResetSite, 0f, false });
+            isResettingPassword = true;
 
             EventManager.StartListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
        
@@ -153,6 +157,7 @@ public class FacebookLoginSite : Site
         DataManager.Inst.CurrentPlayer.CurrentChapterData.snsPassword = password;
         passwordField.SetPassword(password);
 
+        isResettingPassword = false;
         EventManager.StopListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
     }
 }

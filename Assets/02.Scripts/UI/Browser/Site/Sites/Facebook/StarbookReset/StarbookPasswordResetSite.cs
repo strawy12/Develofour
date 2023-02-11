@@ -16,6 +16,8 @@ public class StarbookPasswordResetSite : Site
     private GameObject securityInputPanel;
     [SerializeField]
     private GameObject passwordResetPanel;
+    [SerializeField]
+    private GameObject resetCompletedPanel;
 
     [SerializeField]
     private Button resetGuideNextButton;
@@ -23,6 +25,8 @@ public class StarbookPasswordResetSite : Site
     private Button securityNextButton;
     [SerializeField]
     private Button passwordResetNextButton;
+    [SerializeField]
+    private Button resetCompletedNextButton;
 
 
     [SerializeField]
@@ -38,6 +42,7 @@ public class StarbookPasswordResetSite : Site
         resetGuideNextButton.onClick?.AddListener(SendSecurityCodeMail);
         securityNextButton.onClick?.AddListener(CheckSecurityCodeAnswer);
         passwordResetNextButton.onClick?.AddListener(PasswordResetFinish);
+        resetCompletedNextButton.onClick?.AddListener(CompletedPasswordReset);
     }
 
     // 사이트 열고 계속하기 누르면 메일가고 보안패널열림
@@ -66,6 +71,16 @@ public class StarbookPasswordResetSite : Site
     private void PasswordResetFinish()
     {
         EventManager.TriggerEvent(ELoginSiteEvent.FacebookNewPassword, new object[] { passwordResetInput.text });
-    }
 
+        passwordResetPanel.SetActive(false);
+        resetCompletedPanel.SetActive(true);
+    }
+    
+    private void CompletedPasswordReset()
+    {
+        resetCompletedPanel.SetActive(false);
+        resetGuidePanel.SetActive(true);
+
+        EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookLoginSite, 0f, false });
+    }
 }

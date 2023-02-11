@@ -48,6 +48,7 @@ public class Browser : Window
         undoSite = new Stack<Site>();
         redoSite = new Stack<Site>();
         siteDictionary = new Dictionary<ESiteLink, Site>();
+
         BindingStart();
         //OnUndoSite += UndoSite;
         //OnOpenSite += ChangeSite;
