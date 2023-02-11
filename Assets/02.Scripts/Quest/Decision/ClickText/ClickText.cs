@@ -10,6 +10,7 @@ public class ClickText : MonoBehaviour, IPointerClickHandler
     private List<EProfileCategory> categories = new List<EProfileCategory>();
     [SerializeField]
     private string infoName;
+
     private bool isComplete = false;
 
     public void OnPointerClick(PointerEventData eventData)

@@ -138,23 +138,25 @@ public class TextBox : MonoUI
         else
         {
             SimpleTypePrint(textData);
+            return textData.text.Length * printTextDelay;
         }
-
-        return 0f;
     }
 
-    private void SimpleTypePrint(TextData textData)
+    public void SimpleTypePrint(TextData textData)
     {
         bgImage.color = Color.black;
         bgImage.ChangeImageAlpha(0.7f);
         bgImage.sprite = simpleTypeSprite;
 
-        nameText.SetText("");
-        messageText.SetText(RemoveCommandText(textData.text));
-        messageText.color = textData.color;
+        messageText.SetText(textData.text);
         bgImage.rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + offsetSize;
+        messageText.SetText("");
+        nameText.SetText("");
+        messageText.color = textData.color;
         isTextPrinted = false;
+        StartCoroutine(PrintMonologTextCoroutine(textData.text));
     }
+
 
     private void BoxTypePrint(TextData textData)
     {
@@ -170,7 +172,7 @@ public class TextBox : MonoUI
         nameText.color = textData.color;
         StartCoroutine(PrintTextCoroutine(textData.text));
     }
-
+    
     private IEnumerator PrintTextCoroutine(string message)
     {
         bool isRich = false;
@@ -221,6 +223,62 @@ public class TextBox : MonoUI
         }
 
         isTextPrinted = false;
+    }
+    private IEnumerator PrintMonologTextCoroutine(string message)
+    {
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
+        bool isRich = false;
+
+        // 모든 표시를 지운 순수 텍스트
+        string removeSignText = ConversionPureText(message);
+
+        // 텍스트 박스 안에 넣을 텍스트
+        // <color> 같은 것은 텍스트 박스 안에 넣어야함
+        string textBoxInText = RemoveCommandText(message, true);
+
+        // 텍스트가 너무 길 경우 자동으로 줄 바꿈 처리
+        textBoxInText = SliceLineText(textBoxInText);
+
+        messageText.SetText(textBoxInText);
+
+        for (int i = 0; i < textBoxInText.Length; i++)
+        {
+            if (textBoxInText[i] == '<')
+            {
+                isRich = true;
+            }
+
+            if (textBoxInText[i] == '>')
+            {
+                isRich = false;
+                continue;
+            }
+
+            messageText.maxVisibleCharacters = i;
+
+            // 미리 생성시킨 
+            if (triggerDictionary.ContainsKey(i))
+            {
+                triggerDictionary[i]?.Invoke();
+            }
+
+            // Rich 일때는 한번에 나오게 하기 위해서 딜레이 X
+            if (!isRich)
+            {
+                yield return new WaitForSeconds(printTextDelay);
+            }
+        }
+        yield return new WaitForSeconds(0.7f);
+
+        if (isTextPrinted == false)
+        {
+            CompletePrint(textBoxInText);
+        }
+
+        isTextPrinted = false;
+        GameManager.Inst.ChangeGameState(EGameState.Game);
+        MonologSystem.OnEndMonologEvent?.Invoke();
+        HideBox();
     }
     #endregion
 

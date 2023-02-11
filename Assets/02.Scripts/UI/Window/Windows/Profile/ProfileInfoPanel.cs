@@ -52,12 +52,4 @@ public class ProfileInfoPanel : MonoBehaviour
             }
         }
     }
-
-
-#if UNITY_EDITOR
-    private void OnApplicationQuit()
-    {
-        //SO 초기화
-    }
-#endif
 }
