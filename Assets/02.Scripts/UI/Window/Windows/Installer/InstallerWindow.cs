@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +32,7 @@ public class InstallerWindow : Window
 
         nextBtn.onClick?.AddListener(NextScreen);
         backBtn.onClick?.AddListener(BackScreen);
-        // ÆË¾÷Ã¢ ¶ç¿ïÁö °í¹Î
+        // íŒì—…ì°½ ë„ìš¸ì§€ ê³ ë¯¼
         cancelBtn.onClick?.AddListener(WindowClose);
 
         windowBar.MaximumBtn.interactable = false;
