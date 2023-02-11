@@ -23,6 +23,7 @@ public class HarmonyMassegeMail : Mail
 
     public override void ShowMail()
     {
+        Sound.OnPlayBGMSound(Sound.EBgm.AfterDiscordMail);
         base.ShowMail();
     }
 

@@ -11,7 +11,7 @@ public class EffectPlayer : SoundPlayer
     public override void SetValue(AudioClip clip)
     {
         base.SetValue(clip);
-        effectSoundID = Sound.EEffect.Count;
+        effectSoundID = Sound.EEffect.End;
     }
     public override void Init()
     {

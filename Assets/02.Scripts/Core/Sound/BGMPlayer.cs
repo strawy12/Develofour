@@ -11,7 +11,7 @@ public class BGMPlayer : SoundPlayer
     public override void SetValue(AudioClip clip)
     {
         base.SetValue(clip);
-        bgmSoundID = Sound.EBgm.Count;
+        bgmSoundID = Sound.EBgm.End;
     }
 
     public override void Init()

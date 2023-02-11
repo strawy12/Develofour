@@ -65,7 +65,15 @@ public class CreateSoundWindow : EditorWindow
 
         if (string.IsNullOrEmpty(valueText))
         {
-            valueText = ((AudioClip)clipField.value).name;
+            valueText = clipField.value.name;
+
+
+            while (!('A' <= valueText[0] && valueText[0] <= 'Z') &&
+                   !('a' <= valueText[0] && valueText[0] <= 'z'))
+            {
+                Debug.Log(valueText);
+                valueText = valueText.Substring(1);
+            }
         }
 
         if ('a' <= valueText[0] || valueText[0] <= 'z')
@@ -89,7 +97,7 @@ public class CreateSoundWindow : EditorWindow
 
         int length = text.Length - 1;
 
-        int idx = isEffectToggle.value ? text.LastIndexOf("Count") : text.IndexOf("Count");
+        int idx = isEffectToggle.value ? text.LastIndexOf("End") : text.IndexOf("End");
         text = text.Substring(0, idx) + $"{valueText},\n" + text.Substring(idx - 8);
 
         using (StreamWriter writer = new StreamWriter(PATH))
@@ -115,7 +123,7 @@ public class CreateSoundWindow : EditorWindow
 
         soundPlayer.SetValue(clipField.value as AudioClip);
 
-        soundPlayer.transform.SetParent(sound.transform);
+        soundPlayer.transform.SetParent(sound.transform.GetChild(isEffectToggle.value ? 1 : 0));
         soundPlayer.gameObject.SetActive(false);
 
         soundPlayer.AudioSourceInit();

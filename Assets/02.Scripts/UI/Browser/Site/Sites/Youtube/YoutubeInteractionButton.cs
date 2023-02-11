@@ -111,7 +111,7 @@ public class YoutubeInteractionButton : MonoBehaviour
         isClicked = true;
         image.enabled = true;
 
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeHateBtnSound);
+        //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeHateBtnSound);
 
         int num = int.Parse(peopleText.text);
         num += 1;
@@ -143,7 +143,7 @@ public class YoutubeInteractionButton : MonoBehaviour
 
         image.enabled = true;
         image.color = Color.black;
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
+        //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
 
     }
 
@@ -152,7 +152,7 @@ public class YoutubeInteractionButton : MonoBehaviour
         Sequence seq = DOTween.Sequence();
         isClicked = false;
 
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
+        //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
 
         if (isHateBtn)
         {

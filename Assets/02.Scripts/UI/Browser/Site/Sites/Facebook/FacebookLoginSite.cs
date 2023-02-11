@@ -71,7 +71,7 @@ public class FacebookLoginSite : Site
 
     private void LoginSuccess()
     {
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
+       // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
         EventManager.TriggerEvent(ELoginSiteEvent.FacebookLoignSuccess);
 
         InputManager.Inst.RemoveKeyInput(KeyCode.Tab, onKeyDown: InputTap);
@@ -95,7 +95,7 @@ public class FacebookLoginSite : Site
 
     private void LoginFail()
     {
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
+       // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
 
         failedLoginText.text = "비밀번호가 일치하지 않습니다.";
         failedLoginText.color = Color.red;
@@ -110,7 +110,7 @@ public class FacebookLoginSite : Site
         }
         else
         {
-            Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
+          //  Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
             if(failedIDcnt < 3)
             {
                 failedLoginText.text = "등록되지않은 이메일 혹은 전화번호 입니다.";

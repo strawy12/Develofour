@@ -103,7 +103,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         NoticeUXEmphasis();
 
-        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.WindowAlarmSound);
+       // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.WindowAlarmSound);
 
         stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }
