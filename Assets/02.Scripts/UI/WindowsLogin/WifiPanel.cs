@@ -48,7 +48,7 @@ public class WifiPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void SetWifiNameText()
     {
-        wifiNameText.SetText($"{wifiData.wifiName}\n<color=#999999>{wifiData.wifiAccessLog}전에 로그인 됨</color>");
+        wifiNameText.SetText($"{wifiData.wifiName}");
     }
 
     public void SetWifiPowerUI()
