@@ -42,11 +42,13 @@ public class WindowsLoginScreen : MonoBehaviour
     private GameObject loginFailUI;
     [SerializeField]
     private Button loginFailConfirmBtn;
+    [SerializeField]
+    private float monologDelay = 0.8f;
     [Header("GuestScreen")]
     [SerializeField]
     private Button guestLoginButton;
     private bool isFirst = true;
-
+    
     private void Start()
     {
         Init();
@@ -100,8 +102,7 @@ public class WindowsLoginScreen : MonoBehaviour
             windowLoginCanvas.SetActive(false);
             if (isFirst)
             {
-                MonologSystem.OnEndMonologEvent += USBNoticeFunc;
-                MonologSystem.OnStartMonolog(ETextDataType.USBMonolog);
+                StartMonolog();
             }
             isFirst = false;
         }));
@@ -160,15 +161,18 @@ public class WindowsLoginScreen : MonoBehaviour
         windowLoginCanvas.SetActive(false);
         if (isFirst)
         {
-            MonologSystem.OnEndMonologEvent += USBNoticeFunc;
-            MonologSystem.OnStartMonolog(ETextDataType.USBMonolog);
+            StartMonolog();
         }
         isFirst = false;
     }
 
+    private void StartMonolog()
+    {
+        MonologSystem.OnEndMonologEvent += USBNoticeFunc;
+        MonologSystem.OnStartMonolog(ETextDataType.USBMonolog, monologDelay);
+    }
     private void USBNoticeFunc()
     {
-        Debug.Log("1");
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
         MonologSystem.OnEndMonologEvent -= USBNoticeFunc;
     }

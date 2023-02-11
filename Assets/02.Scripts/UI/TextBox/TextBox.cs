@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -16,7 +16,7 @@ public class TextBox : MonoUI
         Simple,
         Box,
     }
-    #region Binding º¯¼ö
+    #region Binding ë³€ìˆ˜
     [SerializeField]
     private ContentSizeFitterText messageText;
 
@@ -27,7 +27,7 @@ public class TextBox : MonoUI
     private Image bgImage;
     #endregion
 
-    #region ÀÏ¹İ º¯¼ö
+    #region ì¼ë°˜ ë³€ìˆ˜
 
     #region SerializeField
     [SerializeField]
@@ -43,13 +43,14 @@ public class TextBox : MonoUI
     private Sprite boxTypeSprite;
     #endregion
 
+    private bool isClick = false;
     private TextDataSO currentTextData;
     private int currentTextIndex;
     private ETextBoxType currentType;
     private Dictionary<int, Action> triggerDictionary;
     #endregion
 
-    #region Flag º¯¼ö
+    #region Flag ë³€ìˆ˜
     private bool isTextPrinted = false;
     private bool isActive = false;
     private bool isEffected = false;
@@ -177,14 +178,14 @@ public class TextBox : MonoUI
     {
         bool isRich = false;
 
-        // ¸ğµç Ç¥½Ã¸¦ Áö¿î ¼ø¼ö ÅØ½ºÆ®
+        // ëª¨ë“  í‘œì‹œë¥¼ ì§€ìš´ ìˆœìˆ˜ í…ìŠ¤íŠ¸
         string removeSignText = ConversionPureText(message);
 
-        // ÅØ½ºÆ® ¹Ú½º ¾È¿¡ ³ÖÀ» ÅØ½ºÆ®
-        // <color> °°Àº °ÍÀº ÅØ½ºÆ® ¹Ú½º ¾È¿¡ ³Ö¾î¾ßÇÔ
+        // í…ìŠ¤íŠ¸ ë°•ìŠ¤ ì•ˆì— ë„£ì„ í…ìŠ¤íŠ¸
+        // <color> ê°™ì€ ê²ƒì€ í…ìŠ¤íŠ¸ ë°•ìŠ¤ ì•ˆì— ë„£ì–´ì•¼í•¨
         string textBoxInText = RemoveCommandText(message, true);
 
-        // ÅØ½ºÆ®°¡ ³Ê¹« ±æ °æ¿ì ÀÚµ¿À¸·Î ÁÙ ¹Ù²Ş Ã³¸®
+        // í…ìŠ¤íŠ¸ê°€ ë„ˆë¬´ ê¸¸ ê²½ìš° ìë™ìœ¼ë¡œ ì¤„ ë°”ê¿ˆ ì²˜ë¦¬
         textBoxInText = SliceLineText(textBoxInText);
 
         messageText.SetText(textBoxInText);
@@ -204,13 +205,13 @@ public class TextBox : MonoUI
 
             messageText.maxVisibleCharacters = i;
 
-            // ¹Ì¸® »ı¼º½ÃÅ² 
+            // ë¯¸ë¦¬ ìƒì„±ì‹œí‚¨ 
             if (triggerDictionary.ContainsKey(i))
             {
                 triggerDictionary[i]?.Invoke();
             }
 
-            // Rich ÀÏ¶§´Â ÇÑ¹ø¿¡ ³ª¿À°Ô ÇÏ±â À§ÇØ¼­ µô·¹ÀÌ X
+            // Rich ì¼ë•ŒëŠ” í•œë²ˆì— ë‚˜ì˜¤ê²Œ í•˜ê¸° ìœ„í•´ì„œ ë”œë ˆì´ X
             if (!isRich)
             {
                 yield return new WaitForSeconds(printTextDelay);
@@ -229,14 +230,14 @@ public class TextBox : MonoUI
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
         bool isRich = false;
 
-        // ¸ğµç Ç¥½Ã¸¦ Áö¿î ¼ø¼ö ÅØ½ºÆ®
+        // ëª¨ë“  í‘œì‹œë¥¼ ì§€ìš´ ìˆœìˆ˜ í…ìŠ¤íŠ¸
         string removeSignText = ConversionPureText(message);
 
-        // ÅØ½ºÆ® ¹Ú½º ¾È¿¡ ³ÖÀ» ÅØ½ºÆ®
-        // <color> °°Àº °ÍÀº ÅØ½ºÆ® ¹Ú½º ¾È¿¡ ³Ö¾î¾ßÇÔ
+        // í…ìŠ¤íŠ¸ ë°•ìŠ¤ ì•ˆì— ë„£ì„ í…ìŠ¤íŠ¸
+        // <color> ê°™ì€ ê²ƒì€ í…ìŠ¤íŠ¸ ë°•ìŠ¤ ì•ˆì— ë„£ì–´ì•¼í•¨
         string textBoxInText = RemoveCommandText(message, true);
 
-        // ÅØ½ºÆ®°¡ ³Ê¹« ±æ °æ¿ì ÀÚµ¿À¸·Î ÁÙ ¹Ù²Ş Ã³¸®
+        // í…ìŠ¤íŠ¸ê°€ ë„ˆë¬´ ê¸¸ ê²½ìš° ìë™ìœ¼ë¡œ ì¤„ ë°”ê¿ˆ ì²˜ë¦¬
         textBoxInText = SliceLineText(textBoxInText);
 
         messageText.SetText(textBoxInText);
@@ -256,13 +257,13 @@ public class TextBox : MonoUI
 
             messageText.maxVisibleCharacters = i;
 
-            // ¹Ì¸® »ı¼º½ÃÅ² 
+            // ë¯¸ë¦¬ ìƒì„±ì‹œí‚¨ 
             if (triggerDictionary.ContainsKey(i))
             {
                 triggerDictionary[i]?.Invoke();
             }
 
-            // Rich ÀÏ¶§´Â ÇÑ¹ø¿¡ ³ª¿À°Ô ÇÏ±â À§ÇØ¼­ µô·¹ÀÌ X
+            // Rich ì¼ë•ŒëŠ” í•œë²ˆì— ë‚˜ì˜¤ê²Œ í•˜ê¸° ìœ„í•´ì„œ ë”œë ˆì´ X
             if (!isRich)
             {
                 yield return new WaitForSeconds(printTextDelay);
@@ -276,13 +277,27 @@ public class TextBox : MonoUI
         }
 
         isTextPrinted = false;
+
+        EventManager.StartListening(EInputType.InputMouseDown, ClickEvent);
+
+        yield return new WaitUntil(() => isClick);
+        EventManager.StopListening(EInputType.InputMouseDown, ClickEvent);
         GameManager.Inst.ChangeGameState(EGameState.Game);
         MonologSystem.OnEndMonologEvent?.Invoke();
+        
+
         HideBox();
     }
+
+    private void ClickEvent(object[] ps)
+    {
+
+            isClick = true;
+    }
+
     #endregion
 
-    #region TextBox ±âº» ÇÔ¼ö
+    #region TextBox ê¸°ë³¸ í•¨ìˆ˜
     public void SetTextBoxType(ETextBoxType type)
     {
         currentType = type;
@@ -332,7 +347,7 @@ public class TextBox : MonoUI
 
     #region Edit Text
 
-    // Ä¿¸Çµå, Rich Text°¡ ÇÏ³ªµµ ¾ø´Â ¼ø¼ö ÅØ½ºÆ®
+    // ì»¤ë§¨ë“œ, Rich Textê°€ í•˜ë‚˜ë„ ì—†ëŠ” ìˆœìˆ˜ í…ìŠ¤íŠ¸
     private string ConversionPureText(string text)
     {
         text = text.Replace("\r", "");
@@ -350,7 +365,7 @@ public class TextBox : MonoUI
         return text;
     }
 
-    // ÅØ½ºÆ® ±æÀÌ°¡ ±æ ½Ã ÀÚµ¿ ÁÙ ¹Ù²Ş
+    // í…ìŠ¤íŠ¸ ê¸¸ì´ê°€ ê¸¸ ì‹œ ìë™ ì¤„ ë°”ê¿ˆ
     private string SliceLineText(string text)
     {
         for (int i = 40; i < text.Length; i += 41)
@@ -360,7 +375,7 @@ public class TextBox : MonoUI
         return text;
     }
 
-    // text¿¡¼­ richText »Ì¾Æ³¿ 
+    // textì—ì„œ richText ë½‘ì•„ëƒ„ 
     // ex) <color=#333333>
     private string EncordingRichText(string message)
     {
@@ -380,7 +395,7 @@ public class TextBox : MonoUI
         return richText;
     }
 
-    // text¿¡¼­ cmdText »Ì¾Æ³¿
+    // textì—ì„œ cmdText ë½‘ì•„ëƒ„
     // ex) {BS_WriterBGM}
     private string EncordingCommandText(string message)
     {
@@ -404,7 +419,7 @@ public class TextBox : MonoUI
         return richText;
     }
 
-    // text¿¡¼­ richText ¾ø¾Ú
+    // textì—ì„œ richText ì—†ì•°
     private string RemoveRichText(string message)
     {
         string removeText = message;
@@ -413,8 +428,8 @@ public class TextBox : MonoUI
         {
             if (removeText[i] == '<')
             {
-                string signText = EncordingRichText(removeText.Substring(i)); // < color > ¹®ÀÚ¿­
-                removeText = removeText.Remove(i, signText.Length); // < > ÀÌ ¹®ÀÚ¿­À» Á¦¿Ü½ÃÅ² ¹®ÀÚ¿­
+                string signText = EncordingRichText(removeText.Substring(i)); // < color > ë¬¸ìì—´
+                removeText = removeText.Remove(i, signText.Length); // < > ì´ ë¬¸ìì—´ì„ ì œì™¸ì‹œí‚¨ ë¬¸ìì—´
                 i -= signText.Length;
             }
         }
@@ -422,8 +437,8 @@ public class TextBox : MonoUI
         return removeText;
     }
 
-    // text¿¡¼­ cmdText ¾ø¾Ú
-    // ¸¸¾à registerCmd¸¦ trueÇÒ ½Ã Ä¿¸Çµå µî·Ïµµ ½ÃÅ´
+    // textì—ì„œ cmdText ì—†ì•°
+    // ë§Œì•½ registerCmdë¥¼ trueí•  ì‹œ ì»¤ë§¨ë“œ ë“±ë¡ë„ ì‹œí‚´
     private string RemoveCommandText(string message, bool registerCmd = false)
     {
         string removeText = message;
@@ -434,8 +449,8 @@ public class TextBox : MonoUI
             {
                 isFindSign = true;
 
-                string signText = EncordingCommandText(removeText.Substring(i)); // {} ¹®ÀÚ¿­
-                removeText = removeText.Remove(i, signText.Length); // {} ÀÌ ¹®ÀÚ¿­À» Á¦¿Ü½ÃÅ² ¹®ÀÚ¿­
+                string signText = EncordingCommandText(removeText.Substring(i)); // {} ë¬¸ìì—´
+                removeText = removeText.Remove(i, signText.Length); // {} ì´ ë¬¸ìì—´ì„ ì œì™¸ì‹œí‚¨ ë¬¸ìì—´
                 i -= signText.Length;
 
                 if (registerCmd)
@@ -499,7 +514,7 @@ public class TextBox : MonoUI
     }
     #endregion
 
-    #region TextData °ü·Ã
+    #region TextData ê´€ë ¨
 
     public TextDataSO GetTextData(ETextDataType textDataType)
     {
