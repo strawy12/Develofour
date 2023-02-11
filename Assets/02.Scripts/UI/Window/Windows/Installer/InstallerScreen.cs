@@ -27,7 +27,7 @@ public abstract class InstallerScreen : MonoBehaviour
     protected void UseBackButton()
     {
         BackBtn.onClick.RemoveAllListeners();
-        BackBtn.onClick.AddListener(installer.NextScreen);
+        BackBtn.onClick.AddListener(installer.BackScreen);
 
         BackBtn.gameObject.SetActive(true);
     }

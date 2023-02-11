@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,10 +30,11 @@ public class InstallerWindow : Window
         currentIdx = 0;
         screenList.ForEach(x => x.Init(this));
 
-        nextBtn.onClick.AddListener(NextScreen);
-        backBtn.onClick.AddListener(BackScreen);
-        // ÆË¾÷Ã¢ ¶ç¿ïÁö °í¹Î
-        cancelBtn.onClick.AddListener(WindowClose);
+        nextBtn.onClick?.AddListener(NextScreen);
+        backBtn.onClick?.AddListener(BackScreen);
+        // íŒì—…ì°½ ë„ìš¸ì§€ ê³ ë¯¼
+        cancelBtn.onClick?.AddListener(WindowClose);
+
         windowBar.MaximumBtn.interactable = false;
 
         ChangeScreen(currentIdx);
@@ -46,15 +47,18 @@ public class InstallerWindow : Window
 
     public void BackScreen()
     {
-        ChangeScreen(currentIdx + 1);
+        ChangeScreen(currentIdx - 1);
     }
 
     public void ChangeScreen(int idx)
     {
+        Debug.Log(idx);
         if (Define.IsBoundOver(idx, screenList.Count)) return;
 
         screenList[currentIdx].gameObject.SetActive(false);
+        
         currentIdx = idx;
+
         screenList[currentIdx].gameObject.SetActive(true);
         screenList[currentIdx].EnterScreen();
     }
