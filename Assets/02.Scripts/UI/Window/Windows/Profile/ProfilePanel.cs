@@ -42,7 +42,7 @@ public class ProfilePanel : MonoBehaviour
     {
         foreach (ProfileInfoPanel panel in infoPanelList)
         {
-            if(panel.category == category)
+            if (panel.category == category)
             {
                 return panel;
             }
@@ -53,16 +53,16 @@ public class ProfilePanel : MonoBehaviour
 
     private void CreateCategoryPanel()
     {
-        foreach(ProfileInfoDataSO data in infoDataList)
+        foreach (ProfileInfoDataSO data in infoDataList)
         {
             ProfileCategoryData categoryData = data.categoryData;
             ProfileCategoryPanel categoryPanel = Instantiate(categoryPanelPrefab, categoryPanelParent);
             ProfileInfoPanel infoPanel = GetInfoPanel(data.category);
-            
+
             categoryPanel.Init(data.category, categoryData.categoryNameText, infoPanel);
             infoPanel.Init(data);
 
-            if(data.isShowCategory)
+            if (data.isShowCategory)
             {
                 categoryPanel.gameObject.SetActive(true);
             }
@@ -71,15 +71,15 @@ public class ProfilePanel : MonoBehaviour
                 categoryPanel.gameObject.SetActive(false);
             }
 
-            categoryPanels.Add(data.category,categoryPanel);
+            categoryPanels.Add(data.category, categoryPanel);
         }
     }
 
-    private void SaveShowCategory(EProfileCategory category) 
+    private void SaveShowCategory(EProfileCategory category)
     {
-        foreach(var data in infoDataList)
+        foreach (var data in infoDataList)
         {
-            if(data.category == category)
+            if (data.category == category)
             {
                 data.isShowCategory = true;
             }
@@ -89,7 +89,7 @@ public class ProfilePanel : MonoBehaviour
     //이벤트 매니저 등록
     private void ChangeValue(object[] ps) // 0 = 카테고리, 1 = key값 스트링, 
     {
-        if(!(ps[0] is EProfileCategory) || !(ps[1] is string))
+        if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
         {
             return;
         }
@@ -107,6 +107,10 @@ public class ProfilePanel : MonoBehaviour
             }
             categoryPanel.ChangeValue(ps[1] as string);
         }
+        else
+        {
+            Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
+        }
     }
     public void HideCategoryParentPanel()
     {
@@ -116,7 +120,7 @@ public class ProfilePanel : MonoBehaviour
 #if UNITY_EDITOR
     private void OnApplicationQuit()
     {
-        foreach(var data in infoDataList)
+        foreach (var data in infoDataList)
         {
             data.Reset();
         }

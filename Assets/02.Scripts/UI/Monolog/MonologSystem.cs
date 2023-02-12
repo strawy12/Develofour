@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MonologSystem : MonoBehaviour
 {
-    public static Action<ETextDataType, float> OnStartMonolog;
+    public static Action<ETextDataType, float, int> OnStartMonolog;
     public static Action OnEndMonologEvent;
     [SerializeField]
     private TextBox textBox;
@@ -16,17 +16,23 @@ public class MonologSystem : MonoBehaviour
         OnStartMonolog += StartMonolog;
     }
 
-    public void StartMonolog(ETextDataType textDataType,float delay)
+    public void StartMonolog(ETextDataType textDataType, float delay, int cnt)
     {
         Debug.Log("StartMonolog");
-        StartCoroutine(StartMonologCoroutine(textDataType,delay));
+        StartCoroutine(StartMonologCoroutine(textDataType,delay, cnt));
     }
 
-    private IEnumerator StartMonologCoroutine(ETextDataType textDataType, float delay)
+    private IEnumerator StartMonologCoroutine(ETextDataType textDataType, float delay, int cnt)
     {
-        yield return new WaitForSeconds(delay);
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
         textBox.Init(textDataType, TextBox.ETextBoxType.Simple);
-        textBox.PrintText();
+        for (int i = 0; i < cnt; i++)
+        {
+            yield return new WaitForSeconds(delay);
+            textBox.PrintText();
+            yield return new WaitUntil(() => textBox.IsClick);
+        }
+        GameManager.Inst.ChangeGameState(EGameState.Game);
     }
 
 }

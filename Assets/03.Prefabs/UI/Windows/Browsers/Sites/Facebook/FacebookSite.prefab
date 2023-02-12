@@ -196,9 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4a81c72c71428ba209f743cf64d1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  friendDataList:
-  - {fileID: 11400000, guid: e9172856023b4333aa6f5ab71e01849a, type: 2}
-  - {fileID: 11400000, guid: 14c68ee1c4ec425a9ad82f6b67cc3ba1, type: 2}
+  friendDataList: []
   profilePanel: {fileID: 1034843333788709281}
   friendLinePrefab: {fileID: 5040453763386511824}
   friendLineParent: {fileID: 2059271606755123124}
@@ -2038,7 +2036,7 @@ GameObject:
   - component: {fileID: 8664124355297126476}
   - component: {fileID: 8664124355297126475}
   - component: {fileID: 8664124355297126474}
-  - component: {fileID: 8664124355297126477}
+  - component: {fileID: 2434394582915235169}
   m_Layer: 5
   m_Name: HomePanelView
   m_TagString: Untagged
@@ -2106,7 +2104,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8664124355297126477
+--- !u!114 &2434394582915235169
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2115,7 +2113,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8664124355297126479}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 3dd5c9747bbffaf44b8930385255ce1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 8664124355484838943}
@@ -2129,10 +2127,10 @@ MonoBehaviour:
   m_Viewport: {fileID: 8664124354266417949}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
-  m_HorizontalScrollbarVisibility: 2
-  m_VerticalScrollbarVisibility: 2
-  m_HorizontalScrollbarSpacing: -3
-  m_VerticalScrollbarSpacing: -3
+  m_HorizontalScrollbarVisibility: 0
+  m_VerticalScrollbarVisibility: 0
+  m_HorizontalScrollbarSpacing: 0
+  m_VerticalScrollbarSpacing: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2490,7 +2488,9 @@ MonoBehaviour:
     siteTitle: Starbook
     address: www.Starbook.com
     isHaveFavorite: 1
-  pidDataList: []
+  pidDataList:
+  - {fileID: 11400000, guid: fc2596e33e5d4694ba48026d152bad6e, type: 2}
+  - {fileID: 11400000, guid: c9dcecfcd2ad469098a8c8d13f724b4c, type: 2}
   pidParent: {fileID: 8664124355484838943}
   pidPrefab: {fileID: 2368534440281103852}
   friendPanelBtn: {fileID: 8664124355148102772}
@@ -2690,10 +2690,10 @@ RectTransform:
   m_Father: {fileID: 8664124355484838943}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 280, y: -85.48}
-  m_SizeDelta: {x: 560, y: 170.96}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 170.96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8664124355596699570
 CanvasRenderer:
@@ -2889,7 +2889,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -29.999878}
+  m_AnchoredPosition: {x: 0, y: -30}
   m_SizeDelta: {x: 0, y: -60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8664124355718566048
@@ -3043,7 +3043,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00012207031}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3245150791187873342
@@ -3908,6 +3908,10 @@ PrefabInstance:
     - target: {fileID: 4016059334022096989, guid: f83240ebf8ea3404594ec448b65b39b4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578876202024196811, guid: f83240ebf8ea3404594ec448b65b39b4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 730.14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f83240ebf8ea3404594ec448b65b39b4, type: 3}

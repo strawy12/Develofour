@@ -50,12 +50,12 @@ public class QuestManager : MonoSingleton<QuestManager>
             if (quest.QuestData.isActive)
             {
                 quest.gameObject.SetActive(true);
-                quest.Init();
+                quest.Init(false);
             }
         }
     }
 
-    public void AddQuest(EQuestEvent questEvent)
+    public void AddQuest(EQuestEvent questEvent, bool isNotice)
     {
         foreach(Quest quest in questList)
         {
@@ -64,7 +64,7 @@ public class QuestManager : MonoSingleton<QuestManager>
                 if(!quest.QuestData.isActive)
                 {
                     quest.gameObject.SetActive(true);
-                    quest.Init();
+                    quest.Init(isNotice);
 
                     //??
                 }
