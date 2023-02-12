@@ -23,7 +23,9 @@ public class EndInstallScreen : InstallerScreen
     private void InstallerClose()
     {
         installer.CheckOpenWindow(windowOpenToggle.isOn);
+
         installer.WindowClose();
+        MonologSystem.OnStartMonolog.Invoke(ETextDataType.Profile, 0.2f, 6);
     }
 
 }
