@@ -7,7 +7,8 @@ public class Notepad : Window
 {
     [SerializeField]
     private TMP_InputField inputField;
-
+    [SerializeField]
+    private CheckNotePadTyoe checkNotePad;
     public NotepadDataSO currentData;
 
     [SerializeField]
@@ -21,6 +22,7 @@ public class Notepad : Window
         OnUnSelected += () => inputField.DeactivateInputField();
         currentData = ResourceManager.Inst.GetNotepadData(file.name);
         inputField.scrollSensitivity = scrollValue;
+        checkNotePad.Setting(file);
         SetText();
     }
 
