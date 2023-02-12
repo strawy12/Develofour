@@ -13,5 +13,6 @@ public enum ENoticeType
 	SnsSetNewPassword,
 	WriterFacebookLoginSuccess,
 	ConnectUSB,
-	End
+    FindLaptopOwner,
+    End
 }
