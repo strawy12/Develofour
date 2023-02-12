@@ -156,7 +156,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void WindowGuestLogin()
     {
-        DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin = true;
+        DataManager.Inst.CurrentPlayer.CurrentChapterData.isGuestWindowLogin = true;
         EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
         windowLoginCanvas.SetActive(false);
         if (isFirst)

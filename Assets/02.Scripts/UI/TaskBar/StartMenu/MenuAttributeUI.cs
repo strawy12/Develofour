@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 {
@@ -23,6 +24,8 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private Coroutine expandCoroutine = null;
 
+    public TMP_Text nameText;
+
     private void Awake()
     {
         Bind();
@@ -39,8 +42,8 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         }
 
         EventManager.StartListening(EWindowEvent.ExpendMenu, ToggleMenu);
-        EventManager.StartListening(EWindowEvent.ActivePowerPanel, ActivePowerPanel); 
-
+        EventManager.StartListening(EWindowEvent.ActivePowerPanel, ActivePowerPanel);
+        EventManager.StartListening(EWindowEvent.WindowsSuccessLogin, SetName);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
@@ -49,6 +52,19 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
     }
+
+    private void SetName(object[] ps)
+    {
+        if(DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin)
+        {
+            nameText.text = "¹ÚÁÖ¿µ";
+        }
+        else if(DataManager.Inst.CurrentPlayer.CurrentChapterData.isGuestWindowLogin)
+        {
+            nameText.text = "Guest";
+        }
+    }
+
     private void CheckClose(object[] hits)
     {
         if(isStop) { return; }
