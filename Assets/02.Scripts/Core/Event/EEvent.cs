@@ -128,3 +128,16 @@ public enum EProfileEvent
     FindInfoText,
     SendMessage,
 }
+
+public enum ETutorialEvent
+{
+    None = -1,
+    BackgroundSignStart,
+    BackgroundSignEnd,
+    BackgroundSelect,
+    LibraryRootCheck, //일단 나중에 함
+    LibraryRequesterInfoStart,
+    LibraryRequesterInfoEnd,
+    LibraryRequesterInfoSelect,
+
+}
