@@ -48,6 +48,7 @@ public class BackgroundIcons : MonoBehaviour
         icon.Init(true);
         icon.SetFileData(file);
         icon.name = file.name;
+        
         icon.gameObject.SetActive(true);
 
         iconList.Add(icon);

@@ -11,5 +11,5 @@ public class ProfileChattingSaveSO : ScriptableObject
 
     [Header("ÀúÀå¿ë")]
     [SerializeField]
-    public List<EAiChatData> saveList;
+    public List<string> saveList;
 }
