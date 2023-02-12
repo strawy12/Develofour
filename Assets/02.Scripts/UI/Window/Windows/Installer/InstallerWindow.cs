@@ -74,6 +74,8 @@ public class InstallerWindow : Window
         FileManager.Inst.AddFile(installFile, "C/Background");
 
         QuestManager.Inst.AddQuest(EQuestEvent.GetOwnerInfo);
+
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.FindLaptopOwner, 0f);
     }
 
     public void CheckOpenWindow(bool isWindowOpen)
