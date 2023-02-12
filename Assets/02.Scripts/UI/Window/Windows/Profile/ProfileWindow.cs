@@ -26,7 +26,7 @@ public class ProfileWindow : Window
     private RectTransform area;
     [SerializeField]
     private float moveDelay = 0.75f;
-    private bool isOpen = false;
+    private bool isOpen = true;
     private bool isMoving = false;
     protected override void Init()
     {
@@ -95,6 +95,7 @@ public class ProfileWindow : Window
 
     private void ShowProfileCategoryPanel()
     {
+        isMoving = true;
         profilePanel.gameObject.SetActive(true);
         area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
@@ -104,6 +105,7 @@ public class ProfileWindow : Window
     }
     private void ShowInfoCheckPanel()
     {
+        isMoving = true;
         infoCheckPanel.gameObject.SetActive(true);
         area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
@@ -114,6 +116,7 @@ public class ProfileWindow : Window
     }
     private void ShowFileSearchPanel()
     {
+        isMoving = true;
         fileSearchPanel.gameObject.SetActive(true);
         area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
