@@ -19,7 +19,7 @@ public class Quest : MonoBehaviour
     [SerializeField]
     private List<Decision> decisionList;
 
-    public void Init()
+    public void Init(bool isNotice)
     {
  
 
@@ -40,7 +40,7 @@ public class Quest : MonoBehaviour
             //decision.OnClearPanel += ShowClearDecisionPanel;
         }
 
-        if (questData.isActive == false)
+        if (questData.isActive == false && isNotice)
         {
             NoticeSystem.OnNotice.Invoke(questData.questText.head, questData.questText.body, null); // sprite 넣어야함
         }
