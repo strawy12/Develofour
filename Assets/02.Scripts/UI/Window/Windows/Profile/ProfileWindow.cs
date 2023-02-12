@@ -21,6 +21,8 @@ public class ProfileWindow : Window
     [SerializeField]
     private Button fileSearchBtn;
     [SerializeField]
+    private Button moveBtn;
+    [SerializeField]
     private RectTransform area;
     [SerializeField]
     private float moveDelay = 0.75f;
@@ -34,9 +36,11 @@ public class ProfileWindow : Window
         profileSystemBtn.onClick.AddListener(delegate { StartCoroutine(OnShowProfile()); } );
         infoCheckBtn.onClick.AddListener(delegate { StartCoroutine(OnShowInfo()); });
         fileSearchBtn.onClick.AddListener(delegate { StartCoroutine(OnShowFileSearch()); });
+        moveBtn.onClick.AddListener(delegate { StartCoroutine(HideAllPanel()); });
     }
     private IEnumerator HideAllPanel()
     {
+        isMoving = true;
         area.DOAnchorPosY(-1000, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
            profilePanel.gameObject.SetActive(false);
@@ -44,6 +48,7 @@ public class ProfileWindow : Window
            fileSearchPanel.gameObject.SetActive(false);
         });
         yield return new WaitForSeconds(moveDelay + 0.05f);
+        isMoving = false;
     }
 
     private IEnumerator OnShowProfile()
