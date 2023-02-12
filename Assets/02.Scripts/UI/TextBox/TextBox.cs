@@ -44,6 +44,7 @@ public class TextBox : MonoUI
     #endregion
 
     private bool isClick = false;
+    public bool IsClick { get { return isClick; } }
     private TextDataSO currentTextData;
     private int currentTextIndex;
     private ETextBoxType currentType;
@@ -155,6 +156,7 @@ public class TextBox : MonoUI
         nameText.SetText("");
         messageText.color = textData.color;
         isTextPrinted = false;
+        ShowBox();
         StartCoroutine(PrintMonologTextCoroutine(textData.text));
     }
 
@@ -227,7 +229,6 @@ public class TextBox : MonoUI
     }
     private IEnumerator PrintMonologTextCoroutine(string message)
     {
-        GameManager.Inst.ChangeGameState(EGameState.CutScene);
         bool isRich = false;
 
         // 모든 표시를 지운 순수 텍스트
@@ -269,7 +270,7 @@ public class TextBox : MonoUI
                 yield return new WaitForSeconds(printTextDelay);
             }
         }
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.5f);
 
         if (isTextPrinted == false)
         {
@@ -282,10 +283,9 @@ public class TextBox : MonoUI
 
         yield return new WaitUntil(() => isClick);
         EventManager.StopListening(EInputType.InputMouseDown, ClickEvent);
-        GameManager.Inst.ChangeGameState(EGameState.Game);
         MonologSystem.OnEndMonologEvent?.Invoke();
+        isClick = false;
         
-
         HideBox();
     }
 

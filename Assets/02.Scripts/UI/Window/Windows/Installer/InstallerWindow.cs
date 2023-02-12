@@ -68,7 +68,6 @@ public class InstallerWindow : Window
         windowBar.CloseBtn.interactable = false;
         cancelBtn.interactable = false;
     }
-
     public void EndInstall()
     {
         FileManager.Inst.AddFile(installFile, "C/Background");
@@ -76,6 +75,8 @@ public class InstallerWindow : Window
         QuestManager.Inst.AddQuest(EQuestEvent.GetOwnerInfo);
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.FindLaptopOwner, 0f);
+
+
     }
 
     public void CheckOpenWindow(bool isWindowOpen)
