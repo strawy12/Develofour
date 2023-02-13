@@ -72,7 +72,7 @@ public class InstallerWindow : Window
     {
         FileManager.Inst.AddFile(installFile, "C/Background");
 
-        QuestManager.Inst.AddQuest(EQuestEvent.GetOwnerInfo, false);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
     }
 
     public void CheckOpenWindow(bool isWindowOpen)
