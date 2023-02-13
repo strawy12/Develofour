@@ -65,6 +65,7 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         foreach (var part in infoPartList)
         {
+            Debug.Log(part.partNameKey + " " + key);
             if (part.partNameKey == key)
             {
                 //저장 방식이 어케되는거?

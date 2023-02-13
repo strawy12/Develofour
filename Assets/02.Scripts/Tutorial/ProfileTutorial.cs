@@ -12,7 +12,9 @@ public class ProfileTutorial : MonoBehaviour
         {
             EventManager.TriggerEvent(ETutorialEvent.TutorialStart, new object[0]);
         }
+
     }
+
 
     public GameObject tutorialPanel;
 
