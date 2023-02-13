@@ -13,14 +13,8 @@ public class ProfileTutorial : MonoBehaviour
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
-
-        EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoSelect, delegate
-        {
-            EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd, new object[0]);
-
-            NoticeProfileChattingTutorial();
-            //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); 끝나고 해야하는거
-        });
+        EventManager.StartListening(ETutorialEvent.EndTutorial, delegate { NoticeProfileChattingTutorial(); });
+        EventManager.StartListening(ETutorialEvent.EndTutorial, delegate { });
 
         EventManager.StartListening(ETutorialEvent.ProfileInfoSelect, delegate 
         {

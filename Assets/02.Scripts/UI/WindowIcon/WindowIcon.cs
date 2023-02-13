@@ -61,7 +61,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void SetFileData(FileSO newFileData)
     {
-        if(newFileData == null)
+        if (newFileData == null)
         {
             return;
         }
@@ -72,15 +72,26 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (isRegisterEvent == false && fileData.windowName == "의뢰자 정보")
         {
             isRegisterEvent = true;
-            EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, delegate {  if(gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
+            EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, delegate
+            {
+                if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
+                EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoSelect, delegate
+                {
+                    EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd, new object[0]);
+
+                    EventManager.TriggerEvent(ETutorialEvent.EndTutorial, new object[0]);
+                    //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); 끝나고 해야하는거
+                });
+            });
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); RequesterInfoEventStop(); });
             Debug.Log("이벤트 등록");
         }
 
-        if(isUSBEvent == false && fileData.windowName == "BestUSB")
+        if (isUSBEvent == false && fileData.windowName == "BestUSB")
         {
             isUSBEvent = true;
-            EventManager.StartListening(ETutorialEvent.LibraryUSBStart, delegate {
+            EventManager.StartListening(ETutorialEvent.LibraryUSBStart, delegate
+            {
 
                 if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
                 EventManager.StartListening(ETutorialEvent.LibraryUSBSelect, delegate
@@ -99,11 +110,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if (clickCount != 0)
             {
-               
+
                 // 여기에서 이벤트 쏨
                 clickCount = 0;
 
-                
+
                 if (targetWindow == null)
                 {
                     OpenWindow();
@@ -134,7 +145,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 Select();
                 clickCount++;
             }
-            
+
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
@@ -203,9 +214,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     void Start()
     {
-        if(gameObject.name == "ExplorerIcon")
+        if (gameObject.name == "ExplorerIcon")
         {
-            EventManager.StartListening(ETutorialEvent.BackgroundSignStart, delegate {
+            EventManager.StartListening(ETutorialEvent.BackgroundSignStart, delegate
+            {
                 if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
                 EventManager.StartListening(ETutorialEvent.BackgroundSelect, delegate
                 {
@@ -241,7 +253,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void BackgroundEventStop()
     {
-        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate {  if(gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { if (gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
         EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); });
 
         EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]);
@@ -249,13 +261,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void RequesterInfoEventStop()
     {
-        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, delegate { if(gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, delegate { if (gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); });
     }
 
     private void USBEventStop()
     {
-        EventManager.StopListening(ETutorialEvent.LibraryUSBStart, delegate { if(gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.LibraryUSBStart, delegate { if (gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
         EventManager.StopListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); });
         EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]);
     }
