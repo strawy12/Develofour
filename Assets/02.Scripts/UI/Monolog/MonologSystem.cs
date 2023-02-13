@@ -18,7 +18,6 @@ public class MonologSystem : MonoBehaviour
 
     public void StartMonolog(ETextDataType textDataType, float delay, int cnt)
     {
-        Debug.Log("StartMonolog");
         StartCoroutine(StartMonologCoroutine(textDataType,delay, cnt));
     }
 
