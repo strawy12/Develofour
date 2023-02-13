@@ -6,35 +6,18 @@ using DG.Tweening;
 
 public class ProfileTutorial : MonoBehaviour
 {
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            EventManager.TriggerEvent(ETutorialEvent.TutorialStart, new object[0]);
-        }
-
-    }
 
 
     public GameObject tutorialPanel;
 
     void Start()
     {
-        Debug.Log("현재 업데이트에 디버그 코드가 있습니다.");
-
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
-
-        EventManager.StartListening(ETutorialEvent.BackgroundSelect, delegate
-        {
-            EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd, new object[0]);
-            //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); 나중에
-            //만약 usb 폴더가 아니라면 오류터짐. 그걸 걸러주는게 위에 코드(아직 제작 안함)
-            EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart, new object[0]);
-        });
 
         EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoSelect, delegate
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd, new object[0]);
+
             NoticeProfileChattingTutorial();
             //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); 끝나고 해야하는거
         });
@@ -44,6 +27,9 @@ public class ProfileTutorial : MonoBehaviour
             EventManager.TriggerEvent(ETutorialEvent.ProfileInfoEnd, new object[0]);
             StartCoroutine(StartProfileLastTutorial());
         });
+
+      
+
     }
 
 
@@ -63,6 +49,7 @@ public class ProfileTutorial : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "배경화면을 확인해 주세요." });
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart, new object[0] { });
+
     }
 
     public void NoticeProfileChattingTutorial()

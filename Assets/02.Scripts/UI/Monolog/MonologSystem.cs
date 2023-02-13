@@ -32,6 +32,7 @@ public class MonologSystem : MonoBehaviour
             textBox.PrintText();
             yield return new WaitUntil(() => textBox.IsClick);
         }
+        OnEndMonologEvent?.Invoke();
         GameManager.Inst.ChangeGameState(EGameState.Game);
     }
 

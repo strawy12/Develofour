@@ -99,7 +99,6 @@ public class Library : Window
     }
     #endregion
     private bool isSetLibrary = false;
-
     protected override void Init()
     {
         base.Init();
@@ -116,6 +115,9 @@ public class Library : Window
         EventManager.StartListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
+        
+        EventManager.StartListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
+
         searchInputField.onSubmit.AddListener(delegate { SearchFile(); });
         searchBtn.onClick.AddListener(SearchFile);
         undoBtn.onClick.AddListener(UndoFile);
@@ -176,6 +178,7 @@ public class Library : Window
             SetLibrary();
         }
     }
+
     private void SearchFile()
     {
         foundFileList.Clear();
@@ -283,6 +286,28 @@ public class Library : Window
         selectIcon?.SelectedIcon(false);
         selectIcon = null;
     }
+
+    private void CheckTutorialRoot(object[] ps)
+    {
+        //if (!gameObject.activeSelf) return;
+        Debug.Log("Trigger");
+        if (currentDirectory.windowName == "BestUSB")
+        {
+            Debug.Log("BestUSB");
+            EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart, new object[0]);
+        }
+        else if(currentDirectory.windowName == "User")
+        {
+            Debug.Log("User");
+            EventManager.TriggerEvent(ETutorialEvent.LibraryUSBStart, new object[0]);
+        }
+        else
+        {
+            Debug.Log("C");
+            EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonStart, new object[0]);
+        }
+    }
+    
 
     private void OnDisable()
     {
