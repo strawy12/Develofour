@@ -13,8 +13,6 @@ public class WindowPrefabElement
 }
 
 
-
-
 public class WindowManager : MonoSingleton<WindowManager>
 {
     // 이거는 동적으로 생성된 Window 모음

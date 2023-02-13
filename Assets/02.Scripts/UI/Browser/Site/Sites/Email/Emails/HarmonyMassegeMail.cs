@@ -9,6 +9,8 @@ public class HarmonyMassegeMail : Mail
     [SerializeField]
     private ScrollRect sr;
 
+    private bool playBGM = false;
+
     public async void SetContentPosition()
     {
         await Task.Delay(200);
@@ -23,7 +25,11 @@ public class HarmonyMassegeMail : Mail
 
     public override void ShowMail()
     {
-        Sound.OnPlayBGMSound(Sound.EBgm.AfterDiscordMail);
+        if (playBGM == false)
+        {
+            playBGM = true;
+            Sound.OnPlayBGMSound(Sound.EBgm.AfterDiscordMail);
+        }
         base.ShowMail();
     }
 

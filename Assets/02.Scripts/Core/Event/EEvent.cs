@@ -143,5 +143,4 @@ public enum ETutorialEvent
     ProfileInfoStart,
     ProfileInfoEnd,
     ProfileInfoSelect,
-
 }
