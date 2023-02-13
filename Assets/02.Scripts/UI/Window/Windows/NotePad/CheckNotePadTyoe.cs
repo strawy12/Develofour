@@ -6,6 +6,10 @@ public class CheckNotePadTyoe : MonoBehaviour
 {
     private FileSO currentFile;
 
+    private void Awake()
+    {
+
+    }
     public void Setting(FileSO file)
     {
         currentFile = file;
@@ -14,11 +18,13 @@ public class CheckNotePadTyoe : MonoBehaviour
 
     private void CheckFileOwnerInfo()
     {
-        if(currentFile.windowName == "의뢰자 정보")
+
+        if (currentFile.windowName == "의뢰자 정보")
         {
             EventManager.TriggerEvent(EDecisionEvent.ClickOwnerNameText);
 
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText,new object[2] { EProfileCategory.Owner,"OwnerName" });
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.Owner, "OwnerName" });
         }
+
     }
 }

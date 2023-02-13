@@ -73,6 +73,7 @@ public class ProfileChatting : MonoBehaviour
             }
         }
         SOData.saveList.Add(str);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + str;
         obj.gameObject.SetActive(true);
@@ -106,9 +107,9 @@ public class ProfileChatting : MonoBehaviour
                 return;
             }
         }
-
+        
         SOData.saveList.Add(data.ToString());
-
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
         obj.gameObject.SetActive(true);

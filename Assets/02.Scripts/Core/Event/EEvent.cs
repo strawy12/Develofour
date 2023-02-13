@@ -127,6 +127,7 @@ public enum EProfileEvent
     None = -1,
     FindInfoText,
     SendMessage,
+    InstalledProfile,
 }
 
 public enum ETutorialEvent
@@ -149,4 +150,5 @@ public enum ETutorialEvent
     ProfileInfoStart,
     ProfileInfoEnd,
     ProfileInfoSelect,
+    EndTutorial,
 }

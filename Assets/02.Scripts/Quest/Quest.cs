@@ -127,7 +127,6 @@ public class Quest : MonoBehaviour
     //    SaveDecisionDatas();
     //}
 
-#if UNITY_EDITOR
 
     public void DebugReset()
     {
@@ -142,5 +141,4 @@ public class Quest : MonoBehaviour
             data.isClear = false;
         }
     }
-#endif
 }
