@@ -139,5 +139,4 @@ public enum ETutorialEvent
     LibraryRequesterInfoStart,
     LibraryRequesterInfoEnd,
     LibraryRequesterInfoSelect,
-
 }
