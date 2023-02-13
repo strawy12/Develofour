@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -45,7 +45,7 @@ public class StarbookPasswordResetSite : Site
         resetCompletedNextButton.onClick?.AddListener(CompletedPasswordReset);
     }
 
-    // »çÀÌÆ® ¿­°í °è¼ÓÇÏ±â ´©¸£¸é ¸ŞÀÏ°¡°í º¸¾ÈÆĞ³Î¿­¸²
+    // ì‚¬ì´íŠ¸ ì—´ê³  ê³„ì†í•˜ê¸° ëˆ„ë¥´ë©´ ë©”ì¼ê°€ê³  ë³´ì•ˆíŒ¨ë„ì—´ë¦¼
     private void SendSecurityCodeMail()
     {
         resetGuidePanel.SetActive(false);
@@ -54,7 +54,7 @@ public class StarbookPasswordResetSite : Site
         EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.StarbookSecurityCode });
     }
 
-    // º¸¾ÈÆĞ³Î¿¡¼­ °è¼ÓÇÏ±â ´­·¯ º¸¾ÈÄÚµå ¸ÂÀ¸¸é ºñ¹Ğ¹øÈ£ Àç¼³Á¤ ÆĞ³Î ¿­¸²
+    // ë³´ì•ˆíŒ¨ë„ì—ì„œ ê³„ì†í•˜ê¸° ëˆŒëŸ¬ ë³´ì•ˆì½”ë“œ ë§ìœ¼ë©´ ë¹„ë°€ë²ˆí˜¸ ì¬ì„¤ì • íŒ¨ë„ ì—´ë¦¼
     private void CheckSecurityCodeAnswer()
     {
         if(securityInput.text == securityAnswer)
