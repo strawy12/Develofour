@@ -62,12 +62,32 @@ public class ProfileChatting : MonoBehaviour
         }
     }
 
-    //public void AddText(EAiChatData data)
+    public void AddText(string str)
+    {
+        foreach (var save in SOData.saveList)
+        {
+            if (save == str)
+            {
+                Debug.Log("동일한 데이터");
+                return;
+            }
+        }
+        SOData.saveList.Add(str);
+        GameObject obj = Instantiate(textPrefab, textParent);
+        obj.GetComponent<TMP_Text>().text = ">> " + str;
+        obj.gameObject.SetActive(true);
+        SetScrollView();
+    }
+
     public void AddText(object[] ps)
     { 
         if(!(ps[0] is EAiChatData))
         {
             Debug.Log("다른타입");
+            if(ps[0] is string)
+            {
+                AddText(ps[0] as string);
+            }
             return;
         }
 
@@ -77,17 +97,17 @@ public class ProfileChatting : MonoBehaviour
         {
             Debug.Log("해당 ENUM에 대한 키값이 존재하지 않음");
         }
-        
-        foreach(var save in SOData.saveList)
+
+        foreach (var save in SOData.saveList)
         {
-            if(save == data)
+            if (save == data.ToString())
             {
                 Debug.Log("동일한 데이터");
                 return;
             }
         }
 
-        SOData.saveList.Add(data);
+        SOData.saveList.Add(data.ToString());
 
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
@@ -117,6 +137,9 @@ public class ProfileChatting : MonoBehaviour
 
     public void GetSaveSetting()
     {
+        Debug.Log(SOData);
+        Debug.Log(SOData.saveList);
+
         foreach(var save in SOData.saveList)
         {
             AddSaveText(save);
@@ -124,18 +147,30 @@ public class ProfileChatting : MonoBehaviour
         SetScrollView();
     }
 
-    public void AddSaveText(EAiChatData data)
+    public void AddSaveText(string data)
     {
-        if (!chatDataDictionary.ContainsKey(data))
+        if (chatDataDictionary.ContainsKey(AIStringToEnum(data)))
         {
-            Debug.Log("해당 ENUM에 대한 키값이 존재하지 않음");
+            GameObject obj = Instantiate(textPrefab, textParent);
+            obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[AIStringToEnum(data)];
+            obj.gameObject.SetActive(true);
         }
-
-        GameObject obj = Instantiate(textPrefab, textParent);
-        obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
-        obj.gameObject.SetActive(true);
+        else
+        {
+            GameObject obj = Instantiate(textPrefab, textParent);
+            obj.GetComponent<TMP_Text>().text = ">> " + data;
+            obj.gameObject.SetActive(true);
+        }
     }
-    
+
+    EAiChatData AIStringToEnum(string str)
+    {
+        if (Enum.IsDefined(typeof(EAiChatData), str))
+            return (EAiChatData)Enum.Parse(typeof(EAiChatData), str);
+        else
+            return EAiChatData.None;
+    }
+
     public void ShowPanel()
     {
         if (isMoving) return;
@@ -163,6 +198,18 @@ public class ProfileChatting : MonoBehaviour
             isMoving = false;
         });
     }
+
+    //void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.L))
+    //    {
+    //        AddText(new object[1] { "안녕하세요" });
+    //    }
+    //    if(Input.GetKeyDown(KeyCode.K))
+    //    {
+    //        AddText(new object[1] { EAiChatData.Email });
+    //    }    
+    //}
 
     public void OnApplicationQuit()
     {

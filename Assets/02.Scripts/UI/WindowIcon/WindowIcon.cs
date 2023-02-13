@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System;
 using System.Runtime.CompilerServices;
+using DG.Tweening;
 
 public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -16,6 +17,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private Window targetWindow = null;
     private Sprite sprite;
+
+    public Image yellowUI;
 
     [SerializeField]
     private FileSO fileData;
@@ -33,7 +36,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private bool isBackground;
 
     private bool isInit = false;
-
+    private bool isRegisterEvent = false;
     public FileSO File => fileData;
 
 
@@ -53,7 +56,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
-
     }
 
     public void SetFileData(FileSO newFileData)
@@ -65,6 +67,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         fileData = newFileData;
         iconNameText.text = fileData.windowName;
         iconImage.sprite = newFileData.iconSprite;
+        if (isRegisterEvent == false && fileData.windowName == "의뢰자 정보")
+        {
+            isRegisterEvent = true;
+            EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, delegate { StartCoroutine(YellowSignCor()); });
+            EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); RequesterInfoEventStop(); });
+            Debug.Log("이벤트 등록");
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -75,6 +84,16 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 // 여기에서 이벤트 쏨
                 clickCount = 0;
+
+                if(gameObject.name == "ExplorerIcon")
+                {
+                    EventManager.TriggerEvent(ETutorialEvent.BackgroundSelect, new object[0]);
+                }
+
+                if(fileData.windowName == "의뢰자 정보")
+                {
+                    EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoSelect, new object[0]);
+                }
 
                 if (targetWindow == null)
                 {
@@ -102,6 +121,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
+
         if (fileData is DirectorySO && isBackground == false)
         {
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
@@ -157,6 +177,48 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         pointerStayImage.gameObject.SetActive(false);
     }
 
+    void Start()
+    {
+        if(gameObject.name == "ExplorerIcon")
+        {
+            EventManager.StartListening(ETutorialEvent.BackgroundSignStart, delegate { StartCoroutine(YellowSignCor()); });
+            EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); BackgroundEventStop(); });
+        }
+    }
+
+    private bool isSign;
+    public IEnumerator YellowSignCor()
+    {
+        yellowUI.gameObject.SetActive(true);
+        isSign = true;
+        while (isSign)
+        {
+            yellowUI.DOColor(new Color(255, 255, 255, 0), 2f);
+            yield return new WaitForSeconds(2f);
+            yellowUI.DOColor(new Color(255, 255, 255, 1), 2f);
+            yield return new WaitForSeconds(2f);
+        }
+    }
+
+    public void StopCor()
+    {
+        isSign = false;
+        yellowUI.gameObject.SetActive(false);
+        StopCoroutine(YellowSignCor());
+        yellowUI.DOKill();
+    }
+
+    private void BackgroundEventStop()
+    {
+        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); });
+    }
+
+    private void RequesterInfoEventStop()
+    {
+        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, delegate { StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); });
+    }
 
     protected virtual void Select()
     {

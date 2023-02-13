@@ -38,20 +38,17 @@ public class StartCutScene : MonoBehaviour
 
     void CutSceneStart()
     {
-        EventManager.StartListening(EInputType.InputMouseDown, ShowText);
-        InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyDown: ShowText);
         StartCoroutine(OnType(mainTexts[0], 0.1f, scripts[0]));
         Flicker(underBarText);
+
+        EventManager.StartListening(EInputType.InputMouseDown, ShowText);
+
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
+        
+        InputManager.Inst.AddKeyInput(KeyCode.S, onKeyDown: EndCutScene);
+        InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyDown: ShowText);
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            EndCutScene();
-        }
-    }
 
     public void Flicker(TextMeshProUGUI underBarText)
     {
@@ -129,11 +126,15 @@ public class StartCutScene : MonoBehaviour
         underBarText.gameObject.SetActive(false);
         loadingImage.gameObject.SetActive(true);
         loadingText.gameObject.SetActive(true);
-        loadingImage.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), loadingDuration).OnComplete(() => 
-        { 
+        loadingImage.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), loadingDuration).OnComplete(() =>
+        {
             GameManager.Inst.ChangeGameState(EGameState.Game);
             SetActiveThisObject();
         });
+
+
+        InputManager.Inst.RemoveKeyInput(KeyCode.S, onKeyDown: EndCutScene);
+        Sound.OnPlayBGMSound(Sound.EBgm.StartBGM);
     }
 
     public void SetActiveThisObject()
