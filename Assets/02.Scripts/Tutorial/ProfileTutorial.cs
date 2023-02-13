@@ -6,33 +6,42 @@ using DG.Tweening;
 
 public class ProfileTutorial : MonoBehaviour
 {
-    void Update()
+    private void Awake()
+    {
+        EventManager.StartListening(ETutorialEvent.StartTutorial, StartTutorial);
+    }
+
+    private void Update()
     {
         if(Input.GetKeyDown(KeyCode.K))
         {
+            Debug.Log("tutorial debug");
             StartCoroutine(StartProfileOpenTutorial());
         }
 
     }
 
+    private void StartTutorial(object[] ps)
+    {
+        StartCoroutine(StartProfileOpenTutorial());
+        EventManager.StopListening(ETutorialEvent.StartTutorial, StartTutorial);
+
+    }
+
+
     public GameObject tutorialPanel;
 
     void Start()
     {
-        Debug.Log("현재 업데이트에 디버그 코드가 있습니다.");
-        EventManager.StartListening(ETutorialEvent.BackgroundSelect, delegate
-        {
-            EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd, new object[0]);
-            //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); 나중에
-            //만약 usb 폴더가 아니라면 오류터짐. 그걸 걸러주는게 위에 코드(아직 제작 안함)
-            EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart, new object[0]);
-        });
+        
 
         EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoSelect, delegate
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd, new object[0]);
-            //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); 끝나고 해야하는거
         });
+
+      
+
     }
 
 
@@ -51,6 +60,7 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "먼저 간단하게 정보를 수집해볼까요?" });
 
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart, new object[0] { });
+
     }
 
 

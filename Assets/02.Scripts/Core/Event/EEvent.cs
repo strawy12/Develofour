@@ -132,12 +132,19 @@ public enum EProfileEvent
 public enum ETutorialEvent
 {
     None = -1,
+    StartTutorial,
     BackgroundSignStart,
     BackgroundSignEnd,
     BackgroundSelect,
-    LibraryRootCheck, //일단 나중에 함
+    LibraryRootCheck, 
     LibraryRequesterInfoStart,
     LibraryRequesterInfoEnd,
     LibraryRequesterInfoSelect,
+    LibraryUserButtonStart,
+    LibraryUserButtonClick,
+    LibraryUserButtonEnd,
+    LibraryUSBStart,
+    LibraryUSBSelect,
+    LibraryUSBEnd,
 
 }

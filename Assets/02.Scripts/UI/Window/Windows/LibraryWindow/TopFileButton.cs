@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+using DG.Tweening;
 public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
@@ -14,6 +14,12 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     [SerializeField]
     private GameObject highrightedImage;
     private DirectorySO currentDirectory;
+    [Header("Tutorial")]
+    [SerializeField]
+    private Image yellowUI;
+    private bool isSign;
+
+    private Coroutine yellowCoroutine;
 
     public void Init()
     {
@@ -45,13 +51,59 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         currentDirectory = directoryData;
         fileName.text = directoryData.windowName;
         fileImage.sprite = directoryData.iconSprite;
+        if(currentDirectory.windowName == "User")
+        {
+            EventManager.StartListening(ETutorialEvent.LibraryUserButtonStart, delegate { 
+                if(gameObject.activeSelf)
+                yellowCoroutine = StartCoroutine(YellowSignCor());
+
+                EventManager.StartListening(ETutorialEvent.LibraryUserButtonClick, delegate
+                {
+                    EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonEnd, new object[0]);
+                });
+            });
+            EventManager.StartListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopCor(); StopTutorialEvent(); });
+        }
     }
 
     private void OpenFIle()
     {
         object[] ps = new object[1] { currentDirectory };
+        if(currentDirectory.windowName == "User")
+        {
+            EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonClick, new object[0]);
+        }
         EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, ps);
+        
     }
 
+    public IEnumerator YellowSignCor()
+    {
+        yellowUI.gameObject.SetActive(true);
+        isSign = true;
+        while (isSign)
+        {
+            yellowUI.DOColor(new Color(255, 255, 255, 0), 2f);
+            yield return new WaitForSeconds(2f);
+            yellowUI.DOColor(new Color(255, 255, 255, 1), 2f);
+            yield return new WaitForSeconds(2f);
+        }
+    }
+
+    public void StopCor()
+    {
+        isSign = false;
+        StopAllCoroutines();
+        yellowUI.gameObject.SetActive(false);
+        yellowUI.DOKill();
+    }
+
+    private void StopTutorialEvent()
+    {
+        EventManager.StopListening(ETutorialEvent.LibraryUserButtonStart, delegate { if (gameObject.activeSelf) yellowCoroutine = StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopCor(); });
+
+        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]);
+    }
 
 }

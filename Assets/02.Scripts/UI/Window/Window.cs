@@ -148,7 +148,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         }
     }
 
-    public void WindowOpen()
+    public virtual void WindowOpen()
     {
         WindowManager.Inst.SelectObject(this);
 
