@@ -51,7 +51,7 @@ public class StarbookPasswordResetSite : Site
         resetGuidePanel.SetActive(false);
         securityInputPanel.SetActive(true);
 
-        EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.SnsPasswordChange });
+        EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.StarbookSecurityCode });
     }
 
     // 보안패널에서 계속하기 눌러 보안코드 맞으면 비밀번호 재설정 패널 열림
