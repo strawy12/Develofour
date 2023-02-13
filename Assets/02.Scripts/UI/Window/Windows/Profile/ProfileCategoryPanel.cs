@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 using UnityEngine.EventSystems;
 using System;
 
@@ -12,6 +13,9 @@ public class ProfileCategoryPanel : MonoBehaviour
     private TMP_Text nameText;
 
     public EProfileCategory profileCategory;
+
+    [SerializeField]
+    private Image yellowUI;
 
     private ProfileInfoPanel infoPanel;
 
@@ -32,6 +36,36 @@ public class ProfileCategoryPanel : MonoBehaviour
     }
     private void ShowInfoPanel()
     {
+        if(profileCategory == EProfileCategory.Owner)
+        {
+            EventManager.TriggerEvent(ETutorialEvent.ProfileInfoSelect, new object[0]);
+        }
         infoPanel.gameObject.SetActive(true);
     }
+
+    private bool isSign;
+    public IEnumerator YellowSignCor()
+    {
+        yellowUI.gameObject.SetActive(true);
+        isSign = true;
+        while (isSign)
+        {
+            yellowUI.DOColor(new Color(255, 255, 255, 0), 2f);
+            yield return new WaitForSeconds(2f);
+            yellowUI.DOColor(new Color(255, 255, 255, 1), 2f);
+            yield return new WaitForSeconds(2f);
+        }
+    }
+
+    public void StopCor()
+    {
+        isSign = false;
+        yellowUI.gameObject.SetActive(false);
+        StopCoroutine(YellowSignCor());
+        yellowUI.DOKill();
+
+        EventManager.StopListening(ETutorialEvent.ProfileInfoStart, delegate { StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.ProfileInfoEnd, delegate { StopCor(); });
+    }
+
 }

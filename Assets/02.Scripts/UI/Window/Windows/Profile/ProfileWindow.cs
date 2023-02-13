@@ -28,6 +28,10 @@ public class ProfileWindow : Window
     private float moveDelay = 0.75f;
     private bool isOpen = true;
     private bool isMoving = false;
+
+    private bool isFirstTutorial;
+    private bool isSecondTutorial;
+
     protected override void Init()
     {
         base.Init();
