@@ -18,7 +18,6 @@ public enum ESiteLink
     Facebook,
     FacebookLoginSite,
     FacebookPasswordResetSite,
-    Home,
 }
 /// <summary>
 ///  블로그 사이트 이름
