@@ -15,5 +15,6 @@ public enum ENoticeType
 	ConnectUSB,
     FindLaptopOwner,
     AiMessageAlarm,
+	ProfileInstallingFinish,
     End
 }
