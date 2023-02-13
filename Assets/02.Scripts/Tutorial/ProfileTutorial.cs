@@ -6,27 +6,12 @@ using DG.Tweening;
 
 public class ProfileTutorial : MonoBehaviour
 {
-    private void Awake()
-    {
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            Debug.Log("tutorial debug");
-            StartCoroutine(StartProfileTutorial());
-        }
-
-    }
 
 
     public GameObject tutorialPanel;
 
     void Start()
     {
-        Debug.Log("현재 업데이트에 디버그 코드가 있습니다.");
-
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
 
         EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoSelect, delegate

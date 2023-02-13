@@ -270,7 +270,6 @@ public class TextBox : MonoUI
                 yield return new WaitForSeconds(printTextDelay);
             }
         }
-        yield return new WaitForSeconds(0.5f);
 
         if (isTextPrinted == false)
         {
@@ -283,7 +282,6 @@ public class TextBox : MonoUI
 
         yield return new WaitUntil(() => isClick);
         EventManager.StopListening(EInputType.InputMouseDown, ClickEvent);
-        MonologSystem.OnEndMonologEvent?.Invoke();
         isClick = false;
         
         HideBox();

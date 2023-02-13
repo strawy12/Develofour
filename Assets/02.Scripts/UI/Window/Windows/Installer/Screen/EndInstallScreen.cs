@@ -25,7 +25,12 @@ public class EndInstallScreen : InstallerScreen
         installer.CheckOpenWindow(windowOpenToggle.isOn);
 
         installer.WindowClose();
+        MonologSystem.OnEndMonologEvent += StartTuto;
         MonologSystem.OnStartMonolog.Invoke(ETextDataType.Profile, 0.2f, 6);
     }
-
+    private void StartTuto()
+    {
+        EventManager.TriggerEvent(ETutorialEvent.TutorialStart, new object[0]);
+        MonologSystem.OnEndMonologEvent -= StartTuto;
+    }
 }
