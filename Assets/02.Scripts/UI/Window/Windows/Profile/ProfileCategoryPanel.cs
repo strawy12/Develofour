@@ -50,7 +50,7 @@ public class ProfileCategoryPanel : MonoBehaviour
         isSign = true;
         while (isSign)
         {
-            yellowUI.DOColor(new Color(255, 255, 255, 0), 2f);
+            yellowUI.DOColor(new Color(255, 255, 255, 0.5f), 2f);
             yield return new WaitForSeconds(2f);
             yellowUI.DOColor(new Color(255, 255, 255, 1), 2f);
             yield return new WaitForSeconds(2f);
