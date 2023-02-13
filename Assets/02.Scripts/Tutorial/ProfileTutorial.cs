@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,15 +18,15 @@ public class ProfileTutorial : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("ÇöÀç ¾÷µ¥ÀÌÆ®¿¡ µğ¹ö±× ÄÚµå°¡ ÀÖ½À´Ï´Ù.");
+        Debug.Log("í˜„ì¬ ì—…ë°ì´íŠ¸ì— ë””ë²„ê·¸ ì½”ë“œê°€ ìˆìŠµë‹ˆë‹¤.");
 
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
 
         EventManager.StartListening(ETutorialEvent.BackgroundSelect, delegate
         {
             EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd, new object[0]);
-            //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); ³ªÁß¿¡
-            //¸¸¾à usb Æú´õ°¡ ¾Æ´Ï¶ó¸é ¿À·ùÅÍÁü. ±×°É °É·¯ÁÖ´Â°Ô À§¿¡ ÄÚµå(¾ÆÁ÷ Á¦ÀÛ ¾ÈÇÔ)
+            //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); ë‚˜ì¤‘ì—
+            //ë§Œì•½ usb í´ë”ê°€ ì•„ë‹ˆë¼ë©´ ì˜¤ë¥˜í„°ì§. ê·¸ê±¸ ê±¸ëŸ¬ì£¼ëŠ”ê²Œ ìœ„ì— ì½”ë“œ(ì•„ì§ ì œì‘ ì•ˆí•¨)
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart, new object[0]);
         });
 
@@ -34,7 +34,7 @@ public class ProfileTutorial : MonoBehaviour
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd, new object[0]);
             NoticeProfileChattingTutorial();
-            //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); ³¡³ª°í ÇØ¾ßÇÏ´Â°Å
+            //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); ëë‚˜ê³  í•´ì•¼í•˜ëŠ”ê±°
         });
 
         EventManager.StartListening(ETutorialEvent.ProfileInfoSelect, delegate 
@@ -51,34 +51,35 @@ public class ProfileTutorial : MonoBehaviour
 
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
         
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "¾È³çÇÏ½Ê´Ï±î?" });
-        yield return new WaitForSeconds(1f);
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ÇÁ·ÎÆÄÀÏ·¯¸¦ ¼³Ä¡ÇØÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù." });
-        yield return new WaitForSeconds(1f);
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "¿ì¼± ÀÌ ÇÁ·Î±×·¥À» »ç¿ëÇÏ´Â ¹æ¹ıÀ» ¾Ë·Áµå¸®°Ú½À´Ï´Ù" });
-        yield return new WaitForSeconds(1f);
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "¸ÕÀú °£´ÜÇÏ°Ô Á¤º¸¸¦ ¼öÁıÇØº¼±î¿ä?" });
-        yield return new WaitForSeconds(1f);
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "¹è°æÈ­¸éÀ» È®ÀÎÇØ ÁÖ¼¼¿ä." });
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ì•ˆë…•í•˜ì‹­ë‹ˆê¹Œ?" });
+        yield return new WaitForSeconds(1.5f);
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "í”„ë¡œíŒŒì¼ëŸ¬ë¥¼ ì„¤ì¹˜í•´ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤." });
+        yield return new WaitForSeconds(1.5f);
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ìš°ì„  ì´ í”„ë¡œê·¸ë¨ì„ ì‚¬ìš©í•˜ëŠ” ë°©ë²•ì„ ì•Œë ¤ë“œë¦¬ê² ìŠµë‹ˆë‹¤" });
+        yield return new WaitForSeconds(1.5f);
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ë¨¼ì € ê°„ë‹¨í•˜ê²Œ ì •ë³´ë¥¼ ìˆ˜ì§‘í•´ë³¼ê¹Œìš”?" });
+        yield return new WaitForSeconds(1.5f);
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ë°°ê²½í™”ë©´ì„ í™•ì¸í•´ ì£¼ì„¸ìš”." });
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart, new object[0] { });
     }
 
     public void NoticeProfileChattingTutorial()
     {
-        //ai Ã¤ÆÃ ¾Ë¸² ¶ç¿ì±â
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ÀßÇÏ¼Ì½À´Ï´Ù." });
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ÀÌ·¸°Ô Á¤º¸¸¦ Å¬¸¯ÇÒ ½Ã Á¤º¸°¡ ¼öÁıÀÌ ¿Ï·á°¡ µÇ¸ç ÀÌ Á¤º¸´Â ¿ŞÂÊ ÆĞ³Î¿¡ ÀÚµ¿À¸·Î Á¤¸®°¡ µË´Ï´Ù." });
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "Á¤¸®µÈ Á¤º¸¸¦ ÇÑ¹ø ¾Ë¾Æº¸·¯°¥±î¿ä?" });
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ì˜í•˜ì…¨ìŠµë‹ˆë‹¤." });
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ì´ë ‡ê²Œ ì •ë³´ë¥¼ í´ë¦­í•  ì‹œ ì •ë³´ê°€ ìˆ˜ì§‘ì´ ì™„ë£Œê°€ ë˜ë©° ì´ ì •ë³´ëŠ” ì™¼ìª½ íŒ¨ë„ì— ìë™ìœ¼ë¡œ ì •ë¦¬ê°€ ë©ë‹ˆë‹¤." });
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ì •ë¦¬ëœ ì •ë³´ë¥¼ í•œë²ˆ ì•Œì•„ë³´ëŸ¬ê°ˆê¹Œìš”?" });
         EventManager.TriggerEvent(ETutorialEvent.ProfileInfoStart, new object[0] { });
     }
 
     public IEnumerator StartProfileLastTutorial()
     {
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ÀÌ·¸°Ô º¸½Ã´Ù½ÍÀÌ ÀúÈñ°¡ ¼öÁıÇÑ Á¤º¸ÀÎ ÀÌ¸§¸¸ ÀûÇôÁ®ÀÖ´Â °ÍÀ» º¼ ¼ö ÀÖ½À´Ï´Ù" });
-        yield return new WaitForSeconds(1);
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ÀÌÁ¦ ¾ÕÀ¸·Î Á¤º¸¿¡ ºñ¾îÁ®ÀÖ´Â ºÎºĞÀ» Ã£¾Æ¼­ Å¬¸¯ÇÏ½Ã¸é Á¤º¸¸¦ ¼öÁıÇÒ ¼ö ÀÖ½À´Ï´Ù" });
-        yield return new WaitForSeconds(1f);
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "¾ÕÀ¸·Î Àß ºÎÅ¹µå¸³´Ï´Ù" });
+        yield return new WaitForSeconds(1.5f);
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ì´ë ‡ê²Œ ë³´ì‹œë‹¤ì‹¶ì´ ì €í¬ê°€ ìˆ˜ì§‘í•œ ì •ë³´ì¸ ì´ë¦„ë§Œ ì í˜€ì ¸ìˆëŠ” ê²ƒì„ ë³¼ ìˆ˜ ìˆìŠµë‹ˆë‹¤" });
+        yield return new WaitForSeconds(1.5f);
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ì´ì œ ì•ìœ¼ë¡œ ì •ë³´ì— ë¹„ì–´ì ¸ìˆëŠ” ë¶€ë¶„ì„ ì°¾ì•„ì„œ í´ë¦­í•˜ì‹œë©´ ì •ë³´ë¥¼ ìˆ˜ì§‘í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤" });
+        yield return new WaitForSeconds(1.5f);
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "ì•ìœ¼ë¡œ ì˜ ë¶€íƒë“œë¦½ë‹ˆë‹¤" });
         EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
         GameManager.Inst.ChangeGameState(EGameState.Game);
     }
