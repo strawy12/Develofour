@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using System.Threading.Tasks;
 using ExtenstionMethod;
 using TMPro;
+using Unity.VisualScripting;
+
 public enum EEmailCategory
 {
     None = 0x00,      // 00000000
@@ -20,40 +22,28 @@ public enum EEmailCategory
 public enum EMailType
 {
     Default = 0,
-    Writer = 100,
-    WriterDummy1,   
-    WriterDummy2,
-    WriterDummy3,
-    WriterDummy4,
-    WriterDummy5,
-    WriterDummy6,
-    WriterDummy7,
-    WriterDummy8,
-    WriterDummy9, 
-    WriterDummy10,
-    WriterDummy11,
-    WriterDummy12,
-    WriterDummy13,
-    WriterSendMail1,
-    WriterSendMail2,
-    WriterSendMail3,//DummyEnd 
-    SnsPasswordChange,
-    InsuranceMail07,
-    InsuranceMail08,
-    InsuranceMail09,
-    InsuranceMail10,
-    GYMClosedMail,
-    YoutubePaymentMail,
-    EventWinning01,
-    EventWinning02,
-    ZooogleNewIPMail,
-    NevarWarringMail,
-    NevarCompleteMail,
-    YeonGoHealthMail,
-    OrangeYoungMail,
-    HarmonyMassegeMail,
-    UkktubePremiumMail,
-    BranchDormantMail,
+    ADShopPurchase,
+    Danaga,
+    Dropcircle,
+    FunnyMoney,
+    GyogoBookStore,
+    IntRun, 
+    MunjeoCanvas,
+    StarbookJoin,
+    StarbookSecurityCode,
+    HealthStoreEvent,
+    NewFitnessCenterOpen,
+    ZooogleNewIP,
+    NevarDormantWarning,
+    NevarDormantComplete,
+    YeonGoFitnessCenter,
+    OrangeYoung,
+    HarmonyMassege,
+    UkktubePremiumCancel,
+    BranchMemorial,
+    CloseGym,
+    BaycoPurchase, 
+    InderPark
 }
 
 [Serializable]
@@ -65,6 +55,22 @@ public class MailData
 
 public class EmailSite : Site
 {
+    [ContextMenu("BindMailDataList")]
+    public void BindMailDataList()
+    {
+        Transform parent = transform.Find("Center/MailPanel/Mails");
+        
+        foreach(Transform child in parent)
+        {
+            Mail mail = child.GetComponent<Mail>();
+            if(mailDataList.Find(x => x.mail == mail) != null)
+            {
+                continue;
+            }
+            mailDataList.Add(new MailData() { mail = mail, mailDataSO = mail.MailData });
+        }
+    }
+
     private EEmailCategory currentCategory = EEmailCategory.Receive;
 
     [SerializeField]
