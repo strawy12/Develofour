@@ -6,7 +6,8 @@ public class GameManager : MonoSingleton<GameManager>
 {
     [SerializeField]
     private ClickEffect clickEffect;
-
+    [SerializeField]
+    private GameObject cutScenePanel;
     private EGameState gameState;
 
     public EGameState GameState { get { return gameState; } }
@@ -20,6 +21,14 @@ public class GameManager : MonoSingleton<GameManager>
         if (gameState == state) { return; }
 
         gameState = state;
+        if(gameState == EGameState.CutScene)
+        {
+            cutScenePanel.SetActive(true);
+        }
+        else
+        {
+            cutScenePanel.SetActive(false);
+        }
     }
 
 
