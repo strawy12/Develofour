@@ -89,6 +89,8 @@ public class FacebookLoginSite : Site
             requestSite = ESiteLink.None;
         }
 
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.Owner, "starbook" });
+
         // TODO
         // 구조 변경 해야함
         DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite = true;

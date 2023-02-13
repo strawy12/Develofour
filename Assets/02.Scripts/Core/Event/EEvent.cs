@@ -132,7 +132,7 @@ public enum EProfileEvent
 public enum ETutorialEvent
 {
     None = -1,
-    StartTutorial,
+    TutorialStart,
     BackgroundSignStart,
     BackgroundSignEnd,
     BackgroundSelect,
@@ -146,5 +146,7 @@ public enum ETutorialEvent
     LibraryUSBStart,
     LibraryUSBSelect,
     LibraryUSBEnd,
-
+    ProfileInfoStart,
+    ProfileInfoEnd,
+    ProfileInfoSelect,
 }

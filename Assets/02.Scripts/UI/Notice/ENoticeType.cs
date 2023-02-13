@@ -14,5 +14,6 @@ public enum ENoticeType
 	WriterFacebookLoginSuccess,
 	ConnectUSB,
     FindLaptopOwner,
+    AiMessageAlarm,
     End
 }
