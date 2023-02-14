@@ -3,10 +3,12 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEngine.Networking;
 using System;
-
+using System.Collections;
+using System.Threading;
 public class SOSettingWindow : EditorWindow
 {
-    const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q";
+
+    const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv";
 
     private TextField sheetField;
     private TextField scriptField;
@@ -37,20 +39,22 @@ public class SOSettingWindow : EditorWindow
     {
         //함수넣기
         Debug.Log("세팅이요");
-        ReadSheet();
+        EditorCoroutine.StartCoroutine(ReadSheet());
     }
 
-    private void ReadSheet()
+    private IEnumerator ReadSheet()
     {
         UnityWebRequest www = UnityWebRequest.Get(URL);
-        string add = www.downloadHandler.text;
 
-        string[] ver = add.Split('\n');
+        yield return www.SendWebRequest();
+        string data = www.downloadHandler.text;
+        Debug.Log(data);
+        string[] ver = data.Split('\n');
 
         string[] firstLine = ver[0].Split('\n');
 
-        Type soType = Type.GetType(ver[0]); 
-
+        Type soType = Type.GetType(ver[0]);
+        Debug.Log(ver[0]);
         Debug.Log(soType);
 
         for (int i = 1; i < ver.Length; i++)
