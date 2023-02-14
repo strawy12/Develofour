@@ -47,12 +47,11 @@ public class SOSettingWindow : EditorWindow
     private IEnumerator ReadSheet()
     {
         UnityWebRequest www = UnityWebRequest.Get(URL);
-
+        string add = www.downloadHandler.text;
         string[] ver = add.Split('\n'); //ї­
         yield return www.SendWebRequest();
         string data = www.downloadHandler.text;
         Debug.Log(data);
-        string[] ver = data.Split('\n');
 
         string[] firstLine = ver[0].Split('\n'); //За
 
