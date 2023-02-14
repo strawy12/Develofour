@@ -41,15 +41,16 @@ public class SOSettingWindow : EditorWindow
     {
         //함수넣기
         Debug.Log("세팅이요");
-        EditorCoroutine.StartCoroutine(ReadSheet());
+        Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(ReadSheet(), new object[0]);
     }
 
     private IEnumerator ReadSheet()
     {
         UnityWebRequest www = UnityWebRequest.Get(URL);
+        yield return new WaitForSeconds(5f);
+        yield return www.SendWebRequest();
         string add = www.downloadHandler.text;
         string[] ver = add.Split('\n'); //열
-        yield return www.SendWebRequest();
         string data = www.downloadHandler.text;
         Debug.Log(data);
 
