@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using System.IO;
-using UnityEngine.Rendering.LookDev;
-using UnityEditor.Compilation;
+using UnityEngine.Networking;
+using System;
 
 public class SOSettingWindow : EditorWindow
 {
+    const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q";
+
     private TextField sheetField;
     private TextField scriptField;
     private Button settingButton;
-        
+
     [MenuItem("Tools/SOSettingWindow")]
     public static void ShowWindow()
     {
@@ -39,5 +37,29 @@ public class SOSettingWindow : EditorWindow
     {
         //함수넣기
         Debug.Log("세팅이요");
+        ReadSheet();
+    }
+
+    private void ReadSheet()
+    {
+        UnityWebRequest www = UnityWebRequest.Get(URL);
+        string add = www.downloadHandler.text;
+
+        string[] ver = add.Split('\n');
+
+        string[] firstLine = ver[0].Split('\n');
+
+        Type soType = Type.GetType(ver[0]); 
+
+        Debug.Log(soType);
+
+        for (int i = 1; i < ver.Length; i++)
+        {
+            string[] hor = ver[i].Split('\t');
+
+            object obj = CreateInstance(soType);
+            SOParent soObj = obj as SOParent;
+            soObj.Setting(hor);
+        }
     }
 }
