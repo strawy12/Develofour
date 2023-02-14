@@ -47,12 +47,10 @@ public class SOSettingWindow : EditorWindow
     private IEnumerator ReadSheet()
     {
         UnityWebRequest www = UnityWebRequest.Get(URL);
-        yield return new WaitForSeconds(5f);
+
         yield return www.SendWebRequest();
         string add = www.downloadHandler.text;
         string[] ver = add.Split('\n'); //ї­
-        string data = www.downloadHandler.text;
-        Debug.Log(data);
 
         string[] firstLine = ver[0].Split('\n'); //За
 
@@ -81,7 +79,6 @@ public class SOSettingWindow : EditorWindow
                 AssetDatabase.CreateAsset(soObj, SO_PATH);
             }
         }
-
 
     }
 }
