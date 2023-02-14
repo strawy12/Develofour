@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEngine.Networking;
 using System;
+using System.IO;
 
 public class SOSettingWindow : EditorWindow
 {
@@ -45,9 +46,9 @@ public class SOSettingWindow : EditorWindow
         UnityWebRequest www = UnityWebRequest.Get(URL);
         string add = www.downloadHandler.text;
 
-        string[] ver = add.Split('\n');
+        string[] ver = add.Split('\n'); //열
 
-        string[] firstLine = ver[0].Split('\n');
+        string[] firstLine = ver[0].Split('\n'); //행
 
         Type soType = Type.GetType(ver[0]); 
 
@@ -57,9 +58,24 @@ public class SOSettingWindow : EditorWindow
         {
             string[] hor = ver[i].Split('\t');
 
-            object obj = CreateInstance(soType);
-            SOParent soObj = obj as SOParent;
-            soObj.Setting(hor);
+            string SO_PATH = $"Assets/Resources/{ver[0]}/{ver[0]}_{ver[i]}.asset";
+
+            if(File.Exists(SO_PATH))
+            {
+                //파일 잇음
+                SOParent soObj = Resources.Load($"{ver[0]}/{ver[0]}_{ver[i]}.asset") as SOParent;
+                soObj.Setting(hor);
+                AssetDatabase.CreateAsset(soObj, SO_PATH);
+            }
+            else
+            {
+                object obj = CreateInstance(soType);
+                SOParent soObj = obj as SOParent;
+                soObj.Setting(hor);
+                AssetDatabase.CreateAsset(soObj, SO_PATH);
+            }
         }
+
+
     }
 }
