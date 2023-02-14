@@ -60,7 +60,7 @@ public class Browser : Window
         browserBar.OnRedo?.AddListener(RedoSite);
 
         EventManager.StartListening(EBrowserEvent.OnUndoSite, UndoSite);
-        ChangeSite(ESiteLink.Home, 0f, false);
+        ChangeSite(ESiteLink.Chrome, 0f, false);
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
 
     }

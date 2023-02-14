@@ -124,7 +124,6 @@ public class ProfilePanel : MonoBehaviour
         categoryPanelParent.gameObject.SetActive(false);
     }
 
-#if UNITY_EDITOR
     private void OnApplicationQuit()
     {
         foreach (var data in infoDataList)
@@ -132,5 +131,10 @@ public class ProfilePanel : MonoBehaviour
             data.Reset();
         }
     }
-#endif
+
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EProfileEvent.FindInfoText, ChangeValue);
+    }
 }
