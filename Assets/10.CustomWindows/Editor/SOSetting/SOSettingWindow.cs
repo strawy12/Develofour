@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Threading;
+using System.Reflection;
 
 public class SOSettingWindow : EditorWindow
 {
@@ -52,10 +53,12 @@ public class SOSettingWindow : EditorWindow
         string add = www.downloadHandler.text;
         string[] ver = add.Split('\n'); //열
 
-        string[] firstLine = ver[0].Split('\n'); //행
+        string[] firstLine = ver[0].Split('\t'); //행
 
-        Type soType = Type.GetType(ver[0]);
+        Assembly asm = typeof(SOParent).Assembly;
+        Type soType = asm.GetType(firstLine[0]);
         Debug.Log(ver[0]);
+        Debug.Log(firstLine[0]);
         Debug.Log(soType);
 
         for (int i = 1; i < ver.Length; i++)
@@ -64,7 +67,7 @@ public class SOSettingWindow : EditorWindow
 
             string SO_PATH = $"Assets/Resources/{ver[0]}/{ver[0]}_{ver[i]}.asset";
 
-            if(File.Exists(SO_PATH))
+            if (File.Exists(SO_PATH))
             {
                 //파일 잇음
                 SOParent soObj = Resources.Load($"{ver[0]}/{ver[0]}_{ver[i]}.asset") as SOParent;
