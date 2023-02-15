@@ -9,6 +9,7 @@ public class test1 : SOParent
 
     public override void Setting(string[] ps)
     {
-        Debug.Log("asdf");
+        str = (string)ps[0];
+        iValue = int.Parse(ps[1]);
     }
 }
