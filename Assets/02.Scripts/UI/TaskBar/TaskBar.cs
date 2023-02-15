@@ -17,13 +17,9 @@ public class TaskBar : MonoBehaviour
     private int poolCnt = 10;
     private Stack<TaskIcon> taskIconPool;
 
-    // 
-    private Dictionary<int, TaskIcon> taskIcons;
-
     private void Awake()
     {
         taskIconPool = new Stack<TaskIcon>();
-        taskIcons = new Dictionary<int, TaskIcon>();
 
         CreatePool(poolCnt);
     }
@@ -73,19 +69,13 @@ public class TaskBar : MonoBehaviour
     public void AddIcon(Window window)
     {
         // 생성되어있는 TaskIcon에 해당 윈도우를 담는 아이콘이 존재하는지 여부
-
         TaskIcon taskIcon;
 
-        // 존재하지 않다면
-        if (taskIcons.TryGetValue((int)window.File.windowType, out taskIcon) == false)
-        {
             taskIcon = CreateTaskIcon();
 
             taskIcon.Init(window.File);
             taskIcon.OnClose += RemoveTaskIcon;
             taskIcon.gameObject.SetActive(true);
-            taskIcons.Add((int)window.File.windowType, taskIcon);
-        }
 
         taskIcon.AddWindow(window);
     }
