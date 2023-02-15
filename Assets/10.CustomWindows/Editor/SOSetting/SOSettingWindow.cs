@@ -7,10 +7,10 @@ using System.IO;
 using System.Collections;
 using System.Threading;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class SOSettingWindow : EditorWindow
 {
-
     const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv";
 
     private TextField sheetField;
@@ -72,8 +72,10 @@ public class SOSettingWindow : EditorWindow
 
             if (File.Exists(SO_PATH))
             {
-                SOParent soObj = Resources.Load($"{top[0]}/{hor[0]}") as SOParent;
+                FileStream temp = new FileStream($"Assets/Resources/{top[0]}/{hor[0]}.asset", FileMode.Open);
+                SOParent soObj = FromByteArray(temp);
                 soObj.Setting(hor);
+
             }
             else
             {
@@ -81,8 +83,22 @@ public class SOSettingWindow : EditorWindow
                 SOParent soObj = obj as SOParent;
                 soObj.Setting(hor);
                 AssetDatabase.CreateAsset(soObj, SO_PATH);
+
+                //FileStream temp = new FileStream($"Assets/Resources/{top[0]}/{hor[0]}.asset", FileMode.OpenOrCreate);
+                //SOParent soObj = FromByteArray(temp);
+                //soObj.Setting(hor);
+                //AssetDatabase.CreateAsset(soObj, SO_PATH);
             }
         }
 
+    }
+
+    public SOParent FromByteArray(FileStream data)
+    {
+        Debug.Log(data);
+        BinaryFormatter bf = new BinaryFormatter();
+        SOParent soObj = bf.Deserialize(data) as SOParent;
+
+        return soObj;
     }
 }
