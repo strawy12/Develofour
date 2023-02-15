@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using System.Runtime.CompilerServices;
 
 public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -181,8 +182,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
         activeImage.gameObject.SetActive(true);
     }
-
-
 
     public void SelectedWindow(bool isSelected)
     {
