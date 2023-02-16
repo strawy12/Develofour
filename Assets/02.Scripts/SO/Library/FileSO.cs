@@ -1,4 +1,8 @@
 ﻿using UnityEngine;
+using UnityEditor;
+using UnityEngine.UIElements;
+using System.IO;
+using System;
 
 [System.Serializable]
 public struct DateTime
@@ -26,7 +30,7 @@ public struct WindowIconData
 }
 
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
-public class FileSO : ScriptableObject
+public class FileSO : SOParent
 {
     public DirectorySO parent;
 
@@ -39,6 +43,8 @@ public class FileSO : ScriptableObject
     public bool isWindowLockClear;
     public string windowPin;
     public string windowPinHintGuide;
+
+    public object AssetDatabase { get; private set; }
 
     #region GetFileData
 
@@ -91,6 +97,13 @@ public class FileSO : ScriptableObject
     public void FixFile()
     {
         // FixDate 시간을 변경해줄 예정
+    }
+
+    public override void Setting(string[] ps)
+    {
+        windowType = (EWindowType)Enum.Parse(typeof(EWindowType),ps[1]);
+
+        windowName = ps[2];
     }
 }
 
