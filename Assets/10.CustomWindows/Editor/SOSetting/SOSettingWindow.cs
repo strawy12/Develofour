@@ -8,6 +8,7 @@ using System.Collections;
 using System.Threading;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using Object = System.Object;
 
 public class SOSettingWindow : EditorWindow
 {
@@ -72,10 +73,8 @@ public class SOSettingWindow : EditorWindow
 
             if (File.Exists(SO_PATH))
             {
-                FileStream temp = new FileStream($"Assets/Resources/{top[0]}/{hor[0]}.asset", FileMode.Open);
-                SOParent soObj = FromByteArray(temp);
-                soObj.Setting(hor);
-
+                object obj = AssetDatabase.LoadAssetAtPath($"Assets/Resources/test1/asdf.jpg", typeof(Image));
+                Image soObj = obj as Image;
             }
             else
             {
@@ -83,22 +82,40 @@ public class SOSettingWindow : EditorWindow
                 SOParent soObj = obj as SOParent;
                 soObj.Setting(hor);
                 AssetDatabase.CreateAsset(soObj, SO_PATH);
-
-                //FileStream temp = new FileStream($"Assets/Resources/{top[0]}/{hor[0]}.asset", FileMode.OpenOrCreate);
-                //SOParent soObj = FromByteArray(temp);
-                //soObj.Setting(hor);
-                //AssetDatabase.CreateAsset(soObj, SO_PATH);
             }
         }
 
     }
 
-    public SOParent FromByteArray(FileStream data)
-    {
-        Debug.Log(data);
-        BinaryFormatter bf = new BinaryFormatter();
-        SOParent soObj = bf.Deserialize(data) as SOParent;
 
-        return soObj;
+    public SOParent ByteToObject(byte[] buffer)
+    {
+        try
+        {
+            using (MemoryStream stream = new MemoryStream(buffer))
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                stream.Position = 0;
+                SOParent soparent = binaryFormatter.Deserialize(stream) as SOParent;
+                return soparent;
+            }
+        }
+        catch (Exception exception)
+        {
+            Debug.Log(exception.ToString());
+        }
+        return null;
+    }
+
+    public static Object binaryDeserialize(FileStream stream)
+    {
+        //MemoryStream stream = new MemoryStream(bytes);
+        BinaryFormatter formatter = new BinaryFormatter();
+        formatter.AssemblyFormat
+        = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+        Object obj = (Object)formatter.Deserialize(stream);
+        return obj;
     }
 }
+
+
