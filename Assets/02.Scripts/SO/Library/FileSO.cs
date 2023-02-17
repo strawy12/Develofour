@@ -26,7 +26,7 @@ public struct WindowIconData
 }
 
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
-public class FileSO : ScriptableObject
+public class FileSO : SOParent
 {
     public DirectorySO parent;
 
@@ -91,6 +91,11 @@ public class FileSO : ScriptableObject
     public void FixFile()
     {
         // FixDate 시간을 변경해줄 예정
+    }
+
+    public override void Setting(string[] ps)
+    {
+        
     }
 }
 

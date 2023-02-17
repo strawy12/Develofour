@@ -12,6 +12,7 @@ using Object = System.Object;
 
 public class SOSettingWindow : EditorWindow
 {
+    //https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv&gid=1984911729
     const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv";
 
     private TextField sheetField;
@@ -41,12 +42,12 @@ public class SOSettingWindow : EditorWindow
 
     private void Setting()
     {
-        Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(ReadSheet(), new object[0]);
+        Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(ReadSheet(sheetField.text), new object[0]);
     }
 
-    private IEnumerator ReadSheet()
+    private IEnumerator ReadSheet(string url)
     {
-        UnityWebRequest www = UnityWebRequest.Get(URL);
+        UnityWebRequest www = UnityWebRequest.Get(url);
 
         yield return www.SendWebRequest();
         string add = www.downloadHandler.text;
@@ -57,25 +58,24 @@ public class SOSettingWindow : EditorWindow
         Assembly asm = typeof(SOParent).Assembly;
         Type soType = asm.GetType(firstLine[0]);
 
-        if(soType == typeof(FileSO))
-        {
-            StartFileSOCreate();
-            yield break;
-        }
-
         string[] top = ver[0].Split('\t');
 
-        if(!Directory.Exists($"Assets/07.ScriptableObjects/{top[0]}"))
+        if(soType == typeof(FileSO))
         {
-            Directory.CreateDirectory($"Assets/07.ScriptableObjects/{top[0]}");
+            StartFileSOCreate(ver, soType);
+            yield break;
         }
 
         for (int i = 1; i < ver.Length; i++)
         {
             string[] hor = ver[i].Split('\t');
 
-            string SO_PATH = $"Assets/07.ScriptableObjects/{top[0]}/{hor[0]}.asset";
-            Debug.Log(SO_PATH);
+            if (!Directory.Exists($"Assets/07.ScriptableObjects/{hor[0]}"))
+            {
+                Directory.CreateDirectory($"Assets/07.ScriptableObjects/{hor[0]}");
+            }
+
+            string SO_PATH = $"Assets/07.ScriptableObjects/{hor[0]}/{hor[1]}.asset";
 
             if (File.Exists(SO_PATH))
             {
@@ -85,10 +85,13 @@ public class SOSettingWindow : EditorWindow
             }
             else
             {
-                object obj = CreateInstance(soType);
-                SOParent soObj = obj as SOParent;
-                soObj.Setting(hor);
-                AssetDatabase.CreateAsset(soObj, SO_PATH);
+                if(hor[3] == "Directory")
+                {
+                    object obj = CreateInstance(soType);
+                    SOParent soObj = obj as SOParent;
+                    soObj.Setting(hor);
+                    AssetDatabase.CreateAsset(soObj, SO_PATH);
+                }
             }
         }
 
@@ -124,9 +127,59 @@ public class SOSettingWindow : EditorWindow
         return obj;
     }
 
-    public void StartFileSOCreate()
+    public void StartFileSOCreate(string[] ver, Type soType)
     {
+        string[] top = ver[0].Split('\t');
+        string[] root = top[0].Split('/');
+        CreateRoot(root);
+        Debug.Log("asdf");
+        Debug.Log(soType);
+        for (int i = 1; i < ver.Length; i++)
+        {
+            string[] hor = ver[i].Split('\t');
 
+            string SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{hor[0]}.asset";
+
+            if (File.Exists(SO_PATH))
+            {
+                object obj = AssetDatabase.LoadAssetAtPath(SO_PATH, typeof(FileSO));
+                FileSO soObj = obj as FileSO;
+                soObj.Setting(hor);
+            }
+            else
+            {
+                if(hor[3] == "Directory")
+                {
+                    object obj = CreateInstance(soType);
+                    Debug.Log(obj);
+                    DirectorySO soObj = obj as DirectorySO;
+                    Debug.Log(soObj);
+                    soObj.Setting(hor);
+                    AssetDatabase.CreateAsset(soObj, SO_PATH);
+                }
+                else
+                {
+                    object obj = CreateInstance(soType);
+                    FileSO soObj = obj as FileSO;
+                    soObj.Setting(hor);
+                    AssetDatabase.CreateAsset(soObj, SO_PATH);
+                }
+            }
+        }
+    }
+
+    public void CreateRoot(string[] root)
+    {
+        string current = $"Assets/07.ScriptableObjects/DirectorySO";
+
+        for(int i = 0; i < root.Length; i++)
+        {
+            current = current + "/" + root[i];
+            if (!Directory.Exists(current))
+            {
+                Directory.CreateDirectory(current);
+            }
+        }
     }
 }
 
