@@ -7,10 +7,11 @@ using System.IO;
 using System.Collections;
 using System.Threading;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
+using Object = System.Object;
 
 public class SOSettingWindow : EditorWindow
 {
-
     const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv";
 
     private TextField sheetField;
@@ -40,8 +41,6 @@ public class SOSettingWindow : EditorWindow
 
     private void Setting()
     {
-        //함수넣기
-        Debug.Log("세팅이요");
         Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(ReadSheet(), new object[0]);
     }
 
@@ -57,22 +56,32 @@ public class SOSettingWindow : EditorWindow
 
         Assembly asm = typeof(SOParent).Assembly;
         Type soType = asm.GetType(firstLine[0]);
-        Debug.Log(ver[0]);
-        Debug.Log(firstLine[0]);
-        Debug.Log(soType);
+
+        if(soType == typeof(FileSO))
+        {
+            StartFileSOCreate();
+            yield break;
+        }
+
+        string[] top = ver[0].Split('\t');
+
+        if(!Directory.Exists($"Assets/07.ScriptableObjects/{top[0]}"))
+        {
+            Directory.CreateDirectory($"Assets/07.ScriptableObjects/{top[0]}");
+        }
 
         for (int i = 1; i < ver.Length; i++)
         {
             string[] hor = ver[i].Split('\t');
 
-            string SO_PATH = $"Assets/Resources/{ver[0]}/{ver[0]}_{ver[i]}.asset";
+            string SO_PATH = $"Assets/07.ScriptableObjects/{top[0]}/{hor[0]}.asset";
+            Debug.Log(SO_PATH);
 
             if (File.Exists(SO_PATH))
             {
-                //파일 잇음
-                SOParent soObj = Resources.Load($"{ver[0]}/{ver[0]}_{ver[i]}.asset") as SOParent;
+                object obj = AssetDatabase.LoadAssetAtPath(SO_PATH, typeof(SOParent));
+                SOParent soObj = obj as SOParent;
                 soObj.Setting(hor);
-                AssetDatabase.CreateAsset(soObj, SO_PATH);
             }
             else
             {
@@ -84,4 +93,41 @@ public class SOSettingWindow : EditorWindow
         }
 
     }
+
+
+    public SOParent ByteToObject(byte[] buffer)
+    {
+        try
+        {
+            using (MemoryStream stream = new MemoryStream(buffer))
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                stream.Position = 0;
+                SOParent soparent = binaryFormatter.Deserialize(stream) as SOParent;
+                return soparent;
+            }
+        }
+        catch (Exception exception)
+        {
+            Debug.Log(exception.ToString());
+        }
+        return null;
+    }
+
+    public static Object binaryDeserialize(FileStream stream)
+    {
+        //MemoryStream stream = new MemoryStream(bytes);
+        BinaryFormatter formatter = new BinaryFormatter();
+        formatter.AssemblyFormat
+        = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+        Object obj = (Object)formatter.Deserialize(stream);
+        return obj;
+    }
+
+    public void StartFileSOCreate()
+    {
+
+    }
 }
+
+
