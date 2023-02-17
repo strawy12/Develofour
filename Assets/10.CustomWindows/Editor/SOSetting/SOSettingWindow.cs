@@ -57,24 +57,31 @@ public class SOSettingWindow : EditorWindow
         Assembly asm = typeof(SOParent).Assembly;
         Type soType = asm.GetType(firstLine[0]);
 
+        if(soType == typeof(FileSO))
+        {
+            StartFileSOCreate();
+            yield break;
+        }
+
         string[] top = ver[0].Split('\t');
 
-        if(!Directory.Exists($"Assets/Resources/{top[0]}"))
+        if(!Directory.Exists($"Assets/07.ScriptableObjects/{top[0]}"))
         {
-            Directory.CreateDirectory($"Assets/Resources/{top[0]}");
+            Directory.CreateDirectory($"Assets/07.ScriptableObjects/{top[0]}");
         }
 
         for (int i = 1; i < ver.Length; i++)
         {
             string[] hor = ver[i].Split('\t');
 
-            string SO_PATH = $"Assets/Resources/{top[0]}/{hor[0]}.asset";
+            string SO_PATH = $"Assets/07.ScriptableObjects/{top[0]}/{hor[0]}.asset";
             Debug.Log(SO_PATH);
 
             if (File.Exists(SO_PATH))
             {
-                object obj = AssetDatabase.LoadAssetAtPath($"Assets/Resources/test1/asdf.jpg", typeof(Image));
-                Image soObj = obj as Image;
+                object obj = AssetDatabase.LoadAssetAtPath(SO_PATH, typeof(SOParent));
+                SOParent soObj = obj as SOParent;
+                soObj.Setting(hor);
             }
             else
             {
@@ -115,6 +122,11 @@ public class SOSettingWindow : EditorWindow
         = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
         Object obj = (Object)formatter.Deserialize(stream);
         return obj;
+    }
+
+    public void StartFileSOCreate()
+    {
+
     }
 }
 
