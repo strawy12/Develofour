@@ -85,7 +85,8 @@ public class SOSettingWindow : EditorWindow
             }
             else
             {
-                object obj = CreateInstance(soType);
+               
+                object obj = CreateInstance(soType); 
                 SOParent soObj = obj as SOParent;
                 soObj.Setting(hor);
                 AssetDatabase.CreateAsset(soObj, SO_PATH);

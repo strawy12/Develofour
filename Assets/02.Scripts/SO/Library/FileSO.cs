@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using UnityEngine.UIElements;
-using System.IO;
 using System;
-
 [System.Serializable]
 public struct DateTime
 {
@@ -23,9 +20,9 @@ public struct DateTime
 public struct WindowIconData
 {
     public int bytes;
-    public DateTime madeDate;
-    public DateTime lastFixDate;
-    public DateTime lastAccessDate;
+    public string madeDate;
+    public string lastFixDate;
+    public string lastAccessDate;
 
 }
 
@@ -33,10 +30,9 @@ public struct WindowIconData
 public class FileSO : SOParent
 {
     public DirectorySO parent;
-
+    public string windowName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
     public Sprite iconSprite;
-    public string windowName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public WindowIconData fileData;
     public bool isMultiple; // 윈도우를 여러번 킬 수 있냐
 
@@ -98,12 +94,20 @@ public class FileSO : SOParent
     {
         // FixDate 시간을 변경해줄 예정
     }
-
-    public override void Setting(string[] ps)
+    public override void Setting(string[] str)
     {
-        windowType = (EWindowType)Enum.Parse(typeof(EWindowType),ps[1]);
-
-        windowName = ps[2];
+        DirectorySO directory = SOEditorCodeUtill.GetAssetFileLoadPath(str[0]) as DirectorySO;
+        windowType = (EWindowType)Enum.Parse(typeof(EWindowType), str[3]);
+        windowName = str[4];
+        fileData.bytes = int.Parse(str[5]);
+        fileData.madeDate = str[6];
+        fileData.lastFixDate = str[7];
+        fileData.lastAccessDate = str[8];
+        isMultiple = bool.Parse(str[9]);
+        isWindowLockClear = bool.Parse(str[10]);
+        windowPin = str[11];
+        windowPinHintGuide = str[12];
+        iconSprite = SOEditorCodeUtill.GetSpriteLoadPath(str[13]);
     }
 }
 
