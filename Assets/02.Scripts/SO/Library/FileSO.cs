@@ -104,11 +104,23 @@ public class FileSO : SOParent
         fileData.madeDate = str[6];
         fileData.lastFixDate = str[7];
         fileData.lastAccessDate = str[8];
-        isMultiple = bool.Parse(str[9]);
-        isWindowLockClear = bool.Parse(str[10]);
+        isMultiple = ReturnBool(str[9]);
+        isWindowLockClear = ReturnBool(str[10]);
         windowPin = str[11];
         windowPinHintGuide = str[12];
         iconSprite = SOEditorCodeUtill.GetSpriteLoadPath(str[13]);
+    }
+
+    private bool ReturnBool(string str)
+    {
+        if(str == "1" || str == "true" || str == "True" || str == "TRUE")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 

@@ -12,6 +12,12 @@ public class SOEditorCodeUtill : MonoBehaviour
     }
     public static Sprite GetSpriteLoadPath(string path)
     {
+        Debug.Log(path);
+        if(path[0] == '0')
+        {
+            return null;
+        }
+
         byte[] bytes = File.ReadAllBytes(path);
         Sprite sprite = null;
         Texture2D bmp;

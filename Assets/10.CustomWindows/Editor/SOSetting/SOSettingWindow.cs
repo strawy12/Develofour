@@ -13,7 +13,7 @@ using Object = System.Object;
 public class SOSettingWindow : EditorWindow
 {
     //https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv&gid=1984911729
-    const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv";
+    //const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv";
 
     private TextField sheetField;
     private TextField scriptField;
@@ -143,6 +143,7 @@ public class SOSettingWindow : EditorWindow
                 object obj = AssetDatabase.LoadAssetAtPath(SO_PATH, typeof(FileSO));
                 FileSO soObj = obj as FileSO;
                 soObj.Setting(hor);
+                SetChildren(hor, soObj);
             }
             else
             {
@@ -152,6 +153,7 @@ public class SOSettingWindow : EditorWindow
                     DirectorySO soObj = obj as DirectorySO;
                     soObj.Setting(hor);
                     AssetDatabase.CreateAsset(soObj, SO_PATH);
+                    SetChildren(hor, soObj);
                 }
                 else
                 {
@@ -159,8 +161,11 @@ public class SOSettingWindow : EditorWindow
                     FileSO soObj = obj as FileSO;
                     soObj.Setting(hor);
                     AssetDatabase.CreateAsset(soObj, $"Assets/07.ScriptableObjects/DirectorySO/{hor[0]}/{hor[1]}.asset");
+                    SetChildren(hor, soObj);
                 }
             }
+
+
         }
     }
 
@@ -174,6 +179,32 @@ public class SOSettingWindow : EditorWindow
             if (!Directory.Exists(current))
             {
                 Directory.CreateDirectory(current);
+            }
+        }
+    }
+
+    public void SetChildren(string[] hor, object getObj)
+    {
+        string path = $"Assets/07.ScriptableObjects/DirectorySO";
+        string[] root = hor[0].Split('/');
+        for(int i = 0; i < root.Length - 1; i++)
+        {
+            path += '/';
+            path += root[i];
+        }
+        path += "/" + root[root.Length - 2];
+        path += ".asset";
+        Debug.Log(path);
+        if (File.Exists(path))
+        {
+            Debug.Log("Á¸ÀçÇÔ");
+            object obj = AssetDatabase.LoadAssetAtPath(path, typeof(DirectorySO));
+            if (obj != null)
+            {
+                Debug.Log("null ¾Æ´Ô");
+                DirectorySO directory = obj as DirectorySO;
+                FileSO soObj = getObj as FileSO;
+                directory.children.Add(soObj);
             }
         }
     }
