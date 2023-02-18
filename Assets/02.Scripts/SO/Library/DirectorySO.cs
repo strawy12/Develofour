@@ -18,4 +18,10 @@ public class DirectorySO : FileSO
 
         return bytes;
     }
+
+    public override void Setting(string[] str)
+    {
+        base.Setting(str);
+        children.Clear();
+    }
 }

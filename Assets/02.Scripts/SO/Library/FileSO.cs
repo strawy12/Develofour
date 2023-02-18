@@ -109,6 +109,7 @@ public class FileSO : SOParent
         windowPin = str[11];
         windowPinHintGuide = str[12];
         iconSprite = SOEditorCodeUtill.GetSpriteLoadPath(str[13]);
+        
     }
 
     private bool ReturnBool(string str)

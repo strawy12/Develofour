@@ -54,7 +54,6 @@ public class SOSettingWindow : EditorWindow
         string[] ver = add.Split('\n'); //열
 
         string[] firstLine = ver[0].Split('\t'); //행
-        Debug.Log(firstLine[0]);
         Assembly asm = typeof(SOParent).Assembly;
         Type soType = asm.GetType(firstLine[0]);
 
@@ -69,7 +68,6 @@ public class SOSettingWindow : EditorWindow
         for (int i = 1; i < ver.Length; i++)
         {
             string[] hor = ver[i].Split('\t');
-            Debug.Log(hor.Length);
             if (!Directory.Exists($"Assets/07.ScriptableObjects/{hor[0]}"))
             {
                 Directory.CreateDirectory($"Assets/07.ScriptableObjects/{hor[0]}");
@@ -194,17 +192,15 @@ public class SOSettingWindow : EditorWindow
         }
         path += "/" + root[root.Length - 2];
         path += ".asset";
-        Debug.Log(path);
         if (File.Exists(path))
         {
-            Debug.Log("존재함");
             object obj = AssetDatabase.LoadAssetAtPath(path, typeof(DirectorySO));
             if (obj != null)
             {
-                Debug.Log("null 아님");
                 DirectorySO directory = obj as DirectorySO;
                 FileSO soObj = getObj as FileSO;
                 directory.children.Add(soObj);
+                soObj.parent = directory;
             }
         }
     }
