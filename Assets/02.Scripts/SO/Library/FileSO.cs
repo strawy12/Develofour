@@ -94,6 +94,7 @@ public class FileSO : SOParent
     {
         // FixDate 시간을 변경해줄 예정
     }
+
     public override void Setting(string[] str)
     {
         DirectorySO directory = SOEditorCodeUtill.GetAssetFileLoadPath(str[0]) as DirectorySO;
