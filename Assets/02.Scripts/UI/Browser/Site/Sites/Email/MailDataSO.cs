@@ -1,11 +1,12 @@
 using ExtenstionMethod;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Window/Mail/Data")]
-public class MailDataSO : ScriptableObject
+public class MailDataSO : SOParent
 {
     [SerializeField]
     private EMailType type;
@@ -31,4 +32,14 @@ public class MailDataSO : ScriptableObject
     public int Month => month;
     public bool isFavorited { get { return mailCategory.ContainMask((int)EEmailCategory.Favorite); } }
 
+
+    public override void Setting(string[] ps)
+    {
+        type = (EMailType)Enum.Parse(typeof(EMailType),ps[1]);
+        nameText = ps[2];
+        informationText = ps[3];
+        month = int.Parse(ps[4]);
+        day = int.Parse(ps[5]);
+        timeText = $"{ps[4]}¿ù{ps[5]}ÀÏ";
+    }
 }
