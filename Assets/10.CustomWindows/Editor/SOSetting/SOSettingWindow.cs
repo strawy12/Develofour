@@ -12,8 +12,7 @@ using Object = System.Object;
 
 public class SOSettingWindow : EditorWindow
 {
-    //https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv&gid=1984911729
-    //const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv";
+    const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv";
 
     private TextField sheetField;
     private TextField scriptField;
@@ -45,12 +44,23 @@ public class SOSettingWindow : EditorWindow
         Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(ReadSheet(sheetField.text), new object[0]);
     }
 
-    private IEnumerator ReadSheet(string url)
+    private IEnumerator ReadSheet(string id)
     {
-        UnityWebRequest www = UnityWebRequest.Get(url);
+        UnityWebRequest www;
 
+       
+        if (id == "")
+        {
+            www = UnityWebRequest.Get($"{URL}");
+        }
+        else
+        {
+           www = UnityWebRequest.Get($"{URL}&gid={id}");
+        }
         yield return www.SendWebRequest();
         string add = www.downloadHandler.text;
+        Debug.Log(add);
+
         string[] ver = add.Split('\n'); //ї­
 
         string[] firstLine = ver[0].Split('\t'); //За
