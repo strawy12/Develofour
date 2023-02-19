@@ -13,6 +13,7 @@ using Object = System.Object;
 public class SOSettingWindow : EditorWindow
 {
     const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv";
+    //https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv&gid=1984911729
 
     private TextField sheetField;
     private TextField scriptField;
@@ -75,15 +76,17 @@ public class SOSettingWindow : EditorWindow
             yield break;
         }
 
+        if (!Directory.Exists($"Assets/07.ScriptableObjects/{firstLine[0]}"))
+        {
+            Directory.CreateDirectory($"Assets/07.ScriptableObjects/{firstLine[0]}");
+        }
+
         for (int i = 1; i < ver.Length; i++)
         {
             string[] hor = ver[i].Split('\t');
-            if (!Directory.Exists($"Assets/07.ScriptableObjects/{hor[0]}"))
-            {
-                Directory.CreateDirectory($"Assets/07.ScriptableObjects/{hor[0]}");
-            }
+            Debug.Log(firstLine[0]);
 
-            string SO_PATH = $"Assets/07.ScriptableObjects/{hor[0]}/{hor[1]}.asset";
+            string SO_PATH = $"Assets/07.ScriptableObjects/{firstLine[0]}/{hor[0]}.asset";
 
             if (File.Exists(SO_PATH))
             {
@@ -93,13 +96,10 @@ public class SOSettingWindow : EditorWindow
             }
             else
             {
-                if(hor[3] == "Directory")
-                {
-                    object obj = CreateInstance(soType);
-                    SOParent soObj = obj as SOParent;
-                    soObj.Setting(hor);
-                    AssetDatabase.CreateAsset(soObj, SO_PATH);
-                }
+                object obj = CreateInstance(soType);
+                SOParent soObj = obj as SOParent;
+                soObj.Setting(hor);
+                AssetDatabase.CreateAsset(soObj, SO_PATH);
             }
         }
 

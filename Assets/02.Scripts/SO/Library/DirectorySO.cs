@@ -22,6 +22,7 @@ public class DirectorySO : FileSO
     public override void Setting(string[] str)
     {
         base.Setting(str);
-        children.Clear();
+        if (children != null)
+            children.Clear();
     }
 }
