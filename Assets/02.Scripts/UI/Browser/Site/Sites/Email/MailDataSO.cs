@@ -2,6 +2,7 @@ using ExtenstionMethod;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.NetworkInformation;
 using UnityEngine;
 
@@ -32,10 +33,20 @@ public class MailDataSO : SOParent
     public int Month => month;
     public bool isFavorited { get { return mailCategory.ContainMask((int)EEmailCategory.Favorite); } }
 
-
+    
     public override void Setting(string[] ps)
     {
-        type = (EMailType)Enum.Parse(typeof(EMailType),ps[1]);
+        try
+        {
+            type = (EMailType)Enum.Parse(typeof(EMailType), ps[1]);
+        }
+        catch
+        {
+            string PATH = "Assets/02.Scripts/UI/Browser/Site/Sites/Email/EmailSite.cs";
+            SOEditorCodeUtill.AddEnum(PATH, ps[1]);
+
+            type = (EMailType)Enum.Parse(typeof(EMailType), ps[1]);
+        }
         nameText = ps[2];
         informationText = ps[3];
         month = int.Parse(ps[4]);

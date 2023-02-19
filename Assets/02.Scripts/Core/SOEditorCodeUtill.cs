@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEditor;
+using UnityEditor.Compilation;
 using UnityEngine;
 public class SOEditorCodeUtill : MonoBehaviour
 {
@@ -30,5 +31,34 @@ public class SOEditorCodeUtill : MonoBehaviour
         bmp.LoadImage(bytes, false);
         sprite = Sprite.Create(bmp, tRect, pivot);
         return sprite;
+    }
+
+    public static void AddEnum(string PATH, string enumName)
+    {
+        string text = "";
+        using (StreamReader sr = new StreamReader(PATH))
+        {
+            text = sr.ReadToEnd();
+        }
+
+        using (StreamWriter writer = new StreamWriter(PATH))
+        {
+            int length = text.Length - 1;
+            // ";
+            for (int i = length; i > 0; i--)
+            {
+                if (text[i] == '}')
+                {
+                    text = text.Insert(i - 6, $"\t{enumName},\n");
+                    break;
+                }
+            }
+
+            writer.Write(text);
+            writer.Flush();
+
+            AssetDatabase.Refresh();
+            CompilationPipeline.RequestScriptCompilation();
+        }
     }
 }
