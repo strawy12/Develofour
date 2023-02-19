@@ -207,9 +207,6 @@ public class SOSettingWindow : EditorWindow
             {
                 DirectorySO directory = obj as DirectorySO;
                 FileSO soObj = getObj as FileSO;
-                Debug.Log(directory);
-                Debug.Log(soObj);
-                Debug.Log(directory.children);
                 if (directory.children == null)
                 {
                     directory.children = new System.Collections.Generic.List<FileSO>();
