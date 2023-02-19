@@ -108,7 +108,6 @@ public class FileSO : SOParent
         isWindowLockClear = ReturnBool(str[10]);
         windowPin = str[11];
         windowPinHintGuide = str[12];
-        iconSprite = SOEditorCodeUtill.GetSpriteLoadPath(str[13]);
         
     }
 
