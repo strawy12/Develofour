@@ -60,7 +60,6 @@ public class SOSettingWindow : EditorWindow
         }
         yield return www.SendWebRequest();
         string add = www.downloadHandler.text;
-        Debug.Log(add);
 
         string[] ver = add.Split('\n'); //¿­
 
@@ -84,7 +83,6 @@ public class SOSettingWindow : EditorWindow
         for (int i = 1; i < ver.Length; i++)
         {
             string[] hor = ver[i].Split('\t');
-            Debug.Log(firstLine[0]);
 
             string SO_PATH = $"Assets/07.ScriptableObjects/{firstLine[0]}/{hor[0]}.asset";
 
@@ -209,6 +207,13 @@ public class SOSettingWindow : EditorWindow
             {
                 DirectorySO directory = obj as DirectorySO;
                 FileSO soObj = getObj as FileSO;
+                Debug.Log(directory);
+                Debug.Log(soObj);
+                Debug.Log(directory.children);
+                if (directory.children == null)
+                {
+                    directory.children = new System.Collections.Generic.List<FileSO>();
+                }
                 directory.children.Add(soObj);
                 soObj.parent = directory;
             }
