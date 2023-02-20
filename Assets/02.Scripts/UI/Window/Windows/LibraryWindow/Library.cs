@@ -82,6 +82,7 @@ public class Library : Window
         {
             poolQueue.Enqueue(icon);
         }
+        icon.StopCor();
         icon.transform.SetParent(poolParent);
         icon.gameObject.SetActive(false);
     }

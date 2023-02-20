@@ -14,11 +14,10 @@ public class ProfileTutorial : MonoBehaviour
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
         EventManager.StartListening(ETutorialEvent.EndTutorial, delegate { NoticeProfileChattingTutorial(); });
-        EventManager.StartListening(ETutorialEvent.EndTutorial, delegate { });
 
         EventManager.StartListening(ETutorialEvent.ProfileInfoSelect, delegate 
         {
-            EventManager.TriggerEvent(ETutorialEvent.ProfileInfoEnd, new object[0]);
+            EventManager.TriggerEvent(ETutorialEvent.ProfileInfoEnd);
             StartCoroutine(StartProfileLastTutorial());
         });
 
@@ -42,7 +41,7 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "먼저 간단하게 정보를 수집해볼까요?" });
         yield return new WaitForSeconds(1.5f);
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "배경화면을 확인해 주세요." });
-        EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart, new object[0] { });
+        EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
 
     }
 

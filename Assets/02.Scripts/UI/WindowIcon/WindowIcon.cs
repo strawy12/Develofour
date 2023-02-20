@@ -83,6 +83,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); 끝나고 해야하는거
                 });
             });
+            
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); RequesterInfoEventStop(); });
             Debug.Log("이벤트 등록");
         }
