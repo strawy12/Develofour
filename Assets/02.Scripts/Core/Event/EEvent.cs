@@ -122,7 +122,8 @@ public enum EAiChatData
     Email,
     Password,
 }
-public enum EProfileEvent
+
+public enum EProfileEvent 
 {
     None = -1,
     FindInfoText,
