@@ -74,7 +74,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, delegate
             {
-                if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
+                if(gameObject != null)
+                {
+                    if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
+                }
+
                 EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoSelect, delegate
                 {
                     EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd, new object[0]);
@@ -93,8 +97,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             isUSBEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryUSBStart, delegate
             {
-
-                if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
+                if (gameObject != null)
+                {
+                    if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
+                }
                 EventManager.StartListening(ETutorialEvent.LibraryUSBSelect, delegate
                 {
                     EventManager.TriggerEvent(ETutorialEvent.LibraryUSBEnd, new object[0]);
