@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-
+using UnityEditor;
+using System;
 [System.Serializable]
 public struct DateTime
 {
@@ -19,26 +20,27 @@ public struct DateTime
 public struct WindowIconData
 {
     public int bytes;
-    public DateTime madeDate;
-    public DateTime lastFixDate;
-    public DateTime lastAccessDate;
+    public string madeDate;
+    public string lastFixDate;
+    public string lastAccessDate;
 
 }
 
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
-public class FileSO : ScriptableObject
+public class FileSO : SOParent
 {
     public DirectorySO parent;
-
+    public string windowName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
     public Sprite iconSprite;
-    public string windowName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public WindowIconData fileData;
     public bool isMultiple; // 윈도우를 여러번 킬 수 있냐
 
     public bool isWindowLockClear;
     public string windowPin;
     public string windowPinHintGuide;
+
+    public object AssetDatabase { get; private set; }
 
     #region GetFileData
 
@@ -91,6 +93,46 @@ public class FileSO : ScriptableObject
     public void FixFile()
     {
         // FixDate 시간을 변경해줄 예정
+    }
+
+    public override void Setting(string[] str)
+    {
+
+        DirectorySO directory = SOEditorCodeUtill.GetAssetFileLoadPath(str[0]) as DirectorySO;
+        try
+        {
+            windowType = (EWindowType)Enum.Parse(typeof(EWindowType), str[3]);
+        }
+        catch
+        {
+            string path = "D:/unityproject/Develofour/Assets\02.Scripts/UI/Window/Window.cs";
+
+            SOEditorCodeUtill.AddEnum(path, str[3]);
+            windowType = (EWindowType)Enum.Parse(typeof(EWindowType), str[3]);
+
+        }
+        windowName = str[4];
+        fileData.bytes = int.Parse(str[5]);
+        fileData.madeDate = str[6];
+        fileData.lastFixDate = str[7];
+        fileData.lastAccessDate = str[8];
+        isMultiple = ReturnBool(str[9]);
+        isWindowLockClear = ReturnBool(str[10]);
+        windowPin = str[11];
+        windowPinHintGuide = str[12];
+        
+    }
+
+    private bool ReturnBool(string str)
+    {
+        if(str == "1" || str == "true" || str == "True" || str == "TRUE")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 
