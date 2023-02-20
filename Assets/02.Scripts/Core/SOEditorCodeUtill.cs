@@ -45,7 +45,7 @@ public class SOEditorCodeUtill : MonoBehaviour
         {
             int length = text.Length - 1;
             // ";
-            for (int i = length; i > 0; i--)
+            for (int i = 0; i < length; i++)
             {
                 if (text[i] == '}')
                 {

@@ -52,5 +52,7 @@ public class MailDataSO : SOParent
         month = int.Parse(ps[4]);
         day = int.Parse(ps[5]);
         timeText = $"{ps[4]}¿ù{ps[5]}ÀÏ";
+        
+        //mailCategory = int.Parse(ps[6]);
     }
 }
