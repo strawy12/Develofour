@@ -45,6 +45,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private bool isCompleted = false;
 
+    private bool isOpen;
+
     public string HeadText { get { return headText.text; } }
     private void Bind()
     {
@@ -116,6 +118,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         seq.Append(rectTransform.DOScale(1.25f, scaleGotDuration / 2));
         seq.AppendCallback(() =>
         {
+            isOpen = true;
             rectTransform.DOScale(1f, scaleGotDuration / 2);
         });
     }
@@ -195,6 +198,11 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         {
             EnableTouchDragNotice(false);
         }
+        
+        if(isOpen)
+        {
+            isOpen = false;
+        }
 
         StopAllCoroutines();
         isCompleted = !isCompleted;
@@ -211,7 +219,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isEnter)
+        if (!isEnter && isOpen)
         {
             backgroundImage.DOColor(new Color(0.1f, 0.1f, 0.1f, 0.9f), 0.1f);
             rectTransform.DOScale(Vector3.one * 1.05f, 0.1f);
@@ -222,7 +230,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isEnter)
+        if (isEnter && isOpen)
         {
             backgroundImage.DOColor(new Color(0f, 0f, 0f, 0.9f), 0.1f);
             rectTransform.DOScale(Vector3.one, 0.1f);
