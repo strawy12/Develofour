@@ -172,6 +172,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         Init();
         WindowOpen();
         windowMaxCnt++;
+
         EventManager.TriggerEvent(EWindowEvent.CreateWindow, new object[] { this });
     }
 

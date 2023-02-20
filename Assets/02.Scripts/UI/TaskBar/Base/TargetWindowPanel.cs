@@ -8,7 +8,6 @@ using UnityEngine.EventSystems;
 
 public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-
     [SerializeField]
     private Image windowIcon;
     [SerializeField]
