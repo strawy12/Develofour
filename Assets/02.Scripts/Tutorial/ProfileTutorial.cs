@@ -29,7 +29,7 @@ public class ProfileTutorial : MonoBehaviour
     public IEnumerator StartProfileTutorial()
     {
         //tutorialPanel.SetActive(true);
-
+        yield return new WaitForSeconds(0.5f);
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
         
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "안녕하십니까?" });
