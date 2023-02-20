@@ -97,8 +97,20 @@ public class FileSO : SOParent
 
     public override void Setting(string[] str)
     {
+
         DirectorySO directory = SOEditorCodeUtill.GetAssetFileLoadPath(str[0]) as DirectorySO;
-        windowType = (EWindowType)Enum.Parse(typeof(EWindowType), str[3]);
+        try
+        {
+            windowType = (EWindowType)Enum.Parse(typeof(EWindowType), str[3]);
+        }
+        catch
+        {
+            string path = "D:/unityproject/Develofour/Assets\02.Scripts/UI/Window/Window.cs";
+
+            SOEditorCodeUtill.AddEnum(path, str[3]);
+            windowType = (EWindowType)Enum.Parse(typeof(EWindowType), str[3]);
+
+        }
         windowName = str[4];
         fileData.bytes = int.Parse(str[5]);
         fileData.madeDate = str[6];
