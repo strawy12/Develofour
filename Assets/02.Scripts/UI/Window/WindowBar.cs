@@ -95,6 +95,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
 
         Vector2 mousePos = Define.CanvasMousePos;
         windowRectTransform.anchoredPosition = mousePos + offsetPos;
+        windowAlteration.pos = windowRectTransform.anchoredPosition;
     }
 
     public void OnPointerClick(PointerEventData eventData)

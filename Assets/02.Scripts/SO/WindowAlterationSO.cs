@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Window/Alteration")]
 public class WindowAlterationSO : SOParent
 {
-    [HideInInspector]
     public bool isMaximum;
     public Vector2 size;
     public Vector2 pos;
+    public Vector2 savePos;
 
     public override void Setting(string[] ps)
     {

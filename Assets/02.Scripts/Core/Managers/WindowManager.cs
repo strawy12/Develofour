@@ -211,4 +211,13 @@ public class WindowManager : MonoSingleton<WindowManager>
             SelectedObjectNull();
         }
     }
+
+    public void OnApplicationQuit()
+    {
+        foreach(var temp in windowPrefabList)
+        {
+            temp.windowPrefab.windowAlteration.pos = new Vector2(0, 0);
+            temp.windowPrefab.windowAlteration.size = new Vector2(1280, 720);
+        }
+    }
 }
