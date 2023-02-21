@@ -294,20 +294,25 @@ public class Library : Window
         if (currentDirectory.windowName == "BestUSB")
         {
             Debug.Log("BestUSB");
-            EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart, new object[1] { "BestUSB" });
+            EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);
         }
         else if(currentDirectory.windowName == "User")
         {
             Debug.Log("User");
-            EventManager.TriggerEvent(ETutorialEvent.LibraryUSBStart, new object[0]);
+            EventManager.TriggerEvent(ETutorialEvent.LibraryUSBStart);
         }
         else
         {
             Debug.Log("C");
-            EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonStart, new object[0]);
+            EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonStart);
         }
     }
-    
+    public override void WindowOpen()
+    {
+        base.WindowOpen();
+        if (GameManager.Inst.GameState == EGameState.Tutorial)
+            EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd);
+    }
 
     private void OnDisable()
     {
@@ -316,6 +321,7 @@ public class Library : Window
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
 
+        EventManager.StopListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
     }
 
     private void OnDestroy()
@@ -325,6 +331,6 @@ public class Library : Window
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
 
-
+        EventManager.StopListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
     }
 }
