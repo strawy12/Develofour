@@ -38,7 +38,7 @@ public class ProfileCategoryPanel : MonoBehaviour
     {
         if(profileCategory == EProfileCategory.Owner)
         {
-            EventManager.TriggerEvent(ETutorialEvent.ProfileInfoSelect, new object[0]);
+            EventManager.TriggerEvent(ETutorialEvent.ProfileInfoEnd);
         }
         infoPanel.gameObject.SetActive(true);
     }

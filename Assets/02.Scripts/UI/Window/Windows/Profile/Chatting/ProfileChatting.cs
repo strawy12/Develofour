@@ -73,7 +73,6 @@ public class ProfileChatting : MonoBehaviour
             }
         }
         SOData.saveList.Add(str);
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + str;
         obj.gameObject.SetActive(true);
@@ -84,7 +83,6 @@ public class ProfileChatting : MonoBehaviour
     { 
         if(!(ps[0] is EAiChatData))
         {
-            Debug.Log("다른타입");
             if(ps[0] is string)
             {
                 AddText(ps[0] as string);
@@ -109,7 +107,6 @@ public class ProfileChatting : MonoBehaviour
         }
         
         SOData.saveList.Add(data.ToString());
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
         obj.gameObject.SetActive(true);
@@ -138,8 +135,6 @@ public class ProfileChatting : MonoBehaviour
 
     public void GetSaveSetting()
     {
-        Debug.Log(SOData);
-        Debug.Log(SOData.saveList);
 
         foreach(var save in SOData.saveList)
         {
