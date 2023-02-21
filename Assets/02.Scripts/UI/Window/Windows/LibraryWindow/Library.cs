@@ -291,11 +291,10 @@ public class Library : Window
     private void CheckTutorialRoot(object[] ps)
     {
         //if (!gameObject.activeSelf) return;
-        Debug.Log("Trigger");
         if (currentDirectory.windowName == "BestUSB")
         {
             Debug.Log("BestUSB");
-            EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart, new object[0]);
+            EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart, new object[1] { "BestUSB" });
         }
         else if(currentDirectory.windowName == "User")
         {

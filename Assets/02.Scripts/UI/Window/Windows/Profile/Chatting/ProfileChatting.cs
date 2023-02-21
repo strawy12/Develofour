@@ -84,7 +84,6 @@ public class ProfileChatting : MonoBehaviour
     { 
         if(!(ps[0] is EAiChatData))
         {
-            Debug.Log("다른타입");
             if(ps[0] is string)
             {
                 AddText(ps[0] as string);
@@ -138,8 +137,6 @@ public class ProfileChatting : MonoBehaviour
 
     public void GetSaveSetting()
     {
-        Debug.Log(SOData);
-        Debug.Log(SOData.saveList);
 
         foreach(var save in SOData.saveList)
         {
