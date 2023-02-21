@@ -43,7 +43,7 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "잘하셨습니다." });
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "이렇게 정보를 클릭할 시 정보가 수집이 완료가 되며 이 정보는 왼쪽 패널에 자동으로 정리가 됩니다." });
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "정리된 정보를 한번 알아보러갈까요?" });
-        EventManager.TriggerEvent(ETutorialEvent.ProfileInfoStart, new object[0] { });
+        EventManager.TriggerEvent(ETutorialEvent.ProfileInfoStart);
     }
 
     public IEnumerator StartProfileLastTutorial()

@@ -14,12 +14,13 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     [SerializeField]
     private GameObject highrightedImage;
     private DirectorySO currentDirectory;
+
     [Header("Tutorial")]
+
     [SerializeField]
     private Image yellowUI;
-    private bool isSign;
 
-    private Coroutine yellowCoroutine;
+    private bool isSign;
 
     public void Init()
     {
@@ -51,12 +52,13 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         currentDirectory = directoryData;
         fileName.text = directoryData.windowName;
         fileImage.sprite = directoryData.iconSprite;
+
         if (currentDirectory.windowName == "User")
         {
             EventManager.StartListening(ETutorialEvent.LibraryUserButtonStart, delegate
             {
                 if (gameObject.activeSelf)
-                    yellowCoroutine = StartCoroutine(YellowSignCor());
+                    StartCoroutine(YellowSignCor());
 
                 EventManager.StartListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopCor(); StopTutorialEvent(); });
             });
@@ -66,12 +68,16 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     private void OpenFIle()
     {
         object[] ps = new object[1] { currentDirectory };
+
+        EventManager.TriggerEvent(ELibraryEvent.ButtonOpenFile, ps);
+
         if (currentDirectory.windowName == "User")
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonEnd);
         }
     }
 
+    #region Tutorial
     public IEnumerator YellowSignCor()
     {
         yellowUI.gameObject.SetActive(true);
@@ -95,10 +101,10 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
     private void StopTutorialEvent()
     {
-        EventManager.StopListening(ETutorialEvent.LibraryUserButtonStart, delegate { if (gameObject.activeSelf) yellowCoroutine = StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.LibraryUserButtonStart, delegate { StartCoroutine(YellowSignCor()); });
         EventManager.StopListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopCor(); });
 
-        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]);
+        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
     }
-
+    #endregion
 }

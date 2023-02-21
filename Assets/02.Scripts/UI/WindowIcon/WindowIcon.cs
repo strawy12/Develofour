@@ -72,28 +72,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (isRegisterEvent == false && fileData.windowName == "ÀÇ·ÚÀÚ Á¤º¸")
         {
             isRegisterEvent = true;
-            EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, delegate
-            {
-                if (gameObject != null)
-                {
-                    if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
-                }
-
-                EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); RequesterInfoEventStop(); });
-            });
+            EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
         }
 
         if (isUSBEvent == false && fileData.windowName == "BestUSB")
         {
             isUSBEvent = true;
-            EventManager.StartListening(ETutorialEvent.LibraryUSBStart, delegate
-            {
-                if (gameObject != null)
-                {
-                    if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
-                }
-                EventManager.StartListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); USBEventStop(); });
-            });
+            EventManager.StartListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
         }
     }
 
@@ -118,10 +103,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     targetWindow.WindowOpen();
                 }
                 UnSelect();
-                if (gameObject.name == "ExplorerIcon")
-                {
-                    EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd);
-                }
 
                 if (fileData.windowName == "ÀÇ·ÚÀÚ Á¤º¸")
                 {
@@ -210,18 +191,24 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (gameObject.name == "ExplorerIcon")
         {
-            EventManager.StartListening(ETutorialEvent.BackgroundSignStart, delegate
-            {
-                if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
-
-                EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); BackgroundEventStop(); });
-
-            });
-
+            EventManager.StartListening(ETutorialEvent.BackgroundSignStart, BackgroundSignStart);
         }
     }
 
     private bool isSign;
+
+
+    protected virtual void Select()
+    {
+        EventManager.TriggerEvent(ELibraryEvent.SelectIcon, new object[1] { this });
+    }
+
+    protected virtual void UnSelect()
+    {
+        EventManager.TriggerEvent(ELibraryEvent.SelectNull);
+    }
+
+    #region Tutorial
     public IEnumerator YellowSignCor()
     {
         yellowUI.gameObject.SetActive(true);
@@ -245,32 +232,59 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void BackgroundEventStop()
     {
-        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { if (gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, BackgroundSignStart);
         EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); });
 
-        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]);
+        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
     }
 
     private void RequesterInfoEventStop()
     {
-        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, delegate { if (gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); });
     }
 
     private void USBEventStop()
     {
-        EventManager.StopListening(ETutorialEvent.LibraryUSBStart, delegate { if (gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
         EventManager.StopListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); });
-        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]);
+
+        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
     }
 
-    protected virtual void Select()
+    public void LibraryUSBStart(object[] ps)
     {
-        EventManager.TriggerEvent(ELibraryEvent.SelectIcon, new object[1] { this });
+        if (this.gameObject != null)
+        {
+            if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
+        }
+        EventManager.StartListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); USBEventStop(); });
     }
 
-    protected virtual void UnSelect()
+    public void LibraryRequesterInfoStart(object[] ps)
     {
-        EventManager.TriggerEvent(ELibraryEvent.SelectNull);
+        if (this.gameObject != null)
+        {
+            if (gameObject.activeSelf)
+                StartCoroutine(YellowSignCor());
+        }
+        EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); RequesterInfoEventStop(); });
+    }
+
+    public void BackgroundSignStart(object[] ps)
+    {
+        StartCoroutine(YellowSignCor());
+        EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); BackgroundEventStop(); });
+    }
+    #endregion
+    private void OnDestroy()
+    {
+        EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
+        EventManager.StopListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); });
+        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
+        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); });
+        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); });
     }
 }
+
