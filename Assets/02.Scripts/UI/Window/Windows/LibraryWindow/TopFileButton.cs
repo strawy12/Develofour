@@ -51,30 +51,25 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         currentDirectory = directoryData;
         fileName.text = directoryData.windowName;
         fileImage.sprite = directoryData.iconSprite;
-        if(currentDirectory.windowName == "User")
+        if (currentDirectory.windowName == "User")
         {
-            EventManager.StartListening(ETutorialEvent.LibraryUserButtonStart, delegate { 
-                if(gameObject.activeSelf)
-                yellowCoroutine = StartCoroutine(YellowSignCor());
+            EventManager.StartListening(ETutorialEvent.LibraryUserButtonStart, delegate
+            {
+                if (gameObject.activeSelf)
+                    yellowCoroutine = StartCoroutine(YellowSignCor());
 
-                EventManager.StartListening(ETutorialEvent.LibraryUserButtonClick, delegate
-                {
-                    EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonEnd, new object[0]);
-                });
+                EventManager.StartListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopCor(); StopTutorialEvent(); });
             });
-            EventManager.StartListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopCor(); StopTutorialEvent(); });
         }
     }
 
     private void OpenFIle()
     {
         object[] ps = new object[1] { currentDirectory };
-        if(currentDirectory.windowName == "User")
+        if (currentDirectory.windowName == "User")
         {
-            EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonClick, new object[0]);
+            EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonEnd);
         }
-        EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, ps);
-        
     }
 
     public IEnumerator YellowSignCor()

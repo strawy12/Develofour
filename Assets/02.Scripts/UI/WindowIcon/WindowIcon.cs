@@ -74,22 +74,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, delegate
             {
-                if(gameObject != null)
+                if (gameObject != null)
                 {
                     if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
                 }
 
-                EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoSelect, delegate
-                {
-                    EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd, new object[0]);
-
-                    EventManager.TriggerEvent(ETutorialEvent.EndTutorial, new object[0]);
-                    //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); 끝나고 해야하는거
-                });
+                EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); RequesterInfoEventStop(); });
             });
-            
-            EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); RequesterInfoEventStop(); });
-            Debug.Log("이벤트 등록");
         }
 
         if (isUSBEvent == false && fileData.windowName == "BestUSB")
@@ -101,13 +92,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 {
                     if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
                 }
-                EventManager.StartListening(ETutorialEvent.LibraryUSBSelect, delegate
-                {
-                    EventManager.TriggerEvent(ETutorialEvent.LibraryUSBEnd, new object[0]);
-
-                });
+                EventManager.StartListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); USBEventStop(); });
             });
-            EventManager.StartListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); USBEventStop(); });
         }
     }
 
@@ -134,17 +120,18 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 UnSelect();
                 if (gameObject.name == "ExplorerIcon")
                 {
-                    EventManager.TriggerEvent(ETutorialEvent.BackgroundSelect, new object[0]);
+                    EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd);
                 }
 
                 if (fileData.windowName == "의뢰자 정보")
                 {
-                    EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoSelect, new object[0]);
+                    EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
+                    EventManager.TriggerEvent(ETutorialEvent.EndTutorial);
                 }
                 if (fileData.windowName == "BestUSB")
                 {
                     Debug.Log("BestUSB");
-                    EventManager.TriggerEvent(ETutorialEvent.LibraryUSBSelect, new object[0]);
+                    EventManager.TriggerEvent(ETutorialEvent.LibraryUSBEnd);
                 }
             }
             else
@@ -226,13 +213,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             EventManager.StartListening(ETutorialEvent.BackgroundSignStart, delegate
             {
                 if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
-                EventManager.StartListening(ETutorialEvent.BackgroundSelect, delegate
-                {
-                    EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd, new object[0]);
-                });
+
+                EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); BackgroundEventStop(); });
+
             });
 
-            EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); BackgroundEventStop(); });
         }
     }
 

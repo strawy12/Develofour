@@ -76,7 +76,7 @@ public class ProfilePanel : MonoBehaviour
             if(data.category == EProfileCategory.Owner)
             {
                 EventManager.StartListening(ETutorialEvent.ProfileInfoStart, delegate { StartCoroutine(categoryPanel.YellowSignCor()); });
-                EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, delegate { categoryPanel.StopCor(); });
+                EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, delegate { categoryPanel.StopCor();  });
             }
         }
     }

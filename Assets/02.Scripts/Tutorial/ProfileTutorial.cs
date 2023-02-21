@@ -14,15 +14,6 @@ public class ProfileTutorial : MonoBehaviour
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
         EventManager.StartListening(ETutorialEvent.EndTutorial, delegate { NoticeProfileChattingTutorial(); });
-
-        EventManager.StartListening(ETutorialEvent.ProfileInfoSelect, delegate 
-        {
-            EventManager.TriggerEvent(ETutorialEvent.ProfileInfoEnd);
-            StartCoroutine(StartProfileLastTutorial());
-        });
-
-      
-
     }
 
 
@@ -31,7 +22,7 @@ public class ProfileTutorial : MonoBehaviour
         //tutorialPanel.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
-        
+        EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, delegate { StartCoroutine(StartProfileLastTutorial()); });
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "안녕하십니까?" });
         yield return new WaitForSeconds(1.5f);
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "프로파일러를 설치해주셔서 감사합니다." });
