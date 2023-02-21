@@ -106,6 +106,7 @@ public class ProfilePanel : MonoBehaviour
         {
             Debug.Log("ShowCategory");
             ProfileCategoryPanel categoryPanel = categoryPanels[category];
+
             if (!categoryPanel.gameObject.activeSelf)
             {
                 Debug.Log("ShowCategory2");
@@ -119,6 +120,7 @@ public class ProfilePanel : MonoBehaviour
             Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
         }
     }
+
     public void HideCategoryParentPanel()
     {
         categoryPanelParent.gameObject.SetActive(false);
