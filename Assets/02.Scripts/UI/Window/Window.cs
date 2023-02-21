@@ -28,7 +28,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     [Header("Window Data")]
     [SerializeField]
-    protected WindowAlterationSO windowAlteration; // 위도우 위치 크기 정보
+    public WindowAlterationSO windowAlteration; // 위도우 위치 크기 정보
     protected FileSO file;
 
     [SerializeField]
@@ -133,7 +133,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
             Vector2 size = Constant.MAX_CANVAS_SIZE;
             size.y -= 50;
             rectTransform.sizeDelta = size;
-
+            windowAlteration.size = new Vector2(1920, 1030);
             windowPos = rectTransform.localPosition;
             rectTransform.localPosition = new Vector3(0, 25, 0);
 
@@ -141,10 +141,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         }
         else
         {
-            rectTransform.localPosition = windowPos;
-            rectTransform.sizeDelta = windowAlteration.size;
-
             windowAlteration.isMaximum = false;
+            windowAlteration.size = new Vector2(1280, 720);
+            rectTransform.localPosition = windowAlteration.pos;
+            rectTransform.sizeDelta = windowAlteration.size;
         }
     }
 
@@ -155,10 +155,15 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         SetCurrentWindow(this);
         SetActive(true);
 
-        rectTransform.localPosition = windowAlteration.pos;
+        if(!windowAlteration.isMaximum)
+        {
+            rectTransform.localPosition = windowAlteration.pos;
+        }
+        else
+        {
+            rectTransform.localPosition = new Vector2(0,30);
+        }
         rectTransform.sizeDelta = windowAlteration.size;
-
-        windowAlteration.isMaximum = false;
     }
 
     public void SetCurrentWindow(Window selecetedWindow)
