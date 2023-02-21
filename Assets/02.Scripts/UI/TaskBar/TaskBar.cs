@@ -94,6 +94,7 @@ public class TaskBar : MonoBehaviour
 
     public void RemoveTaskIcon(TaskIcon icon)
     {
+        if (GameManager.Inst.GameState == EGameState.Tutorial) return;
         icon.gameObject.SetActive(false);
         taskIconPool.Push(icon);
         icon.CloseIcon();

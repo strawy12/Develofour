@@ -107,6 +107,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowClose()
     {
+        if (GameManager.Inst.GameState == EGameState.Tutorial) return;
+
         OnClosed?.Invoke(file.name);
 
         windowMaxCnt--;

@@ -47,6 +47,7 @@ public class InstallingScreen : InstallerScreen
             {
                 newScale.x += value;
             }
+
             installBarFillTrm.localScale = newScale;
 
             yield return new WaitForSeconds(value);

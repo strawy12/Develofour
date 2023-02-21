@@ -72,35 +72,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (isRegisterEvent == false && fileData.windowName == "의뢰자 정보")
         {
             isRegisterEvent = true;
-            EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, delegate
-            {
-                if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
-                EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoSelect, delegate
-                {
-                    EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd, new object[0]);
-
-                    EventManager.TriggerEvent(ETutorialEvent.EndTutorial, new object[0]);
-                    //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]); 끝나고 해야하는거
-                });
-            });
-            EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); RequesterInfoEventStop(); });
-            Debug.Log("이벤트 등록");
+            EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
         }
 
         if (isUSBEvent == false && fileData.windowName == "BestUSB")
         {
             isUSBEvent = true;
-            EventManager.StartListening(ETutorialEvent.LibraryUSBStart, delegate
-            {
-
-                if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
-                EventManager.StartListening(ETutorialEvent.LibraryUSBSelect, delegate
-                {
-                    EventManager.TriggerEvent(ETutorialEvent.LibraryUSBEnd, new object[0]);
-
-                });
-            });
-            EventManager.StartListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); USBEventStop(); });
+            EventManager.StartListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
         }
     }
 
@@ -125,19 +103,16 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     targetWindow.WindowOpen();
                 }
                 UnSelect();
-                if (gameObject.name == "ExplorerIcon")
-                {
-                    EventManager.TriggerEvent(ETutorialEvent.BackgroundSelect, new object[0]);
-                }
 
                 if (fileData.windowName == "의뢰자 정보")
                 {
-                    EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoSelect, new object[0]);
+                    EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
+                    EventManager.TriggerEvent(ETutorialEvent.EndTutorial);
                 }
                 if (fileData.windowName == "BestUSB")
                 {
                     Debug.Log("BestUSB");
-                    EventManager.TriggerEvent(ETutorialEvent.LibraryUSBSelect, new object[0]);
+                    EventManager.TriggerEvent(ETutorialEvent.LibraryUSBEnd);
                 }
             }
             else
@@ -216,20 +191,24 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (gameObject.name == "ExplorerIcon")
         {
-            EventManager.StartListening(ETutorialEvent.BackgroundSignStart, delegate
-            {
-                if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
-                EventManager.StartListening(ETutorialEvent.BackgroundSelect, delegate
-                {
-                    EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd, new object[0]);
-                });
-            });
-
-            EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); BackgroundEventStop(); });
+            EventManager.StartListening(ETutorialEvent.BackgroundSignStart, BackgroundSignStart);
         }
     }
 
     private bool isSign;
+
+
+    protected virtual void Select()
+    {
+        EventManager.TriggerEvent(ELibraryEvent.SelectIcon, new object[1] { this });
+    }
+
+    protected virtual void UnSelect()
+    {
+        EventManager.TriggerEvent(ELibraryEvent.SelectNull);
+    }
+
+    #region Tutorial
     public IEnumerator YellowSignCor()
     {
         yellowUI.gameObject.SetActive(true);
@@ -253,32 +232,59 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void BackgroundEventStop()
     {
-        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { if (gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, BackgroundSignStart);
         EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); });
 
-        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]);
+        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
     }
 
     private void RequesterInfoEventStop()
     {
-        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, delegate { if (gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); });
     }
 
     private void USBEventStop()
     {
-        EventManager.StopListening(ETutorialEvent.LibraryUSBStart, delegate { if (gameObject.activeSelf) StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
         EventManager.StopListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); });
-        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck, new object[0]);
+
+        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
     }
 
-    protected virtual void Select()
+    public void LibraryUSBStart(object[] ps)
     {
-        EventManager.TriggerEvent(ELibraryEvent.SelectIcon, new object[1] { this });
+        if (this.gameObject != null)
+        {
+            if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
+        }
+        EventManager.StartListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); USBEventStop(); });
     }
 
-    protected virtual void UnSelect()
+    public void LibraryRequesterInfoStart(object[] ps)
     {
-        EventManager.TriggerEvent(ELibraryEvent.SelectNull);
+        if (this.gameObject != null)
+        {
+            if (gameObject.activeSelf)
+                StartCoroutine(YellowSignCor());
+        }
+        EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); RequesterInfoEventStop(); });
+    }
+
+    public void BackgroundSignStart(object[] ps)
+    {
+        StartCoroutine(YellowSignCor());
+        EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); BackgroundEventStop(); });
+    }
+    #endregion
+    private void OnDestroy()
+    {
+        EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
+        EventManager.StopListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); });
+        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
+        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); });
+        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { StartCoroutine(YellowSignCor()); });
+        EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { StopCor(); });
     }
 }
+

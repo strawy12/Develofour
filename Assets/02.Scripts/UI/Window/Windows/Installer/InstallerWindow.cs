@@ -52,7 +52,6 @@ public class InstallerWindow : Window
 
     public void ChangeScreen(int idx)
     {
-        Debug.Log(idx);
         if (Define.IsBoundOver(idx, screenList.Count)) return;
 
         screenList[currentIdx].gameObject.SetActive(false);
