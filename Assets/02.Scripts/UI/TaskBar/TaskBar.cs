@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,8 +50,8 @@ public class TaskBar : MonoBehaviour
                 //taskIcons.Add((int)icon.WindowPrefab.WindowData.windowType, icon);
             }
 
-            // key´Â ÀÚ½ÄÀÇ WindowType Enum
-            // value´Â ÀÚ½ÄÀÇ taskicon
+            // keyëŠ” ìì‹ì˜ WindowType Enum
+            // valueëŠ” ìì‹ì˜ taskicon
         }
     }
 
@@ -68,7 +68,7 @@ public class TaskBar : MonoBehaviour
 
     public void AddIcon(Window window)
     {
-        // »ı¼ºµÇ¾îÀÖ´Â TaskIcon¿¡ ÇØ´ç À©µµ¿ì¸¦ ´ã´Â ¾ÆÀÌÄÜÀÌ Á¸ÀçÇÏ´ÂÁö ¿©ºÎ
+        // ìƒì„±ë˜ì–´ìˆëŠ” TaskIconì— í•´ë‹¹ ìœˆë„ìš°ë¥¼ ë‹´ëŠ” ì•„ì´ì½˜ì´ ì¡´ì¬í•˜ëŠ”ì§€ ì—¬ë¶€
         TaskIcon taskIcon;
 
         taskIcon = CreateTaskIcon();
