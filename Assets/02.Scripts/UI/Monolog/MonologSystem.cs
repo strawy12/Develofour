@@ -21,13 +21,14 @@ public class MonologSystem : MonoBehaviour
         StartCoroutine(StartMonologCoroutine(textDataType,delay, cnt));
     }
 
-    private IEnumerator StartMonologCoroutine(ETextDataType textDataType, float delay, int cnt)
+    private IEnumerator StartMonologCoroutine(ETextDataType textDataType, float startDelay, int cnt)
     {
+        yield return new WaitForSeconds(startDelay);
+
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
         textBox.Init(textDataType, TextBox.ETextBoxType.Simple);
         for (int i = 0; i < cnt; i++)
         {
-            yield return new WaitForSeconds(delay);
             textBox.PrintText();
             yield return new WaitUntil(() => textBox.IsClick);
         }
