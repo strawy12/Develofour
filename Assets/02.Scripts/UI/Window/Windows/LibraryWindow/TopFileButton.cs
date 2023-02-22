@@ -101,10 +101,10 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
     private void StopTutorialEvent()
     {
-        EventManager.StopListening(ETutorialEvent.LibraryUserButtonStart, delegate { StartCoroutine(YellowSignCor()); });
-        EventManager.StopListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopCor(); });
+        //EventManager.StopListening(ETutorialEvent.LibraryUserButtonStart, delegate { StartCoroutine(YellowSignCor()); });
+        //EventManager.StopListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopCor(); });
 
-        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
+        //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
     }
     #endregion
 }

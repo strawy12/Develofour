@@ -240,16 +240,16 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void RequesterInfoEventStop()
     {
-        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
-        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); });
+        //EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
+        //EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopCor(); });
     }
 
     private void USBEventStop()
     {
-        EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
-        EventManager.StopListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); });
+        //EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
+        //EventManager.StopListening(ETutorialEvent.LibraryUSBEnd, delegate { StopCor(); });
 
-        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
+        //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
     }
 
     public void LibraryUSBStart(object[] ps)

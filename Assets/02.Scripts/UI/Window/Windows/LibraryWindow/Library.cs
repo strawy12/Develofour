@@ -131,6 +131,11 @@ public class Library : Window
         fileAddressPanel.SetButtons(currentDirectory);
         CreateChildren();
         searchInputField.text = "";
+
+        if (GameManager.Inst.GameState == EGameState.Tutorial)
+        {
+            EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
+        }
     }
 
     private void CreateChildren()

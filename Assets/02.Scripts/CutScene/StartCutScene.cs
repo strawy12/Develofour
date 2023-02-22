@@ -136,7 +136,7 @@ public class StartCutScene : MonoBehaviour
         InputManager.Inst.RemoveKeyInput(KeyCode.S, onKeyDown: EndCutScene);
         Sound.OnPlayBGMSound(Sound.EBgm.StartBGM);
 
-        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0.3f, 2);
+        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0.8f, 2);
     }
 
     public void SetActiveThisObject()
