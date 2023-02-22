@@ -29,6 +29,7 @@ public class MonologSystem : MonoBehaviour
         textBox.Init(textDataType, TextBox.ETextBoxType.Simple);
         for (int i = 0; i < cnt; i++)
         {
+            yield return new WaitForSeconds(0.1f);
             textBox.PrintText();
             yield return new WaitUntil(() => textBox.IsClick);
         }
