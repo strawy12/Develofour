@@ -127,6 +127,10 @@ public class ProfileWindow : Window
             isOpen = true;
             isMoving = false;
         });
+    }
+
+    public void ChattingAlarm(object[] ps)
+    {
 
     }
 }
