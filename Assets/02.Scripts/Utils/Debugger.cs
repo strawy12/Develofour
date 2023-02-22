@@ -44,6 +44,7 @@ public class Debugger : MonoBehaviour
                 e.debugEvent?.Invoke();
             }
         }
+
     }
 
 }

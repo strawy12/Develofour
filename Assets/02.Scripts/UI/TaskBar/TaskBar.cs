@@ -71,12 +71,12 @@ public class TaskBar : MonoBehaviour
         // 생성되어있는 TaskIcon에 해당 윈도우를 담는 아이콘이 존재하는지 여부
         TaskIcon taskIcon;
 
-            taskIcon = CreateTaskIcon();
-
-            taskIcon.Init(window.File);
-            taskIcon.OnClose += RemoveTaskIcon;
-            taskIcon.gameObject.SetActive(true);
-
+        taskIcon = CreateTaskIcon();
+        
+        taskIcon.Init(window.File);
+        taskIcon.OnClose += RemoveTaskIcon;
+        taskIcon.gameObject.SetActive(true);
+        
         taskIcon.AddWindow(window);
     }
 

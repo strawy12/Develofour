@@ -27,6 +27,9 @@ public enum EWindowEvent
     WindowsSuccessLogin,
     CreateWindow,
     OpenWindowPin,
+    AlarmSend,
+    AlarmRecieve,
+    AlarmCheck,
 }
 
 public enum ENoticeEvent

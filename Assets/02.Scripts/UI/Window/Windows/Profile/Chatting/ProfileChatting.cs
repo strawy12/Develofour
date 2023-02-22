@@ -80,8 +80,11 @@ public class ProfileChatting : MonoBehaviour
     }
 
     public void AddText(object[] ps)
-    { 
-        if(!(ps[0] is EAiChatData))
+    {
+        EWindowType type = EWindowType.ProfileWindow;
+        EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { type });
+
+        if (!(ps[0] is EAiChatData))
         {
             if(ps[0] is string)
             {

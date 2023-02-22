@@ -39,7 +39,7 @@ public class FileSO : SOParent
     public bool isWindowLockClear;
     public string windowPin;
     public string windowPinHintGuide;
-
+    public bool isAlarm;
     public object AssetDatabase { get; private set; }
 
     #region GetFileData

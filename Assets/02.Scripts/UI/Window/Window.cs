@@ -117,7 +117,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         {
             WindowManager.Inst.SelectedObjectNull();
         }
-
+        EventManager.StopListening(EWindowEvent.AlarmSend, AlarmCheck);
         OnDestroy();
         Destroy(gameObject);
     }
@@ -179,7 +179,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         Init();
         WindowOpen();
         windowMaxCnt++;
-
+        EventManager.StartListening(EWindowEvent.AlarmSend, AlarmCheck);
         EventManager.TriggerEvent(EWindowEvent.CreateWindow, new object[] { this });
     }
 
@@ -200,7 +200,29 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     {
         WindowManager.Inst.SelectObject(this);
         SetCurrentWindow(this);
+        EventManager.TriggerEvent(EWindowEvent.AlarmCheck, new object[1] { file.windowType });
     }
+
+    private void AlarmCheck(object[] ps)
+    {
+        if(!(ps[0] is EWindowType))
+        {
+            return;
+        }
+        EWindowType type = (EWindowType)ps[0];
+        if(type != file.windowType)
+        {
+            return;
+        }
+
+        if(!isSelected)
+        {
+            EventManager.TriggerEvent(EWindowEvent.AlarmRecieve, ps);
+        }
+    }
+    //사용법
+    //EWindowType type = EWindowType.ProfileWindow;
+    //EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { type });
 
     private void OnDestroy()
     {

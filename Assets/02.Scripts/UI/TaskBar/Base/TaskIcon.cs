@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 using System.Runtime.CompilerServices;
+using TMPro;
 
 public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -22,6 +23,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     protected Image highlightedImage;
 
+
     protected List<TargetWindowPanel> targetPanelList = new List<TargetWindowPanel>();
 
     protected bool isFixed = false;
@@ -37,6 +39,9 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     private Coroutine showTargetPanelDelayCoroutine = null;
 
+    public TextMeshProUGUI alarmText;
+    public GameObject alarm;
+    private int alarmCount = 0;
 
     #region Task Icon
 
@@ -55,6 +60,12 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         targetWindowPanels.OnUnSelectIgnoreFlag += () => isEnter && !isClick;
         attributePanel.OnCloseWindow += CloseIcon;
         attributePanel.OnOpenWindow += ShowFirstWindow;
+
+        if(windowFile.isAlarm)
+        {
+            EventManager.StartListening(EWindowEvent.AlarmRecieve, Alarm);
+            EventManager.StartListening(EWindowEvent.AlarmCheck, AlarmCheck);
+        }
     }
 
     public void SetIcon(Sprite sprite)
@@ -73,7 +84,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         attributePanel.OnCloseWindow -= CloseIcon;
         attributePanel.OnOpenWindow -= ShowFirstWindow;
         windowType = (int)EWindowType.None;
-
+        EventManager.StopListening(EWindowEvent.AlarmRecieve, Alarm);
+        EventManager.StopListening(EWindowEvent.AlarmCheck, AlarmCheck);
         while (targetPanelList.Count != 0)
         {
             targetPanelList[0].Close();
@@ -86,6 +98,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         if (targetPanelList.Count <= 0) return;
 
         isClick = true;
+
+        EventManager.TriggerEvent(EWindowEvent.AlarmCheck, new object[1] { (EWindowType)windowType });
 
         if (isSelectedTarget)
         {
@@ -316,4 +330,42 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     }
 
     #endregion
+
+    public void Alarm(object[] ps)
+    {
+        if (windowTypeCheck(ps) == false)
+        {
+            return;
+        }
+
+        activeImage.gameObject.SetActive(true);
+        if (alarmCount < 9)
+            alarmCount += 1;
+        alarmText.text = alarmCount.ToString();
+        alarm.SetActive(true);
+    }
+
+    public void AlarmCheck(object[] ps)
+    {
+        if(windowTypeCheck(ps) == false)
+        {
+            return;
+        }
+        alarmCount = 0;
+        alarm.SetActive(false);
+    }
+
+    private bool windowTypeCheck(object[] ps)
+    {
+        if (!(ps[0] is EWindowType))
+        {
+            return false;
+        }
+        EWindowType type = (EWindowType)ps[0];
+        if ((int)type != windowType)
+        {
+            return false;
+        }
+        return true;
+    }
 }

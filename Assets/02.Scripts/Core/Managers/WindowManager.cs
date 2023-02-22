@@ -217,7 +217,8 @@ public class WindowManager : MonoSingleton<WindowManager>
         foreach(var temp in windowPrefabList)
         {
             temp.windowPrefab.windowAlteration.pos = new Vector2(0, 0);
-            temp.windowPrefab.windowAlteration.size = new Vector2(1280, 720);
+            temp.windowPrefab.windowAlteration.isMaximum = false;
+            temp.windowPrefab.windowAlteration.size = temp.windowPrefab.windowAlteration.saveSize;
         }
     }
 }

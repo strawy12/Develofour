@@ -8,7 +8,7 @@ public class WindowAlterationSO : SOParent
     public bool isMaximum;
     public Vector2 size;
     public Vector2 pos;
-    public Vector2 savePos;
+    public Vector2 saveSize;
 
     public override void Setting(string[] ps)
     {
@@ -16,5 +16,6 @@ public class WindowAlterationSO : SOParent
         size.y = int.Parse(ps[2]);
         pos.x = int.Parse(ps[3]);
         pos.y = int.Parse(ps[4]);
+        saveSize = size;
     }
 }
