@@ -12,6 +12,7 @@ using UnityEngine.U2D.IK;
 public class NoticeSystem : MonoUI
 {
     public static Action<ENoticeType, float> OnGeneratedNotice;
+    public static Action OnTagReset;
     //public static Action<Decision, float> OnDecisionPanel;
     public static Action<string, string, Sprite> OnNotice;
     [SerializeField]
@@ -30,6 +31,9 @@ public class NoticeSystem : MonoUI
     private NoticePanel noticePanel;
 
     private bool isOpen = false;
+
+    private ENoticeTag currentTag;
+
     private void Awake()
     {
         Bind();
@@ -55,8 +59,15 @@ public class NoticeSystem : MonoUI
 
         OnGeneratedNotice += ShowNoticePanel;
         OnNotice += Notice;
+        OnTagReset += TagReset;
         EventManager.StartListening(ENoticeEvent.ClickNoticeBtn, ToggleNotice);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
+        currentTag = ENoticeTag.None;
+    }
+
+    private void TagReset()
+    {
+        currentTag = ENoticeTag.None;
     }
 
     private void FixedNoticePanelInit()
@@ -144,6 +155,19 @@ public class NoticeSystem : MonoUI
     public void ShowNoticePanel(ENoticeType eNoticeDataType, float delay)
     {
         NoticeDataSO data = GetTextData(eNoticeDataType);
+
+        if(data.noticeTag == currentTag && data.noticeTag != ENoticeTag.None)
+        {
+            Debug.Log("태그 겹침");
+            //none이면 거르기
+        }
+        else
+        {
+            Debug.Log("태그 다름 혹은 None임");
+        }
+
+        currentTag = data.noticeTag;
+
         if (data == null)
         {
             Debug.LogError("Head나 Body 의 데이터가 없습니다");

@@ -45,6 +45,10 @@ public class Debugger : MonoBehaviour
             }
         }
 
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        }
     }
 
 }

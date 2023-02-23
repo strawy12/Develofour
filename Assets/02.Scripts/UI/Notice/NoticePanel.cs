@@ -214,6 +214,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         rectTransform.DOAnchorPosX(rectTransform.rect.width, NOTICE_DURATION);
         yield return new WaitForSeconds(NOTICE_DURATION);
+        NoticeSystem.OnTagReset?.Invoke();
         OnCompeleted?.Invoke(this);
     }
 
