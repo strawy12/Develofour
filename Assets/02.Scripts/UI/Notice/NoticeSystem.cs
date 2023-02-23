@@ -156,14 +156,11 @@ public class NoticeSystem : MonoUI
     {
         NoticeDataSO data = GetTextData(eNoticeDataType);
 
-        if(data.noticeTag == currentTag && data.noticeTag != ENoticeTag.None)
+        if(data.noticeTag == currentTag && data.noticeTag != ENoticeTag.None && noticePanel != null)
         {
-            Debug.Log("태그 겹침");
-            //none이면 거르기
-        }
-        else
-        {
-            Debug.Log("태그 다름 혹은 None임");
+            //noticeOutline.StartOutline();
+            noticePanel.SameTagTextAdd();
+            return;
         }
 
         currentTag = data.noticeTag;

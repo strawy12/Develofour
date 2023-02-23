@@ -30,7 +30,7 @@ public class NoticeDataSO : ScriptableObject
     private NoticeData noticeDataList;
 
     public ENoticeTag noticeTag = ENoticeTag.None;
-
+    public string sameTextString = "새로운 알람이 또 추가되었습니다.";
     public ENoticeType NoticeDataType => noticeDataType;
     public string Head => noticeDataList.head;
     public string Body => noticeDataList.body;
