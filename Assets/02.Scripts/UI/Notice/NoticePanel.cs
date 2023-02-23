@@ -22,6 +22,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     private TMP_Text bodyText;
     [SerializeField]
     private TMP_Text dateText;
+    [SerializeField]
+    private TMP_Text sameTagText;
 
     [SerializeField]
     private Image iconImage;
@@ -47,6 +49,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private bool isOpen;
 
+    private float addTime = 0f;
+
     public string HeadText { get { return headText.text; } }
     private void Bind()
     {
@@ -71,7 +75,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         
         canDeleted = canDelete;
         OnCompeleted += (x) => Compelete();
-
+        sameTagText.gameObject.SetActive(false);
         dragNotice.OnClickNotice += Drag;
         dragNotice.OnChangeAlpha += ChangeAlpha;
         dragNotice.OnDragNotice += ImmediatelyStop;
@@ -79,6 +83,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void Notice(NoticeDataSO data)
     {
+        sameTagText.text = data.sameTextString;
         Notice(data.Head, data.Body, data.Icon);
     }
 
@@ -214,7 +219,12 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         rectTransform.DOAnchorPosX(rectTransform.rect.width, NOTICE_DURATION);
         yield return new WaitForSeconds(NOTICE_DURATION);
+        
+        yield return new WaitForSeconds(addTime);
+        NoticeSystem.OnTagReset?.Invoke();
         OnCompeleted?.Invoke(this);
+        
+        addTime = 0f;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -237,6 +247,14 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
             isEnter = false;
         }
+    }
+
+    public void SameTagTextAdd()
+    {
+        addTime += 0.8f;
+        sameTagText.gameObject.SetActive(true);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
     }
 
     private void NoticeStopEvent(object[] ps)
