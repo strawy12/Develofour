@@ -17,7 +17,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     public float noticeAlphalightly = 1f;
 
     [SerializeField]
-    private TMP_Text headText;
+    public TMP_Text headText;
     [SerializeField]
     private TMP_Text bodyText;
     [SerializeField]
@@ -174,6 +174,12 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         rectTransform.DOKill();
         StopAllCoroutines();
+        NoticeData data = new NoticeData();
+        data.head = headText.text;
+        data.body = bodyText.text;
+        data.icon = iconImage.sprite;
+        data.canDeleted = true;
+        data.delay = 0; 
         OnCompeleted?.Invoke(this);
         EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }

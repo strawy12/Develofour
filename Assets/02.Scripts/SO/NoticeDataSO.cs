@@ -26,8 +26,7 @@ public class NoticeDataSO : ScriptableObject
     [SerializeField]
     private ENoticeType noticeDataType;
 
-    [SerializeField]
-    private NoticeData noticeDataList;
+    public NoticeData noticeDataList;
 
     public ENoticeTag noticeTag = ENoticeTag.None;
     public string sameTextString = "새로운 알람이 또 추가되었습니다.";

@@ -13,7 +13,6 @@ public class NotePadTextGetWord : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log(Define.CanvasMousePos);
 
         if (eventData.button == PointerEventData.InputButton.Left)
         {
