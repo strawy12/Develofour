@@ -37,6 +37,7 @@ public class ProfileWindow : Window
         base.Init();
         profileChatting.Init();
         profilePanel.Init();
+        fileSearchPanel.Init();
         profileSystemBtn.onClick.AddListener(delegate { StartCoroutine(OnShowProfile()); } );
         infoCheckBtn.onClick.AddListener(delegate { StartCoroutine(OnShowInfo()); });
         fileSearchBtn.onClick.AddListener(delegate { StartCoroutine(OnShowFileSearch()); });

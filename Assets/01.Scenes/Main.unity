@@ -4591,6 +4591,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1226968990}
     m_Modifications:
+    - target: {fileID: 1127695394106867149, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127695394106867149, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127695394106867149, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961789455665571506, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961789455665571506, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2622755449340382809, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3772770536042500229, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4678,6 +4702,30 @@ PrefabInstance:
     - target: {fileID: 3772770536042500230, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
       propertyPath: m_Name
       value: ProfileWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076537492790547485, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076537492790547485, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076537492790547485, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076537492790547485, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076537492790547485, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076537492790547485, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44551104301ea50498bc8867fd0a998e, type: 3}
@@ -7671,6 +7719,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rootDirectory: {fileID: 11400000, guid: 7455332d06453454d8cd428a89224472, type: 2}
+  additionFileList: []
+  fileList: []
 --- !u!224 &1250701610 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4382593054383337245, guid: e34b2b92e63a03349858f23f9fc27d0b, type: 3}
@@ -8054,6 +8104,8 @@ MonoBehaviour:
   noticePanelTemp: {fileID: 1307010442}
   noticeOutline: {fileID: 990546319}
   noticePanelParant: {fileID: 1120884905}
+  saveNoticeData: {fileID: 11400000, guid: 764833f449415cd4aae5f737c7662eeb, type: 2}
+  saveNoticeList: []
 --- !u!114 &1395410942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53465,6 +53517,7 @@ MonoBehaviour:
   headText: {fileID: 6155462080392981514}
   bodyText: {fileID: 6155462079995700940}
   dateText: {fileID: 6155462081717301249}
+  sameTagText: {fileID: 0}
   iconImage: {fileID: 1405429231123978083}
   canDeleted: 0
 --- !u!224 &6155462080139323137

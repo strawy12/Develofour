@@ -46,4 +46,5 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         }
         return notepadFileDictionary[windowName];
     }
+
 }

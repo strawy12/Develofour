@@ -98,13 +98,63 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 searchFileList.Add(file);
             }
-            if(file.SearchTag(text))
+        }
+
+        return searchFileList;
+    }
+
+    public List<FileSO> ProfileSearchFile(string text)
+    {
+        List<FileSO> searchFileList = new List<FileSO>();
+
+        foreach (FileSO file in fileList)
+        {
+            if (file == null)
+            {
+                continue;
+            }
+            if (file.windowName.Contains(text, StringComparison.OrdinalIgnoreCase))
             {
                 searchFileList.Add(file);
+            }
+            else if (file.SearchTag(text))
+            {
+                searchFileList.Add(file);
+            }
+            else if(file.windowType == EWindowType.Notepad)
+            {
+                if(NotePadFileLoad(file.windowName))
+                {
+                    searchFileList.Add(file);
+                }
             }
         }
 
         return searchFileList;
+    }
+
+    private bool NotePadFileLoad(string text)
+    {
+        try
+        {
+            NotepadDataSO notePadData = ResourceManager.Inst.GetNotepadData(text);
+
+            if (notePadData == null)
+            {
+                return false;
+            }
+
+            if (notePadData.scripts.Contains(text))
+            {
+                return true;
+            }
+        }
+        catch
+        {
+     
+
+        }
+        return false;
     }
 
     private void OnApplicationQuit()
