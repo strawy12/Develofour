@@ -98,6 +98,10 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 searchFileList.Add(file);
             }
+            if(file.SearchTag(text))
+            {
+                searchFileList.Add(file);
+            }
         }
 
         return searchFileList;
