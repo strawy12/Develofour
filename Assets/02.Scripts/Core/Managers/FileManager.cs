@@ -1,14 +1,19 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.UI;
+using System;
 public class FileManager : MonoSingleton<FileManager>
 {
     [SerializeField]
-    private DirectorySO rootDirectory;
+    public DirectorySO rootDirectory;
 
-    private List<FileSO> additionFileList = new List<FileSO>();
+    public List<FileSO> additionFileList = new List<FileSO>();
+
+    public List<FileSO> fileList = new List<FileSO>();
+
+
 
     public void AddFile(FileSO file, string location)
     {
@@ -17,7 +22,7 @@ public class FileManager : MonoSingleton<FileManager>
 
         if (locations[0] == "User")
         {
-            Debug.LogError("Location¿¡ UserÀ» Æ÷ÇÔ½ÃÅ°Áö ¸¶¼¼¿ä");
+            Debug.LogError("Locationì— Userì„ í¬í•¨ì‹œí‚¤ì§€ ë§ˆì„¸ìš”");
             return;
         }
 
@@ -30,7 +35,7 @@ public class FileManager : MonoSingleton<FileManager>
                 {
                     if((child is DirectorySO) == false)
                     {
-                        Debug.LogError($"Location µµÁß ÆÄÀÏ {child.name}ÀÌ Directory°¡ ¾Æ´Õ´Ï´Ù");
+                        Debug.LogError($"Location ë„ì¤‘ íŒŒì¼ {child.name}ì´ Directoryê°€ ì•„ë‹™ë‹ˆë‹¤");
                         return;
                     }
                     currentDir = child as DirectorySO;
@@ -40,7 +45,7 @@ public class FileManager : MonoSingleton<FileManager>
 
             if(beforeDir == currentDir)
             {
-                Debug.LogError($"¸ğµç Å½»öÀ» ÇÏ¿´À¸³ª Directory°¡ º¯°æµÇÁö¾Ê¾Ò½À´Ï´Ù.");
+                Debug.LogError($"ëª¨ë“  íƒìƒ‰ì„ í•˜ì˜€ìœ¼ë‚˜ Directoryê°€ ë³€ê²½ë˜ì§€ì•Šì•˜ìŠµë‹ˆë‹¤.");
                 return;
             }
         }
@@ -49,18 +54,65 @@ public class FileManager : MonoSingleton<FileManager>
         file.parent = currentDir;
 
         additionFileList.Add(file);
+        fileList.Add(file);
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
+    }
+
+    public void ALLFileAddList(DirectorySO currentDirectory)
+    {
+        fileList.Clear();
+        Queue<DirectorySO> directories = new Queue<DirectorySO>();
+        directories.Enqueue(currentDirectory);
+        int i = 0;
+        while (directories.Count != 0)
+        {
+            DirectorySO directory = directories.Dequeue();
+            i++;
+            if (i > 10000)
+            {
+                Debug.LogWarning("whileë¬¸ì´ ê³„ì†í•´ì„œ ì‹¤í–‰ì¤‘ì…ë‹ˆë‹¤.");
+                break;
+            }
+            foreach (FileSO file in directory.children)
+            {
+                fileList.Add(file);
+                if (file is DirectorySO)
+                {
+                    directories.Enqueue(file as DirectorySO);
+                }
+            }
+        }
+    }
+
+    public List<FileSO> SearchFile(string text)
+    {
+        List<FileSO> searchFileList = new List<FileSO>();
+      
+        foreach (FileSO file in fileList)
+        {
+            if (file == null)
+            {
+                continue;
+            }
+            if (file.windowName.Contains(text, StringComparison.OrdinalIgnoreCase))
+            {
+                searchFileList.Add(file);
+            }
+        }
+
+        return searchFileList;
     }
 
     private void OnApplicationQuit()
     {
-        Debug.LogError("µğ¹ö±ëÀ» À§ÇØ Ãß°¡ÇÑ ÆÄÀÏµéÀ» ¸ğµÎ Á¦°ÅÇÕ´Ï´Ù");
+        Debug.LogError("ë””ë²„ê¹…ì„ ìœ„í•´ ì¶”ê°€í•œ íŒŒì¼ë“¤ì„ ëª¨ë‘ ì œê±°í•©ë‹ˆë‹¤");
 
-        foreach(FileSO file in additionFileList)
+        foreach (FileSO file in additionFileList)
         {
             DirectorySO dir = file.parent;
             file.parent = null;
             dir.children.Remove(file);
         }
     }
+
 }

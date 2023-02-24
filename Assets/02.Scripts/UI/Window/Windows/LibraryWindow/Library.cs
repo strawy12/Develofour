@@ -1,15 +1,15 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
-/// ÆÄÀÏÅ½»ö±â ¿ªÇÒÀ» ÇÏ´Â window classÀÌ´Ù.
-/// Library¿¡¼­ fileSO´Â rootDirectoryÀÇ fileSOÀ» °¡Áö°í ÀÖ´Â´Ù.
+/// íŒŒì¼íƒìƒ‰ê¸° ì—­í• ì„ í•˜ëŠ” window classì´ë‹¤.
+/// Libraryì—ì„œ fileSOëŠ” rootDirectoryì˜ fileSOì„ ê°€ì§€ê³  ìˆëŠ”ë‹¤.
 /// </summary>
 public class Library : Window
-{
+{   
     #region poolParam
     [SerializeField]
     private WindowIcon iconPrefab;
@@ -48,9 +48,6 @@ public class Library : Window
     private TextMeshProUGUI redoText;
     #endregion
     private WindowIcon selectIcon;
-
-    private List<FileSO> fileList = new List<FileSO>();
-    private List<FileSO> foundFileList = new List<FileSO>();
     #region pooling
     private void CreatePool()
     {
@@ -103,10 +100,10 @@ public class Library : Window
     protected override void Init()
     {
         base.Init();
-        currentDirectory = file as DirectorySO;
+        currentDirectory = file as DirectorySO; 
         undoStack = new Stack<DirectorySO>();
         redoStack = new Stack<DirectorySO>();
-        ALLFileAddList();
+        FileManager.Inst.ALLFileAddList(currentDirectory);
 
         fileAddressPanel.Init();
         SetHighlightImage();
@@ -119,11 +116,26 @@ public class Library : Window
         
         EventManager.StartListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
 
-        searchInputField.onSubmit.AddListener(delegate { SearchFile(); });
-        searchBtn.onClick.AddListener(SearchFile);
+        searchInputField.onSubmit.AddListener(SearchFunction);
+        searchBtn.onClick.AddListener(SearchFunction);
         undoBtn.onClick.AddListener(UndoFile);
         redoBtn.onClick.AddListener(RedoFile);
     }
+
+    private void SearchFunction(string text)
+    {
+        if (text.Length < 2) return;
+        List<FileSO> fileList = FileManager.Inst.SearchFile(text);
+        ShowFoundFile(fileList);
+    }
+        
+    private void SearchFunction()
+    {
+        if (searchInputField.text.Length < 2) return;
+
+        List<FileSO> fileList = FileManager.Inst.SearchFile(searchInputField.text);
+        ShowFoundFile(fileList);
+    }   
 
     private void SetLibrary()
     {
@@ -146,35 +158,11 @@ public class Library : Window
             WindowIcon icon = Pop();
             icon.SetFileData(file);
         }
-        ALLFileAddList();
+        FileManager.Inst.ALLFileAddList(currentDirectory);
         isSetLibrary = false;
     }
 
-    private void ALLFileAddList()
-    {
-        fileList.Clear();
-        Queue<DirectorySO> directories = new Queue<DirectorySO>();
-        directories.Enqueue(currentDirectory);
-        int i = 0;
-        while (directories.Count != 0)
-        {
-            DirectorySO directory = directories.Dequeue();
-            i++;
-            if (i > 10000)
-            {
-                Debug.LogWarning("while¹®ÀÌ °è¼ÓÇØ¼­ ½ÇÇàÁßÀÔ´Ï´Ù.");
-                break;
-            }
-            foreach (FileSO file in directory.children)
-            {
-                fileList.Add(file);
-                if (file is DirectorySO)
-                {
-                    directories.Enqueue(file as DirectorySO);
-                }
-            }
-        }
-    }
+    
     private void CheckSearchInputTextLength(string text)
     {
         if (isSetLibrary) return;
@@ -185,33 +173,12 @@ public class Library : Window
         }
     }
 
-    private void SearchFile()
-    {
-        foundFileList.Clear();
-        if (searchInputField.text.Length < 2)
-        {
-            return;
-        }
 
-        foreach (FileSO file in fileList)
-        {
-            if (file == null)
-            {
-                continue;
-            }
-            if (file.windowName.Contains(searchInputField.text, StringComparison.OrdinalIgnoreCase))
-            {
-                foundFileList.Add(file);
-            }
-        }
 
-        ShowFoundFile();
-    }
-
-    private void ShowFoundFile()
+    private void ShowFoundFile(List<FileSO> fileList)
     {
         PushAll();
-        foreach (FileSO file in foundFileList)
+        foreach (FileSO file in fileList)
         {
             WindowIcon icon = Pop();
             icon.SetFileData(file);
@@ -223,7 +190,7 @@ public class Library : Window
     public void UndoFile(object[] emptyParam) => UndoFile();
     public void UndoFile()
     {
-        //count°¡ 0ÀÌ¸é ¾ËÆÄ°ª ³»¸®´Â°Ô ¸ÂÀ»µí
+        //countê°€ 0ì´ë©´ ì•ŒíŒŒê°’ ë‚´ë¦¬ëŠ”ê²Œ ë§ì„ë“¯
         if (undoStack.Count == 0) return;
         DirectorySO data = undoStack.Pop();
         redoStack.Push(currentDirectory);
@@ -233,7 +200,7 @@ public class Library : Window
     public void RedoFile(object[] emptyParam) => RedoFile();
     public void RedoFile()
     {
-        //count°¡ 0ÀÌ¸é ¾ËÆÄ°ª ³»¸®´Â°Ô ¸ÂÀ»µí
+        //countê°€ 0ì´ë©´ ì•ŒíŒŒê°’ ë‚´ë¦¬ëŠ”ê²Œ ë§ì„ë“¯
         if (redoStack.Count == 0) return;
         DirectorySO data = redoStack.Pop();
         undoStack.Push(currentDirectory);
