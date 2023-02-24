@@ -17,7 +17,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     public float noticeAlphalightly = 1f;
 
     [SerializeField]
-    private TMP_Text headText;
+    public TMP_Text headText;
     [SerializeField]
     private TMP_Text bodyText;
     [SerializeField]
@@ -86,19 +86,22 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         sameTagText.text = data.sameTextString;
         Notice(data.Head, data.Body, data.Icon);
     }
-
-    public void Notice(string head, string body, Sprite icon)
+    private void NoticeSetting(string head, string body, Sprite icon)
     {
         headText.SetText(head);
         bodyText.SetText(body);
         iconImage.sprite = icon;
-        
+
         rectTransform.anchorMin = new Vector2(1f, 0.5f);
         rectTransform.anchorMax = new Vector2(1f, 0.5f);
         rectTransform.pivot = new Vector2(1f, 0f);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
+    }
+    public void Notice(string head, string body, Sprite icon)
+    {
+        NoticeSetting(head, body, icon);
 
         Vector2 pos = new Vector2(rectTransform.rect.width, NOTICE_POS.y);
         rectTransform.anchoredPosition = pos;
@@ -115,7 +118,10 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }
 
-
+    public void LoadNotice(NoticeData data) 
+    {
+        NoticeSetting(data.head, data.body, data.icon);
+    }
     public void NoticeUXEmphasis()
     {
         Sequence seq = DOTween.Sequence();
@@ -174,6 +180,12 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         rectTransform.DOKill();
         StopAllCoroutines();
+        NoticeData data = new NoticeData();
+        data.head = headText.text;
+        data.body = bodyText.text;
+        data.icon = iconImage.sprite;
+        data.canDeleted = true;
+        data.delay = 0; 
         OnCompeleted?.Invoke(this);
         EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }

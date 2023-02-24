@@ -34,6 +34,12 @@ public class NoticeSystem : MonoUI
 
     private ENoticeTag currentTag;
 
+    [SerializeField]
+    private SaveNoticeDataSO saveNoticeData;
+
+    [SerializeField]
+    private List<NoticeData> saveNoticeList = new List<NoticeData>();
+
     private void Awake()
     {
         Bind();
@@ -63,6 +69,8 @@ public class NoticeSystem : MonoUI
         EventManager.StartListening(ENoticeEvent.ClickNoticeBtn, ToggleNotice);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
         currentTag = ENoticeTag.None;
+
+        LoadSaveNotice();
     }
 
     private void TagReset()
@@ -182,7 +190,24 @@ public class NoticeSystem : MonoUI
             Debug.Log("이미 있는 알람임");
             return;
         }
+
+        saveNoticeList.Add(data.noticeDataList);
         StartCoroutine(NoticeCoroutine(data, delay));
+    }
+
+    public void RemoveList(NoticeData data)
+    {
+        Debug.Log(data.head);
+        foreach(var temp in saveNoticeList)
+        {
+            Debug.Log(temp.head);
+            if(temp.head == data.head)
+            {
+                Debug.Log(temp.head);
+                saveNoticeList.Remove(temp);
+                break;
+            }
+        }
     }
 
     private IEnumerator NoticeCoroutine(NoticeDataSO data, float delay)
@@ -212,6 +237,14 @@ public class NoticeSystem : MonoUI
     {
         panel.gameObject.SetActive(false);
         panel.OnClosed -= PushPanel;
+        foreach(var temp in saveNoticeList)
+        {
+            if(panel.headText.text == temp.head)
+            {
+                saveNoticeList.Remove(temp);
+                break;
+            }
+        }
         noticePanelPool.Push(panel);
     }
 
@@ -241,5 +274,36 @@ public class NoticeSystem : MonoUI
         panel.OnClosed += PushPanel;
         noticeOutline.StartOutline();
         panel.Notice(head, body, icon);
+        NoticeData data = new NoticeData();
+        data.head = head;
+        data.body = body;
+        data.icon = icon;
+        saveNoticeList.Add(data);
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveNoticeData();
+#if UNITY_EDITOR
+        saveNoticeData.noticeDataList.Clear();
+#endif
+    }
+
+    private void SaveNoticeData()
+    { 
+        saveNoticeData.noticeDataList = saveNoticeList;
+    }
+
+    private void LoadSaveNotice()
+    {
+        saveNoticeList = saveNoticeData.noticeDataList;
+        foreach(NoticeData data in saveNoticeList)
+        {
+            NoticePanel panel = GetPanel(data.canDeleted);
+            panel.transform.SetParent(noticePanelParant);
+            panel.OnClosed += PushPanel;
+            panel.LoadNotice(data);
+            panel.SetActive(true);
+        }
     }
 }

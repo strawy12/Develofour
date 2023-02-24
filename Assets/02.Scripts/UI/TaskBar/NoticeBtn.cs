@@ -41,7 +41,6 @@ public class NoticeBtn : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            Debug.Log(44);
             EventManager.TriggerEvent(ENoticeEvent.ClickNoticeBtn);
         }
     }

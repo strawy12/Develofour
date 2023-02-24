@@ -25,15 +25,12 @@ public class GameManager : MonoSingleton<GameManager>
         gameState = state;
         if(gameState == EGameState.CutScene)
         {
-            Debug.Log("PanelOn");
             gameStateScreenInLogin.SetActive(true);
             gameStateScreenInWindow.SetActive(true);
         }
         else
         {
-            Debug.Log("PanelOff");
             gameStateScreenInLogin.SetActive(false);
-
             gameStateScreenInWindow.SetActive(false);
 
         }
