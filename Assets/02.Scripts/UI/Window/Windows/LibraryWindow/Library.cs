@@ -1,12 +1,12 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
-/// ÆÄÀÏÅ½»ö±â ¿ªÇÒÀ» ÇÏ´Â window classÀÌ´Ù.
-/// Library¿¡¼­ fileSO´Â rootDirectoryÀÇ fileSOÀ» °¡Áö°í ÀÖ´Â´Ù.
+/// íŒŒì¼íƒìƒ‰ê¸° ì—­í• ì„ í•˜ëŠ” window classì´ë‹¤.
+/// Libraryì—ì„œ fileSOëŠ” rootDirectoryì˜ fileSOì„ ê°€ì§€ê³  ìˆëŠ”ë‹¤.
 /// </summary>
 public class Library : Window
 {   
@@ -190,7 +190,7 @@ public class Library : Window
     public void UndoFile(object[] emptyParam) => UndoFile();
     public void UndoFile()
     {
-        //count°¡ 0ÀÌ¸é ¾ËÆÄ°ª ³»¸®´Â°Ô ¸ÂÀ»µí
+        //countê°€ 0ì´ë©´ ì•ŒíŒŒê°’ ë‚´ë¦¬ëŠ”ê²Œ ë§ì„ë“¯
         if (undoStack.Count == 0) return;
         DirectorySO data = undoStack.Pop();
         redoStack.Push(currentDirectory);
@@ -200,7 +200,7 @@ public class Library : Window
     public void RedoFile(object[] emptyParam) => RedoFile();
     public void RedoFile()
     {
-        //count°¡ 0ÀÌ¸é ¾ËÆÄ°ª ³»¸®´Â°Ô ¸ÂÀ»µí
+        //countê°€ 0ì´ë©´ ì•ŒíŒŒê°’ ë‚´ë¦¬ëŠ”ê²Œ ë§ì„ë“¯
         if (redoStack.Count == 0) return;
         DirectorySO data = redoStack.Pop();
         undoStack.Push(currentDirectory);
