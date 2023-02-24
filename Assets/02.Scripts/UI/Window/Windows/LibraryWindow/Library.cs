@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// Library에서 fileSO는 rootDirectory의 fileSO을 가지고 있는다.
 /// </summary>
 public class Library : Window
-{
+{   
     #region poolParam
     [SerializeField]
     private WindowIcon iconPrefab;
@@ -48,9 +48,6 @@ public class Library : Window
     private TextMeshProUGUI redoText;
     #endregion
     private WindowIcon selectIcon;
-
-    private List<FileSO> fileList = new List<FileSO>();
-    private List<FileSO> foundFileList = new List<FileSO>();
     #region pooling
     private void CreatePool()
     {
@@ -103,10 +100,10 @@ public class Library : Window
     protected override void Init()
     {
         base.Init();
-        currentDirectory = file as DirectorySO;
+        currentDirectory = file as DirectorySO; 
         undoStack = new Stack<DirectorySO>();
         redoStack = new Stack<DirectorySO>();
-        ALLFileAddList();
+        FileManager.Inst.ALLFileAddList(currentDirectory);
 
         fileAddressPanel.Init();
         SetHighlightImage();
@@ -119,11 +116,23 @@ public class Library : Window
         
         EventManager.StartListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
 
-        searchInputField.onSubmit.AddListener(delegate { SearchFile(); });
-        searchBtn.onClick.AddListener(SearchFile);
+        searchInputField.onSubmit.AddListener(SearchFunction);
+        searchBtn.onClick.AddListener(SearchFunction);
         undoBtn.onClick.AddListener(UndoFile);
         redoBtn.onClick.AddListener(RedoFile);
     }
+
+    private void SearchFunction(string text)
+    {
+        FileManager.Inst.SearchFile(text);
+        ShowFoundFile();
+    }
+        
+    private void SearchFunction()
+    {
+        FileManager.Inst.SearchFile(searchInputField.text);
+        ShowFoundFile();
+    }   
 
     private void SetLibrary()
     {
@@ -146,35 +155,11 @@ public class Library : Window
             WindowIcon icon = Pop();
             icon.SetFileData(file);
         }
-        ALLFileAddList();
+        FileManager.Inst.ALLFileAddList(currentDirectory);
         isSetLibrary = false;
     }
 
-    private void ALLFileAddList()
-    {
-        fileList.Clear();
-        Queue<DirectorySO> directories = new Queue<DirectorySO>();
-        directories.Enqueue(currentDirectory);
-        int i = 0;
-        while (directories.Count != 0)
-        {
-            DirectorySO directory = directories.Dequeue();
-            i++;
-            if (i > 10000)
-            {
-                Debug.LogWarning("while문이 계속해서 실행중입니다.");
-                break;
-            }
-            foreach (FileSO file in directory.children)
-            {
-                fileList.Add(file);
-                if (file is DirectorySO)
-                {
-                    directories.Enqueue(file as DirectorySO);
-                }
-            }
-        }
-    }
+    
     private void CheckSearchInputTextLength(string text)
     {
         if (isSetLibrary) return;
@@ -185,33 +170,12 @@ public class Library : Window
         }
     }
 
-    private void SearchFile()
-    {
-        foundFileList.Clear();
-        if (searchInputField.text.Length < 2)
-        {
-            return;
-        }
-
-        foreach (FileSO file in fileList)
-        {
-            if (file == null)
-            {
-                continue;
-            }
-            if (file.windowName.Contains(searchInputField.text, StringComparison.OrdinalIgnoreCase))
-            {
-                foundFileList.Add(file);
-            }
-        }
-
-        ShowFoundFile();
-    }
+    
 
     private void ShowFoundFile()
     {
         PushAll();
-        foreach (FileSO file in foundFileList)
+        foreach (FileSO file in FileManager.Inst.foundFileList)
         {
             WindowIcon icon = Pop();
             icon.SetFileData(file);

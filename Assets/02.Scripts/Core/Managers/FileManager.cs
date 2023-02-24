@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.UI;
+using System;
 public class FileManager : MonoSingleton<FileManager>
 {
     [SerializeField]
-    private DirectorySO rootDirectory;
+    public DirectorySO rootDirectory;
 
-    private List<FileSO> additionFileList = new List<FileSO>();
+    public List<FileSO> additionFileList = new List<FileSO>();
+
+    public List<FileSO> fileList = new List<FileSO>();
+
+    public List<FileSO> foundFileList = new List<FileSO>();
 
     public void AddFile(FileSO file, string location)
     {
@@ -49,18 +54,69 @@ public class FileManager : MonoSingleton<FileManager>
         file.parent = currentDir;
 
         additionFileList.Add(file);
+        fileList.Add(file);
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
+    }
+
+    public void ALLFileAddList(DirectorySO currentDirectory)
+    {
+        fileList.Clear();
+        Queue<DirectorySO> directories = new Queue<DirectorySO>();
+        directories.Enqueue(currentDirectory);
+        int i = 0;
+        while (directories.Count != 0)
+        {
+            DirectorySO directory = directories.Dequeue();
+            i++;
+            if (i > 10000)
+            {
+                Debug.LogWarning("while문이 계속해서 실행중입니다.");
+                break;
+            }
+            foreach (FileSO file in directory.children)
+            {
+                fileList.Add(file);
+                if (file is DirectorySO)
+                {
+                    directories.Enqueue(file as DirectorySO);
+                }
+            }
+        }
+    }
+
+    public void SearchFile(string text)
+    {
+        foundFileList.Clear();
+        if (text.Length < 2)
+        {
+            return;
+        }
+
+        foreach (FileSO file in fileList)
+        {
+            if (file == null)
+            {
+                continue;
+            }
+            if (file.windowName.Contains(text, StringComparison.OrdinalIgnoreCase))
+            {
+                foundFileList.Add(file);
+            }
+        }
+
+        //ShowFoundFile();
     }
 
     private void OnApplicationQuit()
     {
         Debug.LogError("디버깅을 위해 추가한 파일들을 모두 제거합니다");
 
-        foreach(FileSO file in additionFileList)
+        foreach (FileSO file in additionFileList)
         {
             DirectorySO dir = file.parent;
             file.parent = null;
             dir.children.Remove(file);
         }
     }
+
 }
