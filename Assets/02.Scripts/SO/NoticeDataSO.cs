@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -29,7 +29,7 @@ public class NoticeDataSO : ScriptableObject
     public NoticeData noticeDataList;
 
     public ENoticeTag noticeTag = ENoticeTag.None;
-    public string sameTextString = "»õ·Î¿î ¾Ë¶÷ÀÌ ¶Ç Ãß°¡µÇ¾ú½À´Ï´Ù.";
+    public string sameTextString = "ìƒˆë¡œìš´ ì•ŒëžŒì´ ë˜ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤.";
     public ENoticeType NoticeDataType => noticeDataType;
     public string Head => noticeDataList.head;
     public string Body => noticeDataList.body;
