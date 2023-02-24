@@ -124,14 +124,17 @@ public class Library : Window
 
     private void SearchFunction(string text)
     {
-        FileManager.Inst.SearchFile(text);
-        ShowFoundFile();
+        if (text.Length < 2) return;
+        List<FileSO> fileList = FileManager.Inst.SearchFile(text);
+        ShowFoundFile(fileList);
     }
         
     private void SearchFunction()
     {
-        FileManager.Inst.SearchFile(searchInputField.text);
-        ShowFoundFile();
+        if (searchInputField.text.Length < 2) return;
+
+        List<FileSO> fileList = FileManager.Inst.SearchFile(searchInputField.text);
+        ShowFoundFile(fileList);
     }   
 
     private void SetLibrary()
@@ -170,12 +173,12 @@ public class Library : Window
         }
     }
 
-    
 
-    private void ShowFoundFile()
+
+    private void ShowFoundFile(List<FileSO> fileList)
     {
         PushAll();
-        foreach (FileSO file in FileManager.Inst.foundFileList)
+        foreach (FileSO file in fileList)
         {
             WindowIcon icon = Pop();
             icon.SetFileData(file);

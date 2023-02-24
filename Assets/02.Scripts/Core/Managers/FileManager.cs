@@ -13,7 +13,7 @@ public class FileManager : MonoSingleton<FileManager>
 
     public List<FileSO> fileList = new List<FileSO>();
 
-    public List<FileSO> foundFileList = new List<FileSO>();
+
 
     public void AddFile(FileSO file, string location)
     {
@@ -84,14 +84,10 @@ public class FileManager : MonoSingleton<FileManager>
         }
     }
 
-    public void SearchFile(string text)
+    public List<FileSO> SearchFile(string text)
     {
-        foundFileList.Clear();
-        if (text.Length < 2)
-        {
-            return;
-        }
-
+        List<FileSO> searchFileList = new List<FileSO>();
+      
         foreach (FileSO file in fileList)
         {
             if (file == null)
@@ -100,11 +96,11 @@ public class FileManager : MonoSingleton<FileManager>
             }
             if (file.windowName.Contains(text, StringComparison.OrdinalIgnoreCase))
             {
-                foundFileList.Add(file);
+                searchFileList.Add(file);
             }
         }
 
-        //ShowFoundFile();
+        return searchFileList;
     }
 
     private void OnApplicationQuit()
