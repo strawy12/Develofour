@@ -35,6 +35,9 @@ public class NoticeSystem : MonoUI
     private ENoticeTag currentTag;
 
     [SerializeField]
+    private SaveNoticeDataSO saveNoticeData;
+
+    [SerializeField]
     private List<NoticeData> saveNoticeList = new List<NoticeData>();
 
     private void Awake()
@@ -66,6 +69,8 @@ public class NoticeSystem : MonoUI
         EventManager.StartListening(ENoticeEvent.ClickNoticeBtn, ToggleNotice);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
         currentTag = ENoticeTag.None;
+
+        LoadSaveNotice();
     }
 
     private void TagReset()
@@ -278,6 +283,27 @@ public class NoticeSystem : MonoUI
 
     private void OnApplicationQuit()
     {
-        
+        SaveNoticeData();
+#if UNITY_EDITOR
+        saveNoticeData.noticeDataList.Clear();
+#endif
+    }
+
+    private void SaveNoticeData()
+    { 
+        saveNoticeData.noticeDataList = saveNoticeList;
+    }
+
+    private void LoadSaveNotice()
+    {
+        saveNoticeList = saveNoticeData.noticeDataList;
+        foreach(NoticeData data in saveNoticeList)
+        {
+            NoticePanel panel = GetPanel(data.canDeleted);
+            panel.transform.SetParent(noticePanelParant);
+            panel.OnClosed += PushPanel;
+            panel.LoadNotice(data);
+            panel.SetActive(true);
+        }
     }
 }
