@@ -41,7 +41,8 @@ public class FileSO : SOParent
     public string windowPinHintGuide;
     public bool isAlarm;
     public object AssetDatabase { get; private set; }
-
+    [SerializeField]
+    private string tags;
     #region GetFileData
 
     [ContextMenu("GetFileLocation")]
@@ -84,6 +85,22 @@ public class FileSO : SOParent
         return "";
     }
     #endregion
+
+    public bool SearchTag(string text)
+    {
+        string[] tagArray;
+        tagArray = tags.Split(',');
+
+        foreach(string tag in tagArray)
+        {
+            if(tag.Contains(text))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void OpenFile()
     {

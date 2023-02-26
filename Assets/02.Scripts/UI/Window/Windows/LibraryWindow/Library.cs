@@ -173,8 +173,6 @@ public class Library : Window
         }
     }
 
-
-
     private void ShowFoundFile(List<FileSO> fileList)
     {
         PushAll();

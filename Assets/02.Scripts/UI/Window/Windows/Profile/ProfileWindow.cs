@@ -37,6 +37,7 @@ public class ProfileWindow : Window
         base.Init();
         profileChatting.Init();
         profilePanel.Init();
+        fileSearchPanel.Init();
         profileSystemBtn.onClick.AddListener(delegate { StartCoroutine(OnShowProfile()); } );
         infoCheckBtn.onClick.AddListener(delegate { StartCoroutine(OnShowInfo()); });
         fileSearchBtn.onClick.AddListener(delegate { StartCoroutine(OnShowFileSearch()); });
@@ -71,7 +72,9 @@ public class ProfileWindow : Window
 
     private IEnumerator OnShowInfo()
     {
-        if(!isMoving)
+        if (GameManager.Inst.GameState == EGameState.Tutorial) yield break;
+
+        if (!isMoving)
         {
             isMoving = true;
             if (isOpen)
@@ -85,6 +88,7 @@ public class ProfileWindow : Window
 
     private IEnumerator OnShowFileSearch()
     {
+        if (GameManager.Inst.GameState == EGameState.Tutorial) yield break;
         if(!isMoving)
         {
             isMoving = true;
