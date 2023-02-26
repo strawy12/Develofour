@@ -72,7 +72,9 @@ public class ProfileWindow : Window
 
     private IEnumerator OnShowInfo()
     {
-        if(!isMoving)
+        if (GameManager.Inst.GameState == EGameState.Tutorial) yield break;
+
+        if (!isMoving)
         {
             isMoving = true;
             if (isOpen)
@@ -86,6 +88,7 @@ public class ProfileWindow : Window
 
     private IEnumerator OnShowFileSearch()
     {
+        if (GameManager.Inst.GameState == EGameState.Tutorial) yield break;
         if(!isMoving)
         {
             isMoving = true;
