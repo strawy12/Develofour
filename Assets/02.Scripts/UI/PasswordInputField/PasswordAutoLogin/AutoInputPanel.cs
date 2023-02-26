@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
-public class AutoInputPanel : MonoBehaviour, IPointerClickHandler;
+public class AutoInputPanel : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     private TMP_Text idText;
