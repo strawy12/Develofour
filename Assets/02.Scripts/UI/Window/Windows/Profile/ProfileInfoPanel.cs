@@ -79,6 +79,7 @@ public class ProfileInfoPanel : MonoBehaviour
             if(infoText.infoNameKey == key)
             {
                 infoText.ChangeText();
+                saveData.GetSaveData(key).isShow = true;
             }
         }
     }
