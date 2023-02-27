@@ -53,4 +53,6 @@ public class AutoInputPanel : MonoBehaviour, IPointerClickHandler
         passwordInputField.text = passwordText.text;
         inputSystem.OffAutoPanel();
     }
+
+
 }

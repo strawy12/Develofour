@@ -23,13 +23,8 @@ public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private AutoInputSystem inputSystem;
 
-    private bool isComplete;
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(!isComplete)
-        {
-            isComplete = true;
-            inputSystem.ShowPanel(inputFields, autoAnswerDatas);
-        }
+        inputSystem.ShowPanel(inputFields, autoAnswerDatas);
     }
 }
