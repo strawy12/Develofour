@@ -22,20 +22,19 @@ public enum ESiteLink
 /// <summary>
 ///  블로그 사이트 이름
 /// </summary>
-public class Browser : Window
+public partial class Browser : Window
 {
     public static Browser currentBrowser;
     private Dictionary<ESiteLink, Site> siteDictionary = new Dictionary<ESiteLink, Site>();
 
     private Site usingSite;
 
-    private Stack<Site> undoSite;
-    private Stack<Site> redoSite;
-
     [SerializeField] private Transform siteParent;
 
     [SerializeField] private BrowserBar browserBar;
     [SerializeField] private LoadingBar loadingBar;
+
+    private List<Site> usedSiteList;
 
     private bool isLoading = false;
 
@@ -44,9 +43,9 @@ public class Browser : Window
     protected override void Init()
     {
         base.Init();
-        undoSite = new Stack<Site>();
-        redoSite = new Stack<Site>();
+
         siteDictionary = new Dictionary<ESiteLink, Site>();
+        usedSiteList = new List<Site>();
 
         BindingStart();
         //OnUndoSite += UndoSite;
@@ -77,10 +76,12 @@ public class Browser : Window
 
     public void ChangeSite(ESiteLink eSiteLink, float loadDelay, bool addUndo = true)
     {
-        Site site = null;
+        Site sitePrefab = null;
 
-        if (siteDictionary.TryGetValue(eSiteLink, out site))
+        if (siteDictionary.TryGetValue(eSiteLink, out sitePrefab))
         {
+            Site site = CreateSite(sitePrefab);
+
             ChangeSite(site, loadDelay, addUndo);
         }
         else
@@ -91,7 +92,7 @@ public class Browser : Window
 
     public Site ChangeSite(Site site, float loadDelay, bool addUndo = true)
     {
-        if (siteDictionary.ContainsValue(site) == false)
+        if (siteDictionary.ContainsKey(site.SiteLink) == false)
         {
             Debug.LogError($"Dictonary에 존재하지 않는 Site가 있습니다. {site.gameObject.name}");
             return null;
@@ -103,31 +104,64 @@ public class Browser : Window
             loadingBar.StopLoading();
         }
 
-        foreach (Site usedSite in siteDictionary.Values)
+        foreach (Site usedSite in usedSiteList)
         {
-            if (usingSite != usedSite)
+            if (usedSite.gameObject.activeSelf)
             {
-                usedSite.SetActive(false);
+                usedSite.gameObject.SetActive(false);
             }
         }
 
         WindowOpen();
+        
         Site beforeSite = usingSite;
-        usingSite?.OnUnused?.Invoke();
+
+        if(beforeSite != null)
+        {
+            beforeSite?.OnUnused?.Invoke();
+            beforeSite.gameObject.SetActive(false);
+        }
 
         loadingCoroutine = StartCoroutine(LoadingSite(loadDelay, () =>
         {
-            if (addUndo && usingSite != null)
-            {
-                undoSite.Push(usingSite);
-            }
-
-            usingSite = site;
-            usingSite?.OnUsed?.Invoke();
-            browserBar.ChangeSiteData(site.SiteData); // 로딩이 다 되고 나서 바뀌게 해놈
+            OpenSite(site, beforeSite, addUndo);
         }));
 
         return beforeSite;
+    }
+
+    private void OpenSite(Site currentSite, Site beforeSite, bool addUndo) 
+    {
+        // addUndo == false라면 undo에서 넘어 옴
+
+        usingSite = currentSite;
+       
+        if (addUndo && beforeSite != null)
+        {
+            usingSite.SetUndoSite(beforeSite);
+        }
+
+        if(addUndo && beforeSite != null) 
+        {
+            DeleteRedoSite(beforeSite.redoSite);
+            beforeSite.SetRedoSite(null);
+        }
+
+        usingSite.gameObject.SetActive(true);
+        usingSite?.OnUsed?.Invoke();
+        
+        browserBar.ChangeSiteData(usingSite.SiteData); // 로딩이 다 되고 나서 바뀌게 해놈
+    }
+
+    private void DeleteRedoSite(Site site)
+    {
+        if(site == null)
+        {
+            return;
+        }
+
+        DeleteRedoSite(site.redoSite);
+        Destroy(site.gameObject);
     }
 
     private IEnumerator LoadingSite(float loadDelay, Action Callback)
@@ -139,31 +173,42 @@ public class Browser : Window
             yield return new WaitForSeconds(loadDelay);
         }
         loadingBar.StopLoading();
-        Callback?.Invoke();   
+
+        Callback?.Invoke();
+
         isLoading = false;
         loadingCoroutine = null;
     }
 
     public void UndoSite(object[] emptyParam) => UndoSite();
+
     public void UndoSite()
     {
         if (isLoading) return;
-        if (undoSite.Count == 0) return;
-        Site currentSite = undoSite.Pop();
+        if (usingSite.undoSite == null) return;
 
+        Site currentSite = usingSite.undoSite;
         Site beforeSite = ChangeSite(currentSite, Constant.LOADING_DELAY, false);
-        redoSite.Push(beforeSite); // 앞으로 갈 사이트는 사용하던 사이트 
-                                   // 뒤로 갈 사이트는 undosite의 top
+
+        currentSite.SetRedoSite(beforeSite);
+
+        // 앞으로 갈 사이트는 사용하던 사이트 
+        // 뒤로 갈 사이트는 undosite의 top
     }
+
     public void RedoSite()
     {
         if (isLoading) return;
-        if (redoSite.Count == 0) return;
+        if (usingSite.redoSite == null) return;
 
-        Site beforeSite = ChangeSite(redoSite.Pop(), Constant.LOADING_DELAY, false);
-        Debug.Log($"undo push {usingSite.SiteLink}");
-        undoSite.Push(beforeSite);
+        Site currentSite = usingSite.redoSite;
+        usingSite.SetRedoSite(null);
+
+        ChangeSite(currentSite, Constant.LOADING_DELAY, true);
+
         // 작동은 UndoSite함수의 정 반대로 
+        Debug.Log("redo");
+
     }
 
     public void ResetBrowser()
@@ -171,9 +216,6 @@ public class Browser : Window
         // EventManager.TriggerEvent(EEvent.ResetBrowser);
         currentBrowser = null;
         usingSite = null;
-
-        undoSite.Clear();
-        redoSite.Clear();
     }
 
     public void SelectedBrowser()
