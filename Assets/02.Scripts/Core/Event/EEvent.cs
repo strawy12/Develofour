@@ -45,6 +45,7 @@ public enum ELibraryEvent
     SelectIcon,
     SelectNull,
 }
+
 public enum EBrowserEvent
 {
     None = -1,
