@@ -41,6 +41,8 @@ public class AutoInputPanel : MonoBehaviour, IPointerClickHandler
             idText.gameObject.SetActive(true);
             isHaveID = true;
         }
+
+        gameObject.SetActive(true);
     }
 
     public void OnPointerClick(PointerEventData eventData)

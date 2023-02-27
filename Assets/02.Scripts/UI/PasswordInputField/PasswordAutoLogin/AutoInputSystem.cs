@@ -16,7 +16,7 @@ public class AutoInputSystem : MonoBehaviour,IPointerClickHandler
     private bool isOpen;
 
     private bool isComplete;
-
+    private bool isHave;
     public void HideAllPanel()
     {
         foreach(AutoInputPanel panel in autoInputPanelList) 
@@ -31,12 +31,19 @@ public class AutoInputSystem : MonoBehaviour,IPointerClickHandler
         {
             return;
         }
-
-        for(int i = 0;  i <answerDatas.Count; i++)
+        isHave = false;
+        for(int i = 0;  i < answerDatas.Count; i++)
         {
-            autoInputPanelList[i].Setting(inputFields, answerDatas[i]);
+            if(answerDatas[i].isShow)
+            {
+                autoInputPanelList[i].Setting(inputFields, answerDatas[i]);
+                isHave = true;
+            }
         }
-
+        if (!isHave)
+        {
+            return;
+        }
         gameObject.SetActive(true);
         isOpen = true;
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);

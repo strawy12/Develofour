@@ -10,6 +10,17 @@ public class AutoAnswerData
 {
     public string id;
     public string password;
+
+    public bool isShow
+    {
+        get
+        {
+            return profileInfoData.GetSaveData(infoKey).isShow;
+        }
+    }
+
+    public ProfileInfoDataSO profileInfoData;
+    public string infoKey;
 }
 
 public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
