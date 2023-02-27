@@ -29,14 +29,30 @@ public class ProfileInfoDataSO : ScriptableObject
     [SerializeField]
     public List<ProfileInfoPart> partSaveList;
 
+    public ProfileSaveData GetSaveData(string key)
+    {
+        ProfileSaveData data = null;
+
+        foreach (ProfileSaveData saveData in saveList)
+        {
+            if(saveData.key == key)
+            {
+                data = saveData;
+            }
+        }
+
+        return data;
+    }
+
+
     public void Reset()
     {
-        foreach(var part in partSaveList)
+        foreach (var part in partSaveList)
         {
-            if(part.partNameKey != "profile")
-            part.isShow = false;
+            if (part.partNameKey != "profile")
+                part.isShow = false;
         }
-        foreach(var data in saveList)
+        foreach (var data in saveList)
         {
             data.isShow = false;
         }

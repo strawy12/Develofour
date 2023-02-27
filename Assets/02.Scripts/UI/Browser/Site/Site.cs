@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+  
 public abstract class Site : MonoUI
 {
     [SerializeField]
@@ -31,6 +31,9 @@ public abstract class Site : MonoUI
     public Action OnUnused;
 
     private bool isSubscribe;
+
+    public Site undoSite { get; private set; }
+    public Site redoSite { get; private set; }
 
     public virtual void Init()
     {
@@ -86,5 +89,15 @@ public abstract class Site : MonoUI
         }
 
         return true;
+    }
+
+    public void SetUndoSite(Site site)
+    {
+        undoSite = site;
+    }
+
+    public void SetRedoSite(Site site)
+    {
+        redoSite = site;
     }
 }
