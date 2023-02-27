@@ -106,8 +106,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
                 if (fileData.windowName == "ÀÇ·ÚÀÚ Á¤º¸")
                 {
-                    EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
-                    EventManager.TriggerEvent(ETutorialEvent.EndTutorial);
+                    if(GameManager.Inst.GameState == EGameState.Tutorial)
+                    {
+                        EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
+                        EventManager.TriggerEvent(ETutorialEvent.EndTutorial);
+                    }
                 }
                 if (fileData.windowName == "BestUSB")
                 {
