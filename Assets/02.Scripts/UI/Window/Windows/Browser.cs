@@ -80,9 +80,7 @@ public partial class Browser : Window
 
         if (siteDictionary.TryGetValue(eSiteLink, out sitePrefab))
         {
-            Site site = CreateSite(sitePrefab);
-
-            ChangeSite(site, loadDelay, addUndo);
+            ChangeSite(sitePrefab, loadDelay, addUndo, true);
         }
         else
         {
@@ -90,7 +88,7 @@ public partial class Browser : Window
         }
     }
 
-    public Site ChangeSite(Site site, float loadDelay, bool addUndo = true)
+    public Site ChangeSite(Site site, float loadDelay, bool addUndo = true, bool isPrefab = false)
     {
         if (siteDictionary.ContainsKey(site.SiteLink) == false)
         {
@@ -124,15 +122,20 @@ public partial class Browser : Window
 
         loadingCoroutine = StartCoroutine(LoadingSite(loadDelay, () =>
         {
-            OpenSite(site, beforeSite, addUndo);
+            OpenSite(site, beforeSite, addUndo, isPrefab);
         }));
 
         return beforeSite;
     }
 
-    private void OpenSite(Site currentSite, Site beforeSite, bool addUndo) 
+    private void OpenSite(Site currentSite, Site beforeSite, bool addUndo, bool isPrefab) 
     {
         // addUndo == false라면 undo에서 넘어 옴
+
+        if(isPrefab)
+        {
+            currentSite = CreateSite(currentSite); 
+        }
 
         usingSite = currentSite;
        
