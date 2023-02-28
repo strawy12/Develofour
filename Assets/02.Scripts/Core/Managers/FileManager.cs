@@ -107,12 +107,19 @@ public class FileManager : MonoSingleton<FileManager>
     {
         List<FileSO> searchFileList = new List<FileSO>();
 
+        if(text.Length < 2)
+        {
+            return null;
+        }
+
+
         foreach (FileSO file in fileList)
         {
             if (file == null)
             {
                 continue;
             }
+
             if (file.windowName.Contains(text, StringComparison.OrdinalIgnoreCase))
             {
                 searchFileList.Add(file);
@@ -123,8 +130,9 @@ public class FileManager : MonoSingleton<FileManager>
             }
             else if(file.windowType == EWindowType.Notepad)
             {
-                if(NotePadFileLoad(file.windowName))
+                if(NotePadFileLoad(text, file))
                 {
+                    Debug.Log("NotePadAdd");
                     searchFileList.Add(file);
                 }
             }
@@ -133,11 +141,11 @@ public class FileManager : MonoSingleton<FileManager>
         return searchFileList;
     }
 
-    private bool NotePadFileLoad(string text)
+    private bool NotePadFileLoad(string text, FileSO file)
     {
         try
         {
-            NotepadDataSO notePadData = ResourceManager.Inst.GetNotepadData(text);
+            NotepadDataSO notePadData = ResourceManager.Inst.GetNotepadData(file.name);
 
             if (notePadData == null)
             {
@@ -151,8 +159,7 @@ public class FileManager : MonoSingleton<FileManager>
         }
         catch
         {
-     
-
+            Debug.Log($"Don't have this key {text} in NotePad");
         }
         return false;
     }
