@@ -150,5 +150,6 @@ public enum ETutorialEvent
     LibraryUSBEnd,
     ProfileInfoStart,
     ProfileInfoEnd,
+    ProfileEventStop,
     EndTutorial,
 }

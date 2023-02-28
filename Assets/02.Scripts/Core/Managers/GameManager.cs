@@ -14,6 +14,8 @@ public class GameManager : MonoSingleton<GameManager>
     private GameObject gameStateScreenInLogin;
     [SerializeField]
     private GameObject gameStateScreenInWindow;
+
+    public bool profilerTutorialClear;
     private void Start()
     {
 
