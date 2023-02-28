@@ -26,12 +26,20 @@ public class FileSearchPanel : MonoBehaviour
 
     private void SearchFile(string text)
     {
+        if(text.Length < 2)
+        {
+            return;
+        }
         List<FileSO> fileList = FileManager.Inst.ProfileSearchFile(text);
         ShowFileIcon(fileList);    
     }
 
     private void SearchFile()
     {
+        if (searchField.text.Length < 2)
+        {
+            return;
+        }
         List<FileSO> fileList = FileManager.Inst.ProfileSearchFile(searchField.text);
         ShowFileIcon(fileList);
     }

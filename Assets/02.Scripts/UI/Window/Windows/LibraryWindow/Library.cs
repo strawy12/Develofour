@@ -158,7 +158,6 @@ public class Library : Window
             WindowIcon icon = Pop();
             icon.SetFileData(file);
         }
-        FileManager.Inst.ALLFileAddList(currentDirectory);
         isSetLibrary = false;
     }
 
