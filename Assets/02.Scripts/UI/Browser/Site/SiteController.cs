@@ -10,8 +10,8 @@ public partial class Browser : Window
 
     public Site CreateSite(Site selectSite)
     {
-        Site createSite = Instantiate(selectSite, selectSite.transform.parent);    
-        
+        Site createSite = Instantiate(selectSite, selectSite.transform.parent);
+        createSite.Init();
         createSite.gameObject.SetActive(true);
 
         return createSite;
