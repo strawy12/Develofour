@@ -70,7 +70,7 @@ public partial class Browser : Window
         {
             Site site = siteParent.GetChild(i).GetComponent<Site>();
             siteDictionary.Add(site.SiteLink, site);
-            site.Init();
+            //site.Init();
         }
     }
 
