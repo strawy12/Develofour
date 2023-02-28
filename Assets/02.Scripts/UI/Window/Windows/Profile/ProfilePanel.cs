@@ -31,6 +31,7 @@ public class ProfilePanel : MonoBehaviour
     private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
     [SerializeField]
     private List<ProfileInfoDataSO> infoDataList = new List<ProfileInfoDataSO>();
+    private bool clearProfilerTutorial;
 
     public void Init()
     {
@@ -76,10 +77,24 @@ public class ProfilePanel : MonoBehaviour
             if(data.category == EProfileCategory.Owner)
             {
                 EventManager.StartListening(ETutorialEvent.ProfileInfoStart, delegate { StartCoroutine(categoryPanel.YellowSignCor()); });
-                EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, delegate { categoryPanel.StopCor();  });
+                EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, CategoryStartEvent);
+                EventManager.StartListening(ETutorialEvent.ProfileEventStop, CategoryEndEvent);
             }
         }
     }
+
+    private void CategoryStartEvent(object[] ps)
+    {
+        ProfileCategoryPanel panel = ps[0] as ProfileCategoryPanel;
+        panel.StopCor();
+    }
+
+    private void CategoryEndEvent(object[] ps)
+    {
+        EventManager.StopListening(ETutorialEvent.ProfileInfoEnd, CategoryStartEvent);
+        EventManager.StopListening(ETutorialEvent.ProfileEventStop, CategoryEndEvent);
+    }
+
 
     private void SaveShowCategory(EProfileCategory category)
     {
