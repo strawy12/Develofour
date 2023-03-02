@@ -84,7 +84,11 @@ public class ProfileInfoPanel : MonoBehaviour
             if(infoText.infoNameKey == key)
             {
                 infoText.ChangeText();
+                Debug.Log(saveData);
+                Debug.Log(saveData.GetSaveData(key));
+                Debug.Log(key);
                 saveData.GetSaveData(key).isShow = true;
+     
             }
         }
     }

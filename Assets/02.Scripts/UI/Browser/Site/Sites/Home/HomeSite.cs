@@ -25,6 +25,7 @@ public class HomeSite : Site , IPointerClickHandler
         CheckData();
         SeacrhPanel.onClick.AddListener(ShowRecordPanel);
         recordPanel.OnCloseRecord += ShowSearchPanel;
+
         base.Init();
     }
     private void CheckData()
@@ -56,6 +57,7 @@ public class HomeSite : Site , IPointerClickHandler
         SeacrhPanel.gameObject.SetActive(false);
         recordPanel.OpenPanel();
     }
+
     private void ShowSearchPanel()
     {
         SeacrhPanel.gameObject.SetActive(true);

@@ -35,12 +35,16 @@ public class ProfileInfoDataSO : ScriptableObject
 
         foreach (ProfileSaveData saveData in saveList)
         {
-            if(saveData.key == key)
+            if (saveData.key == key)
             {
                 data = saveData;
             }
         }
 
+        if (data == null)
+        {
+            Debug.LogError($"해당 키: {key}에 대한 정보가 있지 않습니다. SO를 확인해보세요");
+        }
         return data;
     }
 

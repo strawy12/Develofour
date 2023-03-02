@@ -8,7 +8,7 @@ public class Notepad : Window
     [SerializeField]
     private TMP_InputField inputField;
     [SerializeField]
-    private CheckNotePadTyoe checkNotePad;
+    private CheckNotePadType checkNotePad;
     public NotepadDataSO currentData;
 
     [SerializeField]

@@ -10,6 +10,7 @@ public class FavoriteBar : MonoBehaviour
     [SerializeField] protected Transform favoritesParent;
     [SerializeField] protected BrowserFavoriteButton favoriteBtnPrefab;
     [SerializeField] protected Transform siteParent;
+
     protected Dictionary<ESiteLink, BrowserFavoriteButton> favoritesList = new Dictionary<ESiteLink, BrowserFavoriteButton>();
     protected List<ESiteLink> SiteLinkData { get { return DataManager.Inst.CurrentPlayer.CurrentChapterData.siteLinks; } }
 
@@ -43,8 +44,10 @@ public class FavoriteBar : MonoBehaviour
             BrowserFavoriteButton button = Instantiate(favoriteBtnPrefab, favoritesParent);
             button.SiteLink = siteLink;
             button.Init(site.SiteData.siteIconSprite, site.SiteData.siteTitle);
+
             favoritesList.Add(siteLink, button);
-            button.gameObject.SetActive(false);
+            
+            button.gameObject.SetActive(true);
         }
     }
 
