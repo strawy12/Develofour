@@ -143,7 +143,7 @@ public class StartCutScene : MonoBehaviour
         float interval;
         if (time == 0)
         {
-            interval = 0.025f;
+            interval = 0.04f;
         }
         else
         {
@@ -178,7 +178,6 @@ public class StartCutScene : MonoBehaviour
 
     private void EventStop()
     {
-        isEnd = true;
         EventManager.StopListening(EInputType.InputMouseDown, ShowText);
         InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyDown: ShowText);
         InputManager.Inst.RemoveKeyInput(KeyCode.S, onKeyDown: EndCutScene);
