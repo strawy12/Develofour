@@ -7,6 +7,8 @@ public class MonologSystem : MonoBehaviour
 {
     public static Action<ETextDataType, float, int> OnStartMonolog;
     public static Action OnEndMonologEvent;
+
+    public static Action OnStopMonolog;
     [SerializeField]
     private TextBox textBox;
 
@@ -14,12 +16,22 @@ public class MonologSystem : MonoBehaviour
     {
         Debug.Log("Awake");
         OnStartMonolog += StartMonolog;
+        OnStopMonolog += StopMonolog;
     }
 
     public void StartMonolog(ETextDataType textDataType, float delay, int cnt)
     {
         StartCoroutine(StartMonologCoroutine(textDataType,delay, cnt));
     }
+    private void StopMonolog()
+    {
+        StopAllCoroutines();
+        textBox.StopAllCoroutines();
+        textBox.SetActive(false);
+        GameManager.Inst.ChangeGameState(EGameState.Game);
+    }
+
+
 
     private IEnumerator StartMonologCoroutine(ETextDataType textDataType, float startDelay, int cnt)
     {

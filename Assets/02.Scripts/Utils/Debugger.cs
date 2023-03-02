@@ -27,10 +27,10 @@ public class Debugger : MonoBehaviour
         {
             EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
         }
-        //if (Input.GetKeyDown(KeyCode.V))
-        //{
-        //    FileManager.Inst.AddFile(todoFile, "C/Background");
-        //}
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            MonologSystem.OnStopMonolog?.Invoke();
+        }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
