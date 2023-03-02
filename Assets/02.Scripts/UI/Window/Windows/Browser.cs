@@ -78,7 +78,7 @@ public partial class Browser : Window
     {
         Site sitePrefab = null;
 
-        if (siteDictionary.TryGetValue(eSiteLink, out sitePrefab))
+        if (TryGetSitePrefab(eSiteLink, out sitePrefab))
         {
             ChangeSite(sitePrefab, loadDelay, addUndo, true);
         }
@@ -90,6 +90,11 @@ public partial class Browser : Window
 
     public Site ChangeSite(Site site, float loadDelay, bool addUndo = true, bool isPrefab = false)
     {
+        if (!CheckGoogleSiteLogin())
+        {
+
+        }
+
         if (siteDictionary.ContainsKey(site.SiteLink) == false)
         {
             Debug.LogError($"Dictonary에 존재하지 않는 Site가 있습니다. {site.gameObject.name}");
@@ -106,7 +111,7 @@ public partial class Browser : Window
         {
             if (usedSite.gameObject.activeSelf)
             {
-                usedSite.gameObject.SetActive(false);
+                usedSite.OnUnused?.Invoke();
             }
         }
 
@@ -210,8 +215,6 @@ public partial class Browser : Window
         ChangeSite(currentSite, Constant.LOADING_DELAY, true);
 
         // 작동은 UndoSite함수의 정 반대로 
-        Debug.Log("redo");
-
     }
 
     public void ResetBrowser()
