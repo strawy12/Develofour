@@ -16,11 +16,7 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public ProfileShowInfoTextPanel showPanel;
 
-    public float x;
-    public float y;
-
     //이전 텍스트로 변경, 이후 텍스트로 변경해주는 함수
-
 
     public void ChangeText()
     {
@@ -29,24 +25,16 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("왔음");
         if (infoText.text != afterText)
         {
             return;
         }
         showPanel.text.text = getInfoText;
-        if(eventData.position.y > 200)
-        {
-            Debug.Log(eventData.position.y);
-            Debug.Log(transform.localPosition);
-            showPanel.transform.position = transform.position + new Vector3(0.5f, -0.35f,0);
-        }
-        else
-        {
-            showPanel.transform.position = transform.position + new Vector3(0.5f, 0.35f, 0);
-            //showPanel.transform.position = this.gameObject.transform.position + new Vector3(-0.72f, showPanel.transform.position.y, 0);
-            Debug.Log(eventData.position.y);
-        }
-        showPanel.gameObject.SetActive(true);
+        showPanel.transform.parent = this.gameObject.transform.parent;
+        showPanel.transform.position = gameObject.transform.position + new Vector3(0, 0.3f,0);
+        showPanel.transform.parent = showPanel.showPanelParent.transform;
+        showPanel.SetDownText();
         showPanel.gameObject.SetActive(true);
     }
 
