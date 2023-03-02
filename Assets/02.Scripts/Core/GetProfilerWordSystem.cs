@@ -13,7 +13,7 @@ public class ProfilerWord
 [System.Serializable]
 public class ProfilerWordElement
 {
-    public string key;
+    public string word;
     public ProfilerWord value;
 }
 
@@ -43,11 +43,9 @@ public class GetProfilerWordSystem : MonoBehaviour
 
     private void DictionaryInit()
     {
-        Debug.Log(substitutionList.Count);
         foreach(ProfilerWordElement profiler in substitutionList)
         {
-            substitutionDictionary.Add(profiler.key, profiler.value);
-            Debug.Log(profiler.key);
+            substitutionDictionary.Add(profiler.word, profiler.value);
         }
     }
 
