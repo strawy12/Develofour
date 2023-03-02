@@ -7,78 +7,121 @@ using DG.Tweening;
 
 public class StartCutScene : MonoBehaviour
 {
-    public TextMeshProUGUI[] mainTexts;
-    public TextMeshProUGUI underBarText;
-
+    public TextMeshProUGUI[] mainTexts; // 12개
+        
     public string[] scripts;
 
     private int cnt = 0;
-    public int underBarWidth ;
 
     private bool isPlaying;
-    private bool isEnd;
 
     public GameObject loadingImage;
     public GameObject loadingText;
 
     public CanvasGroup group;
 
-    public float loadingDuration = 0.5f;
+    public float loadingDuration = 1.5f;
+
+    public CanvasGroup timeText;
 
     void Awake()
     {
-        group.alpha = 1;        
+        group.alpha = 1;
+        group.interactable = true;
+        group.blocksRaycasts = true;
     }
 
     void Start()
     {
-        CutSceneStart();
+        StartShowText();
+        StartCoroutine( CutSceneStart());
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
         Debug.Log("S를 누를시 스타트 컷씬이 스킵되는 코드가 있습니다.");
     }
 
-    void CutSceneStart()
+    IEnumerator CutSceneStart()
     {
-        StartCoroutine(OnType(mainTexts[0], 0.1f, scripts[0]));
-        Flicker(underBarText);
+        isPlaying = true;
+        yield return new WaitForSeconds(1f);
+        timeText.DOFade(1, 1f);
+        yield return new WaitForSeconds(3f);
+        timeText.DOFade(0, 1f).OnComplete(() => timeText.gameObject.SetActive(false));
+        yield return new WaitForSeconds(1.5f);
+        isPlaying = false;
+        ShowText();
+    }
+
+    private void StartShowText()
+    {
+        //StartCoroutine(OnType(mainTexts[0], 0.1f, scripts[0]));
 
         EventManager.StartListening(EInputType.InputMouseDown, ShowText);
-
-        GameManager.Inst.ChangeGameState(EGameState.CutScene);
-        
         InputManager.Inst.AddKeyInput(KeyCode.S, onKeyDown: EndCutScene);
         InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyDown: ShowText);
     }
 
 
-    public void Flicker(TextMeshProUGUI underBarText)
-    {
-        StartCoroutine(OnFlicker(underBarText));
-    }
-
-    private IEnumerator OnFlicker(TextMeshProUGUI underBarText)
-    {
-        while(!isEnd)
-        {
-            underBarText.color = new Color32(255, 255, 255, 255);
-            yield return new WaitForSeconds(0.15f);
-            underBarText.color = new Color32(255, 255, 255, 0);
-            yield return new WaitForSeconds(0.15f);
-        }
-    }
-
     private void ShowText()
     {
         if (isPlaying)
             return;
+        isPlaying = true;
+        Debug.Log("현재 cnt 값은 = " + cnt);
+        switch(cnt)
+        {
+            case 0:
+                StartTyping(mainTexts[cnt++], 0, true);
+                break;
 
-        if (cnt != scripts.Length)
-        {
-            StartCoroutine(OnType(mainTexts[cnt], 0.1f, scripts[cnt]));
+            case 1:
+                StartTyping(mainTexts[cnt++], 0, true);
+                break;
+
+            case 2:
+                StartTyping(mainTexts[cnt++], 0, true);
+                break;
+
+            case 3:
+                StartTyping(mainTexts[cnt++], 0, false);
+                break;
+
+            case 4:
+                StartTyping(mainTexts[cnt++], 0, false);
+                break;
+
+            case 5:
+                StartTyping(mainTexts[cnt++], 0, false);
+                break;
+
+            case 6:
+                StartTyping(mainTexts[cnt++], 0, false);
+                break;
+
+            case 7:
+                StartTyping(mainTexts[cnt++], 0, false);
+                break;
+
+            case 8:
+                StartTyping(mainTexts[cnt++], 0, true);
+                break;
+
+            case 9:
+                StartTyping(mainTexts[cnt++], 0, true);
+                break;
+
+            case 10:
+                StartTyping(mainTexts[cnt++], 0, true);
+                break;
+
+            case 11:
+                StartTyping(mainTexts[cnt++], 0, false);
+                break;
+
+            case 12:
+                EndCutScene();
+                break;
         }
-        else
-        {
-            EndCutScene();
-        }
+
     }
 
     private void ShowText(object[] obj)
@@ -86,44 +129,80 @@ public class StartCutScene : MonoBehaviour
         ShowText();
     }
 
-    IEnumerator OnType(TextMeshProUGUI text, float interval, string Say)
+    private void StartTyping(TextMeshProUGUI text, float time, bool autoNext, float waitTime = 1.5f)
+    {
+        StartCoroutine(OnType(text, time, autoNext));
+    }
+
+    IEnumerator OnType(TextMeshProUGUI text, float time, bool autoNext, float waitTime = 0.5f)
     {
         isPlaying = true;
-        foreach (char item in Say)
+
+        string say = text.text;
+        text.text = string.Empty;
+        float interval;
+        if (time == 0)
         {
-            text.text += item;
-            Vector3 pos = mainTexts[cnt].rectTransform.anchoredPosition;
-            yield return new WaitForSeconds(interval);
-            underBarText.rectTransform.anchoredPosition = new Vector3(mainTexts[cnt].rectTransform.rect.width + underBarWidth, pos.y, pos.z);
+            interval = 0.04f;
         }
+        else
+        {
+            interval = time / say.Length;
+        }
+
+        text.gameObject.SetActive(true);
+
+        foreach (char letter in say)
+        {
+            text.text += letter;
+            yield return new WaitForSeconds(interval);
+        }
+
         EndText();
+
+        if (autoNext == true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            ShowText();
+        }
+        else
+        {
+            EndText();
+        }
     }
 
     private void EndText()
     {
-        if(++cnt == scripts.Length)
-        {
-            isPlaying = false;
-            return;
-        }
-        mainTexts[cnt].text += ">> ";
-        Vector3 pos = mainTexts[cnt].rectTransform.anchoredPosition;
-        underBarText.rectTransform.anchoredPosition = new Vector3(mainTexts[cnt].rectTransform.rect.width + underBarWidth, pos.y, pos.z);
         isPlaying = false;
+    }
+
+    private void EventStop()
+    {
+        EventManager.StopListening(EInputType.InputMouseDown, ShowText);
+        InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyDown: ShowText);
+        InputManager.Inst.RemoveKeyInput(KeyCode.S, onKeyDown: EndCutScene);
     }
 
     private void EndCutScene()
     {
         Debug.Log("현재 로딩 시간 0.5초 나중에 수정");
-        isEnd = true;
-        EventManager.StopListening(EInputType.InputMouseDown, ShowText);
-        InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyDown: ShowText);
-        StopCoroutine(OnFlicker(underBarText));
+
+        EventStop();
+
         foreach (var text in mainTexts)
         {
             text.gameObject.SetActive(false);
         }
-        underBarText.gameObject.SetActive(false);
+
+        StartLoading();
+        
+        Sound.OnPlayBGMSound(Sound.EBgm.StartBGM);
+
+        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0.8f, 5);
+    }
+
+    private void StartLoading()
+    {
         loadingImage.gameObject.SetActive(true);
         loadingText.gameObject.SetActive(true);
         loadingImage.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), loadingDuration).OnComplete(() =>
@@ -131,12 +210,6 @@ public class StartCutScene : MonoBehaviour
             GameManager.Inst.ChangeGameState(EGameState.Game);
             SetActiveThisObject();
         });
-
-
-        InputManager.Inst.RemoveKeyInput(KeyCode.S, onKeyDown: EndCutScene);
-        Sound.OnPlayBGMSound(Sound.EBgm.StartBGM);
-
-        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0.8f, 5);
     }
 
     public void SetActiveThisObject()
