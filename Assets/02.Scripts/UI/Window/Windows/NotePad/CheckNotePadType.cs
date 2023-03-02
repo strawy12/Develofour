@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckNotePadTyoe : MonoBehaviour
+public class CheckNotePadType : MonoBehaviour
 {
     private FileSO currentFile;
 
@@ -18,7 +18,8 @@ public class CheckNotePadTyoe : MonoBehaviour
 
     private void CheckFileOwnerInfo()
     {
-        Debug.Log("의뢰자 정보 메모장 클릭");
+        if (currentFile == null) return;
+
         if (currentFile.windowName == "의뢰자 정보")
         {
             EventManager.TriggerEvent(EDecisionEvent.ClickOwnerNameText);

@@ -26,6 +26,8 @@ public struct WindowIconData
 
 }
 
+
+
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
 public class FileSO : SOParent
 {
@@ -43,6 +45,7 @@ public class FileSO : SOParent
     public object AssetDatabase { get; private set; }
     [SerializeField]
     private string tags;
+    public TaskBarData taskBarData;
     #region GetFileData
 
     [ContextMenu("GetFileLocation")]

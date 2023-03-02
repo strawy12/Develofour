@@ -125,7 +125,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         if (file == null)
         {
-            // null이면 기본 FileSO를 리소스로드로 찾아서 넣을거임
+            file = FileManager.Inst.GetDefaultFile(windowType);
         }
 
         Window window = GetWindowPrefab(windowType);
