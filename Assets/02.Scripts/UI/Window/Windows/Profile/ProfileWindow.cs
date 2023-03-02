@@ -42,7 +42,14 @@ public class ProfileWindow : Window
         infoCheckBtn.onClick.AddListener(delegate { StartCoroutine(OnShowInfo()); });
         fileSearchBtn.onClick.AddListener(delegate { StartCoroutine(OnShowFileSearch()); });
         moveBtn.onClick.AddListener(delegate { StartCoroutine(HideAllPanel()); });
+        TutorialStart();
     }
+
+    private void TutorialStart()
+    {
+        MonologSystem.OnStartMonolog.Invoke(ETextDataType.Profile, 0.2f, 1);
+    }
+
     private IEnumerator HideAllPanel()
     {
         isMoving = true;

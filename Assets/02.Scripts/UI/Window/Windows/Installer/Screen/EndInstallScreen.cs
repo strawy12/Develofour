@@ -26,7 +26,6 @@ public class EndInstallScreen : InstallerScreen
 
         installer.WindowClose();
         MonologSystem.OnEndMonologEvent += StartTuto;
-        MonologSystem.OnStartMonolog.Invoke(ETextDataType.Profile, 0.2f, 1);
     }
     private void StartTuto()
     {
