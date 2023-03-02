@@ -25,6 +25,7 @@ public class BrowserFavoriteButton : MonoBehaviour
             siteLink = value;
         }
     }
+
     public UnityEvent OnClick 
     { 
         get 
@@ -34,7 +35,6 @@ public class BrowserFavoriteButton : MonoBehaviour
         } 
     }
 
-
     public void Init(Sprite iconSprite, string title)
     {
         favoriteBtn ??= GetComponent<Button>();
@@ -43,8 +43,8 @@ public class BrowserFavoriteButton : MonoBehaviour
         titleText.text = title;
 
         OnClick.AddListener(() => OpenTriggerWindow());
-
     }
+
     public void OpenTriggerWindow()
     {
         object[] ps = new object[2] { siteLink, Constant.LOADING_DELAY };
