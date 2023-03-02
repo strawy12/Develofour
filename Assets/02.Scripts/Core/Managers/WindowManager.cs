@@ -86,7 +86,6 @@ public class WindowManager : MonoSingleton<WindowManager>
             CreateWindow(EWindowType.Browser);
         }
 
-
         Browser.currentBrowser?.ChangeSite(link, delay);
     }
 
