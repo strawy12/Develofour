@@ -17,7 +17,8 @@ public enum EWindowType // 확장자
     Installer,
     TodoWindow,
     ProfileWindow,
-    End
+    WindowPinLock,
+    End 
 }
 
 [RequireComponent(typeof(GraphicRaycaster))]

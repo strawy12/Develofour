@@ -40,7 +40,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private bool isUSBEvent = false;
     public FileSO File => fileData;
 
-
     public void Bind()
     {
         rectTranstform ??= GetComponent<RectTransform>();
@@ -133,7 +132,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-
         if (fileData is DirectorySO && isBackground == false)
         {
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });

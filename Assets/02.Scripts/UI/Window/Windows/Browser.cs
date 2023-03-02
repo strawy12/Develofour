@@ -90,11 +90,6 @@ public partial class Browser : Window
 
     public Site ChangeSite(Site site, float loadDelay, bool addUndo = true, bool isPrefab = false)
     {
-        if (!CheckGoogleSiteLogin())
-        {
-
-        }
-
         if (siteDictionary.ContainsKey(site.SiteLink) == false)
         {
             Debug.LogError($"Dictonary에 존재하지 않는 Site가 있습니다. {site.gameObject.name}");

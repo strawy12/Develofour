@@ -5,10 +5,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WindowPinInput : MonoUI
+public class WindowPinInput : Window
 {
     private bool isShaking = false;
 
+    [Header("Window Pin")]
+    [SerializeField]
+    private FileSO pinFileSO;
+
+    [Header("Pin UI")]
+    [SerializeField]
+    private TMP_Text pinWindowNameBarText;
     [SerializeField]
     private TMP_Text pinGuideText;
     [SerializeField]
@@ -16,11 +23,9 @@ public class WindowPinInput : MonoUI
 
     [SerializeField]
     private TMP_InputField pinInputField;
-
+     
     [SerializeField]
     private Button confirmButton;
-    [SerializeField]
-    private Button closeButton;
 
     [SerializeField]
     private Image answerPanel;
@@ -41,15 +46,12 @@ public class WindowPinInput : MonoUI
 
     private List<FileSO> additionFileList = new List<FileSO>();
 
-    private void Start()
+    protected override void Init()
     {
-        Init();
-    }
+        base.Init();
 
-    private void Init()
-    {
         confirmButton.onClick?.AddListener(CheckPinPassword);
-        closeButton.onClick?.AddListener(CloseWindowPinLock);
+        //closeButton.onClick?.AddListener(CloseWindowPinLock);
         
         EventManager.StartListening(EWindowEvent.OpenWindowPin, PinOpen);
     }
@@ -62,7 +64,7 @@ public class WindowPinInput : MonoUI
             return;
         }
 
-        SetActive(true);
+        WindowOpen();
 
         currentFile = (FileSO)ps[0];
         pinGuideText.SetText(currentFile.windowPinHintGuide);
@@ -87,7 +89,7 @@ public class WindowPinInput : MonoUI
             PinWrongAnswer();
         }
 
-            pinInputField.text = "";
+        pinInputField.text = "";
     }
 
     private void PinAnswerTextChange()
@@ -132,8 +134,8 @@ public class WindowPinInput : MonoUI
         Input.imeCompositionMode = IMECompositionMode.Off;
 
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
-        
-        SetActive(false);
+
+        gameObject.SetActive(false);
     }
 
     private void OnApplicationQuit()
