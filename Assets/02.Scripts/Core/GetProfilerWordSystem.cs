@@ -13,7 +13,7 @@ public class ProfilerWord
 [System.Serializable]
 public class ProfilerWordElement
 {
-    public string key;
+    public string word;
     public ProfilerWord value;
 }
 
@@ -29,7 +29,6 @@ public class GetProfilerWordSystem : MonoBehaviour
 
     private void Start()
     {
-        substitutionList = new List<ProfilerWordElement>();
         substitutionDictionary = new Dictionary<string, ProfilerWord>();
 
         Init();
@@ -46,12 +45,17 @@ public class GetProfilerWordSystem : MonoBehaviour
     {
         foreach(ProfilerWordElement profiler in substitutionList)
         {
-            substitutionDictionary.Add(profiler.key, profiler.value);
+            substitutionDictionary.Add(profiler.word, profiler.value);
         }
     }
 
     private void RegistrationProfiler(string word)
     {
+        if(!substitutionDictionary.ContainsKey(word))
+        {
+            return;
+        }
+
         EventManager.TriggerEvent(
             EProfileEvent.FindInfoText, 
             new object[2] { substitutionDictionary[word].category, substitutionDictionary[word].information });

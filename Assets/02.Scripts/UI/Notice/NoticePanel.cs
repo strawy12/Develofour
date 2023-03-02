@@ -44,10 +44,10 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     private Coroutine stopDelayCoroutine = null;
 
     private bool isEnter;
+    private bool isOpen;
+    private bool isEmpahasis;
 
     private bool isCompleted = false;
-
-    private bool isOpen;
 
     private float addTime = 0f;
 
@@ -122,15 +122,25 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         NoticeSetting(data.head, data.body, data.icon);
     }
+
     public void NoticeUXEmphasis()
     {
         Sequence seq = DOTween.Sequence();
 
+        isEmpahasis = true;
         seq.Append(rectTransform.DOScale(1.25f, scaleGotDuration / 2));
         seq.AppendCallback(() =>
         {
             isOpen = true;
-            rectTransform.DOScale(1f, scaleGotDuration / 2);
+
+            Sequence seq2 = DOTween.Sequence();
+
+            seq2.Append(rectTransform.DOScale(1f, scaleGotDuration / 2));
+            seq2.AppendCallback(() =>
+            {
+                isEmpahasis = false;
+            });
+
         });
     }
 
@@ -241,6 +251,9 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (isEmpahasis)
+            return;
+
         if (!isEnter && isOpen)
         {
             backgroundImage.DOColor(new Color(0.1f, 0.1f, 0.1f, 0.9f), 0.1f);

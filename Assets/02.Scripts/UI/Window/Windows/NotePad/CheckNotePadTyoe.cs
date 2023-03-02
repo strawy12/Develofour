@@ -18,13 +18,10 @@ public class CheckNotePadTyoe : MonoBehaviour
 
     private void CheckFileOwnerInfo()
     {
-
+        Debug.Log("의뢰자 정보 메모장 클릭");
         if (currentFile.windowName == "의뢰자 정보")
         {
             EventManager.TriggerEvent(EDecisionEvent.ClickOwnerNameText);
-
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.Owner, "OwnerName" });
         }
-
     }
 }
