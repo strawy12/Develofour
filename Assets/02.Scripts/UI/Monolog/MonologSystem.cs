@@ -34,6 +34,7 @@ public class MonologSystem : MonoBehaviour
             yield return new WaitUntil(() => textBox.IsClick);
         }
         OnEndMonologEvent?.Invoke();
+        yield return new WaitForSeconds(0.1f);
         GameManager.Inst.ChangeGameState(EGameState.Game);
     }
 

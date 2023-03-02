@@ -19,6 +19,7 @@ public partial class Sound : MonoBehaviour
 
         MouseClickDown,
         MouseClickUp,
+        PhoneCall,
         End
     }
 

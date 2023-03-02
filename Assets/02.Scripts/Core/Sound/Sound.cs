@@ -90,7 +90,7 @@ public partial class Sound : MonoBehaviour
 
         soundPlayer.PlayClip();
         soundPlayer.OnCompeleted += CompletedPlayer;
-
+        Debug.Log(soundPlayer.name);
         return soundPlayer.AudioClipLength;
     }
 
@@ -99,7 +99,7 @@ public partial class Sound : MonoBehaviour
         int id = player.SoundID;
         if (soundPlayerPoolDictionary.ContainsKey(id) == false)
         {
-            Debug.LogError("에러에러여레어렝");
+            Debug.LogError("soundError");
             return;
         }
 
