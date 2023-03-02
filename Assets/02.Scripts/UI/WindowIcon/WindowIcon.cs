@@ -67,9 +67,21 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
         fileData = newFileData;
         iconNameText.text = fileData.windowName;
-        iconImage.sprite = newFileData.iconSprite;
 
-        if (isRegisterEvent == false && fileData.windowName == "ÀÇ·ÚÀÚ Á¤º¸")
+        float x1, y1, x2, y2;
+
+        if (newFileData.iconSprite.rect.width != newFileData.iconSprite.rect.height)
+        {
+            x1 = newFileData.iconSprite.rect.width;
+            y1 = newFileData.iconSprite.rect.height;
+            y2 = 100;
+            x2 = x1 * y2 / y1;
+            iconImage.rectTransform.sizeDelta = new Vector2(x2, y2);
+        }
+
+        iconImage.sprite = newFileData.iconSprite;
+      
+        if (isRegisterEvent == false && fileData.windowName == "ÀÇ·ÚÀÚ Á¤º¸")    
         {
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
