@@ -230,14 +230,13 @@ public class TextBox : MonoUI
     private IEnumerator PrintMonologTextCoroutine(string message)
     {
         bool isRich = false;
-
+        triggerDictionary.Clear();
         // 모든 표시를 지운 순수 텍스트
         string removeSignText = ConversionPureText(message);
 
         // 텍스트 박스 안에 넣을 텍스트
         // <color> 같은 것은 텍스트 박스 안에 넣어야함
         string textBoxInText = RemoveCommandText(message, true);
-
         // 텍스트가 너무 길 경우 자동으로 줄 바꿈 처리
         textBoxInText = SliceLineText(textBoxInText);
 
@@ -258,7 +257,6 @@ public class TextBox : MonoUI
 
             messageText.maxVisibleCharacters = i;
 
-            // 미리 생성시킨 
             if (triggerDictionary.ContainsKey(i))
             {
                 triggerDictionary[i]?.Invoke();
@@ -406,12 +404,12 @@ public class TextBox : MonoUI
 
         for (int i = 0; i < message.Length; i++)
         {
-            richText += message[i];
 
             if (message[i] == '}')
             {
                 break;
             }
+            richText += message[i];
         }
 
         return richText;
@@ -443,18 +441,22 @@ public class TextBox : MonoUI
 
         for (int i = 0; i < removeText.Length; i++)
         {
+            if(i < 0)
+            {
+                i = 0;
+            }
             if (removeText[i] == '{')
             {
                 isFindSign = true;
 
                 string signText = EncordingCommandText(removeText.Substring(i)); // {} 문자열
-                removeText = removeText.Remove(i, signText.Length); // {} 이 문자열을 제외시킨 문자열
-                i -= signText.Length;
+                removeText = removeText.Remove(i, signText.Length + 2); // {} 이 문자열을 제외시킨 문자열
 
                 if (registerCmd)
                 {
                     triggerDictionary.Add(i, () => CommandTrigger(signText));
                 }
+                i -= signText.Length;
             }
         }
 
