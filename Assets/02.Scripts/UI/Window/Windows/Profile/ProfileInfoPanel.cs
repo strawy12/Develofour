@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 using System;
+using UnityEngine.UI;
 
 [Serializable]
 public class ProfileInfoPart
@@ -27,11 +28,15 @@ public class ProfileInfoPanel : MonoBehaviour
 
     private ProfileInfoDataSO saveData;
 
+    [SerializeField]
+    private Button backButton;
+
     public void Init(ProfileInfoDataSO profileInfoDataSO)
     {
         saveData = profileInfoDataSO;
 
         Setting();
+        backButton.onClick.AddListener(OnBackButton);
     }
 
     public void Setting()//켰을때 기초 세팅
@@ -82,5 +87,10 @@ public class ProfileInfoPanel : MonoBehaviour
                 saveData.GetSaveData(key).isShow = true;
             }
         }
+    }
+
+    private void OnBackButton()
+    {
+        this.gameObject.SetActive(false);
     }
 }
