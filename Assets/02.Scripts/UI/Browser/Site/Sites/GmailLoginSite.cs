@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GmailLoginSite : Site
+public class GmailLoginSite : Site 
 {
     private bool isShowToggleClick = false;
 

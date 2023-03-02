@@ -64,31 +64,12 @@ public abstract class Site : MonoUI
 
     protected virtual void ShowSite()
     {
-        if(!CheckGoogleLogin())
-        {
-            if (siteLink != ESiteLink.GoogleLogin && siteLink != ESiteLink.Chrome) //로그인 사이트가 아니라면 혹은 홈 사이트가 아니라면
-            {
-                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.GoogleLogin, Constant.LOADING_DELAY, false });
-                return;
-            }
-        }
-
         SetActive(true);
     }
 
     protected virtual void HideSite()
     {
         SetActive(false);
-    }
-
-    private bool CheckGoogleLogin()
-    {
-        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
-        {
-            return false;
-        }
-
-        return true;
     }
 
     public void SetUndoSite(Site site)

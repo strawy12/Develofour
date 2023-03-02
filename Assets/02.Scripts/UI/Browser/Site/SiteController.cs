@@ -16,4 +16,37 @@ public partial class Browser : Window
 
         return createSite;
     }
+
+    public bool CheckGoogleSiteLogin()
+    {
+        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool TryGetSitePrefab(ESiteLink siteLink, out Site site)
+    {
+        siteDictionary.TryGetValue(siteLink, out site);
+
+        switch (siteLink)
+        {
+            case ESiteLink.Email:
+            case ESiteLink.Facebook:
+            case ESiteLink.FacebookLoginSite:
+            case ESiteLink.Brunch:
+                {
+                    if (!CheckGoogleSiteLogin())
+                    {
+                        siteDictionary.TryGetValue(ESiteLink.GoogleLogin, out site);
+                    }
+
+                    break;
+                }
+        }
+
+        return site != null;
+    }
 }
