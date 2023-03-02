@@ -29,7 +29,6 @@ public class GetProfilerWordSystem : MonoBehaviour
 
     private void Start()
     {
-        substitutionList = new List<ProfilerWordElement>();
         substitutionDictionary = new Dictionary<string, ProfilerWord>();
 
         Init();
@@ -44,14 +43,21 @@ public class GetProfilerWordSystem : MonoBehaviour
 
     private void DictionaryInit()
     {
+        Debug.Log(substitutionList.Count);
         foreach(ProfilerWordElement profiler in substitutionList)
         {
             substitutionDictionary.Add(profiler.key, profiler.value);
+            Debug.Log(profiler.key);
         }
     }
 
     private void RegistrationProfiler(string word)
     {
+        if(!substitutionDictionary.ContainsKey(word))
+        {
+            return;
+        }
+
         EventManager.TriggerEvent(
             EProfileEvent.FindInfoText, 
             new object[2] { substitutionDictionary[word].category, substitutionDictionary[word].information });
