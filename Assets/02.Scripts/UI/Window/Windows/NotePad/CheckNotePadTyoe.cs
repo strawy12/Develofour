@@ -18,7 +18,7 @@ public class CheckNotePadTyoe : MonoBehaviour
 
     private void CheckFileOwnerInfo()
     {
-
+        if (currentFile == null) return;
         if (currentFile.windowName == "의뢰자 정보")
         {
             EventManager.TriggerEvent(EDecisionEvent.ClickOwnerNameText);

@@ -9,8 +9,8 @@ using TMPro;
 
 public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    protected int windowType;
-    public int WindowType => windowType;
+    protected EWindowType windowType;
+    public EWindowType WindowType => windowType;
     [SerializeField]
     protected TaskIconAttribute attributePanel;
     [SerializeField]
@@ -22,6 +22,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     protected Image activeImage;
     [SerializeField]
     protected Image highlightedImage;
+
+    protected FileSO file;
 
 
     protected List<TargetWindowPanel> targetPanelList = new List<TargetWindowPanel>();
@@ -50,9 +52,9 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     // TargetWindowPanels는 단순히 UI이며 TargetWidnowPanel은 TaskIcon가 관리한다.
     public void Init(FileSO windowFile)
     {
-        this.windowType = (int)windowFile.windowType;
-
-        attributePanel.Init();
+        this.windowType = windowFile.windowType;
+        file = windowFile;
+        attributePanel.Init(windowFile);
         targetWindowPanels.Init();
 
         SetIcon(windowFile.iconSprite);
@@ -61,7 +63,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         attributePanel.OnCloseWindow += CloseIcon;
         attributePanel.OnOpenWindow += ShowFirstWindow;
 
-        if(windowFile.isAlarm)
+        if (windowFile.isAlarm)
         {
             EventManager.StartListening(EWindowEvent.AlarmRecieve, Alarm);
             EventManager.StartListening(EWindowEvent.AlarmCheck, AlarmCheck);
@@ -75,7 +77,21 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void CloseIcon()
     {
+        if (GameManager.Inst.GameState == EGameState.Tutorial) return;
+
+        int i = 0;
+        while (targetPanelList.Count > 0)
+        {
+            i++;
+            if (i > 1000)
+            {
+                Debug.Log("while문이 계속 반복됩니다.");
+            }
+            targetPanelList[0].TargetWindow.WindowClose();
+        }
         Release();
+
+
         //TODO : attributePanel 종료
     }
 
@@ -83,7 +99,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         attributePanel.OnCloseWindow -= CloseIcon;
         attributePanel.OnOpenWindow -= ShowFirstWindow;
-        windowType = (int)EWindowType.None;
+        windowType = EWindowType.None;
         EventManager.StopListening(EWindowEvent.AlarmRecieve, Alarm);
         EventManager.StopListening(EWindowEvent.AlarmCheck, AlarmCheck);
         while (targetPanelList.Count != 0)
@@ -331,6 +347,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     #endregion
 
+    #region Alarm
     public void Alarm(object[] ps)
     {
         if (windowTypeCheck(ps) == false)
@@ -347,14 +364,14 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void AlarmCheck(object[] ps)
     {
-        if(windowTypeCheck(ps) == false)
+        if (windowTypeCheck(ps) == false)
         {
             return;
         }
         alarmCount = 0;
         alarm.SetActive(false);
     }
-
+    #endregion
     private bool windowTypeCheck(object[] ps)
     {
         if (!(ps[0] is EWindowType))
@@ -362,7 +379,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             return false;
         }
         EWindowType type = (EWindowType)ps[0];
-        if ((int)type != windowType)
+        if (type != windowType)
         {
             return false;
         }
