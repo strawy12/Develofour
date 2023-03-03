@@ -61,6 +61,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void SetFileData(FileSO newFileData)
     {
+        Debug.Log("리세팅");
         if (newFileData == null)
         {
             return;
@@ -108,7 +109,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if (clickCount != 0)
             {
-
+                EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
                 // 여기에서 이벤트 쏨
                 clickCount = 0;
 
@@ -141,6 +142,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 Select();
                 clickCount++;
+                EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
+                EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
             }
 
         }
@@ -148,7 +151,23 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             Select();
             CreateAttributeUI(eventData);
+            EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
+            EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
         }
+    }
+
+    private void CheckClose(object[] hits)
+    {
+        if (Define.ExistInHits(gameObject, hits[0]) == false)
+        {
+            Close();
+        }
+    }
+
+    public void Close()
+    {
+        UnSelect();
+        EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
     private void OpenWindow()
