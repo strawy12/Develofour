@@ -74,8 +74,16 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             x1 = newFileData.iconSprite.rect.width;
             y1 = newFileData.iconSprite.rect.height;
-            y2 = 100;
-            x2 = x1 * y2 / y1;
+            if (x1 > y1)
+            {
+                x2 = 100;
+                y2 = y1 * x2 / x1;
+            }
+            else
+            {
+                y2 = 100;
+                x2 = x1 * y2 / y1;
+            }
             iconImage.rectTransform.sizeDelta = new Vector2(x2, y2);
         }
 
