@@ -61,6 +61,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void SetFileData(FileSO newFileData)
     {
+        Debug.Log("리세팅");
         if (newFileData == null)
         {
             return;
@@ -74,8 +75,16 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             x1 = newFileData.iconSprite.rect.width;
             y1 = newFileData.iconSprite.rect.height;
-            y2 = 100;
-            x2 = x1 * y2 / y1;
+            if (x1 > y1)
+            {
+                x2 = 100;
+                y2 = y1 * x2 / x1;
+            }
+            else
+            {
+                y2 = 100;
+                x2 = x1 * y2 / y1;
+            }
             iconImage.rectTransform.sizeDelta = new Vector2(x2, y2);
         }
 
@@ -100,7 +109,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if (clickCount != 0)
             {
-
+                EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
                 // 여기에서 이벤트 쏨
                 clickCount = 0;
 
@@ -133,6 +142,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 Select();
                 clickCount++;
+                EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
+                EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
             }
 
         }
@@ -140,7 +151,23 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             Select();
             CreateAttributeUI(eventData);
+            EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
+            EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
         }
+    }
+
+    private void CheckClose(object[] hits)
+    {
+        if (Define.ExistInHits(gameObject, hits[0]) == false)
+        {
+            Close();
+        }
+    }
+
+    public void Close()
+    {
+        UnSelect();
+        EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
     private void OpenWindow()
