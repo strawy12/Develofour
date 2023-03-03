@@ -195,10 +195,6 @@ public class StartCutScene : MonoBehaviour
         }
 
         StartLoading();
-        
-        Sound.OnPlayBGMSound(Sound.EBgm.StartBGM);
-
-        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0.8f, 5);
     }
 
     private void StartLoading()
@@ -208,6 +204,8 @@ public class StartCutScene : MonoBehaviour
         loadingImage.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), loadingDuration).OnComplete(() =>
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
+            MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0f, 5);
+            Sound.OnPlayBGMSound(Sound.EBgm.StartBGM);
             SetActiveThisObject();
         });
     }
