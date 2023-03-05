@@ -19,6 +19,8 @@ public class WindowPinInput : Window
     private TMP_Text pinGuideText;
     [SerializeField]
     private TMP_Text answerMarkText;
+    [SerializeField]
+    private TMP_Text pinBarText;
 
     [SerializeField]
     private TMP_InputField pinInputField;
@@ -68,10 +70,11 @@ public class WindowPinInput : Window
             Debug.LogError("WindowPin에 들어온 파일이 올바르지 않습니다.");
             return;
         }
+        currentFile = (FileSO)ps[0];
+        windowBar.SetNameText("[ " + currentFile.name + " - 잠금 안내 ]");
 
         WindowManager.Inst.WindowOpen(pinFileSO.windowType, pinFileSO);
-
-        currentFile = (FileSO)ps[0];
+        
         pinGuideText.SetText(currentFile.windowPinHintGuide);
 
         Input.imeCompositionMode = IMECompositionMode.On;

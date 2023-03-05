@@ -120,7 +120,6 @@ public class WindowManager : MonoSingleton<WindowManager>
         return targetWindow;
     }
 
-    // 
     public Window CreateWindow(EWindowType windowType, FileSO file = null)
     {
         if (file == null)

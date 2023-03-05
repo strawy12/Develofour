@@ -86,7 +86,8 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         }
 
         windowRectTransform = rectTrm;
-        if (windowName != null)
+
+        if (windowName != null && file.name != "WindowPinLockSO")
         {
             windowName.text = $"{currentFile.name} - {windowName.text}";
         }
@@ -97,12 +98,14 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
             iconImage.sprite = currentFile.iconSprite;
         }
     }
+
     public void Init(WindowAlterationSO windowAlteration, RectTransform rectTrm)
     {
         this.windowAlteration = windowAlteration;
 
         windowRectTransform = rectTrm;
     }
+    
     public void SetNameText(string msg)
     {
         windowName.text = msg; 
