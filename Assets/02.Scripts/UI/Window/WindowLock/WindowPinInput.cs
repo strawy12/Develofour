@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class WindowPinInput : Window
 {
+    private static List<FileSO> additionFileList = new List<FileSO>();
+    
     private bool isShaking = false;
 
     [SerializeField]
@@ -47,7 +49,6 @@ public class WindowPinInput : Window
     [SerializeField]
     private Color wrongAnswerTextColor;
 
-    private List<FileSO> additionFileList = new List<FileSO>();
 
     protected override void Init()
     {
@@ -65,10 +66,6 @@ public class WindowPinInput : Window
 
     private void PinOpen()
     {
-        Debug.Log(file.name);
-        Debug.Log(file.windowPin);
-        Debug.Log(file.windowPinHintGuide);
-
         windowBar.SetNameText("[ " + file.name + " - 잠금 안내 ]");
         pinGuideText.SetText(file.windowPinHintGuide);
 
@@ -85,7 +82,6 @@ public class WindowPinInput : Window
 
             PinAnswerTextChange();
         
-            Debug.Log(additionFileList.Count);
             additionFileList.Add(file);
         }
         else
