@@ -70,7 +70,16 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
 
-        windowBar.Init(windowAlteration, file, rectTransform);
+        if (file == null)
+        {
+            windowBar.Init(windowAlteration, rectTransform);
+
+        }
+        else
+        {
+            windowBar.Init(windowAlteration, file, rectTransform);
+
+        }
         OnSelected += () => WindowSelected(true);
         OnUnSelected += () => WindowSelected(false);
 
@@ -154,17 +163,17 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public virtual void WindowOpen()
     {
         WindowManager.Inst.SelectObject(this);
-         
+
         SetCurrentWindow(this);
         SetActive(true);
 
-        if(!windowAlteration.isMaximum)
+        if (!windowAlteration.isMaximum)
         {
             rectTransform.localPosition = windowAlteration.pos;
         }
         else
         {
-            rectTransform.localPosition = new Vector2(0,30);
+            rectTransform.localPosition = new Vector2(0, 30);
         }
         rectTransform.sizeDelta = windowAlteration.size;
     }
@@ -206,17 +215,17 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     private void AlarmCheck(object[] ps)
     {
-        if(!(ps[0] is EWindowType))
+        if (!(ps[0] is EWindowType))
         {
             return;
         }
         EWindowType type = (EWindowType)ps[0];
-        if(type != file.windowType)
+        if (type != file.windowType)
         {
             return;
         }
 
-        if(!isSelected)
+        if (!isSelected)
         {
             EventManager.TriggerEvent(EWindowEvent.AlarmRecieve, ps);
         }

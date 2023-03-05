@@ -14,13 +14,34 @@ public class TaskIconAttribute : MonoBehaviour
     [SerializeField]
     private Button closeButton;
 
+    [SerializeField]
+    private Image windowIcon;
+
     public Action OnCloseWindow;
     public Action OnOpenWindow;
 
-    public void Init()
+    private FileSO file;
+
+    public void Init(FileSO fileData)
     {
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
-        openButton.onClick.AddListener(WindowOpen);
+        file = fileData;
+        windowIcon.sprite = file.iconSprite;
+
+        switch (file.taskBarData.openType)
+        {
+            case ETaskBarOpenType.Open:
+                openButton.onClick.AddListener(WindowOpen);
+                break;
+            case ETaskBarOpenType.Clone:
+                openButton.onClick.AddListener(WindowClone);
+                break;
+            case ETaskBarOpenType.CreateOrigin:
+                openButton.onClick.AddListener(WindowCreateOrigin);
+                break;
+
+        }
+
         closeButton.onClick.AddListener(WindowClose);
     }
     public void CheckClose(object[] hits)
@@ -39,6 +60,7 @@ public class TaskIconAttribute : MonoBehaviour
 
     public void Hide()
     {
+        openButton.onClick.RemoveAllListeners();
         gameObject.SetActive(false);
     }
 
@@ -52,6 +74,13 @@ public class TaskIconAttribute : MonoBehaviour
         OnCloseWindow?.Invoke();
     }
 
-
+    public void WindowClone()
+    {
+        WindowManager.Inst.CreateWindow(file.windowType, file);
+    }
+    public void WindowCreateOrigin()
+    {
+        WindowManager.Inst.CreateWindow(file.windowType);
+    }
 
 }

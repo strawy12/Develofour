@@ -16,6 +16,7 @@ public class GameManager : MonoSingleton<GameManager>
     private GameObject gameStateScreenInWindow;
 
     public bool profilerTutorialClear;
+
     private void Start()
     {
 

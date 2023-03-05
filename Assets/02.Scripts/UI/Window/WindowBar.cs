@@ -39,7 +39,10 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
     public void Init(WindowAlterationSO windowAlteration, FileSO file, RectTransform rectTrm) 
     {
         this.windowAlteration = windowAlteration;
-        this.currentFile = file;
+        if(file != null)
+        {
+            this.currentFile = file;
+        }
 
         windowRectTransform = rectTrm;
         if (windowName != null)
@@ -53,7 +56,12 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
             iconImage.sprite = currentFile.iconSprite;
         }
     }
+    public void Init(WindowAlterationSO windowAlteration, RectTransform rectTrm)
+    {
+        this.windowAlteration = windowAlteration;
 
+        windowRectTransform = rectTrm;
+    }
     public void SetNameText(string msg)
     {
         windowName.text = msg; 

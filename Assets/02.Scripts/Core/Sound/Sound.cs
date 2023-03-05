@@ -90,7 +90,7 @@ public partial class Sound : MonoBehaviour
 
         soundPlayer.PlayClip();
         soundPlayer.OnCompeleted += CompletedPlayer;
-        Debug.Log(soundPlayer.name);
+
         return soundPlayer.AudioClipLength;
     }
 

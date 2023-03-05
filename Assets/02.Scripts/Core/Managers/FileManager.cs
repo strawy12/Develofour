@@ -13,7 +13,28 @@ public class FileManager : MonoSingleton<FileManager>
 
     public List<FileSO> fileList = new List<FileSO>();
 
+    public List<FileSO> defaultFileList = new List<FileSO>();
 
+    private Dictionary<EWindowType, FileSO> defaultFileDictionary = new Dictionary<EWindowType, FileSO>();
+
+    private void Awake()
+    {
+        foreach(FileSO file in defaultFileList)
+        {
+            defaultFileDictionary.Add(file.windowType, file);
+        }
+    }
+
+    public FileSO GetDefaultFile(EWindowType windowType)
+    {
+        if(!defaultFileDictionary.ContainsKey(windowType))
+        {
+            Debug.Log("존재하지 않는 defaultfile 윈도우 입니다.");
+            return null;
+        }
+        FileSO file = defaultFileDictionary[windowType];
+        return file;
+    }
 
     public void AddFile(FileSO file, string location)
     {

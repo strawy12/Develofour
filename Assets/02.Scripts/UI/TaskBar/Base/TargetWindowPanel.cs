@@ -50,6 +50,7 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
         // 여기서는 윈도우를 생성한다.
     }
 
+
     public void ShowWindow()
     {
         targetWindow?.WindowOpen();
