@@ -678,7 +678,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5232678384478668240
@@ -3682,7 +3682,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 0.5238096}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6630,6 +6630,18 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3321764605036087409, guid: 18f0a7b0e62c21349a297dfef95c8854, type: 3}
+      propertyPath: infoPartList.Array.data[1].partNameKey
+      value: SNS
+      objectReference: {fileID: 0}
+    - target: {fileID: 3321764605036087409, guid: 18f0a7b0e62c21349a297dfef95c8854, type: 3}
+      propertyPath: infoPartList.Array.data[2].partNameKey
+      value: Blog
+      objectReference: {fileID: 0}
+    - target: {fileID: 3321764605036087409, guid: 18f0a7b0e62c21349a297dfef95c8854, type: 3}
+      propertyPath: infoPartList.Array.data[3].partNameKey
+      value: Zoogle
+      objectReference: {fileID: 0}
     - target: {fileID: 3321764605036087422, guid: 18f0a7b0e62c21349a297dfef95c8854, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6717,6 +6729,10 @@ PrefabInstance:
     - target: {fileID: 3321764605036087423, guid: 18f0a7b0e62c21349a297dfef95c8854, type: 3}
       propertyPath: m_Name
       value: OwnerProfileInfoPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3321764605036087423, guid: 18f0a7b0e62c21349a297dfef95c8854, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3321764606580997908, guid: 18f0a7b0e62c21349a297dfef95c8854, type: 3}
       propertyPath: m_SizeDelta.x

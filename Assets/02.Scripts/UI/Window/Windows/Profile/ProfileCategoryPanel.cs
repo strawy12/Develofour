@@ -47,6 +47,7 @@ public class ProfileCategoryPanel : MonoBehaviour
             }
 
         }
+        infoPanel.Setting();
         infoPanel.gameObject.SetActive(true);
     }
 

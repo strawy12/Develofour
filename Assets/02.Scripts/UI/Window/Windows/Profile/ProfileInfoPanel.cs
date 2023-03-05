@@ -43,7 +43,11 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         foreach(var part in infoPartList)
         {
-            if(!part.isShow)
+            if(part.isShow)
+            {
+                part.part.SetActive(true);
+            }
+            else
             {
                 part.part.SetActive(false);
             }
@@ -71,7 +75,7 @@ public class ProfileInfoPanel : MonoBehaviour
         foreach (var part in infoPartList)
         {
             Debug.Log(part.partNameKey + " " + key);
-            if (part.partNameKey == key)
+            if (key.Contains(part.partNameKey))
             {
                 //저장 방식이 어케되는거?
                 part.isShow = true;
