@@ -9,7 +9,6 @@ public class WindowPinInput : Window
 {
     private bool isShaking = false;
 
-    [Header("Window Pin")]
     [SerializeField]
     private FileSO pinFileSO;
 
@@ -46,6 +45,10 @@ public class WindowPinInput : Window
 
     private List<FileSO> additionFileList = new List<FileSO>();
 
+    private void Start()
+    {
+    }
+
     protected override void Init()
     {
         base.Init();
@@ -54,6 +57,7 @@ public class WindowPinInput : Window
         //closeButton.onClick?.AddListener(CloseWindowPinLock);
         
         EventManager.StartListening(EWindowEvent.OpenWindowPin, PinOpen);
+
     }
     
     private void PinOpen(object[] ps)
@@ -64,7 +68,7 @@ public class WindowPinInput : Window
             return;
         }
 
-        WindowOpen();
+        WindowManager.Inst.WindowOpen(pinFileSO.windowType, pinFileSO);
 
         currentFile = (FileSO)ps[0];
         pinGuideText.SetText(currentFile.windowPinHintGuide);
