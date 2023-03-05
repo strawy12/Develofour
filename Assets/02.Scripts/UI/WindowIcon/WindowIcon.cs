@@ -179,13 +179,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         targetWindow = WindowManager.Inst.WindowOpen(fileData.windowType, fileData);
 
-        if (targetWindow == null)
+        if (targetWindow == null || targetWindow.File.windowType == EWindowType.WindowPinLock )
         {
             return;
         }
 
         targetWindow.OnClosed += CloseTargetWindow;
-        targetWindow.WindowOpen();
+
     }
 
 

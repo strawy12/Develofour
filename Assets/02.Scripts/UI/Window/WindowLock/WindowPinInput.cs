@@ -20,7 +20,11 @@ public class WindowPinInput : Window
     [SerializeField]
     private TMP_Text answerMarkText;
     [SerializeField]
+
+    [Header("PinWindowBar")]
     private TMP_Text pinBarText;
+    [SerializeField]
+    private Button closeButton;
 
     [SerializeField]
     private TMP_InputField pinInputField;
@@ -43,39 +47,30 @@ public class WindowPinInput : Window
     [SerializeField]
     private Color wrongAnswerTextColor;
 
-    private FileSO currentFile;
-
     private List<FileSO> additionFileList = new List<FileSO>();
-
-    private void Start()
-    {
-        Init();
-    }
 
     protected override void Init()
     {
         base.Init();
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
-        //closeButton.onClick?.AddListener(CloseWindowPinLock);
-        
-        EventManager.StartListening(EWindowEvent.OpenWindowPin, PinOpen);
-
+        closeButton.onClick?.AddListener(CloseWindowPinLock);
     }
-    
-    private void PinOpen(object[] ps)
-    {
-        if (ps == null || ps.Length == 0 || !(ps[0] is FileSO))
-        {
-            Debug.LogError("WindowPin에 들어온 파일이 올바르지 않습니다.");
-            return;
-        }
-        currentFile = (FileSO)ps[0];
-        windowBar.SetNameText("[ " + currentFile.name + " - 잠금 안내 ]");
 
-        WindowManager.Inst.WindowOpen(pinFileSO.windowType, pinFileSO);
-        
-        pinGuideText.SetText(currentFile.windowPinHintGuide);
+    public override void WindowOpen()
+    {
+        PinOpen();
+        base.WindowOpen();
+    }
+
+    private void PinOpen()
+    {
+        Debug.Log(file.name);
+        Debug.Log(file.windowPin);
+        Debug.Log(file.windowPinHintGuide);
+
+        windowBar.SetNameText("[ " + file.name + " - 잠금 안내 ]");
+        pinGuideText.SetText(file.windowPinHintGuide);
 
         Input.imeCompositionMode = IMECompositionMode.On;
 
@@ -84,13 +79,14 @@ public class WindowPinInput : Window
 
     private void CheckPinPassword()
     {
-        if (pinInputField.text == currentFile.windowPin)
+        if (pinInputField.text == file.windowPin)
         {
-            currentFile.isWindowLockClear = true;
+            file.isWindowLockClear = true;
 
             PinAnswerTextChange();
         
-            additionFileList.Add(currentFile);
+            Debug.Log(additionFileList.Count);
+            additionFileList.Add(file);
         }
         else
         {
@@ -112,7 +108,7 @@ public class WindowPinInput : Window
             answerMarkText.SetText("");
             answerPanel.gameObject.SetActive(false);
 
-            WindowManager.Inst.WindowOpen(currentFile.windowType, currentFile);
+            WindowManager.Inst.WindowOpen(file.windowType, file);
 
             CloseWindowPinLock();
         });
@@ -143,7 +139,7 @@ public class WindowPinInput : Window
 
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
-        gameObject.SetActive(false);
+        WindowClose();
     }
 
     private void OnApplicationQuit()
