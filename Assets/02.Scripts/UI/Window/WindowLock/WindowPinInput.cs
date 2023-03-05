@@ -47,6 +47,7 @@ public class WindowPinInput : Window
 
     private void Start()
     {
+        Init();
     }
 
     protected override void Init()
