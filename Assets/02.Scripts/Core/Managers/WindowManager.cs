@@ -1,8 +1,8 @@
-﻿    using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine; 
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 [Serializable]
@@ -213,11 +213,24 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     public void OnApplicationQuit()
     {
-        foreach(var temp in windowPrefabList)
+        foreach (var temp in windowPrefabList)
         {
             temp.windowPrefab.windowAlteration.pos = new Vector2(0, 0);
             temp.windowPrefab.windowAlteration.isMaximum = false;
             temp.windowPrefab.windowAlteration.size = temp.windowPrefab.windowAlteration.saveSize;
+        }
+    }
+
+
+    public void StartTutorialSetting()
+    {
+        //foreach (Window window in windowDictionary[EWindowType.Directory])
+        //{
+        //    window.WindowClose();
+        //}
+        foreach (Window window in windowDictionary[EWindowType.Notepad])
+        {
+            window.WindowClose();
         }
     }
 }

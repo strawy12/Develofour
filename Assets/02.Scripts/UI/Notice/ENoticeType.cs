@@ -16,5 +16,6 @@ public enum ENoticeType
     FindLaptopOwner,
     AiMessageAlarm,
 	ProfileInstallingFinish,
+	LookBackground,
     End
 }
