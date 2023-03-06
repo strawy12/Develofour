@@ -12,7 +12,6 @@ public class ProfileTutorial : MonoBehaviour
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
-        EventManager.StartListening(ETutorialEvent.EndTutorial, delegate { NoticeProfileChattingTutorial(); });
     }
 
     public IEnumerator StartProfileTutorial()
@@ -39,6 +38,7 @@ public class ProfileTutorial : MonoBehaviour
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 0.1f);
 
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
+        EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { NoticeProfileChattingTutorial(); });
 
     }
 

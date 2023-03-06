@@ -131,7 +131,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     {
                         Debug.Log("a");
                         EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
-                        EventManager.TriggerEvent(ETutorialEvent.EndTutorial);
                     }
                 }
                 if (fileData.windowName == "BestUSB")

@@ -152,5 +152,5 @@ public enum ETutorialEvent
     ProfileInfoStart, 
     ProfileInfoEnd, 
     ProfileEventStop, 
-    EndTutorial, 
+    EndClickInfoTutorial, 
 }
