@@ -467,8 +467,9 @@ public class TextBox : MonoUI
 
     #region CommandTrigger
 
-    private int CommandTrigger(string msg)
+    private void CommandTrigger(string msg)
     {
+        /*
         string cmdMsg = EncordingCommandText(msg);
         int cnt = 1;
 
@@ -480,8 +481,9 @@ public class TextBox : MonoUI
         {
             case "ES":
                 {
-                    Sound.EEffect effectType = (EEffect)Enum.Parse(typeof(EEffect), cmdValue);
-                    Sound.OnPlayEffectSound?.Invoke(effectType);
+                    Sound.EAudioType effectType = (EAudioType)Enum.Parse(typeof(EAudioType), cmdValue);
+                    Sound.OnPlaySound?.Invoke(effectType);
+
                     break;
                 }
             case "BS":
@@ -501,8 +503,9 @@ public class TextBox : MonoUI
                     break;
                 }
         }
-
+        
         return cnt;
+        */
     }
 
     private IEnumerator textShakingCoroutine(float delay, float strength, int vibrato)

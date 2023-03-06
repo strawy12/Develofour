@@ -12,42 +12,31 @@ public enum ESoundPlayerType
 }
 
 [RequireComponent(typeof(AudioSource))]
-public abstract class SoundPlayer : MonoBehaviour
+public class SoundPlayer : MonoBehaviour
 {
-    [SerializeField]
-    protected AudioClip audioClip;
-
-    [SerializeField]
-    private float pitchRandmness;
-
-    private float basePitch;
+    private AudioAssetSO audioData;
 
     protected AudioSource audioSource;
 
     public Action<SoundPlayer> OnCompeleted;
-
-    protected int soundID;
-    public int SoundID => soundID;
-    public float AudioClipLength => audioClip.length;
-
-    protected ESoundPlayerType currentPlayerType = ESoundPlayerType.None;
-    public ESoundPlayerType PlayerType => currentPlayerType;
+    public float AudioClipLength => audioData.Clip.length;
+    public ESoundPlayerType PlayerType => audioData.SoundPlayerType;
+    public Sound.EAudioType AudioType => audioData.AudioType;
 
     private bool isInit;
+    private float basePitch;
 
-    public virtual void SetValue(AudioClip clip)
-    {
-        audioClip = clip;
-    }
-
-    public virtual void Init()
+    public virtual void Init(AudioAssetSO data)
     {
         if (isInit) return;
         isInit = true;
 
-        if(audioClip == null)
+        audioData = data;
+        gameObject.name = $"{PlayerType.ToString()}_{data.AudioType.ToString()}";
+
+        if (audioData == null)
         {
-            Debug.LogError($"{gameObject.name}'s audioClip is Null!");
+            Debug.LogError($"{gameObject.name}'s audioData is Null!");
             return;
         }
 
@@ -70,12 +59,14 @@ public abstract class SoundPlayer : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
-        audioSource.clip = audioClip;
+        audioSource.clip = audioData.Clip;
+
+        audioSource.loop = PlayerType == ESoundPlayerType.BGM;
     }
 
     public void PlayClipWithVariablePitch()
     {
-        float randomPitch = Random.Range(-pitchRandmness, pitchRandmness);
+        float randomPitch = Random.Range(-audioData.PitchRandmness, audioData.PitchRandmness);
         audioSource.pitch = basePitch + randomPitch;
         PlayClip();
     }
@@ -83,12 +74,12 @@ public abstract class SoundPlayer : MonoBehaviour
     public void PlayClip()
     {
         audioSource.Stop();
-        audioSource.clip = audioClip;
+        audioSource.clip = audioData.Clip;
         audioSource.Play();
 
-        if(audioSource.loop == false)
+        if (audioSource.loop == false)
         {
-            float delay = audioClip.length;
+            float delay = AudioClipLength;
             StartCoroutine(DelayCoroutine(delay));
         }
     }

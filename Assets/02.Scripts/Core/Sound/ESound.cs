@@ -2,24 +2,18 @@ using UnityEngine;
 
 public partial class Sound : MonoBehaviour
 {
-
-    public enum EBgm
+    public enum EAudioType
     {
         None = -1,
-        StartBGM = 0,
 
+        StartMainBGM = 0,
         AfterDiscordMail,
-        End
-    }
+        ComputerNoise, 
+        BGMEnd,
 
-    public enum EEffect 
-    {
-        None = -1,
         Notice = 1001,
-
-        MouseClickDown,
-        MouseClickUp,
         PhoneCall,
+        StartPC,
         End
     }
 

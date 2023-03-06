@@ -2,90 +2,88 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 public partial class Sound : MonoBehaviour
 {
-    public static Func<EBgm, float> OnPlayBGMSound { get; private set; }
-    public static Func<EEffect, float> OnPlayEffectSound { get; private set; }
-    public static Action<int> OnImmediatelyStop { get; private set; }
+    public static Func<EAudioType, float> OnPlaySound { get; private set; }
+    public static Action<EAudioType> OnImmediatelyStop { get; private set; }
 
-    private Dictionary<int, SoundPlayer> soundPlayerDictionary;
-    private Dictionary<int, Queue<SoundPlayer>> soundPlayerPoolDictionary;
+    [SerializeField]
+    private SoundPlayer soundPlayerPrefab;
+
+    private List<AudioAssetSO> audioAssetList ;
 
     private List<SoundPlayer> soundPlayerList;
+    private Queue<SoundPlayer> soundPlayerPool;
 
     private void Awake()
     {
-        soundPlayerDictionary = new Dictionary<int, SoundPlayer>();
-        soundPlayerPoolDictionary = new Dictionary<int, Queue<SoundPlayer>>();
+        audioAssetList = new List<AudioAssetSO>();
         soundPlayerList = new List<SoundPlayer>();
+        soundPlayerPool = new Queue<SoundPlayer>();
+    }
 
-        OnPlayBGMSound += CreateBGMSoundPlayer;
-        OnPlayEffectSound += CreateEffectSoundPlayer;
+    private void Start()
+    {
+        LoadSoundAssets();
+
+        OnPlaySound += CreateSoundPlayer;
 
         OnImmediatelyStop += ImmediatelyStop;
-
-        AddSoundPlayers();
     }
 
-    private void AddSoundPlayers()
+
+    private async void LoadSoundAssets()
     {
-        List<SoundPlayer> soundPlayers = new List<SoundPlayer>();
+        var handle = Addressables.LoadResourceLocationsAsync("Sound", typeof(AudioAssetSO));
+        await handle.Task;
 
-        for (int n = 0; n < 2; n++)
+        for (int i = 0; i < handle.Result.Count; i++)
         {
-            for (int i = 0; i < transform.GetChild(n).childCount; i++)
-            {
-                SoundPlayer soundPlayer = transform.GetChild(n).GetChild(i).GetComponent<SoundPlayer>();
-                soundPlayer.Init();
-
-                soundPlayerDictionary[soundPlayer.SoundID] = soundPlayer;
-
-                soundPlayerPoolDictionary[soundPlayer.SoundID] = new Queue<SoundPlayer>();
-                soundPlayerPoolDictionary[soundPlayer.SoundID].Enqueue(soundPlayer);
-            }
+            var task = Addressables.LoadAssetAsync<AudioAssetSO>(handle.Result[i]).Task;
+            await task;
+            audioAssetList.Add(task.Result);
         }
 
+        Addressables.Release(handle);
+
+        foreach(var clip in audioAssetList)
+        {
+            Debug.Log(clip.name);
+        }
     }
 
-    private float CreateBGMSoundPlayer(EBgm type)
+    private float CreateSoundPlayer(EAudioType audioType)
     {
-        return CreateSoundPlayer((int)type);
-    }
-    private float CreateEffectSoundPlayer(EEffect type)
-    {
-        return CreateSoundPlayer((int)type);
-    }
+        AudioAssetSO audioAssetData = audioAssetList.Find(x => x.AudioType == audioType);
+        if (audioAssetData == null) return -1f;
 
+        object[] ps = new object[1] { audioAssetData.AudioType };
 
-    private float CreateSoundPlayer(int soundID)
-    {
-        if (soundPlayerPoolDictionary.ContainsKey(soundID) == false &&
-            soundPlayerDictionary.ContainsKey(soundID) == false) return -1f;
-
-        object[] ps = new object[1] { soundID };
-
-        if (soundID < (int)EBgm.End)
+        if (audioType < EAudioType.BGMEnd)
         {
             EventManager.TriggerEvent(ECoreEvent.ChangeBGM, ps);
         }
 
         SoundPlayer soundPlayer = null;
 
-        if (soundPlayerPoolDictionary[soundID].Count <= 0)
+        if(soundPlayerPool.Count != 0)
         {
-            soundPlayer = Instantiate(soundPlayerDictionary[soundID], transform);
+            soundPlayer = soundPlayerPool.Dequeue();
         }
+
         else
         {
-            soundPlayer = soundPlayerPoolDictionary[soundID].Dequeue();
+            soundPlayer = Instantiate(soundPlayerPrefab, transform);
         }
 
         soundPlayerList.Add(soundPlayer);
 
-        soundPlayer.Init();
+        soundPlayer.Init(audioAssetData);
         soundPlayer.gameObject.SetActive(true);
 
         soundPlayer.PlayClip();
@@ -96,22 +94,15 @@ public partial class Sound : MonoBehaviour
 
     private void CompletedPlayer(SoundPlayer player)
     {
-        int id = player.SoundID;
-        if (soundPlayerPoolDictionary.ContainsKey(id) == false)
-        {
-            Debug.LogError("soundError");
-            return;
-        }
-
         player.Release();
         player.gameObject.SetActive(false);
-        soundPlayerPoolDictionary[id].Enqueue(player);
+        soundPlayerPool.Enqueue(player);
         soundPlayerList.Remove(player);
     }
 
-    private void ImmediatelyStop(int soundID)
+    private void ImmediatelyStop(EAudioType type)
     {
-        var list = soundPlayerList.FindAll(x => x.SoundID == soundID);
+        var list = soundPlayerList.FindAll(x => x.AudioType == type);
 
         foreach (SoundPlayer player in list)
         {
@@ -122,8 +113,7 @@ public partial class Sound : MonoBehaviour
 
     private void OnDestroy()
     {
-        OnPlayBGMSound -= CreateBGMSoundPlayer;
-        OnPlayEffectSound -= CreateEffectSoundPlayer;
+        OnPlaySound -= CreateSoundPlayer;
         OnImmediatelyStop -= ImmediatelyStop;
     }
 }

@@ -205,7 +205,7 @@ public class StartCutScene : MonoBehaviour
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
             MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0f, 5);
-            Sound.OnPlayBGMSound(Sound.EBgm.StartBGM);
+            Sound.OnPlaySound(Sound.EAudioType.StartMainBGM);
             SetActiveThisObject();
         });
     }
