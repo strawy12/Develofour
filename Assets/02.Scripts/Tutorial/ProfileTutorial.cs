@@ -22,7 +22,7 @@ public class ProfileTutorial : MonoBehaviour
         //tutorialPanel.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
-        EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, delegate { StartCoroutine(StartProfileLastTutorial()); });
+        //EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, delegate { StartCoroutine(StartProfileLastTutorial()); });
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "안녕하십니까?" });
         yield return new WaitForSeconds(1.5f);
@@ -39,7 +39,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public void NoticeProfileChattingTutorial()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "잘하셨습니다." });
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "이렇게 정보를 클릭할 시 정보가 수집이 완료가 되며 이 정보는 왼쪽 패널에 자동으로 정리가 됩니다." });
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "정리된 정보를 한번 알아보러갈까요?" });

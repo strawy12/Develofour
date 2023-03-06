@@ -17,6 +17,8 @@ public class NoticeData
     public bool canDeleted = true;
 
     public Sprite icon;
+
+    public ENoticeTag tag = ENoticeTag.None;
 }
 
 
@@ -28,7 +30,7 @@ public class NoticeDataSO : ScriptableObject
 
     public NoticeData noticeDataList;
 
-    public ENoticeTag noticeTag = ENoticeTag.None;
+    public ENoticeTag noticeTag => noticeDataList.tag;
     public string sameTextString = "새로운 알람이 또 추가되었습니다.";
     public ENoticeType NoticeDataType => noticeDataType;
     public string Head => noticeDataList.head;

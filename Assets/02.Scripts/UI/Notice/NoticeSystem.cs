@@ -14,7 +14,7 @@ public class NoticeSystem : MonoUI
     public static Action<ENoticeType, float> OnGeneratedNotice;
     public static Action OnTagReset;
     //public static Action<Decision, float> OnDecisionPanel;
-    public static Action<string, string, Sprite> OnNotice;
+    public static System.Action<string, string, float, bool, Sprite, ENoticeTag> OnNotice;
     [SerializeField]
     private NoticePanel noticePanelTemp;
     [SerializeField]
@@ -164,10 +164,14 @@ public class NoticeSystem : MonoUI
     {
         NoticeDataSO data = GetTextData(eNoticeDataType);
 
+        Debug.Log("data.noticetag " + data.noticeTag);
+        Debug.Log("currentTag " + currentTag);
+        Debug.Log(noticePanel);
         if(data.noticeTag == currentTag && data.noticeTag != ENoticeTag.None && noticePanel != null)
         {
             //noticeOutline.StartOutline();
-            noticePanel.SameTagTextAdd();
+
+            noticePanel.SameTagTextAdd(data.Body);
             return;
         }
 
@@ -267,17 +271,33 @@ public class NoticeSystem : MonoUI
         return panel;
     }
 
-    private void Notice(string head, string body, Sprite icon)
+    private void Notice(string head, string body, float delay, bool canDelete, Sprite icon, ENoticeTag noticeTag)
     {
         NoticePanel panel = noticePanel = GetPanel(true);
         panel.OnCompeleted += IncludePanel;
         panel.OnClosed += PushPanel;
         noticeOutline.StartOutline();
+
+        if (noticeTag == currentTag && noticeTag != ENoticeTag.None && noticePanel != null)
+        {
+            //noticeOutline.StartOutline();
+
+            noticePanel.SameTagTextAdd(body);
+            return;
+        }
+
         panel.Notice(head, body, icon);
+        
         NoticeData data = new NoticeData();
         data.head = head;
         data.body = body;
         data.icon = icon;
+        data.canDeleted = canDelete;
+        data.delay = delay;
+        //so에 있는 노티스태그 데이타에도 넣어
+        
+
+
         saveNoticeList.Add(data);
     }
 

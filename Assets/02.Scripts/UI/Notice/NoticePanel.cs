@@ -274,10 +274,12 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    public void SameTagTextAdd()
+    public void SameTagTextAdd(string str)
     {
-        addTime += 0.8f;
-        sameTagText.gameObject.SetActive(true);
+        addTime += 1.51f;
+        string saveStr = bodyText.text;
+        saveStr += str;
+        bodyText.text = saveStr;
 
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
     }

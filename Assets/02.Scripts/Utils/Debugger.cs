@@ -34,7 +34,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[] { EMailType.Default });
+            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         }
 
         foreach (DebugEvent e in debugEventList)

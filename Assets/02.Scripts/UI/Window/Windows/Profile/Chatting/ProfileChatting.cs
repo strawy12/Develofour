@@ -72,6 +72,8 @@ public class ProfileChatting : MonoBehaviour
                 return;
             }
         }
+
+        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null, ENoticeTag.AIAlarm);
         SOData.saveList.Add(str);
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + str;
@@ -114,6 +116,7 @@ public class ProfileChatting : MonoBehaviour
         obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
         obj.gameObject.SetActive(true);
         SetScrollView();
+
     }
 
     //윈도우를 오픈할때마다 실행해줘야함
@@ -128,7 +131,8 @@ public class ProfileChatting : MonoBehaviour
         //스크롤뷰 가장 밑으로 내리기;
         EventManager.StartListening(EProfileEvent.SendMessage, AddText);
 
-        
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
         DictionaryToList();
