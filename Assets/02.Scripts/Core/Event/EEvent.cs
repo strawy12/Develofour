@@ -4,6 +4,7 @@
     LeftButtonClick,
     ChangeBGM,
     OpenTextBox,
+    CursorChange
 }
     
 public enum EQuestEvent

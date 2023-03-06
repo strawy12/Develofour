@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 [System.Serializable]
@@ -13,6 +14,7 @@ public class ProfilerWord
 [System.Serializable]
 public class ProfilerWordElement
 {
+    public bool isFindWord;
     public string word;
     public ProfilerWord value;
 }
@@ -20,11 +22,12 @@ public class ProfilerWordElement
 
 public class GetProfilerWordSystem : MonoBehaviour
 {
-    public static Action<string> OnGeneratedProfiler;
+    public static Action<string> OnGeneratedProfiler; // 프로파일러에 정보를 넣어주는 애고
+    public static Action<string> OnFindWord; // 프로파일러가 정보를 찾았는지 알려주는 애
 
     [SerializeField]
     private List<ProfilerWordElement> substitutionList;
-     
+
     private Dictionary<string, ProfilerWord> substitutionDictionary;
 
     private void Start()
@@ -37,13 +40,14 @@ public class GetProfilerWordSystem : MonoBehaviour
     private void Init()
     {
         OnGeneratedProfiler += RegistrationProfiler;
+        OnFindWord += FindedWordCheck;
 
         DictionaryInit();
     }
 
     private void DictionaryInit()
     {
-        foreach(ProfilerWordElement profiler in substitutionList)
+        foreach (ProfilerWordElement profiler in substitutionList)
         {
             substitutionDictionary.Add(profiler.word, profiler.value);
         }
@@ -51,13 +55,32 @@ public class GetProfilerWordSystem : MonoBehaviour
 
     private void RegistrationProfiler(string word)
     {
-        if(!substitutionDictionary.ContainsKey(word))
+        if (!substitutionDictionary.ContainsKey(word))
         {
             return;
         }
 
+        substitutionList.Find(x => x.word == word).isFindWord = true;
+
         EventManager.TriggerEvent(
-            EProfileEvent.FindInfoText, 
+            EProfileEvent.FindInfoText,
             new object[2] { substitutionDictionary[word].category, substitutionDictionary[word].information });
+    }
+
+    private void FindedWordCheck(string word)
+    {
+        if (word == null || !substitutionDictionary.ContainsKey(word))
+        {
+            return;
+        }
+
+        if (substitutionList.Find(x => x.word == word).isFindWord)
+        {
+            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { "FindedWord" });
+        }
+        else
+        {
+            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { "FindingWord" });
+        }
     }
 }
