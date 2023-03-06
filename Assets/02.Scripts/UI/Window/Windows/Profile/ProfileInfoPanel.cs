@@ -92,6 +92,10 @@ public class ProfileInfoPanel : MonoBehaviour
                 Debug.Log(saveData.GetSaveData(key));
                 Debug.Log(key);
                 saveData.GetSaveData(key).isShow = true;
+                if(key == "OwnerName" && GameManager.Inst.GameState == EGameState.Tutorial)
+                {
+                    EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
+                }
      
             }
         }

@@ -13,16 +13,5 @@ public class CheckNotePadType : MonoBehaviour
     public void Setting(FileSO file)
     {
         currentFile = file;
-        CheckFileOwnerInfo();
-    }
-
-    private void CheckFileOwnerInfo()
-    {
-        if (currentFile == null) return;
-
-        if (currentFile.windowName == "의뢰자 정보")
-        {
-            EventManager.TriggerEvent(EDecisionEvent.ClickOwnerNameText);
-        }
     }
 }

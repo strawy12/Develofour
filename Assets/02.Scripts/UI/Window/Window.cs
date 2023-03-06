@@ -17,7 +17,8 @@ public enum EWindowType // 확장자
     Installer,
     TodoWindow,
     ProfileWindow,
-    End
+    WindowPinLock,
+    End 
 }
 
 [RequireComponent(typeof(GraphicRaycaster))]
@@ -82,9 +83,22 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         OnSelected += () => WindowSelected(true);
         OnUnSelected += () => WindowSelected(false);
 
-        windowBar.OnClose?.AddListener(WindowClose);
-        windowBar.OnMinimum?.AddListener(WindowMinimum);
-        windowBar.OnMaximum?.AddListener(WindowMaximum);
+        if (windowBar.OnClose != null)
+        {
+            windowBar.OnClose?.AddListener(WindowClose);
+        }
+
+        if (windowBar.OnMinimum != null)
+        {
+            windowBar.OnMinimum?.AddListener(WindowMinimum);
+        }
+        
+        if (windowBar.OnMaximum != null)
+        {
+            windowBar.OnMaximum?.AddListener(WindowMaximum);
+
+        }
+
         windowBar.OnSelected += SelectWindow;
     }
 
@@ -116,7 +130,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowClose()
     {
-        if (GameManager.Inst.GameState == EGameState.Tutorial) return;
+        if (file.windowType == EWindowType.ProfileWindow || file.windowType == EWindowType.Directory)
+        {
+            if (GameManager.Inst.GameState == EGameState.Tutorial) return;
+        }
 
         OnClosed?.Invoke(file.name);
 

@@ -30,7 +30,6 @@ public class ProfileWindow : Window
     private bool isMoving = false;
 
     private bool isFirstTutorial;
-    private bool isSecondTutorial;
 
     protected override void Init()
     {
@@ -47,7 +46,13 @@ public class ProfileWindow : Window
 
     private void TutorialStart()
     {
-        MonologSystem.OnStartMonolog.Invoke(ETextDataType.Profile, 0.2f, 1);
+
+        if(!isFirstTutorial)
+        {
+            MonologSystem.OnStartMonolog.Invoke(ETextDataType.Profile, 0.2f, 1);
+            isFirstTutorial = true;
+        }
+   
     }
 
     private IEnumerator HideAllPanel()

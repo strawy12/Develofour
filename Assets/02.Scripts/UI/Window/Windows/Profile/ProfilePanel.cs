@@ -110,7 +110,6 @@ public class ProfilePanel : MonoBehaviour
     //이벤트 매니저 등록
     private void ChangeValue(object[] ps) // 0 = 카테고리, 1 = key값 스트링, 
     {
-        Debug.Log("ㅁㄴㅇㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ");
         if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
         {
             return;

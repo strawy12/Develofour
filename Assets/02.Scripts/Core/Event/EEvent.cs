@@ -1,4 +1,4 @@
-public enum ECoreEvent
+﻿public enum ECoreEvent
 {
     None = -1,
     LeftButtonClick,
@@ -18,6 +18,7 @@ public enum EDecisionEvent
     ClickOwnerBirthdayText,
     ClickOwnerEMailText,
 }
+
 public enum EWindowEvent
 {
     None = -1,
@@ -138,18 +139,18 @@ public enum EProfileEvent
 public enum ETutorialEvent
 {
     None = -1,
-    TutorialStart,
-    BackgroundSignStart,
-    BackgroundSignEnd,
+    TutorialStart, // 튜토리얼 시작 이벤트
+    BackgroundSignStart, 
+    BackgroundSignEnd, 
     LibraryRootCheck, 
-    LibraryRequesterInfoStart,
-    LibraryRequesterInfoEnd,
-    LibraryUserButtonStart,
-    LibraryUserButtonEnd,
-    LibraryUSBStart,
-    LibraryUSBEnd,
-    ProfileInfoStart,
-    ProfileInfoEnd,
-    ProfileEventStop,
-    EndTutorial,
+    LibraryRequesterInfoStart, 
+    LibraryRequesterInfoEnd, 
+    LibraryUserButtonStart, 
+    LibraryUserButtonEnd, 
+    LibraryUSBStart,  
+    LibraryUSBEnd, 
+    ProfileInfoStart, 
+    ProfileInfoEnd, 
+    ProfileEventStop, 
+    EndClickInfoTutorial, 
 }

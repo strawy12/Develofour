@@ -5,22 +5,34 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WindowPinInput : MonoUI
+public class WindowPinInput : Window
 {
+    private static List<FileSO> additionFileList;
+    
     private bool isShaking = false;
 
+    [SerializeField]
+    private FileSO pinFileSO;
+
+    [Header("Pin UI")]
+    [SerializeField]
+    private TMP_Text pinWindowNameBarText;
     [SerializeField]
     private TMP_Text pinGuideText;
     [SerializeField]
     private TMP_Text answerMarkText;
 
+    [Header("PinWindowBar")]
     [SerializeField]
-    private TMP_InputField pinInputField;
-
-    [SerializeField]
-    private Button confirmButton;
+    private TMP_Text pinBarText;
     [SerializeField]
     private Button closeButton;
+
+    [SerializeField]
+    private TMP_InputField pinInputField;
+     
+    [SerializeField]
+    private Button confirmButton;
 
     [SerializeField]
     private Image answerPanel;
@@ -37,35 +49,27 @@ public class WindowPinInput : MonoUI
     [SerializeField]
     private Color wrongAnswerTextColor;
 
-    private FileSO currentFile;
 
-    private List<FileSO> additionFileList = new List<FileSO>();
-
-    private void Start()
+    protected override void Init()
     {
-        Init();
-    }
+        base.Init();
 
-    private void Init()
-    {
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);
-        
-        EventManager.StartListening(EWindowEvent.OpenWindowPin, PinOpen);
+
+        additionFileList = new List<FileSO>();
     }
-    
-    private void PinOpen(object[] ps)
+
+    public override void WindowOpen()
     {
-        if (ps == null || ps.Length == 0 || !(ps[0] is FileSO))
-        {
-            Debug.LogError("WindowPin에 들어온 파일이 올바르지 않습니다.");
-            return;
-        }
+        PinOpen();
+        base.WindowOpen();
+    }
 
-        SetActive(true);
-
-        currentFile = (FileSO)ps[0];
-        pinGuideText.SetText(currentFile.windowPinHintGuide);
+    private void PinOpen()
+    {
+        windowBar.SetNameText("[ " + file.name + " - 잠금 안내 ]");
+        pinGuideText.SetText(file.windowPinHintGuide);
 
         Input.imeCompositionMode = IMECompositionMode.On;
 
@@ -74,20 +78,20 @@ public class WindowPinInput : MonoUI
 
     private void CheckPinPassword()
     {
-        if (pinInputField.text == currentFile.windowPin)
+        if (pinInputField.text == file.windowPin)
         {
-            currentFile.isWindowLockClear = true;
+            file.isWindowLockClear = true;
 
             PinAnswerTextChange();
         
-            additionFileList.Add(currentFile);
+            additionFileList.Add(file);
         }
         else
         {
             PinWrongAnswer();
         }
 
-            pinInputField.text = "";
+        pinInputField.text = "";
     }
 
     private void PinAnswerTextChange()
@@ -102,7 +106,7 @@ public class WindowPinInput : MonoUI
             answerMarkText.SetText("");
             answerPanel.gameObject.SetActive(false);
 
-            WindowManager.Inst.WindowOpen(currentFile.windowType, currentFile);
+            WindowManager.Inst.WindowOpen(file.windowType, file);
 
             CloseWindowPinLock();
         });
@@ -132,8 +136,8 @@ public class WindowPinInput : MonoUI
         Input.imeCompositionMode = IMECompositionMode.Off;
 
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
-        
-        SetActive(false);
+
+        WindowClose();
     }
 
     private void OnApplicationQuit()

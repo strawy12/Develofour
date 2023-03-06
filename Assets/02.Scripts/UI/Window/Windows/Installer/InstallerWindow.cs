@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine; 
 using UnityEngine.UI;
 
 
@@ -27,6 +27,7 @@ public class InstallerWindow : Window
     protected override void Init()
     {
         base.Init();
+
         currentIdx = 0;
         screenList.ForEach(x => x.Init(this));
 

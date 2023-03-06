@@ -8,6 +8,8 @@ public enum ETextDataType
     USBMonolog,
     Profile,
     StartMonolog,
+    TutorialMonolog1,
+    TutorialMonolog2,
 }
 
 [System.Serializable]
