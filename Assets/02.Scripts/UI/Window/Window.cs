@@ -130,7 +130,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowClose()
     {
-        if (GameManager.Inst.GameState == EGameState.Tutorial) return;
+        if (file.windowType == EWindowType.ProfileWindow || file.windowType == EWindowType.Directory)
+        {
+            if (GameManager.Inst.GameState == EGameState.Tutorial) return;
+        }
 
         OnClosed?.Invoke(file.name);
 

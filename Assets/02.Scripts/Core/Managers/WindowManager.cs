@@ -223,4 +223,17 @@ public class WindowManager : MonoSingleton<WindowManager>
             temp.windowPrefab.windowAlteration.size = temp.windowPrefab.windowAlteration.saveSize;
         }
     }
+
+
+    public void StartTutorialSetting()
+    {
+        //foreach (Window window in windowDictionary[EWindowType.Directory])
+        //{
+        //    window.WindowClose();
+        //}
+        foreach (Window window in windowDictionary[EWindowType.Notepad])
+        {
+            window.WindowClose();
+        }
+    }
 }
