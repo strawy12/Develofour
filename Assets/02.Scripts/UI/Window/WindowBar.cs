@@ -19,9 +19,50 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
     public Button MaximumBtn => maximumBtn;
     public Button MinimumBtn => minimumBtn;
     public Button CloseBtn => closeBtn;
-    public UnityEvent OnClose   { get { return closeBtn.onClick; } }
-    public UnityEvent OnMinimum { get { return minimumBtn.onClick; } }
-    public UnityEvent OnMaximum { get { return maximumBtn.onClick; } }
+    public UnityEvent OnClose   
+    { 
+        get 
+        { 
+            if(closeBtn != null)
+            {
+                return closeBtn.onClick; 
+            }
+            else
+            {
+                return null;
+            }
+        } 
+    }
+
+    public UnityEvent OnMinimum 
+    { 
+        get 
+        { 
+            if(minimumBtn != null)
+            {
+                return minimumBtn.onClick; 
+            }
+            else
+            {
+                return null;
+            }
+        } 
+    }
+    
+    public UnityEvent OnMaximum 
+    { 
+        get 
+        { 
+            if(maximumBtn != null)
+            {
+                return maximumBtn.onClick; 
+            }
+            else
+            {
+                return null;
+            }
+        } 
+    }
 
     public Action OnSelected;
 
@@ -45,7 +86,8 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         }
 
         windowRectTransform = rectTrm;
-        if (windowName != null)
+
+        if (windowName != null && file.name != "WindowPinLockSO")
         {
             windowName.text = $"{currentFile.name} - {windowName.text}";
         }
@@ -56,12 +98,14 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
             iconImage.sprite = currentFile.iconSprite;
         }
     }
+
     public void Init(WindowAlterationSO windowAlteration, RectTransform rectTrm)
     {
         this.windowAlteration = windowAlteration;
 
         windowRectTransform = rectTrm;
     }
+    
     public void SetNameText(string msg)
     {
         windowName.text = msg; 

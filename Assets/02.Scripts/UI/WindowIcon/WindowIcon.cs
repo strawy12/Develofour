@@ -40,7 +40,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private bool isUSBEvent = false;
     public FileSO File => fileData;
 
-
     public void Bind()
     {
         rectTranstform ??= GetComponent<RectTransform>();
@@ -172,7 +171,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-
         if (fileData is DirectorySO && isBackground == false)
         {
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
@@ -181,13 +179,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         targetWindow = WindowManager.Inst.WindowOpen(fileData.windowType, fileData);
 
-        if (targetWindow == null)
+        if (targetWindow == null || targetWindow.File.windowType == EWindowType.WindowPinLock )
         {
             return;
         }
 
         targetWindow.OnClosed += CloseTargetWindow;
-        targetWindow.WindowOpen();
+
     }
 
 

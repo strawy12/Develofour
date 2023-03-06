@@ -18,6 +18,7 @@ public enum EDecisionEvent
     ClickOwnerBirthdayText,
     ClickOwnerEMailText,
 }
+
 public enum EWindowEvent
 {
     None = -1,
