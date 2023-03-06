@@ -1,4 +1,4 @@
-public enum ECoreEvent
+ï»¿public enum ECoreEvent
 {
     None = -1,
     LeftButtonClick,
@@ -138,7 +138,7 @@ public enum EProfileEvent
 public enum ETutorialEvent
 {
     None = -1,
-    TutorialStart, // Æ©Åä¸®¾ó ½ÃÀÛ ÀÌº¥Æ®
+    TutorialStart, // íŠœí† ë¦¬ì–¼ ì‹œì‘ ì´ë²¤íŠ¸
     BackgroundSignStart, 
     BackgroundSignEnd, 
     LibraryRootCheck, 
