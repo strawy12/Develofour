@@ -164,13 +164,10 @@ public class NoticeSystem : MonoUI
     {
         NoticeDataSO data = GetTextData(eNoticeDataType);
 
-        Debug.Log("data.noticetag " + data.noticeTag);
-        Debug.Log("currentTag " + currentTag);
-        Debug.Log(noticePanel);
         if(data.noticeTag == currentTag && data.noticeTag != ENoticeTag.None && noticePanel != null)
         {
             //noticeOutline.StartOutline();
-
+            Debug.Log(data.Body);
             noticePanel.SameTagTextAdd(data.Body);
             return;
         }
@@ -189,11 +186,11 @@ public class NoticeSystem : MonoUI
             return;
         }
 
-        var noticeList = noticePanelQueue.Where((x) => x.HeadText == data.Head);
-        if(noticeList.Count() >= 1) {
-            Debug.Log("이미 있는 알람임");
-            return;
-        }
+        //var noticeList = noticePanelQueue.Where((x) => x.HeadText == data.Head);
+        //if(noticeList.Count() >= 1) {
+        //    Debug.Log("이미 있는 알람임");
+        //    return;
+        //}
 
         saveNoticeList.Add(data.noticeDataList);
         StartCoroutine(NoticeCoroutine(data, delay));
@@ -273,19 +270,20 @@ public class NoticeSystem : MonoUI
 
     private void Notice(string head, string body, float delay, bool canDelete, Sprite icon, ENoticeTag noticeTag)
     {
+     
+        if (noticeTag == currentTag && noticeTag != ENoticeTag.None && noticePanel != null)
+        {
+            //noticeOutline.StartOutline();
+            noticePanel.SameTagTextAdd(body);
+            return;
+        }
+        EventManager.TriggerEvent(ENoticeEvent.OpenNoticeSystem);
         NoticePanel panel = noticePanel = GetPanel(true);
         panel.OnCompeleted += IncludePanel;
         panel.OnClosed += PushPanel;
         noticeOutline.StartOutline();
 
-        if (noticeTag == currentTag && noticeTag != ENoticeTag.None && noticePanel != null)
-        {
-            //noticeOutline.StartOutline();
-
-            noticePanel.SameTagTextAdd(body);
-            return;
-        }
-
+        currentTag = noticeTag;
         panel.Notice(head, body, icon);
         
         NoticeData data = new NoticeData();

@@ -23,7 +23,7 @@ public class ProfileTutorial : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
         EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, delegate { StartCoroutine(StartProfileLastTutorial()); });
 
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
 
         for (int i = 0; i < startAIChatting.Length; i++)
         {
@@ -49,7 +49,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public IEnumerator NoticeProfileChattingTutorial()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         foreach (string str in findNoticeAIChatting)
         {
             AIChatting(str);
@@ -62,7 +62,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public IEnumerator StartProfileLastTutorial()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         yield return new WaitForSeconds(1.5f);
         EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "이렇게 보시다싶이 저희가 수집한 정보인 이름만 적혀져있는 것을 볼 수 있습니다" });
         yield return new WaitForSeconds(1.5f);
