@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class WindowPinInput : Window
 {
-    private static List<FileSO> additionFileList = new List<FileSO>();
+    private static List<FileSO> additionFileList;
     
     private bool isShaking = false;
 
@@ -21,9 +21,9 @@ public class WindowPinInput : Window
     private TMP_Text pinGuideText;
     [SerializeField]
     private TMP_Text answerMarkText;
-    [SerializeField]
 
     [Header("PinWindowBar")]
+    [SerializeField]
     private TMP_Text pinBarText;
     [SerializeField]
     private Button closeButton;
@@ -56,6 +56,8 @@ public class WindowPinInput : Window
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);
+
+        additionFileList = new List<FileSO>();
     }
 
     public override void WindowOpen()
