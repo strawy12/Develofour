@@ -16,16 +16,39 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public ProfileShowInfoTextPanel showPanel;
 
+    public TMP_Text infoTitleText;
+
+    private string infoTitle;
     //이전 텍스트로 변경, 이후 텍스트로 변경해주는 함수
+
+    public void Init()
+    {
+        infoTitle = infoTitleText.text;
+
+        string[] info = infoTitle.Split(" ");
+        string str ="";
+        for(int i = 0; i< info[0].Length; i++)
+        {
+            str += "?";
+        }
+        str += " :";
+        infoTitleText.text = str;
+    }
+
+    public void ShowTitle()
+    {
+        infoTitleText.text = infoTitle;
+    }
+
 
     public void ChangeText()
     {
+        infoTitleText.text = infoTitle;
         infoText.text = afterText;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("왔음");
         if (infoText.text != afterText)
         {
             return;
@@ -40,6 +63,7 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (showPanel == null) return;
         showPanel.gameObject.SetActive(false);
     }
 }

@@ -8,10 +8,13 @@ public class ProfileTutorial : MonoBehaviour
 {
     public string[] startAIChatting;
     public string[] findNoticeAIChatting;
+    public string[] completeProfileChatting;
+
 
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
+        EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCoroutine(NoticeProfileChattingTutorial()); });
     }
 
     public IEnumerator StartProfileTutorial()
@@ -38,7 +41,6 @@ public class ProfileTutorial : MonoBehaviour
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 0.1f);
 
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
-        EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { NoticeProfileChattingTutorial(); });
 
     }
 
@@ -49,13 +51,14 @@ public class ProfileTutorial : MonoBehaviour
 
     public IEnumerator NoticeProfileChattingTutorial()
     {
+        Debug.Log("1");
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         foreach (string str in findNoticeAIChatting)
         {
             AIChatting(str);
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
         }
-        MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog2, 0.1f, 3);
+        MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog2, 0f, 3);
 
         EventManager.TriggerEvent(ETutorialEvent.ProfileInfoStart);
     }
@@ -64,13 +67,15 @@ public class ProfileTutorial : MonoBehaviour
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         yield return new WaitForSeconds(1.5f);
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "이렇게 보시다싶이 저희가 수집한 정보인 이름만 적혀져있는 것을 볼 수 있습니다" });
-        yield return new WaitForSeconds(1.5f);
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "이제 앞으로 정보에 비어져있는 부분을 찾아서 클릭하시면 정보를 수집할 수 있습니다" });
-        yield return new WaitForSeconds(1.5f);
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "앞으로 잘 부탁드립니다" });
+        foreach (string str in completeProfileChatting)
+        {
+            AIChatting(str);
+            yield return new WaitForSeconds(1f);
+        }
         EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
 
         GameManager.Inst.ChangeGameState(EGameState.Game);
+
+        MonologSystem.OnStartMonolog(ETextDataType.TutorialMonolog3, 0f, 3);
     }
 }
