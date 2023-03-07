@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,9 +18,9 @@ public class SoundSlider : MonoBehaviour
 
     public string nameStr;
 
-    public int saveSound; //³ªÁß¿¡ JsonÀ¸·Î »©¼­ ÀúÀåÇÏ°ÚÁö
+    public int saveSound; //ë‚˜ì¤‘ì— Jsonìœ¼ë¡œ ë¹¼ì„œ ì €ì¥í•˜ê² ì§€
 
-    private bool isMute; //ismute°¡ true¸é ¼Ò¸®´Â 0À¸·Î
+    private bool isMute; //ismuteê°€ trueë©´ ì†Œë¦¬ëŠ” 0ìœ¼ë¡œ
 
     public AudioMixer audioMixer;
     public ESoundPlayerType soundType;
