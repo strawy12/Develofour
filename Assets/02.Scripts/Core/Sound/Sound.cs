@@ -34,9 +34,6 @@ public partial class Sound : MonoBehaviour
         OnImmediatelyStop += ImmediatelyStop;
     }
 
-
-  
-
     private float CreateSoundPlayer(EAudioType audioType)
     {
         AudioAssetSO audioAssetData = ResourceManager.Inst.GetAudioResource(audioType);
