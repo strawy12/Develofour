@@ -15,7 +15,8 @@ public class TextBox : MonoUI
     {
         Simple,
         Box,
-    }
+    }  
+
     #region Binding 변수
     [SerializeField]
     private ContentSizeFitterText messageText;
