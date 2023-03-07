@@ -62,7 +62,7 @@ public partial class Browser : Window
         ChangeSite(ESiteLink.Chrome, 0f, false);
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
 
-        GuideManager.Inst.guidesDictionary["BrowserConnectGuide"] = true;
+        GuideManager.Inst.guidesDictionary[EGuideType.BrowserConnectGuide] = true;
 
     }
 

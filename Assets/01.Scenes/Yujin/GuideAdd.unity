@@ -4125,6 +4125,69 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &711406140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 711406141}
+  - component: {fileID: 711406142}
+  m_Layer: 0
+  m_Name: GuideManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &711406141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711406140}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1173218108}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &711406142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711406140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e4c494e918e2d4e81f57f81232c3b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isZooglePinNotePadOpenCheck: 0
+  guideStatusesList:
+  - isCompleted: 0
+    guideTopic: ProfilerDownGuide
+  - isCompleted: 0
+    guideTopic: BrowserConnectGuide
+  - isCompleted: 0
+    guideTopic: ClickPinNotePadHint
+  - isCompleted: 0
+    guideTopic: ClearPinNotePadQuiz
+  pinNotPadHintChatting:
+  - "\uD574\uB2F9 \uC554\uD638\uB294 \uC22B\uC790\uB97C \uC21C\uC11C\uB85C \uC54C\uD30C\uBCB3
+    \uBC30\uCE58 \uC2DC\uCF1C \uB2E8\uC5B4\uB97C \uB9CC\uB4DC\uB294 \uC554\uD638\uC778
+    \uAC83 \uAC19\uC2B5\uB2C8\uB2E4."
+  - "\uC608\uB97C \uB4E4\uC5B4 2pple,  1oconut, s3rawberry \uC774\uB77C\uBA74 a:2,
+    c:1, t:3 \uC774 \uB429\uB2C8\uB2E4."
+  - "\uADF8\uB7FC \uC22B\uC790\uB97C \uC21C\uC11C\uB85C \uC54C\uD30C\uBCB3\uC73C\uB85C
+    \uBC30\uCE58 \uC2DC\uD0A8\uB2E4\uBA74 cat \uC774\uB77C\uB294 \uB2E8\uC5B4\uAC00
+    \uC644\uC131\uB429\uB2C8\uB2E4."
 --- !u!1 &715709446
 GameObject:
   m_ObjectHideFlags: 0
@@ -5878,55 +5941,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967bdc078a7447c47bf6ece43f944a96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &907492967
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 907492968}
-  - component: {fileID: 907492969}
-  m_Layer: 0
-  m_Name: GuideManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &907492968
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 907492967}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1173218108}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &907492969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 907492967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7e4c494e918e2d4e81f57f81232c3b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  guideStatusesList:
-  - isCompleted: 0
-    guideTopic: ProfilerDownGuide
-  - isCompleted: 0
-    guideTopic: BrowserConnectGuide
 --- !u!1 &907629842
 GameObject:
   m_ObjectHideFlags: 0
@@ -7676,7 +7690,7 @@ Transform:
   - {fileID: 2068408923}
   - {fileID: 1234992164}
   - {fileID: 480311516}
-  - {fileID: 907492968}
+  - {fileID: 711406141}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -111,7 +111,7 @@ public class WindowPinInput : Window
 
             if(file.name == "ZooglePassword")
             {
-                GuideManager.Inst.guidesDictionary["ClearPinNotePadQuiz"] = true;
+                GuideManager.Inst.guidesDictionary[EGuideType.ClickPinNotePadHint] = true;
             }
 
             CloseWindowPinLock();
