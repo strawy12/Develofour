@@ -1,57 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using TMPro;
 
-public class SoundPanel : MonoBehaviour
+public class SoundPanel : MonoUI
 {
-    public Slider BGMSlider;
-    public Slider effectSlider;
 
-    public TMP_Text valueText;
+    public SoundSlider bgm;
+    public SoundSlider effect;
+    public SoundChangePanel changePanel;
+    public SoundSelectPanel selectPanel;
 
-    public SoundPanelImage soundImage;
+    public ContentSizeFitter csf;
 
-    public void Start()
+
+    private bool isOpen;
+
+    void Start()
     {
-        Init();    
+        Init();
+        this.SetActive(false);
     }
 
     public void Init()
     {
-        SetValueText(BGMSlider);
-        SetSoundImage(BGMSlider);
-        BGMSlider.onValueChanged.AddListener(delegate { SetValueText(BGMSlider); SetSoundImage(BGMSlider); });
-        //effectSlider.onValueChanged.AddListener(delegate { SetValueText(effectSlider); SetSoundImage(effectSlider); });
+        bgm.Init();
+        effect.Init();
+        effect.gameObject.SetActive(false);
+        changePanel.Init();
+        selectPanel.Init();
+        selectPanel.gameObject.SetActive(false);
     }
 
-    private void SetValueText(Slider slider)
+    public void OpenPanel()
     {
-        int value = (int)(slider.value * 100);
-        Debug.Log(slider.value);
-        valueText.text = value.ToString();
+        isOpen = true;
+        SetActive(true);
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
+    }
+    private void CheckClose(object[] hits)
+    {
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)csf.transform);
+        if (!isOpen) return;
+        if (Define.ExistInHits(gameObject, hits[0]) == false || Define.ExistInHits(changePanel.gameObject, hits[0]) || Define.ExistInHits(selectPanel.gameObject, hits[0]))
+        {
+            Close();
+        }
     }
 
-    private void SetSoundImage(Slider slider)
+    public void Close()
     {
-        float value = slider.value * 100;
-        if(value == 0)
-        {
-            soundImage.ChangeCondition(ESoundCondition.X);
-        }
-        else if(value > 66)
-        {
-            soundImage.ChangeCondition(ESoundCondition.Big);
-        }
-        else if (value > 33)
-        {
-            soundImage.ChangeCondition(ESoundCondition.Middle);
-        }
-        else if (value > 0)
-        {
-            soundImage.ChangeCondition(ESoundCondition.Small);
-        }
+        EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
+        isOpen = false;
+        SetActive(false);
     }
 }

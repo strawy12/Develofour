@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum ESoundCondition
@@ -12,13 +13,17 @@ public enum ESoundCondition
     X
 }
 
-public class SoundPanelImage : MonoBehaviour
+public class SoundPanelImage : MonoBehaviour, IPointerDownHandler
 {
     public Image bigSound;
     public Image middleSound;
     public Image smallSound;
     public Image xSound;
     public Image sound;
+
+    public bool isClickMute;
+    public bool isSoundPanelOpen;
+    public SoundPanel soundPanel;
 
     public void ChangeCondition(ESoundCondition condition)
     {
@@ -65,5 +70,13 @@ public class SoundPanelImage : MonoBehaviour
     private void SetFade(Image image, float value)
     {
         image.color = new Color(image.color.r, image.color.g, image.color.b, value);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if(isSoundPanelOpen)
+        {
+            soundPanel.gameObject.SetActive(true);
+        }
     }
 }
