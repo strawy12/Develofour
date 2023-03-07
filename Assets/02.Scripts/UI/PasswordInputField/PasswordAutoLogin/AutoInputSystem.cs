@@ -1,15 +1,15 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 
 
-//¿©±â¿¡ DataÅ¬·¡½º¶û Enum¿ï ÇÏ³ª Ãß°¡ÇÑ´ÙÀ½ 
+//ì—¬ê¸°ì— Dataí´ë˜ìŠ¤ë‘ Enumìš¸ í•˜ë‚˜ ì¶”ê°€í•œë‹¤ìŒ 
 
 public class AutoInputSystem : MonoBehaviour
 {
-    //¿©±â¿¡ ¸®½ºÆ®¸¦ Ãß°¡ÇÏ°í ±× DataÀÇ ÀÌ³ÑÀ» ±â¹İÀ¸·Î ºÒ·¯¿À´Â ¹æ½Ä
+    //ì—¬ê¸°ì— ë¦¬ìŠ¤íŠ¸ë¥¼ ì¶”ê°€í•˜ê³  ê·¸ Dataì˜ ì´ë„˜ì„ ê¸°ë°˜ìœ¼ë¡œ ë¶ˆëŸ¬ì˜¤ëŠ” ë°©ì‹
     [SerializeField]
     private List<AutoInputPanel> autoInputPanelList = new List<AutoInputPanel>();
 
