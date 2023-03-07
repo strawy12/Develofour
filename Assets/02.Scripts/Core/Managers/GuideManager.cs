@@ -138,12 +138,6 @@ public class GuideManager : MonoSingleton<GuideManager>
     {
         isZooglePinNotePadOpenCheck = false;
 
-        //디버그용
-        foreach(var guide in guideStatusesList) 
-        {
-            guide.isCompleted = false;
-        }
-
         EventManager.StopListening(ECoreEvent.OpenPlayGuide, OnPlayGuide);
     }
 }

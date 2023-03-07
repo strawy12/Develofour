@@ -30,14 +30,14 @@ public class Notepad : Window
         {
             GuideManager.Inst.isZooglePinNotePadOpenCheck = true;
         
-            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 40f, EGuideType.ClickPinNotePadHint});
+            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 5f, EGuideType.ClickPinNotePadHint});
         }
 
         if (currentData.name == "ZooglePINword" && GuideManager.Inst.isZooglePinNotePadOpenCheck)
         {
             GuideManager.Inst.guidesDictionary[EGuideType.ClickPinNotePadHint] = true;
 
-            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 1200f, EGuideType.ClearPinNotePadQuiz });
+            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 5f, EGuideType.ClearPinNotePadQuiz });
         }
 
         SetText();
