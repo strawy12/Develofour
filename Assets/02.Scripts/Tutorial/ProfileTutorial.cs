@@ -53,6 +53,8 @@ public class ProfileTutorial : MonoBehaviour
     {
         Debug.Log("1");
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        EventManager.TriggerEvent(ETutorialEvent.ProfileInfoStart);
+
         foreach (string str in findNoticeAIChatting)
         {
             AIChatting(str);
@@ -60,7 +62,6 @@ public class ProfileTutorial : MonoBehaviour
         }
         MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog2, 0f, 3);
 
-        EventManager.TriggerEvent(ETutorialEvent.ProfileInfoStart);
     }
 
     public IEnumerator StartProfileLastTutorial()
