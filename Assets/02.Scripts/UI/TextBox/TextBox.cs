@@ -153,7 +153,7 @@ public class TextBox : MonoUI
 
         for (int i = 0; i < message.Length; i++)
         {
-            Sound.OnPlaySound?.Invoke(EAudioType.MonologueTyping);
+
             if (message[i] == '<')
             {
                 isRich = true;
@@ -169,15 +169,21 @@ public class TextBox : MonoUI
             {
                 isCmd = true;
             }
+
             if (message[i] == '}')
             {
                 isCmd = false;
                 continue;
-            } 
+            }
 
             if (!isCmd)
             {
                 messageText.maxVisibleCharacters = i;
+
+                if (!isRich)
+                {
+                    Sound.OnPlaySound?.Invoke(EAudioType.MonologueTyping);
+                }
             }
 
             if (triggerDictionary.ContainsKey(i))
@@ -358,6 +364,7 @@ public class TextBox : MonoUI
     private string RemoveCommandText(string message, bool registerCmd = false)
     {
         string removeText = message;
+        int signTextLength = 0;
 
         for (int i = 0; i < removeText.Length; i++)
         {
@@ -374,15 +381,16 @@ public class TextBox : MonoUI
 
                 if (registerCmd)
                 {
-                    if (triggerDictionary.ContainsKey(i))
-                        triggerDictionary[i] += () => CommandTrigger(signText);
+                    if (triggerDictionary.ContainsKey(i + signTextLength))
+                        triggerDictionary[i + signTextLength] += () => CommandTrigger(signText);
 
                     else
                     {
-                        triggerDictionary.Add(i, () => CommandTrigger(signText));
+                        triggerDictionary.Add(i + signTextLength, () => CommandTrigger(signText));
                     }
                 }
 
+                signTextLength += signText.Length;
                 i -= signText.Length;
             }
         }
