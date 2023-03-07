@@ -75,6 +75,15 @@ public class GuideManager : MonoSingleton<GuideManager>
 
                     break;
                 }
+            case "BrowserConnectGuide":
+                {
+                    string str = "만약 지금 무엇을 하실지 모르겠다면, 주글 메일 사이트을 먼저 접속하시는 것을 추천합니다.";
+                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
+                    NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+                    guidesDictionary[guideType] = true;
+                    
+                    break;
+                }
             default:
                 {
                     break;

@@ -59,23 +59,33 @@ public class ProfileTutorial : MonoBehaviour
             AIChatting(str);
             yield return new WaitForSeconds(1f);
         }
-        MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog2, 0f, 3);
-
     }
 
     public IEnumerator StartProfileLastTutorial()
     {
         //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         foreach (string str in completeProfileChatting)
         {
             AIChatting(str);
             yield return new WaitForSeconds(1f);
         }
-        EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
 
+        MonologSystem.OnEndMonologEvent += EndTutoMonologEvent;
+        MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog2, 0.2f, 3);
+
+
+
+        EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
+    }
+
+    private void EndTutoMonologEvent()
+    {
         GameManager.Inst.ChangeGameState(EGameState.Game);
 
         MonologSystem.OnStartMonolog(ETextDataType.TutorialMonolog3, 0f, 3);
+
+        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 90f, "BrowserConnectGuide" });
+        MonologSystem.OnEndMonologEvent -= EndTutoMonologEvent;
     }
 }

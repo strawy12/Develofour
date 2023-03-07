@@ -88,6 +88,8 @@ public class TextBox : MonoUI
 
 
         Init((ETextDataType)param[0]);
+        messageText.SetText("");
+
         ShowBox();
         PrintText();
     }
