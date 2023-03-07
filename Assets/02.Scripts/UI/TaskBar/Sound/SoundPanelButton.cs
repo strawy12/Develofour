@@ -1,24 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SoundPanelButton : MonoBehaviour
+public class SoundPanelButton : MonoBehaviour, IPointerDownHandler
 {
-    public Button button;
     public SoundPanel soundPanel;
-    void Start()
-    {
-        Init();
-    }
 
-    public void Init()
+    public void OnPointerDown(PointerEventData eventData)
     {
-        button.onClick.AddListener(Open);
-    }
 
-    public void Open()
-    {
-        soundPanel.OpenPanel();
+        if(soundPanel.GetComponent<CanvasGroup>().interactable == true)
+        {
+            soundPanel.Close();
+        }
+        else
+        {
+            soundPanel.OpenPanel();
+        }    
     }
 }

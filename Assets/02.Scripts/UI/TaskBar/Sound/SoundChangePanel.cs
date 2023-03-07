@@ -19,7 +19,6 @@ public class SoundChangePanel : MonoBehaviour
 
     public void OpenSelectPanel()
     {
-        Debug.Log("Asdf");
         selectPanel.gameObject.SetActive(true);
         coverPanel.SetActive(true);
         this.gameObject.SetActive(false);
@@ -45,5 +44,17 @@ public class SoundChangePanel : MonoBehaviour
             EffectSlider.Setting();
         }
         coverPanel.SetActive(false);
+    }
+
+    public void Mute()
+    {
+        if (currentText.text == BGMSlider.nameStr)
+        {
+            BGMSlider.Mute();
+        }
+        if (currentText.text == EffectSlider.nameStr)
+        {
+            EffectSlider.Mute();
+        }
     }
 }

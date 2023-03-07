@@ -22,6 +22,7 @@ public class SoundSelectPanel : MonoBehaviour
 
     public void CloseSelectPanel()
     {
+        changePanel.ChangeSlider();
         changePanel.gameObject.SetActive(true);
         this.gameObject.SetActive(false);
     }

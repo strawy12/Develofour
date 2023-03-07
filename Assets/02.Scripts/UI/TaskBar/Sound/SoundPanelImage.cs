@@ -74,9 +74,13 @@ public class SoundPanelImage : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(isSoundPanelOpen)
+        if(isSoundPanelOpen && !isClickMute)
         {
             soundPanel.gameObject.SetActive(true);
+        }
+        if(isClickMute)
+        {
+            soundPanel.Mute();
         }
     }
 }
