@@ -59,7 +59,6 @@ public class MonologSystem : MonoBehaviour
         }else
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
-
         }
     }
 

@@ -27,6 +27,7 @@ public class EndInstallScreen : InstallerScreen
         installer.WindowClose();
         MonologSystem.OnEndMonologEvent += StartTuto;
     }
+
     private void StartTuto()
     {
         EventManager.TriggerEvent(ETutorialEvent.TutorialStart, new object[0]);

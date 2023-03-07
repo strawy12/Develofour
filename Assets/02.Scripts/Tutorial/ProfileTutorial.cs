@@ -77,5 +77,7 @@ public class ProfileTutorial : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Game);
 
         MonologSystem.OnStartMonolog(ETextDataType.TutorialMonolog3, 0f, 3);
+
+        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 5f, "BrowserConnectGuide" });
     }
 }
