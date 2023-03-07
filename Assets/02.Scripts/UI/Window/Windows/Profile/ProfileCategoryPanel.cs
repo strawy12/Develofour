@@ -22,7 +22,6 @@ public class ProfileCategoryPanel : MonoBehaviour
     [SerializeField]
     private Button InfoBtn;
 
-    private bool isComplete;
     //info패널을 들고있음
     public void Init(EProfileCategory categoryEnum, string name, ProfileInfoPanel infoPanel)
     {
@@ -43,7 +42,7 @@ public class ProfileCategoryPanel : MonoBehaviour
             if(!GameManager.Inst.profilerTutorialClear)
             {
                 GameManager.Inst.profilerTutorialClear = true;
-                EventManager.TriggerEvent(ETutorialEvent.ProfileInfoEnd, new object[1] { this });
+                EventManager.TriggerEvent(ETutorialEvent.ProfileInfoEnd, new object[1] { this } );
             }
 
         }
@@ -67,20 +66,13 @@ public class ProfileCategoryPanel : MonoBehaviour
 
     public void StopCor()
     {
+        if (!isSign) return;
+
         isSign = false;
-        if(GameManager.Inst.GameState != EGameState.Tutorial)
-        {
-            Debug.Log("asdf");
-            return;
-        }
-        if(isComplete)
-        {
-            return;
-        }
-        isComplete = true;
-        yellowUI.gameObject.SetActive(false);
-        StopCoroutine(YellowSignCor());
+
         yellowUI.DOKill();
+        yellowUI.gameObject.SetActive(false);
+        StopAllCoroutines();
 
         EventManager.StopListening(ETutorialEvent.ProfileInfoStart, delegate { StartCoroutine(YellowSignCor()); });
         EventManager.TriggerEvent(ETutorialEvent.ProfileEventStop, new object[0]);
