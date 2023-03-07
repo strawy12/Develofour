@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -58,7 +58,7 @@ public class GuideManager : MonoSingleton<GuideManager>
     {
         yield return new WaitForSeconds(timer);
 
-        if (!guidesDictionary[guideType]) // ¿Ï·áµÇ¾î ÀÖÁö ¾Ê´Ù¸é
+        if (!guidesDictionary[guideType]) // ì™„ë£Œë˜ì–´ ìˆì§€ ì•Šë‹¤ë©´
         {
             StartGudie(guideType);
         }
@@ -84,7 +84,7 @@ public class GuideManager : MonoSingleton<GuideManager>
 
     private void OnApplicationQuit()
     {
-        //µğ¹ö±×¿ë
+        //ë””ë²„ê·¸ìš©
         foreach(var guide in guideStatusesList) 
         {
             guide.isCompleted = false;
