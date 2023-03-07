@@ -34,33 +34,14 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         originPos = rectTransform.anchoredPosition;
     }
 
-    private void Update()
+    private void Start()
     {
-        if (GameManager.Inst.GameState != EGameState.Game) { return; }
-        if (anyKeyUp) { return; }
-
-        if (Input.anyKey)
-        {
-            holdingDown = true;
-        }
-
-        if (!Input.anyKey && holdingDown)
-        {
-            holdingDown = false;
-
-            if (isDrag)
-            {
-                isDrag = false;
-                return;
-            }
-
-            AnyKeyUp();
-        }
+        EventManager.StartListening(EInputType.InputAnyKeyUp, AnyKeyUp);
     }
 
-    private void AnyKeyUp()
+    private void AnyKeyUp(object[] ps)
     {
-
+        if (anyKeyUp) return;
         anyKeyUp = true;
         rectTransform.DOAnchorPos(originPos + Vector3.up * targetMovementY, 0.1f).OnComplete(OpenLoginScreen);
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum EMouseType
@@ -14,7 +15,8 @@ public enum EMouseType
 public class InputManager : MonoSingleton<InputManager>
 {
     private Dictionary<KeyCode, KeyInfo> keyCodes;
-    
+
+    private bool holdingDown;
 
     private void Awake()
     {
@@ -22,14 +24,32 @@ public class InputManager : MonoSingleton<InputManager>
     }
 
     void Update()
-    { 
+    {
+        #region AnyKey
+        if (Input.anyKeyDown)
+        {
+            EventManager.TriggerEvent(EInputType.InputAnyKeyDown);
+        }
+
+        if (Input.anyKey)
+        {
+            holdingDown = true;
+            EventManager.TriggerEvent(EInputType.InputAnyKey);
+        }
+
+        if (!Input.anyKey && holdingDown)
+        {
+            holdingDown = false;
+            EventManager.TriggerEvent(EInputType.InputAnyKeyUp);
+        }
+        #endregion
+
+        #region Mouse
         // 마우스
         for (int i = 0; i < (int)EMouseType.Cnt; i++)
         {
             if (Input.GetMouseButtonDown(i))
             {
-                //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.MouseClickDown);
-
                 EventManager.TriggerEvent(EInputType.InputMouseDown, new object[1] { i });
             }
 
@@ -46,6 +66,9 @@ public class InputManager : MonoSingleton<InputManager>
             }
         }
 
+        #endregion
+
+        #region Keyboard
         // 키보드
         foreach (var info in keyCodes)
         {
@@ -62,6 +85,8 @@ public class InputManager : MonoSingleton<InputManager>
                 info.Value.OnKeyUp?.Invoke();
             }
         }
+
+        #endregion
     }
 
     public void AddKeyInput(KeyCode keyCode, Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)

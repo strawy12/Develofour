@@ -20,10 +20,11 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     }
     private IEnumerator Start()
     {
-        int cnt = 2;
+        int cnt = 3;
 
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);
+        LoadTextDataSOAssets(() => cnt--);
 
         yield return new WaitUntil(() => cnt == 0);
 
