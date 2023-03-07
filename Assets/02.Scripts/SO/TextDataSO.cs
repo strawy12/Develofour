@@ -4,7 +4,6 @@ using UnityEngine;
 public enum ETextDataType
 {
     None,
-    News,
     USBMonolog,
     Profile,
     StartMonolog,
