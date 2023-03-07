@@ -1,10 +1,11 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.Audio;
 
 public class SoundSlider : MonoBehaviour    
 {
@@ -17,12 +18,17 @@ public class SoundSlider : MonoBehaviour
 
     public string nameStr;
 
-    private int save;
+    public int saveSound; //ë‚˜ì¤‘ì— Jsonìœ¼ë¡œ ë¹¼ì„œ ì €ì¥í•˜ê² ì§€
 
-    private bool isMute; //ismute°¡ true¸é ¼Ò¸®´Â 0À¸·Î
+    private bool isMute; //ismuteê°€ trueë©´ ì†Œë¦¬ëŠ” 0ìœ¼ë¡œ
+
+    public AudioMixer audioMixer;
+    public ESoundPlayerType soundType;
 
     public void Init()
     {
+        slider.value = (float)saveSound / 100f;
+        SetMixGroup();
         SetValueText(slider);
         SetSoundImage(slider, soundImage);
         SetSoundImage(slider, soundTaskbarImage);
@@ -38,13 +44,18 @@ public class SoundSlider : MonoBehaviour
         SetValueText(slider); 
         SetSoundImage(slider, soundImage);
         SetSoundImage(slider, soundTaskbarImage);
+        SetMixGroup();
+    }
+
+    public void SetMixGroup()
+    { // -80 - 10
+        audioMixer.SetFloat(soundType.ToString(), ((slider.value * 90) - 80));
     }
 
     private void SetValueText(Slider slider)
     {
         if (isMute) return;
         int value = (int)(slider.value * 100);
-        Debug.Log(slider.value);
         valueText.text = value.ToString();
     }
 
@@ -87,5 +98,7 @@ public class SoundSlider : MonoBehaviour
     {
         soundImage.ChangeCondition(ESoundCondition.X);
         soundTaskbarImage.ChangeCondition(ESoundCondition.X);
+        audioMixer.SetFloat(soundType.ToString(), -80);
     }
+
 }

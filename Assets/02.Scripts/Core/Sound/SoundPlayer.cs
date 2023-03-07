@@ -24,6 +24,8 @@ public class SoundPlayer : MonoBehaviour
     public ESoundPlayerType PlayerType => audioData.SoundPlayerType;
     public Sound.EAudioType AudioType => audioData.AudioType;
 
+    public List<AudioMixerGroup> audioMixerGroups = new List<AudioMixerGroup>();
+
     private float basePitch;
 
     public virtual void Init(AudioAssetSO data, AudioMixerGroup mixerGroup)
@@ -77,6 +79,7 @@ public class SoundPlayer : MonoBehaviour
         PlayClipWithVariablePitch();
         audioSource.Stop();
         audioSource.clip = audioData.Clip;
+        audioSource.outputAudioMixerGroup = audioMixerGroups[(int)audioData.SoundPlayerType];
         audioSource.Play();
 
         if (audioSource.loop == false)
