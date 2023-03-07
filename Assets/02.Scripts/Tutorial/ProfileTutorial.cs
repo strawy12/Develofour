@@ -51,7 +51,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public IEnumerator NoticeProfileChattingTutorial()
     {
-
+        EventManager.StopAllListening(ETutorialEvent.LibraryRootCheck);
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         EventManager.TriggerEvent(ETutorialEvent.ProfileInfoStart);
         foreach (string str in findNoticeAIChatting)
