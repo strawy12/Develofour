@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class NotePadTextGetWord : MonoBehaviour, IPointerMoveHandler, IPointerClickHandler
+public class NotePadTextGetWord : MonoBehaviour, IPointerMoveHandler, IPointerClickHandler, IPointerExitHandler
 {
     private TMP_Text textMeshPro;
     
@@ -33,6 +33,7 @@ public class NotePadTextGetWord : MonoBehaviour, IPointerMoveHandler, IPointerCl
             }
         
             GetProfilerWordSystem.OnGeneratedProfiler?.Invoke(word);
+            GetProfilerWordSystem.OnFindWord?.Invoke(word);
         }
     }
 
@@ -98,4 +99,8 @@ public class NotePadTextGetWord : MonoBehaviour, IPointerMoveHandler, IPointerCl
         }
     }
 
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { "None" });
+    }
 }

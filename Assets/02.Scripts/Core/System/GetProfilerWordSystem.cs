@@ -71,18 +71,18 @@ public class GetProfilerWordSystem : MonoBehaviour
 
     private void FindedWordCheck(string word)
     {
-        if (word == null || !substitutionDictionary.ContainsKey(word))
+        if (word == null)
         {
             return;
         }
 
-        if (substitutionList.Find(x => x.word == word).isFindWord)
+        if(!substitutionDictionary.ContainsKey(word) || !substitutionList.Find(x => x.word == word).isFindWord)
         {
-            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { "FindedWord" });
+            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { "FindingWord" });
         }
         else
         {
-            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { "FindingWord" });
+            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { "FindedWord" });
         }
     }
 }

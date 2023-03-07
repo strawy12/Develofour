@@ -5,6 +5,8 @@ using UnityEngine;
 public class CursorChangeSystem : MonoBehaviour
 {
     [SerializeField]
+    private Texture2D defaultCursor;
+    [SerializeField]
     private Texture2D provisoCursor;
     [SerializeField]
     private Texture2D findedProvisoCursor;
@@ -16,22 +18,35 @@ public class CursorChangeSystem : MonoBehaviour
 
     private void CursorChange(object[] ps)
     {
-        if (ps[0] == null) 
+        if (ps[0] == null)
         {
             return;
         }
 
         string commandWord = ps[0].ToString();
 
-        if(commandWord == "FindingWord")
+        Debug.Log(commandWord);
+
+        switch (commandWord)
         {
-            Cursor.SetCursor(provisoCursor, new Vector2(provisoCursor.width / 2, provisoCursor.height / 2), CursorMode.Auto);
-        }
-        else if(commandWord == "FindedWord")
-        {
-            Cursor.SetCursor(findedProvisoCursor, new Vector2(findedProvisoCursor.width / 2, findedProvisoCursor.height / 2), CursorMode.Auto);
+            case "FindingWord":
+            {
+                Cursor.SetCursor(provisoCursor, new Vector2(provisoCursor.width / 2, provisoCursor.height / 2), CursorMode.Auto);
+                break;
+            }
+            case "FindedWord":
+            {
+                Cursor.SetCursor(findedProvisoCursor, new Vector2(findedProvisoCursor.width / 2, findedProvisoCursor.height / 2), CursorMode.Auto);
+                break;
+            }
+            default:
+            {
+                Cursor.SetCursor(defaultCursor, new Vector2(defaultCursor.width / 4, defaultCursor.height / 4), CursorMode.Auto);
+                break;
+            }
         }
     }
+
     private void OnApplicationQuit()
     {
         EventManager.StopListening(ECoreEvent.CursorChange, CursorChange);
