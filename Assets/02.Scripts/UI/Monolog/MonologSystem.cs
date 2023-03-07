@@ -51,7 +51,6 @@ public class MonologSystem : MonoBehaviour
             textBox.PrintText();
             yield return new WaitUntil(() => textBox.IsClick);
         }
-        OnEndMonologEvent?.Invoke();
         yield return new WaitForSeconds(0.1f);
         if (isTuto)
         {
@@ -60,6 +59,7 @@ public class MonologSystem : MonoBehaviour
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
         }
+        OnEndMonologEvent?.Invoke();
     }
 
 }
