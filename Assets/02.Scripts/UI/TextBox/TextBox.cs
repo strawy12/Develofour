@@ -99,6 +99,7 @@ public class TextBox : MonoUI
         }
 
         Init((ETextDataType)param[0], boxType);
+        messageText.SetText("");
         ShowBox();
         PrintText();
     }

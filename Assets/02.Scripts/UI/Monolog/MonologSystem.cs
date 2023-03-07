@@ -42,7 +42,7 @@ public class MonologSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(startDelay);
 
-            GameManager.Inst.ChangeGameState(EGameState.CutScene);
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
         textBox.Init(textDataType, TextBox.ETextBoxType.Simple);
         for (int i = 0; i < cnt; i++)
         {
@@ -50,7 +50,6 @@ public class MonologSystem : MonoBehaviour
             textBox.PrintText();
             yield return new WaitUntil(() => textBox.IsClick);
         }
-        OnEndMonologEvent?.Invoke();
         yield return new WaitForSeconds(0.1f);
         if (isTuto)
         {
@@ -58,8 +57,8 @@ public class MonologSystem : MonoBehaviour
         }else
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
-
         }
+        OnEndMonologEvent?.Invoke();
     }
 
 }
