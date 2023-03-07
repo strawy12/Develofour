@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 //여기에 Data클래스랑 Enum울 하나 추가한다음 
 
-public class AutoInputSystem : MonoBehaviour,IPointerClickHandler
+public class AutoInputSystem : MonoBehaviour
 {
     //여기에 리스트를 추가하고 그 Data의 이넘을 기반으로 불러오는 방식
     [SerializeField]
@@ -15,7 +15,6 @@ public class AutoInputSystem : MonoBehaviour,IPointerClickHandler
 
     private bool isOpen;
 
-    private bool isComplete;
     private bool isHave;
     public void HideAllPanel()
     {
@@ -27,10 +26,6 @@ public class AutoInputSystem : MonoBehaviour,IPointerClickHandler
 
     public void ShowPanel(List<TMP_InputField> inputFields, List<AutoAnswerData> answerDatas)
     {
-        if(isComplete)
-        {
-            return;
-        }
         isHave = false;
         for(int i = 0;  i < answerDatas.Count; i++)
         {
@@ -68,13 +63,9 @@ public class AutoInputSystem : MonoBehaviour,IPointerClickHandler
     public void OffAutoPanel()
     {
         HideAllPanel();
-        isComplete = true;
         gameObject.SetActive(false);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        //if () ;
-    }
+
 
 }
