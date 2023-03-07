@@ -78,6 +78,6 @@ public class ProfileTutorial : MonoBehaviour
 
         MonologSystem.OnStartMonolog(ETextDataType.TutorialMonolog3, 0f, 3);
 
-        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 5f, "BrowserConnectGuide" });
+        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 90f, "BrowserConnectGuide" });
     }
 }
