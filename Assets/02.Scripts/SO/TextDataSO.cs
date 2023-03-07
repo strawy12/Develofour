@@ -10,6 +10,7 @@ public enum ETextDataType
     StartMonolog,
     TutorialMonolog1,
     TutorialMonolog2,
+    TutorialMonolog3,
 }
 
 [System.Serializable]
