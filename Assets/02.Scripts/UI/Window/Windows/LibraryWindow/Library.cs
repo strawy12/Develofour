@@ -260,7 +260,7 @@ public class Library : Window
     private void CheckTutorialRoot(object[] ps)
     {
         //if (!gameObject.activeSelf) return;
-        Debug.Log("root");
+        if (GameManager.Inst.GameState != EGameState.Tutorial && GameManager.Inst.GameState == EGameState.CutScene) return;
         if (currentDirectory.windowName == "BestUSB")
         {
             Debug.Log("BestUSB");

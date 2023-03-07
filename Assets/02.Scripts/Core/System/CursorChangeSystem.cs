@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CursorChangeSystem : MonoBehaviour
@@ -41,7 +42,7 @@ public class CursorChangeSystem : MonoBehaviour
             }
             default:
             {
-                Cursor.SetCursor(defaultCursor, new Vector2(defaultCursor.width / 4, defaultCursor.height / 4), CursorMode.Auto);
+                Cursor.SetCursor(defaultCursor, new Vector2(defaultCursor.width / 2, defaultCursor.height / 2), CursorMode.Auto);
                 break;
             }
         }
