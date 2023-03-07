@@ -7,16 +7,10 @@ using DG.Tweening;
 using static Sound;
 using System.Collections.Generic;
 using ExtenstionMethod;
-
+using Unity.VisualScripting;
 
 public class TextBox : MonoUI
 {
-    public enum ETextBoxType
-    {
-        Simple,
-        Box,
-    }  
-
     #region Binding 변수
     [SerializeField]
     private ContentSizeFitterText messageText;
@@ -48,7 +42,7 @@ public class TextBox : MonoUI
     public bool IsClick { get { return isClick; } }
     private TextDataSO currentTextData;
     private int currentTextIndex;
-    private ETextBoxType currentType;
+    private float currentDelay = 0f;
     private Dictionary<int, Action> triggerDictionary;
     #endregion
 
@@ -92,27 +86,20 @@ public class TextBox : MonoUI
             return;
         }
 
-        ETextBoxType boxType = ETextBoxType.Box;
 
-        if (param.Length >= 2 && param[1] is ETextBoxType)
-        {
-            boxType = (ETextBoxType)param[1];
-        }
-
-        Init((ETextDataType)param[0], boxType);
+        Init((ETextDataType)param[0]);
         messageText.SetText("");
+
         ShowBox();
         PrintText();
     }
 
-    public void Init(ETextDataType textDataType, ETextBoxType textBoxType = ETextBoxType.Box)
+    public void Init(ETextDataType textDataType)
     {
         if (GameManager.Inst.GameState != EGameState.CutScene)
         {
             GameManager.Inst.ChangeGameState(EGameState.UI);
         }
-
-        SetTextBoxType(textBoxType);
 
         currentTextData = GetTextData(textDataType);
         currentTextIndex = 0;
@@ -133,17 +120,8 @@ public class TextBox : MonoUI
         isTextPrinted = true;
         TextData textData = currentTextData[currentTextIndex++];
 
-        if (currentType == ETextBoxType.Box)
-        {
-            BoxTypePrint(textData);
-            return textData.text.Length * printTextDelay;
-        }
-
-        else
-        {
-            SimpleTypePrint(textData);
-            return textData.text.Length * printTextDelay;
-        }
+        SimpleTypePrint(textData);
+        return textData.text.Length * printTextDelay;
     }
 
     public void SimpleTypePrint(TextData textData)
@@ -162,80 +140,11 @@ public class TextBox : MonoUI
         StartCoroutine(PrintMonologTextCoroutine(textData.text));
     }
 
-
-    private void BoxTypePrint(TextData textData)
-    {
-        bgImage.color = Color.white;
-        bgImage.sprite = boxTypeSprite;
-
-        RectTransform parent = bgImage.transform.parent as RectTransform;
-        bgImage.rectTransform.sizeDelta = new Vector2(parent.rect.width, parent.rect.height);
-
-        triggerDictionary.Clear();
-        messageText.SetText("");
-        nameText.SetText(textData.name);
-        nameText.color = textData.color;
-        StartCoroutine(PrintTextCoroutine(textData.text));
-    }
-    
-    private IEnumerator PrintTextCoroutine(string message)
-    {
-        bool isRich = false;
-
-        // 모든 표시를 지운 순수 텍스트
-        string removeSignText = ConversionPureText(message);
-
-        // 텍스트 박스 안에 넣을 텍스트
-        // <color> 같은 것은 텍스트 박스 안에 넣어야함
-        string textBoxInText = RemoveCommandText(message, true);
-
-        // 텍스트가 너무 길 경우 자동으로 줄 바꿈 처리
-        textBoxInText = SliceLineText(textBoxInText);
-
-        messageText.SetText(textBoxInText);
-
-        for (int i = 0; i < textBoxInText.Length; i++)
-        {
-            if (textBoxInText[i] == '<')
-            {
-                isRich = true;
-            }
-
-            if (textBoxInText[i] == '>')
-            {
-                isRich = false;
-                continue;
-            }
-
-            messageText.maxVisibleCharacters = i;
-
-            // 미리 생성시킨 
-            if (triggerDictionary.ContainsKey(i))
-            {
-                triggerDictionary[i]?.Invoke();
-            }
-
-            // Rich 일때는 한번에 나오게 하기 위해서 딜레이 X
-            if (!isRich)
-            {
-                yield return new WaitForSeconds(printTextDelay);
-            }
-        }
-
-        if (isTextPrinted == false)
-        {
-            CompletePrint(textBoxInText);
-        }
-
-        isTextPrinted = false;
-    }
     private IEnumerator PrintMonologTextCoroutine(string message)
     {
         bool isRich = false;
+        bool isCmd = false;
         triggerDictionary.Clear();
-        // 모든 표시를 지운 순수 텍스트
-        string removeSignText = ConversionPureText(message);
-
         // 텍스트 박스 안에 넣을 텍스트
         // <color> 같은 것은 텍스트 박스 안에 넣어야함
         string textBoxInText = RemoveCommandText(message, true);
@@ -244,20 +153,40 @@ public class TextBox : MonoUI
 
         messageText.SetText(textBoxInText);
 
-        for (int i = 0; i < textBoxInText.Length; i++)
+        for (int i = 0; i < message.Length; i++)
         {
-            if (textBoxInText[i] == '<')
+
+            if (message[i] == '<')
             {
                 isRich = true;
             }
 
-            if (textBoxInText[i] == '>')
+            if (message[i] == '>')
             {
                 isRich = false;
                 continue;
             }
 
-            messageText.maxVisibleCharacters = i;
+            if (message[i] == '{')
+            {
+                isCmd = true;
+            }
+
+            if (message[i] == '}')
+            {
+                isCmd = false;
+                continue;
+            }
+
+            if (!isCmd)
+            {
+                messageText.maxVisibleCharacters = i;
+
+                if (!isRich)
+                {
+                    Sound.OnPlaySound?.Invoke(EAudioType.MonologueTyping);
+                }
+            }
 
             if (triggerDictionary.ContainsKey(i))
             {
@@ -265,9 +194,15 @@ public class TextBox : MonoUI
             }
 
             // Rich 일때는 한번에 나오게 하기 위해서 딜레이 X
-            if (!isRich)
+            if (!isRich && !isCmd)
             {
                 yield return new WaitForSeconds(printTextDelay);
+            }
+
+            if (isCmd)
+            {
+                yield return new WaitForSeconds(currentDelay);
+                currentDelay = 0f;
             }
         }
 
@@ -283,23 +218,19 @@ public class TextBox : MonoUI
         yield return new WaitUntil(() => isClick);
         EventManager.StopListening(EInputType.InputMouseDown, ClickEvent);
         isClick = false;
-        
+
         HideBox();
     }
 
     private void ClickEvent(object[] ps)
     {
 
-            isClick = true;
+        isClick = true;
     }
 
     #endregion
 
     #region TextBox 기본 함수
-    public void SetTextBoxType(ETextBoxType type)
-    {
-        currentType = type;
-    }
     public bool CheckDataEnd()
     {
         return currentTextIndex >= currentTextData.Count;
@@ -340,7 +271,7 @@ public class TextBox : MonoUI
         isTextPrinted = false;
     }
 
-    
+
     #endregion
 
     #region Edit Text
@@ -440,10 +371,11 @@ public class TextBox : MonoUI
     private string RemoveCommandText(string message, bool registerCmd = false)
     {
         string removeText = message;
+        int signTextLength = 0;
 
         for (int i = 0; i < removeText.Length; i++)
         {
-            if(i < 0)
+            if (i < 0)
             {
                 i = 0;
             }
@@ -456,8 +388,16 @@ public class TextBox : MonoUI
 
                 if (registerCmd)
                 {
-                    triggerDictionary.Add(i, () => CommandTrigger(signText));
+                    if (triggerDictionary.ContainsKey(i + signTextLength))
+                        triggerDictionary[i + signTextLength] += () => CommandTrigger(signText);
+
+                    else
+                    {
+                        triggerDictionary.Add(i + signTextLength, () => CommandTrigger(signText));
+                    }
                 }
+
+                signTextLength += signText.Length;
                 i -= signText.Length;
             }
         }
@@ -469,10 +409,10 @@ public class TextBox : MonoUI
 
     #region CommandTrigger
 
-    private int CommandTrigger(string msg)
+    private void CommandTrigger(string msg)
     {
+
         string cmdMsg = EncordingCommandText(msg);
-        int cnt = 1;
 
         string[] cmdMsgSplit = cmdMsg.Split('_');
         string cmdType = cmdMsgSplit[0];
@@ -480,16 +420,11 @@ public class TextBox : MonoUI
 
         switch (cmdType)
         {
-            case "ES":
+            case "PS":
                 {
-                    Sound.EEffect effectType = (EEffect)Enum.Parse(typeof(EEffect), cmdValue);
-                    Sound.OnPlayEffectSound?.Invoke(effectType);
-                    break;
-                }
-            case "BS":
-                {
-                    Sound.EBgm bgmType = (EBgm)Enum.Parse(typeof(EBgm), cmdValue);
-                    Sound.OnPlayBGMSound?.Invoke(bgmType);
+                    Sound.EAudioType audioType = (EAudioType)Enum.Parse(typeof(EAudioType), cmdValue);
+                    Sound.OnPlaySound?.Invoke(audioType);
+
                     break;
                 }
             case "SK":
@@ -502,9 +437,14 @@ public class TextBox : MonoUI
                     StartCoroutine(textShakingCoroutine(delay, strength, vibrato));
                     break;
                 }
+
+            case "DL":
+                {
+                    currentDelay = float.Parse(cmdValue);
+                    break;
+                }
         }
 
-        return cnt;
     }
 
     private IEnumerator textShakingCoroutine(float delay, float strength, int vibrato)

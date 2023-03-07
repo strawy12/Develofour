@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager : MonoSingleton<ResourceManager>
+public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     [SerializeField]
     private List<ImageViewerDataSO> imageVierwerList = new List<ImageViewerDataSO>();
@@ -16,17 +16,28 @@ public class ResourceManager : MonoSingleton<ResourceManager>
 
     private void Awake()
     {
+        audioResourceList = new List<AudioAssetSO>();
         InitDictionary();
+    }
+    private IEnumerator Start()
+    {
+        int cnt = 1;
+
+        LoadAudioAssets(() => cnt--);
+
+        yield return new WaitUntil(() => cnt == 0);
+
+        EventManager.TriggerEvent(ECoreEvent.EndLoadResources);
     }
 
     private void InitDictionary()
     {
-        foreach(ImageViewerDataSO imageData in imageVierwerList)
+        foreach (ImageViewerDataSO imageData in imageVierwerList)
         {
             imageFileDictionary.Add(imageData.name, imageData);
         }
 
-        foreach(NotepadDataSO notepadData in notepadList)
+        foreach (NotepadDataSO notepadData in notepadList)
         {
             notepadFileDictionary.Add(notepadData.name, notepadData);
         }
@@ -39,7 +50,7 @@ public class ResourceManager : MonoSingleton<ResourceManager>
 
     public NotepadDataSO GetNotepadData(string windowName)
     {
-        if(notepadFileDictionary[windowName] == null)
+        if (notepadFileDictionary[windowName] == null)
         {
             Debug.Log("해당 노트패드의 값이 존재하지 않음. Null 리턴 됨");
             return null;

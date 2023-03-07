@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System;
 [System.Serializable]
 public struct DateTime
@@ -115,9 +114,10 @@ public class FileSO : SOParent
         // FixDate 시간을 변경해줄 예정
     }
 
+
     public override void Setting(string[] str)
     {
-
+#if UNITY_EDITOR
         DirectorySO directory = SOEditorCodeUtill.GetAssetFileLoadPath(str[0]) as DirectorySO;
         try
         {
@@ -140,7 +140,7 @@ public class FileSO : SOParent
         isWindowLockClear = ReturnBool(str[10]);
         windowPin = str[11];
         windowPinHintGuide = str[12];
-        
+#endif
     }
 
     private bool ReturnBool(string str)

@@ -13,7 +13,6 @@ using System.Linq.Expressions;
 
 public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 {
-    public float scaleGotDuration = 1f;
     public float noticeAlphalightly = 1f;
 
     [SerializeField]
@@ -110,12 +109,11 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         SetActive(true);
 
-        //EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
-        rectTransform.DOAnchorPosX(NOTICE_POS.x, NOTICE_DURATION);
+        EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
 
         NoticeUXEmphasis();
 
-       // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.WindowAlarmSound);
+       Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
 
         stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }
@@ -130,14 +128,15 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         Sequence seq = DOTween.Sequence();
 
         isEmpahasis = true;
-        seq.Append(rectTransform.DOScale(1.25f, scaleGotDuration / 2));
+        seq.Append(rectTransform.DOScale(1.25f, NOTICE_DURATION + NOTICE_SIZE_DURATION));
+        seq.Join(rectTransform.DOAnchorPosX(NOTICE_POS.x, NOTICE_DURATION));
         seq.AppendCallback(() =>
         {
             isOpen = true;
 
             Sequence seq2 = DOTween.Sequence();
 
-            seq2.Append(rectTransform.DOScale(1f, scaleGotDuration / 2));
+            seq2.Append(rectTransform.DOScale(1f, NOTICE_DURATION));
             seq2.AppendCallback(() =>
             {
                 isEmpahasis = false;

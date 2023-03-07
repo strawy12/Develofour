@@ -36,6 +36,7 @@ public class MailDataSO : SOParent
     
     public override void Setting(string[] ps)
     {
+#if UNITY_EDITOR
         try
         {
             type = (EMailType)Enum.Parse(typeof(EMailType), ps[1]);
@@ -52,7 +53,9 @@ public class MailDataSO : SOParent
         month = int.Parse(ps[4]);
         day = int.Parse(ps[5]);
         timeText = $"{ps[4]}¿ù{ps[5]}ÀÏ";
-        
+
         //mailCategory = int.Parse(ps[6]);
+
+#endif
     }
 }

@@ -32,7 +32,7 @@ public partial class Browser : Window
     [SerializeField] private Transform siteParent;
 
     [SerializeField] private BrowserBar browserBar;
-    [SerializeField] private LoadingBar loadingBar;
+    [SerializeField] private LoadingIcon loadingBar;
 
     private List<Site> usedSiteList;
 

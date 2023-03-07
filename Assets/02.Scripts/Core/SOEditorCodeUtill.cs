@@ -1,10 +1,11 @@
+#if UNITY_EDITOR
 using System.IO;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEngine;
 public class SOEditorCodeUtill : MonoBehaviour
 {
-        Texture2D texture2D;
+        Texture2D texture2D; 
 
     public static SOParent GetAssetFileLoadPath(string path)
     {
@@ -62,3 +63,4 @@ public class SOEditorCodeUtill : MonoBehaviour
         }
     }
 }
+#endif

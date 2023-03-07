@@ -53,7 +53,7 @@ public class EventManager
 
         if (eventDictionary.TryGetValue(key, out thisEvent))
         {
-            thisEvent?.Invoke(param);
+            thisEvent?.Invoke(param);   
         }
     }
 

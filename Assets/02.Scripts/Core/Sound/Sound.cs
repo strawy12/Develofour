@@ -1,91 +1,56 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 public partial class Sound : MonoBehaviour
 {
-    public static Func<EBgm, float> OnPlayBGMSound { get; private set; }
-    public static Func<EEffect, float> OnPlayEffectSound { get; private set; }
-    public static Action<int> OnImmediatelyStop { get; private set; }
+    public static Func<EAudioType, float> OnPlaySound { get; private set; }
+    public static Action<EAudioType> OnImmediatelyStop { get; private set; }
 
-    private Dictionary<int, SoundPlayer> soundPlayerDictionary;
-    private Dictionary<int, Queue<SoundPlayer>> soundPlayerPoolDictionary;
+    [SerializeField]
+    private SoundPlayer soundPlayerPrefab;
 
     private List<SoundPlayer> soundPlayerList;
+    private Queue<SoundPlayer> soundPlayerPool;
 
     private void Awake()
     {
-        soundPlayerDictionary = new Dictionary<int, SoundPlayer>();
-        soundPlayerPoolDictionary = new Dictionary<int, Queue<SoundPlayer>>();
         soundPlayerList = new List<SoundPlayer>();
+        soundPlayerPool = new Queue<SoundPlayer>();
+    }
 
-        OnPlayBGMSound += CreateBGMSoundPlayer;
-        OnPlayEffectSound += CreateEffectSoundPlayer;
-
+    private void Start()
+    {
+        OnPlaySound += CreateSoundPlayer;
         OnImmediatelyStop += ImmediatelyStop;
-
-        AddSoundPlayers();
-    }
-
-    private void AddSoundPlayers()
-    {
-        List<SoundPlayer> soundPlayers = new List<SoundPlayer>();
-
-        for (int n = 0; n < 2; n++)
-        {
-            for (int i = 0; i < transform.GetChild(n).childCount; i++)
-            {
-                SoundPlayer soundPlayer = transform.GetChild(n).GetChild(i).GetComponent<SoundPlayer>();
-                soundPlayer.Init();
-
-                soundPlayerDictionary[soundPlayer.SoundID] = soundPlayer;
-
-                soundPlayerPoolDictionary[soundPlayer.SoundID] = new Queue<SoundPlayer>();
-                soundPlayerPoolDictionary[soundPlayer.SoundID].Enqueue(soundPlayer);
-            }
-        }
-
-    }
-
-    private float CreateBGMSoundPlayer(EBgm type)
-    {
-        return CreateSoundPlayer((int)type);
-    }
-    private float CreateEffectSoundPlayer(EEffect type)
-    {
-        return CreateSoundPlayer((int)type);
     }
 
 
-    private float CreateSoundPlayer(int soundID)
+  
+
+    private float CreateSoundPlayer(EAudioType audioType)
     {
-        if (soundPlayerPoolDictionary.ContainsKey(soundID) == false &&
-            soundPlayerDictionary.ContainsKey(soundID) == false) return -1f;
-
-        object[] ps = new object[1] { soundID };
-
-        if (soundID < (int)EBgm.End)
-        {
-            EventManager.TriggerEvent(ECoreEvent.ChangeBGM, ps);
-        }
+        AudioAssetSO audioAssetData = ResourceManager.Inst.GetAudioResource(audioType);
+        if (audioAssetData == null) return -1f;
 
         SoundPlayer soundPlayer = null;
 
-        if (soundPlayerPoolDictionary[soundID].Count <= 0)
+        if(soundPlayerPool.Count != 0)
         {
-            soundPlayer = Instantiate(soundPlayerDictionary[soundID], transform);
+            soundPlayer = soundPlayerPool.Dequeue();
         }
+
         else
         {
-            soundPlayer = soundPlayerPoolDictionary[soundID].Dequeue();
+            soundPlayer = Instantiate(soundPlayerPrefab, transform);
         }
 
         soundPlayerList.Add(soundPlayer);
 
-        soundPlayer.Init();
+        soundPlayer.Init(audioAssetData);
         soundPlayer.gameObject.SetActive(true);
 
         soundPlayer.PlayClip();
@@ -96,22 +61,15 @@ public partial class Sound : MonoBehaviour
 
     private void CompletedPlayer(SoundPlayer player)
     {
-        int id = player.SoundID;
-        if (soundPlayerPoolDictionary.ContainsKey(id) == false)
-        {
-            Debug.LogError("soundError");
-            return;
-        }
-
         player.Release();
         player.gameObject.SetActive(false);
-        soundPlayerPoolDictionary[id].Enqueue(player);
+        soundPlayerPool.Enqueue(player);
         soundPlayerList.Remove(player);
     }
 
-    private void ImmediatelyStop(int soundID)
+    private void ImmediatelyStop(EAudioType type)
     {
-        var list = soundPlayerList.FindAll(x => x.SoundID == soundID);
+        var list = soundPlayerList.FindAll(x => x.AudioType == type);
 
         foreach (SoundPlayer player in list)
         {
@@ -122,8 +80,7 @@ public partial class Sound : MonoBehaviour
 
     private void OnDestroy()
     {
-        OnPlayBGMSound -= CreateBGMSoundPlayer;
-        OnPlayEffectSound -= CreateEffectSoundPlayer;
+        OnPlaySound -= CreateSoundPlayer;
         OnImmediatelyStop -= ImmediatelyStop;
     }
 }
