@@ -57,9 +57,10 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
             return;
         }
         showPanel.text.text = getInfoText;
-        showPanel.transform.parent = this.gameObject.transform.parent;
-        showPanel.transform.position = gameObject.transform.position + new Vector3(0, 0.3f,0);
-        showPanel.transform.parent = showPanel.showPanelParent.transform;
+        showPanel.transform.SetParent(gameObject.transform.parent);
+        showPanel.GetComponent<RectTransform>().position = gameObject.GetComponent<RectTransform>().position;
+        showPanel.transform.SetParent(showPanel.showPanelParent.transform);
+        showPanel.GetComponent<RectTransform>().anchoredPosition += new Vector2(20, 35);
         showPanel.SetDownText();
         showPanel.gameObject.SetActive(true);
     }
