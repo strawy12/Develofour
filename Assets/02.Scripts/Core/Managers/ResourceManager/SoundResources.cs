@@ -15,6 +15,8 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
     private async void LoadAudioAssets(Action callBack)
     {
+        audioResourceList = new List<AudioAssetSO>();
+
         var handle = Addressables.LoadResourceLocationsAsync("Sound", typeof(AudioAssetSO));
         await handle.Task;
 

@@ -28,7 +28,7 @@ public class SoundPlayer : MonoBehaviour
 
     private float basePitch;
 
-    public virtual void Init(AudioAssetSO data)
+    public virtual void Init(AudioAssetSO data, AudioMixerGroup mixerGroup)
     {
         audioData = data;
         gameObject.name = $"{PlayerType.ToString()}_{data.AudioType.ToString()}";
@@ -46,6 +46,7 @@ public class SoundPlayer : MonoBehaviour
 
         audioSource.clip = audioData.Clip;
         audioSource.volume = audioData.Volume;
+        audioSource.outputAudioMixerGroup = mixerGroup;
 
         audioSource.loop = PlayerType == ESoundPlayerType.BGM;
         basePitch = audioSource.pitch;
