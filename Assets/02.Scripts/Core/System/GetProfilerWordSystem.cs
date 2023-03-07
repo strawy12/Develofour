@@ -62,6 +62,8 @@ public class GetProfilerWordSystem : MonoBehaviour
 
         substitutionList.Find(x => x.word == word).isFindWord = true;
 
+        Debug.Log(word);
+
         EventManager.TriggerEvent(
             EProfileEvent.FindInfoText,
             new object[2] { substitutionDictionary[word].category, substitutionDictionary[word].information });

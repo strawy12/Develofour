@@ -31,8 +31,6 @@ public class NotePadTextGetWord : MonoBehaviour, IPointerMoveHandler, IPointerCl
             {
                 return;
             }
-
-            Debug.Log(word);
         
             GetProfilerWordSystem.OnGeneratedProfiler?.Invoke(word);
         }

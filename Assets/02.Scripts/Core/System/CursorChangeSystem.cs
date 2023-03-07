@@ -14,24 +14,22 @@ public class CursorChangeSystem : MonoBehaviour
         EventManager.StartListening(ECoreEvent.CursorChange, CursorChange);
     }
 
-    private void CursorChange(object ps)
+    private void CursorChange(object[] ps)
     {
-        if (ps == null) 
+        if (ps[0] == null) 
         {
             return;
         }
 
-        string commandWord = ps.ToString();
-
-        Debug.Log(commandWord);
+        string commandWord = ps[0].ToString();
 
         if(commandWord == "FindingWord")
         {
-            Cursor.SetCursor(provisoCursor, new Vector2(0, 0), CursorMode.Auto);
+            Cursor.SetCursor(provisoCursor, new Vector2(provisoCursor.width / 2, provisoCursor.height / 2), CursorMode.Auto);
         }
         else if(commandWord == "FindedWord")
         {
-            Cursor.SetCursor(findedProvisoCursor, new Vector2(0, 0), CursorMode.Auto);
+            Cursor.SetCursor(findedProvisoCursor, new Vector2(findedProvisoCursor.width / 2, findedProvisoCursor.height / 2), CursorMode.Auto);
         }
     }
     private void OnApplicationQuit()
