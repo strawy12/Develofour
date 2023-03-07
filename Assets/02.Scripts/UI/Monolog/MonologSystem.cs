@@ -43,7 +43,7 @@ public class MonologSystem : MonoBehaviour
         yield return new WaitForSeconds(startDelay);
 
             GameManager.Inst.ChangeGameState(EGameState.CutScene);
-        textBox.Init(textDataType, TextBox.ETextBoxType.Simple);
+        textBox.Init(textDataType);
         for (int i = 0; i < cnt; i++)
         {
             yield return new WaitForSeconds(0.1f);

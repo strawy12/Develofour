@@ -218,7 +218,7 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         if(InputManager.AnyMouseButtonUp())
         {
-            Sound.OnPlaySound?.Invoke(Sound.EAudioType.MouseDown);
+            Sound.OnPlaySound?.Invoke(Sound.EAudioType.MouseUp);
         }
     }
 
