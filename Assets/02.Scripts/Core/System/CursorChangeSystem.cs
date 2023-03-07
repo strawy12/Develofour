@@ -42,7 +42,7 @@ public class CursorChangeSystem : MonoBehaviour
             }
             default:
             {
-                Cursor.SetCursor(defaultCursor, new Vector2(defaultCursor.width / 2, defaultCursor.height / 2), CursorMode.Auto);
+                Cursor.SetCursor(defaultCursor, new Vector2(0, 0), CursorMode.Auto);
                 break;
             }
         }
