@@ -170,18 +170,12 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         //MonologSystem.OnEndMonologEvent += USBNoticeFunc;
         MonologSystem.OnStartMonolog(ETextDataType.USBMonolog, monologDelay, 1);
-    } 
+    }
     private void USBNoticeFunc()
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
         MonologSystem.OnEndMonologEvent -= USBNoticeFunc;
 
-        StartCoroutine(SendGuideMessage(40f));
-    }
-
-    private IEnumerator SendGuideMessage(float timer)
-    {
-        yield return new WaitForSeconds(timer);
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { "만약 지금 무엇을 하실지 모르겠다면, 주글 메일 사이트을 먼저 접속하시는 것을 추천합니다!" });
+        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 40f , "ProfilerDownGuide" });
     }
 }
