@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using Random = UnityEngine.Random;
 
 public enum ESoundPlayerType
@@ -22,6 +23,8 @@ public class SoundPlayer : MonoBehaviour
     public float AudioClipLength => audioData.Clip.length;
     public ESoundPlayerType PlayerType => audioData.SoundPlayerType;
     public Sound.EAudioType AudioType => audioData.AudioType;
+
+    public List<AudioMixerGroup> audioMixerGroups = new List<AudioMixerGroup>();
 
     private float basePitch;
 
@@ -75,6 +78,7 @@ public class SoundPlayer : MonoBehaviour
         PlayClipWithVariablePitch();
         audioSource.Stop();
         audioSource.clip = audioData.Clip;
+        audioSource.outputAudioMixerGroup = audioMixerGroups[(int)audioData.SoundPlayerType];
         audioSource.Play();
 
         if (audioSource.loop == false)

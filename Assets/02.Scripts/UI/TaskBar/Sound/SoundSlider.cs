@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.Audio;
 
 public class SoundSlider : MonoBehaviour    
 {
@@ -17,12 +18,17 @@ public class SoundSlider : MonoBehaviour
 
     public string nameStr;
 
-    private int save;
+    public int saveSound; //나중에 Json으로 빼서 저장하겠지
 
     private bool isMute; //ismute가 true면 소리는 0으로
 
+    public AudioMixer audioMixer;
+    public ESoundPlayerType soundType;
+
     public void Init()
     {
+        slider.value = (float)saveSound / 100f;
+        SetMixGroup();
         SetValueText(slider);
         SetSoundImage(slider, soundImage);
         SetSoundImage(slider, soundTaskbarImage);
@@ -38,13 +44,18 @@ public class SoundSlider : MonoBehaviour
         SetValueText(slider); 
         SetSoundImage(slider, soundImage);
         SetSoundImage(slider, soundTaskbarImage);
+        SetMixGroup();
+    }
+
+    public void SetMixGroup()
+    { // -80 - 10
+        audioMixer.SetFloat(soundType.ToString(), ((slider.value * 90) - 80));
     }
 
     private void SetValueText(Slider slider)
     {
         if (isMute) return;
         int value = (int)(slider.value * 100);
-        Debug.Log(slider.value);
         valueText.text = value.ToString();
     }
 
@@ -87,5 +98,7 @@ public class SoundSlider : MonoBehaviour
     {
         soundImage.ChangeCondition(ESoundCondition.X);
         soundTaskbarImage.ChangeCondition(ESoundCondition.X);
+        audioMixer.SetFloat(soundType.ToString(), -80);
     }
+
 }
