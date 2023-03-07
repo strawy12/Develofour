@@ -74,8 +74,6 @@ public class ProfileTutorial : MonoBehaviour
         MonologSystem.OnEndMonologEvent += EndTutoMonologEvent;
         MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog2, 0.2f, 3);
 
-
-
         EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
     }
 

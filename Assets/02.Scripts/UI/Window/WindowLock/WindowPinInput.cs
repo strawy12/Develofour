@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI; 
 
@@ -107,6 +108,11 @@ public class WindowPinInput : Window
             answerPanel.gameObject.SetActive(false);
 
             WindowManager.Inst.WindowOpen(file.windowType, file);
+
+            if(file.name == "ZooglePassword")
+            {
+                GuideManager.Inst.guidesDictionary["ClearPinNotePadQuiz"] = true;
+            }
 
             CloseWindowPinLock();
         });
