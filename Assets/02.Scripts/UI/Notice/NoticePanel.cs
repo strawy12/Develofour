@@ -282,8 +282,10 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         addTime = 2;
         string saveStr = bodyText.text;
         saveStr += '\n';
+        saveStr += '\n';
         saveStr += str;
         bodyText.text = saveStr;
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
     }
 
