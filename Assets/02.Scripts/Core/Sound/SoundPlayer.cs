@@ -12,42 +12,27 @@ public enum ESoundPlayerType
 }
 
 [RequireComponent(typeof(AudioSource))]
-public abstract class SoundPlayer : MonoBehaviour
+public class SoundPlayer : MonoBehaviour
 {
-    [SerializeField]
-    protected AudioClip audioClip;
-
-    [SerializeField]
-    private float pitchRandmness;
-
-    private float basePitch;
+    private AudioAssetSO audioData;
 
     protected AudioSource audioSource;
 
     public Action<SoundPlayer> OnCompeleted;
+    public float AudioClipLength => audioData.Clip.length;
+    public ESoundPlayerType PlayerType => audioData.SoundPlayerType;
+    public Sound.EAudioType AudioType => audioData.AudioType;
 
-    protected int soundID;
-    public int SoundID => soundID;
-    public float AudioClipLength => audioClip.length;
+    private float basePitch;
 
-    protected ESoundPlayerType currentPlayerType = ESoundPlayerType.None;
-    public ESoundPlayerType PlayerType => currentPlayerType;
-
-    private bool isInit;
-
-    public virtual void SetValue(AudioClip clip)
+    public virtual void Init(AudioAssetSO data)
     {
-        audioClip = clip;
-    }
+        audioData = data;
+        gameObject.name = $"{PlayerType.ToString()}_{data.AudioType.ToString()}";
 
-    public virtual void Init()
-    {
-        if (isInit) return;
-        isInit = true;
-
-        if(audioClip == null)
+        if (audioData == null)
         {
-            Debug.LogError($"{gameObject.name}'s audioClip is Null!");
+            Debug.LogError($"{gameObject.name}'s audioData is Null!");
             return;
         }
 
@@ -56,6 +41,10 @@ public abstract class SoundPlayer : MonoBehaviour
             AudioSourceInit();
         }
 
+        audioSource.clip = audioData.Clip;
+        audioSource.volume = audioData.Volume;
+
+        audioSource.loop = PlayerType == ESoundPlayerType.BGM;
         basePitch = audioSource.pitch;
     }
 
@@ -70,25 +59,27 @@ public abstract class SoundPlayer : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
-        audioSource.clip = audioClip;
     }
 
     public void PlayClipWithVariablePitch()
     {
-        float randomPitch = Random.Range(-pitchRandmness, pitchRandmness);
-        audioSource.pitch = basePitch + randomPitch;
-        PlayClip();
+        if(audioData.PitchRandmness != 0f)
+        {
+            float randomPitch = Random.Range(-audioData.PitchRandmness, audioData.PitchRandmness);
+            audioSource.pitch = basePitch + randomPitch;
+        }
     }
 
     public void PlayClip()
     {
+        PlayClipWithVariablePitch();
         audioSource.Stop();
-        audioSource.clip = audioClip;
+        audioSource.clip = audioData.Clip;
         audioSource.Play();
 
-        if(audioSource.loop == false)
+        if (audioSource.loop == false)
         {
-            float delay = audioClip.length;
+            float delay = AudioClipLength;
             StartCoroutine(DelayCoroutine(delay));
         }
     }

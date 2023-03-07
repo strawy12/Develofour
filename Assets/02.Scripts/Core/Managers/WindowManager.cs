@@ -190,8 +190,11 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     void LateUpdate()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!DataLoadingScreen.completedDataLoad) return;
+        if (InputManager.AnyMouseButtonDown())
         {
+            Sound.OnPlaySound?.Invoke(Sound.EAudioType.MouseDown);
+
             PointerEventData data = new PointerEventData(EventSystem.current);
             data.position = Input.mousePosition;
             List<RaycastResult> hits = new List<RaycastResult>();
@@ -211,6 +214,11 @@ public class WindowManager : MonoSingleton<WindowManager>
             }
 
             SelectedObjectNull();
+        }
+
+        if(InputManager.AnyMouseButtonUp())
+        {
+            Sound.OnPlaySound?.Invoke(Sound.EAudioType.MouseUp);
         }
     }
 
