@@ -12,7 +12,7 @@ public class DataLoadingScreen : MonoBehaviour
     [SerializeField]
     private TMP_Text loadingText;
 
-    private bool completedDataLoad = false;
+    public static bool completedDataLoad { get; private set; }
 
     private void Awake()
     {

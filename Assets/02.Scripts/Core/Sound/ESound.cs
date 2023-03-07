@@ -16,6 +16,9 @@ public partial class Sound : MonoBehaviour
         StartPC,
         RetroTyping,
         MonologueTyping,
+        MouseDown,
+        MouseUp,
+        USBConnect,
         End
     }
 

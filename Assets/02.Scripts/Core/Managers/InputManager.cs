@@ -14,6 +14,7 @@ public enum EMouseType
 public class InputManager : MonoSingleton<InputManager>
 {
     private Dictionary<KeyCode, KeyInfo> keyCodes;
+    
 
     private void Awake()
     {
@@ -90,5 +91,14 @@ public class InputManager : MonoSingleton<InputManager>
         info.OnKeyDown -= onKeyDown;
         info.OnKeyStay -= onKeyStay;
         info.OnKeyUp -= onKeyUp;
+    }
+
+    public static bool AnyMouseButtonDown()
+    {
+        return Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2);
+    }
+    public static bool AnyMouseButtonUp()
+    {
+        return Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(2);
     }
 }

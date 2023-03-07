@@ -7,7 +7,7 @@ using DG.Tweening;
 using static Sound;
 using System.Collections.Generic;
 using ExtenstionMethod;
-
+using Unity.VisualScripting;
 
 public class TextBox : MonoUI
 {
@@ -470,9 +470,8 @@ public class TextBox : MonoUI
 
     private void CommandTrigger(string msg)
     {
-        /*
+
         string cmdMsg = EncordingCommandText(msg);
-        int cnt = 1;
 
         string[] cmdMsgSplit = cmdMsg.Split('_');
         string cmdType = cmdMsgSplit[0];
@@ -480,17 +479,11 @@ public class TextBox : MonoUI
 
         switch (cmdType)
         {
-            case "ES":
+            case "PS":
                 {
-                    Sound.EAudioType effectType = (EAudioType)Enum.Parse(typeof(EAudioType), cmdValue);
-                    Sound.OnPlaySound?.Invoke(effectType);
+                    Sound.EAudioType audioType = (EAudioType)Enum.Parse(typeof(EAudioType), cmdValue);
+                    Sound.OnPlaySound?.Invoke(audioType);
 
-                    break;
-                }
-            case "BS":
-                {
-                    Sound.EBgm bgmType = (EBgm)Enum.Parse(typeof(EBgm), cmdValue);
-                    Sound.OnPlayBGMSound?.Invoke(bgmType);
                     break;
                 }
             case "SK":
@@ -504,9 +497,7 @@ public class TextBox : MonoUI
                     break;
                 }
         }
-        
-        return cnt;
-        */
+
     }
 
     private IEnumerator textShakingCoroutine(float delay, float strength, int vibrato)
