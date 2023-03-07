@@ -80,6 +80,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
             windowBar.Init(windowAlteration, file, rectTransform);
 
         }
+
         OnSelected += () => WindowSelected(true);
         OnUnSelected += () => WindowSelected(false);
 
