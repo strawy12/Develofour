@@ -11,7 +11,7 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public string afterText;
 
     public string getInfoText;
-
+    public bool isTitleShow = false;
     public TMP_Text infoText;
 
     public ProfileShowInfoTextPanel showPanel;
@@ -25,14 +25,17 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         infoTitle = infoTitleText.text;
 
-        string[] info = infoTitle.Split(" ");
-        string str ="";
-        for(int i = 0; i< info[0].Length; i++)
+        if (!isTitleShow)
         {
-            str += "?";
+            string[] info = infoTitle.Split(" ");
+            string str = "";
+            for (int i = 0; i < info[0].Length; i++)
+            {
+                str += "?";
+            }
+            str += " :";
+            infoTitleText.text = str;
         }
-        str += " :";
-        infoTitleText.text = str;
     }
 
     public void ShowTitle()
