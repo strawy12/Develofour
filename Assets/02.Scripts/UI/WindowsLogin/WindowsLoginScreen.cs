@@ -170,7 +170,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         MonologSystem.OnEndMonologEvent += USBNoticeFunc;
         MonologSystem.OnStartMonolog(ETextDataType.USBMonolog, monologDelay, 1);
-    }
+    } 
     private void USBNoticeFunc()
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
