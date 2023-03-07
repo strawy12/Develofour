@@ -79,7 +79,7 @@ public class Library : Window
         {
             poolQueue.Enqueue(icon);
         }
-        icon.StopCor();
+        icon.StopYellowUICor();
         icon.transform.SetParent(poolParent);
         icon.gameObject.SetActive(false);
     }
@@ -260,6 +260,7 @@ public class Library : Window
     private void CheckTutorialRoot(object[] ps)
     {
         //if (!gameObject.activeSelf) return;
+        if (GameManager.Inst.GameState != EGameState.Tutorial && GameManager.Inst.GameState == EGameState.CutScene) return;
         if (currentDirectory.windowName == "BestUSB")
         {
             Debug.Log("BestUSB");
@@ -279,7 +280,7 @@ public class Library : Window
     public override void WindowOpen()
     {
         base.WindowOpen();
-        if (GameManager.Inst.GameState == EGameState.Tutorial)
+        //if (GameManager.Inst.GameState == EGameState.Tutorial)
             EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd);
     }
 
@@ -289,7 +290,7 @@ public class Library : Window
         EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
-
+        
         EventManager.StopListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
     }
 

@@ -19,7 +19,7 @@ public class ClickTextDecision : Decision
         {
             isClear = true;
             OnChangedValue?.Invoke();
-            NoticeSystem.OnNotice.Invoke(decisionName, "작업을 완료했습니다.", null); 
+            NoticeSystem.OnNotice.Invoke(decisionName, "작업을 완료했습니다.", 0, true, null, ENoticeTag.None); 
             EventManager.StopListening(decisionEvent, Click);
         }
     }

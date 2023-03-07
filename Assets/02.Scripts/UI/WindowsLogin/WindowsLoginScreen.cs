@@ -168,12 +168,14 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void StartMonolog()
     {
-        MonologSystem.OnEndMonologEvent += USBNoticeFunc;
+        //MonologSystem.OnEndMonologEvent += USBNoticeFunc;
         MonologSystem.OnStartMonolog(ETextDataType.USBMonolog, monologDelay, 1);
     }
     private void USBNoticeFunc()
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
         MonologSystem.OnEndMonologEvent -= USBNoticeFunc;
+
+        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 40f , "ProfilerDownGuide" });
     }
 }
