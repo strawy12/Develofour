@@ -15,7 +15,7 @@ public class StartCutScene : MonoBehaviour
 
     private bool isPlaying;
 
-    public GameObject loadingImage;
+    public LoadingIcon loadingIcon;
     public GameObject loadingText;
 
     public CanvasGroup group;
@@ -31,9 +31,15 @@ public class StartCutScene : MonoBehaviour
         group.blocksRaycasts = true;
     }
 
-    void Start()
+    private void Start()
+    {
+        EventManager.StartListening(ECoreEvent.EndDataLoading, PlayCutScene);
+    }
+
+    private void PlayCutScene(object[] ps)
     {
         StartShowText();
+        StartCoroutine(PlayNoiseSound());
         StartCoroutine( CutSceneStart());
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
         Debug.Log("S를 누를시 스타트 컷씬이 스킵되는 코드가 있습니다.");
@@ -51,6 +57,22 @@ public class StartCutScene : MonoBehaviour
         ShowText();
     }
 
+    private IEnumerator PlayNoiseSound()
+    {
+        float? time = Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartPC);
+        Debug.Log(time);
+        Debug.Log(time.Value);
+        if (time == null)
+        {
+            Debug.LogError("time is Null!, I guess Sound.OnPlaySound == null");
+            yield break;
+        }
+
+        yield return new WaitForSeconds(time.Value);
+        Debug.Log(11);
+        Sound.OnPlaySound?.Invoke(Sound.EAudioType.ComputerNoise);
+    }
+
     private void StartShowText()
     {
         //StartCoroutine(OnType(mainTexts[0], 0.1f, scripts[0]));
@@ -66,7 +88,6 @@ public class StartCutScene : MonoBehaviour
         if (isPlaying)
             return;
         isPlaying = true;
-        Debug.Log("현재 cnt 값은 = " + cnt);
         switch(cnt)
         {
             case 0:
@@ -155,6 +176,8 @@ public class StartCutScene : MonoBehaviour
         foreach (char letter in say)
         {
             text.text += letter;
+
+            Sound.OnPlaySound?.Invoke(Sound.EAudioType.RetroTyping);
             yield return new WaitForSeconds(interval);
         }
 
@@ -185,8 +208,6 @@ public class StartCutScene : MonoBehaviour
 
     private void EndCutScene()
     {
-        Debug.Log("현재 로딩 시간 0.5초 나중에 수정");
-
         EventStop();
 
         foreach (var text in mainTexts)
@@ -194,20 +215,24 @@ public class StartCutScene : MonoBehaviour
             text.gameObject.SetActive(false);
         }
 
+        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.ComputerNoise);
+
         StartLoading();
     }
 
     private void StartLoading()
     {
-        loadingImage.gameObject.SetActive(true);
+        loadingIcon.gameObject.SetActive(true);
         loadingText.gameObject.SetActive(true);
-        loadingImage.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -1080), loadingDuration).OnComplete(() =>
-        {
-            GameManager.Inst.ChangeGameState(EGameState.Game);
-            MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0f, 5);
-            Sound.OnPlaySound(Sound.EAudioType.StartMainBGM);
-            SetActiveThisObject();
-        });
+        loadingIcon.StartLoading(loadingDuration, EndLoading);
+    }
+
+    private void EndLoading()
+    {
+        GameManager.Inst.ChangeGameState(EGameState.Game);
+        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0f, 5);
+        Sound.OnPlaySound(Sound.EAudioType.StartMainBGM);
+        SetActiveThisObject();
     }
 
     public void SetActiveThisObject()

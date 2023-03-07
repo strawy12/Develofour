@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -15,59 +13,28 @@ public partial class Sound : MonoBehaviour
     [SerializeField]
     private SoundPlayer soundPlayerPrefab;
 
-    private List<AudioAssetSO> audioAssetList ;
-
     private List<SoundPlayer> soundPlayerList;
     private Queue<SoundPlayer> soundPlayerPool;
 
     private void Awake()
     {
-        audioAssetList = new List<AudioAssetSO>();
         soundPlayerList = new List<SoundPlayer>();
         soundPlayerPool = new Queue<SoundPlayer>();
     }
 
     private void Start()
     {
-        LoadSoundAssets();
-
         OnPlaySound += CreateSoundPlayer;
-
         OnImmediatelyStop += ImmediatelyStop;
     }
 
 
-    private async void LoadSoundAssets()
-    {
-        var handle = Addressables.LoadResourceLocationsAsync("Sound", typeof(AudioAssetSO));
-        await handle.Task;
-
-        for (int i = 0; i < handle.Result.Count; i++)
-        {
-            var task = Addressables.LoadAssetAsync<AudioAssetSO>(handle.Result[i]).Task;
-            await task;
-            audioAssetList.Add(task.Result);
-        }
-
-        Addressables.Release(handle);
-
-        foreach(var clip in audioAssetList)
-        {
-            Debug.Log(clip.name);
-        }
-    }
+  
 
     private float CreateSoundPlayer(EAudioType audioType)
     {
-        AudioAssetSO audioAssetData = audioAssetList.Find(x => x.AudioType == audioType);
+        AudioAssetSO audioAssetData = ResourceManager.Inst.GetAudioResource(audioType);
         if (audioAssetData == null) return -1f;
-
-        object[] ps = new object[1] { audioAssetData.AudioType };
-
-        if (audioType < EAudioType.BGMEnd)
-        {
-            EventManager.TriggerEvent(ECoreEvent.ChangeBGM, ps);
-        }
 
         SoundPlayer soundPlayer = null;
 

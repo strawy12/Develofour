@@ -60,7 +60,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void SetFileData(FileSO newFileData)
     {
-        Debug.Log("¸®¼¼ÆÃ");
         if (newFileData == null)
         {
             return;

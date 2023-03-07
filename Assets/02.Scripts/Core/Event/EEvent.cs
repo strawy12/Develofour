@@ -4,6 +4,8 @@
     LeftButtonClick,
     ChangeBGM,
     OpenTextBox,
+    EndLoadResources,
+    EndDataLoading,
 }
     
 public enum EQuestEvent

@@ -1,32 +1,34 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadingBar : MonoBehaviour
+public class LoadingIcon : MonoBehaviour
 {
-    public void StartLoading(float lodingDelay)
+    public void StartLoading(float lodingDelay, Action callBack = null)
     {
         if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
-
-            RotationLoading(lodingDelay);
         }
+
+        RotationLoading(lodingDelay, callBack);
     }
 
-    private void RotationLoading(float lodingDelay)
+    private void RotationLoading(float lodingDelay, Action callBack)
     {
         Sequence seq = DOTween.Sequence();
 
         seq.Append(transform.DORotate(new Vector3(0, 0, -360), lodingDelay, RotateMode.FastBeyond360));
-     
+        seq.AppendCallback(() => callBack?.Invoke());
+
     }
 
     public void StopLoading()
     {
-        if(gameObject.activeSelf)
+        if (gameObject.activeSelf)
         {
             gameObject.SetActive(false);
 

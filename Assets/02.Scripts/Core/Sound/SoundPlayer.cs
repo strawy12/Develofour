@@ -23,14 +23,10 @@ public class SoundPlayer : MonoBehaviour
     public ESoundPlayerType PlayerType => audioData.SoundPlayerType;
     public Sound.EAudioType AudioType => audioData.AudioType;
 
-    private bool isInit;
     private float basePitch;
 
     public virtual void Init(AudioAssetSO data)
     {
-        if (isInit) return;
-        isInit = true;
-
         audioData = data;
         gameObject.name = $"{PlayerType.ToString()}_{data.AudioType.ToString()}";
 
@@ -45,6 +41,10 @@ public class SoundPlayer : MonoBehaviour
             AudioSourceInit();
         }
 
+        audioSource.clip = audioData.Clip;
+        audioSource.volume = audioData.Volume;
+
+        audioSource.loop = PlayerType == ESoundPlayerType.BGM;
         basePitch = audioSource.pitch;
     }
 
@@ -59,20 +59,20 @@ public class SoundPlayer : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
-        audioSource.clip = audioData.Clip;
-
-        audioSource.loop = PlayerType == ESoundPlayerType.BGM;
     }
 
     public void PlayClipWithVariablePitch()
     {
-        float randomPitch = Random.Range(-audioData.PitchRandmness, audioData.PitchRandmness);
-        audioSource.pitch = basePitch + randomPitch;
-        PlayClip();
+        if(audioData.PitchRandmness != 0f)
+        {
+            float randomPitch = Random.Range(-audioData.PitchRandmness, audioData.PitchRandmness);
+            audioSource.pitch = basePitch + randomPitch;
+        }
     }
 
     public void PlayClip()
     {
+        PlayClipWithVariablePitch();
         audioSource.Stop();
         audioSource.clip = audioData.Clip;
         audioSource.Play();

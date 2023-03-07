@@ -244,6 +244,7 @@ public class TextBox : MonoUI
 
         for (int i = 0; i < textBoxInText.Length; i++)
         {
+            Sound.OnPlaySound?.Invoke(EAudioType.MonologueTyping);
             if (textBoxInText[i] == '<')
             {
                 isRich = true;
