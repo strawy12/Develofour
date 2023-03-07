@@ -26,7 +26,7 @@ public class ProfileTutorial : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
         EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, delegate { StartCoroutine(StartProfileLastTutorial()); });
 
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
 
         for (int i = 0; i < startAIChatting.Length; i++)
         {
@@ -51,10 +51,9 @@ public class ProfileTutorial : MonoBehaviour
 
     public IEnumerator NoticeProfileChattingTutorial()
     {
-        Debug.Log("1");
+
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         EventManager.TriggerEvent(ETutorialEvent.ProfileInfoStart);
-
         foreach (string str in findNoticeAIChatting)
         {
             AIChatting(str);
@@ -66,7 +65,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public IEnumerator StartProfileLastTutorial()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         yield return new WaitForSeconds(1.5f);
         foreach (string str in completeProfileChatting)
         {
