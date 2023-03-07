@@ -22,7 +22,7 @@ public class MonologSystem : MonoBehaviour
 
     public void StartMonolog(ETextDataType textDataType, float delay, int cnt)
     {
-        StartCoroutine(StartMonologCoroutine(textDataType,delay, cnt, false));
+        StartCoroutine(StartMonologCoroutine(textDataType, delay, cnt, false));
     }
     public void TutoMonolog(ETextDataType textDataType, float delay, int cnt)
     {
@@ -42,8 +42,9 @@ public class MonologSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(startDelay);
 
-            GameManager.Inst.ChangeGameState(EGameState.CutScene);
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
         textBox.Init(textDataType);
+
         for (int i = 0; i < cnt; i++)
         {
             yield return new WaitForSeconds(0.1f);
@@ -55,7 +56,8 @@ public class MonologSystem : MonoBehaviour
         if (isTuto)
         {
             GameManager.Inst.ChangeGameState(EGameState.Tutorial);
-        }else
+        }
+        else
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
 

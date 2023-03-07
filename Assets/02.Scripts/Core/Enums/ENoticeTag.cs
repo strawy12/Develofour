@@ -6,5 +6,6 @@ public enum ENoticeTag
 { 
     None,
     Discord,
-    Installer
+    Installer,
+    AIAlarm
 }

@@ -24,6 +24,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     [SerializeField]
     private TMP_Text sameTagText;
 
+    private string saveText;
+
     [SerializeField]
     private Image iconImage;
 
@@ -48,7 +50,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private bool isCompleted = false;
 
-    private float addTime = 0f;
+    private float addTime = 2f;
 
     public string HeadText { get { return headText.text; } }
     private void Bind()
@@ -238,10 +240,11 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         yield return new WaitForSeconds(NOTICE_DELAYTIME);
 
+        yield return new WaitForSeconds(addTime);
+
         rectTransform.DOAnchorPosX(rectTransform.rect.width, NOTICE_DURATION);
         yield return new WaitForSeconds(NOTICE_DURATION);
-        
-        yield return new WaitForSeconds(addTime);
+
         NoticeSystem.OnTagReset?.Invoke();
         OnCompeleted?.Invoke(this);
         
@@ -273,11 +276,15 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    public void SameTagTextAdd()
+    public void SameTagTextAdd(string str)
     {
-        addTime += 0.8f;
-        sameTagText.gameObject.SetActive(true);
-
+        addTime = 2;
+        string saveStr = bodyText.text;
+        saveStr += '\n';
+        saveStr += '\n';
+        saveStr += str;
+        bodyText.text = saveStr;
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
     }
 

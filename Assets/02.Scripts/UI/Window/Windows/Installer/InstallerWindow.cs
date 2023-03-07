@@ -73,6 +73,7 @@ public class InstallerWindow : Window
         FileManager.Inst.AddFile(installFile, "C/Background");
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
+        GuideManager.Inst.guidesDictionary["ProfilerDownGuide"] = true;
     }
 
     public void CheckOpenWindow(bool isWindowOpen)

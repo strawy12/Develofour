@@ -33,7 +33,6 @@ public partial class Sound : MonoBehaviour
 
     private float CreateSoundPlayer(EAudioType audioType)
     {
-        Debug.Log(audioType);
         AudioAssetSO audioAssetData = ResourceManager.Inst.GetAudioResource(audioType);
         if (audioAssetData == null) return -1f;
 

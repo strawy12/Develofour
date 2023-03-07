@@ -14,7 +14,7 @@ public class NoticeSystem : MonoUI
     public static Action<ENoticeType, float> OnGeneratedNotice;
     public static Action OnTagReset;
     //public static Action<Decision, float> OnDecisionPanel;
-    public static Action<string, string, Sprite> OnNotice;
+    public static System.Action<string, string, float, bool, Sprite, ENoticeTag> OnNotice;
     [SerializeField]
     private NoticePanel noticePanelTemp;
     [SerializeField]
@@ -167,7 +167,8 @@ public class NoticeSystem : MonoUI
         if(data.noticeTag == currentTag && data.noticeTag != ENoticeTag.None && noticePanel != null)
         {
             //noticeOutline.StartOutline();
-            noticePanel.SameTagTextAdd();
+            Debug.Log(data.Body);
+            noticePanel.SameTagTextAdd(data.Body);
             return;
         }
 
@@ -185,11 +186,11 @@ public class NoticeSystem : MonoUI
             return;
         }
 
-        var noticeList = noticePanelQueue.Where((x) => x.HeadText == data.Head);
-        if(noticeList.Count() >= 1) {
-            Debug.Log("이미 있는 알람임");
-            return;
-        }
+        //var noticeList = noticePanelQueue.Where((x) => x.HeadText == data.Head);
+        //if(noticeList.Count() >= 1) {
+        //    Debug.Log("이미 있는 알람임");
+        //    return;
+        //}
 
         saveNoticeList.Add(data.noticeDataList);
         StartCoroutine(NoticeCoroutine(data, delay));
@@ -267,17 +268,34 @@ public class NoticeSystem : MonoUI
         return panel;
     }
 
-    private void Notice(string head, string body, Sprite icon)
+    private void Notice(string head, string body, float delay, bool canDelete, Sprite icon, ENoticeTag noticeTag)
     {
+     
+        if (noticeTag == currentTag && noticeTag != ENoticeTag.None && noticePanel != null)
+        {
+            //noticeOutline.StartOutline();
+            noticePanel.SameTagTextAdd(body);
+            return;
+        }
+        EventManager.TriggerEvent(ENoticeEvent.OpenNoticeSystem);
         NoticePanel panel = noticePanel = GetPanel(true);
         panel.OnCompeleted += IncludePanel;
         panel.OnClosed += PushPanel;
         noticeOutline.StartOutline();
+
+        currentTag = noticeTag;
         panel.Notice(head, body, icon);
+        
         NoticeData data = new NoticeData();
         data.head = head;
         data.body = body;
         data.icon = icon;
+        data.canDeleted = canDelete;
+        data.delay = delay;
+        //so에 있는 노티스태그 데이타에도 넣어
+        
+
+
         saveNoticeList.Add(data);
     }
 

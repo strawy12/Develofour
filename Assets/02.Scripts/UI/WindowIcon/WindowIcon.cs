@@ -264,8 +264,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void StopYellowUICor()
     {
         isSign = false;
+        StopAllCoroutines();
         yellowUI.gameObject.SetActive(false);
-        StopCoroutine(YellowSignCor());
         yellowUI.DOKill();
     }
 

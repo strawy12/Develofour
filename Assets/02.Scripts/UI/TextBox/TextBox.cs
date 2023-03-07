@@ -194,7 +194,12 @@ public class TextBox : MonoUI
             // Rich 일때는 한번에 나오게 하기 위해서 딜레이 X
             if (!isRich && !isCmd)
             {
-                yield return new WaitForSeconds(printTextDelay + currentDelay);
+                yield return new WaitForSeconds(printTextDelay);
+            }
+
+            if (isCmd)
+            {
+                yield return new WaitForSeconds(currentDelay);
                 currentDelay = 0f;
             }
         }
@@ -415,7 +420,6 @@ public class TextBox : MonoUI
         {
             case "PS":
                 {
-                    Debug.Log(cmdValue);
                     Sound.EAudioType audioType = (EAudioType)Enum.Parse(typeof(EAudioType), cmdValue);
                     Sound.OnPlaySound?.Invoke(audioType);
 

@@ -41,6 +41,11 @@ public class EventManager
             eventDictionary.Remove(key);
         }
     }
+    public static void StopAllListening<T>(T eventName) where T : Enum
+    {
+        string key = $"{typeof(T).ToString()}_{eventName.ToString()}";
+        eventDictionary.Remove(key);
+    }
     public static void TriggerEvent<T>(T eventName, object[] param = null) where T : Enum
     {
         Action<object[]> thisEvent;
@@ -48,7 +53,7 @@ public class EventManager
 
         if (eventDictionary.TryGetValue(key, out thisEvent))
         {
-            thisEvent?.Invoke(param);
+            thisEvent?.Invoke(param);   
         }
     }
 

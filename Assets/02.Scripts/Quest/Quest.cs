@@ -42,7 +42,7 @@ public class Quest : MonoBehaviour
 
         if (questData.isActive == false && isNotice)
         {
-            NoticeSystem.OnNotice.Invoke(questData.questText.head, questData.questText.body, null); // sprite 넣어야함
+            //NoticeSystem.OnNotice.Invoke(questData.questText.head, questData.questText.body, null); // sprite 넣어야함
         }
         questData.isActive = true;
     }

@@ -60,8 +60,6 @@ public class StartCutScene : MonoBehaviour
     private IEnumerator PlayNoiseSound()
     {
         float? time = Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartPC);
-        Debug.Log(time);
-        Debug.Log(time.Value);
         if (time == null)
         {
             Debug.LogError("time is Null!, I guess Sound.OnPlaySound == null");

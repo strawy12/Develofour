@@ -6,6 +6,8 @@
     OpenTextBox,
     EndLoadResources,
     EndDataLoading,
+    CursorChange,
+    OpenPlayGuide,
 }
     
 public enum EQuestEvent

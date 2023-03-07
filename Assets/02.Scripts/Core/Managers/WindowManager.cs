@@ -239,9 +239,9 @@ public class WindowManager : MonoSingleton<WindowManager>
         //{
         //    window.WindowClose();
         //}
-        foreach (Window window in windowDictionary[EWindowType.Notepad])
-        {
-            window.WindowClose();
-        }
+        //foreach (Window window in windowDictionary[EWindowType.Notepad])
+        //{
+        //    window.WindowClose();
+        //}
     }
 }
