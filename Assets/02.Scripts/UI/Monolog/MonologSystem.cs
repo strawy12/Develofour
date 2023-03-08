@@ -36,8 +36,6 @@ public class MonologSystem : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Game);
     }
 
-
-
     private IEnumerator StartMonologCoroutine(ETextDataType textDataType, float startDelay, int cnt, bool isTuto)
     {
         yield return new WaitForSeconds(startDelay);
@@ -51,6 +49,7 @@ public class MonologSystem : MonoBehaviour
             textBox.PrintText();
             yield return new WaitUntil(() => textBox.IsClick);
         }
+
         yield return new WaitForSeconds(0.1f);
         if (isTuto)
         {
