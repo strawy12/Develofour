@@ -1370,75 +1370,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 549334407979132774, guid: 30d935f402fe4396ba68cd4b22ade410, type: 3}
   m_PrefabInstance: {fileID: 225230738}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &251034305
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 251034306}
-  - component: {fileID: 251034307}
-  m_Layer: 0
-  m_Name: GuideManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &251034306
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251034305}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1173218108}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &251034307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251034305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae5000bafb0a492489d17c8c53b0008f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isZooglePinNotePadOpenCheck: 0
-  guideStatusesList:
-  - isCompleted: 0
-    guideTopic: 1
-  - isCompleted: 0
-    guideTopic: 2
-  - isCompleted: 0
-    guideTopic: 3
-  - isCompleted: 0
-    guideTopic: 4
-  browserConnectGuideHint: "\uB9CC\uC57D \uC9C0\uAE08 \uBB34\uC5C7\uC744 \uD558\uC2E4\uC9C0
-    \uBAA8\uB974\uACA0\uB2E4\uBA74, \uBE0C\uB77C\uC6B0\uC800\uC758 \uBA54\uC77C \uC0AC\uC774\uD2B8\uB97C
-    \uBA3C\uC800 \uC811\uC18D\uD558\uC2DC\uB294 \uAC83\uC744 \uCD94\uCC9C\uD569\uB2C8\uB2E4."
-  notePadHintClickChatting: "\uAC19\uC740 \uD3F4\uB354 \uB0B4\uC758 Pin\uBC88\uD638\uB77C\uB294
-    \uD30C\uC77C\uC774 \uC874\uC7AC\uD569\uB2C8\uB2E4. \uC774 \uD30C\uC77C\uC744
-    \uBA3C\uC800 \uD655\uC778 \uD574\uBCF4\uC2DC\uB294 \uAC83\uC744 \uCD94\uCC9C\uD569\uB2C8\uB2E4. "
-  pinNotePadHintChatting:
-  - "\uD574\uB2F9 \uC554\uD638\uB294 \uC22B\uC790\uB97C \uC21C\uC11C\uB85C \uC54C\uD30C\uBCB3
-    \uBC30\uCE58 \uC2DC\uCF1C \uB2E8\uC5B4\uB97C \uB9CC\uB4DC\uB294 \uC554\uD638\uC778
-    \uAC83 \uAC19\uC2B5\uB2C8\uB2E4."
-  - "\uC608\uB97C \uB4E4\uC5B4 2pple,  1oconut, s3rawberry \uC774\uB77C\uBA74 a:2,
-    c:1, t:3 \uC774 \uB429\uB2C8\uB2E4."
-  - "\uADF8\uB7FC \uC22B\uC790\uB97C \uC21C\uC11C\uB85C \uC54C\uD30C\uBCB3\uC73C\uB85C
-    \uBC30\uCE58 \uC2DC\uD0A8\uB2E4\uBA74 cat \uC774\uB77C\uB294 \uB2E8\uC5B4\uAC00
-    \uC644\uC131\uB429\uB2C8\uB2E4."
 --- !u!1 &267761860
 GameObject:
   m_ObjectHideFlags: 0
@@ -1987,6 +1918,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 337520660}
   m_CullTransparentMesh: 1
+--- !u!1 &397480484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 397480485}
+  - component: {fileID: 397480486}
+  m_Layer: 0
+  m_Name: GuideManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &397480485
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397480484}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1173218108}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &397480486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397480484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae5000bafb0a492489d17c8c53b0008f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isZooglePinNotePadOpenCheck: 0
+  guideStatusesList:
+  - isCompleted: 0
+    guideTopic: 1
+  - isCompleted: 0
+    guideTopic: 2
+  - isCompleted: 0
+    guideTopic: 3
+  - isCompleted: 0
+    guideTopic: 4
+  browserConnectGuideHint: "\uB9CC\uC57D \uC9C0\uAE08 \uBB34\uC5C7\uC744 \uD558\uC2E4\uC9C0
+    \uBAA8\uB974\uACA0\uB2E4\uBA74, \uBE0C\uB77C\uC6B0\uC800\uC758 \uBA54\uC77C \uC0AC\uC774\uD2B8\uB97C
+    \uBA3C\uC800 \uC811\uC18D\uD558\uC2DC\uB294 \uAC83\uC744 \uCD94\uCC9C\uD569\uB2C8\uB2E4."
+  notePadHintClickChatting: "\uAC19\uC740 \uD3F4\uB354 \uB0B4\uC758 Pin\uBC88\uD638\uB77C\uB294
+    \uD30C\uC77C\uC774 \uC874\uC7AC\uD569\uB2C8\uB2E4. \uC774 \uD30C\uC77C\uC744
+    \uBA3C\uC800 \uD655\uC778 \uD574\uBCF4\uC2DC\uB294 \uAC83\uC744 \uCD94\uCC9C\uD569\uB2C8\uB2E4. "
+  pinNotePadHintChatting:
+  - "\uD574\uB2F9 \uC554\uD638\uB294 \uC22B\uC790\uB97C \uC21C\uC11C\uB85C \uC54C\uD30C\uBCB3
+    \uBC30\uCE58 \uC2DC\uCF1C \uB2E8\uC5B4\uB97C \uB9CC\uB4DC\uB294 \uC554\uD638\uC778
+    \uAC83 \uAC19\uC2B5\uB2C8\uB2E4."
+  - "\uC608\uB97C \uB4E4\uC5B4 2pple,  1oconut, s3rawberry \uC774\uB77C\uBA74 a:2,
+    c:1, t:3 \uC774 \uB429\uB2C8\uB2E4."
+  - "\uADF8\uB7FC \uC22B\uC790\uB97C \uC21C\uC11C\uB85C \uC54C\uD30C\uBCB3\uC73C\uB85C
+    \uBC30\uCE58 \uC2DC\uD0A8\uB2E4\uBA74 cat \uC774\uB77C\uB294 \uB2E8\uC5B4\uAC00
+    \uC644\uC131\uB429\uB2C8\uB2E4."
 --- !u!1 &399934964
 GameObject:
   m_ObjectHideFlags: 0
@@ -7376,7 +7376,7 @@ Transform:
   - {fileID: 2068408923}
   - {fileID: 1234992164}
   - {fileID: 480311516}
-  - {fileID: 251034306}
+  - {fileID: 397480485}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
