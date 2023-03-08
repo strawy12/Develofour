@@ -26,18 +26,11 @@ public class Notepad : Window
         inputField.scrollSensitivity = scrollValue;
         checkNotePad.Setting(file);
 
-        if(currentData.name == "ZooglePassword" && !GuideManager.Inst.guidesDictionary[EGuideType.ClickPinNotePadHint])
-        {
-            GuideManager.Inst.isZooglePinNotePadOpenCheck = true;
-        
-            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 5f, EGuideType.ClickPinNotePadHint});
-        }
-
         if (currentData.name == "ZooglePINword" && GuideManager.Inst.isZooglePinNotePadOpenCheck)
         {
             GuideManager.Inst.guidesDictionary[EGuideType.ClickPinNotePadHint] = true;
 
-            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 5f, EGuideType.ClearPinNotePadQuiz });
+            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 40f, EGuideType.ClearPinNotePadQuiz });
         }
 
         SetText();

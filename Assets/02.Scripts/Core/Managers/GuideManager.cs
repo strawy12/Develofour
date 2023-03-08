@@ -111,7 +111,7 @@ public class GuideManager : MonoSingleton<GuideManager>
                 }
             case EGuideType.ClearPinNotePadQuiz:
                 {
-                    StartCoroutine("SendHintMessage");
+                    StartCoroutine(SendHintMessage());
                     guidesDictionary[guideType] = true;
 
                     break;
@@ -130,8 +130,8 @@ public class GuideManager : MonoSingleton<GuideManager>
             EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
             yield return new WaitForSeconds(1f);
 
+            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 1f);
         }
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 1f);
     }
 
     private void OnApplicationQuit()

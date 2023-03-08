@@ -75,6 +75,13 @@ public class WindowPinInput : Window
         Input.imeCompositionMode = IMECompositionMode.On;
 
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
+
+        if (file.name == "ZooglePassword" && !GuideManager.Inst.isZooglePinNotePadOpenCheck)
+        {
+            GuideManager.Inst.isZooglePinNotePadOpenCheck = true;
+
+            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 1200f, EGuideType.ClickPinNotePadHint });
+        }
     }
 
     private void CheckPinPassword()
@@ -109,9 +116,10 @@ public class WindowPinInput : Window
 
             WindowManager.Inst.WindowOpen(file.windowType, file);
 
-            if(file.name == "ZooglePassword")
+            // 잠금 해제 확인
+            if (file.name == "ZooglePassword" && GuideManager.Inst.isZooglePinNotePadOpenCheck)
             {
-                GuideManager.Inst.guidesDictionary[EGuideType.ClickPinNotePadHint] = true;
+                GuideManager.Inst.guidesDictionary[EGuideType.ClearPinNotePadQuiz] = true;
             }
 
             CloseWindowPinLock();
