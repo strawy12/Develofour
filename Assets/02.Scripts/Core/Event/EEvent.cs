@@ -105,6 +105,7 @@ public enum ECutSceneEvent
     ShowCutScene,
     SkipCutScene,
     EndNewsCutScene,
+    EndStartCutScene,
 }
 
 public enum EInputType
