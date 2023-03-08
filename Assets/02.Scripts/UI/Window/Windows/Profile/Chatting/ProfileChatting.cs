@@ -64,6 +64,8 @@ public class ProfileChatting : MonoBehaviour
 
     public void AddText(string str)
     {
+        Debug.Log(str);
+
         foreach (var save in SOData.saveList)
         {
             if (save == str)
@@ -72,7 +74,7 @@ public class ProfileChatting : MonoBehaviour
                 return;
             }
         }
-
+        
         NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null, ENoticeTag.AIAlarm);
 
         SOData.saveList.Add(str);
