@@ -74,8 +74,6 @@ public class ProfileTutorial : MonoBehaviour
         MonologSystem.OnEndMonologEvent += EndTutoMonologEvent;
         MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog2, 0.2f, 3);
 
-
-
         EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
     }
 
@@ -85,7 +83,7 @@ public class ProfileTutorial : MonoBehaviour
 
         MonologSystem.OnStartMonolog(ETextDataType.TutorialMonolog3, 0f, 3);
 
-        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 90f, "BrowserConnectGuide" });
+        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 5f, EGuideType.BrowserConnectGuide });
         MonologSystem.OnEndMonologEvent -= EndTutoMonologEvent;
     }
 }

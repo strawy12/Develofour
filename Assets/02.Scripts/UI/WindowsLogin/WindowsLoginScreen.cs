@@ -176,6 +176,7 @@ public class WindowsLoginScreen : MonoBehaviour
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
         MonologSystem.OnEndMonologEvent -= USBNoticeFunc;
 
-        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 40f , "ProfilerDownGuide" });
+        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 40f , EGuideType.ProfilerDownGuide });
+
     }
 }

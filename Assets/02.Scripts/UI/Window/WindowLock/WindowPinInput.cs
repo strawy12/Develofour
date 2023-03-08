@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI; 
 
@@ -74,6 +75,13 @@ public class WindowPinInput : Window
         Input.imeCompositionMode = IMECompositionMode.On;
 
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
+
+        if (file.name == "ZooglePassword" && !GuideManager.Inst.isZooglePinNotePadOpenCheck)
+        {
+            GuideManager.Inst.isZooglePinNotePadOpenCheck = true;
+
+            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 1200f, EGuideType.ClickPinNotePadHint });
+        }
     }
 
     private void CheckPinPassword()
@@ -107,6 +115,12 @@ public class WindowPinInput : Window
             answerPanel.gameObject.SetActive(false);
 
             WindowManager.Inst.WindowOpen(file.windowType, file);
+
+            // 잠금 해제 확인
+            if (file.name == "ZooglePassword" && GuideManager.Inst.isZooglePinNotePadOpenCheck)
+            {
+                GuideManager.Inst.guidesDictionary[EGuideType.ClearPinNotePadQuiz] = true;
+            }
 
             CloseWindowPinLock();
         });

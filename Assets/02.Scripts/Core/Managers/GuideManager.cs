@@ -3,25 +3,43 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum EGuideType
+{
+    None,
+    ProfilerDownGuide,
+    BrowserConnectGuide,
+    ClickPinNotePadHint,
+    ClearPinNotePadQuiz,
+}
+
 [System.Serializable]
 public class GuideStatusData
 {
     public bool isCompleted;
-    public string guideTopic;
+    public EGuideType guideTopic;
 }
 
 public class GuideManager : MonoSingleton<GuideManager>
 {
-    public Dictionary<string, bool> guidesDictionary;
+    public bool isZooglePinNotePadOpenCheck = false;
+
+    public Dictionary<EGuideType, bool> guidesDictionary;
     
     [SerializeField]
     private List<GuideStatusData> guideStatusesList;
 
-    private string guideType;
+    [SerializeField]
+    private string browserConnectGuideHint;
+    [SerializeField]
+    private string notePadHintClickChatting;
+    [SerializeField]
+    private string[] pinNotePadHintChatting;
+
+    private EGuideType guideType;
 
     void Start()
     {
-        guidesDictionary = new Dictionary<string, bool>();
+        guidesDictionary = new Dictionary<EGuideType, bool>();
 
         Init();
     }
@@ -49,7 +67,7 @@ public class GuideManager : MonoSingleton<GuideManager>
         }
 
         float timer = (float)ps[0];
-        guideType = ps[1].ToString();
+        guideType = (EGuideType)ps[1];
 
         StartCoroutine(SetTimer(timer));
     }
@@ -64,24 +82,38 @@ public class GuideManager : MonoSingleton<GuideManager>
         }
     }
 
-    private void StartGudie(string guideTopic)
+    private void StartGudie(EGuideType guideTopic)
     {
         switch(guideTopic)
         {
-            case "ProfilerDownGuide":
+            case EGuideType.ProfilerDownGuide:
                 {
                     MonologSystem.OnStartMonolog.Invoke(ETextDataType.GuideLog1, 0.2f, 1);
                     guidesDictionary[guideType] = true;
 
                     break;
                 }
-            case "BrowserConnectGuide":
+            case EGuideType.BrowserConnectGuide:
                 {
-                    string str = "만약 지금 무엇을 하실지 모르겠다면, 주글 메일 사이트을 먼저 접속하시는 것을 추천합니다.";
-                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
+                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { browserConnectGuideHint });
                     NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
                     guidesDictionary[guideType] = true;
                     
+                    break;
+                }
+            case EGuideType.ClickPinNotePadHint:
+                {
+                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { notePadHintClickChatting });
+                    NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+                    guidesDictionary[guideType] = true;
+
+                    break;
+                }
+            case EGuideType.ClearPinNotePadQuiz:
+                {
+                    StartCoroutine(SendHintMessage());
+                    guidesDictionary[guideType] = true;
+
                     break;
                 }
             default:
@@ -91,13 +123,20 @@ public class GuideManager : MonoSingleton<GuideManager>
         }
     }
 
+    private IEnumerator SendHintMessage()
+    {
+        foreach (string str in pinNotePadHintChatting)
+        {
+            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
+            yield return new WaitForSeconds(1f);
+
+            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 1f);
+        }
+    }
+
     private void OnApplicationQuit()
     {
-        //디버그용
-        foreach(var guide in guideStatusesList) 
-        {
-            guide.isCompleted = false;
-        }
+        isZooglePinNotePadOpenCheck = false;
 
         EventManager.StopListening(ECoreEvent.OpenPlayGuide, OnPlayGuide);
     }
