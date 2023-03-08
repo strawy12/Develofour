@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using Random = UnityEngine.Random;
 
 public enum ESoundPlayerType
@@ -23,9 +24,11 @@ public class SoundPlayer : MonoBehaviour
     public ESoundPlayerType PlayerType => audioData.SoundPlayerType;
     public Sound.EAudioType AudioType => audioData.AudioType;
 
+    public List<AudioMixerGroup> audioMixerGroups = new List<AudioMixerGroup>();
+
     private float basePitch;
 
-    public virtual void Init(AudioAssetSO data)
+    public virtual void Init(AudioAssetSO data, AudioMixerGroup mixerGroup)
     {
         audioData = data;
         gameObject.name = $"{PlayerType.ToString()}_{data.AudioType.ToString()}";
@@ -43,6 +46,7 @@ public class SoundPlayer : MonoBehaviour
 
         audioSource.clip = audioData.Clip;
         audioSource.volume = audioData.Volume;
+        audioSource.outputAudioMixerGroup = mixerGroup;
 
         audioSource.loop = PlayerType == ESoundPlayerType.BGM;
         basePitch = audioSource.pitch;
@@ -75,6 +79,7 @@ public class SoundPlayer : MonoBehaviour
         PlayClipWithVariablePitch();
         audioSource.Stop();
         audioSource.clip = audioData.Clip;
+        audioSource.outputAudioMixerGroup = audioMixerGroups[(int)audioData.SoundPlayerType];
         audioSource.Play();
 
         if (audioSource.loop == false)

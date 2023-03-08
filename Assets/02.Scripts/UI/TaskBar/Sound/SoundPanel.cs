@@ -22,6 +22,9 @@ public class SoundPanel : MonoUI
 
     public void Init()
     {
+        bgm.SetMixGroup();
+        effect.SetMixGroup();
+
         bgm.Init();
         effect.Init();
         effect.gameObject.SetActive(false);

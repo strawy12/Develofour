@@ -59,21 +59,16 @@ public class TextBox : MonoUI
         EventManager.StartListening(ECoreEvent.OpenTextBox, Init);
     }
 
-    private void Update()
+    private void OnPressNextKey(object[] ps) => OnPressNextKey();
+    private void OnPressNextKey()
     {
-        if (GameManager.Inst.GameState != EGameState.UI) return;
-        if (isActive == false) return;
-
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        if (isTextPrinted)
         {
-            if (isTextPrinted)
-            {
-                SkipPrintText();
-            }
-            else
-            {
-                PrintText();
-            }
+            SkipPrintText();
+        }
+        else
+        {
+            PrintText();
         }
     }
 
@@ -85,7 +80,6 @@ public class TextBox : MonoUI
         {
             return;
         }
-
 
         Init((ETextDataType)param[0]);
         messageText.SetText("");
@@ -101,8 +95,11 @@ public class TextBox : MonoUI
             GameManager.Inst.ChangeGameState(EGameState.UI);
         }
 
-        currentTextData = GetTextData(textDataType);
+        currentTextData = ResourceManager.Inst.GetTextDataSO(textDataType);
         currentTextIndex = 0;
+
+        InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyUp: OnPressNextKey);
+        EventManager.StartListening(EInputType.InputMouseUp, OnPressNextKey);
     }
 
     #endregion
@@ -152,6 +149,7 @@ public class TextBox : MonoUI
         textBoxInText = SliceLineText(textBoxInText);
 
         messageText.SetText(textBoxInText);
+        messageText.maxVisibleCharacters = 0;
 
         for (int i = 0; i < message.Length; i++)
         {
@@ -180,7 +178,7 @@ public class TextBox : MonoUI
 
             if (!isCmd)
             {
-                messageText.maxVisibleCharacters = i;
+                messageText.maxVisibleCharacters++;
 
                 if (!isRich)
                 {
@@ -251,6 +249,9 @@ public class TextBox : MonoUI
         nameText.SetText("");
         isActive = false;
         SetActive(false);
+
+        InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyUp: OnPressNextKey);
+        EventManager.StopListening(EInputType.InputMouseUp, OnPressNextKey);
     }
 
     private void CompletePrint(string msg)
@@ -455,27 +456,4 @@ public class TextBox : MonoUI
         isEffected = false;
     }
     #endregion
-
-    #region TextData 관련
-
-    public TextDataSO GetTextData(ETextDataType textDataType)
-    {
-        TextDataSO textDataSO = null;
-        try
-        {
-            textDataSO = Resources.Load<TextDataSO>($"TextData/TextData_{textDataType}");
-        }
-        catch (System.NullReferenceException e)
-        {
-            Debug.Log($"TextData{textDataType} is null\n{e}");
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log(e.ToString());
-        }
-
-        return textDataSO;
-    }
-    #endregion 
-
 }

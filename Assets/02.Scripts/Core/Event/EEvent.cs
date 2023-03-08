@@ -113,6 +113,9 @@ public enum EInputType
     InputMouseDown,
     InputMouse,
     InputMouseUp,
+    InputAnyKeyDown,
+    InputAnyKey,
+    InputAnyKeyUp,
 }
 
 public enum EDiscordEvent

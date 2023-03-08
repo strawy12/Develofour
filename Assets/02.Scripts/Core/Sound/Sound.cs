@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public partial class Sound : MonoBehaviour
@@ -12,6 +13,11 @@ public partial class Sound : MonoBehaviour
 
     [SerializeField]
     private SoundPlayer soundPlayerPrefab;
+
+    [SerializeField]
+    private AudioMixerGroup bgmMixerGroup;
+    [SerializeField]
+    private AudioMixerGroup effectMixerGroup;
 
     private List<SoundPlayer> soundPlayerList;
     private Queue<SoundPlayer> soundPlayerPool;
@@ -27,9 +33,6 @@ public partial class Sound : MonoBehaviour
         OnPlaySound += CreateSoundPlayer;
         OnImmediatelyStop += ImmediatelyStop;
     }
-
-
-  
 
     private float CreateSoundPlayer(EAudioType audioType)
     {
@@ -50,7 +53,9 @@ public partial class Sound : MonoBehaviour
 
         soundPlayerList.Add(soundPlayer);
 
-        soundPlayer.Init(audioAssetData);
+        AudioMixerGroup mixerGroup = (audioAssetData.SoundPlayerType == ESoundPlayerType.BGM) ? bgmMixerGroup : effectMixerGroup;
+
+        soundPlayer.Init(audioAssetData, mixerGroup);
         soundPlayer.gameObject.SetActive(true);
 
         soundPlayer.PlayClip();

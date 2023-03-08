@@ -16,14 +16,15 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
     private void Awake()
     {
-        audioResourceList = new List<AudioAssetSO>();
         InitDictionary();
     }
     private IEnumerator Start()
     {
-        int cnt = 1;
+        int cnt = 3;
 
         LoadAudioAssets(() => cnt--);
+        LoadNoticeDatas(() => cnt--);
+        LoadTextDataSOAssets(() => cnt--);
 
         yield return new WaitUntil(() => cnt == 0);
 

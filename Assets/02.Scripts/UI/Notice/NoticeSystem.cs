@@ -15,6 +15,7 @@ public class NoticeSystem : MonoUI
     public static Action OnTagReset;
     //public static Action<Decision, float> OnDecisionPanel;
     public static System.Action<string, string, float, bool, Sprite, ENoticeTag> OnNotice;
+
     [SerializeField]
     private NoticePanel noticePanelTemp;
     [SerializeField]
@@ -140,33 +141,12 @@ public class NoticeSystem : MonoUI
 
     //}
 
-    public NoticeDataSO GetTextData(ENoticeType noticeDataType)
-    {
-        NoticeDataSO noticeDataSO = null;
-
-        try
-        {
-            noticeDataSO = Resources.Load<NoticeDataSO>($"NoticeData/NoticeData_{noticeDataType.ToString()}");
-        }
-        catch (System.NullReferenceException e)
-        {
-            Debug.Log($"NoticeData {noticeDataType} is null\n{e}");
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log(e.ToString());
-        }
-
-        return noticeDataSO;
-    }
-
     public void ShowNoticePanel(ENoticeType eNoticeDataType, float delay)
     {
-        NoticeDataSO data = GetTextData(eNoticeDataType);
+        NoticeDataSO data = ResourceManager.Inst.GetNoticeData(eNoticeDataType);
 
         if(data.noticeTag == currentTag && data.noticeTag != ENoticeTag.None && noticePanel != null)
         {
-            //noticeOutline.StartOutline();
             Debug.Log(data.Body);
             noticePanel.SameTagTextAdd(data.Body);
             return;
@@ -194,21 +174,6 @@ public class NoticeSystem : MonoUI
 
         saveNoticeList.Add(data.noticeDataList);
         StartCoroutine(NoticeCoroutine(data, delay));
-    }
-
-    public void RemoveList(NoticeData data)
-    {
-        Debug.Log(data.head);
-        foreach(var temp in saveNoticeList)
-        {
-            Debug.Log(temp.head);
-            if(temp.head == data.head)
-            {
-                Debug.Log(temp.head);
-                saveNoticeList.Remove(temp);
-                break;
-            }
-        }
     }
 
     private IEnumerator NoticeCoroutine(NoticeDataSO data, float delay)
@@ -273,7 +238,6 @@ public class NoticeSystem : MonoUI
      
         if (noticeTag == currentTag && noticeTag != ENoticeTag.None && noticePanel != null)
         {
-            //noticeOutline.StartOutline();
             noticePanel.SameTagTextAdd(body);
             return;
         }
@@ -292,6 +256,8 @@ public class NoticeSystem : MonoUI
         data.icon = icon;
         data.canDeleted = canDelete;
         data.delay = delay;
+        data.tag = noticeTag;
+
         //so에 있는 노티스태그 데이타에도 넣어
         
 
