@@ -41,6 +41,9 @@ public class NoticeSystem : MonoUI
     [SerializeField]
     private List<NoticeData> saveNoticeList = new List<NoticeData>();
 
+    public int maxExtend = 3;
+    private int extendCount = 0;
+
     private void Awake()
     {
         Bind();
@@ -147,10 +150,19 @@ public class NoticeSystem : MonoUI
 
         if(data.noticeTag == currentTag && data.noticeTag != ENoticeTag.None && noticePanel != null)
         {
-            Debug.Log(data.Body);
-            noticePanel.SameTagTextAdd(data.Body);
-            return;
+            extendCount++;
+            if(extendCount == maxExtend)
+            {
+                noticePanel.ImmediatelyStop();
+            }
+            else
+            {
+                noticePanel.SameTagTextAdd(data.Body);
+                return;
+            }
         }
+
+        extendCount = 0;
 
         currentTag = data.noticeTag;
 
@@ -238,9 +250,20 @@ public class NoticeSystem : MonoUI
      
         if (noticeTag == currentTag && noticeTag != ENoticeTag.None && noticePanel != null)
         {
-            noticePanel.SameTagTextAdd(body);
-            return;
+            extendCount++;
+            if (extendCount == maxExtend)
+            {
+                noticePanel.ImmediatelyStop();
+            }
+            else
+            {
+                noticePanel.SameTagTextAdd(body);
+                return;
+            }
         }
+
+        extendCount = 0;
+
         EventManager.TriggerEvent(ENoticeEvent.OpenNoticeSystem);
         NoticePanel panel = noticePanel = GetPanel(true);
         panel.OnCompeleted += IncludePanel;

@@ -50,7 +50,11 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private bool isCompleted = false;
 
+
+    //연장 변수
     private float addTime = 2f;
+    private bool isNoticeExtend;
+    private int extendCount = 0;
 
     public string HeadText { get { return headText.text; } }
     private void Bind()
@@ -240,15 +244,56 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         yield return new WaitForSeconds(NOTICE_DELAYTIME);
 
-        yield return new WaitForSeconds(addTime);
+        //yield return new WaitForSeconds(addTime);
 
+        if(isNoticeExtend)
+        {
+            isNoticeExtend = false;
+            ExtendNotice();
+        }
+        else
+        {
+            StartCoroutine(NoticeCoroutineEnd());
+        }
+    }
+
+    private void ExtendNotice()
+    {
+        StopAllCoroutines();
+        StartCoroutine(ExtendNoticeCoroutine());
+    }
+
+    private IEnumerator NoticeCoroutineEnd()
+    {
         rectTransform.DOAnchorPosX(rectTransform.rect.width, NOTICE_DURATION);
         yield return new WaitForSeconds(NOTICE_DURATION);
-
         NoticeSystem.OnTagReset?.Invoke();
         OnCompeleted?.Invoke(this);
-        
-        addTime = 0f;
+    }
+
+    private IEnumerator ExtendNoticeCoroutine()
+    {
+        //이 함수가 5번 실행되면 그냥 imme삭제 하면 될거같은데..?
+        yield return new WaitForSeconds(addTime);
+
+        //패널마다 extendcount가 달라
+
+        extendCount++;
+
+        if (extendCount == 4)
+        {
+            StartCoroutine(NoticeCoroutineEnd());
+        }
+
+        if (isNoticeExtend)
+        {
+            isNoticeExtend = false;
+            StartCoroutine(ExtendNoticeCoroutine());
+        }
+        else
+        {
+            StartCoroutine(NoticeCoroutineEnd());
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -276,9 +321,9 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    public void SameTagTextAdd(string str)
+    public void SameTagTextAdd(string str, bool isEnd = false)
     {
-        addTime = 2;
+        isNoticeExtend = true;
         string saveStr = bodyText.text;
         saveStr += '\n';
         saveStr += '\n';
