@@ -73,6 +73,8 @@ public class InstallerWindow : Window
         FileManager.Inst.AddFile(installFile, "C/Background");
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
+
+        GameManager.Inst.isProfilerTownloadCompleted = true;
         GuideManager.Inst.guidesDictionary[EGuideType.ProfilerDownGuide] = true;
     }
 

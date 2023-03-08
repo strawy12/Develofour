@@ -25,6 +25,11 @@ public class NotePadTextGetWord : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(!GameManager.Inst.isProfilerTownloadCompleted)
+        {
+            return;
+        }
+
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             if(word == null)
