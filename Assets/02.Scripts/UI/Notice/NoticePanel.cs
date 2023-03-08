@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,7 +51,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     private bool isCompleted = false;
 
 
-    //¿¬Àå º¯¼ö
+    //ì—°ì¥ ë³€ìˆ˜
     private float addTime = 2f;
     private bool isNoticeExtend;
     private int extendCount = 0;
@@ -273,10 +273,10 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private IEnumerator ExtendNoticeCoroutine()
     {
-        //ÀÌ ÇÔ¼ö°¡ 5¹ø ½ÇÇàµÇ¸é ±×³É imme»èÁ¦ ÇÏ¸é µÉ°Å°°Àºµ¥..?
+        //ì´ í•¨ìˆ˜ê°€ 5ë²ˆ ì‹¤í–‰ë˜ë©´ ê·¸ëƒ¥ immeì‚­ì œ í•˜ë©´ ë ê±°ê°™ì€ë°..?
         yield return new WaitForSeconds(addTime);
 
-        //ÆĞ³Î¸¶´Ù extendcount°¡ ´Ş¶ó
+        //íŒ¨ë„ë§ˆë‹¤ extendcountê°€ ë‹¬ë¼
 
         extendCount++;
 
