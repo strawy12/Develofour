@@ -8,8 +8,6 @@ using DG.Tweening;
 public class StartCutScene : MonoBehaviour
 {
     public TextMeshProUGUI[] mainTexts; // 12개
-        
-    public string[] scripts;
 
     private int cnt = 0;
 
@@ -227,8 +225,9 @@ public class StartCutScene : MonoBehaviour
 
     private void EndLoading()
     {
+        //여기에서 로그인 풀기
         GameManager.Inst.ChangeGameState(EGameState.Game);
-        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0f, 5);
+        EventManager.TriggerEvent(ECutSceneEvent.EndStartCutScene);
         Sound.OnPlaySound(Sound.EAudioType.StartMainBGM);
         SetActiveThisObject();
     }

@@ -11,7 +11,6 @@ public enum ETextDataType
     TutorialMonolog2,
     TutorialMonolog3,
     GuideLog1,
-
 }
 
 [System.Serializable]

@@ -56,6 +56,7 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             return;
         }
+
         showPanel.text.text = getInfoText;
         showPanel.transform.SetParent(gameObject.transform.parent);
         showPanel.GetComponent<RectTransform>().position = gameObject.GetComponent<RectTransform>().position;

@@ -7,5 +7,6 @@ public enum ENoticeType
     AiMessageAlarm,
 	ProfileInstallingFinish,
 	LookBackground,
+	GetNotePadWordsForProfiler,
     End
 }

@@ -19,14 +19,12 @@ public class CursorChangeSystem : MonoBehaviour
 
     private void CursorChange(object[] ps)
     {
-        if (ps[0] == null)
+        if (ps[0] == null || !GameManager.Inst.isProfilerTownloadCompleted)
         {
             return;
         }
 
         string commandWord = ps[0].ToString();
-
-        Debug.Log(commandWord);
 
         switch (commandWord)
         {

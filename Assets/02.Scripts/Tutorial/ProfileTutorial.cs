@@ -28,20 +28,37 @@ public class ProfileTutorial : MonoBehaviour
 
         //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
 
-        for (int i = 0; i < startAIChatting.Length; i++)
+        for (int i = 0; i < 3; i++)
         {
-            if (i == 3)
+            AIChatting(startAIChatting[i]);
+            if (i == 2)
             {
+                MonologSystem.OnEndMonologEvent += StartContinueProfileTutorial;
                 MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog1, 0.1f, 1);
             }
+
+            yield return new WaitForSeconds(2f);
+        }
+    }
+
+    public void StartContinueProfileTutorial()
+    {
+        StartCoroutine(ContinueProfileTutorial());
+    }
+
+    public IEnumerator ContinueProfileTutorial()
+    {
+        MonologSystem.OnEndMonologEvent -= StartContinueProfileTutorial;
+        for (int i = 3; i < startAIChatting.Length; i++)
+        {
             AIChatting(startAIChatting[i]);
 
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2f);
         }
+
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 0.1f);
 
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
-
     }
 
     private void AIChatting(string str)
@@ -83,7 +100,7 @@ public class ProfileTutorial : MonoBehaviour
 
         MonologSystem.OnStartMonolog(ETextDataType.TutorialMonolog3, 0f, 3);
 
-        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 5f, EGuideType.BrowserConnectGuide });
+        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 90f, EGuideType.BrowserConnectGuide });
         MonologSystem.OnEndMonologEvent -= EndTutoMonologEvent;
     }
 }

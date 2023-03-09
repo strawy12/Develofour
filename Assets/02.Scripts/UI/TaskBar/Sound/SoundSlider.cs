@@ -48,8 +48,14 @@ public class SoundSlider : MonoBehaviour
     }
 
     public void SetMixGroup()
-    { // -80 - 10
-        audioMixer.SetFloat(soundType.ToString(), ((slider.value * 90) - 80));
+    { // -20 - 10
+
+        if(slider.value == 0)
+        {
+            audioMixer.SetFloat(soundType.ToString(), -80);
+            return;
+        }
+        audioMixer.SetFloat(soundType.ToString(), ((slider.value * 35) - 25));
     }
 
     private void SetValueText(Slider slider)

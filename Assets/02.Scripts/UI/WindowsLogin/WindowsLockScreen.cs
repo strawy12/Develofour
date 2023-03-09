@@ -23,6 +23,8 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
 
+    //저장기능에 꼭 넣어야함
+    public bool isTutorialEnd;
     private bool holdingDown;
     private bool anyKeyUp;
     private bool isDrag;
@@ -37,17 +39,26 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private void Start()
     {
         EventManager.StartListening(EInputType.InputAnyKeyUp, AnyKeyUp);
+        EventManager.StartListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
+    }
+
+    private void TurnInteractable(object[] ps)
+    {
+        isTutorialEnd = true;
+        EventManager.StopListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
     }
 
     private void AnyKeyUp(object[] ps)
     {
         if (anyKeyUp) return;
+        if (!isTutorialEnd) return;
         anyKeyUp = true;
         rectTransform.DOAnchorPos(originPos + Vector3.up * targetMovementY, 0.1f).OnComplete(OpenLoginScreen);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!isTutorialEnd) return;
         isDrag = true;
         beginPosY = eventData.position.y;
     }
@@ -81,6 +92,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private void OpenLoginScreen()
     {
+        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0f, 5);
         loginScreen.SetActive(true);
         loginChoice.SetActive(true);
         gameObject.SetActive(false);
