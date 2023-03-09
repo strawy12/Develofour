@@ -135,7 +135,6 @@ public class TextBox : MonoUI
         isTextPrinted = false;
         ShowBox();
 
-        Debug.Log(textData.text);
         StartCoroutine(PrintMonologTextCoroutine(textData.text));
     }
 
