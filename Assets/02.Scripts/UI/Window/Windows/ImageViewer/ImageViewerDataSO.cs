@@ -6,7 +6,6 @@ using UnityEngine;
 public enum EImageExtensionType
 {
     Png,
-    Jpeg,
     Jpg,
     Gif,
     Bmp,
@@ -17,6 +16,16 @@ public class ImageViewerDataSO : ScriptableObject
 {
     public string fileName;
     public string imageName;
-    public Sprite imageSprite;
+    public ImageViewerBody imageBody;
+    public Sprite sprite;
     public EImageExtensionType extensionType;
+
+    [ContextMenu("SetSprite")]
+    public void SetSprite()
+    {
+        if(imageBody !=null)
+        {
+            sprite = imageBody.GetComponent<UnityEngine.UI.Image>().sprite;
+        }
+    }
 }

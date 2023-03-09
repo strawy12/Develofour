@@ -38,7 +38,7 @@ public class Notepad : Window
 
     public void SetText()
     {
-        if (file.windowName == "NotePad")
+        if (file.fileName == "NotePad")
         {
             inputField.readOnly = false;
         }

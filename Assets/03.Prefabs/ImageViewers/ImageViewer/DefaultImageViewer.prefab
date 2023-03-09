@@ -784,6 +784,7 @@ GameObject:
   - component: {fileID: 3577339963766284073}
   - component: {fileID: 3577339963766284072}
   - component: {fileID: 1527847956992503028}
+  - component: {fileID: 3119386962135156175}
   m_Layer: 5
   m_Name: ImageView
   m_TagString: Untagged
@@ -864,10 +865,18 @@ MonoBehaviour:
   imageScale: 1
   maxImageScale: 4
   zoomSpeed: 0.1
-  image: {fileID: 3577339963766284072}
-  enlargementButton: {fileID: 4982166312531080867}
-  reductionButton: {fileID: 3603442556100617855}
-  imagePercentText: {fileID: 8771822051694526135}
+--- !u!114 &3119386962135156175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577339963766284070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f3829e7acb75c4bbc7a0f70d6f9e5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3739252895139807206
 GameObject:
   m_ObjectHideFlags: 0
@@ -1589,7 +1598,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8714131769592482418}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -1615,9 +1624,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windowAlteration: {fileID: 11400000, guid: f16b216ca9df40529de11b8a57c23b32, type: 2}
   windowBar: {fileID: 6917183933024086645}
-  imageData: {fileID: 11400000, guid: 6c1f6e48890e4aef855547b8e242eff0, type: 2}
-  imageViewerImage: {fileID: 3577339963766284072}
-  imageEnlargement: {fileID: 1527847956992503028}
+  imageViewerBody: {fileID: 3119386962135156175}
+  imagePercentText: {fileID: 8771822051694526135}
 --- !u!114 &8714131769592482422
 MonoBehaviour:
   m_ObjectHideFlags: 0

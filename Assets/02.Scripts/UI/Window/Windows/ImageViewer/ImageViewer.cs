@@ -1,19 +1,21 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ImageViewer : Window
 {
     [SerializeField]
-    private ImageViewerDataSO imageData;
+    private ImageViewerBody imageViewerBody;
 
     [SerializeField]
-    private Image imageViewerImage;
+    private TMP_Text imagePercentText;
 
-    [SerializeField]
     private ImageEnlargement imageEnlargement;
+
+    private ImageViewerDataSO imageData;
 
     private readonly Vector2 MAXSIZE = new Vector2(1173.333f, 660f);
 
@@ -25,24 +27,34 @@ public class ImageViewer : Window
     {
         base.Init();
 
-        imageData = ResourceManager.Inst.GetImageData(file.name);
+        imageData = ResourceManager.Inst.GetImageViewerData(file.GetFileLocation());
 
         windowBar.SetNameText($"{imageData.imageName}.{imageData.extensionType.ToString().ToLower()}");
 
-        imageViewerImage.sprite = imageData.imageSprite;
+        if(imageData.imageBody != null)
+        {
+            Transform parent = imageViewerBody.transform.parent;
+            Destroy(imageViewerBody.gameObject);
+            imageViewerBody = Instantiate(imageData.imageBody, parent);
+        }
+
+        imageViewerBody.Init();
+
+        imageEnlargement = imageViewerBody.imageEnlargement;
+        imageEnlargement.Init(imagePercentText);
 
         SetImageSizeReset();
     }
 
     public void SetImageSizeReset()
     {
-        Vector2 size = imageViewerImage.sprite.rect.size;
+        Vector2 size = imageViewerBody.sprite.rect.size;
         Vector2 originSize = size;
 
         size.x /= RATIO;
         size.y /= RATIO;
 
-        imageViewerImage.rectTransform.sizeDelta = size;
+        imageViewerBody.rectTransform.sizeDelta = size;
 
         float scale = 1f;
         if(size.y > MAXSIZE.y)
@@ -54,8 +66,8 @@ public class ImageViewer : Window
             scale = MAXSIZE.x / size.x;
         }
 
-        imageViewerImage.transform.localScale = Vector3.one * scale;
+        imageViewerBody.transform.localScale = Vector3.one * scale;
 
-        imageEnlargement.imageScale = imageViewerImage.transform.localScale.x;
+        imageEnlargement.imageScale = imageViewerBody.transform.localScale.x;
     }
 }

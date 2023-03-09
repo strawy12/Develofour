@@ -14,15 +14,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public float zoomSpeed = 0.1f;
 
-    [SerializeField]
-    private Image image;
-
-    [Header("MenuBar's EnlargementData")]
-    [SerializeField]
-    private Button enlargementButton;
-    [SerializeField]
-    private Button reductionButton;
-    [SerializeField]
+    private Image currentImage;
     private TMP_Text imagePercentText;
 
     private int imageCurrentValue = 0;
@@ -37,12 +29,15 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     private int enlargementArrIndex = 0;
     private float[] enlargementArr = new float[] { 1f, 1.25f, 1.5f, 1.75f, 2f };
 
-    private void Start()
+    public void Init(TMP_Text imagePercentText)
     {
+        this.imagePercentText = imagePercentText;
+        currentImage = GetComponent<Image>();
+
+        transform.parent.GetComponent<ScrollRect>().content = transform as RectTransform;
+
         RenewalImageText();
 
-        enlargementButton.onClick?.AddListener(EnlargementButtonClick);
-        reductionButton.onClick?.AddListener(ReductionButtonClick);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -62,7 +57,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     public void OnScroll(PointerEventData eventData)
     {
         Vector3 delta = Vector3.one * (eventData.scrollDelta.y * zoomSpeed);
-        Vector3 enlarScale = image.transform.localScale + delta;
+        Vector3 enlarScale = currentImage.transform.localScale + delta;
 
         if (enlarScale.x <= imageScale)
         {
@@ -74,7 +69,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
             return;
         }
 
-        image.transform.localScale += delta;
+        currentImage.transform.localScale += delta;
 
         RenewalImageText();
     }
@@ -87,15 +82,15 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
         if (isEnlargement) // 확대라면 축소
         {
-            image.transform.localScale = Vector3.one * imageScale;
-            image.rectTransform.localPosition = Vector3.zero;
+            currentImage.transform.localScale = Vector3.one * imageScale;
+            currentImage.rectTransform.localPosition = Vector3.zero;
 
             isEnlargement = false;
         }
         else if (!isEnlargement) // 축소중이면 확대
         {
-            image.transform.localScale = Vector3.one * imageEnlargementScale;
-            image.rectTransform.localPosition = imagePos;
+            currentImage.transform.localScale = Vector3.one * imageEnlargementScale;
+            currentImage.rectTransform.localPosition = imagePos;
 
             isEnlargement = true;
         }
@@ -103,7 +98,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         RenewalImageText();
     }
 
-    private void EnlargementButtonClick()
+    public void EnlargementButtonClick()
     {
         enlargementArrIndex++;
         if (enlargementArrIndex >= 5)
@@ -114,12 +109,12 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
 
         float enlarImageScale = imageScale * enlargementArr[enlargementArrIndex];
-        image.transform.localScale = Vector3.one * enlarImageScale;
+        currentImage.transform.localScale = Vector3.one * enlarImageScale;
 
         RenewalImageText();
     }
 
-    private void ReductionButtonClick()
+    public void ReductionButtonClick()
     {
         enlargementArrIndex--;
         if (enlargementArrIndex <= -1)
@@ -129,14 +124,14 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         }
 
         float enlarImageScale = imageScale * enlargementArr[enlargementArrIndex];
-        image.transform.localScale = Vector3.one * enlarImageScale;
+        currentImage.transform.localScale = Vector3.one * enlarImageScale;
 
         RenewalImageText();
     }
 
     private void RenewalImageText()
     {
-        imageCurrentValue = (int)Mathf.Round(image.transform.localScale.x * 100);
+        imageCurrentValue = (int)Mathf.Round(currentImage.transform.localScale.x * 100);
 
         imagePercentText.SetText(imageCurrentValue + "%");
     }

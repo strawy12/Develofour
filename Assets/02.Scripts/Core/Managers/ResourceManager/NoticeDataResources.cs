@@ -6,16 +6,16 @@ using UnityEngine.AddressableAssets;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-    private List<NoticeDataSO> noticeDataList;
+    private Dictionary<ENoticeType, NoticeDataSO> noticeDataList;
 
     public NoticeDataSO GetNoticeData(ENoticeType noticeType)
     {
-        return noticeDataList.Find(x => x.NoticeDataType == noticeType);
+        return noticeDataList[noticeType];
     }
 
     private async void LoadNoticeDatas(Action callBack)
     {
-        noticeDataList = new List<NoticeDataSO>();
+        noticeDataList = new Dictionary<ENoticeType, NoticeDataSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("NoticeData", typeof(NoticeDataSO));
         await handle.Task;
@@ -25,7 +25,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<NoticeDataSO>(handle.Result[i]).Task;
             await task;
 
-            noticeDataList.Add(task.Result);
+            noticeDataList.Add(task.Result.NoticeDataType, task.Result);
         }
 
         Addressables.Release(handle);

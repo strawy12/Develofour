@@ -115,7 +115,7 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 continue;
             }
-            if (file.windowName.Contains(text, StringComparison.OrdinalIgnoreCase))
+            if (file.fileName.Contains(text, StringComparison.OrdinalIgnoreCase))
             {
                 searchFileList.Add(file);
             }
@@ -141,7 +141,7 @@ public class FileManager : MonoSingleton<FileManager>
                 continue;
             }
 
-            if (file.windowName.Contains(text, StringComparison.OrdinalIgnoreCase))
+            if (file.fileName.Contains(text, StringComparison.OrdinalIgnoreCase))
             {
                 searchFileList.Add(file);
             }
@@ -153,7 +153,6 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 if(NotePadFileLoad(text, file))
                 {
-                    Debug.Log("NotePadAdd");
                     searchFileList.Add(file);
                 }
             }
