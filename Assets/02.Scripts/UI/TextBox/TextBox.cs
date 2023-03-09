@@ -124,7 +124,7 @@ public class TextBox : MonoUI
     public void SimpleTypePrint(TextData textData)
     {
         bgImage.color = Color.black;
-        bgImage.ChangeImageAlpha(0.7f);
+        bgImage.ChangeImageAlpha(1f);
         bgImage.sprite = simpleTypeSprite;
 
         messageText.SetText(textData.text);
