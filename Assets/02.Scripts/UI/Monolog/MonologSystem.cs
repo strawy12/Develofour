@@ -30,6 +30,8 @@ public class MonologSystem : MonoBehaviour
     }
     private void StopMonolog()
     {
+        Debug.Log("stopmonolog의 onendmonologevent");
+        OnEndMonologEvent?.Invoke();
         StopAllCoroutines();
         textBox.StopAllCoroutines();
         textBox.SetActive(false);
@@ -42,7 +44,7 @@ public class MonologSystem : MonoBehaviour
 
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
         textBox.Init(textDataType);
-
+        
         for (int i = 0; i < cnt; i++)
         {
             yield return new WaitForSeconds(0.1f);
@@ -59,6 +61,7 @@ public class MonologSystem : MonoBehaviour
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
         }
+        Debug.Log("startmonologcoroutine의 onendmonologevent");
         OnEndMonologEvent?.Invoke();
     }
 

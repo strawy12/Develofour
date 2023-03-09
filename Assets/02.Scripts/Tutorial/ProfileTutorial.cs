@@ -19,6 +19,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public IEnumerator StartProfileTutorial()
     {
+        Debug.Log("ASDDF");
         WindowManager.Inst.StartTutorialSetting();
         //tutorialPanel.SetActive(true);
         yield return new WaitForSeconds(0.5f);
@@ -48,6 +49,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public IEnumerator ContinueProfileTutorial()
     {
+        Debug.Log("fdsa");
         MonologSystem.OnEndMonologEvent -= StartContinueProfileTutorial;
         for (int i = 3; i < startAIChatting.Length; i++)
         {
@@ -97,7 +99,7 @@ public class ProfileTutorial : MonoBehaviour
     private void EndTutoMonologEvent()
     {
         GameManager.Inst.ChangeGameState(EGameState.Game);
-
+        GameManager.Inst.isTutorial = false;
         MonologSystem.OnStartMonolog(ETextDataType.TutorialMonolog3, 0f, 3);
 
         EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 90f, EGuideType.BrowserConnectGuide });

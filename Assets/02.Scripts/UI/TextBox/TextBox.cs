@@ -98,8 +98,8 @@ public class TextBox : MonoUI
         currentTextData = ResourceManager.Inst.GetTextDataSO(textDataType);
         currentTextIndex = 0;
 
-        InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyUp: OnPressNextKey);
-        EventManager.StartListening(EInputType.InputMouseUp, OnPressNextKey);
+        //InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyUp: OnPressNextKey);
+        //EventManager.StartListening(EInputType.InputMouseUp, OnPressNextKey);
     }
 
     #endregion
@@ -124,7 +124,7 @@ public class TextBox : MonoUI
     public void SimpleTypePrint(TextData textData)
     {
         bgImage.color = Color.black;
-        bgImage.ChangeImageAlpha(0.7f);
+        bgImage.ChangeImageAlpha(1f);
         bgImage.sprite = simpleTypeSprite;
 
         messageText.SetText(textData.text);
@@ -232,6 +232,11 @@ public class TextBox : MonoUI
     #region TextBox 기본 함수
     public bool CheckDataEnd()
     {
+        if (currentTextData == null)
+        {
+            GameManager.Inst.ChangeGameState(EGameState.Game);
+            return true;
+        }
         return currentTextIndex >= currentTextData.Count;
     }
 
