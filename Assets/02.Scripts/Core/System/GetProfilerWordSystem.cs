@@ -62,7 +62,8 @@ public class GetProfilerWordSystem : MonoBehaviour
 
         substitutionList.Find(x => x.word == word).isFindWord = true;
 
-        Debug.Log(word);
+
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.GetNotePadWordsForProfiler, 0);
 
         EventManager.TriggerEvent(
             EProfileEvent.FindInfoText,
