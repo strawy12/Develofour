@@ -40,6 +40,7 @@ public partial class Browser : Window
                 {
                     if (!CheckGoogleSiteLogin())
                     {
+                        requestSite = siteLink;
                         siteDictionary.TryGetValue(ESiteLink.GoogleLogin, out site);
                     }
 
