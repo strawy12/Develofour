@@ -38,8 +38,6 @@ public class GmailLoginSite : Site
 
         passwordToggle.onValueChanged.AddListener(ShowPassword);
 
-        EventManager.StartListening(ELoginSiteEvent.RequestSite, RequestSite);
-
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: GmailLoginButtonClick);
     }
 
@@ -61,13 +59,6 @@ public class GmailLoginSite : Site
         textMove.PlaceholderEffect(isSelected);
     }
 
-    private void RequestSite(object[] ps)
-    {
-        if (!(ps[0] is ESiteLink)) { return; }
-        if (requestSite != ESiteLink.None) { return; }
-        requestSite = (ESiteLink)ps[0];
-    }
-
     protected override void ShowSite()
     {
         if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
@@ -87,22 +78,7 @@ public class GmailLoginSite : Site
 
         if (requestSite == ESiteLink.None)
         {
-            //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
             EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
-
-            DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
-
-            if (requestSite == ESiteLink.None)
-            {
-                EventManager.TriggerEvent(EBrowserEvent.OnUndoSite);
-            }
-            else
-            {
-                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY , false});
-                requestSite = ESiteLink.None;
-            }
-
-            EventManager.TriggerEvent(EBrowserEvent.OnUndoSite);
 
             InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: GmailLoginButtonClick);
         }
