@@ -30,6 +30,8 @@ public class MonologSystem : MonoBehaviour
     }
     private void StopMonolog()
     {
+        Debug.Log("stopmonolog의 onendmonologevent");
+        OnEndMonologEvent?.Invoke();
         StopAllCoroutines();
         textBox.StopAllCoroutines();
         textBox.SetActive(false);
@@ -59,6 +61,7 @@ public class MonologSystem : MonoBehaviour
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
         }
+        Debug.Log("startmonologcoroutine의 onendmonologevent");
         OnEndMonologEvent?.Invoke();
     }
 

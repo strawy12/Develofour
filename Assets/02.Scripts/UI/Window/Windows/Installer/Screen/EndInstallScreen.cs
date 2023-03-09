@@ -22,10 +22,10 @@ public class EndInstallScreen : InstallerScreen
 
     private void InstallerClose()
     {
+        MonologSystem.OnEndMonologEvent += StartTuto;
         installer.CheckOpenWindow(windowOpenToggle.isOn);
 
         installer.WindowClose();
-        MonologSystem.OnEndMonologEvent += StartTuto;
     }
 
     private void StartTuto()

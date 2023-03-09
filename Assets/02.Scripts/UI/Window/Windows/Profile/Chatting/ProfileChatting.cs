@@ -33,6 +33,12 @@ public class ProfileChatting : MonoBehaviour
     private float hideValue;
     [SerializeField]
     private float showValue;
+
+    [SerializeField]
+    private GameObject loadingPanel;
+
+    private float currentValue;
+
     [SerializeField]
     private float moveDuration;
     private bool isMoving;
@@ -82,6 +88,7 @@ public class ProfileChatting : MonoBehaviour
         obj.GetComponent<TMP_Text>().text = ">> " + str;
         obj.gameObject.SetActive(true);
         SetScrollView();
+        SetLastWidth();
     }
 
     public void AddText(object[] ps)
@@ -117,9 +124,9 @@ public class ProfileChatting : MonoBehaviour
         SOData.saveList.Add(data.ToString());
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
-        obj.gameObject.SetActive(true);
         SetScrollView();
-
+        SetLastWidth();
+        obj.gameObject.SetActive(true);
     }
 
     //윈도우를 오픈할때마다 실행해줘야함
@@ -131,6 +138,7 @@ public class ProfileChatting : MonoBehaviour
 
     public void Init()
     {
+        currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
         EventManager.StartListening(EProfileEvent.SendMessage, AddText);
 
@@ -151,6 +159,7 @@ public class ProfileChatting : MonoBehaviour
             AddSaveText(save);
         }
         SetScrollView();
+        SetWidths();
     }
 
     public void AddSaveText(string data)
@@ -179,29 +188,39 @@ public class ProfileChatting : MonoBehaviour
 
     public void ShowPanel()
     {
+        Debug.Log("asdf");
         if (isMoving) return;
         isMoving = true;
-        movePanelRect.DOAnchorPosX(showValue, moveDuration).SetEase(Ease.Linear).OnComplete(() =>
+        loadingPanel.SetActive(true);
+        movePanelRect.DOSizeDelta(new Vector2(showValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
+            currentValue = showValue;
             OpenCloseButton.onClick.RemoveAllListeners();
             OpenCloseButton.onClick.AddListener(HidePanel);
-            hideImage.SetActive(true);
-            showImage.SetActive(false);
+            SetWidths();
+            hideImage.SetActive(false);
+            showImage.SetActive(true);
             isMoving = false;
-        }); 
+            loadingPanel.SetActive(false);
+        });
+
     }
 
     public void HidePanel()
     {
         if (isMoving) return;
         isMoving = true;
-        movePanelRect.DOAnchorPosX(hideValue, moveDuration).SetEase(Ease.Linear).OnComplete(() =>
+        loadingPanel.SetActive(true);
+        movePanelRect.DOSizeDelta(new Vector2(hideValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
+            currentValue = hideValue;
             OpenCloseButton.onClick.RemoveAllListeners();
             OpenCloseButton.onClick.AddListener(ShowPanel);
-            hideImage.SetActive(false);
-            showImage.SetActive(true);
+            hideImage.SetActive(true);
+            showImage.SetActive(false);
             isMoving = false;
+            loadingPanel.SetActive(false);
+            SetWidths();
         });
     }
 
@@ -216,6 +235,20 @@ public class ProfileChatting : MonoBehaviour
     //        AddText(new object[1] { EAiChatData.Email });
     //    }    
     //}
+
+    private void SetWidths()
+    {
+        RectTransform[] rects = contentSizeFitter.GetComponentsInChildren<RectTransform>();
+        foreach(var temp in rects)
+        {
+            temp.sizeDelta = new Vector2(currentValue - 40, 0);
+        }
+    }
+    private void SetLastWidth()
+    {
+        RectTransform[] rects = contentSizeFitter.GetComponentsInChildren<RectTransform>();
+        rects[rects.Length - 1].sizeDelta = new Vector2(currentValue - 40, 0);
+    }
 
     public void OnApplicationQuit()
     {
