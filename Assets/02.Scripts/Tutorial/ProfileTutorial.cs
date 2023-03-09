@@ -76,7 +76,7 @@ public class ProfileTutorial : MonoBehaviour
         foreach (string str in findNoticeAIChatting)
         {
             AIChatting(str);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
         }
     }
 
@@ -87,7 +87,7 @@ public class ProfileTutorial : MonoBehaviour
         foreach (string str in completeProfileChatting)
         {
             AIChatting(str);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
         }
 
         MonologSystem.OnEndMonologEvent += EndTutoMonologEvent;

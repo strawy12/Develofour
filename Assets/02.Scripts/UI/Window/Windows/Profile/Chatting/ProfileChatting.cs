@@ -86,8 +86,10 @@ public class ProfileChatting : MonoBehaviour
         SOData.saveList.Add(str);
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + str;
-        obj.gameObject.SetActive(true);
+        SetLastWidth();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(obj.GetComponent<RectTransform>());
         SetScrollView();
+        obj.gameObject.SetActive(true);
         SetLastWidth();
     }
 
@@ -124,17 +126,14 @@ public class ProfileChatting : MonoBehaviour
         SOData.saveList.Add(data.ToString());
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
-        SetScrollView();
         SetLastWidth();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(obj.GetComponent<RectTransform>());
+        SetScrollView();
         obj.gameObject.SetActive(true);
+        SetLastWidth();
     }
 
-    //윈도우를 오픈할때마다 실행해줘야함
-    private void SetScrollView()
-    {
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
-        scroll.verticalNormalizedPosition = 0;
-    }
+
 
     public void Init()
     {
@@ -198,6 +197,7 @@ public class ProfileChatting : MonoBehaviour
             OpenCloseButton.onClick.RemoveAllListeners();
             OpenCloseButton.onClick.AddListener(HidePanel);
             SetWidths();
+            SetScrollView();
             hideImage.SetActive(false);
             showImage.SetActive(true);
             isMoving = false;
@@ -216,11 +216,12 @@ public class ProfileChatting : MonoBehaviour
             currentValue = hideValue;
             OpenCloseButton.onClick.RemoveAllListeners();
             OpenCloseButton.onClick.AddListener(ShowPanel);
+            SetWidths();
+            SetScrollView();
             hideImage.SetActive(true);
             showImage.SetActive(false);
             isMoving = false;
             loadingPanel.SetActive(false);
-            SetWidths();
         });
     }
 
@@ -236,18 +237,39 @@ public class ProfileChatting : MonoBehaviour
     //    }    
     //}
 
+    //윈도우를 오픈할때마다 실행해줘야함
+    private void SetScrollView()
+    {
+        if(this.gameObject.activeSelf)
+        {
+            StartCoroutine(ScrollCor());
+        }
+        else
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
+            scroll.verticalNormalizedPosition = 0;
+        }
+    }
+
+    private IEnumerator ScrollCor()
+    {
+        yield return new WaitForSeconds(0.025f);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
+        scroll.verticalNormalizedPosition = 0;
+    }
+
     private void SetWidths()
     {
-        RectTransform[] rects = contentSizeFitter.GetComponentsInChildren<RectTransform>();
-        foreach(var temp in rects)
+        RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
+        foreach (var temp in rects)
         {
-            temp.sizeDelta = new Vector2(currentValue - 40, 0);
+            temp.sizeDelta = new Vector2(currentValue - 60, 0);
         }
     }
     private void SetLastWidth()
     {
-        RectTransform[] rects = contentSizeFitter.GetComponentsInChildren<RectTransform>();
-        rects[rects.Length - 1].sizeDelta = new Vector2(currentValue - 40, 0);
+        RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
+        rects[rects.Length - 1].sizeDelta = new Vector2(currentValue - 60, 0);
     }
 
     public void OnApplicationQuit()
