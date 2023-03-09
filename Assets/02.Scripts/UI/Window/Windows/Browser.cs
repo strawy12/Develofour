@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 
 public enum ESiteLink
 {
@@ -34,6 +35,7 @@ public partial class Browser : Window
     [SerializeField] private BrowserBar browserBar;
     [SerializeField] private LoadingIcon loadingBar;
 
+    private ESiteLink requestSite;
     private List<Site> usedSiteList;
 
     private bool isLoading = false;
@@ -59,8 +61,10 @@ public partial class Browser : Window
         browserBar.OnRedo?.AddListener(RedoSite);
 
         EventManager.StartListening(EBrowserEvent.OnUndoSite, UndoSite);
-        ChangeSite(ESiteLink.Chrome, 0f, false);
+        EventManager.StartListening(ELoginSiteEvent.LoginSuccess, LoginSiteOpen);
+
         EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
+        ChangeSite(ESiteLink.Chrome, 0f, false);
 
         GuideManager.Inst.guidesDictionary[EGuideType.BrowserConnectGuide] = true;
 
@@ -139,14 +143,17 @@ public partial class Browser : Window
             currentSite = CreateSite(currentSite); 
         }
 
+        Debug.Log(currentSite);
+
         usingSite = currentSite;
+        // before 사이트는 위에서 넣고 using을 currentSite로 여기서 갱신
        
         if (addUndo && beforeSite != null)
         {
             usingSite.SetUndoSite(beforeSite);
         }
 
-        if(addUndo && beforeSite != null) 
+        if (addUndo && beforeSite != null)
         {
             DeleteRedoSite(beforeSite.redoSite);
             beforeSite.SetRedoSite(null);
@@ -185,6 +192,11 @@ public partial class Browser : Window
         loadingCoroutine = null;
     }
 
+    public void LoginSiteOpen(object[] ps)
+    {
+        ChangeSite(requestSite, Constant.LOADING_DELAY, true);
+    }
+
     public void UndoSite(object[] emptyParam) => UndoSite();
 
     public void UndoSite()
@@ -196,6 +208,8 @@ public partial class Browser : Window
         Site beforeSite = ChangeSite(currentSite, Constant.LOADING_DELAY, false);
 
         currentSite.SetRedoSite(beforeSite);
+
+        Debug.Log("Undo : " + currentSite);
 
         // 앞으로 갈 사이트는 사용하던 사이트 
         // 뒤로 갈 사이트는 undosite의 top

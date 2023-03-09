@@ -15,6 +15,8 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField]
     private GameObject gameStateScreenInWindow;
 
+    public bool isTutorial;
+
     public bool profilerTutorialClear;
     public bool isProfilerTownloadCompleted;
 
@@ -25,6 +27,8 @@ public class GameManager : MonoSingleton<GameManager>
     public void ChangeGameState(EGameState state)
     {
         if (gameState == state) { return; }
+
+        if (state == EGameState.Tutorial) isTutorial = true;
 
         gameState = state;
         if(gameState == EGameState.CutScene)
