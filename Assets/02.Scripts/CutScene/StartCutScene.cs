@@ -228,7 +228,6 @@ public class StartCutScene : MonoBehaviour
         //여기에서 로그인 풀기
         GameManager.Inst.ChangeGameState(EGameState.Game);
         EventManager.TriggerEvent(ECutSceneEvent.EndStartCutScene);
-        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0f, 5);
         Sound.OnPlaySound(Sound.EAudioType.StartMainBGM);
         SetActiveThisObject();
     }
