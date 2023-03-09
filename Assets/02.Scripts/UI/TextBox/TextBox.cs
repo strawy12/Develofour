@@ -134,6 +134,8 @@ public class TextBox : MonoUI
         messageText.color = textData.color;
         isTextPrinted = false;
         ShowBox();
+
+        Debug.Log(textData.text);
         StartCoroutine(PrintMonologTextCoroutine(textData.text));
     }
 
