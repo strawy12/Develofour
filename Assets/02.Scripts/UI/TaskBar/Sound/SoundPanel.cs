@@ -70,6 +70,7 @@ public class SoundPanel : MonoUI
     public void Close()
     {
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
+        selectPanel.CloseSelectPanel();
         isOpen = false;
         SetActive(false);
     }

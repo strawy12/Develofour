@@ -88,8 +88,6 @@ public class Discord : Window
 
         string userName = param[0] as string;
 
-
-
         currentTalkData = GetTalkDataList(userName);
 
         if (!currentTalkData.isCoimpleteTalk)
