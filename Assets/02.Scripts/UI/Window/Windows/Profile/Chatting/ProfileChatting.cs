@@ -240,7 +240,7 @@ public class ProfileChatting : MonoBehaviour
     //윈도우를 오픈할때마다 실행해줘야함
     private void SetScrollView()
     {
-        if(this.gameObject.activeSelf)
+        if(this.gameObject.activeInHierarchy)
         {
             StartCoroutine(ScrollCor());
         }

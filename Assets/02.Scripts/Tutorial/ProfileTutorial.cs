@@ -15,6 +15,9 @@ public class ProfileTutorial : MonoBehaviour
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
         EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCoroutine(NoticeProfileChattingTutorial()); });
+
+        //skip debug 코드
+        EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { StopAllCoroutines(); EndTutoMonologEvent(); });
     }
 
     public IEnumerator StartProfileTutorial()
@@ -105,4 +108,6 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 90f, EGuideType.BrowserConnectGuide });
         MonologSystem.OnEndMonologEvent -= EndTutoMonologEvent;
     }
+
+
 }
