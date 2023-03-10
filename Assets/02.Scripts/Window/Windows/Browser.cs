@@ -16,9 +16,9 @@ public enum ESiteLink
     GoogleLogin,
     Email,
     Brunch,
-    Facebook,
-    FacebookLoginSite,
-    FacebookPasswordResetSite,
+    Starbook,
+    StarbookLoginSite,
+    StarbookPasswordResetSite,
 }
 /// <summary>
 ///  블로그 사이트 이름

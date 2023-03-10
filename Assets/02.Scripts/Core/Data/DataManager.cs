@@ -2,13 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityEngine;
 
 public class DataManager : MonoSingleton<DataManager>
 {
-    [SerializeField]
-    private PlayerData playerData;
-    public PlayerData CurrentPlayer => playerData;
+    private static SaveData saveData;
 
     private string SAVE_PATH = "";
     private const string SAVE_FILE = "Data.Json";
@@ -31,7 +30,7 @@ public class DataManager : MonoSingleton<DataManager>
 
     private void CreatePlayerData()
     {
-        playerData = new PlayerData();
+        saveData = new SaveData();
         SaveToJson();
     }
 
@@ -45,7 +44,7 @@ public class DataManager : MonoSingleton<DataManager>
         if (File.Exists(SAVE_PATH + SAVE_FILE))
         {
             string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
-            playerData = JsonUtility.FromJson<PlayerData>(data);
+            saveData = JsonUtility.FromJson<SaveData>(data);
         }
         else
         {
@@ -56,9 +55,43 @@ public class DataManager : MonoSingleton<DataManager>
     {
         CheckDirectory();
 
-        string data = JsonUtility.ToJson(playerData);
+        string data = JsonUtility.ToJson(saveData);
         File.WriteAllText(SAVE_PATH + SAVE_FILE, data);
     }
+    public static T GetSaveData<T>(ESaveDataType fieldType)
+    {
+        string fieldName = fieldType.ToString();
+        fieldName = char.ToLower(fieldName[0]) + fieldName.Substring(1);
+
+        FieldInfo info = saveData.GetType().GetField(fieldName);
+        T value = (T)info.GetValue(saveData);
+        return value;
+    }
+
+    public static void SetSaveData<T>(ESaveDataType fieldType, T value)
+    {
+        string fieldName = fieldType.ToString();
+        fieldName = char.ToLower(fieldName[0]) + fieldName.Substring(1);
+
+        FieldInfo info = saveData.GetType().GetField(fieldName);
+        info.SetValue(saveData, value);
+    }
+
+    public bool IsWindowLock(string fileLocation)
+    {
+        PinLockData data = saveData.pinLockData.Find(x => x.fileLocation == fileLocation);
+        return data.isLock;
+    }
+
+    public void SetWindowLock(string fileLocation, bool value)
+    {
+        PinLockData data = saveData.pinLockData.Find(x => x.fileLocation == fileLocation);
+        data.isLock = value;
+
+    }
+
+
+
 
     private void OnDestroy()
     {

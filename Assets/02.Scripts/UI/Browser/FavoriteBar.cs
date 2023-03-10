@@ -12,7 +12,7 @@ public class FavoriteBar : MonoBehaviour
     [SerializeField] protected Transform siteParent;
 
     protected Dictionary<ESiteLink, BrowserFavoriteButton> favoritesList = new Dictionary<ESiteLink, BrowserFavoriteButton>();
-    protected List<ESiteLink> SiteLinkData { get { return DataManager.Inst.CurrentPlayer.CurrentChapterData.siteLinks; } }
+    protected List<ESiteLink> SiteLinkData { get { return null; } }
 
     public virtual void Init()
     {

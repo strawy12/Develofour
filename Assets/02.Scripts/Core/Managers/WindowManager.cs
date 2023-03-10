@@ -109,7 +109,7 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         if (targetWindow == null)
         {
-            if (!file.isWindowLockClear)
+            if (!DataManager.Inst.IsWindowLock(file.GetFileLocation()))
             {
                 targetWindow = CreateWindow(EWindowType.WindowPinLock, file);
             }

@@ -53,11 +53,11 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         Init();
 
-        //if (DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin)
-        //{
-        //    gameObject.SetActive(false);
-        //    return;
-        //}
+        if (DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
 
         Subscribe();
     }
