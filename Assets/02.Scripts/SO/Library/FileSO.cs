@@ -37,6 +37,7 @@ public class FileSO : SOParent
     public WindowIconData fileData;
     public bool isMultiple; // 윈도우를 여러번 킬 수 있냐
 
+    public bool isFileLock;
     public string windowPin;
     public string windowPinHintGuide;
     public bool isAlarm;

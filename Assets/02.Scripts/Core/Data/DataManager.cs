@@ -31,6 +31,10 @@ public class DataManager : MonoSingleton<DataManager>
     private void CreatePlayerData()
     {
         saveData = new SaveData();
+        saveData.pinLockData = new List<PinLockData>();
+
+
+
         SaveToJson();
     }
 
@@ -77,17 +81,20 @@ public class DataManager : MonoSingleton<DataManager>
         info.SetValue(saveData, value);
     }
 
-    public bool IsWindowLock(string fileLocation)
+    public static bool IsWindowLock(string fileLocation)
     {
         PinLockData data = saveData.pinLockData.Find(x => x.fileLocation == fileLocation);
+        if(data == null)
+            return true;
+
         return data.isLock;
     }
 
-    public void SetWindowLock(string fileLocation, bool value)
+    public static void SetWindowLock(string fileLocation, bool value)
     {
         PinLockData data = saveData.pinLockData.Find(x => x.fileLocation == fileLocation);
-        data.isLock = value;
-
+        if (data != null)
+            data.isLock = value;
     }
 
 

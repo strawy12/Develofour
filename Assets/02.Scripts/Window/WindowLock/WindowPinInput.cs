@@ -87,7 +87,7 @@ public class WindowPinInput : Window
     {
         if (pinInputField.text == file.windowPin)
         {
-            file.isWindowLockClear = true;
+            DataManager.SetWindowLock(file.GetFileLocation(), true);
 
             PinAnswerTextChange();
         

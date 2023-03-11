@@ -7,8 +7,10 @@ public enum ESaveDataType
 {
     None = -1,
     PinLockData,
+
+    ComputerLoginState,
+
     IsSuccessLoginZoogle,
-    IsWindowsLoginAdminMode,
     IsSuccessLoginStarbook,
 }
 
@@ -31,13 +33,35 @@ public class SaveData
     // 1. string Format 방식
     // 2. 변수 초기화 방식
 
-    // 10월달부터 이 프로젝트 진행했잖아
-    // 10 11 12 1 2 3
+    // fileSO isLock 이거는 상수, 어떻게 
+    // 툴을 만들자
+    // fileSO 탐색 isLock true인 애들을 여기다가 넣어주는 반복문을 하자
+    // 클릭하면 실행되는 에디터 함수들 Json 형식으로 
+    // {"/file/fileA", true },
+    // {"/file/fileA", true },
+    // {"/file/fileA", true },
+    // {"/file/fileA", true },
+    // {"/file/fileA", true },
+    // {"/file/fileA", true },
+    // Log에다가 찍어줘
+    // 이 뽑아준 데이터를 복사해서 붙여넣기 해준다
 
-
+    // Json string으로 쓸건지
+    // 코드를 작성을 할건지
+    // 다시 한번 물어보고
+    // string  1
+    // 코드    1
     public List<PinLockData> pinLockData;
 
     public bool isSuccessLoginZoogle;
-    public bool isWindowsLoginAdminMode;
     public bool isSuccessLoginStarbook;
+
+    public EComputerLoginState computerLoginState;
+}
+
+public enum EComputerLoginState
+{
+    Logout,
+    Guest,
+    Admin,
 }

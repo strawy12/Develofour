@@ -59,12 +59,12 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         // Login X
         // Login O ¤Ñ 
         //         |_ 
-        if (DataManager.GetSaveData<bool>(ESaveDataType.IsWindowsLoginAdminMode))
+        if (Define.CheckComputerLoginState(EComputerLoginState.Admin))
         {
             nameText.text = "¹ÚÁÖ¿µ";
         }
 
-        else
+        else if(Define.CheckComputerLoginState(EComputerLoginState.Guest))
         {
             nameText.text = "Guest";
         }
