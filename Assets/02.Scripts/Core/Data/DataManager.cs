@@ -28,12 +28,19 @@ public class DataManager : MonoSingleton<DataManager>
         }
     }
 
-    private void CreatePlayerData()
+    private void CreateSaveData()
     {
         saveData = new SaveData();
         saveData.pinLockData = new List<PinLockData>();
 
-
+        List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
+        foreach(FileSO file in fileList)
+        {
+            if(file.isFileLock == true)
+            {
+                saveData.pinLockData.Add(new PinLockData() { fileLocation = file.GetFileLocation(), isLock = true });
+            }
+        }
 
         SaveToJson();
     }
@@ -41,7 +48,7 @@ public class DataManager : MonoSingleton<DataManager>
     private void LoadFromJson()
     {
 #if UNITY_EDITOR
-        CreatePlayerData();
+        CreateSaveData();
         Debug.LogWarning("PlayerData 실행 시 매번 초기화 되는 디버깅 코드가 존재합니다.");
         return;
 #endif
@@ -52,7 +59,7 @@ public class DataManager : MonoSingleton<DataManager>
         }
         else
         {
-            CreatePlayerData();
+            CreateSaveData();
         }
     }
     private void SaveToJson()
