@@ -13,6 +13,11 @@ public class CalculatorClick : MonoBehaviour
 
     public void Init()
     {
-        throw new NotImplementedException();
+        button.onClick?.AddListener(OnClick);
+    }
+
+    public void OnClick()
+    {
+        calculator.GetClicked(value);
     }
 }
