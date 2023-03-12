@@ -33,6 +33,13 @@ public class Debugger : MonoBehaviour
             NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         }
 
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            //디버그용 스킵 코드 이벤트까지 지워주기
+            if(GameManager.Inst.GameState == EGameState.Tutorial)
+            EventManager.TriggerEvent(EDebugSkipEvent.TutorialSkip);
+        }
+
         foreach (DebugEvent e in debugEventList)
         {
             if (Input.GetKeyDown(e.keyCode))

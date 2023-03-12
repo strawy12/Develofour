@@ -15,6 +15,9 @@ public class ProfileTutorial : MonoBehaviour
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
         EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCoroutine(NoticeProfileChattingTutorial()); });
+
+        //skip debug 코드
+        EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { StopAllCoroutines(); EndTutoMonologEvent(); });
     }
 
     public IEnumerator StartProfileTutorial()
@@ -76,7 +79,7 @@ public class ProfileTutorial : MonoBehaviour
         foreach (string str in findNoticeAIChatting)
         {
             AIChatting(str);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
         }
     }
 
@@ -87,7 +90,7 @@ public class ProfileTutorial : MonoBehaviour
         foreach (string str in completeProfileChatting)
         {
             AIChatting(str);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
         }
 
         MonologSystem.OnEndMonologEvent += EndTutoMonologEvent;
@@ -105,4 +108,6 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.TriggerEvent(EGuideEventType.OpenPlayGuide, new object[2] { 90f, EGuideTopicName.BrowserConnectGuide });
         MonologSystem.OnEndMonologEvent -= EndTutoMonologEvent;
     }
+
+
 }
