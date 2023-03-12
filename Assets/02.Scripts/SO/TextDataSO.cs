@@ -11,6 +11,7 @@ public enum ETextDataType
     TutorialMonolog2,
     TutorialMonolog3,
     GuideLog1,
+    Count
 }
 
 [System.Serializable]
@@ -28,10 +29,11 @@ public class TextDataSO : ScriptableObject
 {
     [SerializeField]
     private ETextDataType textDataType;
-
     [SerializeField]
     private List<TextData> textDataList;
-    
+
+    public bool isMonolog;
+
     public ETextDataType TextDataType {
         get 
         {

@@ -53,11 +53,11 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         Init();
 
-        if (!Define.CheckComputerLoginState(EComputerLoginState.Logout))
-        {
-            gameObject.SetActive(false);
-            return;
-        }
+        //if (!Define.CheckComputerLoginState(EComputerLoginState.Logout))
+        //{
+        //    gameObject.SetActive(false);
+        //    return;
+        //}
 
         Subscribe();
     }

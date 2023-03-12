@@ -20,7 +20,12 @@ public class PinLockData
     public string fileLocation;
     public bool isLock = true;
 }
-
+[System.Serializable]
+public class MonologSaveData
+{
+    public ETextDataType monologType;
+    public bool isShow;
+}
 [System.Serializable]
 public class SaveData
 {
@@ -52,7 +57,7 @@ public class SaveData
     // string  1
     // ÄÚµå    1
     public List<PinLockData> pinLockData;
-
+    public List<MonologSaveData> monologSaveData;
     public bool isSuccessLoginZoogle;
     public bool isSuccessLoginStarbook;
 
