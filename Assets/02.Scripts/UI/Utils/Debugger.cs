@@ -30,7 +30,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+            Debug.Log(DataManager.GetSaveData<bool>(ESaveDataType.IsWatchStartCutScene));
         }
 
         foreach (DebugEvent e in debugEventList)
@@ -42,4 +42,10 @@ public class Debugger : MonoBehaviour
         }
     }
 
+
+
+    void OnApplicationQuit()
+    {
+        Debug.Log(DataManager.GetSaveData<bool>(ESaveDataType.IsWatchStartCutScene));
+    }
 }

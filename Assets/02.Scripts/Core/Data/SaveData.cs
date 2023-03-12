@@ -12,6 +12,7 @@ public enum ESaveDataType
 
     IsSuccessLoginZoogle,
     IsSuccessLoginStarbook,
+    IsWatchStartCutScene,
 }
 
 [System.Serializable]
@@ -55,7 +56,8 @@ public class SaveData
 
     public bool isSuccessLoginZoogle;
     public bool isSuccessLoginStarbook;
-
+    public bool isWatchStartCutScene;
+    
     public EComputerLoginState computerLoginState;
 }
 

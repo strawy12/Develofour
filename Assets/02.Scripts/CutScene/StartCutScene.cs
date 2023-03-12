@@ -31,7 +31,15 @@ public class StartCutScene : MonoBehaviour
 
     private void Start()
     {
-        EventManager.StartListening(ECoreEvent.EndDataLoading, PlayCutScene);
+        if (DataManager.GetSaveData<bool>(ESaveDataType.IsWatchStartCutScene))
+        {
+            EndCutScene();
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            EventManager.StartListening(ECoreEvent.EndDataLoading, PlayCutScene);
+        }
     }
 
     private void PlayCutScene(object[] ps)
@@ -226,6 +234,8 @@ public class StartCutScene : MonoBehaviour
     private void EndLoading()
     {
         //여기에서 로그인 풀기
+        DataManager.SetSaveData(ESaveDataType.IsWatchStartCutScene, true);
+        Debug.Log(DataManager.GetSaveData<bool>(ESaveDataType.IsWatchStartCutScene));
         GameManager.Inst.ChangeGameState(EGameState.Game);
         EventManager.TriggerEvent(ECutSceneEvent.EndStartCutScene);
         Sound.OnPlaySound(Sound.EAudioType.StartMainBGM);
@@ -236,4 +246,5 @@ public class StartCutScene : MonoBehaviour
     {
         Destroy(this.gameObject);
     }
+
 }

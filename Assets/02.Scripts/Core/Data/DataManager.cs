@@ -17,7 +17,6 @@ public class DataManager : MonoSingleton<DataManager>
     private void Awake()
     {
         SAVE_PATH = Application.dataPath + "/Save/";
-
         CheckDirectory();
         LoadFromJson();
     }
@@ -110,8 +109,6 @@ public class DataManager : MonoSingleton<DataManager>
         if (data != null)
             data.isLock = value;
     }
-
-
 
 
     private void OnDestroy()
