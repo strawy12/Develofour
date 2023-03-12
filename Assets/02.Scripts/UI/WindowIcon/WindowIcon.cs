@@ -65,7 +65,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             return;
         }
         fileData = newFileData;
-        iconNameText.text = fileData.windowName;
+        iconNameText.text = fileData.fileName;
 
         float x1, y1, x2, y2;
 
@@ -88,13 +88,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         iconImage.sprite = newFileData.iconSprite;
       
-        if (isRegisterEvent == false && fileData.windowName == "의뢰자 정보")    
+        if (isRegisterEvent == false && fileData.fileName == "의뢰자 정보")    
         {
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
         }
 
-        if (isUSBEvent == false && fileData.windowName == "BestUSB")
+        if (isUSBEvent == false && fileData.fileName == "BestUSB")
         {
             isUSBEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
@@ -123,7 +123,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 UnSelect();
 
-                if (fileData.windowName == "의뢰자 정보")
+                if (fileData.fileName == "의뢰자 정보")
                 {
                     Debug.Log("의뢰자 정보 " + GameManager.Inst.GameState);
                     if(GameManager.Inst.GameState == EGameState.Tutorial)
@@ -132,7 +132,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                         EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
                     }
                 }
-                if (fileData.windowName == "BestUSB")
+                if (fileData.fileName == "BestUSB")
                 {
                     EventManager.TriggerEvent(ETutorialEvent.LibraryUSBEnd);
                 }

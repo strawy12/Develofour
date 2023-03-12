@@ -31,7 +31,7 @@ public struct WindowIconData
 public class FileSO : SOParent
 {
     public DirectorySO parent;
-    public string windowName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
+    public string fileName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
     public Sprite iconSprite;
     public WindowIconData fileData;
@@ -52,10 +52,12 @@ public class FileSO : SOParent
     {
         if(parent == null)
         {
-            return this.name + '\\';
+            return this.fileName + '\\';
         } 
 
-        string location = string.Format("{0}{1}\\", parent.GetFileLocation(), this.name);
+        string location = string.Format("{0}{1}\\", parent.GetFileLocation(), this.fileName);
+        Debug.Log(location);
+
         return location;
     }
 
@@ -131,7 +133,7 @@ public class FileSO : SOParent
             windowType = (EWindowType)Enum.Parse(typeof(EWindowType), str[3]);
 
         }
-        windowName = str[4];
+        fileName = str[4];
         fileData.bytes = int.Parse(str[5]);
         fileData.madeDate = str[6];
         fileData.lastFixDate = str[7];
