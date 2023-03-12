@@ -38,7 +38,6 @@ public class HomeSite : Site , IPointerClickHandler
     protected override void ShowSite()
     {
         base.ShowSite();
-        favoriteBar.ReadSiteListsData();
     }
 
     protected override void HideSite()

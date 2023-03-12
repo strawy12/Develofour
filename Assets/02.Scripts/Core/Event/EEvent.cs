@@ -59,9 +59,6 @@ public enum EBrowserEvent
     None = -1,
     OnOpenSite,
     OnUndoSite,
-    AddFavoriteSite,
-    RemoveFavoriteSite,
-    AddFavoriteSiteAll,
 }
 
 #region Site

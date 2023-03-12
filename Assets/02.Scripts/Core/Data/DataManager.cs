@@ -12,6 +12,8 @@ public class DataManager : MonoSingleton<DataManager>
     private string SAVE_PATH = "";
     private const string SAVE_FILE = "Data.Json";
 
+    public SaveData debug_Data;
+
     private void Awake()
     {
         SAVE_PATH = Application.dataPath + "/Save/";
@@ -34,6 +36,7 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.pinLockData = new List<PinLockData>();
 
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
+
         foreach(FileSO file in fileList)
         {
             if(file.isFileLock == true)
@@ -43,6 +46,8 @@ public class DataManager : MonoSingleton<DataManager>
         }
 
         SaveToJson();
+
+        debug_Data = saveData;
     }
 
     private void LoadFromJson()
@@ -66,7 +71,9 @@ public class DataManager : MonoSingleton<DataManager>
     {
         CheckDirectory();
 
-        string data = JsonUtility.ToJson(saveData);
+        Debug.Log("SaveToJson");
+
+        string data = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(SAVE_PATH + SAVE_FILE, data);
     }
     public static T GetSaveData<T>(ESaveDataType fieldType)

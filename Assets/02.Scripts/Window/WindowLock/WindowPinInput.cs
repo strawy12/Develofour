@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class WindowPinInput : Window
 {
     private static List<FileSO> additionFileList;
-    
+
     private bool isShaking = false;
 
     [SerializeField]
@@ -30,7 +30,7 @@ public class WindowPinInput : Window
 
     [SerializeField]
     private TMP_InputField pinInputField;
-     
+
     [SerializeField]
     private Button confirmButton;
 
@@ -71,8 +71,7 @@ public class WindowPinInput : Window
         windowBar.SetNameText("[ " + file.name + " - 잠금 안내 ]");
         pinGuideText.SetText(file.windowPinHintGuide);
 
-        Input.imeCompositionMode = IMECompositionMode.On;
-
+        Debug.Log(11);
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
         if (file.name == "ZooglePassword" && !GuideManager.Inst.isZooglePinNotePadOpenCheck)
@@ -83,14 +82,20 @@ public class WindowPinInput : Window
         }
     }
 
+
+
     private void CheckPinPassword()
     {
+        // 여러번 확인 못하게 해야해
+        // 오답입니다 가 뜨든 정답입니다가 뜨든
+        // 둘 다 이펙트가 있어서 그 이펙트가 종료 될 때 까지 이 함수가 실행 되면 안돼
+
         if (pinInputField.text == file.windowPin)
         {
-            DataManager.SetWindowLock(file.GetFileLocation(), true);
+            DataManager.SetWindowLock(file.GetFileLocation(), false);
 
-            PinAnswerTextChange();
-        
+            StartCoroutine(PinAnswerTextChange());
+
             additionFileList.Add(file);
         }
         else
@@ -101,28 +106,32 @@ public class WindowPinInput : Window
         pinInputField.text = "";
     }
 
-    private void PinAnswerTextChange()
+    private IEnumerator PinAnswerTextChange()
     {
         answerMarkText.color = answerTextColor;
 
         answerMarkText.SetText("정답입니다.");
         answerPanel.gameObject.SetActive(true);
-        
-        answerMarkText.rectTransform.DOShakePosition(1, 0, 0).OnComplete(() =>
+
+        yield return new WaitForSeconds(0.6f);
+
+        answerMarkText.SetText("");
+        answerPanel.gameObject.SetActive(false);
+
+        WindowManager.Inst.WindowOpen(file.windowType, file);
+
+        // 이걸 굳이 이렇게 쓸 필요 없지
+        // 좀 더 커플링이 심하지 않게 
+
+        // 잠금 해제 확인
+
+        // 이벤트 매니저로 PinLock Clear 이벤트를 쏘고 매개변수로 fileSO 같이 주고 가이드 매니저가 이걸 들으면 그 내부코드에 이게 있도록 수정
+        if (file.name == "ZooglePassword" && GuideManager.Inst.isZooglePinNotePadOpenCheck)
         {
-            answerMarkText.SetText("");
-            answerPanel.gameObject.SetActive(false);
+            GuideManager.Inst.guidesDictionary[EGuideType.ClearPinNotePadQuiz] = true;
+        }
 
-            WindowManager.Inst.WindowOpen(file.windowType, file);
-
-            // 잠금 해제 확인
-            if (file.name == "ZooglePassword" && GuideManager.Inst.isZooglePinNotePadOpenCheck)
-            {
-                GuideManager.Inst.guidesDictionary[EGuideType.ClearPinNotePadQuiz] = true;
-            }
-
-            CloseWindowPinLock();
-        });
+        CloseWindowPinLock();
     }
 
     private void PinWrongAnswer()
@@ -146,8 +155,6 @@ public class WindowPinInput : Window
     {
         pinInputField.text = "";
 
-        Input.imeCompositionMode = IMECompositionMode.Off;
-
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
         WindowClose();
@@ -159,7 +166,7 @@ public class WindowPinInput : Window
 
         foreach (FileSO file in additionFileList)
         {
-           // file.isWindowLockClear = false;
+            // file.isWindowLockClear = false;
         }
     }
 }

@@ -63,7 +63,6 @@ public partial class Browser : Window
         EventManager.StartListening(EBrowserEvent.OnUndoSite, UndoSite);
         EventManager.StartListening(ELoginSiteEvent.LoginSuccess, LoginSiteOpen);
 
-        EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
         ChangeSite(ESiteLink.Chrome, 0f, false);
 
         GuideManager.Inst.guidesDictionary[EGuideType.BrowserConnectGuide] = true;

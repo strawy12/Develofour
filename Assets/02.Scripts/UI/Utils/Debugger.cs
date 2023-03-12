@@ -23,10 +23,6 @@ public class Debugger : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
-        }
         if (Input.GetKeyDown(KeyCode.D))
         {
             MonologSystem.OnStopMonolog?.Invoke();
