@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public enum EGuideType
+public enum EGuideTopicName
 {
     None,
     ProfilerDownGuide,
@@ -12,18 +12,25 @@ public enum EGuideType
     ClearPinNotePadQuiz,
 }
 
+public enum EGuideEventType
+{
+    OpenPlayGuide,
+    ClearGuideType,
+    GuideConditionCheck,
+}
+
 [System.Serializable]
 public class GuideStatusData
 {
     public bool isCompleted;
-    public EGuideType guideTopic;
+    public EGuideTopicName guideTopic;
 }
 
 public class GuideManager : MonoSingleton<GuideManager>
 {
     public bool isZooglePinNotePadOpenCheck = false;
 
-    public Dictionary<EGuideType, bool> guidesDictionary;
+    public Dictionary<EGuideTopicName, bool> guidesDictionary;
     
     [SerializeField]
     private List<GuideStatusData> guideStatusesList;
@@ -35,18 +42,20 @@ public class GuideManager : MonoSingleton<GuideManager>
     [SerializeField]
     private string[] pinNotePadHintChatting;
 
-    private EGuideType guideType;
+    private EGuideTopicName guideType;
 
     void Start()
     {
-        guidesDictionary = new Dictionary<EGuideType, bool>();
+        guidesDictionary = new Dictionary<EGuideTopicName, bool>();
 
         Init();
     }
 
     private void Init()
     {
-        EventManager.StartListening(ECoreEvent.OpenPlayGuide, OnPlayGuide);
+        EventManager.StartListening(EGuideEventType.OpenPlayGuide, OnPlayGuide);
+        EventManager.StartListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
+        EventManager.StartListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
 
         DictionaryInit();
     }
@@ -67,7 +76,7 @@ public class GuideManager : MonoSingleton<GuideManager>
         }
 
         float timer = (float)ps[0];
-        guideType = (EGuideType)ps[1];
+        guideType = (EGuideTopicName)ps[1];
 
         StartCoroutine(SetTimer(timer));
     }
@@ -82,18 +91,18 @@ public class GuideManager : MonoSingleton<GuideManager>
         }
     }
 
-    private void StartGudie(EGuideType guideTopic)
+    private void StartGudie(EGuideTopicName guideTopic)
     {
         switch(guideTopic)
         {
-            case EGuideType.ProfilerDownGuide:
+            case EGuideTopicName.ProfilerDownGuide:
                 {
                     MonologSystem.OnStartMonolog.Invoke(ETextDataType.GuideLog1, 0.2f, 1);
                     guidesDictionary[guideType] = true;
 
                     break;
                 }
-            case EGuideType.BrowserConnectGuide:
+            case EGuideTopicName.BrowserConnectGuide:
                 {
                     EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { browserConnectGuideHint });
                     NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
@@ -101,7 +110,7 @@ public class GuideManager : MonoSingleton<GuideManager>
                     
                     break;
                 }
-            case EGuideType.ClickPinNotePadHint:
+            case EGuideTopicName.ClickPinNotePadHint:
                 {
                     EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { notePadHintClickChatting });
                     NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
@@ -109,7 +118,7 @@ public class GuideManager : MonoSingleton<GuideManager>
 
                     break;
                 }
-            case EGuideType.ClearPinNotePadQuiz:
+            case EGuideTopicName.ClearPinNotePadQuiz:
                 {
                     StartCoroutine(SendHintMessage());
                     guidesDictionary[guideType] = true;
@@ -134,10 +143,52 @@ public class GuideManager : MonoSingleton<GuideManager>
         }
     }
 
+    private void ThisClearGuideTopic(object[] ps)
+    {
+        if (ps[0] == null) 
+        {
+            return;
+        }
+
+        EGuideTopicName eGuideTopic = (EGuideTopicName)ps[0];
+
+        guidesDictionary[eGuideTopic] = true;
+    }
+
+
+    private void GuideConditionCheckClear(object[] ps)
+    {
+        FileSO file = (FileSO)ps[0];
+        EGuideTopicName guideType = (EGuideTopicName)ps[1];
+
+        if(file.name == "ZooglePassword")
+        {
+            if(!isZooglePinNotePadOpenCheck) 
+            {
+                isZooglePinNotePadOpenCheck = true;
+
+                EventManager.TriggerEvent(EGuideEventType.OpenPlayGuide, new object[2] { 1200f, guideType });
+            }
+            else if(isZooglePinNotePadOpenCheck)
+            {
+                guidesDictionary[guideType] = true;
+            }
+        }
+
+        if (file.name == "Zoogle PIN번호" && isZooglePinNotePadOpenCheck)
+        {
+            guidesDictionary[EGuideTopicName.ClickPinNotePadHint] = true;
+
+            EventManager.TriggerEvent(EGuideEventType.OpenPlayGuide, new object[2] { 40f, guideType });
+        }
+    }
+
     private void OnApplicationQuit()
     {
         isZooglePinNotePadOpenCheck = false;
 
-        EventManager.StopListening(ECoreEvent.OpenPlayGuide, OnPlayGuide);
+        EventManager.StopListening(EGuideEventType.OpenPlayGuide, OnPlayGuide);
+        EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
+        EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
 }

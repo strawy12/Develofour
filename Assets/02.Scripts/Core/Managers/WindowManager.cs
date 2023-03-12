@@ -11,8 +11,7 @@ public class WindowPrefabElement
     public EWindowType windowType;
     public Window windowPrefab;
 }
-
-
+ 
 public class WindowManager : MonoSingleton<WindowManager>
 {
     // 이거는 동적으로 생성된 Window 모음

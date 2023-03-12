@@ -102,7 +102,7 @@ public class ProfileTutorial : MonoBehaviour
         GameManager.Inst.isTutorial = false;
         MonologSystem.OnStartMonolog(ETextDataType.TutorialMonolog3, 0f, 3);
 
-        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 90f, EGuideType.BrowserConnectGuide });
+        EventManager.TriggerEvent(EGuideEventType.OpenPlayGuide, new object[2] { 90f, EGuideTopicName.BrowserConnectGuide });
         MonologSystem.OnEndMonologEvent -= EndTutoMonologEvent;
     }
 }

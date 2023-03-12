@@ -35,11 +35,7 @@ public class Notepad : Window
 
         notepadBody.inputField.scrollSensitivity = scrollValue;
 
-        if (currentData.fileName == "Zoogle PIN번호" && GuideManager.Inst.isZooglePinNotePadOpenCheck)
-        {
-            GuideManager.Inst.guidesDictionary[EGuideType.ClickPinNotePadHint] = true;
-            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 40f, EGuideType.ClearPinNotePadQuiz });
-        }
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { currentData, EGuideTopicName.ClearPinNotePadQuiz });
 
         SetText();
     }
