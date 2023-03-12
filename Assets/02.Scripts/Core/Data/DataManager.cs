@@ -33,7 +33,7 @@ public class DataManager : MonoSingleton<DataManager>
     {
         saveData = new SaveData();
         saveData.pinLockData = new List<PinLockData>();
-
+        saveData.monologSaveData = new List<MonologSaveData>();
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
         foreach(FileSO file in fileList)
@@ -44,6 +44,11 @@ public class DataManager : MonoSingleton<DataManager>
             }
         }
 
+        for(int i = ((int)ETextDataType.None) + 1; i < (int)ETextDataType.Count; i++) 
+        {
+            saveData.monologSaveData.Add(new MonologSaveData() { monologType = (ETextDataType)i, isShow=false });
+        }
+        
         SaveToJson();
 
         debug_Data = saveData;
@@ -110,6 +115,27 @@ public class DataManager : MonoSingleton<DataManager>
             data.isLock = value;
     }
 
+    public static bool IsMonologShow(ETextDataType type)
+    {
+        MonologSaveData data= saveData.monologSaveData.Find(x => x.monologType == type);
+        if (data == null)
+        {
+            Debug.Log("Json에 존재하지않는 텍스트 데이터 입니다.");
+            return true;
+
+        }
+        return data.isShow;
+    }
+
+    public static void SetMonologShow(ETextDataType type, bool value)
+    {
+        MonologSaveData data= saveData.monologSaveData.Find(x => x.monologType == type);
+        if (data == null)
+        {
+            return;
+        }
+        data.isShow = value;
+    }
 
     private void OnDestroy()
     {
