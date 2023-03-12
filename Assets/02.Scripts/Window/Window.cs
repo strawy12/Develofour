@@ -204,7 +204,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     {
         this.file = file;
         Init();
-        WindowOpen();
+
         windowMaxCnt++;
         EventManager.StartListening(EWindowEvent.AlarmSend, AlarmCheck);
         EventManager.TriggerEvent(EWindowEvent.CreateWindow, new object[] { this });

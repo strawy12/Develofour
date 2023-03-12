@@ -48,16 +48,16 @@ public class WindowsLoginScreen : MonoBehaviour
     [SerializeField]
     private Button guestLoginButton;
     private bool isFirst = true;
-    
+
     private void Start()
     {
         Init();
 
-        //if (DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin)
-        //{
-        //    gameObject.SetActive(false);
-        //    return;
-        //}
+        if (!Define.CheckComputerLoginState(EComputerLoginState.Logout))
+        {
+            gameObject.SetActive(false);
+            return;
+        }
 
         Subscribe();
     }
@@ -97,7 +97,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin = true;
+            DataManager.SetSaveData(ESaveDataType.ComputerLoginState, EComputerLoginState.Admin);
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             windowLoginCanvas.SetActive(false);
             if (isFirst)
@@ -156,7 +156,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void WindowGuestLogin()
     {
-        DataManager.Inst.CurrentPlayer.CurrentChapterData.isGuestWindowLogin = true;
+        DataManager.SetSaveData(ESaveDataType.ComputerLoginState, EComputerLoginState.Guest);
         EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
         windowLoginCanvas.SetActive(false);
         if (isFirst)
@@ -176,7 +176,7 @@ public class WindowsLoginScreen : MonoBehaviour
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
         MonologSystem.OnEndMonologEvent -= USBNoticeFunc;
 
-        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 40f , EGuideType.ProfilerDownGuide });
+        EventManager.TriggerEvent(EGuideEventType.OpenPlayGuide, new object[2] { 40f, EGuideTopicName.ProfilerDownGuide });
 
     }
 }

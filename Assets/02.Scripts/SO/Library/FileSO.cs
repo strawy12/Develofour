@@ -37,7 +37,7 @@ public class FileSO : SOParent
     public WindowIconData fileData;
     public bool isMultiple; // 윈도우를 여러번 킬 수 있냐
 
-    public bool isWindowLockClear;
+    public bool isFileLock;
     public string windowPin;
     public string windowPinHintGuide;
     public bool isAlarm;
@@ -139,7 +139,7 @@ public class FileSO : SOParent
         fileData.lastFixDate = str[7];
         fileData.lastAccessDate = str[8];
         isMultiple = ReturnBool(str[9]);
-        isWindowLockClear = ReturnBool(str[10]);
+       // isWindowLockClear = ReturnBool(str[10]);
         windowPin = str[11];
         windowPinHintGuide = str[12];
 #endif

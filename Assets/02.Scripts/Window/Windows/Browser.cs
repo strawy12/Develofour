@@ -16,9 +16,9 @@ public enum ESiteLink
     GoogleLogin,
     Email,
     Brunch,
-    Facebook,
-    FacebookLoginSite,
-    FacebookPasswordResetSite,
+    Starbook,
+    StarbookLoginSite,
+    StarbookPasswordResetSite,
 }
 /// <summary>
 ///  블로그 사이트 이름
@@ -63,11 +63,9 @@ public partial class Browser : Window
         EventManager.StartListening(EBrowserEvent.OnUndoSite, UndoSite);
         EventManager.StartListening(ELoginSiteEvent.LoginSuccess, LoginSiteOpen);
 
-        EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
         ChangeSite(ESiteLink.Chrome, 0f, false);
 
-        GuideManager.Inst.guidesDictionary[EGuideType.BrowserConnectGuide] = true;
-
+        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[] { EGuideTopicName.BrowserConnectGuide });
     }
 
     private void BindingStart()

@@ -17,13 +17,13 @@ public partial class Browser : Window
         return createSite;
     }
 
-    public bool CheckGoogleSiteLogin()
+    public bool CheckZoogleSiteLogin()
     {
-        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
+        if (!DataManager.GetSaveData<bool>(ESaveDataType.IsSuccessLoginZoogle))
         {
             return false;
         }
-
+            
         return true;
     }
 
@@ -34,16 +34,19 @@ public partial class Browser : Window
         switch (siteLink)
         {
             case ESiteLink.Email:
-            case ESiteLink.Facebook:
-            case ESiteLink.FacebookLoginSite:
             case ESiteLink.Brunch:
                 {
-                    if (!CheckGoogleSiteLogin())
+                    if (!CheckZoogleSiteLogin())
                     {
                         requestSite = siteLink;
                         siteDictionary.TryGetValue(ESiteLink.GoogleLogin, out site);
                     }
 
+                    break;
+                }
+            case ESiteLink.Starbook:
+                {
+                    // 
                     break;
                 }
         }

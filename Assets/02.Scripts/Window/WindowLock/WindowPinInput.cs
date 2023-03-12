@@ -1,15 +1,14 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class WindowPinInput : Window
 {
     private static List<FileSO> additionFileList;
-    
+
     private bool isShaking = false;
 
     [SerializeField]
@@ -31,7 +30,7 @@ public class WindowPinInput : Window
 
     [SerializeField]
     private TMP_InputField pinInputField;
-     
+
     [SerializeField]
     private Button confirmButton;
 
@@ -69,29 +68,25 @@ public class WindowPinInput : Window
 
     private void PinOpen()
     {
-        windowBar.SetNameText("[ " + file.name + " - Àá±İ ¾È³» ]");
+        windowBar.SetNameText("[ " + file.name + " - ì ê¸ˆ ì•ˆë‚´ ]");
         pinGuideText.SetText(file.windowPinHintGuide);
 
-        Input.imeCompositionMode = IMECompositionMode.On;
-
+        Debug.Log(11);
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
-        if (file.name == "ZooglePassword" && !GuideManager.Inst.isZooglePinNotePadOpenCheck)
-        {
-            GuideManager.Inst.isZooglePinNotePadOpenCheck = true;
-
-            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 1200f, EGuideType.ClickPinNotePadHint });
-        }
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file, EGuideTopicName.ClickPinNotePadHint });
     }
+
+
 
     private void CheckPinPassword()
     {
         if (pinInputField.text == file.windowPin)
         {
-            file.isWindowLockClear = true;
+            DataManager.SetWindowLock(file.GetFileLocation(), false);
 
-            PinAnswerTextChange();
-        
+            StartCoroutine(PinAnswerTextChange());
+
             additionFileList.Add(file);
         }
         else
@@ -102,28 +97,23 @@ public class WindowPinInput : Window
         pinInputField.text = "";
     }
 
-    private void PinAnswerTextChange()
+    private IEnumerator PinAnswerTextChange()
     {
         answerMarkText.color = answerTextColor;
 
-        answerMarkText.SetText("Á¤´äÀÔ´Ï´Ù.");
+        answerMarkText.SetText("ì •ë‹µì…ë‹ˆë‹¤.");
         answerPanel.gameObject.SetActive(true);
-        
-        answerMarkText.rectTransform.DOShakePosition(1, 0, 0).OnComplete(() =>
-        {
-            answerMarkText.SetText("");
-            answerPanel.gameObject.SetActive(false);
 
-            WindowManager.Inst.WindowOpen(file.windowType, file);
+        yield return new WaitForSeconds(0.6f);
 
-            // Àá±İ ÇØÁ¦ È®ÀÎ
-            if (file.name == "ZooglePassword" && GuideManager.Inst.isZooglePinNotePadOpenCheck)
-            {
-                GuideManager.Inst.guidesDictionary[EGuideType.ClearPinNotePadQuiz] = true;
-            }
+        answerMarkText.SetText("");
+        answerPanel.gameObject.SetActive(false);
 
-            CloseWindowPinLock();
-        });
+        WindowManager.Inst.WindowOpen(file.windowType, file);
+
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file, EGuideTopicName.ClearPinNotePadQuiz });
+
+        CloseWindowPinLock();
     }
 
     private void PinWrongAnswer()
@@ -131,7 +121,7 @@ public class WindowPinInput : Window
         if (isShaking) return;
 
         answerMarkText.color = wrongAnswerTextColor;
-        answerMarkText.SetText("¿À´äÀÔ´Ï´Ù.");
+        answerMarkText.SetText("ì˜¤ë‹µì…ë‹ˆë‹¤.");
 
         isShaking = true;
 
@@ -147,8 +137,6 @@ public class WindowPinInput : Window
     {
         pinInputField.text = "";
 
-        Input.imeCompositionMode = IMECompositionMode.Off;
-
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
         WindowClose();
@@ -156,11 +144,11 @@ public class WindowPinInput : Window
 
     private void OnApplicationQuit()
     {
-        Debug.LogError("µğ¹ö±ëÀ» À§ÇØ ÆÄÀÏµéÀÇ LockClear ±â·ÏÀ» ¸ğµÎ Á¦°ÅÇÕ´Ï´Ù");
+        Debug.LogError("ë””ë²„ê¹…ì„ ìœ„í•´ íŒŒì¼ë“¤ì˜ LockClear ê¸°ë¡ì„ ëª¨ë‘ ì œê±°í•©ë‹ˆë‹¤");
 
         foreach (FileSO file in additionFileList)
         {
-            file.isWindowLockClear = false;
+            // file.isWindowLockClear = false;
         }
     }
 }

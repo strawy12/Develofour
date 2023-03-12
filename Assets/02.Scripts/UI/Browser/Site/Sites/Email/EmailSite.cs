@@ -208,11 +208,6 @@ public class EmailSite : Site
         SettingReceiveMailCount();
     }
 
-    private void SuccessLogin(object[] o)
-    {
-        DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
-    }
-
     private void ChangeEmailCategory()
     {
         HideAllMail();

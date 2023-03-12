@@ -11,8 +11,7 @@ public class WindowPrefabElement
     public EWindowType windowType;
     public Window windowPrefab;
 }
-
-
+ 
 public class WindowManager : MonoSingleton<WindowManager>
 {
     // 이거는 동적으로 생성된 Window 모음
@@ -109,7 +108,8 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         if (targetWindow == null)
         {
-            if (!file.isWindowLockClear)
+            // lock이 설정 되어있는 fileSO가 이미 락이 풀려있는지 체크
+            if (file.isFileLock && DataManager.IsWindowLock(file.GetFileLocation()))
             {
                 targetWindow = CreateWindow(EWindowType.WindowPinLock, file);
             }
@@ -119,7 +119,7 @@ public class WindowManager : MonoSingleton<WindowManager>
                 targetWindow = CreateWindow(file.windowType, file);
             }
         }
-
+         
         targetWindow.WindowOpen();
         return targetWindow;
     }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 public class FacebookLoginSite : Site
 {
-    public static bool isResettingPassword = false;
+    private bool isResettingPassword = false;
 
     [SerializeField]
     private string loginEmail;
@@ -81,7 +81,7 @@ public class FacebookLoginSite : Site
 
         if (requestSite == ESiteLink.None)
         {
-            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
+            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Starbook, Constant.LOADING_DELAY });
         }
         else
         {
@@ -93,9 +93,8 @@ public class FacebookLoginSite : Site
 
         // TODO
         // 구조 변경 해야함
-        DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite = true;
-
-        // NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
+        DataManager.SetSaveData(ESaveDataType.IsSuccessLoginStarbook, true);
+         //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
     }
 
     private void LoginFail()
@@ -137,7 +136,7 @@ public class FacebookLoginSite : Site
             //failedLoginText.text = "등록된 Email에 비밀번호 변경메일을 보냈습니다.";
             //failedLoginText.color = Color.black; 
 
-            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookPasswordResetSite, 0f, false });
+            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.StarbookPasswordResetSite, 0f, false });
             isResettingPassword = true;
 
             EventManager.StartListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
@@ -156,7 +155,7 @@ public class FacebookLoginSite : Site
         if(param == null || !(param[0] is string)) { return; }
 
         password = param[0] as string;
-        DataManager.Inst.CurrentPlayer.CurrentChapterData.snsPassword = password;
+        //DataManager.Inst.CurrentPlayer.CurrentChapterData.snsPassword = password;
         passwordField.SetPassword(password);
 
         isResettingPassword = false;

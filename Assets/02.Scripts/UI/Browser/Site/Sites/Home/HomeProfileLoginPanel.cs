@@ -21,7 +21,7 @@ public class HomeProfileLoginPanel : MonoBehaviour
 
     private void CheckLogin()
     {
-        if (DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
+        if (!Define.CheckComputerLoginState(EComputerLoginState.Logout))
         {
             loginButton.gameObject.SetActive(false);
         }
