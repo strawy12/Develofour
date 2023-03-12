@@ -24,7 +24,7 @@ public class ProfilePanel : MonoBehaviour
 
     [SerializeField]
     private GameObject CategoryPanel;
-    //?? 어떻게든 저장가능 , 동적으로 SO생성시키고 
+
     private Dictionary<EProfileCategory, ProfileCategoryPanel> categoryPanels = new Dictionary<EProfileCategory, ProfileCategoryPanel>();
     [SerializeField]
     private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
@@ -81,12 +81,25 @@ public class ProfilePanel : MonoBehaviour
                 categoryPanel.gameObject.SetActive(true);
                 SaveShowCategory(category);
             }
-            categoryPanel.ChangeValue(ps[1] as string);
+            GetInfoPanel(category).ChangeValue(ps[1] as string);
         }
         else
         {
             Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
         }
+    }
+
+    private ProfileInfoPanel GetInfoPanel(EProfileCategory category)
+    {
+        foreach(var panel in infoPanelList)
+        {
+            if(panel.category == category)
+            {
+                return panel;   
+            }
+        }
+
+        return null;
     }
 
     public void HideCategoryParentPanel()
