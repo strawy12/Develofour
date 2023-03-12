@@ -8,8 +8,11 @@ public class GameManager : MonoSingleton<GameManager>
     private ClickEffect clickEffect;
 
     private EGameState gameState;
-    
-    public EGameState GameState { get { return gameState; } }
+    private EComputerLoginState computerLoginState;
+
+    public EGameState GameState => gameState;
+    public EComputerLoginState ComputerLoginState => computerLoginState;
+
     [SerializeField]
     private GameObject gameStateScreenInLogin;
     [SerializeField]

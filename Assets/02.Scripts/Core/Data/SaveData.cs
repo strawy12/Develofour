@@ -55,8 +55,6 @@ public class SaveData
 
     public bool isSuccessLoginZoogle;
     public bool isSuccessLoginStarbook;
-
-    public EComputerLoginState computerLoginState;
 }
 
 public enum EComputerLoginState
