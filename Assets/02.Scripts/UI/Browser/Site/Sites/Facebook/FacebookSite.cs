@@ -76,7 +76,7 @@ public class FacebookSite : Site
         base.ShowSite();
         //EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
        
-        if(!DataManager.GetSaveData<bool>(ESaveDataType.IsSuccessLoginStarbook))
+        if(!DataManager.Inst.SaveData.isSuccessLoginStarbook)
         {
 
             // 패스워드 초기화를 했냐?
@@ -92,7 +92,7 @@ public class FacebookSite : Site
 
 
 
-            if(DataManager.GetSaveData<bool>(ESaveDataType.IsSuccessLoginStarbook))
+            if(DataManager.Inst.SaveData.isSuccessLoginStarbook)
             {
                 EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.StarbookPasswordResetSite, 0f, false });
             }

@@ -110,7 +110,7 @@ public class WindowManager : MonoSingleton<WindowManager>
         if (targetWindow == null)
         {
             // lock이 설정 되어있는 fileSO가 이미 락이 풀려있는지 체크
-            if (file.isFileLock && DataManager.IsWindowLock(file.GetFileLocation()))
+            if (file.isFileLock && DataManager.Inst.IsWindowLock(file.GetFileLocation()))
             {
                 targetWindow = CreateWindow(EWindowType.WindowPinLock, file);
             }

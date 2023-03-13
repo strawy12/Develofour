@@ -28,11 +28,6 @@ public class Debugger : MonoBehaviour
             MonologSystem.OnStopMonolog?.Invoke();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Debug.Log(DataManager.GetSaveData<bool>(ESaveDataType.IsWatchStartCutScene));
-        }
-
         foreach (DebugEvent e in debugEventList)
         {
             if (Input.GetKeyDown(e.keyCode))
@@ -44,8 +39,4 @@ public class Debugger : MonoBehaviour
 
 
 
-    void OnApplicationQuit()
-    {
-        Debug.Log(DataManager.GetSaveData<bool>(ESaveDataType.IsWatchStartCutScene));
-    }
 }

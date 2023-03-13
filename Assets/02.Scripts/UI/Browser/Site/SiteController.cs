@@ -19,7 +19,7 @@ public partial class Browser : Window
 
     public bool CheckZoogleSiteLogin()
     {
-        if (!DataManager.GetSaveData<bool>(ESaveDataType.IsSuccessLoginZoogle))
+        if (!DataManager.Inst.SaveData.isSuccessLoginZoogle)
         {
             return false;
         }

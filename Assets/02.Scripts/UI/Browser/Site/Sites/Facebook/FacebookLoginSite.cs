@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using Unity.VisualScripting;
+
 public class FacebookLoginSite : Site
 {
     private bool isResettingPassword = false;
@@ -93,7 +95,7 @@ public class FacebookLoginSite : Site
 
         // TODO
         // 구조 변경 해야함
-        DataManager.SetSaveData(ESaveDataType.IsSuccessLoginStarbook, true);
+        DataManager.Inst.SaveData.isSuccessLoginStarbook = true;
          //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
     }
 

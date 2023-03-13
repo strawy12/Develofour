@@ -25,7 +25,7 @@ public class MonologSystem : MonoBehaviour
 
     public void StartMonolog(ETextDataType textDataType, float delay, int cnt)
     {
-        if (DataManager.IsMonologShow(textDataType))
+        if (DataManager.Inst.IsMonologShow(textDataType))
         {
             OnEndMonologEvent = null;
             return;
@@ -34,7 +34,7 @@ public class MonologSystem : MonoBehaviour
     }
     public void TutoMonolog(ETextDataType textDataType, float delay, int cnt)
     {
-        if (DataManager.IsMonologShow(textDataType))
+        if (DataManager.Inst.IsMonologShow(textDataType))
         {
             OnEndMonologEvent = null;
             return;
@@ -77,7 +77,7 @@ public class MonologSystem : MonoBehaviour
         Debug.Log("startmonologcoroutine의 onendmonologevent");
         OnEndMonologEvent?.Invoke();
 
-        DataManager.SetMonologShow(textDataType, true);
+        DataManager.Inst.SetMonologShow(textDataType, true);
     }
 
 }
