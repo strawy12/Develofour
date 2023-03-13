@@ -7,3 +7,4 @@ public enum EGameState
     CutScene,
     Tutorial,
 }
+

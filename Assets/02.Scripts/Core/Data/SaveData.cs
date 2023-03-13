@@ -8,8 +8,6 @@ public enum ESaveDataType
     None = -1,
     PinLockData,
 
-    ComputerLoginState,
-
     IsSuccessLoginZoogle,
     IsSuccessLoginStarbook,
 }
@@ -57,9 +55,4 @@ public class SaveData
     public bool isSuccessLoginStarbook;
 }
 
-public enum EComputerLoginState
-{
-    Logout,
-    Guest,
-    Admin,
-}
+

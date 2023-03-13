@@ -53,11 +53,16 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         Init();
 
-        if (!Define.CheckComputerLoginState(EComputerLoginState.Logout))
-        {
-            gameObject.SetActive(false);
-            return;
-        }
+        // 금요일 날에 농구를 했는데
+        // 그 때 혁준이도 있었는데
+        // 민준 찬희 제형주 혁준 나 대희
+        // 고기를 먹으러 갔는데
+        // 어디서 ㅈㄴ 익숙한 노래가 들리는거야
+        // 아이즈원 노래가 나오는거야
+        // 나 ㅈㄴ 십덕됐다 멜로디만 들어도 인식이 되네
+        // 
+
+        GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Logout);
 
         Subscribe();
     }
@@ -97,7 +102,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            DataManager.SetSaveData(ESaveDataType.ComputerLoginState, EComputerLoginState.Admin);
+            GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Admin);
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             windowLoginCanvas.SetActive(false);
             if (isFirst)
@@ -156,7 +161,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void WindowGuestLogin()
     {
-        DataManager.SetSaveData(ESaveDataType.ComputerLoginState, EComputerLoginState.Guest);
+        GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Guest);
         EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
         windowLoginCanvas.SetActive(false);
         if (isFirst)
