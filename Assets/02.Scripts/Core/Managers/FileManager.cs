@@ -198,6 +198,37 @@ public class FileManager : MonoSingleton<FileManager>
         return false;
     }
 
+    public void LinkedFileParent(string location)
+    {
+        FileSO childFile = GetFile(location);
+
+        int index = location.LastIndexOf('\\', location.Length - 1, 2);
+        string parentLocation = location.Substring(0, index + 1);
+        foreach(FileSO file in fileList)
+        {
+            if (file.GetFileLocation() == parentLocation)
+            {
+                DirectorySO directory = file as DirectorySO;
+                if(!directory.children.Contains(childFile))
+                {
+                    directory.children.Add(childFile);
+                }
+            }
+        }
+    }
+
+    private FileSO GetFile(string location)
+    {
+        FileSO resultFile = null;
+        foreach(FileSO file in fileList)
+        {
+            if(file.GetFileLocation() == location)
+            {
+                resultFile = file;
+            }
+        }
+        return resultFile;
+    }
     private void OnApplicationQuit()
     {
         Debug.LogError("디버깅을 위해 추가한 파일들을 모두 제거합니다");

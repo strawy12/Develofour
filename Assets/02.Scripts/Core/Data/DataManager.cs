@@ -33,23 +33,27 @@ public class DataManager : MonoSingleton<DataManager>
     private void CreateSaveData()
     {
         saveData = new SaveData();
-        saveData.pinLockData = new List<PinLockData>();
-        saveData.monologSaveData = new List<MonologSaveData>();
+        saveData.fileData = new List<FileSaveData>();
+        saveData.monologData = new List<MonologSaveData>();
+
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
         foreach (FileSO file in fileList)
         {
             if (file.isFileLock == true)
             {
-                saveData.pinLockData.Add(new PinLockData() { fileLocation = file.GetFileLocation(), isLock = true });
+                saveData.fileData.Add(new FileSaveData() { fileLocation = file.GetFileLocation(), isLock = true });
+            }
+            else
+            {
+                saveData.fileData.Add(new FileSaveData() { fileLocation = file.GetFileLocation(), isLock = false });
             }
         }
 
         for (int i = ((int)ETextDataType.None) + 1; i < (int)ETextDataType.Count; i++)
         {
-            saveData.monologSaveData.Add(new MonologSaveData() { monologType = (ETextDataType)i, isShow = false });
+            saveData.monologData.Add(new MonologSaveData() { monologType = (ETextDataType)i, isShow = false });
         }
-
         SaveToJson();
 
         debug_Data = saveData;
@@ -66,6 +70,12 @@ public class DataManager : MonoSingleton<DataManager>
         {
             string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
             saveData = JsonUtility.FromJson<SaveData>(data);
+
+            foreach (var fileSaveData in saveData.fileData)
+            {
+                FileManager.Inst.LinkedFileParent(fileSaveData.fileLocation);
+            }
+            
         }
         else
         {
@@ -84,7 +94,7 @@ public class DataManager : MonoSingleton<DataManager>
 
     public bool IsWindowLock(string fileLocation)
     {
-        PinLockData data = saveData.pinLockData.Find(x => x.fileLocation == fileLocation);
+        FileSaveData data = saveData.fileData.Find(x => x.fileLocation == fileLocation);
         if (data == null)
             return true;
 
@@ -93,14 +103,14 @@ public class DataManager : MonoSingleton<DataManager>
 
     public void SetWindowLock(string fileLocation, bool value)
     {
-        PinLockData data = saveData.pinLockData.Find(x => x.fileLocation == fileLocation);
+        FileSaveData data = saveData.fileData.Find(x => x.fileLocation == fileLocation);
         if (data != null)
             data.isLock = value;
     }
 
     public bool IsMonologShow(ETextDataType type)
     {
-        MonologSaveData data = saveData.monologSaveData.Find(x => x.monologType == type);
+        MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);
         if (data == null)
         {
             Debug.Log("Json에 존재하지않는 텍스트 데이터 입니다.");
@@ -112,7 +122,7 @@ public class DataManager : MonoSingleton<DataManager>
 
     public void SetMonologShow(ETextDataType type, bool value)
     {
-        MonologSaveData data = saveData.monologSaveData.Find(x => x.monologType == type);
+        MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);
         if (data == null)
         {
             return;

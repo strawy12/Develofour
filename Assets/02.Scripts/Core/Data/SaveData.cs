@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 [System.Serializable]
-public class PinLockData
+public class FileSaveData
 {
     public string fileLocation;
     public bool isLock = true;
@@ -15,11 +15,12 @@ public class MonologSaveData
     public ETextDataType monologType;
     public bool isShow;
 }
+
 [System.Serializable]
 public class SaveData
 {
-    public List<PinLockData> pinLockData;
-    public List<MonologSaveData> monologSaveData;
+    public List<FileSaveData> fileData;
+    public List<MonologSaveData> monologData;
     public bool isSuccessLoginZoogle;
     public bool isSuccessLoginStarbook;
     public bool isWatchStartCutScene;
