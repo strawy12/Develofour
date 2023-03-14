@@ -34,6 +34,7 @@ public class StartCutScene : MonoBehaviour
         if (DataManager.Inst.SaveData.isWatchStartCutScene)
         {
             EndCutScene();
+            GameManager.Inst.ChangeGameState(EGameState.Game);
             Destroy(this.gameObject);
         }
         else
