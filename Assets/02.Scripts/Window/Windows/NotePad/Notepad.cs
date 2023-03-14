@@ -19,7 +19,7 @@ public class Notepad : Window
         Debug.Log("메모장 데이터 불러오는 키 값을 주소 값으로 변경해주세요");
         currentData = ResourceManager.Inst.GetNotepadData(file.GetFileLocation());
 
-        if(currentData != null)
+        if(currentData.notepadBody != null)
         {
             Transform parent = notepadBody.transform.parent;
             Destroy(notepadBody.gameObject);
@@ -35,11 +35,7 @@ public class Notepad : Window
 
         notepadBody.inputField.scrollSensitivity = scrollValue;
 
-        if (currentData.fileName == "Zoogle PIN번호" && GuideManager.Inst.isZooglePinNotePadOpenCheck)
-        {
-            GuideManager.Inst.guidesDictionary[EGuideType.ClickPinNotePadHint] = true;
-            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 40f, EGuideType.ClearPinNotePadQuiz });
-        }
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file, EGuideTopicName.ClearPinNotePadQuiz });
 
         SetText();
     }

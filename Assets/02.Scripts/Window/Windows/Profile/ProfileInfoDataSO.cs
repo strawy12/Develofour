@@ -26,8 +26,6 @@ public class ProfileInfoDataSO : ScriptableObject
     [Header("Information")]
     [SerializeField]
     public List<ProfileSaveData> saveList;
-    [SerializeField]
-    public List<ProfileInfoPart> partSaveList;
 
     public ProfileSaveData GetSaveData(string key)
     {
@@ -51,11 +49,6 @@ public class ProfileInfoDataSO : ScriptableObject
 
     public void Reset()
     {
-        foreach (var part in partSaveList)
-        {
-            if (part.partNameKey != "profile")
-                part.isShow = false;
-        }
         foreach (var data in saveList)
         {
             data.isShow = false;

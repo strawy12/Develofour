@@ -56,6 +56,7 @@ public class FileSO : SOParent
         } 
 
         string location = string.Format("{0}{1}\\", parent.GetFileLocation(), this.fileName);
+
         return location;
     }
 

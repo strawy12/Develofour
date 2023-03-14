@@ -9,7 +9,6 @@ public enum ETextDataType
     StartMonolog,
     TutorialMonolog1,
     TutorialMonolog2,
-    TutorialMonolog3,
     GuideLog1,
     Count
 }

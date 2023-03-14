@@ -7,7 +7,6 @@
     EndLoadResources,
     EndDataLoading,
     CursorChange,
-    OpenPlayGuide,
 }
     
 public enum EQuestEvent
@@ -158,4 +157,10 @@ public enum ETutorialEvent
     ProfileInfoEnd, 
     ProfileEventStop, 
     EndClickInfoTutorial, 
+}
+
+public enum EDebugSkipEvent
+{
+    None = -1,
+    TutorialSkip,
 }

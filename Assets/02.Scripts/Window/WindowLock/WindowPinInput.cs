@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -68,28 +68,19 @@ public class WindowPinInput : Window
 
     private void PinOpen()
     {
-        windowBar.SetNameText("[ " + file.name + " - Àá±İ ¾È³» ]");
+        windowBar.SetNameText("[ " + file.name + " - ì ê¸ˆ ì•ˆë‚´ ]");
         pinGuideText.SetText(file.windowPinHintGuide);
 
         Debug.Log(11);
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
-        if (file.name == "ZooglePassword" && !GuideManager.Inst.isZooglePinNotePadOpenCheck)
-        {
-            GuideManager.Inst.isZooglePinNotePadOpenCheck = true;
-
-            EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 1200f, EGuideType.ClickPinNotePadHint });
-        }
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file, EGuideTopicName.ClickPinNotePadHint });
     }
 
 
 
     private void CheckPinPassword()
     {
-        // ¿©·¯¹ø È®ÀÎ ¸øÇÏ°Ô ÇØ¾ßÇØ
-        // ¿À´äÀÔ´Ï´Ù °¡ ¶ßµç Á¤´äÀÔ´Ï´Ù°¡ ¶ßµç
-        // µÑ ´Ù ÀÌÆåÆ®°¡ ÀÖ¾î¼­ ±× ÀÌÆåÆ®°¡ Á¾·á µÉ ¶§ ±îÁö ÀÌ ÇÔ¼ö°¡ ½ÇÇà µÇ¸é ¾ÈµÅ
-
         if (pinInputField.text == file.windowPin)
         {
             DataManager.Inst.SetWindowLock(file.GetFileLocation(), false);
@@ -110,7 +101,7 @@ public class WindowPinInput : Window
     {
         answerMarkText.color = answerTextColor;
 
-        answerMarkText.SetText("Á¤´äÀÔ´Ï´Ù.");
+        answerMarkText.SetText("ì •ë‹µì…ë‹ˆë‹¤.");
         answerPanel.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(0.6f);
@@ -120,16 +111,7 @@ public class WindowPinInput : Window
 
         WindowManager.Inst.WindowOpen(file.windowType, file);
 
-        // ÀÌ°É ±»ÀÌ ÀÌ·¸°Ô ¾µ ÇÊ¿ä ¾øÁö
-        // Á» ´õ Ä¿ÇÃ¸µÀÌ ½ÉÇÏÁö ¾Ê°Ô 
-
-        // Àá±İ ÇØÁ¦ È®ÀÎ
-
-        // ÀÌº¥Æ® ¸Å´ÏÀú·Î PinLock Clear ÀÌº¥Æ®¸¦ ½î°í ¸Å°³º¯¼ö·Î fileSO °°ÀÌ ÁÖ°í °¡ÀÌµå ¸Å´ÏÀú°¡ ÀÌ°É µéÀ¸¸é ±× ³»ºÎÄÚµå¿¡ ÀÌ°Ô ÀÖµµ·Ï ¼öÁ¤
-        if (file.name == "ZooglePassword" && GuideManager.Inst.isZooglePinNotePadOpenCheck)
-        {
-            GuideManager.Inst.guidesDictionary[EGuideType.ClearPinNotePadQuiz] = true;
-        }
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file, EGuideTopicName.ClearPinNotePadQuiz });
 
         CloseWindowPinLock();
     }
@@ -139,7 +121,7 @@ public class WindowPinInput : Window
         if (isShaking) return;
 
         answerMarkText.color = wrongAnswerTextColor;
-        answerMarkText.SetText("¿À´äÀÔ´Ï´Ù.");
+        answerMarkText.SetText("ì˜¤ë‹µì…ë‹ˆë‹¤.");
 
         isShaking = true;
 
@@ -162,7 +144,7 @@ public class WindowPinInput : Window
 
     private void OnApplicationQuit()
     {
-        Debug.LogError("µğ¹ö±ëÀ» À§ÇØ ÆÄÀÏµéÀÇ LockClear ±â·ÏÀ» ¸ğµÎ Á¦°ÅÇÕ´Ï´Ù");
+        Debug.LogError("ë””ë²„ê¹…ì„ ìœ„í•´ íŒŒì¼ë“¤ì˜ LockClear ê¸°ë¡ì„ ëª¨ë‘ ì œê±°í•©ë‹ˆë‹¤");
 
         foreach (FileSO file in additionFileList)
         {

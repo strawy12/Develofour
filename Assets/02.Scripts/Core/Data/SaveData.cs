@@ -29,6 +29,8 @@ public class SaveData
     public bool isSuccessLoginZoogle;
     public bool isSuccessLoginStarbook;
     public bool isWatchStartCutScene;
+    public bool isClearStartCutScene;
+    public EComputerLoginState computerLoginState;
 }
 
 
