@@ -73,16 +73,16 @@ public class ProfilePanel : MonoBehaviour
 
         if (data != null)
         {
-            Debug.Log("ShowCategory");
-            ProfileInfoPanel categoryPanel = categoryPanels[category];
+            //Debug.Log("ShowCategory");
+            //ProfileInfoPanel categoryPanel = categoryPanels[category];
 
-            if (!categoryPanel.gameObject.activeSelf)
-            {
-                Debug.Log("ShowCategory2");
-                categoryPanel.gameObject.SetActive(true);
-                SaveShowCategory(category);
-            }
-            GetInfoPanel(category).ChangeValue(ps[1] as string);
+            //if (!categoryPanel.gameObject.activeSelf)
+            //{
+            //    Debug.Log("ShowCategory2");
+            //    categoryPanel.gameObject.SetActive(true);
+            //    SaveShowCategory(category);
+            //}
+            //GetInfoPanel(category).ChangeValue(ps[1] as string);
         }
         else
         {

@@ -4,11 +4,11 @@
 //using System.Collections.Generic;
 //using System.Security.Cryptography;
 //using TMPro;
-using UnityEngine;
+//using UnityEngine;
 //using UnityEngine.Events;
 //using UnityEngine.UI;
 
-public class YoutubeInteractionButton : MonoBehaviour { }
+//public class YoutubeInteractionButton : MonoBehaviour
 //{
 //    private static Action<bool> OnTriggerInteraction;
 
@@ -82,7 +82,7 @@ public class YoutubeInteractionButton : MonoBehaviour { }
 //                }
 //            }
 
-//            //DataManager.Inst.CurrentPlayer.CurrentChapterData.youtubeInterationType = type;
+//            DataManager.Inst.CurrentPlayer.CurrentChapterData.youtubeInterationType = type;
 //        }
 //        else if (isHateBtn != isHateButton) // ´Ù¸¦ ¶§
 //        {
@@ -111,7 +111,7 @@ public class YoutubeInteractionButton : MonoBehaviour { }
 //        isClicked = true;
 //        image.enabled = true;
 
-//        //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeHateBtnSound);
+//        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeHateBtnSound);
 
 //        int num = int.Parse(peopleText.text);
 //        num += 1;
@@ -123,13 +123,13 @@ public class YoutubeInteractionButton : MonoBehaviour { }
 //        seq.Join(rectTransform.DOAnchorPosX(rectTransform.anchoredPosition.x - 1f, durationTime));
 //        seq.Join(rectTransform.DORotate(new Vector3(0, 0, 20), durationTime));
 
-//        //after
+//        after
 //        seq.Append(rectTransform.DOScale(originScale, durationTime));
 
 //        seq.Join(rectTransform.DOAnchorPosX(rectTransform.anchoredPosition.x + 1f, durationTime));
 //        seq.Join(rectTransform.DORotate(new Vector3(0, 0, 0), durationTime));
 
-//        //end
+//        end
 //        seq.AppendCallback(() =>
 //        {
 //            isEffecting = false;
@@ -143,7 +143,7 @@ public class YoutubeInteractionButton : MonoBehaviour { }
 
 //        image.enabled = true;
 //        image.color = Color.black;
-//        //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
+//        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
 
 //    }
 
@@ -152,7 +152,7 @@ public class YoutubeInteractionButton : MonoBehaviour { }
 //        Sequence seq = DOTween.Sequence();
 //        isClicked = false;
 
-//        //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
+//        Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.YoutubeDefaultBtnSound);
 
 //        if (isHateBtn)
 //        {

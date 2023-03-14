@@ -70,8 +70,6 @@ public class ProfileChatting : MonoBehaviour
 
     public void AddText(string str)
     {
-        Debug.Log(str);
-
         foreach (var save in SOData.saveList)
         {
             if (save == str)
