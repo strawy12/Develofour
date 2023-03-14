@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
-public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler 
+public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [SerializeField]
     private GameObject loginScreen;
@@ -24,7 +24,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private RectTransform rectTransform;
 
     //저장기능에 꼭 넣어야함
-    public bool isTutorialEnd;
+    private bool isTutorialEnd;
     private bool holdingDown;
     private bool anyKeyUp;
     private bool isDrag;
@@ -40,11 +40,13 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     {
         EventManager.StartListening(EInputType.InputAnyKeyUp, AnyKeyUp);
         EventManager.StartListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
+        isTutorialEnd = DataManager.GetSaveData<bool>(ESaveDataType.IsClearStartCutScene);
     }
 
     private void TurnInteractable(object[] ps)
     {
         isTutorialEnd = true;
+        DataManager.SetSaveData<bool>(ESaveDataType.IsClearStartCutScene, true);
         EventManager.StopListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
     }
 
@@ -69,7 +71,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
         float movementY = eventData.position.y - beginPosY;
         if (movementY < 0f) return;
-        
+
         rectTransform.anchoredPosition = originPos + Vector3.up * movementY;
         canvasGroup.alpha = (targetMovementY - movementY) / targetMovementY;
     }
@@ -78,7 +80,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     {
         float movementY = eventData.position.y - beginPosY;
 
-        if(movementY + offset >= targetMovementY)
+        if (movementY + offset >= targetMovementY)
         {
             OpenLoginScreen();
         }
