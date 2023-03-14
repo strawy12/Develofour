@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class WindowPinInput : Window
 {
-    private static List<FileSO> additionFileList;
-
     private bool isShaking = false;
 
     [SerializeField]
@@ -56,8 +54,6 @@ public class WindowPinInput : Window
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);
-
-        additionFileList = new List<FileSO>();
     }
 
     public override void WindowOpen()
@@ -74,7 +70,7 @@ public class WindowPinInput : Window
         Debug.Log(11);
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
-        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file, EGuideTopicName.ClickPinNotePadHint });
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file.name, EGuideTopicName.ClickPinNotePadHint });
     }
 
 
@@ -86,8 +82,6 @@ public class WindowPinInput : Window
             DataManager.SetWindowLock(file.GetFileLocation(), false);
 
             StartCoroutine(PinAnswerTextChange());
-
-            additionFileList.Add(file);
         }
         else
         {
@@ -111,7 +105,7 @@ public class WindowPinInput : Window
 
         WindowManager.Inst.WindowOpen(file.windowType, file);
 
-        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file, EGuideTopicName.ClearPinNotePadQuiz });
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file.name, EGuideTopicName.ClearPinNotePadQuiz });
 
         CloseWindowPinLock();
     }
@@ -140,15 +134,5 @@ public class WindowPinInput : Window
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
         WindowClose();
-    }
-
-    private void OnApplicationQuit()
-    {
-        Debug.LogError("디버깅을 위해 파일들의 LockClear 기록을 모두 제거합니다");
-
-        foreach (FileSO file in additionFileList)
-        {
-            // file.isWindowLockClear = false;
-        }
     }
 }

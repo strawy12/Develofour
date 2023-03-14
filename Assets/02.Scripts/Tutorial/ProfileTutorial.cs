@@ -22,7 +22,8 @@ public class ProfileTutorial : MonoBehaviour
 
     public IEnumerator StartProfileTutorial()
     {
-        Debug.Log("ASDDF");
+        Debug.Log("프로파일러 튜토리얼 시작");
+
         WindowManager.Inst.StartTutorialSetting();
         //tutorialPanel.SetActive(true);
         yield return new WaitForSeconds(0.5f);
@@ -52,7 +53,6 @@ public class ProfileTutorial : MonoBehaviour
 
     public IEnumerator ContinueProfileTutorial()
     {
-        Debug.Log("fdsa");
         MonologSystem.OnEndMonologEvent -= StartContinueProfileTutorial;
         for (int i = 3; i < startAIChatting.Length; i++)
         {

@@ -158,10 +158,10 @@ public class GuideManager : MonoSingleton<GuideManager>
 
     private void GuideConditionCheckClear(object[] ps)
     {
-        FileSO file = (FileSO)ps[0];
+        string fileName = ps[0].ToString();
         EGuideTopicName guideType = (EGuideTopicName)ps[1];
 
-        if(file.name == "ZooglePassword")
+        if(fileName == "ZooglePassword")
         {
             if(!isZooglePinNotePadOpenCheck) 
             {
@@ -175,7 +175,7 @@ public class GuideManager : MonoSingleton<GuideManager>
             }
         }
 
-        if (file.name == "Zoogle PIN번호" && isZooglePinNotePadOpenCheck)
+        if (fileName == "Zoogle PIN번호" && isZooglePinNotePadOpenCheck)
         {
             guidesDictionary[EGuideTopicName.ClickPinNotePadHint] = true;
 

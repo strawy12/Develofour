@@ -19,7 +19,8 @@ public class Notepad : Window
         Debug.Log("메모장 데이터 불러오는 키 값을 주소 값으로 변경해주세요");
         currentData = ResourceManager.Inst.GetNotepadData(file.GetFileLocation());
 
-        if(currentData != null)
+        bool useDataBody = currentData.notepadBody != null;
+        if (useDataBody)
         {
             Transform parent = notepadBody.transform.parent;
             Destroy(notepadBody.gameObject);
@@ -35,9 +36,13 @@ public class Notepad : Window
 
         notepadBody.inputField.scrollSensitivity = scrollValue;
 
-        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { currentData, EGuideTopicName.ClearPinNotePadQuiz });
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { currentData.fileName, EGuideTopicName.ClearPinNotePadQuiz });
 
-        SetText();
+        if (!useDataBody)
+        {
+            SetText();
+        }
+
     }
 
     public void SetText()
