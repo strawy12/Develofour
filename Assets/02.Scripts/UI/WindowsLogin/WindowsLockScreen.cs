@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +23,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
 
-    //ÀúÀå±â´É¿¡ ²À ³Ö¾î¾ßÇÔ
+    //ì €ì¥ê¸°ëŠ¥ì— ê¼­ ë„£ì–´ì•¼í•¨
     private bool isTutorialEnd;
     private bool holdingDown;
     private bool anyKeyUp;
