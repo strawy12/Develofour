@@ -25,7 +25,6 @@ public class ProfileInfoPanel : MonoBehaviour
     [SerializeField]
     public List<ProfileInfoText> infoTextList;
 
-    
     private ProfileInfoDataSO saveData;
 
 

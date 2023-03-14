@@ -25,7 +25,6 @@ public class ProfilePanel : MonoBehaviour
     [SerializeField]
     private GameObject CategoryPanel;
 
-    private Dictionary<EProfileCategory, ProfileCategoryPanel> categoryPanels = new Dictionary<EProfileCategory, ProfileCategoryPanel>();
     [SerializeField]
     private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
     [SerializeField]
@@ -62,21 +61,20 @@ public class ProfilePanel : MonoBehaviour
     }
 
     //이벤트 매니저 등록
-    private void ChangeValue(object[] ps) // 0 = 카테고리, 1 = key값 스트링, 
+    private void ChangeValue(object[] ps) // string 값으로 들고옴
     {
-        if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
+        if (!(ps[0] is string))
         {
             return;
         }
 
-        EProfileCategory category = (EProfileCategory)ps[0];
+        string profileStringKey = ps[0].ToString();
+        ProfileInfoDataSO data = infoDataList.Find(x => x.GetSaveData(profileStringKey) != null);
 
-        Debug.Log("Get Category : " + categoryPanels[category]);
-        if (categoryPanels.ContainsKey(category))
+        if (data != null)
         {
-
             Debug.Log("ShowCategory");
-            ProfileCategoryPanel categoryPanel = categoryPanels[category];
+            ProfileInfoPanel categoryPanel = categoryPanels[category];
 
             if (!categoryPanel.gameObject.activeSelf)
             {
