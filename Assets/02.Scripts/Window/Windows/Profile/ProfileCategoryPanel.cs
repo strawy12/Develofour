@@ -17,8 +17,6 @@ public class ProfileCategoryPanel : MonoBehaviour
     [SerializeField]
     private Image yellowUI;
 
-    private ProfileInfoPanel infoPanel;
-
     [SerializeField]
     private Button InfoBtn;
 
@@ -27,14 +25,10 @@ public class ProfileCategoryPanel : MonoBehaviour
     {
         profileCategory = categoryEnum;
         nameText.text = name;
-        this.infoPanel = infoPanel;
         InfoBtn.onClick.AddListener(ShowInfoPanel);
     }
 
-    public void ChangeValue(string key)
-    {
-        infoPanel.Setting(key);
-    }
+
     private void ShowInfoPanel()
     {
         if(profileCategory == EProfileCategory.Owner)
@@ -46,8 +40,7 @@ public class ProfileCategoryPanel : MonoBehaviour
             }
 
         }
-        infoPanel.gameObject.SetActive(true);
-        infoPanel.Setting();
+
     }
 
     private bool isSign;

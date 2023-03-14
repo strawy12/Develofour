@@ -21,11 +21,10 @@ public enum BoyfriendCategory
 
 public class ProfilePanel : MonoBehaviour
 {
-    //?? 어떻게든 저장가능 , 동적으로 SO생성시키고 
+
     [SerializeField]
-    private ProfileCategoryPanel categoryPanelPrefab;
-    [SerializeField]
-    private Transform categoryPanelParent;
+    private GameObject CategoryPanel;
+
     private Dictionary<EProfileCategory, ProfileCategoryPanel> categoryPanels = new Dictionary<EProfileCategory, ProfileCategoryPanel>();
     [SerializeField]
     private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
@@ -36,51 +35,6 @@ public class ProfilePanel : MonoBehaviour
     public void Init()
     {
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
-        CreateCategoryPanel();
-    }
-
-    private ProfileInfoPanel GetInfoPanel(EProfileCategory category)
-    {
-        foreach (ProfileInfoPanel panel in infoPanelList)
-        {
-            if (panel.category == category)
-            {
-                return panel;
-            }
-        }
-        Debug.Log("동일한 category의 InfoPanel이 존재하지 않습니다.");
-        return null;
-    }
-
-    private void CreateCategoryPanel()
-    {
-        foreach (ProfileInfoDataSO data in infoDataList)
-        {
-            ProfileCategoryData categoryData = data.categoryData;
-            ProfileCategoryPanel categoryPanel = Instantiate(categoryPanelPrefab, categoryPanelParent);
-            ProfileInfoPanel infoPanel = GetInfoPanel(data.category);
-
-            categoryPanel.Init(data.category, categoryData.categoryNameText, infoPanel);
-            infoPanel.Init(data);
-
-            if (data.isShowCategory)
-            {
-                categoryPanel.gameObject.SetActive(true);
-            }
-            else
-            {
-                categoryPanel.gameObject.SetActive(false);
-            }
-
-            categoryPanels.Add(data.category, categoryPanel);
-
-            if(data.category == EProfileCategory.Owner)
-            {
-                EventManager.StartListening(ETutorialEvent.ProfileInfoStart, delegate { StartCoroutine(categoryPanel.YellowSignCor()); });
-                EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, CategoryStartEvent);
-                EventManager.StartListening(ETutorialEvent.ProfileEventStop, CategoryEndEvent);
-            }
-        }
     }
 
     private void CategoryStartEvent(object[] ps)
@@ -127,7 +81,7 @@ public class ProfilePanel : MonoBehaviour
                 categoryPanel.gameObject.SetActive(true);
                 SaveShowCategory(category);
             }
-            categoryPanel.ChangeValue(ps[1] as string);
+            GetInfoPanel(category).ChangeValue(ps[1] as string);
         }
         else
         {
@@ -135,9 +89,22 @@ public class ProfilePanel : MonoBehaviour
         }
     }
 
+    private ProfileInfoPanel GetInfoPanel(EProfileCategory category)
+    {
+        foreach(var panel in infoPanelList)
+        {
+            if(panel.category == category)
+            {
+                return panel;   
+            }
+        }
+
+        return null;
+    }
+
     public void HideCategoryParentPanel()
     {
-        categoryPanelParent.gameObject.SetActive(false);
+        CategoryPanel.gameObject.SetActive(false);
     }
 
     private void OnApplicationQuit()
