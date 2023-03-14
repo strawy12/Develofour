@@ -1,6 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public enum EComputerLoginState
+{
+    Logout,
+    Guest,
+    Admin,
+}
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -8,22 +16,17 @@ public class GameManager : MonoSingleton<GameManager>
     private ClickEffect clickEffect;
 
     private EGameState gameState;
-    
-    public EGameState GameState { get { return gameState; } }
-    [SerializeField]
-    private GameObject gameStateScreenInLogin;
-    [SerializeField]
-    private GameObject gameStateScreenInWindow;
+    private EComputerLoginState computerLoginState;
+
+    public EGameState GameState => gameState;
+    public EComputerLoginState ComputerLoginState => computerLoginState;
+
 
     public bool isTutorial;
 
     public bool profilerTutorialClear;
     public bool isProfilerTownloadCompleted;
 
-    private void Start()
-    {
-
-    }
     public void ChangeGameState(EGameState state)
     {
         if (gameState == state) { return; }
@@ -31,18 +34,33 @@ public class GameManager : MonoSingleton<GameManager>
         if (state == EGameState.Tutorial) isTutorial = true;
 
         gameState = state;
-        if(gameState == EGameState.CutScene)
+        if(gameState == EGameState.CutScene || gameState == EGameState.NotClick)
         {
-            gameStateScreenInLogin.SetActive(true);
-            gameStateScreenInWindow.SetActive(true);
+            EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { true });
         }
         else
         {
-            gameStateScreenInLogin.SetActive(false);
-            gameStateScreenInWindow.SetActive(false);
-
+            EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { false });
         }
     }
 
+    public void ClickStop(float time)
+    {
+        StartCoroutine(ChangeStopClickState(time, gameState));
+        ChangeGameState(EGameState.NotClick);
+    }
+
+    private IEnumerator ChangeStopClickState(float time, EGameState state)
+    {
+        yield return new WaitForSeconds(time);
+        ChangeGameState(state);
+    }
+
+    public void ChangeComputerLoginState(EComputerLoginState state)
+    {
+        if (computerLoginState == state) return;
+
+        computerLoginState = state;
+    }
 
 }
