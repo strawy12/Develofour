@@ -11,6 +11,8 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private GameObject loginScreen;
     [SerializeField]
     private GameObject loginChoice;
+    [SerializeField]
+    private GameObject coverPanel;
 
     [SerializeField]
     private float targetMovementY;
@@ -94,10 +96,19 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private void OpenLoginScreen()
     {
-        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0f, 5);
         loginScreen.SetActive(true);
         loginChoice.SetActive(true);
-        gameObject.SetActive(false);
+        StartCoroutine(CoverSetting());
+        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 1.25f, 8);
+        //gameObject.SetActive(false);
     }
 
+    public IEnumerator CoverSetting()
+    {
+        coverPanel.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.26f);
+        coverPanel.gameObject.SetActive(false);
+
+        gameObject.SetActive(false);
+    }
 }
