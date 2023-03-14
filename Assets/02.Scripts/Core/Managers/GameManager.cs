@@ -21,10 +21,6 @@ public class GameManager : MonoSingleton<GameManager>
     public EGameState GameState => gameState;
     public EComputerLoginState ComputerLoginState => computerLoginState;
 
-    [SerializeField]
-    private GameObject gameStateScreenInLogin;
-    [SerializeField]
-    private GameObject gameStateScreenInWindow;
 
     public bool isTutorial;
 
@@ -40,13 +36,11 @@ public class GameManager : MonoSingleton<GameManager>
         gameState = state;
         if(gameState == EGameState.CutScene || gameState == EGameState.NotClick)
         {
-            gameStateScreenInLogin.SetActive(true);
-            gameStateScreenInWindow.SetActive(true);
+            EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { true });
         }
         else
         {
-            gameStateScreenInLogin.SetActive(false);
-            gameStateScreenInWindow.SetActive(false);
+            EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { false });
         }
     }
 

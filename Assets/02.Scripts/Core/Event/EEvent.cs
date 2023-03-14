@@ -7,6 +7,7 @@
     EndLoadResources,
     EndDataLoading,
     CursorChange,
+    CoverPanelSetting,
 }
     
 public enum EQuestEvent
