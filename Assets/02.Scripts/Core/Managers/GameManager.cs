@@ -2,14 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EComputerLoginState
+{
+    Logout,
+    Guest,
+    Admin,
+}
+
 public class GameManager : MonoSingleton<GameManager>
 {
     [SerializeField]
     private ClickEffect clickEffect;
 
     private EGameState gameState;
-    
-    public EGameState GameState { get { return gameState; } }
+    private EComputerLoginState computerLoginState;
+
+    public EGameState GameState => gameState;
+    public EComputerLoginState ComputerLoginState => computerLoginState;
+
     [SerializeField]
     private GameObject gameStateScreenInLogin;
     [SerializeField]
@@ -20,10 +30,6 @@ public class GameManager : MonoSingleton<GameManager>
     public bool profilerTutorialClear;
     public bool isProfilerTownloadCompleted;
 
-    private void Start()
-    {
-
-    }
     public void ChangeGameState(EGameState state)
     {
         if (gameState == state) { return; }
@@ -44,5 +50,11 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
+    public void ChangeComputerLoginState(EComputerLoginState state)
+    {
+        if (computerLoginState == state) return;
+
+        computerLoginState = state;
+    }
 
 }

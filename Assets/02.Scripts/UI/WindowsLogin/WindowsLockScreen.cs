@@ -40,13 +40,13 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     {
         EventManager.StartListening(EInputType.InputAnyKeyUp, AnyKeyUp);
         EventManager.StartListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
-        isTutorialEnd = DataManager.GetSaveData<bool>(ESaveDataType.IsClearStartCutScene);
+        isTutorialEnd = DataManager.Inst.SaveData.isClearStartCutScene;
     }
 
     private void TurnInteractable(object[] ps)
     {
         isTutorialEnd = true;
-        DataManager.SetSaveData<bool>(ESaveDataType.IsClearStartCutScene, true);
+        DataManager.Inst.SaveData.isClearStartCutScene = true; 
         EventManager.StopListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
     }
 

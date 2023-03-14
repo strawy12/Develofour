@@ -121,6 +121,6 @@ public static class Define
 
     public static bool CheckComputerLoginState(EComputerLoginState state)
     {
-        return DataManager.GetSaveData<EComputerLoginState>(ESaveDataType.ComputerLoginState) == state;
+        return GameManager.Inst.ComputerLoginState == state;
     }
 }

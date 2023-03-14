@@ -83,7 +83,7 @@ public class WindowPinInput : Window
     {
         if (pinInputField.text == file.windowPin)
         {
-            DataManager.SetWindowLock(file.GetFileLocation(), false);
+            DataManager.Inst.SetWindowLock(file.GetFileLocation(), false);
 
             StartCoroutine(PinAnswerTextChange());
 
