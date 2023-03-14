@@ -6,5 +6,6 @@ public enum EGameState
     UI,
     CutScene,
     Tutorial,
+    NotClick,
 }
 

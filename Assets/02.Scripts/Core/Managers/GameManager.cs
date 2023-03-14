@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,7 +38,7 @@ public class GameManager : MonoSingleton<GameManager>
         if (state == EGameState.Tutorial) isTutorial = true;
 
         gameState = state;
-        if(gameState == EGameState.CutScene)
+        if(gameState == EGameState.CutScene || gameState == EGameState.NotClick)
         {
             gameStateScreenInLogin.SetActive(true);
             gameStateScreenInWindow.SetActive(true);
@@ -46,8 +47,19 @@ public class GameManager : MonoSingleton<GameManager>
         {
             gameStateScreenInLogin.SetActive(false);
             gameStateScreenInWindow.SetActive(false);
-
         }
+    }
+
+    public void ClickStop(float time)
+    {
+        StartCoroutine(ChangeStopClickState(time, gameState));
+        ChangeGameState(EGameState.NotClick);
+    }
+
+    private IEnumerator ChangeStopClickState(float time, EGameState state)
+    {
+        yield return new WaitForSeconds(time);
+        ChangeGameState(state);
     }
 
     public void ChangeComputerLoginState(EComputerLoginState state)
