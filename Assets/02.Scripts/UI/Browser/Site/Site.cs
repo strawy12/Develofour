@@ -73,7 +73,7 @@ public abstract class Site : MonoUI
     }
 
     public void SetUndoSite(Site site)
-    {
+    { 
         undoSite = site;
     }
 
