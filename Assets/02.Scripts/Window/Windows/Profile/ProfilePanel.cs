@@ -71,8 +71,10 @@ public class ProfilePanel : MonoBehaviour
 
         EProfileCategory category = (EProfileCategory)ps[0];
 
+        Debug.Log("Get Category : " + categoryPanels[category]);
         if (categoryPanels.ContainsKey(category))
         {
+
             Debug.Log("ShowCategory");
             ProfileCategoryPanel categoryPanel = categoryPanels[category];
 
