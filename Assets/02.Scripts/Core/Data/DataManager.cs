@@ -35,7 +35,8 @@ public class DataManager : MonoSingleton<DataManager>
         saveData = new SaveData();
         saveData.PinData = new List<PinSaveData>();
         saveData.monologData = new List<MonologSaveData>();
-        saveData.additionFileData = new();
+        saveData.additionFileData = new List<AdditionFileData>();
+
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
         foreach (FileSO file in fileList)
@@ -66,8 +67,6 @@ public class DataManager : MonoSingleton<DataManager>
         {
             string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
             saveData = JsonUtility.FromJson<SaveData>(data);
-
-            
         }
         else
         {

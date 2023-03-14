@@ -7675,7 +7675,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootDirectory: {fileID: 11400000, guid: 4060df147dac49f199550e0a2f082d99, type: 2}
   additionFileList: []
-  fileList: []
   defaultFileList:
   - {fileID: 11400000, guid: 15aa5ea0e3744b9aae946a459f287f78, type: 2}
   - {fileID: 11400000, guid: fd8692ae6ed645e7af7d21567087c8b0, type: 2}
@@ -7967,9 +7966,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug_Data:
-    pinLockData: []
+    PinData: []
+    monologData: []
+    additionFileData: []
     isSuccessLoginZoogle: 0
     isSuccessLoginStarbook: 0
+    isWatchStartCutScene: 0
+    isClearStartCutScene: 0
     computerLoginState: 0
 --- !u!1 &1395410938
 GameObject:
@@ -11660,7 +11663,6 @@ MonoBehaviour:
   loginChoice: {fileID: 1429672897}
   targetMovementY: 1000
   offset: 300
-  isTutorialEnd: 0
 --- !u!114 &1928151445
 MonoBehaviour:
   m_ObjectHideFlags: 0

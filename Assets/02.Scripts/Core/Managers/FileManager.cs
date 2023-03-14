@@ -54,7 +54,7 @@ public class FileManager : MonoSingleton<FileManager>
 
         if (!DataManager.Inst.AdditionalFileContain(location + "\\" + file.fileName))
         {
-            DataManager.Inst.AddNewFileData(location +"\\" +file.fileName);
+            DataManager.Inst.AddNewFileData(location  +file.fileName+ "\\");
         }
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
     }
