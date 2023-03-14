@@ -118,4 +118,9 @@ public static class Define
     {
         return idx < 0 || idx >= maxCnt;
     }
+
+    public static bool CheckComputerLoginState(EComputerLoginState state)
+    {
+        return DataManager.GetSaveData<EComputerLoginState>(ESaveDataType.ComputerLoginState) == state;
+    }
 }

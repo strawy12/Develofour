@@ -76,15 +76,29 @@ public class FacebookSite : Site
         base.ShowSite();
         //EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
        
-        if(!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite && DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
+        if(!DataManager.GetSaveData<bool>(ESaveDataType.IsSuccessLoginStarbook))
         {
-            if(FacebookLoginSite.isResettingPassword)
+
+            // 패스워드 초기화를 했냐?
+            // 메일은 와있는데
+            // 다시 요청을 하는건데
+            // 메일이 하나 그냥 계속 있어도 될까
+            // 새로 안 와도 될까?
+            // 퍼즐로 보안코드는 고정을 시키긴 했어
+            // 그럼 알림을 계속 띄워야할까?
+            // 알림 계속 띄운다는건 다시 말하면 브라우저만 다시 껐다키든가
+            // 아니면 뒤로가기 눌렀다가 다시 앞으로 가기 눌러도 온다는 거거든?
+            // 비밀번호 재설정 메일 오는거랑 연결이 되어있어 
+
+
+
+            if(DataManager.GetSaveData<bool>(ESaveDataType.IsSuccessLoginStarbook))
             {
-                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookPasswordResetSite, 0f, false });
+                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.StarbookPasswordResetSite, 0f, false });
             }
             else
             {
-                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookLoginSite, 0f, false});
+                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.StarbookLoginSite, 0f, false});
             }
             return;
         }

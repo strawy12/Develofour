@@ -6,16 +6,16 @@ using UnityEngine.AddressableAssets;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-    private List<AudioAssetSO> audioResourceList;
+    private Dictionary<Sound.EAudioType, AudioAssetSO> audioResourceList;
 
     public AudioAssetSO GetAudioResource(Sound.EAudioType audioType)
     {
-        return audioResourceList.Find(x => x.AudioType == audioType);
+        return audioResourceList[audioType];
     }
 
     private async void LoadAudioAssets(Action callBack)
     {
-        audioResourceList = new List<AudioAssetSO>();
+        audioResourceList = new Dictionary<Sound.EAudioType, AudioAssetSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("Sound", typeof(AudioAssetSO));
         await handle.Task;
@@ -25,7 +25,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<AudioAssetSO>(handle.Result[i]).Task;
             await task;
 
-            audioResourceList.Add(task.Result);
+            audioResourceList.Add(task.Result.AudioType, task.Result);
         }
 
         Addressables.Release(handle);

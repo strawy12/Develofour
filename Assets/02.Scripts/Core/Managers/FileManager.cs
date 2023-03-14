@@ -79,9 +79,16 @@ public class FileManager : MonoSingleton<FileManager>
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
     }
 
-    public void ALLFileAddList(DirectorySO currentDirectory)
+    public List<FileSO> ALLFileAddList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
-        fileList.Clear();
+        //fileList.Clear();
+        if(currentDirectory == null)
+        {
+            currentDirectory = rootDirectory;
+        }
+
+        List<FileSO> fileList = new List<FileSO>();
+
         Queue<DirectorySO> directories = new Queue<DirectorySO>();
         directories.Enqueue(currentDirectory);
         int i = 0;
@@ -103,6 +110,13 @@ public class FileManager : MonoSingleton<FileManager>
                 }
             }
         }
+
+        if(isAdditional)
+        {
+            fileList.AddRange(additionFileList);
+        }
+
+        return fileList;
     }
 
     public List<FileSO> SearchFile(string text)
@@ -115,7 +129,7 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 continue;
             }
-            if (file.windowName.Contains(text, StringComparison.OrdinalIgnoreCase))
+            if (file.fileName.Contains(text, StringComparison.OrdinalIgnoreCase))
             {
                 searchFileList.Add(file);
             }
@@ -141,7 +155,7 @@ public class FileManager : MonoSingleton<FileManager>
                 continue;
             }
 
-            if (file.windowName.Contains(text, StringComparison.OrdinalIgnoreCase))
+            if (file.fileName.Contains(text, StringComparison.OrdinalIgnoreCase))
             {
                 searchFileList.Add(file);
             }
@@ -153,7 +167,6 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 if(NotePadFileLoad(text, file))
                 {
-                    Debug.Log("NotePadAdd");
                     searchFileList.Add(file);
                 }
             }

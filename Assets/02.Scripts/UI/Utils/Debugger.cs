@@ -23,10 +23,6 @@ public class Debugger : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
-        }
         if (Input.GetKeyDown(KeyCode.D))
         {
             MonologSystem.OnStopMonolog?.Invoke();
@@ -35,6 +31,13 @@ public class Debugger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        }
+
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            //디버그용 스킵 코드 이벤트까지 지워주기
+            if(GameManager.Inst.GameState == EGameState.Tutorial)
+            EventManager.TriggerEvent(EDebugSkipEvent.TutorialSkip);
         }
 
         foreach (DebugEvent e in debugEventList)

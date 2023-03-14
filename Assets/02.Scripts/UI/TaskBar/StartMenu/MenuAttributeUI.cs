@@ -55,11 +55,16 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private void SetName(object[] ps)
     {
-        if(DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin)
+        // 그냥 true false 해서 어떤 로그인했는지 체크
+        // Login X
+        // Login O ㅡ 
+        //         |_ 
+        if (Define.CheckComputerLoginState(EComputerLoginState.Admin))
         {
             nameText.text = "박주영";
         }
-        else if(DataManager.Inst.CurrentPlayer.CurrentChapterData.isGuestWindowLogin)
+
+        else if(Define.CheckComputerLoginState(EComputerLoginState.Guest))
         {
             nameText.text = "Guest";
         }
