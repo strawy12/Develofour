@@ -37,13 +37,14 @@ public class ImageViewer : Window
             Destroy(imageViewerBody.gameObject);
             imageViewerBody = Instantiate(imageData.imageBody, parent);
         }
-
+        Debug.Log("asdf");
         imageViewerBody.Init();
 
         imageEnlargement = imageViewerBody.imageEnlargement;
         imageEnlargement.Init(imagePercentText);
 
         SetImageSizeReset();
+        imageEnlargement.ReSetting();
     }
 
     public void SetImageSizeReset()
@@ -65,7 +66,7 @@ public class ImageViewer : Window
         {
             scale = MAXSIZE.x / size.x;
         }
-
+        Debug.Log(scale);
         imageViewerBody.transform.localScale = Vector3.one * scale;
 
         imageEnlargement.imageScale = imageViewerBody.transform.localScale.x;

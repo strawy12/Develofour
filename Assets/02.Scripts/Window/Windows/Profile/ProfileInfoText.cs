@@ -46,7 +46,7 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void ChangeText()
     {
-        infoTitleText.text = infoTitle;
+        //infoTitleText.text = infoTitle;
         infoText.text = afterText;
     }
 

@@ -24,7 +24,6 @@ public class ProfilePanel : MonoBehaviour
 
     [SerializeField]
     private GameObject CategoryPanel;
-
     [SerializeField]
     private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
     [SerializeField]
@@ -63,31 +62,56 @@ public class ProfilePanel : MonoBehaviour
     //이벤트 매니저 등록
     private void ChangeValue(object[] ps) // string 값으로 들고옴
     {
-        if (!(ps[0] is string))
+        if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
         {
             return;
         }
 
-        string profileStringKey = ps[0].ToString();
-        ProfileInfoDataSO data = infoDataList.Find(x => x.GetSaveData(profileStringKey) != null);
+        EProfileCategory category = (EProfileCategory)ps[0];
 
-        if (data != null)
-        {
-            //Debug.Log("ShowCategory");
-            //ProfileInfoPanel categoryPanel = categoryPanels[category];
+        GetInfoPanel(category).ChangeValue(ps[1] as string);
 
-            //if (!categoryPanel.gameObject.activeSelf)
-            //{
-            //    Debug.Log("ShowCategory2");
-            //    categoryPanel.gameObject.SetActive(true);
-            //    SaveShowCategory(category);
-            //}
-            //GetInfoPanel(category).ChangeValue(ps[1] as string);
-        }
-        else
-        {
-            Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
-        }
+        //현재는 카테고리 패널을 사용하지 않음
+        // ProfileCategoryPanel categoryPanel = categoryPanels[category];
+        //Debug.Log("Get Category : " + categoryPanels[category]);
+        //if (categoryPanels.ContainsKey(category))
+        //{
+
+        //    Debug.Log("ShowCategory");
+        //    ProfileCategoryPanel categoryPanel = categoryPanels[category];
+
+        //    if (!categoryPanel.gameObject.activeSelf)
+        //    {
+        //        Debug.Log("ShowCategory2");
+        //        categoryPanel.gameObject.SetActive(true);
+        //        SaveShowCategory(category);
+        //    }
+        //    GetInfoPanel(category).ChangeValue(ps[1] as string);
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
+        //}
+
+        //main에서
+        //if (data != null)
+        //{
+        //    Debug.Log("ShowCategory");
+        //    ProfileInfoPanel categoryPanel = categoryPanels[category];
+
+        //    if (!categoryPanel.gameObject.activeSelf)
+        //    {
+        //        Debug.Log("ShowCategory2");
+        //        categoryPanel.gameObject.SetActive(true);
+        //        SaveShowCategory(category);
+        //    }
+        //    GetInfoPanel(category).ChangeValue(ps[1] as string);
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
+        //}
+
     }
 
     private ProfileInfoPanel GetInfoPanel(EProfileCategory category)

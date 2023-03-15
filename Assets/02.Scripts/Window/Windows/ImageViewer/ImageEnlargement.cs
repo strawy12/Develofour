@@ -5,10 +5,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
 
 public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHandler
 {
-    public float imageScale = 1f;
+    public float defaultScale;
+    public float imageScale;
 
     public float maxImageScale = 4f;
 
@@ -36,8 +38,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
         transform.parent.GetComponent<ScrollRect>().content = transform as RectTransform;
 
-        RenewalImageText();
-
+        defaultScale = imageScale;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -52,6 +53,15 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         {
             doubleClickedTime = Time.time;
         }
+    }
+
+    public void ReSetting()
+    {
+        Debug.Log(currentImage.name);
+        currentImage.transform.localScale = Vector3.one * defaultScale;
+        Debug.Log(defaultScale);
+        Debug.Log(currentImage.transform.localScale);
+        RenewalImageText();
     }
 
     public void OnScroll(PointerEventData eventData)
