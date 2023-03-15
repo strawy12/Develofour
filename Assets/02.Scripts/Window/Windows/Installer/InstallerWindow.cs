@@ -75,7 +75,7 @@ public class InstallerWindow : Window
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
 
         GameManager.Inst.isProfilerTownloadCompleted = true;
-        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[] { EGuideTopicName.ProfilerDownGuide });
+        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.ProfilerDownGuide });
     }
 
     public void CheckOpenWindow(bool isWindowOpen)

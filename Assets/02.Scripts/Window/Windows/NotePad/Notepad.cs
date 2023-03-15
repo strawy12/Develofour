@@ -35,7 +35,7 @@ public class Notepad : Window
 
         notepadBody.inputField.scrollSensitivity = scrollValue;
 
-        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file, EGuideTopicName.ClearPinNotePadQuiz });
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
 
         SetText();
     }
