@@ -59,7 +59,6 @@ public class ProfileInfoPanel : MonoBehaviour
 
             foreach (var infoText in infoTextList)
             {
-
                 if (infoText.infoNameKey == save.key)
                 {
                     infoText.ChangeText();
@@ -89,9 +88,7 @@ public class ProfileInfoPanel : MonoBehaviour
             if (infoText.infoNameKey == key)
             {
                 infoText.ChangeText();
-                Debug.Log(saveData);
                 Debug.Log(saveData.GetSaveData(key));
-                Debug.Log(key);
                 saveData.GetSaveData(key).isShow = true;
                 if (key == "OwnerName" && GameManager.Inst.GameState == EGameState.Tutorial)
                 {

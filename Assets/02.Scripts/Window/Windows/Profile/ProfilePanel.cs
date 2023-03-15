@@ -25,7 +25,7 @@ public class ProfilePanel : MonoBehaviour
     [SerializeField]
     private GameObject CategoryPanel;
 
-    private Dictionary<EProfileCategory, ProfileCategoryPanel> categoryPanels = new Dictionary<EProfileCategory, ProfileCategoryPanel>();
+    //private Dictionary<EProfileCategory, ProfileCategoryPanel> categoryPanels = new Dictionary<EProfileCategory, ProfileCategoryPanel>();
     [SerializeField]
     private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
     [SerializeField]
@@ -71,25 +71,29 @@ public class ProfilePanel : MonoBehaviour
 
         EProfileCategory category = (EProfileCategory)ps[0];
 
-        Debug.Log("Get Category : " + categoryPanels[category]);
-        if (categoryPanels.ContainsKey(category))
-        {
+        GetInfoPanel(category).ChangeValue(ps[1] as string);
 
-            Debug.Log("ShowCategory");
-            ProfileCategoryPanel categoryPanel = categoryPanels[category];
+        //현재는 카테고리 패널을 사용하지 않음
+        // ProfileCategoryPanel categoryPanel = categoryPanels[category];
+        //Debug.Log("Get Category : " + categoryPanels[category]);
+        //if (categoryPanels.ContainsKey(category))
+        //{
 
-            if (!categoryPanel.gameObject.activeSelf)
-            {
-                Debug.Log("ShowCategory2");
-                categoryPanel.gameObject.SetActive(true);
-                SaveShowCategory(category);
-            }
-            GetInfoPanel(category).ChangeValue(ps[1] as string);
-        }
-        else
-        {
-            Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
-        }
+        //    Debug.Log("ShowCategory");
+        //    ProfileCategoryPanel categoryPanel = categoryPanels[category];
+
+        //    if (!categoryPanel.gameObject.activeSelf)
+        //    {
+        //        Debug.Log("ShowCategory2");
+        //        categoryPanel.gameObject.SetActive(true);
+        //        SaveShowCategory(category);
+        //    }
+        //    GetInfoPanel(category).ChangeValue(ps[1] as string);
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
+        //}
     }
 
     private ProfileInfoPanel GetInfoPanel(EProfileCategory category)
