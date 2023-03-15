@@ -63,7 +63,7 @@ public class HomeSite : Site , IPointerClickHandler
     {
         if(profilePanel.isActiveAndEnabled)
         {
-            profilePanel.LoginPanel.gameObject.SetActive(false);
+            profilePanel.loginPanel.gameObject.SetActive(false);
         }
     }
 }
