@@ -112,7 +112,5 @@ public class TaskBar : MonoBehaviour
         taskIconPool.Push(icon);
         taskIcons.Remove(icon.WindowType);
         icon.CloseIcon();
-
-
     }
 }

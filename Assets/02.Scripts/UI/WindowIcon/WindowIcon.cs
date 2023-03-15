@@ -111,7 +111,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 // 여기에서 이벤트 쏨
                 clickCount = 0;
 
-
                 if (targetWindow == null)
                 {
                     OpenWindow();
@@ -164,7 +163,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Close()
     {
-        UnSelect();
+        UnSelect(); 
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
@@ -186,7 +185,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         targetWindow.OnClosed += CloseTargetWindow;
 
     }
-
 
     public void SelectedIcon(bool isSelected)
     {

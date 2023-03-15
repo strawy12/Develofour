@@ -113,7 +113,6 @@ public class WindowManager : MonoSingleton<WindowManager>
             {
                 targetWindow = CreateWindow(EWindowType.WindowPinLock, file);
             }
-
             else
             {
                 targetWindow = CreateWindow(file.windowType, file);
