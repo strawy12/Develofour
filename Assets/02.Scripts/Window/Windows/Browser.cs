@@ -63,7 +63,7 @@ public partial class Browser : Window
         EventManager.StartListening(EBrowserEvent.OnUndoSite, UndoSite);
         EventManager.StartListening(ELoginSiteEvent.LoginSuccess, LoginSiteOpen);
 
-        ChangeSite(ESiteLink.Chrome, 0f, false);
+        ChangeSite(ESiteLink.Chrome, 0f, true);
 
         EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[] { EGuideTopicName.BrowserConnectGuide });
     }
@@ -141,8 +141,6 @@ public partial class Browser : Window
             currentSite = CreateSite(currentSite); 
         }
 
-        Debug.Log(currentSite);
-
         usingSite = currentSite;
         // before 사이트는 위에서 넣고 using을 currentSite로 여기서 갱신
        
@@ -150,6 +148,11 @@ public partial class Browser : Window
         {
             usingSite.SetUndoSite(beforeSite);
         }
+        else
+        {
+            usingSite.SetUndoSite(beforeSite.undoSite);
+        }
+
 
         if (addUndo && beforeSite != null)
         {
@@ -200,14 +203,16 @@ public partial class Browser : Window
     public void UndoSite()
     {
         if (isLoading) return;
-        if (usingSite.undoSite == null) return;
+        if (usingSite.undoSite == null)
+        {
+            return;
+        }
 
         Site currentSite = usingSite.undoSite;
+        
         Site beforeSite = ChangeSite(currentSite, Constant.LOADING_DELAY, false);
 
         currentSite.SetRedoSite(beforeSite);
-
-        Debug.Log("Undo : " + currentSite);
 
         // 앞으로 갈 사이트는 사용하던 사이트 
         // 뒤로 갈 사이트는 undosite의 top

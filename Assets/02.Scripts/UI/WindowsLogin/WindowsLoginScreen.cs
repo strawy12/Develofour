@@ -53,11 +53,8 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         Init();
 
-        if (!Define.CheckComputerLoginState(EComputerLoginState.Logout))
-        {
-            gameObject.SetActive(false);
-            return;
-        }
+
+        GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Logout);
 
         Subscribe();
     }
@@ -97,7 +94,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            DataManager.SetSaveData(ESaveDataType.ComputerLoginState, EComputerLoginState.Admin);
+            GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Admin);
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             windowLoginCanvas.SetActive(false);
             if (isFirst)
@@ -156,7 +153,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void WindowGuestLogin()
     {
-        DataManager.SetSaveData(ESaveDataType.ComputerLoginState, EComputerLoginState.Guest);
+        GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Guest);
         EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
         windowLoginCanvas.SetActive(false);
         if (isFirst)

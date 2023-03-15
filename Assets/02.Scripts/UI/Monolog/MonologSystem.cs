@@ -12,6 +12,9 @@ public class MonologSystem : MonoBehaviour
     [SerializeField]
     private TextBox textBox;
 
+
+
+
     private void Awake()
     {
         Debug.Log("Awake");
@@ -22,10 +25,20 @@ public class MonologSystem : MonoBehaviour
 
     public void StartMonolog(ETextDataType textDataType, float delay, int cnt)
     {
+        if (DataManager.Inst.IsMonologShow(textDataType))
+        {
+            OnEndMonologEvent = null;
+            return;
+        }
         StartCoroutine(StartMonologCoroutine(textDataType, delay, cnt, false));
     }
     public void TutoMonolog(ETextDataType textDataType, float delay, int cnt)
     {
+        if (DataManager.Inst.IsMonologShow(textDataType))
+        {
+            OnEndMonologEvent = null;
+            return;
+        }
         StartCoroutine(StartMonologCoroutine(textDataType, delay, cnt, true));
     }
     private void StopMonolog()
@@ -44,7 +57,7 @@ public class MonologSystem : MonoBehaviour
 
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
         textBox.Init(textDataType);
-        
+
         for (int i = 0; i < cnt; i++)
         {
             yield return new WaitForSeconds(0.1f);
@@ -63,6 +76,8 @@ public class MonologSystem : MonoBehaviour
         }
         Debug.Log("startmonologcoroutine의 onendmonologevent");
         OnEndMonologEvent?.Invoke();
+
+        DataManager.Inst.SetMonologShow(textDataType, true);
     }
 
 }
