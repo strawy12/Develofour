@@ -148,11 +148,6 @@ public partial class Browser : Window
         {
             usingSite.SetUndoSite(beforeSite);
         }
-        //else
-        //{
-        //    usingSite.SetUndoSite(beforeSite.undoSite);
-        //}
-
 
         if (addUndo && beforeSite != null)
         {
