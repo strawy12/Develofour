@@ -1,4 +1,4 @@
-using System;
+using System; 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,11 +23,11 @@ public class HomeProfileLoginPanel : MonoBehaviour
     {
         if (!Define.CheckComputerLoginState(EComputerLoginState.Logout))
         {
-            loginButton.gameObject.SetActive(false);
+            loginButton.gameObject.SetActive(true);
         }
         else
         {
-            loginButton.gameObject.SetActive(true);
+            loginButton.gameObject.SetActive(false);
         }
     }
 

@@ -63,7 +63,7 @@ public partial class Browser : Window
         EventManager.StartListening(EBrowserEvent.OnUndoSite, UndoSite);
         EventManager.StartListening(ELoginSiteEvent.LoginSuccess, LoginSiteOpen);
 
-        ChangeSite(ESiteLink.Chrome, 0f, true);
+        ChangeSite(ESiteLink.Chrome, 0f, false);
 
         EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[] { EGuideTopicName.BrowserConnectGuide });
     }
@@ -148,10 +148,10 @@ public partial class Browser : Window
         {
             usingSite.SetUndoSite(beforeSite);
         }
-        else
-        {
-            usingSite.SetUndoSite(beforeSite.undoSite);
-        }
+        //else
+        //{
+        //    usingSite.SetUndoSite(beforeSite.undoSite);
+        //}
 
 
         if (addUndo && beforeSite != null)
