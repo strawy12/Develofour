@@ -17,7 +17,7 @@ public partial class Browser : Window
         return createSite;
     }
 
-    public bool CheckZoogleSiteLogin()
+    public bool CheckZoogleSiteLogin() 
     {
         if (!DataManager.Inst.SaveData.isSuccessLoginZoogle)
         {
