@@ -82,6 +82,11 @@ public partial class Browser : Window
     {
         Site sitePrefab = null;
 
+        if(eSiteLink == ESiteLink.None) 
+        {
+            eSiteLink = ESiteLink.Chrome;    
+        }
+
         if (TryGetSitePrefab(eSiteLink, out sitePrefab))
         {
             ChangeSite(sitePrefab, loadDelay, addUndo, true);
