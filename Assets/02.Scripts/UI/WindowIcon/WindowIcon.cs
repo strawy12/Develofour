@@ -128,7 +128,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     Debug.Log("의뢰자 정보 " + GameManager.Inst.GameState);
                     if(GameManager.Inst.GameState == EGameState.Tutorial)
                     {
-                        Debug.Log("a");
                         EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
                     }
                 }
