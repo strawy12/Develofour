@@ -24,8 +24,6 @@ public class ProfilePanel : MonoBehaviour
 
     [SerializeField]
     private GameObject CategoryPanel;
-
-    //private Dictionary<EProfileCategory, ProfileCategoryPanel> categoryPanels = new Dictionary<EProfileCategory, ProfileCategoryPanel>();
     [SerializeField]
     private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
     [SerializeField]
@@ -62,7 +60,7 @@ public class ProfilePanel : MonoBehaviour
     }
 
     //이벤트 매니저 등록
-    private void ChangeValue(object[] ps) // 0 = 카테고리, 1 = key값 스트링, 
+    private void ChangeValue(object[] ps) // string 값으로 들고옴
     {
         if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
         {
@@ -94,6 +92,26 @@ public class ProfilePanel : MonoBehaviour
         //{
         //    Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
         //}
+
+        //main에서
+        //if (data != null)
+        //{
+        //    Debug.Log("ShowCategory");
+        //    ProfileInfoPanel categoryPanel = categoryPanels[category];
+
+        //    if (!categoryPanel.gameObject.activeSelf)
+        //    {
+        //        Debug.Log("ShowCategory2");
+        //        categoryPanel.gameObject.SetActive(true);
+        //        SaveShowCategory(category);
+        //    }
+        //    GetInfoPanel(category).ChangeValue(ps[1] as string);
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
+        //}
+
     }
 
     private ProfileInfoPanel GetInfoPanel(EProfileCategory category)
