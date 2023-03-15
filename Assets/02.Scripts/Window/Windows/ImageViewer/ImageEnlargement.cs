@@ -55,10 +55,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public void ReSetting()
     {
-        Debug.Log(currentImage.name);
         currentImage.transform.localScale = Vector3.one * defaultScale;
-        Debug.Log(defaultScale);
-        Debug.Log(currentImage.transform.localScale);
         RenewalImageText();
     }
 
