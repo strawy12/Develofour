@@ -196,6 +196,7 @@ public class ProfileWindow : Window
     private IEnumerator OnShowFileSearch()
     {
         if (GameManager.Inst.GameState == EGameState.Tutorial) yield break;
+        
         if(!isMoving)
         {
             isMoving = true;
@@ -236,6 +237,7 @@ public class ProfileWindow : Window
     {
         isMoving = true;
         fileSearchPanel.gameObject.SetActive(true);
+
         area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
             isOpen = true;
