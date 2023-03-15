@@ -5,9 +5,6 @@ using UnityEngine;
 
 public partial class Browser : Window
 {
-    [SerializeField]
-    private List<Site> siteObjectList = new List<Site>();
-
     public Site CreateSite(Site selectSite)
     {
         Site createSite = Instantiate(selectSite, selectSite.transform.parent);
@@ -28,7 +25,7 @@ public partial class Browser : Window
     }
 
     public bool TryGetSitePrefab(ESiteLink siteLink, out Site site)
-    {
+      {
         siteDictionary.TryGetValue(siteLink, out site);
 
         switch (siteLink)
