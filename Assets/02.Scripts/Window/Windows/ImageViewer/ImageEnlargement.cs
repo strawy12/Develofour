@@ -37,8 +37,6 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         currentImage = GetComponent<Image>();
 
         transform.parent.GetComponent<ScrollRect>().content = transform as RectTransform;
-
-        defaultScale = imageScale;
     }
 
     public void OnPointerClick(PointerEventData eventData)
