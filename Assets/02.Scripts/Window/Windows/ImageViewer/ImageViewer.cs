@@ -66,7 +66,6 @@ public class ImageViewer : Window
         {
             scale = MAXSIZE.x / size.x;
         }
-        Debug.Log(scale);
         imageViewerBody.transform.localScale = Vector3.one * scale;
 
         imageEnlargement.imageScale = imageViewerBody.transform.localScale.x;
