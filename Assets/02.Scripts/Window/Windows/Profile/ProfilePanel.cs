@@ -33,6 +33,10 @@ public class ProfilePanel : MonoBehaviour
     public void Init()
     {
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
+        for(int i = 0; i < infoPanelList.Count; i++)
+        {
+            infoPanelList[i].Init(infoDataList[i]);
+        }
     }
 
     private void CategoryStartEvent(object[] ps)
@@ -68,6 +72,21 @@ public class ProfilePanel : MonoBehaviour
         }
 
         EProfileCategory category = (EProfileCategory)ps[0];
+
+        
+        if(ps[2] != null)
+        {
+            Debug.Log("asdffff");
+            List<string> strList = ps[2] as List<string>;
+            foreach(var temp in strList)
+            {
+                Debug.Log(GetInfoPanel(category).CheckIsTrue(temp));
+                if (!GetInfoPanel(category).CheckIsTrue(temp))
+                {
+                    return;
+                }
+            }
+        }
 
         GetInfoPanel(category).ChangeValue(ps[1] as string);
 

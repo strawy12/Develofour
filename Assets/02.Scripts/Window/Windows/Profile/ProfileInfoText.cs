@@ -47,6 +47,7 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void ChangeText()
     {
         //infoTitleText.text = infoTitle;
+        Debug.Log("들어ㅇ왔음");
         infoText.text = afterText;
     }
 

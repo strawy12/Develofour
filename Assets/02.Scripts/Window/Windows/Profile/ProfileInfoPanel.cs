@@ -87,7 +87,6 @@ public class ProfileInfoPanel : MonoBehaviour
             if (infoText.infoNameKey == key)
             {
                 infoText.ChangeText();
-                Debug.Log(saveData.GetSaveData(key));
                 saveData.GetSaveData(key).isShow = true;
                 if (key == "OwnerName" && GameManager.Inst.GameState == EGameState.Tutorial)
                 {
@@ -95,5 +94,10 @@ public class ProfileInfoPanel : MonoBehaviour
                 }
             }
         }
+    }
+
+    public bool CheckIsTrue(string str)
+    {
+        return saveData.GetSaveData(str).isShow;
     }
 }
