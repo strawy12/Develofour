@@ -18,6 +18,7 @@ public enum EWindowType // 확장자
     TodoWindow,
     ProfileWindow,
     WindowPinLock,
+    MediaPlayer,
     End 
 }
 

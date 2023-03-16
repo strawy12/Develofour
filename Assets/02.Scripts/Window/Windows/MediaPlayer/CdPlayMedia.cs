@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class CdPlayMedia : MonoBehaviour
 {
+    public float rotationSpeed = 5f;
     [SerializeField]
     private Image cd;
 
@@ -16,9 +17,17 @@ public class CdPlayMedia : MonoBehaviour
 
     public void PlayCdAnimation()
     {
-        Sequence seq = DOTween.Sequence();
+        StartCoroutine("PlayRotationAnimation");
+    }
 
-        seq.Append(cd.transform.DORotate(new Vector3(0, 0, -360), 99999f, RotateMode.FastBeyond360));
+
+    private IEnumerator PlayRotationAnimation()
+    {
+        while(true)
+        {
+            cd.transform.Rotate(new Vector3(0, 0, -(rotationSpeed * Time.deltaTime)));
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     public void StopCdAnimation()

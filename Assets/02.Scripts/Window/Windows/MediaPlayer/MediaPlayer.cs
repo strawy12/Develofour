@@ -26,6 +26,8 @@ public class MediaPlayer : Window
     {
         base.Init();
 
+        mediaPlayerDataSO = ResourceManager.Inst.GetMediaPlayerData(file.GetFileLocation());
+
         mediaPlayerDownBar.Init();
         cdPlayMedia.Init();
 

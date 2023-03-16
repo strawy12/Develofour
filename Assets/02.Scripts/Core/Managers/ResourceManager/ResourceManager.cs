@@ -6,13 +6,14 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     private IEnumerator Start()
     {
-        int cnt = 5;
+        int cnt = 6;
 
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);
         LoadTextDataSOAssets(() => cnt--);
         LoadImageViewerDataAssets(() => cnt--);
         LoadNotepadDataAssets(() => cnt--);
+        LoadMediaPlayerDataAssets(() => cnt--);
 
         yield return new WaitUntil(() => cnt == 0);
 

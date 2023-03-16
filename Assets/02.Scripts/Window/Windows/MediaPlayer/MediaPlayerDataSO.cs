@@ -7,6 +7,8 @@ using UnityEngine;
 public class MediaPlayerDataSO : ScriptableObject
 {
     public float textPlaySpeed = 0.05f;
-    public string[] textData;
     public AudioClip mediaAudioClip;
+    [TextArea(10, 20)]
+    public string textData;
+    public string fileName;
 }
