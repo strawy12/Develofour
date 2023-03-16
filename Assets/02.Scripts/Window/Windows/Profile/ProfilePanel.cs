@@ -4,49 +4,29 @@ using UnityEngine;
 
 public enum EProfileCategory
 {
-    Owner,
-    Boyfriend,
+    SuspectProfileInfomation,
+    SuspectProfileExtensionInfomation,
+    BlogTagInfo,
+    SNSTagInfo,
 }
-
-public enum OwnerCategory
-{
-    Email,
-    Name
-}
-public enum BoyfriendCategory
-{
-    Age,
-    Birth
-}
-
 public class ProfilePanel : MonoBehaviour
 {
-
-    [SerializeField]
-    private GameObject CategoryPanel;
+    
     [SerializeField]
     private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
     [SerializeField]
     private List<ProfileInfoDataSO> infoDataList = new List<ProfileInfoDataSO>();
-    private bool clearProfilerTutorial;
 
     public void Init()
     {
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
-    }
 
-    private void CategoryStartEvent(object[] ps)
-    {
-        ProfileCategoryPanel panel = ps[0] as ProfileCategoryPanel;
-        panel.StopCor();
-    }
 
-    private void CategoryEndEvent(object[] ps)
-    {
-        EventManager.StopListening(ETutorialEvent.ProfileInfoEnd, CategoryStartEvent);
-        EventManager.StopListening(ETutorialEvent.ProfileEventStop, CategoryEndEvent);
+        foreach(var infoPanel in infoPanelList)
+        {
+            infoPanel.Init(infoDataList.Find(x => x.category == infoPanel.category));
+        }
     }
-
 
     private void SaveShowCategory(EProfileCategory category)
     {
@@ -71,47 +51,15 @@ public class ProfilePanel : MonoBehaviour
 
         GetInfoPanel(category).ChangeValue(ps[1] as string);
 
-        //현재는 카테고리 패널을 사용하지 않음
-        // ProfileCategoryPanel categoryPanel = categoryPanels[category];
-        //Debug.Log("Get Category : " + categoryPanels[category]);
-        //if (categoryPanels.ContainsKey(category))
-        //{
+        ProfileInfoPanel categoryPanel = infoPanelList.Find(x=>x.category == category);
 
-        //    Debug.Log("ShowCategory");
-        //    ProfileCategoryPanel categoryPanel = categoryPanels[category];
+        if (!categoryPanel.gameObject.activeSelf)
+        {
+            categoryPanel.gameObject.SetActive(true);
+            SaveShowCategory(category);
+        }
 
-        //    if (!categoryPanel.gameObject.activeSelf)
-        //    {
-        //        Debug.Log("ShowCategory2");
-        //        categoryPanel.gameObject.SetActive(true);
-        //        SaveShowCategory(category);
-        //    }
-        //    GetInfoPanel(category).ChangeValue(ps[1] as string);
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
-        //}
-
-        //main에서
-        //if (data != null)
-        //{
-        //    Debug.Log("ShowCategory");
-        //    ProfileInfoPanel categoryPanel = categoryPanels[category];
-
-        //    if (!categoryPanel.gameObject.activeSelf)
-        //    {
-        //        Debug.Log("ShowCategory2");
-        //        categoryPanel.gameObject.SetActive(true);
-        //        SaveShowCategory(category);
-        //    }
-        //    GetInfoPanel(category).ChangeValue(ps[1] as string);
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
-        //}
-
+        GetInfoPanel(category).ChangeValue(ps[1] as string);
     }
 
     private ProfileInfoPanel GetInfoPanel(EProfileCategory category)
@@ -125,11 +73,6 @@ public class ProfilePanel : MonoBehaviour
         }
 
         return null;
-    }
-
-    public void HideCategoryParentPanel()
-    {
-        CategoryPanel.gameObject.SetActive(false);
     }
 
     private void OnApplicationQuit()

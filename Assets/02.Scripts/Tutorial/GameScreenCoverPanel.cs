@@ -7,6 +7,8 @@ public class GameScreenCoverPanel : MonoBehaviour
     private void Awake()
     {
         EventManager.StartListening(ECoreEvent.CoverPanelSetting, ScreenSetting);
+
+        gameObject.SetActive(false);
     }
 
 
