@@ -100,4 +100,9 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         return saveData.GetSaveData(str).isShow;
     }
+
+    public void FindAlarm(string category, string key)
+    {
+        EventManager.TriggerEvent(ENoticeEvent.GeneratedProfileFindNotice, new object[2] { category, key });
+    }
 }

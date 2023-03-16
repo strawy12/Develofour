@@ -4,20 +4,21 @@ using UnityEngine;
 
 public enum EProfileCategory
 {
-    Owner,
-    Boyfriend,
+    None = -1,
+    SuspectProfile, 
+    SuspectProfileExtension,
 }
 
-public enum OwnerCategory
-{
-    Email,
-    Name
-}
-public enum BoyfriendCategory
-{
-    Age,
-    Birth
-}
+//public enum OwnerCategory
+//{
+//    Email,
+//    Name
+//}
+//public enum BoyfriendCategory
+//{
+//    Age,
+//    Birth
+//}
 
 public class ProfilePanel : MonoBehaviour
 {
@@ -30,9 +31,13 @@ public class ProfilePanel : MonoBehaviour
     private List<ProfileInfoDataSO> infoDataList = new List<ProfileInfoDataSO>();
     private bool clearProfilerTutorial;
 
+    [SerializeField]
+    private Sprite profilerSprite;
+
     public void Init()
     {
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
+        EventManager.StartListening(ENoticeEvent.GeneratedProfileFindNotice, SendAlarm);
         for(int i = 0; i < infoPanelList.Count; i++)
         {
             infoPanelList[i].Init(infoDataList[i]);
@@ -149,6 +154,11 @@ public class ProfilePanel : MonoBehaviour
     public void HideCategoryParentPanel()
     {
         CategoryPanel.gameObject.SetActive(false);
+    }
+
+    public void SendAlarm(object[] ps)
+    {
+        //NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, profilerSprite, ENoticeTag.Profiler);
     }
 
     private void OnApplicationQuit()
