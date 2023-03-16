@@ -4,13 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PropertyUI : MonoUI 
-{
-    [SerializeField]
-    private Button closeButton;
-    [SerializeField]
-    private Button confirmButton;
-
+public class IconPropertyBody : MonoBehaviour
+{ 
     [SerializeField]
     private Image iconImage;
     [SerializeField]
@@ -26,34 +21,20 @@ public class PropertyUI : MonoUI
     [SerializeField]
     private TMP_Text iconAccessData;
 
-    private void Awake()
-    {
-        Init();
-    }
 
-    private void Init()
-    {
-        closeButton.onClick?.AddListener(ClosePropertyTab);
-        confirmButton.onClick?.AddListener(ClosePropertyTab);
-    }
-
-
-    public void CreatePropertyUI(FileSO file)
+    public void Init(FileSO file)
     {
         iconImage.sprite = file.iconSprite;
         iconName.text = file.name;
 
-        iconLocation.text = file.GetFileLocation();
+        string location = file.GetFileLocation();
+
+        location = location.Replace('\\', '/');
+        iconLocation.text = location;
         iconByte.text = file.GetFileBytes().ToString();
         iconMadeData.text = file.GetMadeDate();
         iconFixData.text = file.GetFixDate();
         iconAccessData.text = file.GetAccessDate();
-
-        SetActive(true);
     }
 
-    private void ClosePropertyTab()
-    {
-        SetActive(false);
-    }
 }
