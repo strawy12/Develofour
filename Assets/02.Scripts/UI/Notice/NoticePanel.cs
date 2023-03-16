@@ -113,14 +113,14 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         SetActive(true);
 
-        Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
-
         if (isOpenSystem)
         {
             NoticeSystem.OnTagReset?.Invoke();
             OnCompeleted?.Invoke(this);
             return;
         }
+
+        Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
 
         EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
 
