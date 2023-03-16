@@ -73,8 +73,6 @@ public class ProfilePanel : MonoBehaviour
             }
         }
 
-        GetInfoPanel(category).ChangeValue(ps[1] as string);
-
         ProfileInfoPanel categoryPanel = infoPanelList.Find(x=>x.category == category);
 
         if (!categoryPanel.gameObject.activeSelf)
@@ -105,7 +103,23 @@ public class ProfilePanel : MonoBehaviour
         {
             return;
         }
-        string text = ps[0] as string + " 카테고리의 " + ps[1] as string + "의 정보가 업데이트 되었습니다.";
+
+        string key = ps[1] as string;
+        string answer;
+        string temp = "nullError";
+        foreach (var infoPanel in infoPanelList)
+        {
+            foreach(var infoText in infoPanel.infoTextList)
+            {
+                if(key == infoText.infoNameKey)
+                {
+                    answer = infoText.infoTitleText.text;
+                    temp = answer.Replace(": ", "");
+                }
+            }
+        }
+
+        string text = ps[0] as string + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
         NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profilerSprite, ENoticeTag.Profiler);
     }
 
