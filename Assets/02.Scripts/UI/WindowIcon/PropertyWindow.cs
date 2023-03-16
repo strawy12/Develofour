@@ -17,6 +17,9 @@ public class PropertyWindow : Window
         base.Init();
         if(file.fileData.propertyBody != null)
         {
+            Debug.Log("propertyBody Have");
+
+            body.gameObject.SetActive(false);
             Destroy(body);
             IconPropertyBody newBody = Instantiate(File.fileData.propertyBody, transform);
             body = newBody;
@@ -24,6 +27,16 @@ public class PropertyWindow : Window
 
         body.Init(file);
         confirmButton.onClick.AddListener(WindowClose);
+    }
+
+    public override void CreatedWindow(FileSO file)
+    {
+        this.file = file;
+        Init();
+
+        windowMaxCnt++;
+        EventManager.StartListening(EWindowEvent.AlarmSend, AlarmCheck);
+        EventManager.TriggerEvent(EWindowEvent.CreateWindow, new object[] { this, EWindowType.IconProperty });
     }
 
 

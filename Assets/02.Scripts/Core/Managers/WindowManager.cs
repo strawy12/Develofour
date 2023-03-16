@@ -92,7 +92,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     // 다른 키값 하나가 더 있으야함
     public Window GetWindow(EWindowType windowType, string windowName)
     {
-        return windowDictionary[windowType].Find(x => x.File.name == windowName);
+        return windowDictionary[windowType].Find(x => x.File.fileName == windowName);
     }
 
     // 현재 윈도우 딕셔너리의 있는 windowType의 개수를 반환
@@ -158,7 +158,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         FileSO propertyFile = FileManager.Inst.GetDefaultFile(EWindowType.IconProperty);
 
-        Window targetWindow = GetWindow(propertyFile.windowType, file.name);
+        Window targetWindow = GetWindow(propertyFile.windowType, file.fileName);
 
         if (targetWindow == null)
         {
