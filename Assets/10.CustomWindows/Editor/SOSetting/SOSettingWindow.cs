@@ -123,13 +123,13 @@ public class SOSettingWindow : EditorWindow
             int id = int.Parse(columns[0]);
             string fileName = columns[1];
             EWindowType type = (EWindowType)Enum.Parse(typeof(EWindowType), columns[2]);
-            bool isMultiple = columns[3] == "TRUE";
-            bool isFileLock = columns[4] == "TRUE";
+            bool isMultiple = columns[4] == "TRUE";
+            bool isFileLock = columns[5] == "TRUE";
+             
+            string pin = columns[6];
+            string pinHint = columns[7];
 
-            string pin = columns[5];
-            string pinHint = columns[6];
-
-            bool isAlram = columns[7] == "TRUE";
+            bool isAlram = columns[8] == "TRUE";
 
             List<int> childIdList = new List<int>();
 
