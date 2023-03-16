@@ -106,7 +106,6 @@ public class ProfileTutorial : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Game);
         GameManager.Inst.isTutorial = false;
 
-        EventManager.TriggerEvent(EGuideEventType.OpenPlayGuide, new object[2] { 90f, EGuideTopicName.BrowserConnectGuide });
         MonologSystem.OnEndMonologEvent -= EndTutoMonologEvent;
     }
 
