@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -88,17 +88,25 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         iconImage.sprite = newFileData.iconSprite;
       
-        if (isRegisterEvent == false && fileData.fileName == "¿«∑⁄¿⁄ ¡§∫∏")    
+        if (isRegisterEvent == false && fileData.fileName == "Ïö©ÏùòÏûê ÌîÑÎ°úÌååÏùºÎü¨")    
         {
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
+            EventManager.StartListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
         }
 
         if (isUSBEvent == false && fileData.fileName == "BestUSB")
         {
             isUSBEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
+            EventManager.StartListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
         }
+    }
+
+    private void DestoryYellow(object[] obj)
+    {
+        yellowUI.gameObject.SetActive(false);
+        EventManager.StopListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -108,7 +116,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             if (clickCount != 0)
             {
                 EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
-                // ø©±‚ø°º≠ ¿Ã∫•∆Æ ΩÙ
+                // Ïó¨Í∏∞ÏóêÏÑú Ïù¥Î≤§Ìä∏ Ïè®
                 clickCount = 0;
 
                 if (targetWindow == null)
@@ -122,9 +130,9 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 UnSelect();
 
-                if (fileData.fileName == "¿«∑⁄¿⁄ ¡§∫∏")
+                if (fileData.fileName == "ÏùòÎ¢∞Ïûê Ï†ïÎ≥¥")
                 {
-                    Debug.Log("¿«∑⁄¿⁄ ¡§∫∏ " + GameManager.Inst.GameState);
+                    Debug.Log("ÏùòÎ¢∞Ïûê Ï†ïÎ≥¥ " + GameManager.Inst.GameState);
                     if(GameManager.Inst.GameState == EGameState.Tutorial)
                     {
                         EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
@@ -328,7 +336,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         EventManager.StopListening(ETutorialEvent.LibraryUSBEnd, delegate { StopYellowUICor(); });
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopYellowUICor(); });
-        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { StartCoroutine(YellowSignCor()); });
+        //EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { StartCoroutine(YellowSignCor()); });
         EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { StopYellowUICor(); });
     }
 }

@@ -4,49 +4,38 @@ using UnityEngine;
 
 public enum EProfileCategory
 {
-    Owner,
-    Boyfriend,
-}
-
-public enum OwnerCategory
-{
-    Email,
-    Name
-}
-public enum BoyfriendCategory
-{
-    Age,
-    Birth
+    SuspectProfileInfomation,
+    SuspectProfileExtensionInfomation,
+    VictimProfileInfomation,
+    BlogTagInfo,
+    SNSTagInfo,
 }
 
 public class ProfilePanel : MonoBehaviour
 {
-
-    [SerializeField]
-    private GameObject CategoryPanel;
+    
     [SerializeField]
     private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
     [SerializeField]
     private List<ProfileInfoDataSO> infoDataList = new List<ProfileInfoDataSO>();
-    private bool clearProfilerTutorial;
+
+    [SerializeField]
+    private Sprite profilerSprite;
 
     public void Init()
     {
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
-    }
+        EventManager.StartListening(ENoticeEvent.GeneratedProfileFindNotice, SendAlarm);
+        for(int i = 0; i < infoPanelList.Count; i++)
+        {
+            infoPanelList[i].Init(infoDataList[i]);
+        }
 
-    private void CategoryStartEvent(object[] ps)
-    {
-        ProfileCategoryPanel panel = ps[0] as ProfileCategoryPanel;
-        panel.StopCor();
+        foreach(var infoPanel in infoPanelList)
+        {
+            infoPanel.Init(infoDataList.Find(x => x.category == infoPanel.category));
+        }
     }
-
-    private void CategoryEndEvent(object[] ps)
-    {
-        EventManager.StopListening(ETutorialEvent.ProfileInfoEnd, CategoryStartEvent);
-        EventManager.StopListening(ETutorialEvent.ProfileEventStop, CategoryEndEvent);
-    }
-
 
     private void SaveShowCategory(EProfileCategory category)
     {
@@ -69,49 +58,30 @@ public class ProfilePanel : MonoBehaviour
 
         EProfileCategory category = (EProfileCategory)ps[0];
 
+        
+        if(ps[2] != null)
+        {
+            Debug.Log("asdffff");
+            List<string> strList = ps[2] as List<string>;
+            foreach(var temp in strList)
+            {
+                Debug.Log(GetInfoPanel(category).CheckIsTrue(temp));
+                if (!GetInfoPanel(category).CheckIsTrue(temp))
+                {
+                    return;
+                }
+            }
+        }
+
+        ProfileInfoPanel categoryPanel = infoPanelList.Find(x=>x.category == category);
+
+        if (!categoryPanel.gameObject.activeSelf)
+        {
+            categoryPanel.gameObject.SetActive(true);
+            SaveShowCategory(category);
+        }
+
         GetInfoPanel(category).ChangeValue(ps[1] as string);
-
-        //현재는 카테고리 패널을 사용하지 않음
-        // ProfileCategoryPanel categoryPanel = categoryPanels[category];
-        //Debug.Log("Get Category : " + categoryPanels[category]);
-        //if (categoryPanels.ContainsKey(category))
-        //{
-
-        //    Debug.Log("ShowCategory");
-        //    ProfileCategoryPanel categoryPanel = categoryPanels[category];
-
-        //    if (!categoryPanel.gameObject.activeSelf)
-        //    {
-        //        Debug.Log("ShowCategory2");
-        //        categoryPanel.gameObject.SetActive(true);
-        //        SaveShowCategory(category);
-        //    }
-        //    GetInfoPanel(category).ChangeValue(ps[1] as string);
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
-        //}
-
-        //main에서
-        //if (data != null)
-        //{
-        //    Debug.Log("ShowCategory");
-        //    ProfileInfoPanel categoryPanel = categoryPanels[category];
-
-        //    if (!categoryPanel.gameObject.activeSelf)
-        //    {
-        //        Debug.Log("ShowCategory2");
-        //        categoryPanel.gameObject.SetActive(true);
-        //        SaveShowCategory(category);
-        //    }
-        //    GetInfoPanel(category).ChangeValue(ps[1] as string);
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
-        //}
-
     }
 
     private ProfileInfoPanel GetInfoPanel(EProfileCategory category)
@@ -127,9 +97,30 @@ public class ProfilePanel : MonoBehaviour
         return null;
     }
 
-    public void HideCategoryParentPanel()
+    public void SendAlarm(object[] ps)
     {
-        CategoryPanel.gameObject.SetActive(false);
+        if(!(ps[0] is string) || !(ps[1] is string))
+        {
+            return;
+        }
+
+        string key = ps[1] as string;
+        string answer;
+        string temp = "nullError";
+        foreach (var infoPanel in infoPanelList)
+        {
+            foreach(var infoText in infoPanel.infoTextList)
+            {
+                if(key == infoText.infoNameKey)
+                {
+                    answer = infoText.infoTitleText.text;
+                    temp = answer.Replace(": ", "");
+                }
+            }
+        }
+
+        string text = ps[0] as string + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
+        NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profilerSprite, ENoticeTag.Profiler);
     }
 
     private void OnApplicationQuit()

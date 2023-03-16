@@ -6,14 +6,6 @@ using Unity.VisualScripting;
 using System;
 using UnityEngine.UI;
 
-[Serializable]
-public class ProfileInfoPart
-{
-    public bool isShow;
-    public string partNameKey;
-    public GameObject part;
-    public TMP_Text titleText;
-}
 
 public class ProfileInfoPanel : MonoBehaviour
 {
@@ -37,25 +29,27 @@ public class ProfileInfoPanel : MonoBehaviour
 
     public void Setting()//켰을때 기초 세팅
     {
-
-        //string str ="";
-        //for(int i = 0; i < part.partNameKey.Length;i++)
-        //{
-        //    str += "?";
-        //}
-        //part.titleText.text = str;
-
+        
         foreach (var infoText in infoTextList)
         {
             infoText.Init();
         }
+
+        if(saveData.isShowCategory)
+        {
+            ShowPost();
+        }
+        else
+        {
+            HidePost();
+        }
+
         foreach (var save in saveData.saveList)
         {
             if (save.isShow == false)
             {
                 continue;
             }
-
             foreach (var infoText in infoTextList)
             {
                 if (infoText.infoNameKey == save.key)
@@ -65,35 +59,50 @@ public class ProfileInfoPanel : MonoBehaviour
             }
         }
     }
-
-    public void ChangeValue(string key)//특정어느것을 눌렀을때 세팅
+    public void ChangeValue(string key)
     {
-        //foreach (var part in infoPartList)
-        //{
-        //    Debug.Log(part.partNameKey + " " + key);
-        //    if (key.Contains(part.partNameKey))
-        //    {
-
-        //        //저장 방식이 어케되는거?
-        //        part.isShow = true;
-        //        part.part.SetActive(true);
-        //        part.titleText.text = part.partNameKey;
-        //    }
-        //} 
-        //카테고리로 번경될 예정
-
         foreach (var infoText in infoTextList)
         {
+
             if (infoText.infoNameKey == key)
             {
+                if(gameObject.activeSelf == false)
+                {
+                    ShowPost();
+                }
                 infoText.ChangeText();
-                Debug.Log(saveData.GetSaveData(key));
-                saveData.GetSaveData(key).isShow = true;
-                if (key == "OwnerName" && GameManager.Inst.GameState == EGameState.Tutorial)
+
+                if(saveData.GetSaveData(key).isShow == false)
+                {
+                    saveData.GetSaveData(key).isShow = true;
+                    FindAlarm(categoryNameText.text, key);
+                }
+
+                if (key == "SuspectName" && GameManager.Inst.GameState == EGameState.Tutorial)
                 {
                     EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
                 }
             }
         }
+    }
+
+    public bool CheckIsTrue(string str)
+    {
+        return saveData.GetSaveData(str).isShow;
+    }
+
+    public void FindAlarm(string category, string key)
+    {
+        EventManager.TriggerEvent(ENoticeEvent.GeneratedProfileFindNotice, new object[2] { category, key });
+    }
+    private void ShowPost()
+    {
+        gameObject.SetActive(true);
+        saveData.isShowCategory = true;
+    }
+
+    private void HidePost()
+    {
+        gameObject.SetActive(false);
     }
 }

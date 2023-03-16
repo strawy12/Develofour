@@ -86,10 +86,10 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         dragNotice.OnDragNotice += ImmediatelyStop;
     }
 
-    public void Notice(NoticeDataSO data)
+    public void Notice(NoticeDataSO data, bool isOpenSystem)
     {
         sameTagText.text = data.sameTextString;
-        Notice(data.Head, data.Body, data.Icon);
+        Notice(data.Head, data.Body, data.Icon, isOpenSystem);
     }
     private void NoticeSetting(string head, string body, Sprite icon)
     {
@@ -104,7 +104,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
 
     }
-    public void Notice(string head, string body, Sprite icon)
+    public void Notice(string head, string body, Sprite icon, bool isOpenSystem)
     {
         NoticeSetting(head, body, icon);
 
@@ -113,11 +113,18 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         SetActive(true);
 
+        if (isOpenSystem)
+        {
+            NoticeSystem.OnTagReset?.Invoke();
+            OnCompeleted?.Invoke(this);
+            return;
+        }
+
+        Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
+
         EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
 
         NoticeUXEmphasis();
-
-       Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
 
         stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }

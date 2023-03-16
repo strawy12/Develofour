@@ -43,6 +43,7 @@ public enum ENoticeEvent
     GeneratedNotice,
     OpenNoticeSystem,
     ClickNoticeBtn,
+    GeneratedProfileFindNotice,
 }
 public enum ELibraryEvent
 {
@@ -90,7 +91,6 @@ public enum EMailSiteEvent
 {
     None = -1,
     PoliceGameClear,
-    ShowBlogGmail,
     VisiableMail,
     RefreshPavoriteMail,
 }
@@ -140,6 +140,13 @@ public enum EProfileEvent
     SendMessage,
     InstalledProfile,
 }
+public enum EGuideEventType
+{
+    OpenPlayGuide,
+    ClearGuideType,
+    GuideConditionCheck,
+}
+
 
 public enum ETutorialEvent
 {
