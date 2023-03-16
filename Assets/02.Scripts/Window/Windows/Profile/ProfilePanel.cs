@@ -100,7 +100,12 @@ public class ProfilePanel : MonoBehaviour
 
     public void SendAlarm(object[] ps)
     {
-        //NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, profilerSprite, ENoticeTag.Profiler);
+        if(!(ps[0] is string) || !(ps[1] is string))
+        {
+            return;
+        }
+        string text = ps[0] as string + " 카테고리의 " + ps[1] as string + "의 정보가 업데이트 되었습니다.";
+        NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profilerSprite, ENoticeTag.Profiler);
     }
 
     private void OnApplicationQuit()

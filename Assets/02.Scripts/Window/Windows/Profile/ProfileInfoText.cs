@@ -48,7 +48,6 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         //infoTitleText.text = infoTitle;
         infoText.text = afterText;
-        
     }
 
     public void OnPointerEnter(PointerEventData eventData)

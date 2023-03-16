@@ -71,7 +71,13 @@ public class ProfileInfoPanel : MonoBehaviour
                     ShowPost();
                 }
                 infoText.ChangeText();
-                saveData.GetSaveData(key).isShow = true;
+
+                if(saveData.GetSaveData(key).isShow == false)
+                {
+                    saveData.GetSaveData(key).isShow = true;
+                    FindAlarm(categoryNameText.text, key);
+                }
+
                 if (key == "OwnerName" && GameManager.Inst.GameState == EGameState.Tutorial)
                 {
                     EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
