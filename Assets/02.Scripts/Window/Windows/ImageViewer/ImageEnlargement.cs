@@ -9,6 +9,9 @@ using System;
 
 public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHandler
 {
+    public Action enlargementClick;
+    public Action reductionClick;
+
     public float defaultScale;
     private float imageScale;
 
@@ -29,7 +32,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     private bool isEnlargement = false;
 
     private int enlargementArrIndex = 0;
-    private float[] enlargementArr = new float[] { 1f, 1.25f, 1.5f, 1.75f, 2f };
+    private float[] enlargementArr = new float[] { 1f, 2f, 3f, 4f, 5f };
 
     private readonly Vector2 MAXSIZE = new Vector2(1173.333f, 660f);
 
@@ -54,9 +57,14 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         currentImage = GetComponent<Image>();
 
         transform.parent.GetComponent<ScrollRect>().content = transform as RectTransform;
+
+        enlargementClick += EnlargementButtonClick;
+        reductionClick += ReductionButtonClick;
+
         SetImageSizeReset();
         ReSetting();
     }
+
     public void SetImageSizeReset()
     {
         Vector2 size = currentImage.sprite.rect.size;
