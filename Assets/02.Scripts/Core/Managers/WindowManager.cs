@@ -95,6 +95,19 @@ public class WindowManager : MonoSingleton<WindowManager>
         return windowDictionary[windowType].Find(x => x.File.name == windowName);
     }
 
+    // 현재 윈도우 딕셔너리의 있는 windowType의 개수를 반환
+    public int CurrentWindowCount(EWindowType windowType)
+    {
+        int num = 0;
+        num = windowDictionary[windowType].Count;
+        return num;
+    }
+
+    public void RemoveWindowDictionary(EWindowType windowType, Window window)
+    {
+        windowDictionary[windowType].Remove(window);
+    }
+
     // 다른 키 값 하나가 더 있어야 구분 가능
     // 메모장1, 메모장2 구별
     public bool IsExistWindow(EWindowType windowType)
