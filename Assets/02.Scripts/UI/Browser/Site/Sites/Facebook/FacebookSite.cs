@@ -1,9 +1,8 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class FacebookSite : Site
 {
-    
     [Header("Pid")]
     [SerializeField]
     private List<FacebookPidPanelDataSO> pidDataList;
@@ -29,7 +28,7 @@ public class FacebookSite : Site
 
     public FacebookProfilePanel myProfile;
 
-    //PidºÎºĞÀº ³ªÁß¿¡ ´Ù½Ã ¸¸µé¾î¾ßÇÔ
+    //Pidë¶€ë¶„ì€ ë‚˜ì¤‘ì— ë‹¤ì‹œ ë§Œë“¤ì–´ì•¼í•¨
 
     private void CreatePid()
     {
@@ -75,35 +74,9 @@ public class FacebookSite : Site
     {
         base.ShowSite();
         //EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
-       
-        if(!DataManager.Inst.SaveData.isSuccessLoginStarbook)
-        {
-
-            // ÆĞ½º¿öµå ÃÊ±âÈ­¸¦ Çß³Ä?
-            // ¸ŞÀÏÀº ¿ÍÀÖ´Âµ¥
-            // ´Ù½Ã ¿äÃ»À» ÇÏ´Â°Çµ¥
-            // ¸ŞÀÏÀÌ ÇÏ³ª ±×³É °è¼Ó ÀÖ¾îµµ µÉ±î
-            // »õ·Î ¾È ¿Íµµ µÉ±î?
-            // ÆÛÁñ·Î º¸¾ÈÄÚµå´Â °íÁ¤À» ½ÃÅ°±ä Çß¾î
-            // ±×·³ ¾Ë¸²À» °è¼Ó ¶ç¿ö¾ßÇÒ±î?
-            // ¾Ë¸² °è¼Ó ¶ç¿î´Ù´Â°Ç ´Ù½Ã ¸»ÇÏ¸é ºê¶ó¿ìÀú¸¸ ´Ù½Ã ²°´ÙÅ°µç°¡
-            // ¾Æ´Ï¸é µÚ·Î°¡±â ´­·¶´Ù°¡ ´Ù½Ã ¾ÕÀ¸·Î °¡±â ´­·¯µµ ¿Â´Ù´Â °Å°Åµç?
-            // ºñ¹Ğ¹øÈ£ Àç¼³Á¤ ¸ŞÀÏ ¿À´Â°Å¶û ¿¬°áÀÌ µÇ¾îÀÖ¾î 
-
-
-
-            if(DataManager.Inst.SaveData.isSuccessLoginStarbook)
-            {
-                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.StarbookPasswordResetSite, 0f, false });
-            }
-            else
-            {
-                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.StarbookLoginSite, 0f, false});
-            }
-            return;
-        }
+      
         SettingPid();
-
+        
     }
 
     private void ShowHomePanel()

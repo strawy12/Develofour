@@ -43,7 +43,11 @@ public partial class Browser : Window
                 }
             case ESiteLink.Starbook:
                 {
-                    // 
+                    if(!DataManager.Inst.SaveData.isSuccessLoginStarbook)
+                    {
+                        requestSite = siteLink;
+                        siteDictionary.TryGetValue(ESiteLink.StarbookLoginSite, out site);
+                    }
                     break;
                 }
         }
