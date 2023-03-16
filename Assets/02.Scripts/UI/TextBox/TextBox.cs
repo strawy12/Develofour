@@ -97,9 +97,6 @@ public class TextBox : MonoUI
 
         currentTextData = ResourceManager.Inst.GetTextDataSO(textDataType);
         currentTextIndex = 0;
-
-        //InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyUp: OnPressNextKey);
-        //EventManager.StartListening(EInputType.InputMouseUp, OnPressNextKey);
     }
 
     #endregion
@@ -265,6 +262,7 @@ public class TextBox : MonoUI
         msg = ConversionPureText(msg);
         messageText.SetText(msg);
     }
+
     public void EndPrintText()
     {
         StopAllCoroutines();

@@ -50,8 +50,6 @@ public partial class Browser : Window
         usedSiteList = new List<Site>();
 
         BindingStart();
-        //OnUndoSite += UndoSite;
-        //OnOpenSite += ChangeSite;
         OnSelected += SelectedBrowser;
 
         OnClosed += (a) => ResetBrowser();
