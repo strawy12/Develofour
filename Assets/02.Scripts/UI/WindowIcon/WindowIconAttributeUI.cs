@@ -12,9 +12,6 @@ public class WindowIconAttributeUI : MonoUI
     [SerializeField]
     private Button openPropertyBtn;
 
-    [SerializeField]
-    private PropertyUI propertyUI;
-
     public RectTransform rectTransform;
 
     private FileSO windowPropertyData;
@@ -79,9 +76,7 @@ public class WindowIconAttributeUI : MonoUI
 
     public void CreateProperty()
     {
-        Debug.Log("click");
-        Debug.Log(windowPropertyData.name);
-        propertyUI.CreatePropertyUI(windowPropertyData);
+        WindowManager.Inst.OpenIconProperty(windowPropertyData);
         CloseMenu();
     }
 }

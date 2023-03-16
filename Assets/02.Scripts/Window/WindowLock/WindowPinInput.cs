@@ -9,9 +9,6 @@ public class WindowPinInput : Window
 {
     private bool isShaking = false;
 
-    [SerializeField]
-    private FileSO pinFileSO;
-
     [Header("Pin UI")]
     [SerializeField]
     private TMP_Text pinWindowNameBarText;
@@ -67,7 +64,6 @@ public class WindowPinInput : Window
         windowBar.SetNameText("[ " + file.name + " - 잠금 안내 ]");
         pinGuideText.SetText(file.windowPinHintGuide);
 
-        Debug.Log(11);
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file.name, EGuideTopicName.ClickPinNotePadHint });

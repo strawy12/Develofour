@@ -117,6 +117,11 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     public Window WindowOpen(EWindowType windowType, FileSO file = null)
     {
+        if (file == null)
+        {
+            file = FileManager.Inst.GetDefaultFile(windowType);
+        }
+
         Window targetWindow = GetWindow(file.windowType, file.name);
 
         if (targetWindow == null)
@@ -149,7 +154,21 @@ public class WindowManager : MonoSingleton<WindowManager>
         window.OnClosed += (s) => windowOrderList.Remove(window);
         return window;
     }
+    public Window OpenIconProperty(FileSO file)
+    {
+        FileSO propertyFile = FileManager.Inst.GetDefaultFile(EWindowType.IconProperty);
 
+        Window targetWindow = GetWindow(propertyFile.windowType, file.name);
+
+        if (targetWindow == null)
+        {
+            targetWindow = CreateWindow(EWindowType.IconProperty, file);
+        }
+
+        targetWindow.WindowOpen();
+        return targetWindow;
+
+    }
     public Window GetWindowPrefab(EWindowType windowType)
     {
         Window prefab = windowPrefabList.Find((x) => x.windowType == windowType).windowPrefab;

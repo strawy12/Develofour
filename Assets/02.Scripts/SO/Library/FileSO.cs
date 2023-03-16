@@ -22,7 +22,7 @@ public struct WindowIconData
     public string madeDate;
     public string lastFixDate;
     public string lastAccessDate;
-
+    public IconPropertyBody propertyBody;
 }
 
 

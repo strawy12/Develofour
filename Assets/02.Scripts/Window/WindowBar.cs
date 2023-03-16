@@ -89,7 +89,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
 
         if (windowName != null && file.name != "WindowPinLockSO")
         {
-            windowName.text = $"{currentFile.name} - {windowName.text}";
+            windowName.text = $"{currentFile.fileName} - {windowName.text}";
         }
 
         if (iconImage != null)

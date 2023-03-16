@@ -18,6 +18,7 @@ public enum EWindowType // 확장자
     TodoWindow,
     ProfileWindow,
     WindowPinLock,
+    IconProperty,
     End 
 }
 
@@ -60,7 +61,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     }
 
     private Vector3 windowPos;
-    private Canvas currentCanvas;
+    protected Canvas currentCanvas;
 
 
     protected virtual void Init()
