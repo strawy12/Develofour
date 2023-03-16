@@ -20,9 +20,9 @@ public class CdPlayMedia : MonoBehaviour
         StartCoroutine("PlayRotationAnimation");
     }
 
-
     private IEnumerator PlayRotationAnimation()
     {
+
         while(true)
         {
             cd.transform.Rotate(new Vector3(0, 0, -(rotationSpeed * Time.deltaTime)));
@@ -32,8 +32,6 @@ public class CdPlayMedia : MonoBehaviour
 
     public void StopCdAnimation()
     {
-        cd.transform.rotation = Quaternion.Euler(0, 0, 0);
-        DOTween.Kill(cd.transform);
+        StopAllCoroutines();
     }
-
 }

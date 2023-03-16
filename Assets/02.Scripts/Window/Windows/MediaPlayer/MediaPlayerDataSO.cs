@@ -11,4 +11,6 @@ public class MediaPlayerDataSO : ScriptableObject
     [TextArea(10, 20)]
     public string textData;
     public string fileName;
+
+    public int length;
 }
