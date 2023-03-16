@@ -6,6 +6,7 @@ public enum EProfileCategory
 {
     SuspectProfileInfomation,
     SuspectProfileExtensionInfomation,
+    VictimProfileInfomation,
     BlogTagInfo,
     SNSTagInfo,
 }
