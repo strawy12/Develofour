@@ -186,9 +186,11 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
         if (!windowAlteration.isMaximum)
         {
-            if (WindowManager.Inst.CurrentWindowCount(file.windowType) > 1)
+            int num = WindowManager.Inst.CurrentWindowCount(file.windowType);
+            if (num > 1)
             {
-                Vector2 pos = windowAlteration.pos + new Vector2(20, -20);
+                num -= 1;
+                Vector2 pos = windowAlteration.pos + new Vector2(20 * num, -20 * num);
                 rectTransform.localPosition = pos;
             }
             else
