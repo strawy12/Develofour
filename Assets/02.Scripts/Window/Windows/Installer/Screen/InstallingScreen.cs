@@ -28,8 +28,17 @@ public class InstallingScreen : InstallerScreen
     private void EndInstall()
     {
         installer.EndInstall();
+        MonologSystem.OnEndMonologEvent += StartTuto;
         NextBtn.interactable = true;
     }
+
+    private void StartTuto()
+    {
+        EventManager.TriggerEvent(ETutorialEvent.TutorialStart, new object[0]);
+        EventManager.StopAllListening(ETutorialEvent.TutorialStart);
+        MonologSystem.OnEndMonologEvent -= StartTuto;
+    }
+
     private IEnumerator InstallBarFill()
     {
         installBarFillTrm.localScale = new Vector3(0, 1, 1);
