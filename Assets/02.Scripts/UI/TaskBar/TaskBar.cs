@@ -66,9 +66,15 @@ public class TaskBar : MonoBehaviour
             return;
         }
         
+        if(ps.Length >= 2 && (ps[1] is EWindowType))
+        {
+            AddIcon(ps[0] as Window, (EWindowType)ps[1]);
+            return;
+        }
+
+
         AddIcon(ps[0] as Window);
     }
-
     public void AddIcon(Window window)
     {
  
@@ -91,6 +97,28 @@ public class TaskBar : MonoBehaviour
             taskIcons.Add(window.File.windowType, taskIcon);
         }
     }
+
+    public void AddIcon(Window window, EWindowType windowType)
+    {
+        if (taskIcons.ContainsKey(windowType))
+        {
+            taskIcons[windowType].AddTargetPanel(window);
+        }
+
+        TaskIcon taskIcon;
+        taskIcon = CreateTaskIcon();
+
+        taskIcon.Init(window.File, windowType);
+        taskIcon.OnClose += RemoveTaskIcon;
+        taskIcon.gameObject.SetActive(true);
+
+        taskIcon.AddWindow(window);
+        taskIcons.Add(windowType, taskIcon);
+
+
+    }
+
+
 
     private TaskIcon CreateTaskIcon()
     {
