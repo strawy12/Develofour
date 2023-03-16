@@ -7,7 +7,6 @@ public enum EGuideTopicName
 {
     None,
     ProfilerDownGuide,
-    BrowserConnectGuide,
     ClickPinNotePadHint,
     ClearPinNotePadQuiz,
     Count
@@ -78,13 +77,6 @@ public class GuideManager: MonoBehaviour
                 {
                     MonologSystem.OnStartMonolog.Invoke(ETextDataType.GuideLog1, 0.2f, 1);
                     DataManager.Inst.SetGuide(guideTopic, true);
-                    break;
-                }
-            case EGuideTopicName.BrowserConnectGuide:
-                {
-                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { guideTopicDictionary[guideType].guideTexts[0] });
-                    DataManager.Inst.SetGuide(guideTopic, true);
-
                     break;
                 }
             case EGuideTopicName.ClickPinNotePadHint:

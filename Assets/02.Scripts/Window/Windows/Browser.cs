@@ -63,7 +63,6 @@ public partial class Browser : Window
 
         ChangeSite(ESiteLink.Chrome, 0f, false);
 
-        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[] { EGuideTopicName.BrowserConnectGuide });
     }
 
     private void BindingStart()
