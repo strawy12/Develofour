@@ -5,9 +5,6 @@ using UnityEngine;
 
 public partial class Browser : Window
 {
-    [SerializeField]
-    private List<Site> siteObjectList = new List<Site>();
-
     public Site CreateSite(Site selectSite)
     {
         Site createSite = Instantiate(selectSite, selectSite.transform.parent);
@@ -17,7 +14,7 @@ public partial class Browser : Window
         return createSite;
     }
 
-    public bool CheckZoogleSiteLogin()
+    public bool CheckZoogleSiteLogin() 
     {
         if (!DataManager.Inst.SaveData.isSuccessLoginZoogle)
         {
@@ -28,7 +25,7 @@ public partial class Browser : Window
     }
 
     public bool TryGetSitePrefab(ESiteLink siteLink, out Site site)
-    {
+      {
         siteDictionary.TryGetValue(siteLink, out site);
 
         switch (siteLink)
@@ -46,7 +43,11 @@ public partial class Browser : Window
                 }
             case ESiteLink.Starbook:
                 {
-                    // 
+                    if(!DataManager.Inst.SaveData.isSuccessLoginStarbook)
+                    {
+                        requestSite = siteLink;
+                        siteDictionary.TryGetValue(ESiteLink.StarbookLoginSite, out site);
+                    }
                     break;
                 }
         }

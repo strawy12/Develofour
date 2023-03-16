@@ -3,56 +3,150 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
+
 public class ProfileWindow : Window
 {
+    [Header("ProfilerPanel")]
     [SerializeField]
     private ProfilePanel profilePanel;
-
-    [SerializeField]
-    private ProfileChatting profileChatting;
     [SerializeField]
     private InfoCheckPanel infoCheckPanel;
     [SerializeField]
     private FileSearchPanel fileSearchPanel;
+
+    [Header("ProfilerChatUI")]
+    [SerializeField]
+    private ProfileChatting profileChatting;
+
+    [Header("ProfilerBar")]
     [SerializeField]
     private Button profileSystemBtn;
     [SerializeField]
     private Button infoCheckBtn;
     [SerializeField]
     private Button fileSearchBtn;
+
+    [SerializeField]
+    private TMP_Text profilingText;
+    [SerializeField]
+    private TMP_Text infoCheckText;
+    [SerializeField]
+    private TMP_Text fileSearchText;
+
+
+    [Header("UIEtc")]
     [SerializeField]
     private Button moveBtn;
     [SerializeField]
     private RectTransform area;
+
     [SerializeField]
     private float moveDelay = 0.75f;
+    
     private bool isOpen = true;
     private bool isMoving = false;
 
     private bool isFirstTutorial;
 
+    private Button beforeClickButton;
+
     protected override void Init()
     {
         base.Init();
+
         profileChatting.Init();
         profilePanel.Init();
         fileSearchPanel.Init();
-        profileSystemBtn.onClick.AddListener(delegate { StartCoroutine(OnShowProfile()); } );
-        infoCheckBtn.onClick.AddListener(delegate { StartCoroutine(OnShowInfo()); });
-        fileSearchBtn.onClick.AddListener(delegate { StartCoroutine(OnShowFileSearch()); });
+
+        profileSystemBtn.onClick?.AddListener(OnClickShowProfilingBtn);
+        infoCheckBtn.onClick?.AddListener(OnClickShowInfo);
+        fileSearchBtn.onClick?.AddListener(OnClickShowFileSearch);
+
         moveBtn.onClick.AddListener(delegate { StartCoroutine(HideAllPanel()); });
+
         TutorialStart();
+    }
+
+    private void OnClickShowProfilingBtn()
+    {
+        if(beforeClickButton == profileSystemBtn)
+        {
+            return;
+        }
+
+        Color blackColor = new Color(0, 0, 0, 255);
+        Color whiteColor = new Color(255, 255, 255, 255);
+
+        profileSystemBtn.image.color = blackColor;
+        profilingText.color = whiteColor;
+
+        infoCheckBtn.image.color = whiteColor;
+        infoCheckText.color = blackColor;
+
+        fileSearchBtn.image.color = whiteColor;
+        fileSearchText.color = blackColor;
+
+        beforeClickButton = profileSystemBtn;
+
+        StartCoroutine(OnShowProfile());
+    }
+
+    private void OnClickShowInfo()
+    {
+        if(beforeClickButton == infoCheckBtn)
+        {
+            return;
+        }
+
+        Color blackColor = new Color(0, 0, 0, 255);
+        Color whiteColor = new Color(255, 255, 255, 255);
+
+        infoCheckBtn.image.color = blackColor;
+        infoCheckText.color = whiteColor;
+
+        profileSystemBtn.image.color = whiteColor;
+        profilingText.color = blackColor;
+
+        fileSearchBtn.image.color = whiteColor;
+        fileSearchText.color = blackColor;
+
+        beforeClickButton = infoCheckBtn;
+
+        StartCoroutine(OnShowInfo());
+    }
+
+    private void OnClickShowFileSearch()
+    {
+        if(beforeClickButton == fileSearchBtn)
+        {
+            return;
+        }
+
+        Color blackColor = new Color(0, 0, 0, 255);
+        Color whiteColor = new Color(255, 255, 255, 255);
+
+        fileSearchBtn.image.color = blackColor;
+        fileSearchText.color = whiteColor;
+
+        infoCheckBtn.image.color = whiteColor;
+        infoCheckText.color = blackColor;
+
+        profileSystemBtn.image.color = whiteColor;
+        profilingText.color = blackColor;
+
+        beforeClickButton = fileSearchBtn;
+
+        StartCoroutine(OnShowFileSearch());
     }
 
     private void TutorialStart()
     {
-
         if(!isFirstTutorial)
         {
             MonologSystem.OnStartMonolog.Invoke(ETextDataType.Profile, 0.2f, 1);
             isFirstTutorial = true;
         }
-   
     }
 
     private IEnumerator HideAllPanel()
@@ -64,6 +158,7 @@ public class ProfileWindow : Window
            infoCheckPanel.gameObject.SetActive(false);
            fileSearchPanel.gameObject.SetActive(false);
         });
+
         yield return new WaitForSeconds(moveDelay + 0.05f);
         isMoving = false;
     }
@@ -101,6 +196,7 @@ public class ProfileWindow : Window
     private IEnumerator OnShowFileSearch()
     {
         if (GameManager.Inst.GameState == EGameState.Tutorial) yield break;
+        
         if(!isMoving)
         {
             isMoving = true;
@@ -117,36 +213,35 @@ public class ProfileWindow : Window
     {
         isMoving = true;
         profilePanel.gameObject.SetActive(true);
+
         area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
             isOpen = true;
             isMoving = false;
         });
     }
+
     private void ShowInfoCheckPanel()
     {
         isMoving = true;
         infoCheckPanel.gameObject.SetActive(true);
+
         area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
             isOpen = true;
             isMoving = false;
         });
-        
     }
+
     private void ShowFileSearchPanel()
     {
         isMoving = true;
         fileSearchPanel.gameObject.SetActive(true);
+
         area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
             isOpen = true;
             isMoving = false;
         });
-    }
-
-    public void ChattingAlarm(object[] ps)
-    {
-
     }
 }

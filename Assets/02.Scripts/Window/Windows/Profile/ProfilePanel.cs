@@ -4,51 +4,38 @@ using UnityEngine;
 
 public enum EProfileCategory
 {
-    Owner,
-    Boyfriend,
-}
-
-public enum OwnerCategory
-{
-    Email,
-    Name
-}
-public enum BoyfriendCategory
-{
-    Age,
-    Birth
+    SuspectProfileInfomation,
+    SuspectProfileExtensionInfomation,
+    VictimProfileInfomation,
+    BlogTagInfo,
+    SNSTagInfo,
 }
 
 public class ProfilePanel : MonoBehaviour
 {
-
-    [SerializeField]
-    private GameObject CategoryPanel;
-
-    private Dictionary<EProfileCategory, ProfileCategoryPanel> categoryPanels = new Dictionary<EProfileCategory, ProfileCategoryPanel>();
+    
     [SerializeField]
     private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
     [SerializeField]
     private List<ProfileInfoDataSO> infoDataList = new List<ProfileInfoDataSO>();
-    private bool clearProfilerTutorial;
+
+    [SerializeField]
+    private Sprite profilerSprite;
 
     public void Init()
     {
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
-    }
+        EventManager.StartListening(ENoticeEvent.GeneratedProfileFindNotice, SendAlarm);
+        for(int i = 0; i < infoPanelList.Count; i++)
+        {
+            infoPanelList[i].Init(infoDataList[i]);
+        }
 
-    private void CategoryStartEvent(object[] ps)
-    {
-        ProfileCategoryPanel panel = ps[0] as ProfileCategoryPanel;
-        panel.StopCor();
+        foreach(var infoPanel in infoPanelList)
+        {
+            infoPanel.Init(infoDataList.Find(x => x.category == infoPanel.category));
+        }
     }
-
-    private void CategoryEndEvent(object[] ps)
-    {
-        EventManager.StopListening(ETutorialEvent.ProfileInfoEnd, CategoryStartEvent);
-        EventManager.StopListening(ETutorialEvent.ProfileEventStop, CategoryEndEvent);
-    }
-
 
     private void SaveShowCategory(EProfileCategory category)
     {
@@ -62,7 +49,7 @@ public class ProfilePanel : MonoBehaviour
     }
 
     //이벤트 매니저 등록
-    private void ChangeValue(object[] ps) // 0 = 카테고리, 1 = key값 스트링, 
+    private void ChangeValue(object[] ps) // string 값으로 들고옴
     {
         if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
         {
@@ -70,23 +57,33 @@ public class ProfilePanel : MonoBehaviour
         }
 
         EProfileCategory category = (EProfileCategory)ps[0];
-        if (categoryPanels.ContainsKey(category))
-        {
-            Debug.Log("ShowCategory");
-            ProfileCategoryPanel categoryPanel = categoryPanels[category];
 
-            if (!categoryPanel.gameObject.activeSelf)
-            {
-                Debug.Log("ShowCategory2");
-                categoryPanel.gameObject.SetActive(true);
-                SaveShowCategory(category);
-            }
-            GetInfoPanel(category).ChangeValue(ps[1] as string);
-        }
-        else
+        
+        if(ps[2] != null)
         {
-            Debug.LogWarning("해당 CategoryKey가 존재하지않습니다.");
+            Debug.Log("asdffff");
+            List<string> strList = ps[2] as List<string>;
+            foreach(var temp in strList)
+            {
+                Debug.Log(GetInfoPanel(category).CheckIsTrue(temp));
+                if (!GetInfoPanel(category).CheckIsTrue(temp))
+                {
+                    return;
+                }
+            }
         }
+
+        GetInfoPanel(category).ChangeValue(ps[1] as string);
+
+        ProfileInfoPanel categoryPanel = infoPanelList.Find(x=>x.category == category);
+
+        if (!categoryPanel.gameObject.activeSelf)
+        {
+            categoryPanel.gameObject.SetActive(true);
+            SaveShowCategory(category);
+        }
+
+        GetInfoPanel(category).ChangeValue(ps[1] as string);
     }
 
     private ProfileInfoPanel GetInfoPanel(EProfileCategory category)
@@ -102,9 +99,14 @@ public class ProfilePanel : MonoBehaviour
         return null;
     }
 
-    public void HideCategoryParentPanel()
+    public void SendAlarm(object[] ps)
     {
-        CategoryPanel.gameObject.SetActive(false);
+        if(!(ps[0] is string) || !(ps[1] is string))
+        {
+            return;
+        }
+        string text = ps[0] as string + " 카테고리의 " + ps[1] as string + "의 정보가 업데이트 되었습니다.";
+        NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profilerSprite, ENoticeTag.Profiler);
     }
 
     private void OnApplicationQuit()

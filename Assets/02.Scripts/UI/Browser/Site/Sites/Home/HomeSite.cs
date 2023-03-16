@@ -26,8 +26,9 @@ public class HomeSite : Site , IPointerClickHandler
             searchRecordData = handle.WaitForCompletion();
         }
 
-        profilePanel.Init();
         favoriteBar.Init();
+
+        profilePanel.Init();
         recordPanel.Init(searchRecordData);
         SeacrhPanel.onClick.AddListener(ShowRecordPanel);
         recordPanel.OnCloseRecord += ShowSearchPanel;
@@ -62,7 +63,7 @@ public class HomeSite : Site , IPointerClickHandler
     {
         if(profilePanel.isActiveAndEnabled)
         {
-            profilePanel.LoginPanel.gameObject.SetActive(false);
+            profilePanel.loginPanel.gameObject.SetActive(false);
         }
     }
 }

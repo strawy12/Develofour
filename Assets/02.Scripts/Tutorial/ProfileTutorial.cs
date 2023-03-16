@@ -10,6 +10,7 @@ public class ProfileTutorial : MonoBehaviour
     public string[] findNoticeAIChatting;
     public string[] completeProfileChatting;
 
+    public float delay = 2f;
 
     void Start()
     {
@@ -17,12 +18,13 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCoroutine(NoticeProfileChattingTutorial()); });
 
         //skip debug 코드
-        EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { StopAllCoroutines(); EndTutoMonologEvent(); });
+        EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { delay = 0.05f; });
     }
 
     public IEnumerator StartProfileTutorial()
     {
-        Debug.Log("ASDDF");
+        Debug.Log("프로파일러 튜토리얼 시작");
+
         WindowManager.Inst.StartTutorialSetting();
         //tutorialPanel.SetActive(true);
         yield return new WaitForSeconds(0.5f);
@@ -41,7 +43,7 @@ public class ProfileTutorial : MonoBehaviour
                 MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog1, 0.1f, 1);
             }
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(delay);
         }
     }
 
@@ -52,13 +54,12 @@ public class ProfileTutorial : MonoBehaviour
 
     public IEnumerator ContinueProfileTutorial()
     {
-        Debug.Log("fdsa");
         MonologSystem.OnEndMonologEvent -= StartContinueProfileTutorial;
         for (int i = 3; i < startAIChatting.Length; i++)
         {
             AIChatting(startAIChatting[i]);
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(delay);
         }
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 0.1f);
@@ -74,28 +75,29 @@ public class ProfileTutorial : MonoBehaviour
     public IEnumerator NoticeProfileChattingTutorial()
     {
         EventManager.StopAllListening(ETutorialEvent.LibraryRootCheck);
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
         EventManager.TriggerEvent(ETutorialEvent.ProfileInfoStart);
         foreach (string str in findNoticeAIChatting)
         {
             AIChatting(str);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(delay);
         }
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine(StartProfileLastTutorial());
     }
 
     public IEnumerator StartProfileLastTutorial()
     {
         //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
-        yield return new WaitForSeconds(0.5f);
         foreach (string str in completeProfileChatting)
         {
             AIChatting(str);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(delay);
         }
 
         MonologSystem.OnEndMonologEvent += EndTutoMonologEvent;
         MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog2, 0.2f, 3);
-
+        EventManager.TriggerEvent(ETutorialEvent.ProfileEventStop);
         EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
     }
 

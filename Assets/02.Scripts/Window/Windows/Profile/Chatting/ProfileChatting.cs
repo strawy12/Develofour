@@ -67,11 +67,9 @@ public class ProfileChatting : MonoBehaviour
             chatDataDictionary.Add(data.eChat, data.script);
         }
     }
-
+        
     public void AddText(string str)
     {
-        Debug.Log(str);
-
         foreach (var save in SOData.saveList)
         {
             if (save == str)

@@ -95,6 +95,19 @@ public class WindowManager : MonoSingleton<WindowManager>
         return windowDictionary[windowType].Find(x => x.File.name == windowName);
     }
 
+    // 현재 윈도우 딕셔너리의 있는 windowType의 개수를 반환
+    public int CurrentWindowCount(EWindowType windowType)
+    {
+        int num = 0;
+        num = windowDictionary[windowType].Count;
+        return num;
+    }
+
+    public void RemoveWindowDictionary(EWindowType windowType, Window window)
+    {
+        windowDictionary[windowType].Remove(window);
+    }
+
     // 다른 키 값 하나가 더 있어야 구분 가능
     // 메모장1, 메모장2 구별
     public bool IsExistWindow(EWindowType windowType)
@@ -104,6 +117,11 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     public Window WindowOpen(EWindowType windowType, FileSO file = null)
     {
+        if (file == null)
+        {
+            file = FileManager.Inst.GetDefaultFile(windowType);
+        }
+
         Window targetWindow = GetWindow(file.windowType, file.name);
 
         if (targetWindow == null)
@@ -113,7 +131,6 @@ public class WindowManager : MonoSingleton<WindowManager>
             {
                 targetWindow = CreateWindow(EWindowType.WindowPinLock, file);
             }
-
             else
             {
                 targetWindow = CreateWindow(file.windowType, file);
@@ -137,7 +154,21 @@ public class WindowManager : MonoSingleton<WindowManager>
         window.OnClosed += (s) => windowOrderList.Remove(window);
         return window;
     }
+    public Window OpenIconProperty(FileSO file)
+    {
+        FileSO propertyFile = FileManager.Inst.GetDefaultFile(EWindowType.IconProperty);
 
+        Window targetWindow = GetWindow(propertyFile.windowType, file.name);
+
+        if (targetWindow == null)
+        {
+            targetWindow = CreateWindow(EWindowType.IconProperty, file);
+        }
+
+        targetWindow.WindowOpen();
+        return targetWindow;
+
+    }
     public Window GetWindowPrefab(EWindowType windowType)
     {
         Window prefab = windowPrefabList.Find((x) => x.windowType == windowType).windowPrefab;

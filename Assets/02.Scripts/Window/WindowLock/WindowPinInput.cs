@@ -7,12 +7,7 @@ using UnityEngine.UI;
 
 public class WindowPinInput : Window
 {
-    private static List<FileSO> additionFileList;
-
     private bool isShaking = false;
-
-    [SerializeField]
-    private FileSO pinFileSO;
 
     [Header("Pin UI")]
     [SerializeField]
@@ -56,8 +51,6 @@ public class WindowPinInput : Window
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);
-
-        additionFileList = new List<FileSO>();
     }
 
     public override void WindowOpen()
@@ -71,7 +64,6 @@ public class WindowPinInput : Window
         windowBar.SetNameText("[ " + file.name + " - 잠금 안내 ]");
         pinGuideText.SetText(file.windowPinHintGuide);
 
-        Debug.Log(11);
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
@@ -86,8 +78,6 @@ public class WindowPinInput : Window
             DataManager.Inst.SetWindowLock(file.GetFileLocation(), false);
 
             StartCoroutine(PinAnswerTextChange());
-
-            additionFileList.Add(file);
         }
         else
         {
@@ -112,6 +102,7 @@ public class WindowPinInput : Window
         WindowManager.Inst.WindowOpen(file.windowType, file);
 
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file});
+
 
         CloseWindowPinLock();
     }
@@ -140,15 +131,5 @@ public class WindowPinInput : Window
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
         WindowClose();
-    }
-
-    private void OnApplicationQuit()
-    {
-        Debug.LogError("디버깅을 위해 파일들의 LockClear 기록을 모두 제거합니다");
-
-        foreach (FileSO file in additionFileList)
-        {
-            // file.isWindowLockClear = false;
-        }
     }
 }

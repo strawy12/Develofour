@@ -133,9 +133,13 @@ public class GuideManager: MonoBehaviour
     }
     private void GuideConditionCheckClear(object[] ps)
     {
+
         FileSO file = (FileSO)ps[0];
         bool isZooglePinHintNoteOpen = DataManager.Inst.SaveData.isZooglePinHintNoteOpen;
-        if (file.name == "ZooglePassword")
+
+        string fileName = file.fileName;
+
+        if (fileName == "ZooglePassword")
         {
             if (!isZooglePinHintNoteOpen)
             {
@@ -147,11 +151,11 @@ public class GuideManager: MonoBehaviour
             {
                 DataManager.Inst.SetGuide(EGuideTopicName.ClearPinNotePadQuiz, true);
             }
-        }
-        else if (file.name == "ZooglePIN번호" && isZooglePinHintNoteOpen)
-        {
-            DataManager.Inst.SetGuide(EGuideTopicName.ClickPinNotePadHint, true);
-            OnPlayGuide(new object[1] { EGuideTopicName.ClearPinNotePadQuiz });
+            if (fileName == "ZooglePIN번호" && isZooglePinHintNoteOpen)
+            {
+                DataManager.Inst.SetGuide(EGuideTopicName.ClickPinNotePadHint, true);
+                OnPlayGuide(new object[1] { EGuideTopicName.ClearPinNotePadQuiz });
+            }
         }
     }
     private void OnApplicationQuit()

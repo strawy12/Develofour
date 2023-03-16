@@ -63,7 +63,7 @@ public partial class Browser : Window
         EventManager.StartListening(EBrowserEvent.OnUndoSite, UndoSite);
         EventManager.StartListening(ELoginSiteEvent.LoginSuccess, LoginSiteOpen);
 
-        ChangeSite(ESiteLink.Chrome, 0f, true);
+        ChangeSite(ESiteLink.Chrome, 0f, false);
 
         EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[] { EGuideTopicName.BrowserConnectGuide });
     }
@@ -81,6 +81,11 @@ public partial class Browser : Window
     public void ChangeSite(ESiteLink eSiteLink, float loadDelay, bool addUndo = true)
     {
         Site sitePrefab = null;
+
+        if (eSiteLink == ESiteLink.None)
+        {
+            eSiteLink = ESiteLink.Chrome;
+        }
 
         if (TryGetSitePrefab(eSiteLink, out sitePrefab))
         {
@@ -115,10 +120,10 @@ public partial class Browser : Window
         }
 
         WindowOpen();
-        
+
         Site beforeSite = usingSite;
 
-        if(beforeSite != null)
+        if (beforeSite != null)
         {
             beforeSite?.OnUnused?.Invoke();
             beforeSite.gameObject.SetActive(false);
@@ -132,27 +137,26 @@ public partial class Browser : Window
         return beforeSite;
     }
 
-    private void OpenSite(Site currentSite, Site beforeSite, bool addUndo, bool isPrefab) 
+    private void OpenSite(Site currentSite, Site beforeSite, bool addUndo, bool isPrefab)
     {
         // addUndo == false라면 undo에서 넘어 옴
 
-        if(isPrefab)
+        if (isPrefab)
         {
-            currentSite = CreateSite(currentSite); 
+            currentSite = CreateSite(currentSite);
         }
 
         usingSite = currentSite;
         // before 사이트는 위에서 넣고 using을 currentSite로 여기서 갱신
-       
+
         if (addUndo && beforeSite != null)
         {
             usingSite.SetUndoSite(beforeSite);
         }
-        else
-        {
-            usingSite.SetUndoSite(beforeSite.undoSite);
-        }
-
+        //else if (usingSite.SiteLink != ESiteLink.Chrome &&beforeSite.undoSite != null)
+        //{
+        //    usingSite.SetUndoSite(beforeSite.undoSite);
+        //}
 
         if (addUndo && beforeSite != null)
         {
@@ -162,13 +166,13 @@ public partial class Browser : Window
 
         usingSite.gameObject.SetActive(true);
         usingSite?.OnUsed?.Invoke();
-        
+
         browserBar.ChangeSiteData(usingSite.SiteData); // 로딩이 다 되고 나서 바뀌게 해놈
     }
 
     private void DeleteRedoSite(Site site)
     {
-        if(site == null)
+        if (site == null)
         {
             return;
         }
@@ -209,7 +213,7 @@ public partial class Browser : Window
         }
 
         Site currentSite = usingSite.undoSite;
-        
+
         Site beforeSite = ChangeSite(currentSite, Constant.LOADING_DELAY, false);
 
         currentSite.SetRedoSite(beforeSite);
