@@ -1,9 +1,8 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class FacebookSite : Site
 {
-    
     [Header("Pid")]
     [SerializeField]
     private List<FacebookPidPanelDataSO> pidDataList;
@@ -29,7 +28,7 @@ public class FacebookSite : Site
 
     public FacebookProfilePanel myProfile;
 
-    //PidºÎºĞÀº ³ªÁß¿¡ ´Ù½Ã ¸¸µé¾î¾ßÇÔ
+    //Pidë¶€ë¶„ì€ ë‚˜ì¤‘ì— ë‹¤ì‹œ ë§Œë“¤ì–´ì•¼í•¨
 
     private void CreatePid()
     {
@@ -77,7 +76,7 @@ public class FacebookSite : Site
         //EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
       
         SettingPid();
-
+        
     }
 
     private void ShowHomePanel()
