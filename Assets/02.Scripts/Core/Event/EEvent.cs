@@ -90,7 +90,6 @@ public enum EMailSiteEvent
 {
     None = -1,
     PoliceGameClear,
-    ShowBlogGmail,
     VisiableMail,
     RefreshPavoriteMail,
 }
