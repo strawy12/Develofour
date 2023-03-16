@@ -39,8 +39,8 @@ public class DiscordLogin : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI currentPasswordInputFieldText;
 
-    public DiscordAccountPanel IDAccountPanel;
-    public DiscordAccountPanel pwAccountPanel;
+    //public DiscordAccountPanel IDAccountPanel;
+    //public DiscordAccountPanel pwAccountPanel;
 
     public DiscordLoginBackground background;
 
@@ -53,10 +53,10 @@ public class DiscordLogin : MonoBehaviour
     {
         background.OnIDPWPanelOff += SetIDPWPanel;
         identificationPanel.Init(identificationAnswerText, PINAnswerText);
-        IDAccountPanel.Init();
-        pwAccountPanel.Init();
-        IDAccountPanel.OnClick += SetIDText;
-        pwAccountPanel.OnClick += SetPWText;
+        //IDAccountPanel.Init();
+        //pwAccountPanel.Init();
+        //IDAccountPanel.OnClick += SetIDText;
+        //pwAccountPanel.OnClick += SetPWText;
         IDInputField.OnShowAccount += ShowIDAccountPanel;
         passwordInputField.OnShowAccount += ShowPWAccountPanel;
         loginButton.onClick.AddListener(OnClickLogin);
@@ -67,8 +67,8 @@ public class DiscordLogin : MonoBehaviour
     {
         if(!isLogin)
         {
-            IDAccountPanel.gameObject.SetActive(false);
-            pwAccountPanel.gameObject.SetActive(false);
+            //IDAccountPanel.gameObject.SetActive(false);
+            //pwAccountPanel.gameObject.SetActive(false);
         }    
     }
 
@@ -85,12 +85,12 @@ public class DiscordLogin : MonoBehaviour
 
     public void ShowIDAccountPanel()
     {
-        IDAccountPanel.gameObject.SetActive(true);
+        //IDAccountPanel.gameObject.SetActive(true);
     }
 
     public void ShowPWAccountPanel()
     {
-        pwAccountPanel.gameObject.SetActive(true);
+        //pwAccountPanel.gameObject.SetActive(true);
     }
 
     public void OnClickLogin()
