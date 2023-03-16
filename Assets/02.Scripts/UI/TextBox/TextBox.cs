@@ -120,11 +120,14 @@ public class TextBox : MonoUI
 
     public void SimpleTypePrint(TextData textData)
     {
+        Debug.Log("asdf");
         bgImage.color = Color.black;
         bgImage.ChangeImageAlpha(1f);
         bgImage.sprite = simpleTypeSprite;
 
-        messageText.SetText(textData.text);
+        string settingText = RemoveCmd(textData.text);
+        messageText.SetText(settingText);
+        
         bgImage.rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + offsetSize;
         messageText.SetText("");
         nameText.SetText("");
@@ -133,6 +136,45 @@ public class TextBox : MonoUI
         ShowBox();
 
         StartCoroutine(PrintMonologTextCoroutine(textData.text));
+    }
+
+    private string RemoveCmd(string settingText)
+    {
+        List<Vector2> veclist = new List<Vector2>();
+        for(int i = 0; i < 5; i++)
+        {
+            veclist.Add(new Vector2(-1, -1));
+        }
+        int cnt = 0;
+        for(int i = 0; i < settingText.Length; i++)
+        {
+            if (settingText[i] == '{')
+            {
+                veclist[cnt] = new Vector2(i, -1);
+            }
+            if(settingText[i] == '}')
+            {
+                veclist[cnt] = new Vector2(veclist[cnt].x, i);
+                cnt++;
+            }
+        }
+
+        Debug.Log(veclist.Count);
+        for(int i = veclist.Count; i > 0 ; i--)
+        {
+            if(veclist[i - 1].x == -1)
+            {
+                Debug.Log("1");
+            }
+            else
+            {
+                Debug.Log("2");
+                settingText.Remove((int)veclist[i - 1].x, (int)veclist[i - 1].y);
+            }
+        }
+
+        Debug.Log(settingText);
+        return settingText;
     }
 
     private IEnumerator PrintMonologTextCoroutine(string message)
