@@ -14,17 +14,17 @@ public class PropertyUI : MonoUI
     [SerializeField]
     private Image iconImage;
     [SerializeField]
-    private Text iconName;
+    private TMP_Text iconName;
     [SerializeField]
-    private Text iconLocation;
+    private TMP_Text iconLocation;
     [SerializeField]
-    private Text iconByte;
+    private TMP_Text iconByte;
     [SerializeField]
-    private Text iconMadeData;
+    private TMP_Text iconMadeData;
     [SerializeField]
-    private Text iconFixData;
+    private TMP_Text iconFixData;
     [SerializeField]
-    private Text iconAccessData;
+    private TMP_Text iconAccessData;
 
     private void Awake()
     {
@@ -45,9 +45,9 @@ public class PropertyUI : MonoUI
 
         iconLocation.text = file.GetFileLocation();
         iconByte.text = file.GetFileBytes().ToString();
-        //iconMadeData.text = file.windowIconData.iconMadeData;
-        //iconFixData.text = file.windowIconData.iconFixData;
-        //iconAccessData.text = file.windowIconData.iconAcessData;
+        iconMadeData.text = file.GetMadeDate();
+        iconFixData.text = file.GetFixDate();
+        iconAccessData.text = file.GetAccessDate();
 
         SetActive(true);
     }

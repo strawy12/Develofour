@@ -36,7 +36,6 @@ public class FileSO : SOParent
     public Sprite iconSprite;
     public WindowIconData fileData;
     public bool isMultiple; // 윈도우를 여러번 킬 수 있냐
-
     public bool isFileLock;
     public string windowPin;
     public string windowPinHintGuide;
@@ -75,17 +74,17 @@ public class FileSO : SOParent
     // DateTime To String 함수는 Define 클래스에 만들기!
     public string GetFixDate()
     {
-        return "";
+        return fileData.lastFixDate;
     }
 
     public string GetAccessDate()
     {
-        return "";
+        return fileData.lastAccessDate;
     }
 
-    public string MadeDate()
+    public string GetMadeDate()
     {
-        return "";
+        return fileData.madeDate;
     }
     #endregion
 
