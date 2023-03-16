@@ -31,7 +31,6 @@ public class ImageViewer : Window
             Destroy(imageViewerBody.gameObject);
             imageViewerBody = Instantiate(imageData.imageBody, parent);
         }
-        Debug.Log("asdf");
         imageViewerBody.Init();
 
         imageEnlargement = imageViewerBody.imageEnlargement;
