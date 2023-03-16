@@ -17,7 +17,7 @@ public class CdPlayMedia : MonoBehaviour
 
     public void PlayCdAnimation()
     {
-        StartCoroutine("PlayRotationAnimation");
+        StartCoroutine(PlayRotationAnimation());
     }
 
     private IEnumerator PlayRotationAnimation()

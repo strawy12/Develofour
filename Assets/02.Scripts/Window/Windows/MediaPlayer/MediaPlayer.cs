@@ -12,7 +12,7 @@ public class MediaPlayer : Window
     [SerializeField]
     private TMP_Text mediaDetailText;
     [SerializeField]
-    private Slider mediaPlaySlider;
+    private MediaPlayerSlider mediaPlaySlider;
     [SerializeField]
     private TMP_Text mediaPlayTimeText;
 
@@ -23,8 +23,6 @@ public class MediaPlayer : Window
     private CdPlayMedia cdPlayMedia;
 
     private MediaPlayerDataSO mediaPlayerData;
-
-    private int saveVisibleCharacters = 0;
 
     private int secondTimer;
     private int minuteTimer;
@@ -44,8 +42,10 @@ public class MediaPlayer : Window
         mediaPlayerDownBar.mediaPlayFileName.SetText(mediaPlayerData.name);
         mediaDetailText.SetText(mediaPlayerData.textData);
 
-        saveVisibleCharacters = mediaDetailText.maxVisibleCharacters;
         mediaDetailText.maxVisibleCharacters = 0;
+
+        mediaPlaySlider.OnMousePointDown += SetSliderMediaText;
+        mediaPlaySlider.OnMousePointUp += PlayMediaPlayer;
 
         secondTimer = 0;
         minuteTimer = 0;    
@@ -64,13 +64,12 @@ public class MediaPlayer : Window
 
     private void PlayMediaPlayer()
     {
-        StartCoroutine("PrintMediaText");
-        StartCoroutine("PrintTimerText");
+        StartCoroutine(PrintMediaText());
+        StartCoroutine(PrintTimerText());
     }
 
     private void StopMediaPlayer()
     {
-        Debug.Log("Stop?");
         StopAllCoroutines();
     }
 
@@ -86,7 +85,8 @@ public class MediaPlayer : Window
 
     private IEnumerator PrintTimerText()
     {
-        while(true)
+        Debug.Log(2);
+        while (true)
         {
             secondTimer++;
 
@@ -96,19 +96,36 @@ public class MediaPlayer : Window
                 secondTimer = 0;
             }
 
-            SettingSlider();
-            
-            mediaPlayTimeText.SetText(minuteTimer.ToString() + " : " + secondTimer.ToString());
+            PlaySettingSlider();
+
+            mediaPlayTimeText.SetText(string.Format("{0:00} : {1:00}", minuteTimer, secondTimer));
             yield return new WaitForSeconds(1f);
         }
     }
 
-    private void SettingSlider()
+    private void PlaySettingSlider()
     {
         int n = (minuteTimer * 60) + secondTimer;
-        int m = mediaPlayerData.length;
+        int m = (int)(mediaPlayerData.textPlaySpeed * mediaPlayerData.textData.Length);
         float t = (float)n / m;
 
         mediaPlaySlider.value = t;
+    }
+
+    private void SetSliderMediaText(float t)
+    {
+        StopAllCoroutines();
+        
+        int m = (int)(mediaPlayerData.textPlaySpeed * mediaPlayerData.textData.Length);
+        int n = (int)(m * t); // √ 
+
+        mediaDetailText.maxVisibleCharacters = (int)Mathf.Lerp(0, mediaPlayerData.textData.Length, t);
+
+        minuteTimer = n / 60;
+        secondTimer = n % 60;
+
+        mediaPlaySlider.value = t;
+
+        mediaPlayTimeText.SetText(string.Format("{0:00} : {1:00}", minuteTimer, secondTimer));
     }
 }
