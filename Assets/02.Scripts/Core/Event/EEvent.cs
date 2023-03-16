@@ -140,6 +140,13 @@ public enum EProfileEvent
     SendMessage,
     InstalledProfile,
 }
+public enum EGuideEventType
+{
+    OpenPlayGuide,
+    ClearGuideType,
+    GuideConditionCheck,
+}
+
 
 public enum ETutorialEvent
 {

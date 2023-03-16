@@ -66,7 +66,7 @@ public class WindowPinInput : Window
 
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
-        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file.name, EGuideTopicName.ClickPinNotePadHint });
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
     }
 
 
@@ -101,7 +101,8 @@ public class WindowPinInput : Window
 
         WindowManager.Inst.WindowOpen(file.windowType, file);
 
-        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file.name, EGuideTopicName.ClearPinNotePadQuiz });
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file});
+
 
         CloseWindowPinLock();
     }

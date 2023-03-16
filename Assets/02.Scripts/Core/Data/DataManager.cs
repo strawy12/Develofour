@@ -36,6 +36,7 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.PinData = new List<PinSaveData>();
         saveData.monologData = new List<MonologSaveData>();
         saveData.additionFileData = new List<AdditionFileData>();
+        saveData.guideSaveData = new List<GuideSaveData>();
 
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
@@ -51,6 +52,12 @@ public class DataManager : MonoSingleton<DataManager>
         {
             saveData.monologData.Add(new MonologSaveData() { monologType = (ETextDataType)i, isShow = false });
         }
+
+        for(int i = ((int)EGuideTopicName.None) + 1; i < (int)EGuideTopicName.Count; i++)
+        {
+            saveData.guideSaveData.Add(new GuideSaveData() { topicName = (EGuideTopicName)i, isUse = false });
+        }
+        
         SaveToJson();
 
         debug_Data = saveData;
@@ -138,7 +145,24 @@ public class DataManager : MonoSingleton<DataManager>
         }
         return false;
     }
-
+    public bool IsGuideUse(EGuideTopicName topicName)
+    {
+        GuideSaveData guideData = saveData.guideSaveData.Find(x => x.topicName == topicName);
+        if(guideData == null)
+        {
+            return true;
+        }
+        return guideData.isUse;
+    }
+    public void SetGuide(EGuideTopicName topicName, bool value)
+    {
+        GuideSaveData guideData = saveData.guideSaveData.Find(x => x.topicName == topicName);
+        if (guideData == null)
+        {
+            return;
+        }
+        guideData.isUse = value;
+    }
     private void OnDestroy()
     {
         SaveToJson();
