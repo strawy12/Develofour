@@ -43,6 +43,7 @@ public enum ENoticeEvent
     GeneratedNotice,
     OpenNoticeSystem,
     ClickNoticeBtn,
+    GeneratedProfileFindNotice,
 }
 public enum ELibraryEvent
 {
