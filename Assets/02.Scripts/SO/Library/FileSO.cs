@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System;
+using UnityEditor;
+
 [System.Serializable]
 public struct DateTime
 {
@@ -30,6 +32,8 @@ public struct WindowIconData
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
 public class FileSO : SOParent
 {
+    public int id;
+
     public DirectorySO parent;
     public string fileName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
@@ -41,7 +45,6 @@ public class FileSO : SOParent
     public string windowPin;
     public string windowPinHintGuide;
     public bool isAlarm;
-    public object AssetDatabase { get; private set; }
     [SerializeField]
     private string tags;
     public TaskBarData taskBarData;
