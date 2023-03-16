@@ -68,6 +68,7 @@ public class GmailLoginSite : Site
     {
        // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
         DataManager.Inst.SaveData.isSuccessLoginZoogle = true;
+
         EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 
         if (requestSite == ESiteLink.None)
