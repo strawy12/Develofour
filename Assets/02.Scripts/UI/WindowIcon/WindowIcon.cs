@@ -88,7 +88,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         iconImage.sprite = newFileData.iconSprite;
       
-        if (isRegisterEvent == false && fileData.fileName == "의뢰자 정보")    
+        if (isRegisterEvent == false && fileData.fileName == "용의자 프로파일러")    
         {
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
@@ -328,7 +328,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         EventManager.StopListening(ETutorialEvent.LibraryUSBEnd, delegate { StopYellowUICor(); });
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopYellowUICor(); });
-        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { StartCoroutine(YellowSignCor()); });
+        //EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { StartCoroutine(YellowSignCor()); });
         EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { StopYellowUICor(); });
     }
 }

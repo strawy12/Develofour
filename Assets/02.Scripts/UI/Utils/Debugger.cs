@@ -38,7 +38,7 @@ public class Debugger : MonoBehaviour
         {
             //디버그용 스킵 코드 이벤트까지 지워주기
             if(GameManager.Inst.GameState == EGameState.Tutorial)
-            EventManager.TriggerEvent(EDebugSkipEvent.TutorialSkip);
+                EventManager.TriggerEvent(EDebugSkipEvent.TutorialSkip);
         }
 
         foreach (DebugEvent e in debugEventList)
