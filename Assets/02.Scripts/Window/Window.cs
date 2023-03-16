@@ -182,7 +182,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         WindowManager.Inst.SelectObject(this);
 
         SetCurrentWindow(this);
-        SetActive(true);
+
+        windowBar.OnClose.AddListener(CloseEventAdd);
 
         if (!windowAlteration.isMaximum)
         {
@@ -204,6 +205,17 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         }
 
         rectTransform.sizeDelta = windowAlteration.size;
+
+        SetActive(true);
+
+    }
+
+    public void CloseEventAdd()
+    {
+        if (WindowManager.Inst != null && file != null && this != null)
+        {
+            WindowManager.Inst.RemoveWindowDictionary(file.windowType, this);
+        }
     }
 
     public void SetCurrentWindow(Window selecetedWindow)
@@ -264,10 +276,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     private void OnDestroy()
     {
-        if(WindowManager.Inst != null && file != null && this != null)
-        {
-            WindowManager.Inst.RemoveWindowDictionary(file.windowType, this);
-        }
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
     private void OnEnable()

@@ -201,7 +201,7 @@ public class NoticeSystem : MonoUI
         panel.OnCompeleted += IncludePanel;
         panel.OnClosed += PushPanel;
         noticeOutline.StartOutline();
-        panel.Notice(data);
+        panel.Notice(data, isOpen);
     }
 
     public void IncludePanel(NoticePanel panel)
@@ -271,7 +271,15 @@ public class NoticeSystem : MonoUI
         noticeOutline.StartOutline();
 
         currentTag = noticeTag;
-        panel.Notice(head, body, icon);
+
+        if(!isOpen)
+        {
+            panel.Notice(head, body, icon, false);
+        }
+        else
+        {
+            panel.Notice(head, body, icon, true);
+        }
         
         NoticeData data = new NoticeData();
         data.head = head;
