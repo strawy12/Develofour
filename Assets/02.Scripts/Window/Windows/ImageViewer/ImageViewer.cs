@@ -1,6 +1,6 @@
 using Cinemachine;
 using System.Collections;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,14 +14,11 @@ public class ImageViewer : Window
     private TMP_Text imagePercentText;
 
     private ImageEnlargement imageEnlargement;
-
     private ImageViewerDataSO imageData;
 
     private readonly Vector2 MAXSIZE = new Vector2(1173.333f, 660f);
 
     private const float RATIO = 1.636363636363636f;
-
-    private float saveImageScale = 1f;
 
     protected override void Init()
     {
@@ -37,7 +34,7 @@ public class ImageViewer : Window
             Destroy(imageViewerBody.gameObject);
             imageViewerBody = Instantiate(imageData.imageBody, parent);
         }
-        Debug.Log("asdf");
+
         imageViewerBody.Init();
 
         imageEnlargement = imageViewerBody.imageEnlargement;
