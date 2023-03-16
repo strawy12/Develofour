@@ -7,6 +7,12 @@ using UnityEngine.UI;
 
 public class ImageViewer : Window
 {
+    [Header("EnlargementUI")]
+    [SerializeField]
+    private Button enlargementButton;
+    [SerializeField]
+    private Button reductionButton;
+
     [SerializeField]
     private ImageViewerBody imageViewerBody;
 
@@ -39,6 +45,18 @@ public class ImageViewer : Window
 
         imageEnlargement = imageViewerBody.imageEnlargement;
         imageEnlargement.Init(imagePercentText);
+
+        enlargementButton.onClick?.AddListener(EnlargementButtonClick);
+        reductionButton.onClick?.AddListener(ReductionButton);
     }
 
+    private void EnlargementButtonClick()
+    {
+        imageEnlargement.enlargementClick?.Invoke();
+    }
+
+    private void ReductionButton()
+    {
+        imageEnlargement.reductionClick?.Invoke();
+    }
 }
