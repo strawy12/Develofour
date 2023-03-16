@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -88,7 +88,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         iconImage.sprite = newFileData.iconSprite;
       
-        if (isRegisterEvent == false && fileData.fileName == "ÀÇ·ÚÀÚ Á¤º¸")    
+        if (isRegisterEvent == false && fileData.fileName == "ìš©ì˜ì í”„ë¡œíŒŒì¼ëŸ¬")    
         {
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
@@ -108,7 +108,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             if (clickCount != 0)
             {
                 EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
-                // ¿©±â¿¡¼­ ÀÌº¥Æ® ½ô
+                // ì—¬ê¸°ì—ì„œ ì´ë²¤íŠ¸ ì¨
                 clickCount = 0;
 
                 if (targetWindow == null)
@@ -122,9 +122,9 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 UnSelect();
 
-                if (fileData.fileName == "ÀÇ·ÚÀÚ Á¤º¸")
+                if (fileData.fileName == "ì˜ë¢°ì ì •ë³´")
                 {
-                    Debug.Log("ÀÇ·ÚÀÚ Á¤º¸ " + GameManager.Inst.GameState);
+                    Debug.Log("ì˜ë¢°ì ì •ë³´ " + GameManager.Inst.GameState);
                     if(GameManager.Inst.GameState == EGameState.Tutorial)
                     {
                         EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
@@ -328,7 +328,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         EventManager.StopListening(ETutorialEvent.LibraryUSBEnd, delegate { StopYellowUICor(); });
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopYellowUICor(); });
-        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { StartCoroutine(YellowSignCor()); });
+        //EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { StartCoroutine(YellowSignCor()); });
         EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { StopYellowUICor(); });
     }
 }

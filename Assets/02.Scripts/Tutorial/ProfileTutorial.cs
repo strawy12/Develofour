@@ -10,6 +10,7 @@ public class ProfileTutorial : MonoBehaviour
     public string[] findNoticeAIChatting;
     public string[] completeProfileChatting;
 
+    public float delay = 2f;
 
     void Start()
     {
@@ -17,7 +18,7 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCoroutine(NoticeProfileChattingTutorial()); });
 
         //skip debug 코드
-        EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { StopAllCoroutines(); EndTutoMonologEvent(); });
+        EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { delay = 0.05f; });
     }
 
     public IEnumerator StartProfileTutorial()
@@ -42,7 +43,7 @@ public class ProfileTutorial : MonoBehaviour
                 MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog1, 0.1f, 1);
             }
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(delay);
         }
     }
 
@@ -58,7 +59,7 @@ public class ProfileTutorial : MonoBehaviour
         {
             AIChatting(startAIChatting[i]);
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(delay);
         }
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 0.1f);
@@ -79,18 +80,19 @@ public class ProfileTutorial : MonoBehaviour
         foreach (string str in findNoticeAIChatting)
         {
             AIChatting(str);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(delay);
         }
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine(StartProfileLastTutorial());
     }
 
     public IEnumerator StartProfileLastTutorial()
     {
         //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
-        yield return new WaitForSeconds(0.5f);
         foreach (string str in completeProfileChatting)
         {
             AIChatting(str);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(delay);
         }
 
         MonologSystem.OnEndMonologEvent += EndTutoMonologEvent;

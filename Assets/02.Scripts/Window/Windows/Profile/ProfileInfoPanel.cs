@@ -78,7 +78,7 @@ public class ProfileInfoPanel : MonoBehaviour
                     FindAlarm(categoryNameText.text, key);
                 }
 
-                if (key == "OwnerName" && GameManager.Inst.GameState == EGameState.Tutorial)
+                if (key == "SuspectName" && GameManager.Inst.GameState == EGameState.Tutorial)
                 {
                     EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
                 }

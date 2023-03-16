@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using TMPro;
@@ -36,9 +36,9 @@ public class Debugger : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.F))
         {
-            //µğ¹ö±×¿ë ½ºÅµ ÄÚµå ÀÌº¥Æ®±îÁö Áö¿öÁÖ±â
+            //ë””ë²„ê·¸ìš© ìŠ¤í‚µ ì½”ë“œ ì´ë²¤íŠ¸ê¹Œì§€ ì§€ì›Œì£¼ê¸°
             if(GameManager.Inst.GameState == EGameState.Tutorial)
-            EventManager.TriggerEvent(EDebugSkipEvent.TutorialSkip);
+                EventManager.TriggerEvent(EDebugSkipEvent.TutorialSkip);
         }
 
         foreach (DebugEvent e in debugEventList)
