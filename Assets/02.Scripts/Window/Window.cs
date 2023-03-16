@@ -186,12 +186,21 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
         if (!windowAlteration.isMaximum)
         {
-            rectTransform.localPosition = windowAlteration.pos;
+            if (WindowManager.Inst.CurrentWindowCount(file.windowType) > 1)
+            {
+                Vector2 pos = windowAlteration.pos + new Vector2(20, -20);
+                rectTransform.localPosition = pos;
+            }
+            else
+            {
+                rectTransform.localPosition = windowAlteration.pos;
+            }
         }
-        else
+        else 
         {
             rectTransform.localPosition = new Vector2(0, 30);
         }
+
         rectTransform.sizeDelta = windowAlteration.size;
     }
 
@@ -253,6 +262,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     private void OnDestroy()
     {
+        if(WindowManager.Inst != null && file != null && this != null)
+        {
+            WindowManager.Inst.RemoveWindowDictionary(file.windowType, this);
+        }
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
     private void OnEnable()
