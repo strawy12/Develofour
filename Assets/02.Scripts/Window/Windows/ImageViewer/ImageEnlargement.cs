@@ -9,7 +9,7 @@ using System;
 
 public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHandler
 {
-    private float defaultScale;
+    public float defaultScale;
     private float imageScale;
 
     public float maxImageScale = 4f;
@@ -79,8 +79,6 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         transform.localScale = Vector3.one * scale;
 
         imageScale = transform.localScale.x;
-
-        defaultScale = imageScale;
     }
 
     public void OnPointerClick(PointerEventData eventData)

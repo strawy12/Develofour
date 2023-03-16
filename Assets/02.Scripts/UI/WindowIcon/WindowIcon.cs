@@ -92,13 +92,21 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
+            EventManager.StartListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
         }
 
         if (isUSBEvent == false && fileData.fileName == "BestUSB")
         {
             isUSBEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
+            EventManager.StartListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
         }
+    }
+
+    private void DestoryYellow(object[] obj)
+    {
+        yellowUI.gameObject.SetActive(false);
+        EventManager.StopListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
     }
 
     public void OnPointerClick(PointerEventData eventData)
