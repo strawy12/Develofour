@@ -138,7 +138,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
             if (GameManager.Inst.isTutorial) return;
         }
 
-        OnClosed?.Invoke(file.name);
+        OnClosed?.Invoke(file.fileName);
 
         windowMaxCnt--;
 

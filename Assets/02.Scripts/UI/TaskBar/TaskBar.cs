@@ -100,9 +100,18 @@ public class TaskBar : MonoBehaviour
 
     public void AddIcon(Window window, EWindowType windowType)
     {
-        if (taskIcons.ContainsKey(windowType))
+        if (windowType == EWindowType.IconProperty || windowType == EWindowType.Directory)
+        {
+            if (taskIcons.ContainsKey(EWindowType.Directory))
+            {
+                taskIcons[EWindowType.Directory].AddTargetPanel(window);
+                return;
+            }
+        }
+        else if (taskIcons.ContainsKey(windowType))
         {
             taskIcons[windowType].AddTargetPanel(window);
+            return;
         }
 
         TaskIcon taskIcon;
