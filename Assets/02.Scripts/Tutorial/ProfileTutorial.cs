@@ -95,9 +95,8 @@ public class ProfileTutorial : MonoBehaviour
             yield return new WaitForSeconds(delay);
         }
 
-        MonologSystem.OnEndMonologEvent += EndTutoMonologEvent;
-        MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog2, 0.2f, 3);
         EventManager.TriggerEvent(ETutorialEvent.ProfileEventStop);
+        EndTutoMonologEvent();
         EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
     }
 
