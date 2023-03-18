@@ -28,7 +28,6 @@ public class Debugger : MonoBehaviour
             MonologSystem.OnStopMonolog?.Invoke();
         }
 
-
         if (Input.GetKeyDown(KeyCode.Q))
         {
             NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
@@ -48,6 +47,7 @@ public class Debugger : MonoBehaviour
                 e.debugEvent?.Invoke();
             }
         }
+
     }
 
 
