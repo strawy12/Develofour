@@ -22,7 +22,7 @@ public class ClickText : MonoBehaviour, IPointerClickHandler
             EventManager.TriggerEvent(decisionEvent);
             foreach (var category in categories)
             {
-                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { category, infoName });
+                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, infoName , null});
             }
         }
     }

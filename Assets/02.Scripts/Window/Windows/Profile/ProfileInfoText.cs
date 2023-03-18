@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -19,6 +20,9 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public TMP_Text infoTitleText;
 
     private string infoTitle;
+
+    public bool isFind;
+    public Action OnFindText;
     //이전 텍스트로 변경, 이후 텍스트로 변경해주는 함수
 
     public void Init()
@@ -48,6 +52,8 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         //infoTitleText.text = infoTitle;
         infoText.text = afterText;
+        isFind = true;
+        OnFindText?.Invoke();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
