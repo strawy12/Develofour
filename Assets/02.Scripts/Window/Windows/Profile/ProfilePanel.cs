@@ -61,7 +61,6 @@ public class ProfilePanel : MonoBehaviour
         
         if(ps[2] != null)
         {
-            Debug.Log("asdffff");
             List<string> strList = ps[2] as List<string>;
             foreach(var temp in strList)
             {
