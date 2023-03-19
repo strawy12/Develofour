@@ -113,14 +113,14 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         SetActive(true);
 
+        Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
+
         if (isOpenSystem)
         {
             NoticeSystem.OnTagReset?.Invoke();
             OnCompeleted?.Invoke(this);
             return;
         }
-
-        Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
 
         EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
 
@@ -330,6 +330,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void SameTagTextAdd(string str, bool isEnd = false)
     {
+        Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
         isNoticeExtend = true;
         string saveStr = bodyText.text;
         saveStr += '\n';
