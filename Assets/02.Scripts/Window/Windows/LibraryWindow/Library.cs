@@ -261,12 +261,15 @@ public class Library : Window
     {
         //if (!gameObject.activeSelf) return;
         if (GameManager.Inst.GameState != EGameState.Tutorial && GameManager.Inst.GameState == EGameState.CutScene) return;
-        if (currentDirectory.fileName == "BestUSB")
+
+        Debug.Log(currentDirectory.GetFileLocation());
+
+        if (currentDirectory.GetFileLocation() == "User\\BestUSB\\")
         {
             Debug.Log("BestUSB");
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);
         }
-        else if(currentDirectory.fileName == "User")
+        else if(currentDirectory.fileName == "User\\")
         {
             Debug.Log("User");
             EventManager.TriggerEvent(ETutorialEvent.LibraryUSBStart);

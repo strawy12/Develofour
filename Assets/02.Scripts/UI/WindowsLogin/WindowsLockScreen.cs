@@ -98,9 +98,10 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     {
         loginScreen.SetActive(true);
         loginChoice.SetActive(true);
+
         StartCoroutine(CoverSetting());
+        
         MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 1.25f, 15);
-        //gameObject.SetActive(false);
     }
 
     public IEnumerator CoverSetting()
