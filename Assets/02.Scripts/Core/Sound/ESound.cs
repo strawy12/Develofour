@@ -13,6 +13,7 @@ public partial class Sound : MonoBehaviour
 
         Notice = 1001,
         PhoneCall,
+        PhoneReceive,
         StartPC,
         RetroTyping,
         MonologueTyping,
