@@ -5,7 +5,7 @@ using System;
 
 [Serializable]
 public class ProfileSaveData
-{
+{ 
     public bool isShow;
     public string key;
 }
