@@ -37,7 +37,7 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.monologData = new List<MonologSaveData>();
         saveData.additionFileData = new List<AdditionFileData>();
         saveData.guideSaveData = new List<GuideSaveData>();
-
+        saveData.profileSaveData = new List<ProfileSaveData>();
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
         foreach (FileSO file in fileList)
@@ -57,7 +57,11 @@ public class DataManager : MonoSingleton<DataManager>
         {
             saveData.guideSaveData.Add(new GuideSaveData() { topicName = (EGuideTopicName)i, isUse = false });
         }
-        
+
+        for (int i = ((int)EProfileCategory.None) + 1; i < (int)EProfileCategory.Count; i++)
+        {
+            saveData.profileSaveData.Add(new ProfileSaveData() { category = (EProfileCategory)i,isShowCategory = false ,infoData = new List<string>() }); ;
+        }
         SaveToJson();
 
         debug_Data = saveData;
@@ -162,6 +166,31 @@ public class DataManager : MonoSingleton<DataManager>
             return;
         }
         guideData.isUse = value;
+    }
+
+    public ProfileSaveData GetProfileSaveData(EProfileCategory category)
+    {
+        ProfileSaveData data = saveData.profileSaveData.Find(x => x.category == category);
+        return data;
+    }
+
+    public void AddProfileinfoData(EProfileCategory category, string key)
+    {
+        if (GetProfileSaveData(category).infoData.Contains(key))
+        {
+            return;
+        }
+        saveData.profileSaveData.Find(x => x.category == category).infoData.Add(key);
+    }
+
+    public void SetCategoryData(EProfileCategory category, bool value)
+    {
+        saveData.profileSaveData.Find(x => x.category == category).isShowCategory = value;
+    }
+
+    public bool IsProfileInfoData(EProfileCategory category, string str)
+    {
+        return GetProfileSaveData(category).infoData.Contains(str);
     }
     private void OnDestroy()
     {

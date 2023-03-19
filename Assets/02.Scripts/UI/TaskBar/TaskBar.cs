@@ -97,7 +97,6 @@ public class TaskBar : MonoBehaviour
             taskIcons.Add(window.File.windowType, taskIcon);
         }
     }
-
     public void AddIcon(Window window, EWindowType windowType)
     {
         if (windowType == EWindowType.IconProperty || windowType == EWindowType.Directory)
@@ -127,8 +126,6 @@ public class TaskBar : MonoBehaviour
 
     }
 
-
-
     private TaskIcon CreateTaskIcon()
     {
         if (taskIconPool.Count <= 0)
@@ -143,8 +140,6 @@ public class TaskBar : MonoBehaviour
 
     public void RemoveTaskIcon(TaskIcon icon)
     {
-        if (GameManager.Inst.GameState == EGameState.Tutorial) return;
-
         icon.gameObject.SetActive(false);
         taskIconPool.Push(icon);
         taskIcons.Remove(icon.WindowType);

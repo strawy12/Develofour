@@ -4,47 +4,33 @@ using UnityEngine;
 
 public enum EProfileCategory
 {
+    None,
     SuspectProfileInfomation,
     SuspectProfileExtensionInfomation,
     VictimProfileInfomation,
-    BlogTagInfo,
-    SNSTagInfo,
+    Count,
 }
 
 public class ProfilePanel : MonoBehaviour
 {
-    
     [SerializeField]
     private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
-    [SerializeField]
-    private List<ProfileInfoDataSO> infoDataList = new List<ProfileInfoDataSO>();
+
+    private Dictionary<EProfileCategory, ProfileCategoryDataSO> infoList;
 
     [SerializeField]
     private Sprite profilerSprite;
 
     public void Init()
     {
+        infoList = ResourceManager.Inst.GetProfileCategoryDataList();
+
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
         EventManager.StartListening(ENoticeEvent.GeneratedProfileFindNotice, SendAlarm);
-        for(int i = 0; i < infoPanelList.Count; i++)
-        {
-            infoPanelList[i].Init(infoDataList[i]);
-        }
 
-        foreach(var infoPanel in infoPanelList)
+        foreach(var info in infoList)
         {
-            infoPanel.Init(infoDataList.Find(x => x.category == infoPanel.category));
-        }
-    }
-
-    private void SaveShowCategory(EProfileCategory category)
-    {
-        foreach (var data in infoDataList)
-        {
-            if (data.category == category)
-            {
-                data.isShowCategory = true;
-            }
+            infoPanelList.Find(x => x.category == info.Key).Init(info.Value);
         }
     }
 
@@ -61,12 +47,10 @@ public class ProfilePanel : MonoBehaviour
         
         if(ps[2] != null)
         {
-            Debug.Log("asdffff");
             List<string> strList = ps[2] as List<string>;
             foreach(var temp in strList)
             {
-                Debug.Log(GetInfoPanel(category).CheckIsTrue(temp));
-                if (!GetInfoPanel(category).CheckIsTrue(temp))
+                if (!DataManager.Inst.IsProfileInfoData(category, temp))
                 {
                     return;
                 }
@@ -78,9 +62,8 @@ public class ProfilePanel : MonoBehaviour
         if (!categoryPanel.gameObject.activeSelf)
         {
             categoryPanel.gameObject.SetActive(true);
-            SaveShowCategory(category);
-        }
 
+        }
         GetInfoPanel(category).ChangeValue(ps[1] as string);
     }
 
@@ -122,15 +105,6 @@ public class ProfilePanel : MonoBehaviour
         string text = ps[0] as string + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
         NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profilerSprite, ENoticeTag.Profiler);
     }
-
-    private void OnApplicationQuit()
-    {
-        foreach (var data in infoDataList)
-        {
-            data.Reset();
-        }
-    }
-
 
     private void OnDestroy()
     {

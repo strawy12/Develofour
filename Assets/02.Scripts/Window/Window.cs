@@ -132,12 +132,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     }
 
     public void WindowClose()
-    {
-        if (file.windowType == EWindowType.ProfileWindow )
-        {
-            if (GameManager.Inst.isTutorial) return;
-        }
-
+    { 
         OnClosed?.Invoke(file.fileName);
 
         windowMaxCnt--;

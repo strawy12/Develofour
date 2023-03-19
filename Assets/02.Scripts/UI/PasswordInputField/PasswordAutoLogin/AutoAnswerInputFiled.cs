@@ -15,11 +15,11 @@ public class AutoAnswerData
     {
         get
         {
-            return profileInfoData.GetSaveData(infoKey).isShow;
+            return DataManager.Inst.IsProfileInfoData(profileInfoData.category, infoKey);
         }
     }
 
-    public ProfileInfoDataSO profileInfoData;
+    public ProfileCategoryDataSO profileInfoData;
     public string infoKey;
 }
 

@@ -4,28 +4,25 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class ProfileSaveData
+public class ProfileInfoSaveData
 {
-    public bool isShow;
     public string key;
 }
 
-[CreateAssetMenu(menuName = "SO/Profile/ProfileInfoData")]
-public class ProfileInfoDataSO : ScriptableObject
+[CreateAssetMenu(menuName = "SO/Profile/ProfileInfo/Data")]
+public class ProfileCategoryDataSO : ScriptableObject
 {
     [Header("Category")]
     public EProfileCategory category;
-    public bool isShowCategory;
-
     [Header("Information")]
     [SerializeField]
-    public List<ProfileSaveData> saveList;
+    public List<ProfileInfoSaveData> saveList;
 
-    public ProfileSaveData GetSaveData(string key)
+    public ProfileInfoSaveData GetSaveData(string key)
     {
-        ProfileSaveData data = null;
+        ProfileInfoSaveData data = null;
 
-        foreach (ProfileSaveData saveData in saveList)
+        foreach(ProfileInfoSaveData saveData in saveList)
         {
             if (saveData.key == key)
             {
@@ -40,15 +37,5 @@ public class ProfileInfoDataSO : ScriptableObject
         return data;
     }
 
-
-    public void Reset()
-    {
-        foreach (var data in saveList)
-        {
-            data.isShow = false;
-        }
-
-        isShowCategory = false;
-    }
 }
 

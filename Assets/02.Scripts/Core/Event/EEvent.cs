@@ -137,8 +137,9 @@ public enum EProfileEvent
 {
     None = -1,
     FindInfoText,
-    SendMessage,
+    SaveMessage,
     InstalledProfile,
+    SendMessage,
 }
 public enum EGuideEventType
 {
