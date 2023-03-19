@@ -88,7 +88,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         iconImage.sprite = newFileData.iconSprite;
 
-        Debug.Log(fileData.GetFileLocation());
+        if(fileData.windowType == EWindowType.ImageViewer)
+        {
+            iconImage.color = Color.white;
+        }
 
         if (isRegisterEvent == false && fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일러\\")    
         {
