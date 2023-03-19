@@ -466,6 +466,15 @@ public class TextBox : MonoUI
 
                     break;
                 }
+
+            case "PSDL":
+                {
+                    Sound.EAudioType audioType = (EAudioType)Enum.Parse(typeof(EAudioType), cmdValue);
+                    float? delayNull = Sound.OnPlaySound?.Invoke(audioType);
+                    currentDelay = delayNull != null ? (float)delayNull : 0f;
+                    break;
+                }
+
             case "SK":
                 {
                     string[] cmdValueArray = cmdValue.Split(',');
