@@ -11,7 +11,7 @@ public enum EImageExtensionType
     Bmp,
 }
 
-[CreateAssetMenu(menuName = "SO/Window/ImageViewer/Data")] 
+[CreateAssetMenu(menuName = "SO/Window/ImageViewer/Data")]  
 public class ImageViewerDataSO : ScriptableObject
 {
     public string fileName;
