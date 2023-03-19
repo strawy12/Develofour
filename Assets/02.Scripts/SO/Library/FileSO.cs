@@ -25,8 +25,6 @@ public struct WindowIconData
     public IconPropertyBody propertyBody;
 }
 
-
-
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
 public class FileSO : SOParent
 {
