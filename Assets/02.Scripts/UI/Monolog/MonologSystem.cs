@@ -12,9 +12,6 @@ public class MonologSystem : MonoBehaviour
     [SerializeField]
     private TextBox textBox;
 
-
-
-
     private void Awake()
     {
         Debug.Log("Awake");

@@ -8,7 +8,6 @@ public enum ETextDataType
     Profile,
     StartMonolog,
     TutorialMonolog1,
-    TutorialMonolog2,
     GuideLog1,
     Count
 }

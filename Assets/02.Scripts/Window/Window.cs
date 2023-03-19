@@ -138,7 +138,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
             if (GameManager.Inst.isTutorial) return;
         }
 
-        OnClosed?.Invoke(file.name);
+        OnClosed?.Invoke(file.fileName);
 
         windowMaxCnt--;
 
@@ -225,7 +225,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         currentWindow = selecetedWindow;
     }
 
-    public void CreatedWindow(FileSO file)
+    public  virtual void CreatedWindow(FileSO file)
     {
         this.file = file;
         Init();
@@ -255,7 +255,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         EventManager.TriggerEvent(EWindowEvent.AlarmCheck, new object[1] { file.windowType });
     }
 
-    private void AlarmCheck(object[] ps)
+    protected void AlarmCheck(object[] ps)
     {
         if (!(ps[0] is EWindowType))
         {

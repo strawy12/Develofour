@@ -15,7 +15,6 @@ public enum EGuideTopicName
 
 public class GuideManager: MonoBehaviour
 {
-
     [SerializeField]
     private GuideDataListSO guideListData;
 
@@ -123,15 +122,16 @@ public class GuideManager: MonoBehaviour
 
         OnPlayGuide(new object[1] { eGuideTopic });
     }
+
     private void GuideConditionCheckClear(object[] ps)
     {
-
         FileSO file = (FileSO)ps[0];
         bool isZooglePinHintNoteOpen = DataManager.Inst.SaveData.isZooglePinHintNoteOpen;
 
-        string fileName = file.fileName;
+        string fileLocation = file.GetFileLocation();
+       
 
-        if (fileName == "ZooglePassword")
+        if (fileLocation == "User\\C\\내 문서\\Zoogle\\Zoogle비밀번호\\")
         {
             if (!isZooglePinHintNoteOpen)
             {
@@ -143,7 +143,7 @@ public class GuideManager: MonoBehaviour
             {
                 DataManager.Inst.SetGuide(EGuideTopicName.ClearPinNotePadQuiz, true);
             }
-            if (fileName == "ZooglePIN번호" && isZooglePinHintNoteOpen)
+            if (fileLocation == "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\" && isZooglePinHintNoteOpen)
             {
                 DataManager.Inst.SetGuide(EGuideTopicName.ClickPinNotePadHint, true);
                 OnPlayGuide(new object[1] { EGuideTopicName.ClearPinNotePadQuiz });

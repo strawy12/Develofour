@@ -53,7 +53,7 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         fileName.text = directoryData.fileName;
         fileImage.sprite = directoryData.iconSprite;
 
-        if (currentDirectory.fileName == "User")
+        if (currentDirectory.fileName == "User\\")
         {
             EventManager.StartListening(ETutorialEvent.LibraryUserButtonStart, delegate
             {
@@ -71,7 +71,7 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
         EventManager.TriggerEvent(ELibraryEvent.ButtonOpenFile, ps);
 
-        if (currentDirectory.fileName == "User")
+        if (currentDirectory.fileName == "User\\")
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonEnd);
         }

@@ -85,7 +85,6 @@ public class MediaPlayer : Window
 
     private IEnumerator PrintTimerText()
     {
-        Debug.Log(2);
         while (true)
         {
             secondTimer++;
