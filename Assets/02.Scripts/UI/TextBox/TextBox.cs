@@ -138,18 +138,18 @@ public class TextBox : MonoUI
         StartCoroutine(PrintMonologTextCoroutine(textData.text));
     }
 
+    //{} 안에있는 내용을 없에줌
     private string RemoveCmd(string settingText)
     {
         List<Vector2> veclist = new List<Vector2>();
-        for(int i = 0; i < 5; i++)
-        {
-            veclist.Add(new Vector2(-1, -1));
-        }
+        string temp = string.Empty;
+
         int cnt = 0;
         for(int i = 0; i < settingText.Length; i++)
         {
             if (settingText[i] == '{')
             {
+                veclist.Add(new Vector2(-1, -1));
                 veclist[cnt] = new Vector2(i, -1);
             }
             if(settingText[i] == '}')
@@ -159,21 +159,13 @@ public class TextBox : MonoUI
             }
         }
 
-        Debug.Log(veclist.Count);
         for(int i = veclist.Count; i > 0 ; i--)
         {
-            if(veclist[i - 1].x == -1)
+            if(veclist[i - 1].x != -1)
             {
-                Debug.Log("1");
-            }
-            else
-            {
-                Debug.Log("2");
-                settingText.Remove((int)veclist[i - 1].x, (int)veclist[i - 1].y);
+                settingText = settingText.Remove((int)veclist[i - 1].x, ( (int)veclist[i - 1].y - (int)veclist[i - 1].x ) + 1 );
             }
         }
-
-        Debug.Log(settingText);
         return settingText;
     }
 
