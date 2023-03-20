@@ -49,6 +49,23 @@ public static class TextTrigger
                     EventManager.TriggerEvent(ETextboxEvent.Delay, new object[] { delay });
                     break;
                 }
+            case "SN":
+                {
+                    string[] cmdValueArray = cmdValue.Split(',');
+                    ENoticeType noticeTypeobj;
+                    if (Enum.TryParse(cmdValueArray[0] , out noticeTypeobj))
+                    {
+                        float delay= float.Parse(cmdValueArray[1]);
+
+                        NoticeSystem.OnGeneratedNotice?.Invoke(noticeTypeobj, delay);
+
+                    }
+                    else
+                    {
+
+                    }
+                    break;
+                }
         }
     }
 
