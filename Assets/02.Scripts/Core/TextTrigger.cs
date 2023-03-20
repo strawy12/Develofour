@@ -9,8 +9,14 @@ public static class TextTrigger
     {
 
         string cmdMsg = EncordingCommandText(msg);
-
+        Debug.Log(cmdMsg);
         string[] cmdMsgSplit = cmdMsg.Split('_');
+
+        if (cmdMsgSplit.Length < 1)
+        {
+            return;
+        }
+
         string cmdType = cmdMsgSplit[0];
         string cmdValue = cmdMsgSplit[1];
 
@@ -53,9 +59,9 @@ public static class TextTrigger
                 {
                     string[] cmdValueArray = cmdValue.Split(',');
                     ENoticeType noticeTypeobj;
-                    if (Enum.TryParse(cmdValueArray[0] , out noticeTypeobj))
+                    if (Enum.TryParse(cmdValueArray[0], out noticeTypeobj))
                     {
-                        float delay= float.Parse(cmdValueArray[1]);
+                        float delay = float.Parse(cmdValueArray[1]);
 
                         NoticeSystem.OnGeneratedNotice?.Invoke(noticeTypeobj, delay);
 
@@ -93,5 +99,29 @@ public static class TextTrigger
         }
 
         return richText;
+    }
+
+    public static string RemoveCommandText(string message, bool registerCmd = false)
+    {
+        string removeText = message;
+        int signTextLength = 0;
+
+        for (int i = 0; i < removeText.Length; i++)
+        {
+            if (i < 0)
+            {
+                i = 0;
+            }
+            if (removeText[i] == '{')
+            {
+                string signText = TextTrigger.EncordingCommandText(removeText.Substring(i)); // {} 문자열
+                removeText = removeText.Remove(i, signText.Length + 2); // {} 이 문자열을 제외시킨 문자열
+
+                signTextLength += signText.Length;
+                i -= signText.Length;
+            }
+        }
+
+        return removeText;
     }
 }
