@@ -22,15 +22,24 @@ public class FileManager : MonoSingleton<FileManager>
         {
             defaultFileDictionary.Add(file.windowType, file);
         }
-        foreach (FileSO file in additionFileList)
+
+      
+    }
+    private void Start()
+    {
+        foreach (var fileData in additionFileList)
         {
-            if (DataManager.Inst.AdditionalFileContain(file.GetFileLocation()))
+            Debug.Log("fileDAta");
+            if (DataManager.Inst.AdditionalFileContain(fileData))
             {
-                AddFile(file, file.parent.GetFileLocation());
-
-
+                string str = DataManager.Inst.GetAdditionalFileLocation(fileData);
+                string settingStr = str.Substring(0, str.Length - 1);
+                int index = settingStr.LastIndexOf("\\");
+                Debug.Log(index);
+                string location = str.Substring(0, index + 1);
+                Debug.Log(location);
+                AddFile(fileData, location);
             }
-
         }
     }
 
@@ -60,7 +69,7 @@ public class FileManager : MonoSingleton<FileManager>
             additionFileList.Add(file);
         }
 
-        if (!DataManager.Inst.AdditionalFileContain(location + "\\" + file.fileName))
+        if (!DataManager.Inst.AdditionalFileContain(file))
         {
             DataManager.Inst.AddNewFileData(location + file.fileName + "\\");
         }
