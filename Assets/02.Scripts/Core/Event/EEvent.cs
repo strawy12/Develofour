@@ -131,6 +131,7 @@ public enum EAiChatData
     LastAiChat,
     Email,
     Password,
+    ChattingEnd,
 }
 
 public enum EProfileEvent 
@@ -171,4 +172,11 @@ public enum EDebugSkipEvent
 {
     None = -1,
     TutorialSkip,
+}
+
+public enum ETextboxEvent
+{
+    None = -1,
+    Shake,
+    Delay,
 }

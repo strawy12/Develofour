@@ -57,6 +57,9 @@ public class TextBox : MonoUI
     {
         triggerDictionary = new Dictionary<int, Action>();
         EventManager.StartListening(ECoreEvent.OpenTextBox, Init);
+
+        EventManager.StartListening(ETextboxEvent.Shake, SetShake);
+        EventManager.StartListening(ETextboxEvent.Delay, SetDelay);
     }
 
     private void OnPressNextKey(object[] ps) => OnPressNextKey();
@@ -76,26 +79,26 @@ public class TextBox : MonoUI
 
     private void Init(object[] param)
     {
-        if (param == null || !(param[0] is ETextDataType))
+        if (param == null || !(param[0] is EMonologTextDataType))
         {
             return;
         }
 
-        Init((ETextDataType)param[0]);
+        Init((EMonologTextDataType)param[0]);
         messageText.SetText("");
 
         ShowBox();
         PrintText();
     }
 
-    public void Init(ETextDataType textDataType)
+    public void Init(EMonologTextDataType textDataType)
     {
         if (GameManager.Inst.GameState != EGameState.CutScene)
         {
             GameManager.Inst.ChangeGameState(EGameState.UI);
         }
 
-        currentTextData = ResourceManager.Inst.GetTextDataSO(textDataType);
+        currentTextData = ResourceManager.Inst.GetMonologTextDataSO(textDataType);
         currentTextIndex = 0;
     }
 
@@ -363,29 +366,7 @@ public class TextBox : MonoUI
         return richText;
     }
 
-    // text에서 cmdText 뽑아냄
-    // ex) {BS_WriterBGM}
-    private string EncordingCommandText(string message)
-    {
-        string richText = "";
-
-        if (message[0] == '{')
-        {
-            message = message.Substring(1);
-        }
-
-        for (int i = 0; i < message.Length; i++)
-        {
-
-            if (message[i] == '}')
-            {
-                break;
-            }
-            richText += message[i];
-        }
-
-        return richText;
-    }
+   
 
     // text에서 richText 없앰
     private string RemoveRichText(string message)
@@ -422,17 +403,17 @@ public class TextBox : MonoUI
             {
                 isFindSign = true;
 
-                string signText = EncordingCommandText(removeText.Substring(i)); // {} 문자열
+                string signText = TextTrigger.EncordingCommandText(removeText.Substring(i)); // {} 문자열
                 removeText = removeText.Remove(i, signText.Length + 2); // {} 이 문자열을 제외시킨 문자열
 
                 if (registerCmd)
                 {
                     if (triggerDictionary.ContainsKey(i + signTextLength))
-                        triggerDictionary[i + signTextLength] += () => CommandTrigger(signText);
+                        triggerDictionary[i + signTextLength] += () => TextTrigger.CommandTrigger(signText, this.gameObject);
 
                     else
                     {
-                        triggerDictionary.Add(i + signTextLength, () => CommandTrigger(signText));
+                        triggerDictionary.Add(i + signTextLength, () => TextTrigger.CommandTrigger(signText, this.gameObject));
                     }
                 }
 
@@ -448,51 +429,25 @@ public class TextBox : MonoUI
 
     #region CommandTrigger
 
-    private void CommandTrigger(string msg)
+    public void SetDelay(object[] ps)
     {
-
-        string cmdMsg = EncordingCommandText(msg);
-
-        string[] cmdMsgSplit = cmdMsg.Split('_');
-        string cmdType = cmdMsgSplit[0];
-        string cmdValue = cmdMsgSplit[1];
-
-        switch (cmdType)
+        if(ps[0] is float)
         {
-            case "PS":
-                {
-                    Sound.EAudioType audioType = (EAudioType)Enum.Parse(typeof(EAudioType), cmdValue);
-                    Sound.OnPlaySound?.Invoke(audioType);
-
-                    break;
-                }
-
-            case "PSDL":
-                {
-                    Sound.EAudioType audioType = (EAudioType)Enum.Parse(typeof(EAudioType), cmdValue);
-                    float? delayNull = Sound.OnPlaySound?.Invoke(audioType);
-                    currentDelay = delayNull != null ? (float)delayNull : 0f;
-                    break;
-                }
-
-            case "SK":
-                {
-                    string[] cmdValueArray = cmdValue.Split(',');
-                    float delay = float.Parse(cmdValueArray[0]);
-                    float strength = float.Parse(cmdValueArray[1]);
-                    int vibrato = int.Parse(cmdValueArray[2]);
-
-                    StartCoroutine(textShakingCoroutine(delay, strength, vibrato));
-                    break;
-                }
-
-            case "DL":
-                {
-                    currentDelay = float.Parse(cmdValue);
-                    break;
-                }
+            currentDelay = (float)ps[0];
         }
+    }
 
+    public void SetShake(object[] ps)
+    {
+        //float delay, float strength, int vibrato, GameObject obj;
+        if (ps[3] as GameObject == this.gameObject)
+        {
+            float delay = (float)ps[0];
+            float strength = (float)ps[1];
+            int vibrato = (int)ps[2];
+
+            StartCoroutine(textShakingCoroutine(delay, strength, vibrato));
+        }
     }
 
     private IEnumerator textShakingCoroutine(float delay, float strength, int vibrato)

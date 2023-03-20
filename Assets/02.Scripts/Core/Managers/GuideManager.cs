@@ -74,7 +74,7 @@ public class GuideManager: MonoBehaviour
         {
             case EGuideTopicName.ProfilerDownGuide:
                 {
-                    MonologSystem.OnStartMonolog.Invoke(ETextDataType.GuideLog1, 0.2f, 1);
+                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuideLog1, 0.2f, 1);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }

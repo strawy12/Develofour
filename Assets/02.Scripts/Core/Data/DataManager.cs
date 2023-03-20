@@ -48,9 +48,9 @@ public class DataManager : MonoSingleton<DataManager>
             }
         }
 
-        for (int i = ((int)ETextDataType.None) + 1; i < (int)ETextDataType.Count; i++)
+        for (int i = ((int)EMonologTextDataType.None) + 1; i < (int)EMonologTextDataType.Count; i++)
         {
-            saveData.monologData.Add(new MonologSaveData() { monologType = (ETextDataType)i, isShow = false });
+            saveData.monologData.Add(new MonologSaveData() { monologType = (EMonologTextDataType)i, isShow = false });
         }
 
         for(int i = ((int)EGuideTopicName.None) + 1; i < (int)EGuideTopicName.Count; i++)
@@ -107,7 +107,7 @@ public class DataManager : MonoSingleton<DataManager>
             data.isLock = value;
     }
 
-    public bool IsMonologShow(ETextDataType type)
+    public bool IsMonologShow(EMonologTextDataType type)
     {
         MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);
         if (data == null)
@@ -119,7 +119,7 @@ public class DataManager : MonoSingleton<DataManager>
         return data.isShow;
     }
 
-    public void SetMonologShow(ETextDataType type, bool value)
+    public void SetMonologShow(EMonologTextDataType type, bool value)
     {
         MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);
         if (data == null)

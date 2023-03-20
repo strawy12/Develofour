@@ -93,42 +93,13 @@ public class ProfileChatting : MonoBehaviour
 
     public void AddText(object[] ps)
     {
-        EWindowType type = EWindowType.ProfileWindow;
-        EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { type });
+        EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { EWindowType.ProfileWindow });
 
-        if (!(ps[0] is EAiChatData))
+        if (ps[0] is string)
         {
-            if(ps[0] is string)
-            {
-                AddText(ps[0] as string);
-            }
-            return;
+            AddText(ps[0] as string);
         }
-
-        EAiChatData data = (EAiChatData)ps[0];
-
-        if(!chatDataDictionary.ContainsKey(data))
-        {
-            Debug.Log("해당 ENUM에 대한 키값이 존재하지 않음");
-        }
-
-        foreach (var save in SOData.saveList)
-        {
-            if (save == data.ToString())
-            {
-                Debug.Log("동일한 데이터");
-                return;
-            }
-        }
-        
-        SOData.saveList.Add(data.ToString());
-        GameObject obj = Instantiate(textPrefab, textParent);
-        obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
-        SetLastWidth();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(obj.GetComponent<RectTransform>());
-        SetScrollView();
-        obj.gameObject.SetActive(true);
-        SetLastWidth();
+        return;
     }
 
 
