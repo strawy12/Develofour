@@ -29,14 +29,14 @@ public class MediaPlayerDownBar : MonoBehaviour
 
     private void PlayAudio()
     {
-        stopButton.gameObject.SetActive(true);
-        playButton.gameObject.SetActive(false);
+        playButton.gameObject.SetActive(true);
+        stopButton.gameObject.SetActive(false);
     }
 
     private void StopAudio()
     {
-        playButton.gameObject.SetActive(true);
-        stopButton.gameObject.SetActive(false);
+        playButton.gameObject.SetActive(false);
+        stopButton.gameObject.SetActive(true);
     }
 
 }

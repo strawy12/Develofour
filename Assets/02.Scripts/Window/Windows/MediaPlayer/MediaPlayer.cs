@@ -27,7 +27,7 @@ public class MediaPlayer : Window
     private int secondTimer;
     private int minuteTimer;
 
-    private int countLength;
+    private bool isRePlaying;
 
     protected override void Init()
     {
@@ -52,7 +52,7 @@ public class MediaPlayer : Window
         secondTimer = 0;
         minuteTimer = 0;
 
-        countLength = 0;
+        isRePlaying = false;
 
         PlayMediaPlayer();
     }
@@ -74,21 +74,25 @@ public class MediaPlayer : Window
 
     private void StopMediaPlayer()
     {
-        countLength = mediaDetailText.maxVisibleCharacters;
-
         StopAllCoroutines();
     }
 
     private IEnumerator PrintMediaText()
     {
-        for (int i = countLength; i < mediaPlayerData.textData.Length; i++)
+        for (int i = 0; i < mediaPlayerData.textData.Length; i++)
         {
             mediaDetailText.maxVisibleCharacters++;
 
+            if (mediaDetailText.maxVisibleCharacters == mediaPlayerData.textData.Length)
+            {
+                isRePlaying = true;
+
+                mediaPlayerDownBar.StopButtonClick?.Invoke();
+                Debug.Log("Media End");
+            }
+
             yield return new WaitForSeconds(mediaPlayerData.textPlaySpeed);
         }
-
-        mediaPlayerDownBar.StopButtonClick?.Invoke();
     }
 
     private IEnumerator PrintTimerText()
@@ -135,7 +139,10 @@ public class MediaPlayer : Window
 
         mediaPlayTimeText.SetText(string.Format("{0:00} : {1:00}", minuteTimer, secondTimer));
         
-        countLength = mediaDetailText.maxVisibleCharacters;
-        mediaPlayerDownBar.PlayButtonClick?.Invoke();
+        if(isRePlaying)
+        {
+            mediaPlayerDownBar.PlayButtonClick?.Invoke();
+            isRePlaying = false;
+        }
     }
 }
