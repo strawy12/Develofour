@@ -20,6 +20,7 @@ public class AdditionFileData
 {
     public string fileLocation;
 }
+[System.Serializable]
 public class GuideSaveData
 {
     public EGuideTopicName topicName;
