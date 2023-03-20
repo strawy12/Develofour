@@ -10,50 +10,33 @@ public class MediaPlayerDownBar : MonoBehaviour
     public Action PlayButtonClick;
     public Action StopButtonClick;
 
-    public Button mediaPlayButton;
     public TMP_Text mediaPlayFileName;
 
     [SerializeField]
-    private Image playImage;
-    [SerializeField]
-    private Image stopImage;
+    private Button playButton;
 
-    private bool isPlayingMediaCheck;
+    [SerializeField]
+    private Button stopButton;
 
     public void Init()
     {
         PlayButtonClick += PlayAudio;
-        StopButtonClick += StopAudio;   
+        StopButtonClick += StopAudio;
 
-        mediaPlayButton.onClick?.AddListener(WhetherInPlayAudio);
-    }
-
-    private void WhetherInPlayAudio()
-    {
-        if(isPlayingMediaCheck)
-        {
-            PlayButtonClick?.Invoke();
-        }
-        else if(!isPlayingMediaCheck)
-        {
-            StopButtonClick?.Invoke();
-        }
+        playButton.onClick?.AddListener(PlayAudio);
+        stopButton.onClick?.AddListener(StopAudio);
     }
 
     private void PlayAudio()
     {
-        isPlayingMediaCheck = false;
-
-        stopImage.gameObject.SetActive(true);
-        playImage.gameObject.SetActive(false);
+        playButton.gameObject.SetActive(true);
+        stopButton.gameObject.SetActive(false);
     }
 
     private void StopAudio()
     {
-        isPlayingMediaCheck = true;
-
-        playImage.gameObject.SetActive(true);
-        stopImage.gameObject.SetActive(false);
+        playButton.gameObject.SetActive(false);
+        stopButton.gameObject.SetActive(true);
     }
 
 }
