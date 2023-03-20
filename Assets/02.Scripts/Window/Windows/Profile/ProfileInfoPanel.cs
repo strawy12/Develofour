@@ -80,9 +80,12 @@ public class ProfileInfoPanel : MonoBehaviour
                     FindAlarm(categoryNameText.text, key);
                 }
 
-                if (key == "SuspectName" && GameManager.Inst.GameState == EGameState.Tutorial)
+                if(GameManager.Inst.GameState == EGameState.Tutorial || GameManager.Inst.GameState == EGameState.CutScene)
                 {
-                    EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
+                    if (key == "SuspectName")
+                    {
+                        EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
+                    }
                 }
             }
         }
