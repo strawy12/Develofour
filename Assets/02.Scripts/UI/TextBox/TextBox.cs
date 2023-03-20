@@ -130,7 +130,7 @@ public class TextBox : MonoUI
 
         string settingText = RemoveCmd(textData.text);
         messageText.SetText(settingText);
-        
+
         bgImage.rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + offsetSize;
         messageText.SetText("");
         nameText.SetText("");
@@ -148,25 +148,25 @@ public class TextBox : MonoUI
         string temp = string.Empty;
 
         int cnt = 0;
-        for(int i = 0; i < settingText.Length; i++)
+        for (int i = 0; i < settingText.Length; i++)
         {
             if (settingText[i] == '{')
             {
                 veclist.Add(new Vector2(-1, -1));
                 veclist[cnt] = new Vector2(i, -1);
             }
-            if(settingText[i] == '}')
+            if (settingText[i] == '}')
             {
                 veclist[cnt] = new Vector2(veclist[cnt].x, i);
                 cnt++;
             }
         }
 
-        for(int i = veclist.Count; i > 0 ; i--)
+        for (int i = veclist.Count; i > 0; i--)
         {
-            if(veclist[i - 1].x != -1)
+            if (veclist[i - 1].x != -1)
             {
-                settingText = settingText.Remove((int)veclist[i - 1].x, ( (int)veclist[i - 1].y - (int)veclist[i - 1].x ) + 1 );
+                settingText = settingText.Remove((int)veclist[i - 1].x, ((int)veclist[i - 1].y - (int)veclist[i - 1].x) + 1);
             }
         }
         return settingText;
@@ -366,7 +366,7 @@ public class TextBox : MonoUI
         return richText;
     }
 
-   
+
 
     // text에서 richText 없앰
     private string RemoveRichText(string message)
@@ -388,10 +388,11 @@ public class TextBox : MonoUI
 
     // text에서 cmdText 없앰
     // 만약 registerCmd를 true할 시 커맨드 등록도 시킴
-    private string RemoveCommandText(string message, bool registerCmd = false)
+    private string RemoveCommandText(string message, out object triggerList, bool registerCmd = false)
     {
         string removeText = message;
         int signTextLength = 0;
+
 
         for (int i = 0; i < removeText.Length; i++)
         {
@@ -405,17 +406,22 @@ public class TextBox : MonoUI
 
                 string signText = TextTrigger.EncordingCommandText(removeText.Substring(i)); // {} 문자열
                 removeText = removeText.Remove(i, signText.Length + 2); // {} 이 문자열을 제외시킨 문자열
-
-                if (registerCmd)
+                if (triggerList is Dictionary<int, Action>)
                 {
-                    if (triggerDictionary.ContainsKey(i + signTextLength))
-                        triggerDictionary[i + signTextLength] += () => TextTrigger.CommandTrigger(signText, this.gameObject);
 
-                    else
-                    {
-                        triggerDictionary.Add(i + signTextLength, () => TextTrigger.CommandTrigger(signText, this.gameObject));
-                    }
                 }
+
+                    if (registerCmd)
+                    {
+
+                        if (triggerDictionary.ContainsKey(i + signTextLength))
+                            triggerDictionary[i + signTextLength] += () => TextTrigger.CommandTrigger(signText, this.gameObject);
+
+                        else
+                        {
+                            triggerDictionary.Add(i + signTextLength, () => TextTrigger.CommandTrigger(signText, this.gameObject));
+                        }
+                    }
 
                 signTextLength += signText.Length;
                 i -= signText.Length;
@@ -431,7 +437,7 @@ public class TextBox : MonoUI
 
     public void SetDelay(object[] ps)
     {
-        if(ps[0] is float)
+        if (ps[0] is float)
         {
             currentDelay = (float)ps[0];
         }

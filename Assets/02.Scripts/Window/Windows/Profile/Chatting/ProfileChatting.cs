@@ -60,6 +60,8 @@ public class ProfileChatting : MonoBehaviour
     [SerializeField]
     private ProfileChattingSaveSO SOData;
 
+    private float currentDelay;
+    private GameObject obj;
     public void DictionaryToList()
     {
         foreach(var data in SOData.chatDataList)
@@ -68,22 +70,31 @@ public class ProfileChatting : MonoBehaviour
         }
     }
         
-    public void AddText(string str)
+    public IEnumerator AddText(string str)
     {
         foreach (var save in SOData.saveList)
         {
             if (save == str)
             {
                 Debug.Log("동일한 데이터");
-                return;
+                yield break;
             }
         }
+        currentDelay = 0;
+
+        obj = Instantiate(textPrefab, textParent);
+
+        TextTrigger.CommandTrigger(str, obj);
+
+        Debug.Log(currentDelay);
+        yield return new WaitForSeconds(currentDelay);
         
         NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null, ENoticeTag.AIAlarm);
 
-        SOData.saveList.Add(str);
-        GameObject obj = Instantiate(textPrefab, textParent);
-        obj.GetComponent<TMP_Text>().text = ">> " + str;
+        string currentStr = TextTrigger.EncordingCommandText(str);
+        SOData.saveList.Add(currentStr);
+
+        obj.GetComponent<TMP_Text>().text = ">> " + currentStr;
         SetLastWidth();
         LayoutRebuilder.ForceRebuildLayoutImmediate(obj.GetComponent<RectTransform>());
         SetScrollView();
@@ -97,19 +108,49 @@ public class ProfileChatting : MonoBehaviour
 
         if (ps[0] is string)
         {
-            AddText(ps[0] as string);
+            StartCoroutine(AddText(ps[0] as string));
         }
         return;
     }
 
+    public void SetDelay(object[] ps)
+    {
+        if(ps[0] is string)
+        {
+            currentDelay = (float)ps[0];
+            Debug.Log(currentDelay);
+        }
+    }
 
+    public void SetShake(object[] ps)
+    {
+        //float delay, float strength, int vibrato, GameObject obj;
+        if (ps[3] as GameObject == this.obj)
+        {
+            float delay = (float)ps[0];
+            float strength = (float)ps[1];
+            int vibrato = (int)ps[2];
+
+            StartCoroutine(textShakingCoroutine(delay, strength, vibrato));
+        }
+    }
+
+    private IEnumerator textShakingCoroutine(float delay, float strength, int vibrato)
+    {
+        currentDelay = delay;
+        obj.GetComponent<RectTransform>().DOShakeAnchorPos(delay, strength, vibrato, 0, true);
+        yield return new WaitForSeconds(delay);
+        
+    }
 
     public void Init()
     {
+       
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
         EventManager.StartListening(EProfileEvent.SendMessage, AddText);
-
+        EventManager.StartListening(ETextboxEvent.Delay, SetDelay);
+        
         //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
 
         OpenCloseButton.onClick.AddListener(HidePanel);
