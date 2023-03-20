@@ -45,7 +45,7 @@ public class ProfileInfoPanel : MonoBehaviour
             HidePost();
         }
 
-        foreach (var save in saveData.saveList)
+        foreach (var save in saveData.infoTextList)
         {
             if (DataManager.Inst.IsProfileInfoData(saveData.category, save.key) == false)
             {

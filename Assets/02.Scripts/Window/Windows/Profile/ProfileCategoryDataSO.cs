@@ -14,15 +14,16 @@ public class ProfileCategoryDataSO : ScriptableObject
 {
     [Header("Category")]
     public EProfileCategory category;
+    public string categoryTitle;
     [Header("Information")]
     [SerializeField]
-    public List<ProfileInfoSaveData> saveList;
+    public List<ProfileInfoSaveData> infoTextList;
 
     public ProfileInfoSaveData GetSaveData(string key)
     {
         ProfileInfoSaveData data = null;
 
-        foreach(ProfileInfoSaveData saveData in saveList)
+        foreach(ProfileInfoSaveData saveData in infoTextList)
         {
             if (saveData.key == key)
             {

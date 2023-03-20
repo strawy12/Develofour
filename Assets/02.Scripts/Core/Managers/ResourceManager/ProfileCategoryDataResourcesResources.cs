@@ -21,9 +21,9 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     {
         profileCategoryDataResourcesList = new Dictionary<EProfileCategory, ProfileCategoryDataSO>();
 
-        var handle = Addressables.LoadResourceLocationsAsync("ProfileCategory", typeof(ProfileCategoryDataSO));
+        var handle = Addressables.LoadResourceLocationsAsync("ProfileCategoryData", typeof(ProfileCategoryDataSO));
         await handle.Task;
-
+        Debug.Log(handle.Result.Count);
         for (int i = 0; i < handle.Result.Count; i++)
         {
             var task = Addressables.LoadAssetAsync<ProfileCategoryDataSO>(handle.Result[i]).Task;
