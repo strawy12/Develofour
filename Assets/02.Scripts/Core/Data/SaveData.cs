@@ -26,6 +26,13 @@ public class GuideSaveData
     public EGuideTopicName topicName;
     public bool isUse;
 }
+[System.Serializable]
+public class ProfileSaveData
+{
+    public EProfileCategory category;
+    public bool isShowCategory;
+    public List<string> infoData;
+}
 
 [System.Serializable]
 public class SaveData
@@ -34,6 +41,7 @@ public class SaveData
     public List<MonologSaveData> monologData;
     public List<AdditionFileData> additionFileData;
     public List<GuideSaveData> guideSaveData;
+    public List<ProfileSaveData> profileSaveData;
     public bool isSuccessLoginZoogle;
     public bool isSuccessLoginStarbook;
     public bool isWatchStartCutScene;

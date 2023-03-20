@@ -16,11 +16,11 @@ public class ProfileInfoPanel : MonoBehaviour
     [SerializeField]
     public List<ProfileInfoText> infoTextList;
 
-    private ProfileInfoDataSO saveData;
+    private ProfileCategoryDataSO saveData;
     //이 패널이 정보를 모두 찾았다면 연결된 패널들이 보임
     [SerializeField]
     private List<ProfileInfoPanel> LinkInfoPenelList;
-    public void Init(ProfileInfoDataSO profileInfoDataSO)
+    public void Init(ProfileCategoryDataSO profileInfoDataSO)
     {
         saveData = profileInfoDataSO;
 
@@ -36,7 +36,7 @@ public class ProfileInfoPanel : MonoBehaviour
             infoText.OnFindText += ShowLinkedPost;
         }
 
-        if(saveData.isShowCategory)
+        if(DataManager.Inst.GetProfileSaveData(saveData.category).isShowCategory)
         {
             ShowPost();
         }
@@ -45,9 +45,9 @@ public class ProfileInfoPanel : MonoBehaviour
             HidePost();
         }
 
-        foreach (var save in saveData.saveList)
+        foreach (var save in saveData.infoTextList)
         {
-            if (save.isShow == false)
+            if (DataManager.Inst.IsProfileInfoData(saveData.category, save.key) == false)
             {
                 continue;
             }
@@ -74,9 +74,9 @@ public class ProfileInfoPanel : MonoBehaviour
                 }
                 infoText.ChangeText();
 
-                if(saveData.GetSaveData(key).isShow == false)
+                if(DataManager.Inst.IsProfileInfoData(saveData.category, key) == false)
                 {
-                    saveData.GetSaveData(key).isShow = true;
+                    DataManager.Inst.AddProfileinfoData(saveData.category, key);
                     FindAlarm(categoryNameText.text, key);
                 }
 
@@ -88,11 +88,6 @@ public class ProfileInfoPanel : MonoBehaviour
         }
     }
 
-    public bool CheckIsTrue(string str)
-    {
-        return saveData.GetSaveData(str).isShow;
-    }
-
     public void FindAlarm(string category, string key)
     {
         EventManager.TriggerEvent(ENoticeEvent.GeneratedProfileFindNotice, new object[2] { category, key });
@@ -100,7 +95,7 @@ public class ProfileInfoPanel : MonoBehaviour
     private void ShowPost()
     {
         gameObject.SetActive(true);
-        saveData.isShowCategory = true;
+        DataManager.Inst.SetCategoryData(saveData.category, true);
     }
 
     private void HidePost()

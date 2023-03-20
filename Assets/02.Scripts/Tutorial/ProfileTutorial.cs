@@ -46,13 +46,10 @@ public class ProfileTutorial : MonoBehaviour
         Debug.Log("프로파일러 튜토리얼 시작");
 
         WindowManager.Inst.StartTutorialSetting();
-        //tutorialPanel.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
         EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, delegate { StartCoroutine(StartProfileLastTutorial()); });
-
-        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
 
         for (int i = 0; i < 3; i++)
         {
@@ -67,12 +64,12 @@ public class ProfileTutorial : MonoBehaviour
         }
     }
 
-    public void StartContinueProfileTutorial()
+    private void StartContinueProfileTutorial()
     {
-        StartCoroutine(ContinueProfileTutorial());
+        StartCoroutine(ContinueProfileAiChatting());
     }
 
-    public IEnumerator ContinueProfileTutorial()
+    public IEnumerator ContinueProfileAiChatting()
     {
         MonologSystem.OnEndMonologEvent -= StartContinueProfileTutorial;
         for (int i = 3; i < startAIChatting.Length; i++)
@@ -89,7 +86,7 @@ public class ProfileTutorial : MonoBehaviour
 
     private void AIChatting(string str)
     {
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
+        EventManager.TriggerEvent(EProfileEvent.SaveMessage, new object[1] { str });
     }
 
     public IEnumerator NoticeProfileChattingTutorial()
