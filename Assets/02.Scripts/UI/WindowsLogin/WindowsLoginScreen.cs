@@ -183,7 +183,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void USBNoticeFunc()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 2f);
         MonologSystem.OnEndMonologEvent -= USBNoticeFunc;
 
         GuideManager.OnPlayGuide(EGuideTopicName.LibraryOpenGuide, 40);

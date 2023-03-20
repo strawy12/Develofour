@@ -7,10 +7,11 @@ public class ProfileInfoSystem : MonoBehaviour
     [SerializeField]
     private Sprite profileSprite;
 
-    private Dictionary<EProfileCategory, ProfileCategoryDataSO> infoList =new Dictionary<EProfileCategory, ProfileCategoryDataSO>();
+    private Dictionary<EProfileCategory, ProfileCategoryDataSO> infoList = new Dictionary<EProfileCategory, ProfileCategoryDataSO>();
 
     private IEnumerator Start()
     {
+        Debug.Log("나중에 Start Callback 으로 만듭시다");
         yield return new WaitForSeconds(3f);
 
         infoList = ResourceManager.Inst.GetProfileCategoryDataList();
@@ -19,6 +20,7 @@ public class ProfileInfoSystem : MonoBehaviour
         {
             Debug.Log($"{info.Key}");
         }
+
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
     }
 

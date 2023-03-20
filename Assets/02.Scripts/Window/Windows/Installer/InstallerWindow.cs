@@ -73,8 +73,6 @@ public class InstallerWindow : Window
         FileManager.Inst.AddFile(installFile, "User\\C\\바탕화면\\");
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
-
-        GameManager.Inst.isProfilerTownloadCompleted = true;
     }
 
     public void CheckOpenWindow(bool isWindowOpen)
