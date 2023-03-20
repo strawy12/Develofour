@@ -10,6 +10,7 @@ public enum ETextDataType
     TutorialMonolog1,
     GuideLog1,
     GuestLoginGuideLog,
+    OnUSBFileMonoLog,
     Count
 }
 

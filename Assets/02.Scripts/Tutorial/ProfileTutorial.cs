@@ -19,6 +19,26 @@ public class ProfileTutorial : MonoBehaviour
 
         //skip debug 코드
         EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { delay = 0.05f; });
+        EventManager.StartListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
+        // 만약 USB 화면 들어가면
+    }
+
+    public void FirstOpenUSBFile(object[] ps)
+    {
+        if (ps[0] == null) 
+        {
+            return;   
+        }
+
+        FileSO fileData = (FileSO)ps[0];
+
+
+        if(fileData.fileName == "BestUSB")
+        {
+            MonologSystem.OnStartMonolog.Invoke(ETextDataType.OnUSBFileMonoLog, 1f, 3);
+        }
+        
+        EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
     }
 
     public IEnumerator StartProfileTutorial()

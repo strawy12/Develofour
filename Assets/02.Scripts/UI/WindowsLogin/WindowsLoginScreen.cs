@@ -96,12 +96,14 @@ public class WindowsLoginScreen : MonoBehaviour
         {
             GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Admin);
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
-            windowLoginCanvas.SetActive(false);
             if (isFirst)
             {
                 StartMonolog();
             }
             isFirst = false;
+            EndLogin();
+
+            windowLoginCanvas.SetActive(false);
         }));
     }
 
@@ -146,7 +148,6 @@ public class WindowsLoginScreen : MonoBehaviour
 
         if (failedLoginCnt >= 5)
         {
-            Debug.Log("dfs");
             GuideManager.OnPlayGuide(EGuideTopicName.GuestLoginGuide, 1.5f);
         }
 
@@ -158,12 +159,20 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Guest);
         EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
-        windowLoginCanvas.SetActive(false);
+
+        EndLogin();
+
         if (isFirst)
         {
             StartMonolog();
         }
         isFirst = false;
+        windowLoginCanvas.SetActive(false);
+    }
+
+    private void EndLogin()
+    {
+        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.GuestLoginGuide });
     }
 
     private void StartMonolog()
@@ -177,6 +186,6 @@ public class WindowsLoginScreen : MonoBehaviour
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
         MonologSystem.OnEndMonologEvent -= USBNoticeFunc;
 
-        GuideManager.OnPlayGuide(EGuideTopicName.ProfilerDownGuide, 40);
+        GuideManager.OnPlayGuide(EGuideTopicName.LibraryOpenGuide, 40);
     }
 }

@@ -163,8 +163,9 @@ public enum ETutorialEvent
     ProfileInfoStart, 
     ProfileInfoEnd, 
     ProfileEventStop, 
-    EndClickInfoTutorial, 
+    EndClickInfoTutorial,
 }
+
 
 public enum EDebugSkipEvent
 {

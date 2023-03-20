@@ -7,7 +7,7 @@ public enum EGuideTopicName
 {
     None,
     GuestLoginGuide,
-    ProfilerDownGuide,
+    LibraryOpenGuide,
     ClickPinNotePadHint,
     ClearPinNotePadQuiz,
     Count
@@ -22,8 +22,6 @@ public class GuideManager: MonoBehaviour
     private GuideDataListSO guideListData;
 
     private Dictionary<EGuideTopicName, GuideData> guideTopicDictionary;
-
-    private EGuideTopicName guideType;
 
     void Start()
     {
@@ -48,26 +46,25 @@ public class GuideManager: MonoBehaviour
 
     private void StartPlayGuide(EGuideTopicName guideTopicName, float timer)
     {
-        guideType = guideTopicName;
 
-        if (DataManager.Inst.IsGuideUse(guideType))
+        if (DataManager.Inst.IsGuideUse(guideTopicName))
         {
             return;
         }
 
-        StartCoroutine(SetTimer(timer));
+        StartCoroutine(SetTimer(timer, guideTopicName));
     }
 
-    private IEnumerator SetTimer(float timer)
+    private IEnumerator SetTimer(float timer, EGuideTopicName guideTopicName)
     {
         yield return new WaitForSeconds(timer);
 
-        if (DataManager.Inst.IsGuideUse(guideType))
+        if (DataManager.Inst.IsGuideUse(guideTopicName))
         {
             yield break;
         }
         
-        StartGudie(guideType);
+        StartGudie(guideTopicName);
     }
 
     private void StartGudie(EGuideTopicName guideTopic)
@@ -81,7 +78,7 @@ public class GuideManager: MonoBehaviour
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
-            case EGuideTopicName.ProfilerDownGuide:
+            case EGuideTopicName.LibraryOpenGuide:
                 {
                     MonologSystem.OnStartMonolog.Invoke(ETextDataType.GuideLog1, 0.2f, 1);
                     DataManager.Inst.SetGuide(guideTopic, true);
@@ -89,14 +86,14 @@ public class GuideManager: MonoBehaviour
                 }
             case EGuideTopicName.ClickPinNotePadHint:
                 {
-                    EventManager.TriggerEvent(EProfileEvent.SaveMessage, new object[1] { guideTopicDictionary[guideType].guideTexts[0] });
+                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { guideTopicDictionary[guideTopic].guideTexts[0] });
                     DataManager.Inst.SetGuide(guideTopic, true);
 
                     break;
                 }
             case EGuideTopicName.ClearPinNotePadQuiz:
                 {
-                    StartCoroutine(SendAiMessageTexts(guideTopicDictionary[guideType].guideTexts));
+                    StartCoroutine(SendAiMessageTexts(guideTopicDictionary[guideTopic].guideTexts));
                     DataManager.Inst.SetGuide(guideTopic, true);
 
                     break;
@@ -112,7 +109,7 @@ public class GuideManager: MonoBehaviour
     {
         foreach (string str in values)
         {
-            EventManager.TriggerEvent(EProfileEvent.SaveMessage, new object[1] { str });
+            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
             yield return new WaitForSeconds(1f);
         }
     }
