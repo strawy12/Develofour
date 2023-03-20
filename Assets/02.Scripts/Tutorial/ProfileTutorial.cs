@@ -79,7 +79,7 @@ public class ProfileTutorial : MonoBehaviour
             yield return new WaitForSeconds(delay);
         }
 
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 0.1f);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
 
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
     }
