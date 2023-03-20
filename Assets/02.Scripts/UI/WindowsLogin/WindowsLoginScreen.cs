@@ -145,7 +145,10 @@ public class WindowsLoginScreen : MonoBehaviour
         failedLoginCnt++;
 
         if (failedLoginCnt >= 5)
-            loginFailText.SetText("»ß»ß-»ß»ß-»ß»ß-»ß»ß-»ß»ß");
+        {
+            Debug.Log("dfs");
+            GuideManager.OnPlayGuide(EGuideTopicName.GuestLoginGuide, 1.5f);
+        }
 
         loginFailUI.SetActive(true);
         loginInputUI.SetActive(false);
@@ -168,12 +171,12 @@ public class WindowsLoginScreen : MonoBehaviour
         MonologSystem.OnEndMonologEvent += USBNoticeFunc;
         MonologSystem.OnStartMonolog(ETextDataType.USBMonolog, monologDelay, 2);
     }
+
     private void USBNoticeFunc()
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
         MonologSystem.OnEndMonologEvent -= USBNoticeFunc;
 
-        EventManager.TriggerEvent(EGuideEventType.OpenPlayGuide, new object[1] { EGuideTopicName.ProfilerDownGuide });
-
+        GuideManager.OnPlayGuide(EGuideTopicName.ProfilerDownGuide, 40);
     }
 }

@@ -142,7 +142,6 @@ public enum EProfileEvent
 }
 public enum EGuideEventType
 {
-    OpenPlayGuide,
     ClearGuideType,
     GuideConditionCheck,
 }
