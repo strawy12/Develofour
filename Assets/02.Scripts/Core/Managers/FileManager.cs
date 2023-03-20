@@ -18,15 +18,34 @@ public class FileManager : MonoSingleton<FileManager>
 
     private void Awake()
     {
-        foreach(FileSO file in defaultFileList)
+        foreach (FileSO file in defaultFileList)
         {
             defaultFileDictionary.Add(file.windowType, file);
+        }
+
+      
+    }
+    private void Start()
+    {
+        foreach (var fileData in additionFileList)
+        {
+            Debug.Log("fileDAta");
+            if (DataManager.Inst.AdditionalFileContain(fileData))
+            {
+                string str = DataManager.Inst.GetAdditionalFileLocation(fileData);
+                string settingStr = str.Substring(0, str.Length - 1);
+                int index = settingStr.LastIndexOf("\\");
+                Debug.Log(index);
+                string location = str.Substring(0, index + 1);
+                Debug.Log(location);
+                AddFile(fileData, location);
+            }
         }
     }
 
     public FileSO GetDefaultFile(EWindowType windowType)
     {
-        if(!defaultFileDictionary.ContainsKey(windowType))
+        if (!defaultFileDictionary.ContainsKey(windowType))
         {
             Debug.Log("존재하지 않는 defaultfile 윈도우 입니다.");
             return null;
@@ -37,24 +56,22 @@ public class FileManager : MonoSingleton<FileManager>
 
     public void AddFile(FileSO file, string location)
     {
-
-        location += "\\";
         List<FileSO> fileList = ALLFileAddList();
 
         DirectorySO currentDir = rootDirectory;
 
-        currentDir = fileList.Find((x) => x.GetFileLocation() == location) as DirectorySO; 
+        currentDir = fileList.Find((x) => x.GetFileLocation() == location) as DirectorySO;
 
-        if(!currentDir.children.Contains(file))
+        if (!currentDir.children.Contains(file))
         {
             currentDir.children.Add(file);
             file.parent = currentDir;
             additionFileList.Add(file);
         }
 
-        if (!DataManager.Inst.AdditionalFileContain(location + "\\" + file.fileName))
+        if (!DataManager.Inst.AdditionalFileContain(file))
         {
-            DataManager.Inst.AddNewFileData(location  +file.fileName+ "\\");
+            DataManager.Inst.AddNewFileData(location + file.fileName + "\\");
         }
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
     }
@@ -62,7 +79,7 @@ public class FileManager : MonoSingleton<FileManager>
     public List<FileSO> ALLFileAddList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
         //fileList.Clear();
-        if(currentDirectory == null)
+        if (currentDirectory == null)
         {
             currentDirectory = rootDirectory;
         }
@@ -91,7 +108,7 @@ public class FileManager : MonoSingleton<FileManager>
             }
         }
 
-        if(isAdditional)
+        if (isAdditional)
         {
             fileList.AddRange(additionFileList);
         }
@@ -99,12 +116,12 @@ public class FileManager : MonoSingleton<FileManager>
         return fileList;
     }
 
-    public List<FileSO> SearchFile(string text,DirectorySO currentDirectory = null)
+    public List<FileSO> SearchFile(string text, DirectorySO currentDirectory = null)
     {
         List<FileSO> allFileList = ALLFileAddList(currentDirectory);
 
         List<FileSO> searchFileList = new List<FileSO>();
-      
+
         foreach (FileSO file in allFileList)
         {
             if (file == null)
@@ -125,7 +142,7 @@ public class FileManager : MonoSingleton<FileManager>
         List<FileSO> allFileList = ALLFileAddList(currentDirectory);
         List<FileSO> searchFileList = new List<FileSO>();
 
-        if(text.Length < 2)
+        if (text.Length < 2)
         {
             return null;
         }
@@ -146,9 +163,9 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 searchFileList.Add(file);
             }
-            else if(file.windowType == EWindowType.Notepad)
+            else if (file.windowType == EWindowType.Notepad)
             {
-                if(NotePadFileLoad(text, file))
+                if (NotePadFileLoad(text, file))
                 {
                     searchFileList.Add(file);
                 }

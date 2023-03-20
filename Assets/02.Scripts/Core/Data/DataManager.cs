@@ -69,11 +69,11 @@ public class DataManager : MonoSingleton<DataManager>
 
     private void LoadFromJson()
     {
-        #if   UNITY_EDITOR
-                CreateSaveData();
-                Debug.LogWarning("PlayerData 실행 시 매번 초기화 되는 디버깅 코드가 존재합니다.");
-                return;
-        #else
+#if UNITY_EDITOR
+        CreateSaveData();
+        Debug.LogWarning("PlayerData 실행 시 매번 초기화 되는 디버깅 코드가 존재합니다.");
+        return;
+#else
         if (File.Exists(SAVE_PATH + SAVE_FILE))
         {
             string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
@@ -83,7 +83,7 @@ public class DataManager : MonoSingleton<DataManager>
         {
             CreateSaveData();
         }
-        #endif
+#endif
     }
     private void SaveToJson()
     {
@@ -138,16 +138,28 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.additionFileData.Add(new AdditionFileData() { fileLocation = location });
     }
 
-    public bool AdditionalFileContain(string location)
+    public bool AdditionalFileContain(FileSO file)
     {
         foreach(AdditionFileData data in saveData.additionFileData)
         {
-            if(data.fileLocation == location)
+            if(data.fileLocation.Contains(file.fileName))
             {
                 return true;
             }
         }
         return false;
+    }
+
+    public string GetAdditionalFileLocation(FileSO file)
+    {
+        foreach (AdditionFileData data in saveData.additionFileData)
+        {
+            if (data.fileLocation.Contains(file.fileName))
+            {
+                return data.fileLocation;
+            }
+        }
+        return null;
     }
     public bool IsGuideUse(EGuideTopicName topicName)
     {
