@@ -80,7 +80,7 @@ public class GuideManager: MonoBehaviour
                 }
             case EGuideTopicName.ClickPinNotePadHint:
                 {
-                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { guideTopicDictionary[guideType].guideTexts[0] });
+                    EventManager.TriggerEvent(EProfileEvent.SaveMessage, new object[1] { guideTopicDictionary[guideType].guideTexts[0] });
                     DataManager.Inst.SetGuide(guideTopic, true);
 
 
@@ -104,7 +104,7 @@ public class GuideManager: MonoBehaviour
     {
         foreach (string str in values)
         {
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
+            EventManager.TriggerEvent(EProfileEvent.SaveMessage, new object[1] { str });
             yield return new WaitForSeconds(1f);
         }
     }
