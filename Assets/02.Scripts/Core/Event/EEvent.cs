@@ -148,7 +148,6 @@ public enum EGuideEventType
     GuideConditionCheck,
 }
 
-
 public enum ETutorialEvent
 {
     None = -1,

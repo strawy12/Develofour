@@ -27,6 +27,8 @@ public class MediaPlayer : Window
     private int secondTimer;
     private int minuteTimer;
 
+    private bool isRePlaying;
+
     protected override void Init()
     {
         base.Init();
@@ -48,7 +50,9 @@ public class MediaPlayer : Window
         mediaPlaySlider.OnMousePointUp += PlayMediaPlayer;
 
         secondTimer = 0;
-        minuteTimer = 0;    
+        minuteTimer = 0;
+
+        isRePlaying = false;
 
         PlayMediaPlayer();
     }
@@ -79,13 +83,20 @@ public class MediaPlayer : Window
         {
             mediaDetailText.maxVisibleCharacters++;
 
+            if (mediaDetailText.maxVisibleCharacters == mediaPlayerData.textData.Length)
+            {
+                isRePlaying = true;
+
+                mediaPlayerDownBar.StopButtonClick?.Invoke();
+                Debug.Log("Media End");
+            }
+
             yield return new WaitForSeconds(mediaPlayerData.textPlaySpeed);
         }
     }
 
     private IEnumerator PrintTimerText()
     {
-        Debug.Log(2);
         while (true)
         {
             secondTimer++;
@@ -127,5 +138,11 @@ public class MediaPlayer : Window
         mediaPlaySlider.value = t;
 
         mediaPlayTimeText.SetText(string.Format("{0:00} : {1:00}", minuteTimer, secondTimer));
+        
+        if(isRePlaying)
+        {
+            mediaPlayerDownBar.PlayButtonClick?.Invoke();
+            isRePlaying = false;
+        }
     }
 }

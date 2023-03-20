@@ -5,7 +5,7 @@ using System;
 
 [Serializable]
 public class ProfileInfoSaveData
-{
+{ 
     public string key;
 }
 

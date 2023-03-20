@@ -120,11 +120,14 @@ public class TextBox : MonoUI
 
     public void SimpleTypePrint(TextData textData)
     {
+        Debug.Log("asdf");
         bgImage.color = Color.black;
         bgImage.ChangeImageAlpha(1f);
         bgImage.sprite = simpleTypeSprite;
 
-        messageText.SetText(textData.text);
+        string settingText = RemoveCmd(textData.text);
+        messageText.SetText(settingText);
+        
         bgImage.rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + offsetSize;
         messageText.SetText("");
         nameText.SetText("");
@@ -133,6 +136,37 @@ public class TextBox : MonoUI
         ShowBox();
 
         StartCoroutine(PrintMonologTextCoroutine(textData.text));
+    }
+
+    //{} 안에있는 내용을 없에줌
+    private string RemoveCmd(string settingText)
+    {
+        List<Vector2> veclist = new List<Vector2>();
+        string temp = string.Empty;
+
+        int cnt = 0;
+        for(int i = 0; i < settingText.Length; i++)
+        {
+            if (settingText[i] == '{')
+            {
+                veclist.Add(new Vector2(-1, -1));
+                veclist[cnt] = new Vector2(i, -1);
+            }
+            if(settingText[i] == '}')
+            {
+                veclist[cnt] = new Vector2(veclist[cnt].x, i);
+                cnt++;
+            }
+        }
+
+        for(int i = veclist.Count; i > 0 ; i--)
+        {
+            if(veclist[i - 1].x != -1)
+            {
+                settingText = settingText.Remove((int)veclist[i - 1].x, ( (int)veclist[i - 1].y - (int)veclist[i - 1].x ) + 1 );
+            }
+        }
+        return settingText;
     }
 
     private IEnumerator PrintMonologTextCoroutine(string message)
@@ -432,6 +466,15 @@ public class TextBox : MonoUI
 
                     break;
                 }
+
+            case "PSDL":
+                {
+                    Sound.EAudioType audioType = (EAudioType)Enum.Parse(typeof(EAudioType), cmdValue);
+                    float? delayNull = Sound.OnPlaySound?.Invoke(audioType);
+                    currentDelay = delayNull != null ? (float)delayNull : 0f;
+                    break;
+                }
+
             case "SK":
                 {
                     string[] cmdValueArray = cmdValue.Split(',');

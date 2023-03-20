@@ -7,8 +7,8 @@ public enum ETextDataType
     USBMonolog,
     Profile,
     StartMonolog,
+    StartNextMonolog,
     TutorialMonolog1,
-    TutorialMonolog2,
     GuideLog1,
     Count
 }

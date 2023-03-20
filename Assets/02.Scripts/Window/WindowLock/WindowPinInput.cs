@@ -29,8 +29,6 @@ public class WindowPinInput : Window
     [SerializeField]
     private Button confirmButton;
 
-    [SerializeField]
-    private Image answerPanel;
 
     [Header("Shaking Data")]
     [SerializeField]
@@ -92,12 +90,10 @@ public class WindowPinInput : Window
         answerMarkText.color = answerTextColor;
 
         answerMarkText.SetText("정답입니다.");
-        answerPanel.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(0.6f);
 
         answerMarkText.SetText("");
-        answerPanel.gameObject.SetActive(false);
 
         WindowManager.Inst.WindowOpen(file.windowType, file);
 

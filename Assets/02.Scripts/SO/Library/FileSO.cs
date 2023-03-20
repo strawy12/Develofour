@@ -25,8 +25,6 @@ public struct WindowIconData
     public IconPropertyBody propertyBody;
 }
 
-
-
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
 public class FileSO : SOParent
 {
@@ -55,7 +53,6 @@ public class FileSO : SOParent
         } 
 
         string location = string.Format("{0}{1}\\", parent.GetFileLocation(), this.fileName);
-        Debug.Log(location);
         return location;
     }
 
