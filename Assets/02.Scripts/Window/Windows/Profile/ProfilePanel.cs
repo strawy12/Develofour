@@ -119,7 +119,7 @@ public class ProfilePanel : MonoBehaviour
         }
 
         string text = ps[0] as string + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
-        NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profilerSprite, ENoticeTag.Profiler);
+        NoticeSystem.OnNotice?.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profilerSprite, Color.white, ENoticeTag.Profiler);
     }
 
     private void OnApplicationQuit()

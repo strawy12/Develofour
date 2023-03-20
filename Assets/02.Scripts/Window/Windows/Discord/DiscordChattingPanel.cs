@@ -136,7 +136,7 @@ public class DiscordChattingPanel : MonoBehaviour
         {
             friendList.NewMessage(opponentProfileData);
 
-            NoticeSystem.OnNotice.Invoke(opponentProfileData.userName, data.message, 0, true, opponentProfileData.userSprite, ENoticeTag.Discord);
+            NoticeSystem.OnNotice.Invoke(opponentProfileData.userName, data.message, 0, true, opponentProfileData.userSprite, Color.white, ENoticeTag.Discord);
         }
         else
         {

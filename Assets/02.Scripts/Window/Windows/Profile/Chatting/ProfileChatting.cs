@@ -79,7 +79,7 @@ public class ProfileChatting : MonoBehaviour
             }
         }
         
-        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null, ENoticeTag.AIAlarm);
+        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null,Color.white, ENoticeTag.AIAlarm);
 
         SOData.saveList.Add(str);
         GameObject obj = Instantiate(textPrefab, textParent);
