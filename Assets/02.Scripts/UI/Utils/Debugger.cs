@@ -15,6 +15,7 @@ public class DebugEvent
 
 public class Debugger : MonoBehaviour
 {
+#if UNITY_EDITOR
     private int testTextCnt = 0;
 
     [SerializeField]
@@ -58,6 +59,6 @@ public class Debugger : MonoBehaviour
         }
     }
 
-
+#endif
 
 }
