@@ -73,7 +73,6 @@ public class ProfileChattingSystem : MonoBehaviour
         if (ps[0] is float)
         {
             currentDelay = (float)ps[0];
-            Debug.Log(currentDelay);
         }
     }
 
