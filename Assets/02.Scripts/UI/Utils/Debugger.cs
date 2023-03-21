@@ -50,13 +50,6 @@ public class Debugger : MonoBehaviour
                 e.debugEvent?.Invoke();
             }
         }
-
-        if(Input.GetKeyDown(KeyCode.V))
-        {
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { $"test{testTextCnt}" });
-            testTextCnt++;
-
-        }
     }
 
 #endif

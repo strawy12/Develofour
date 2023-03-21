@@ -79,7 +79,7 @@ public class Library : Window
         {
             poolQueue.Enqueue(icon);
         }
-        icon.StopYellowUICor();
+        GuideUISystem.EndGuide?.Invoke();
         icon.transform.SetParent(poolParent);
         icon.gameObject.SetActive(false);
     }
@@ -101,7 +101,10 @@ public class Library : Window
     protected override void Init()
     {
         base.Init();
-        currentDirectory = file as DirectorySO; 
+        currentDirectory = file as DirectorySO;
+
+        EventManager.StartListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
+
         undoStack = new Stack<DirectorySO>();
         redoStack = new Stack<DirectorySO>();
         FileManager.Inst.ALLFileAddList(currentDirectory);
@@ -115,7 +118,6 @@ public class Library : Window
         EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
         
-        EventManager.StartListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
 
         searchInputField.onSubmit.AddListener(SearchFunction);
         searchBtn.onClick.AddListener(SearchFunction);
@@ -264,24 +266,21 @@ public class Library : Window
 
     private void CheckTutorialRoot(object[] ps)
     {
-        //if (!gameObject.activeSelf) return;
-        if (GameManager.Inst.GameState != EGameState.Tutorial && GameManager.Inst.GameState == EGameState.CutScene) return;
+        if (GameManager.Inst.GameState != EGameState.Tutorial && GameManager.Inst.GameState != EGameState.CutScene) return;
+
+        Debug.Log("CheckRoot");
 
         if (currentDirectory.GetFileLocation() == "User\\BestUSB\\")
         {
-            Debug.Log("BestUSB");
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);
             
-            MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 0.5f, 3);
         }
-        else if(currentDirectory.fileName == "User\\")
+        else if (currentDirectory.GetFileLocation() == "User\\")
         {
-            Debug.Log("User");
             EventManager.TriggerEvent(ETutorialEvent.LibraryUSBStart);
         }
         else
         {
-            Debug.Log("C");
             EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonStart);
         }
     }

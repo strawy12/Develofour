@@ -42,7 +42,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Bind()
     {
-        rectTranstform ??= GetComponent<RectTransform>();
+        rectTranstform = GetComponent<RectTransform>();
     }
 
     public void Init(bool isBackground = false)
@@ -97,21 +97,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
-            EventManager.StartListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
         }
 
         if (isUSBEvent == false && fileData.GetFileLocation() == "User\\BestUSB\\")
         {
             isUSBEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
-            EventManager.StartListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
         }
-    }
-
-    private void DestoryYellow(object[] obj)
-    {
-        yellowUI.gameObject.SetActive(false);
-        EventManager.StopListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -258,33 +250,12 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
     #region Tutorial
-    public IEnumerator YellowSignCor()
-    {
-        yellowUI.gameObject.SetActive(true);
-        isSign = true;
-        while (isSign)
-        {
-            yellowUI.DOColor(new Color(255, 255, 255, 0.5f), 2f);
-            yield return new WaitForSeconds(2f);
-            yellowUI.DOColor(new Color(255, 255, 255, 1), 2f);
-            yield return new WaitForSeconds(2f);
-        }
-    }
-
-    public void StopYellowUICor()
-    {
-        isSign = false;
-        StopAllCoroutines();
-        yellowUI.gameObject.SetActive(false);
-        yellowUI.DOKill();
-    }
 
     private void BackgroundEventStop()
     {
+        GuideUISystem.EndGuide?.Invoke();
         EventManager.StopListening(ETutorialEvent.BackgroundSignStart, BackgroundSignStart);
-        EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { StopYellowUICor(); });
 
-        Debug.Log("library");
         EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
     }
 
@@ -306,9 +277,9 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (this.gameObject != null)
         {
-            if (gameObject.activeSelf) StartCoroutine(YellowSignCor());
+            if (gameObject.activeSelf) GuideUISystem.OnGuide?.Invoke(rectTranstform);
         }
-        EventManager.StartListening(ETutorialEvent.LibraryUSBEnd, delegate { StopYellowUICor(); USBEventStop(); });
+        EventManager.StartListening(ETutorialEvent.LibraryUSBEnd, delegate { USBEventStop(); });
     }
 
     public void LibraryRequesterInfoStart(object[] ps)
@@ -316,16 +287,18 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (this.gameObject != null)
         {
             if (gameObject.activeSelf)
-                StartCoroutine(YellowSignCor());
+                GuideUISystem.OnGuide?.Invoke(rectTranstform);
         }
-        EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopYellowUICor(); RequesterInfoEventStop(); });
+        EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { RequesterInfoEventStop(); });
     }
 
     public void BackgroundSignStart(object[] ps)
     {
-        StartCoroutine(YellowSignCor());
-        
-        EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, delegate { StopYellowUICor(); BackgroundEventStop(); });
+
+        rectTranstform ??= GetComponent<RectTransform>();
+        GuideUISystem.OnGuide?.Invoke(rectTranstform);
+
+        EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, delegate { BackgroundEventStop(); });
     }
     #endregion
     private void OnDisable()
@@ -338,11 +311,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         StopAllCoroutines();
 
         EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
-        EventManager.StopListening(ETutorialEvent.LibraryUSBEnd, delegate { StopYellowUICor(); });
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
-        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { StopYellowUICor(); });
         //EventManager.StopListening(ETutorialEvent.BackgroundSignStart, delegate { StartCoroutine(YellowSignCor()); });
-        EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { StopYellowUICor(); });
     }
 }
 
