@@ -82,7 +82,17 @@ public class ProfileChatting : MonoBehaviour
     }
         
     public void AddText(string str)
-    {   
+    {
+        foreach (var save in SOData.saveList)
+        {
+            if (save == str)
+            {
+                Debug.Log("동일한 데이터");
+                return;
+            }
+        }
+        
+        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null,Color.white, ENoticeTag.AIAlarm);
 
         CreateChattingPanel(str);
     }

@@ -18,6 +18,9 @@ public class ProfilePanel : MonoBehaviour
 
     private Dictionary<EProfileCategory, ProfileCategoryDataSO> infoList;
 
+    [SerializeField]
+    private Sprite profilerSpeite;
+
     public void Init()
     {
         infoList = ResourceManager.Inst.GetProfileCategoryDataList();
@@ -75,6 +78,32 @@ public class ProfilePanel : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void SendAlarm(object[] ps)
+    {
+        if(!(ps[0] is string) || !(ps[1] is string))
+        {
+            return;
+        }
+
+        string key = ps[1] as string;
+        string answer;
+        string temp = "nullError";
+        foreach (var infoPanel in infoPanelList)
+        {
+            foreach(var infoText in infoPanel.infoTextList)
+            {
+                if(key == infoText.infoNameKey)
+                {
+                    answer = infoText.infoTitleText.text;
+                    temp = answer.Replace(": ", "");
+                }
+            }
+        }
+
+        string text = ps[0] as string + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
+        NoticeSystem.OnNotice?.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profilerSpeite, Color.white, ENoticeTag.Profiler);
     }
 
     private void OnDestroy()

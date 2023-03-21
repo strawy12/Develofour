@@ -80,6 +80,6 @@ public class ProfileInfoSystem : MonoBehaviour
             }
         }
         string text = categoryData.categoryTitle + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
-        NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profileSprite, ENoticeTag.Profiler);
+        NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profileSprite,Color.white,  ENoticeTag.Profiler);
     }
 }
