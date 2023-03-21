@@ -166,7 +166,7 @@ public class SOSettingWindow : EditorWindow
                 foreach (int childID in childIdList)
                 {
                     FileSO child = fileSOList.Find(x => x.id == childID);
-                    Debug.Log(child);
+                    Debug.Log($"{child}_{childID}");
                     child.parent = file as DirectorySO;
                     (file as DirectorySO).children.Add(child);
                 }
