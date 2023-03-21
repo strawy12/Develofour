@@ -17,6 +17,7 @@ public class NoticeData
     public bool canDeleted = true;
 
     public Sprite icon;
+    public Color color;
 
     public ENoticeTag tag = ENoticeTag.None;
 }
@@ -28,21 +29,21 @@ public class NoticeDataSO : ScriptableObject
     [SerializeField]
     private ENoticeType noticeDataType;
 
-    public NoticeData noticeDataList;
+    public NoticeData noticeData;
 
-    public ENoticeTag noticeTag => noticeDataList.tag;
+    public ENoticeTag noticeTag => noticeData.tag;
     public string sameTextString = "새로운 알람이 또 추가되었습니다.";
     public ENoticeType NoticeDataType => noticeDataType;
-    public string Head => noticeDataList.head;
-    public string Body => noticeDataList.body;
-    public float Delay => noticeDataList.delay;
-    public Sprite Icon => noticeDataList.icon;
-    public bool CanDeleted => noticeDataList.canDeleted;
+    public string Head => noticeData.head;
+    public string Body => noticeData.body;
+    public float Delay => noticeData.delay;
+    public Sprite Icon => noticeData.icon;
+    public bool CanDeleted => noticeData.canDeleted;
 
     public void SetNoticeData(NoticeData data)
     {
         noticeDataType = (ENoticeType)(int)ENoticeType.End;
-        noticeDataList = data;
+        noticeData = data;
     }
 
 #if UNITY_EDITOR

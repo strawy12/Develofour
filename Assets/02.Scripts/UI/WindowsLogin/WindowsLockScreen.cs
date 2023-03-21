@@ -91,7 +91,6 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
             rectTransform.DOAnchorPos(originPos, 0.2f);
             canvasGroup.alpha = 1f;
         }
-
     }
 
     private void OpenLoginScreen()
@@ -104,10 +103,12 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartMonolog, 1f, 13);
     }
 
+
     public void NextMonolog()
     {
         MonologSystem.OnEndMonologEvent -= NextMonolog;
         MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartNextMonolog, 0.75f, 2);
+        GuideManager.OnPlayGuide(EGuideTopicName.GuestLoginGuide, 30);
     }
 
 

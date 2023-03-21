@@ -162,7 +162,6 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
             return;
         }
 
-
         float enlarImageScale = imageScale * enlargementArr[enlargementArrIndex];
         currentImage.transform.localScale = Vector3.one * enlarImageScale;
 

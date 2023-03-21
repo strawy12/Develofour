@@ -22,7 +22,6 @@ public class CdPlayMedia : MonoBehaviour
 
     private IEnumerator PlayRotationAnimation()
     {
-
         while(true)
         {
             cd.transform.Rotate(new Vector3(0, 0, -(rotationSpeed * Time.deltaTime)));

@@ -96,12 +96,14 @@ public class WindowsLoginScreen : MonoBehaviour
         {
             GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Admin);
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
-            windowLoginCanvas.SetActive(false);
             if (isFirst)
             {
                 StartMonolog();
             }
             isFirst = false;
+            EndLogin();
+
+            windowLoginCanvas.SetActive(false);
         }));
     }
 
@@ -145,7 +147,9 @@ public class WindowsLoginScreen : MonoBehaviour
         failedLoginCnt++;
 
         if (failedLoginCnt >= 5)
-            loginFailText.SetText("»ß»ß-»ß»ß-»ß»ß-»ß»ß-»ß»ß");
+        {
+            GuideManager.OnPlayGuide(EGuideTopicName.GuestLoginGuide, 1.5f);
+        }
 
         loginFailUI.SetActive(true);
         loginInputUI.SetActive(false);
@@ -155,12 +159,20 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Guest);
         EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
-        windowLoginCanvas.SetActive(false);
+
+        EndLogin();
+
         if (isFirst)
         {
             StartMonolog();
         }
         isFirst = false;
+        windowLoginCanvas.SetActive(false);
+    }
+
+    private void EndLogin()
+    {
+        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.GuestLoginGuide });
     }
 
     private void StartMonolog()
@@ -168,12 +180,12 @@ public class WindowsLoginScreen : MonoBehaviour
         MonologSystem.OnEndMonologEvent += USBNoticeFunc;
         MonologSystem.OnStartMonolog(EMonologTextDataType.USBMonolog, monologDelay, 2);
     }
+
     private void USBNoticeFunc()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 2f);
         MonologSystem.OnEndMonologEvent -= USBNoticeFunc;
 
-        EventManager.TriggerEvent(EGuideEventType.OpenPlayGuide, new object[1] { EGuideTopicName.ProfilerDownGuide });
-
+        GuideManager.OnPlayGuide(EGuideTopicName.LibraryOpenGuide, 40);
     }
 }

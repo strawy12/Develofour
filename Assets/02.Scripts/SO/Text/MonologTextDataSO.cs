@@ -10,6 +10,8 @@ public enum EMonologTextDataType
     StartNextMonolog,
     TutorialMonolog1,
     GuideLog1,
+    OnUSBFileMonoLog,
+    GuestLoginGuideLog,
     Count
 }
 

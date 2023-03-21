@@ -11,9 +11,6 @@ public class ProfileTutorial : MonoBehaviour
     public string[] findNoticeAIChatting;
     public string[] completeProfileChatting;
 
-    public float delay = 2f;
-    public Action OnChatEnd;
-
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
@@ -21,21 +18,32 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { Debug.Log("왜안됨"); StartCompleteProfileTutorial(); });
 
         //skip debug 코드
-        EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { delay = 0.05f; });
+        
+        EventManager.StartListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
+        // 만약 USB 화면 들어가면
     }
 
-    public IEnumerator StartChatting(EAIChattingTextDataType textDataType)
+    public void FirstOpenUSBFile(object[] ps)
     {
-        AIChattingTextDataSO data = ResourceManager.Inst.GetAIChattingTextDataSO(textDataType);
-
-        for(int i = 0; i < data.Count; i++)
+        if (ps[0] == null) 
         {
-            //yield return new WaitUntil(() => )
-            AIChatting(data[i].text);
-            yield return new WaitForSeconds(delay);
+            return;   
         }
 
-        OnChatEnd?.Invoke();
+        FileSO fileData = (FileSO)ps[0];
+
+
+        if(fileData.fileName == "BestUSB")
+        {
+            MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 1f, 3);
+        }
+        
+        EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
+    }
+
+    public void StartChatting(EAIChattingTextDataType textDataType)
+    {
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { textDataType });
     }
 
     public IEnumerator StartProfileTutorial()
@@ -47,36 +55,40 @@ public class ProfileTutorial : MonoBehaviour
         
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
 
-        OnChatEnd += StartProfileMonolog;
-        StartCoroutine(StartChatting(EAIChattingTextDataType.StartAIChatting));
+        ProfileChattingSystem.OnChatEnd += StartProfileMonolog;
+        StartChatting(EAIChattingTextDataType.StartAIChatting);
     }
+
 
     public void StartProfileMonolog()
     {
         MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
         MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, 1);
     }
-
     public void StartProfileNextTutorial()
     {
         MonologSystem.OnEndMonologEvent -= StartProfileNextTutorial;
-        OnChatEnd += BackgroundNoticeTutorial;
-        StartCoroutine(StartChatting(EAIChattingTextDataType.StartNextAiChatting));
+        ProfileChattingSystem.OnChatEnd += BackgroundNoticeTutorial;
+        StartChatting(EAIChattingTextDataType.StartNextAiChatting);
     }
 
     public void BackgroundNoticeTutorial()
     {
-        OnChatEnd -= BackgroundNoticeTutorial;
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
+    }
+
+    public void ContinueProfileAiChatting()
+    {
+        ProfileChattingSystem.OnChatEnd -= BackgroundNoticeTutorial;
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 3f);
 
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
     }
 
-
     public void StartCompleteProfileTutorial()
     {
-        OnChatEnd += StartProfileEnd;
-        StartCoroutine(StartChatting(EAIChattingTextDataType.CompleteProfileAIChatting));
+        ProfileChattingSystem.OnChatEnd += StartProfileEnd;
+        StartChatting(EAIChattingTextDataType.CompleteProfileAIChatting);
     }
 
 
@@ -88,7 +100,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartProfileEnd()
     {
-        OnChatEnd -= StartProfileEnd;
+        ProfileChattingSystem.OnChatEnd -= StartProfileEnd;
         EventManager.TriggerEvent(ETutorialEvent.ProfileEventStop);
         EndTutoMonologEvent();
         EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });

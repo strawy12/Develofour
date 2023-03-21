@@ -37,7 +37,7 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.monologData = new List<MonologSaveData>();
         saveData.additionFileData = new List<AdditionFileData>();
         saveData.guideSaveData = new List<GuideSaveData>();
-
+        saveData.profileSaveData = new List<ProfileSaveData>();
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
         foreach (FileSO file in fileList)
@@ -57,7 +57,11 @@ public class DataManager : MonoSingleton<DataManager>
         {
             saveData.guideSaveData.Add(new GuideSaveData() { topicName = (EGuideTopicName)i, isUse = false });
         }
-        
+
+        for (int i = ((int)EProfileCategory.None) + 1; i < (int)EProfileCategory.Count; i++)
+        {
+            saveData.profileSaveData.Add(new ProfileSaveData() { category = (EProfileCategory)i,isShowCategory = false ,infoData = new List<string>() }); ;
+        }
         SaveToJson();
 
         debug_Data = saveData;
@@ -65,11 +69,11 @@ public class DataManager : MonoSingleton<DataManager>
 
     private void LoadFromJson()
     {
-        #if   UNITY_EDITOR
-                CreateSaveData();
-                Debug.LogWarning("PlayerData 실행 시 매번 초기화 되는 디버깅 코드가 존재합니다.");
-                return;
-        #else
+#if UNITY_EDITOR
+        CreateSaveData();
+        Debug.LogWarning("PlayerData 실행 시 매번 초기화 되는 디버깅 코드가 존재합니다.");
+        return;
+#else
         if (File.Exists(SAVE_PATH + SAVE_FILE))
         {
             string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
@@ -79,7 +83,7 @@ public class DataManager : MonoSingleton<DataManager>
         {
             CreateSaveData();
         }
-        #endif
+#endif
     }
     private void SaveToJson()
     {
@@ -134,16 +138,28 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.additionFileData.Add(new AdditionFileData() { fileLocation = location });
     }
 
-    public bool AdditionalFileContain(string location)
+    public bool AdditionalFileContain(FileSO file)
     {
         foreach(AdditionFileData data in saveData.additionFileData)
         {
-            if(data.fileLocation == location)
+            if(data.fileLocation.Contains(file.fileName))
             {
                 return true;
             }
         }
         return false;
+    }
+
+    public string GetAdditionalFileLocation(FileSO file)
+    {
+        foreach (AdditionFileData data in saveData.additionFileData)
+        {
+            if (data.fileLocation.Contains(file.fileName))
+            {
+                return data.fileLocation;
+            }
+        }
+        return null;
     }
     public bool IsGuideUse(EGuideTopicName topicName)
     {
@@ -162,6 +178,31 @@ public class DataManager : MonoSingleton<DataManager>
             return;
         }
         guideData.isUse = value;
+    }
+
+    public ProfileSaveData GetProfileSaveData(EProfileCategory category)
+    {
+        ProfileSaveData data = saveData.profileSaveData.Find(x => x.category == category);
+        return data;
+    }
+
+    public void AddProfileinfoData(EProfileCategory category, string key)
+    {
+        if (GetProfileSaveData(category).infoData.Contains(key))
+        {
+            return;
+        }
+        saveData.profileSaveData.Find(x => x.category == category).infoData.Add(key);
+    }
+
+    public void SetCategoryData(EProfileCategory category, bool value)
+    {
+        saveData.profileSaveData.Find(x => x.category == category).isShowCategory = value;
+    }
+
+    public bool IsProfileInfoData(EProfileCategory category, string str)
+    {
+        return GetProfileSaveData(category).infoData.Contains(str);
     }
     private void OnDestroy()
     {

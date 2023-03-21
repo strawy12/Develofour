@@ -1,12 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum EGuideTopicName
 {
     None,
-    ProfilerDownGuide,
+    GuestLoginGuide,
+    LibraryOpenGuide,
     ClickPinNotePadHint,
     ClearPinNotePadQuiz,
     Count
@@ -15,12 +16,12 @@ public enum EGuideTopicName
 
 public class GuideManager: MonoBehaviour
 {
+    public static Action<EGuideTopicName, float> OnPlayGuide;
+
     [SerializeField]
     private GuideDataListSO guideListData;
 
     private Dictionary<EGuideTopicName, GuideData> guideTopicDictionary;
-
-    private EGuideTopicName guideType;
 
     void Start()
     {
@@ -29,50 +30,55 @@ public class GuideManager: MonoBehaviour
 
     private void Init()
     {
-        EventManager.StartListening(EGuideEventType.OpenPlayGuide, OnPlayGuide);
+        guideTopicDictionary = new Dictionary<EGuideTopicName, GuideData>();
+        
+        foreach (var guideData in guideListData.guideDataList)
+        {
+            guideTopicDictionary.Add(guideData.topicName, guideData);
+        }
+
+        OnPlayGuide += StartPlayGuide;
+
         EventManager.StartListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
         EventManager.StartListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
-        guideTopicDictionary = new Dictionary<EGuideTopicName, GuideData>();
-
-        foreach (var guide in guideListData.guideDataList)
-        {
-            guideTopicDictionary.Add(guide.topicName, guide);
-        }
     }
 
 
-    private void OnPlayGuide(object[] ps)
+    private void StartPlayGuide(EGuideTopicName guideTopicName, float timer)
     {
-        if (ps[0] == null)
+
+        if (DataManager.Inst.IsGuideUse(guideTopicName))
         {
             return;
         }
 
-        guideType = (EGuideTopicName)ps[0];
-
-        if (DataManager.Inst.IsGuideUse(guideType))
-        {
-            return;
-        }
-
-        StartCoroutine(SetTimer(guideTopicDictionary[guideType].timer));
+        StartCoroutine(SetTimer(timer, guideTopicName));
     }
 
-    private IEnumerator SetTimer(float timer)
+    private IEnumerator SetTimer(float timer, EGuideTopicName guideTopicName)
     {
         yield return new WaitForSeconds(timer);
-        if (DataManager.Inst.IsGuideUse(guideType))
+
+        if (DataManager.Inst.IsGuideUse(guideTopicName))
         {
             yield break;
         }
-        StartGudie(guideType);
+        
+        StartGudie(guideTopicName);
     }
 
     private void StartGudie(EGuideTopicName guideTopic)
     {
         switch (guideTopic)
         {
-            case EGuideTopicName.ProfilerDownGuide:
+            case EGuideTopicName.GuestLoginGuide:
+                {
+                    Debug.Log("Guide In");
+                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuestLoginGuideLog, 0.5f, 2);
+                    DataManager.Inst.SetGuide(guideTopic, true);
+                    break;
+                }
+            case EGuideTopicName.LibraryOpenGuide:
                 {
                     MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuideLog1, 0.2f, 1);
                     DataManager.Inst.SetGuide(guideTopic, true);
@@ -80,15 +86,14 @@ public class GuideManager: MonoBehaviour
                 }
             case EGuideTopicName.ClickPinNotePadHint:
                 {
-                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { guideTopicDictionary[guideType].guideTexts[0] });
+                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { guideTopicDictionary[guideTopic].guideTexts[0] });
                     DataManager.Inst.SetGuide(guideTopic, true);
-
 
                     break;
                 }
             case EGuideTopicName.ClearPinNotePadQuiz:
                 {
-                    StartCoroutine(SendAiMessageTexts(guideTopicDictionary[guideType].guideTexts));
+                    StartCoroutine(SendAiMessageTexts(guideTopicDictionary[guideTopic].guideTexts));
                     DataManager.Inst.SetGuide(guideTopic, true);
 
                     break;
@@ -119,8 +124,6 @@ public class GuideManager: MonoBehaviour
         EGuideTopicName eGuideTopic = (EGuideTopicName)ps[0];
 
         DataManager.Inst.SetGuide(eGuideTopic, true);
-
-        OnPlayGuide(new object[1] { eGuideTopic });
     }
 
     private void GuideConditionCheckClear(object[] ps)
@@ -137,22 +140,21 @@ public class GuideManager: MonoBehaviour
             {
                 DataManager.Inst.SaveData.isZooglePinHintNoteOpen = true;
 
-                OnPlayGuide(new object[1] { EGuideTopicName.ClearPinNotePadQuiz });
+                OnPlayGuide(EGuideTopicName.ClickPinNotePadHint, 40);
             }
             else if (isZooglePinHintNoteOpen)
             {
-                DataManager.Inst.SetGuide(EGuideTopicName.ClearPinNotePadQuiz, true);
-            }
-            if (fileLocation == "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\" && isZooglePinHintNoteOpen)
-            {
                 DataManager.Inst.SetGuide(EGuideTopicName.ClickPinNotePadHint, true);
-                OnPlayGuide(new object[1] { EGuideTopicName.ClearPinNotePadQuiz });
             }
+        }
+        if (fileLocation == "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\" && isZooglePinHintNoteOpen)
+        {
+            DataManager.Inst.SetGuide(EGuideTopicName.ClearPinNotePadQuiz, true);
+            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 1200);
         }
     }
     private void OnApplicationQuit()
     {
-        EventManager.StopListening(EGuideEventType.OpenPlayGuide, OnPlayGuide);
         EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
         EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }

@@ -61,7 +61,6 @@ public class ProfileChatting : MonoBehaviour
     private ProfileChattingSaveSO SOData;
 
     private float currentDelay;
-    private GameObject obj;
     public void DictionaryToList()
     {
         foreach(var data in SOData.chatDataList)
@@ -70,31 +69,11 @@ public class ProfileChatting : MonoBehaviour
         }
     }
         
-    public IEnumerator AddText(string str)
+    public void AddText(string str)
     {
-        foreach (var save in SOData.saveList)
-        {
-            if (save == str)
-            {
-                Debug.Log("동일한 데이터");
-                yield break;
-            }
-        }
-        currentDelay = 0;
-
-        obj = Instantiate(textPrefab, textParent);
-
-        TextTrigger.CommandTrigger(str, obj);
-
-        Debug.Log(currentDelay);
-        yield return new WaitForSeconds(currentDelay);
         
-        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null, ENoticeTag.AIAlarm);
-
-        string currentStr = TextTrigger.RemoveCommandText(str, null, this.gameObject);
-        SOData.saveList.Add(currentStr);
-
-        obj.GetComponent<TMP_Text>().text = ">> " + currentStr;
+        GameObject obj = Instantiate(textPrefab, textParent);
+        obj.GetComponent<TMP_Text>().text = ">> " + str;
         SetLastWidth();
         LayoutRebuilder.ForceRebuildLayoutImmediate(obj.GetComponent<RectTransform>());
         SetScrollView();
@@ -104,53 +83,21 @@ public class ProfileChatting : MonoBehaviour
 
     public void AddText(object[] ps)
     {
-        EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { EWindowType.ProfileWindow });
-
         if (ps[0] is string)
         {
-            StartCoroutine(AddText(ps[0] as string));
+            AddText(ps[0] as string);
         }
         return;
     }
 
-    public void SetDelay(object[] ps)
-    {
-        if(ps[0] is float)
-        {
-            currentDelay = (float)ps[0];
-            Debug.Log(currentDelay);
-        }
-    }
 
-    public void SetShake(object[] ps)
-    {
-        //float delay, float strength, int vibrato, GameObject obj;
-        if (ps[3] as GameObject == this.obj)
-        {
-            float delay = (float)ps[0];
-            float strength = (float)ps[1];
-            int vibrato = (int)ps[2];
-
-            StartCoroutine(textShakingCoroutine(delay, strength, vibrato));
-        }
-    }
-
-    private IEnumerator textShakingCoroutine(float delay, float strength, int vibrato)
-    {
-        currentDelay = delay;
-        obj.GetComponent<RectTransform>().DOShakeAnchorPos(delay, strength, vibrato, 0, true);
-        yield return new WaitForSeconds(delay);
-        
-    }
 
     public void Init()
     {
-       
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
-        EventManager.StartListening(EProfileEvent.SendMessage, AddText);
-        EventManager.StartListening(ETextboxEvent.Delay, SetDelay);
-        
+        EventManager.StartListening(EProfileEvent.ProfileSendMessage, AddText);
+
         //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
 
         OpenCloseButton.onClick.AddListener(HidePanel);
@@ -162,7 +109,6 @@ public class ProfileChatting : MonoBehaviour
 
     public void GetSaveSetting()
     {
-
         foreach(var save in SOData.saveList)
         {
             AddSaveText(save);
@@ -171,7 +117,7 @@ public class ProfileChatting : MonoBehaviour
         SetWidths();
     }
 
-    public void AddSaveText(string data)
+    private void AddSaveText(string data)
     {
         if (chatDataDictionary.ContainsKey(AIStringToEnum(data)))
         {
@@ -197,7 +143,6 @@ public class ProfileChatting : MonoBehaviour
 
     public void ShowPanel()
     {
-        Debug.Log("asdf");
         if (isMoving) return;
         isMoving = true;
         loadingPanel.SetActive(true);
@@ -235,19 +180,6 @@ public class ProfileChatting : MonoBehaviour
         });
     }
 
-    //void Update()
-    //{
-    //    if(Input.GetKeyDown(KeyCode.L))
-    //    {
-    //        AddText(new object[1] { "안녕하세요" });
-    //    }
-    //    if(Input.GetKeyDown(KeyCode.K))
-    //    {
-    //        AddText(new object[1] { EAiChatData.Email });
-    //    }    
-    //}
-
-    //윈도우를 오픈할때마다 실행해줘야함
     private void SetScrollView()
     {
         if(this.gameObject.activeInHierarchy)
@@ -281,7 +213,10 @@ public class ProfileChatting : MonoBehaviour
         RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
         rects[rects.Length - 1].sizeDelta = new Vector2(currentValue - 60, 0);
     }
-
+    public void OnDestroy()
+    {
+        EventManager.StopListening(EProfileEvent.ProfileSendMessage, AddText);
+    }
     public void OnApplicationQuit()
     {
         Debug.Log("디버그 용으로 Profile의 ChatDataSaveSO의 값을 매번 초기화 시키고 있습니다.");

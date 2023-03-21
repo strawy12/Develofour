@@ -98,6 +98,12 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void CloseIcon()
     {
+
+        if (GameManager.Inst.GameState == EGameState.Tutorial && file.windowType == EWindowType.Directory)
+        {
+            return;
+        }
+
         if (file.windowType == EWindowType.ProfileWindow)
         {
             if (GameManager.Inst.isTutorial) return;

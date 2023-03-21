@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class TextTrigger
 {
-    public static void CommandTrigger(string msg, GameObject obj)
+    public static void CommandTrigger(string msg, GameObject obj = null)
     {
 
         string cmdMsg = EncordingCommandText(msg);
@@ -40,6 +40,10 @@ public static class TextTrigger
 
             case "SK":
                 {
+                    if(obj == null)
+                    {
+                        Debug.LogError("obj가 넘어오지 않았습니다.");
+                    }
                     string[] cmdValueArray = cmdValue.Split(',');
                     float delay = float.Parse(cmdValueArray[0]);
                     float strength = float.Parse(cmdValueArray[1]);
@@ -119,7 +123,11 @@ public static class TextTrigger
 
                 if (registerCmd)
                 {
-                    if (triggerDictionary != null)
+                    if (triggerDictionary == null || gobj == null)
+                    {
+                        Debug.LogError("딕셔너리랑 게임오브젝트가 null임");
+                    }
+                    else
                     {
                         if (triggerDictionary.ContainsKey(i + signTextLength))
                         {
@@ -130,7 +138,6 @@ public static class TextTrigger
                             triggerDictionary.Add(i + signTextLength, () => TextTrigger.CommandTrigger(signText, gobj));
                         }
                     }
-
                 }
 
                 signTextLength += signText.Length;
