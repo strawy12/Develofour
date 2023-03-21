@@ -86,16 +86,17 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         dragNotice.OnDragNotice += ImmediatelyStop;
     }
 
-    public void Notice(NoticeDataSO data)
+    public void Notice(NoticeDataSO data, bool isOpenSystem)
     {
         sameTagText.text = data.sameTextString;
-        Notice(data.Head, data.Body, data.Icon);
+        Notice(data.Head, data.Body, data.Icon, data.noticeData.color, isOpenSystem);
     }
-    private void NoticeSetting(string head, string body, Sprite icon)
+    private void NoticeSetting(string head, string body, Sprite icon, Color color)
     {
         headText.SetText(head);
         bodyText.SetText(body);
         iconImage.sprite = icon;
+        iconImage.color = color;
 
         rectTransform.anchorMin = new Vector2(1f, 0.5f);
         rectTransform.anchorMax = new Vector2(1f, 0.5f);
@@ -104,27 +105,34 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
 
     }
-    public void Notice(string head, string body, Sprite icon)
+    public void Notice(string head, string body, Sprite icon, Color color, bool isOpenSystem)
     {
-        NoticeSetting(head, body, icon);
+        NoticeSetting(head, body, icon, color);
 
         Vector2 pos = new Vector2(rectTransform.rect.width, NOTICE_POS.y);
         rectTransform.anchoredPosition = pos;
 
         SetActive(true);
 
+        Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
+
+        if (isOpenSystem)
+        {
+            NoticeSystem.OnTagReset?.Invoke();
+            OnCompeleted?.Invoke(this);
+            return;
+        }
+
         EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
 
         NoticeUXEmphasis();
-
-       Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
 
         stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }
 
     public void LoadNotice(NoticeData data) 
     {
-        NoticeSetting(data.head, data.body, data.icon);
+        NoticeSetting(data.head, data.body, data.icon, data.color);
     }
 
     public void NoticeUXEmphasis()
@@ -323,6 +331,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public void SameTagTextAdd(string str, bool isEnd = false)
     {
+        Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
         isNoticeExtend = true;
         string saveStr = bodyText.text;
         saveStr += '\n';

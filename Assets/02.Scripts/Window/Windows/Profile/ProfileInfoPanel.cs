@@ -10,17 +10,17 @@ using UnityEngine.UI;
 public class ProfileInfoPanel : MonoBehaviour
 {
     public EProfileCategory category;
-
     [SerializeField]
     private TMP_Text categoryNameText;
     //동적 저장을 위해서는 활성화 비활성화 여부를 들고있는 SO 혹은 Json이 저장 정보를 불러오고 저장
     [SerializeField]
     public List<ProfileInfoText> infoTextList;
 
-    private ProfileInfoDataSO saveData;
-
-
-    public void Init(ProfileInfoDataSO profileInfoDataSO)
+    private ProfileCategoryDataSO saveData;
+    //이 패널이 정보를 모두 찾았다면 연결된 패널들이 보임
+    [SerializeField]
+    private List<ProfileInfoPanel> LinkInfoPenelList;
+    public void Init(ProfileCategoryDataSO profileInfoDataSO)
     {
         saveData = profileInfoDataSO;
 
@@ -33,9 +33,10 @@ public class ProfileInfoPanel : MonoBehaviour
         foreach (var infoText in infoTextList)
         {
             infoText.Init();
+            infoText.OnFindText += ShowLinkedPost;
         }
 
-        if(saveData.isShowCategory)
+        if(DataManager.Inst.GetProfileSaveData(saveData.category).isShowCategory)
         {
             ShowPost();
         }
@@ -44,9 +45,9 @@ public class ProfileInfoPanel : MonoBehaviour
             HidePost();
         }
 
-        foreach (var save in saveData.saveList)
+        foreach (var save in saveData.infoTextList)
         {
-            if (save.isShow == false)
+            if (DataManager.Inst.IsProfileInfoData(saveData.category, save.key) == false)
             {
                 continue;
             }
@@ -59,6 +60,7 @@ public class ProfileInfoPanel : MonoBehaviour
             }
         }
     }
+
     public void ChangeValue(string key)
     {
         foreach (var infoText in infoTextList)
@@ -72,23 +74,18 @@ public class ProfileInfoPanel : MonoBehaviour
                 }
                 infoText.ChangeText();
 
-                if(saveData.GetSaveData(key).isShow == false)
+                if(DataManager.Inst.IsProfileInfoData(saveData.category, key) == false)
                 {
-                    saveData.GetSaveData(key).isShow = true;
+                    DataManager.Inst.AddProfileinfoData(saveData.category, key);
                     FindAlarm(categoryNameText.text, key);
                 }
 
-                if (key == "SuspectName" && GameManager.Inst.GameState == EGameState.Tutorial)
+                if (key == "SuspectName" && DataManager.Inst.SaveData.isTutorialStart)
                 {
                     EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
                 }
             }
         }
-    }
-
-    public bool CheckIsTrue(string str)
-    {
-        return saveData.GetSaveData(str).isShow;
     }
 
     public void FindAlarm(string category, string key)
@@ -98,11 +95,40 @@ public class ProfileInfoPanel : MonoBehaviour
     private void ShowPost()
     {
         gameObject.SetActive(true);
-        saveData.isShowCategory = true;
+        DataManager.Inst.SetCategoryData(saveData.category, true);
     }
 
     private void HidePost()
     {
         gameObject.SetActive(false);
+    }
+
+
+    private void ShowLinkedPost()
+    {
+        if(LinkInfoPenelList.Count == 0)
+        {
+            return;
+        }
+
+        if(GetIsFindAll())
+        {
+            foreach(var infoPost in LinkInfoPenelList)
+            {
+                infoPost.ShowPost();
+            }
+        }
+    }
+
+    public bool GetIsFindAll()
+    {
+        foreach(var info in infoTextList)
+        {
+            if(info.isFind == false)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

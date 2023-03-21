@@ -35,7 +35,6 @@ public class GameManager : MonoSingleton<GameManager>
 
         gameState = state;
 
-        Debug.Log(gameState);
         if(gameState == EGameState.CutScene || gameState == EGameState.NotClick)
         {
             EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { true });

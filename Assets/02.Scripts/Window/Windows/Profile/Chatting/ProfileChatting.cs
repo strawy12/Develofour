@@ -60,6 +60,7 @@ public class ProfileChatting : MonoBehaviour
     [SerializeField]
     private ProfileChattingSaveSO SOData;
 
+    private float currentDelay;
     public void DictionaryToList()
     {
         foreach(var data in SOData.chatDataList)
@@ -70,18 +71,7 @@ public class ProfileChatting : MonoBehaviour
         
     public void AddText(string str)
     {
-        foreach (var save in SOData.saveList)
-        {
-            if (save == str)
-            {
-                Debug.Log("동일한 데이터");
-                return;
-            }
-        }
         
-        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null, ENoticeTag.AIAlarm);
-
-        SOData.saveList.Add(str);
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + str;
         SetLastWidth();
@@ -93,42 +83,11 @@ public class ProfileChatting : MonoBehaviour
 
     public void AddText(object[] ps)
     {
-        EWindowType type = EWindowType.ProfileWindow;
-        EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { type });
-
-        if (!(ps[0] is EAiChatData))
+        if (ps[0] is string)
         {
-            if(ps[0] is string)
-            {
-                AddText(ps[0] as string);
-            }
-            return;
+            AddText(ps[0] as string);
         }
-
-        EAiChatData data = (EAiChatData)ps[0];
-
-        if(!chatDataDictionary.ContainsKey(data))
-        {
-            Debug.Log("해당 ENUM에 대한 키값이 존재하지 않음");
-        }
-
-        foreach (var save in SOData.saveList)
-        {
-            if (save == data.ToString())
-            {
-                Debug.Log("동일한 데이터");
-                return;
-            }
-        }
-        
-        SOData.saveList.Add(data.ToString());
-        GameObject obj = Instantiate(textPrefab, textParent);
-        obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[data];
-        SetLastWidth();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(obj.GetComponent<RectTransform>());
-        SetScrollView();
-        obj.gameObject.SetActive(true);
-        SetLastWidth();
+        return;
     }
 
 
@@ -137,7 +96,7 @@ public class ProfileChatting : MonoBehaviour
     {
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
-        EventManager.StartListening(EProfileEvent.SendMessage, AddText);
+        EventManager.StartListening(EProfileEvent.ProfileSendMessage, AddText);
 
         //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
 
@@ -150,7 +109,6 @@ public class ProfileChatting : MonoBehaviour
 
     public void GetSaveSetting()
     {
-
         foreach(var save in SOData.saveList)
         {
             AddSaveText(save);
@@ -159,7 +117,7 @@ public class ProfileChatting : MonoBehaviour
         SetWidths();
     }
 
-    public void AddSaveText(string data)
+    private void AddSaveText(string data)
     {
         if (chatDataDictionary.ContainsKey(AIStringToEnum(data)))
         {
@@ -185,7 +143,6 @@ public class ProfileChatting : MonoBehaviour
 
     public void ShowPanel()
     {
-        Debug.Log("asdf");
         if (isMoving) return;
         isMoving = true;
         loadingPanel.SetActive(true);
@@ -223,19 +180,6 @@ public class ProfileChatting : MonoBehaviour
         });
     }
 
-    //void Update()
-    //{
-    //    if(Input.GetKeyDown(KeyCode.L))
-    //    {
-    //        AddText(new object[1] { "안녕하세요" });
-    //    }
-    //    if(Input.GetKeyDown(KeyCode.K))
-    //    {
-    //        AddText(new object[1] { EAiChatData.Email });
-    //    }    
-    //}
-
-    //윈도우를 오픈할때마다 실행해줘야함
     private void SetScrollView()
     {
         if(this.gameObject.activeInHierarchy)
@@ -269,7 +213,10 @@ public class ProfileChatting : MonoBehaviour
         RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
         rects[rects.Length - 1].sizeDelta = new Vector2(currentValue - 60, 0);
     }
-
+    public void OnDestroy()
+    {
+        EventManager.StopListening(EProfileEvent.ProfileSendMessage, AddText);
+    }
     public void OnApplicationQuit()
     {
         Debug.Log("디버그 용으로 Profile의 ChatDataSaveSO의 값을 매번 초기화 시키고 있습니다.");

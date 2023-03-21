@@ -91,17 +91,26 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
             rectTransform.DOAnchorPos(originPos, 0.2f);
             canvasGroup.alpha = 1f;
         }
-
     }
 
     private void OpenLoginScreen()
     {
         loginScreen.SetActive(true);
         loginChoice.SetActive(true);
+
         StartCoroutine(CoverSetting());
-        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 1.25f, 8);
-        //gameObject.SetActive(false);
+        MonologSystem.OnEndMonologEvent += NextMonolog;
+        MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartMonolog, 1f, 13);
     }
+
+
+    public void NextMonolog()
+    {
+        MonologSystem.OnEndMonologEvent -= NextMonolog;
+        MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartNextMonolog, 0.75f, 2);
+        GuideManager.OnPlayGuide(EGuideTopicName.GuestLoginGuide, 30);
+    }
+
 
     public IEnumerator CoverSetting()
     {

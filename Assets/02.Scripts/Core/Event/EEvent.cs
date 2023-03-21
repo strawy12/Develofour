@@ -131,6 +131,7 @@ public enum EAiChatData
     LastAiChat,
     Email,
     Password,
+    ChattingEnd,
 }
 
 public enum EProfileEvent 
@@ -139,6 +140,12 @@ public enum EProfileEvent
     FindInfoText,
     SendMessage,
     InstalledProfile,
+    ProfileSendMessage,
+}
+public enum EGuideEventType
+{
+    ClearGuideType,
+    GuideConditionCheck,
 }
 
 public enum ETutorialEvent
@@ -157,11 +164,19 @@ public enum ETutorialEvent
     ProfileInfoStart, 
     ProfileInfoEnd, 
     ProfileEventStop, 
-    EndClickInfoTutorial, 
+    EndClickInfoTutorial,
 }
+
 
 public enum EDebugSkipEvent
 {
     None = -1,
     TutorialSkip,
+}
+
+public enum ETextboxEvent
+{
+    None = -1,
+    Shake,
+    Delay,
 }

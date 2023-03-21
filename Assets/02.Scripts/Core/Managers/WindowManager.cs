@@ -90,9 +90,22 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     // TODO : 같은 이름의 윈도우를 실행 시켰을 때 키 값이 겹칠 수 있음. (나중에 구분 할 수 있는 코드 짜야함)
     // 다른 키값 하나가 더 있으야함
-    public Window GetWindow(EWindowType windowType, string windowName)
+    public Window GetWindow(EWindowType windowType, string fileLocation)
     {
-        return windowDictionary[windowType].Find(x => x.File.name == windowName);
+        return windowDictionary[windowType].Find(x => x.File.GetFileLocation() == fileLocation);
+    }
+
+    // 현재 윈도우 딕셔너리의 있는 windowType의 개수를 반환
+    public int CurrentWindowCount(EWindowType windowType)
+    {
+        int num = 0;
+        num = windowDictionary[windowType].Count;
+        return num;
+    }
+
+    public void RemoveWindowDictionary(EWindowType windowType, Window window)
+    {
+        windowDictionary[windowType].Remove(window);
     }
 
     // 다른 키 값 하나가 더 있어야 구분 가능
@@ -104,7 +117,12 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     public Window WindowOpen(EWindowType windowType, FileSO file = null)
     {
-        Window targetWindow = GetWindow(file.windowType, file.name);
+        if (file == null)
+        {
+            file = FileManager.Inst.GetDefaultFile(windowType);
+        }
+
+        Window targetWindow = GetWindow(file.windowType, file.GetFileLocation());
 
         if (targetWindow == null)
         {
@@ -136,7 +154,21 @@ public class WindowManager : MonoSingleton<WindowManager>
         window.OnClosed += (s) => windowOrderList.Remove(window);
         return window;
     }
+    public Window OpenIconProperty(FileSO file)
+    {
+        FileSO propertyFile = FileManager.Inst.GetDefaultFile(EWindowType.IconProperty);
 
+        Window targetWindow = GetWindow(propertyFile.windowType, file.GetFileLocation());
+
+        if (targetWindow == null)
+        {
+            targetWindow = CreateWindow(EWindowType.IconProperty, file);
+        }
+
+        targetWindow.WindowOpen();
+        return targetWindow;
+
+    }
     public Window GetWindowPrefab(EWindowType windowType)
     {
         Window prefab = windowPrefabList.Find((x) => x.windowType == windowType).windowPrefab;

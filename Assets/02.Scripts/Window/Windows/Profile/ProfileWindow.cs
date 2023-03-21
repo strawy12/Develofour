@@ -144,7 +144,7 @@ public class ProfileWindow : Window
     {
         if(!isFirstTutorial)
         {
-            MonologSystem.OnStartMonolog.Invoke(ETextDataType.Profile, 0.2f, 1);
+            MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.Profile, 0.2f, 1);
             isFirstTutorial = true;
         }
     }

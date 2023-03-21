@@ -70,12 +70,9 @@ public class InstallerWindow : Window
     }
     public void EndInstall()
     {
-        FileManager.Inst.AddFile(installFile, "User\\C\\바탕화면");
+        FileManager.Inst.AddFile(installFile, "User\\C\\바탕화면\\");
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
-
-        GameManager.Inst.isProfilerTownloadCompleted = true;
-        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[] { EGuideTopicName.ProfilerDownGuide });
     }
 
     public void CheckOpenWindow(bool isWindowOpen)

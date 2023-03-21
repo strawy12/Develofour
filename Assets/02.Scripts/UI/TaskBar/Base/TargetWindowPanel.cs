@@ -32,7 +32,7 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
         windowTitle.text = $"{window.File.name} - ";
 
         showBtn.onClick.AddListener(ClickPanel);
-        closeBtn.onClick.AddListener(Close);
+        closeBtn.onClick.AddListener(window.WindowClose);
         targetWindow = window;
 
         targetWindow.OnClosed += (a) => Close();

@@ -123,4 +123,9 @@ public static class Define
     {
         return GameManager.Inst.ComputerLoginState == state;
     }
+
+    public static bool CheckIntallProfile()
+    {
+        return FileManager.Inst.SearchFile("Profile") != null;
+    }
 }

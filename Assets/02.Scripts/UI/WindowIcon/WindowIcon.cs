@@ -87,18 +87,31 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
 
         iconImage.sprite = newFileData.iconSprite;
-      
-        if (isRegisterEvent == false && fileData.fileName == "용의자 프로파일러")    
+
+        if(fileData.windowType == EWindowType.ImageViewer)
+        {
+            iconImage.color = Color.white;
+        }
+
+        if (isRegisterEvent == false && fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일러\\")    
         {
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
+            EventManager.StartListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
         }
 
-        if (isUSBEvent == false && fileData.fileName == "BestUSB")
+        if (isUSBEvent == false && fileData.GetFileLocation() == "User\\BestUSB\\")
         {
             isUSBEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
+            EventManager.StartListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
         }
+    }
+
+    private void DestoryYellow(object[] obj)
+    {
+        yellowUI.gameObject.SetActive(false);
+        EventManager.StopListening(ETutorialEvent.ProfileEventStop, DestoryYellow);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -122,15 +135,15 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 UnSelect();
 
-                if (fileData.fileName == "의뢰자 정보")
+                if (fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일러\\")
                 {
-                    Debug.Log("의뢰자 정보 " + GameManager.Inst.GameState);
+                    Debug.Log("용의자 프로파일러 " + GameManager.Inst.GameState);
                     if(GameManager.Inst.GameState == EGameState.Tutorial)
                     {
                         EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
                     }
                 }
-                if (fileData.fileName == "BestUSB")
+                if (fileData.GetFileLocation() == "User\\BestUSB\\")
                 {
                     EventManager.TriggerEvent(ETutorialEvent.LibraryUSBEnd);
                 }

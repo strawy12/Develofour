@@ -6,14 +6,17 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     private IEnumerator Start()
     {
-        int cnt = 5;
+        int cnt = 7;
 
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);
-        LoadTextDataSOAssets(() => cnt--);
+        LoadAIChattingTextDataSOAssets(() => cnt--);
+        LoadMonologTextDataSOAssets(() => cnt--);
         LoadImageViewerDataAssets(() => cnt--);
         LoadNotepadDataAssets(() => cnt--);
-
+        LoadMediaPlayerDataAssets(() => cnt--);
+        LoadProfileCategoryDataResourcesAssets(() => cnt--);
+        Debug.Log("SuccessLoad");
         yield return new WaitUntil(() => cnt == 0);
 
         EventManager.TriggerEvent(ECoreEvent.EndLoadResources);

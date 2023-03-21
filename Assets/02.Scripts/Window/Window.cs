@@ -18,6 +18,8 @@ public enum EWindowType // 확장자
     TodoWindow,
     ProfileWindow,
     WindowPinLock,
+    MediaPlayer,
+    IconProperty,
     End 
 }
 
@@ -60,7 +62,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     }
 
     private Vector3 windowPos;
-    private Canvas currentCanvas;
+    protected Canvas currentCanvas;
 
 
     protected virtual void Init()
@@ -130,13 +132,15 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     }
 
     public void WindowClose()
-    {
-        if (file.windowType == EWindowType.ProfileWindow )
+    { 
+        if(GameManager.Inst.GameState == EGameState.Tutorial && file.windowType == EWindowType.Directory)
         {
-            if (GameManager.Inst.isTutorial) return;
+
+            return;
         }
 
-        OnClosed?.Invoke(file.name);
+
+        OnClosed?.Invoke(file.fileName);
 
         windowMaxCnt--;
 
@@ -182,17 +186,40 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         WindowManager.Inst.SelectObject(this);
 
         SetCurrentWindow(this);
-        SetActive(true);
+
+        windowBar.OnClose.AddListener(CloseEventAdd);
 
         if (!windowAlteration.isMaximum)
         {
-            rectTransform.localPosition = windowAlteration.pos;
+            int num = WindowManager.Inst.CurrentWindowCount(file.windowType);
+            if (num > 1)
+            {
+                num -= 1;
+                Vector2 pos = windowAlteration.pos + new Vector2(20 * num, -20 * num);
+                rectTransform.localPosition = pos;
+            }
+            else
+            {
+                rectTransform.localPosition = windowAlteration.pos;
+            }
         }
-        else
+        else 
         {
             rectTransform.localPosition = new Vector2(0, 30);
         }
+
         rectTransform.sizeDelta = windowAlteration.size;
+
+        SetActive(true);
+
+    }
+
+    public void CloseEventAdd()
+    {
+        if (WindowManager.Inst != null && file != null && this != null)
+        {
+            WindowManager.Inst.RemoveWindowDictionary(file.windowType, this);
+        }
     }
 
     public void SetCurrentWindow(Window selecetedWindow)
@@ -200,7 +227,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         currentWindow = selecetedWindow;
     }
 
-    public void CreatedWindow(FileSO file)
+    public  virtual void CreatedWindow(FileSO file)
     {
         this.file = file;
         Init();
@@ -230,7 +257,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         EventManager.TriggerEvent(EWindowEvent.AlarmCheck, new object[1] { file.windowType });
     }
 
-    private void AlarmCheck(object[] ps)
+    protected void AlarmCheck(object[] ps)
     {
         if (!(ps[0] is EWindowType))
         {

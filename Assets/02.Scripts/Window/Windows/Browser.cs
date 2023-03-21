@@ -50,8 +50,6 @@ public partial class Browser : Window
         usedSiteList = new List<Site>();
 
         BindingStart();
-        //OnUndoSite += UndoSite;
-        //OnOpenSite += ChangeSite;
         OnSelected += SelectedBrowser;
 
         OnClosed += (a) => ResetBrowser();
@@ -65,7 +63,6 @@ public partial class Browser : Window
 
         ChangeSite(ESiteLink.Chrome, 0f, false);
 
-        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[] { EGuideTopicName.BrowserConnectGuide });
     }
 
     private void BindingStart()

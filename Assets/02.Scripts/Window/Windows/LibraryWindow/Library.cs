@@ -97,6 +97,7 @@ public class Library : Window
     }
     #endregion
     private bool isSetLibrary = false;
+
     protected override void Init()
     {
         base.Init();
@@ -120,6 +121,9 @@ public class Library : Window
         searchBtn.onClick.AddListener(SearchFunction);
         undoBtn.onClick.AddListener(UndoFile);
         redoBtn.onClick.AddListener(RedoFile);
+
+        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.LibraryOpenGuide });
+
     }
 
     private void SearchFunction(string text)
@@ -223,6 +227,7 @@ public class Library : Window
             currentDirectory = ps[0] as DirectorySO;
             SetLibrary();
         }
+
     }
 
     private void SetHighlightImage()
@@ -261,12 +266,15 @@ public class Library : Window
     {
         //if (!gameObject.activeSelf) return;
         if (GameManager.Inst.GameState != EGameState.Tutorial && GameManager.Inst.GameState == EGameState.CutScene) return;
-        if (currentDirectory.fileName == "BestUSB")
+
+        if (currentDirectory.GetFileLocation() == "User\\BestUSB\\")
         {
             Debug.Log("BestUSB");
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);
+            
+            MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 0.5f, 3);
         }
-        else if(currentDirectory.fileName == "User")
+        else if(currentDirectory.fileName == "User\\")
         {
             Debug.Log("User");
             EventManager.TriggerEvent(ETutorialEvent.LibraryUSBStart);
