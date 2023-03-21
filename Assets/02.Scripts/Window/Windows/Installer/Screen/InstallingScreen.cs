@@ -28,14 +28,8 @@ public class InstallingScreen : InstallerScreen
     private void EndInstall()
     {
         installer.EndInstall();
-        EventManager.StopAllListening(ETutorialEvent.TutorialStart);
+        //EventManager.StopAllListening(ETutorialEvent.TutorialStart);
         NextBtn.interactable = true;
-    }
-
-    private void StartTuto()
-    {
-        EventManager.TriggerEvent(ETutorialEvent.TutorialStart, new object[0]);
-        EventManager.StopAllListening(ETutorialEvent.TutorialStart);
     }
 
     private IEnumerator InstallBarFill()
