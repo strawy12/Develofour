@@ -25,15 +25,20 @@ public class GuideUISystem : MonoBehaviour
 
     private IEnumerator GuideSignCor(RectTransform rect)
     {
-        guideUI.gameObject.SetActive(true);
+        if(rect == null)
+        {
+            Debug.Log("rect is null");
+        }
         guideUI.rectTransform.SetParent(rect);
         guideUI.rectTransform.anchorMin = rect.anchorMin;
         guideUI.rectTransform.anchorMax = rect.anchorMax;
         guideUI.rectTransform.pivot = rect.pivot;
         guideUI.rectTransform.localPosition = Vector2.zero;
         guideUI.rectTransform.sizeDelta = rect.sizeDelta;
+        guideUI.gameObject.SetActive(true);
 
         isSign = true;
+
         while (isSign)
         {
             guideUI.DOColor(new Color(255, 255, 255, 0.5f), 2f);

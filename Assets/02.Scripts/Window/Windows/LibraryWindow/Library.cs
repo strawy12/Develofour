@@ -79,7 +79,7 @@ public class Library : Window
         {
             poolQueue.Enqueue(icon);
         }
-        icon.StopYellowUICor();
+        GuideUISystem.EndGuide?.Invoke();
         icon.transform.SetParent(poolParent);
         icon.gameObject.SetActive(false);
     }
@@ -266,12 +266,12 @@ public class Library : Window
 
     private void CheckTutorialRoot(object[] ps)
     {
-        //if (!gameObject.activeSelf) 
-        if (GameManager.Inst.GameState != EGameState.Tutorial && GameManager.Inst.GameState == EGameState.CutScene) return;
+        if (GameManager.Inst.GameState != EGameState.Tutorial && GameManager.Inst.GameState != EGameState.CutScene) return;
+
+        Debug.Log("CheckRoot");
 
         if (currentDirectory.GetFileLocation() == "User\\BestUSB\\")
         {
-            Debug.Log("BestUSB");
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);
             
             MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 0.5f, 3);
