@@ -28,7 +28,7 @@ public class InstallingScreen : InstallerScreen
     private void EndInstall()
     {
         installer.EndInstall();
-        StartTuto();
+        EventManager.StopAllListening(ETutorialEvent.TutorialStart);
         NextBtn.interactable = true;
     }
 

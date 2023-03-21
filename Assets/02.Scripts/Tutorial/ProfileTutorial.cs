@@ -28,7 +28,7 @@ public class ProfileTutorial : MonoBehaviour
 
         FileSO fileData = (FileSO)ps[0];
 
-        if(fileData.fileName == "BestUSB")
+        if(fileData.fileName == Constant.USB_FILENAME)
         {
             MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 1f, 3);
             EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
@@ -58,7 +58,7 @@ public class ProfileTutorial : MonoBehaviour
     public void StartProfileMonolog()
     {
         MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
-        MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, 1);
+        MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, 1);
     }
     public void StartProfileNextTutorial()
     {
@@ -69,15 +69,10 @@ public class ProfileTutorial : MonoBehaviour
 
     public void BackgroundNoticeTutorial()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
-    }
-
-    public void ContinueProfileAiChatting()
-    {
         ProfileChattingSystem.OnChatEnd -= BackgroundNoticeTutorial;
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 3f);
-
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
+
     }
 
     public void StartCompleteProfileTutorial()
@@ -97,7 +92,7 @@ public class ProfileTutorial : MonoBehaviour
     public void StartProfileEnd()
     {
         ProfileChattingSystem.OnChatEnd -= StartProfileEnd;
-        EventManager.TriggerEvent(ETutorialEvent.ProfileEventStop);
+        GuideUISystem.EndGuide?.Invoke();
         EndTutoMonologEvent();
         EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
     }

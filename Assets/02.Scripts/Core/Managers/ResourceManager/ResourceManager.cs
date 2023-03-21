@@ -21,3 +21,4 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         EventManager.TriggerEvent(ECoreEvent.EndLoadResources);
     }
 }
+ 

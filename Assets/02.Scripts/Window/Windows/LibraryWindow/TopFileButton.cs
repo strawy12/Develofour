@@ -58,9 +58,9 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
             EventManager.StartListening(ETutorialEvent.LibraryUserButtonStart, delegate
             {
                 if (gameObject.activeSelf)
-                    StartCoroutine(YellowSignCor());
+                    GuideUISystem.OnGuide?.Invoke((RectTransform)transform);
 
-                EventManager.StartListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopCor(); StopTutorialEvent(); });
+                EventManager.StartListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopTutorialEvent(); });
             });
         }
     }
@@ -78,26 +78,6 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     }
 
     #region Tutorial
-    public IEnumerator YellowSignCor()
-    {
-        yellowUI.gameObject.SetActive(true);
-        isSign = true;
-        while (isSign)
-        {
-            yellowUI.DOColor(new Color(255, 255, 255, 0), 2f);
-            yield return new WaitForSeconds(2f);
-            yellowUI.DOColor(new Color(255, 255, 255, 1), 2f);
-            yield return new WaitForSeconds(2f);
-        }
-    }
-
-    public void StopCor()
-    {
-        isSign = false;
-        StopAllCoroutines();
-        yellowUI.gameObject.SetActive(false);
-        yellowUI.DOKill();
-    }
 
     private void StopTutorialEvent()
     {
@@ -105,6 +85,7 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         //EventManager.StopListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopCor(); });
 
         //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
+        GuideUISystem.EndGuide?.Invoke();
     }
     #endregion
 }
