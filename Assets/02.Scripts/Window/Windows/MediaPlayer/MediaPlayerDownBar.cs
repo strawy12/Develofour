@@ -20,29 +20,33 @@ public class MediaPlayerDownBar : MonoBehaviour
 
     public void Init()
     {
-        PlayButtonClick += PlayAudio;
-        StopButtonClick += StopAudio;
+        PlayButtonClick += PlayButtonChange;
+        StopButtonClick += StopButtonChange;
 
-        playButton.onClick?.AddListener(PlayAudio);
-        stopButton.onClick?.AddListener(StopAudio);
+        playButton.onClick?.AddListener(PlayClick);
+        stopButton.onClick?.AddListener(StopClick);
     }
 
-    private void PlayAudio()
+    private void PlayClick()
     {
-        Debug.Log("∏ÿ√„");
-        //layButtonClick?.Invoke();
-
-        playButton.gameObject.SetActive(true);
-        stopButton.gameObject.SetActive(false);
+        PlayButtonClick?.Invoke();
     }
 
-    private void StopAudio()
+    private void StopClick()
     {
-        Debug.Log("¿ÁΩ√¿€");
-        //StopButtonClick?.Invoke();
+        StopButtonClick?.Invoke();
+    }
 
+    private void PlayButtonChange()
+    {
         playButton.gameObject.SetActive(false);
         stopButton.gameObject.SetActive(true);
+    }
+
+    private void StopButtonChange()
+    {
+        playButton.gameObject.SetActive(true);
+        stopButton.gameObject.SetActive(false);
     }
 
 }
