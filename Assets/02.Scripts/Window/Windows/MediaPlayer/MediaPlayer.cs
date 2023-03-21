@@ -83,13 +83,16 @@ public class MediaPlayer : Window
         {
             mediaDetailText.maxVisibleCharacters++;
 
-            if (mediaDetailText.maxVisibleCharacters == mediaPlayerData.textData.Length)
+            if (mediaDetailText.maxVisibleCharacters >= mediaPlayerData.textData.Length)
             {
                 isRePlaying = true;
 
                 mediaPlayerDownBar.StopButtonClick?.Invoke();
                 Debug.Log("Media End");
             }
+
+            Debug.Log("ÇöÀç : " + mediaDetailText.maxVisibleCharacters);
+            Debug.Log("³¡ : " + mediaPlayerData.textData.Length);
 
             yield return new WaitForSeconds(mediaPlayerData.textPlaySpeed);
         }
