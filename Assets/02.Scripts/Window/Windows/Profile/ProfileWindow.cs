@@ -142,10 +142,10 @@ public class ProfileWindow : Window
 
     private void TutorialStart()
     {
-        if(!isFirstTutorial)
+        if(DataManager.Inst.SaveData.isTutorialStart == false)
         {
-            MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.Profile, 0.2f, 1);
-            isFirstTutorial = true;
+            EventManager.TriggerEvent(ETutorialEvent.TutorialStart, new object[0]);
+            DataManager.Inst.SaveData.isTutorialStart = true;
         }
     }
 

@@ -273,7 +273,6 @@ public class Library : Window
         if (currentDirectory.GetFileLocation() == "User\\BestUSB\\")
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);
-            
         }
         else if (currentDirectory.GetFileLocation() == "User\\")
         {

@@ -28,7 +28,7 @@ public class InstallingScreen : InstallerScreen
     private void EndInstall()
     {
         installer.EndInstall();
-        MonologSystem.OnEndMonologEvent += StartTuto;
+        EventManager.StopAllListening(ETutorialEvent.TutorialStart);
         NextBtn.interactable = true;
     }
 
@@ -36,7 +36,6 @@ public class InstallingScreen : InstallerScreen
     {
         EventManager.TriggerEvent(ETutorialEvent.TutorialStart, new object[0]);
         EventManager.StopAllListening(ETutorialEvent.TutorialStart);
-        MonologSystem.OnEndMonologEvent -= StartTuto;
     }
 
     private IEnumerator InstallBarFill()
