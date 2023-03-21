@@ -51,7 +51,7 @@ public class NoticeSystem : MonoUI
 
     private void Start()
     {
-        Init();
+        GameManager.Inst.OnStartCallback += Init;
     }
 
     private void Bind()

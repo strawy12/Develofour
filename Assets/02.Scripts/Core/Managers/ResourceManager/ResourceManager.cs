@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+ 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     private IEnumerator Start()
@@ -19,6 +19,8 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         yield return new WaitUntil(() => cnt == 0);
 
         EventManager.TriggerEvent(ECoreEvent.EndLoadResources);
+
+        GameManager.Inst.OnStartCallback?.Invoke();
     }
 }
  

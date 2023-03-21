@@ -37,7 +37,6 @@ public class ProfileTutorial : MonoBehaviour
             MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 1f, 3);
             EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
         }
-
     }
 
     public void StartChatting(EAIChattingTextDataType textDataType)

@@ -17,6 +17,7 @@ public class GuideUISystem : MonoBehaviour
         OnGuide += StartGuide;
         EndGuide += StopGuideUICor;
     }
+
     private void StartGuide(RectTransform rect)
     {
         StopGuideUICor();

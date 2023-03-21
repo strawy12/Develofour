@@ -12,6 +12,8 @@ public enum EComputerLoginState
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    public Action OnStartCallback;
+
     [SerializeField]
     private ClickEffect clickEffect;
 
@@ -20,7 +22,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     public EGameState GameState => gameState;
     public EComputerLoginState ComputerLoginState => computerLoginState;
-
 
     public bool isTutorial;
 

@@ -30,6 +30,11 @@ public partial class Sound : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Inst.OnStartCallback += SoundStartCallback;
+    }
+
+    private void SoundStartCallback()
+    {
         OnPlaySound += CreateSoundPlayer;
         OnImmediatelyStop += ImmediatelyStop;
     }
