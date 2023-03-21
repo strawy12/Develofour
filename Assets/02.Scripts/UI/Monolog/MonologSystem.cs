@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class MonologSystem : MonoBehaviour
 {
-    public static Action<ETextDataType, float, int> OnStartMonolog;
+    public static Action<EMonologTextDataType, float, int> OnStartMonolog;
     public static Action OnEndMonologEvent;
-    public static Action<ETextDataType, float, int> OnTutoMonolog;
+    public static Action<EMonologTextDataType, float, int> OnTutoMonolog;
     public static Action OnStopMonolog;
     [SerializeField]
     private TextBox textBox;
@@ -20,7 +20,7 @@ public class MonologSystem : MonoBehaviour
         OnStopMonolog += StopMonolog;
     }
 
-    public void StartMonolog(ETextDataType textDataType, float delay, int cnt)
+    public void StartMonolog(EMonologTextDataType textDataType, float delay, int cnt)
     {
         if (DataManager.Inst.IsMonologShow(textDataType))
         {
@@ -29,7 +29,7 @@ public class MonologSystem : MonoBehaviour
         }
         StartCoroutine(StartMonologCoroutine(textDataType, delay, cnt, false));
     }
-    public void TutoMonolog(ETextDataType textDataType, float delay, int cnt)
+    public void TutoMonolog(EMonologTextDataType textDataType, float delay, int cnt)
     {
         if (DataManager.Inst.IsMonologShow(textDataType))
         {
@@ -40,7 +40,6 @@ public class MonologSystem : MonoBehaviour
     }
     private void StopMonolog()
     {
-        Debug.Log("stopmonolog의 onendmonologevent");
         OnEndMonologEvent?.Invoke();
         StopAllCoroutines();
         textBox.StopAllCoroutines();
@@ -48,7 +47,7 @@ public class MonologSystem : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Game);
     }
 
-    private IEnumerator StartMonologCoroutine(ETextDataType textDataType, float startDelay, int cnt, bool isTuto)
+    private IEnumerator StartMonologCoroutine(EMonologTextDataType textDataType, float startDelay, int cnt, bool isTuto)
     {
         yield return new WaitForSeconds(startDelay);
 
@@ -59,7 +58,6 @@ public class MonologSystem : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             textBox.PrintText();
-            Debug.Log(i);
             yield return new WaitUntil(() => textBox.IsClick);
         }
 
@@ -72,7 +70,7 @@ public class MonologSystem : MonoBehaviour
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
         }
-        Debug.Log("startmonologcoroutine의 onendmonologevent");
+
         OnEndMonologEvent?.Invoke();
 
         DataManager.Inst.SetMonologShow(textDataType, true);

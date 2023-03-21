@@ -59,20 +59,8 @@ public class ProfileChatting : MonoBehaviour
 
     [SerializeField]
     private ProfileChattingSaveSO SOData;
-    
-    public void Init()
-    {
-        currentValue = GetComponent<RectTransform>().sizeDelta.x;
 
-        EventManager.StartListening(EProfileEvent.SendMessage, AddText);
-
-        OpenCloseButton.onClick.AddListener(HidePanel);
-        movePanelRect = GetComponent<RectTransform>();
-        DictionaryToList();
-        GetSaveSetting();
-        SetScrollView();
-    }
-
+    private float currentDelay;
     public void DictionaryToList()
     {
         foreach(var data in SOData.chatDataList)
@@ -83,56 +71,43 @@ public class ProfileChatting : MonoBehaviour
         
     public void AddText(string str)
     {
-        foreach (var save in SOData.saveList)
-        {
-            if (save == str)
-            {
-                Debug.Log("동일한 데이터");
-                return;
-            }
-        }
         
-        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null,Color.white, ENoticeTag.AIAlarm);
-
-        CreateChattingPanel(str);
-    }
-
-    public void AddText(object[] ps)
-    {
-        EWindowType type = EWindowType.ProfileWindow;
-        EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { type });
-
-        if (!(ps[0] is EAiChatData))
-        {
-            if(ps[0] is string)
-            {
-                AddText(ps[0] as string);
-            }
-            return;
-        }
-
-        EAiChatData data = (EAiChatData)ps[0];
-
-        if(!chatDataDictionary.ContainsKey(data))
-        {
-            Debug.Log("해당 ENUM에 대한 키값이 존재하지 않음");
-        }
-
-        CreateChattingPanel(chatDataDictionary[data]);
-
-    }
-
-    private void CreateChattingPanel(string str)
-    {
         GameObject obj = Instantiate(textPrefab, textParent);
-        obj.GetComponent<TMP_Text>().text = ">> " +str ;
+        obj.GetComponent<TMP_Text>().text = ">> " + str;
         SetLastWidth();
         LayoutRebuilder.ForceRebuildLayoutImmediate(obj.GetComponent<RectTransform>());
         SetScrollView();
         obj.gameObject.SetActive(true);
         SetLastWidth();
     }
-    private void GetSaveSetting()
+
+    public void AddText(object[] ps)
+    {
+        if (ps[0] is string)
+        {
+            AddText(ps[0] as string);
+        }
+        return;
+    }
+
+
+
+    public void Init()
+    {
+        currentValue = GetComponent<RectTransform>().sizeDelta.x;
+        //스크롤뷰 가장 밑으로 내리기;
+        EventManager.StartListening(EProfileEvent.ProfileSendMessage, AddText);
+
+        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+
+        OpenCloseButton.onClick.AddListener(HidePanel);
+        movePanelRect = GetComponent<RectTransform>();
+        DictionaryToList();
+        GetSaveSetting();
+        SetScrollView();
+    }
+
+    public void GetSaveSetting()
     {
         foreach(var save in SOData.saveList)
         {
@@ -168,7 +143,6 @@ public class ProfileChatting : MonoBehaviour
 
     public void ShowPanel()
     {
-        Debug.Log("asdf");
         if (isMoving) return;
         isMoving = true;
         loadingPanel.SetActive(true);
@@ -241,7 +215,7 @@ public class ProfileChatting : MonoBehaviour
     }
     public void OnDestroy()
     {
-        EventManager.StopListening(EProfileEvent.SendMessage, AddText);
+        EventManager.StopListening(EProfileEvent.ProfileSendMessage, AddText);
     }
     public void OnApplicationQuit()
     {
