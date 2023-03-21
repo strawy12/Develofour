@@ -53,7 +53,7 @@ public class Debugger : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.V))
         {
-            EventManager.TriggerEvent(EProfileEvent.SaveMessage, new object[1] { $"test{testTextCnt}" });
+            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { $"test{testTextCnt}" });
             testTextCnt++;
 
         }

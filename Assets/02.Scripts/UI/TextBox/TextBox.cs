@@ -57,6 +57,9 @@ public class TextBox : MonoUI
     {
         triggerDictionary = new Dictionary<int, Action>();
         EventManager.StartListening(ECoreEvent.OpenTextBox, Init);
+
+        EventManager.StartListening(ETextboxEvent.Shake, SetShake);
+        EventManager.StartListening(ETextboxEvent.Delay, SetDelay);
     }
 
     private void OnPressNextKey(object[] ps) => OnPressNextKey();
@@ -76,26 +79,26 @@ public class TextBox : MonoUI
 
     private void Init(object[] param)
     {
-        if (param == null || !(param[0] is ETextDataType))
+        if (param == null || !(param[0] is EMonologTextDataType))
         {
             return;
         }
 
-        Init((ETextDataType)param[0]);
+        Init((EMonologTextDataType)param[0]);
         messageText.SetText("");
 
         ShowBox();
         PrintText();
     }
 
-    public void Init(ETextDataType textDataType)
+    public void Init(EMonologTextDataType textDataType)
     {
         if (GameManager.Inst.GameState != EGameState.CutScene)
         {
             GameManager.Inst.ChangeGameState(EGameState.UI);
         }
 
-        currentTextData = ResourceManager.Inst.GetTextDataSO(textDataType);
+        currentTextData = ResourceManager.Inst.GetMonologTextDataSO(textDataType);
         currentTextIndex = 0;
     }
 
@@ -126,7 +129,7 @@ public class TextBox : MonoUI
 
         string settingText = RemoveCmd(textData.text);
         messageText.SetText(settingText);
-        
+
         bgImage.rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + offsetSize;
         messageText.SetText("");
         nameText.SetText("");
@@ -144,25 +147,25 @@ public class TextBox : MonoUI
         string temp = string.Empty;
 
         int cnt = 0;
-        for(int i = 0; i < settingText.Length; i++)
+        for (int i = 0; i < settingText.Length; i++)
         {
             if (settingText[i] == '{')
             {
                 veclist.Add(new Vector2(-1, -1));
                 veclist[cnt] = new Vector2(i, -1);
             }
-            if(settingText[i] == '}')
+            if (settingText[i] == '}')
             {
                 veclist[cnt] = new Vector2(veclist[cnt].x, i);
                 cnt++;
             }
         }
 
-        for(int i = veclist.Count; i > 0 ; i--)
+        for (int i = veclist.Count; i > 0; i--)
         {
-            if(veclist[i - 1].x != -1)
+            if (veclist[i - 1].x != -1)
             {
-                settingText = settingText.Remove((int)veclist[i - 1].x, ( (int)veclist[i - 1].y - (int)veclist[i - 1].x ) + 1 );
+                settingText = settingText.Remove((int)veclist[i - 1].x, ((int)veclist[i - 1].y - (int)veclist[i - 1].x) + 1);
             }
         }
         return settingText;
@@ -175,7 +178,7 @@ public class TextBox : MonoUI
         triggerDictionary.Clear();
         // 텍스트 박스 안에 넣을 텍스트
         // <color> 같은 것은 텍스트 박스 안에 넣어야함
-        string textBoxInText = RemoveCommandText(message, true);
+        string textBoxInText = TextTrigger.RemoveCommandText(message, triggerDictionary, this.gameObject, true);
         // 텍스트가 너무 길 경우 자동으로 줄 바꿈 처리
         textBoxInText = SliceLineText(textBoxInText);
 
@@ -326,7 +329,7 @@ public class TextBox : MonoUI
 
         if (text.Contains('{'))
         {
-            text = RemoveCommandText(text);
+            text = TextTrigger.RemoveCommandText(text, triggerDictionary, this.gameObject);
         }
 
         return text;
@@ -362,29 +365,7 @@ public class TextBox : MonoUI
         return richText;
     }
 
-    // text에서 cmdText 뽑아냄
-    // ex) {BS_WriterBGM}
-    private string EncordingCommandText(string message)
-    {
-        string richText = "";
 
-        if (message[0] == '{')
-        {
-            message = message.Substring(1);
-        }
-
-        for (int i = 0; i < message.Length; i++)
-        {
-
-            if (message[i] == '}')
-            {
-                break;
-            }
-            richText += message[i];
-        }
-
-        return richText;
-    }
 
     // text에서 richText 없앰
     private string RemoveRichText(string message)
@@ -406,92 +387,68 @@ public class TextBox : MonoUI
 
     // text에서 cmdText 없앰
     // 만약 registerCmd를 true할 시 커맨드 등록도 시킴
-    private string RemoveCommandText(string message, bool registerCmd = false)
-    {
-        string removeText = message;
-        int signTextLength = 0;
+    //private string RemoveCommandText(string message, bool registerCmd = false)
+    //{
+    //    string removeText = message;
+    //    int signTextLength = 0;
 
-        for (int i = 0; i < removeText.Length; i++)
-        {
-            if (i < 0)
-            {
-                i = 0;
-            }
-            if (removeText[i] == '{')
-            {
-                isFindSign = true;
 
-                string signText = EncordingCommandText(removeText.Substring(i)); // {} 문자열
-                removeText = removeText.Remove(i, signText.Length + 2); // {} 이 문자열을 제외시킨 문자열
+    //    for (int i = 0; i < removeText.Length; i++)
+    //    {
+    //        if (i < 0)
+    //        {
+    //            i = 0;
+    //        }
+    //        if (removeText[i] == '{')
+    //        {
+    //            isFindSign = true;
 
-                if (registerCmd)
-                {
-                    if (triggerDictionary.ContainsKey(i + signTextLength))
-                        triggerDictionary[i + signTextLength] += () => CommandTrigger(signText);
+    //            string signText = TextTrigger.EncordingCommandText(removeText.Substring(i)); // {} 문자열
+    //            removeText = removeText.Remove(i, signText.Length + 2); // {} 이 문자열을 제외시킨 문자열
 
-                    else
-                    {
-                        triggerDictionary.Add(i + signTextLength, () => CommandTrigger(signText));
-                    }
-                }
+    //                if (registerCmd)
+    //                {
 
-                signTextLength += signText.Length;
-                i -= signText.Length;
-            }
-        }
+    //                    if (triggerDictionary.ContainsKey(i + signTextLength))
+    //                        triggerDictionary[i + signTextLength] += () => TextTrigger.CommandTrigger(signText, this.gameObject);
 
-        return removeText;
-    }
+    //                    else
+    //                    {
+    //                        triggerDictionary.Add(i + signTextLength, () => TextTrigger.CommandTrigger(signText, this.gameObject));
+    //                    }
+    //                }
+
+    //            signTextLength += signText.Length;
+    //            i -= signText.Length;
+    //        }
+    //    }
+
+    //    return removeText;
+    //}
 
     #endregion
 
     #region CommandTrigger
 
-    private void CommandTrigger(string msg)
+    public void SetDelay(object[] ps)
     {
-
-        string cmdMsg = EncordingCommandText(msg);
-
-        string[] cmdMsgSplit = cmdMsg.Split('_');
-        string cmdType = cmdMsgSplit[0];
-        string cmdValue = cmdMsgSplit[1];
-
-        switch (cmdType)
+        if (ps[0] is float)
         {
-            case "PS":
-                {
-                    Sound.EAudioType audioType = (EAudioType)Enum.Parse(typeof(EAudioType), cmdValue);
-                    Sound.OnPlaySound?.Invoke(audioType);
-
-                    break;
-                }
-
-            case "PSDL":
-                {
-                    Sound.EAudioType audioType = (EAudioType)Enum.Parse(typeof(EAudioType), cmdValue);
-                    float? delayNull = Sound.OnPlaySound?.Invoke(audioType);
-                    currentDelay = delayNull != null ? (float)delayNull : 0f;
-                    break;
-                }
-
-            case "SK":
-                {
-                    string[] cmdValueArray = cmdValue.Split(',');
-                    float delay = float.Parse(cmdValueArray[0]);
-                    float strength = float.Parse(cmdValueArray[1]);
-                    int vibrato = int.Parse(cmdValueArray[2]);
-
-                    StartCoroutine(textShakingCoroutine(delay, strength, vibrato));
-                    break;
-                }
-
-            case "DL":
-                {
-                    currentDelay = float.Parse(cmdValue);
-                    break;
-                }
+            currentDelay = (float)ps[0];
         }
+    }
 
+    public void SetShake(object[] ps)
+    {
+        //float delay, float strength, int vibrato, GameObject obj;
+        if (ps[3] as GameObject == this.gameObject)
+        {
+            float delay = (float)ps[0];
+            float strength = (float)ps[1];
+            int vibrato = (int)ps[2];
+
+            StartCoroutine(textShakingCoroutine(delay, strength, vibrato));
+        }
     }
 
     private IEnumerator textShakingCoroutine(float delay, float strength, int vibrato)
