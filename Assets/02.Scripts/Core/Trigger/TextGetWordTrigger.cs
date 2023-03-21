@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TextGetWordSystem : MonoBehaviour, IPointerMoveHandler, IPointerClickHandler, IPointerExitHandler
+public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerClickHandler, IPointerExitHandler
 {
     private TMP_Text textMeshPro;
 
@@ -27,10 +27,10 @@ public class TextGetWordSystem : MonoBehaviour, IPointerMoveHandler, IPointerCli
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!GameManager.Inst.isProfilerTownloadCompleted)
-        {
-            return;
-        }
+        //if (!GameManager.Inst.isProfilerTownloadCompleted)
+        //{
+        //    return;
+        //}
 
         if (eventData.button == PointerEventData.InputButton.Left)
         {
@@ -56,7 +56,6 @@ public class TextGetWordSystem : MonoBehaviour, IPointerMoveHandler, IPointerCli
             TMP_CharacterInfo getCharIndexInfo = textMeshPro.textInfo.characterInfo[charIndex];
 
             char c = getCharIndexInfo.character;
-
 
             while (!isSpace)
             {
@@ -89,6 +88,7 @@ public class TextGetWordSystem : MonoBehaviour, IPointerMoveHandler, IPointerCli
                 }
                 getCharIndexInfo = textMeshPro.textInfo.characterInfo[count - 1];
                 c = getCharIndexInfo.character;
+                
                 if (c == ' ')
                 {
                     isSpace = true;

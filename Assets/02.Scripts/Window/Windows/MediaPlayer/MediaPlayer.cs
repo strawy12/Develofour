@@ -91,9 +91,6 @@ public class MediaPlayer : Window
                 Debug.Log("Media End");
             }
 
-            Debug.Log("ÇöÀç : " + mediaDetailText.maxVisibleCharacters);
-            Debug.Log("³¡ : " + mediaPlayerData.textData.Length);
-
             yield return new WaitForSeconds(mediaPlayerData.textPlaySpeed);
         }
     }
