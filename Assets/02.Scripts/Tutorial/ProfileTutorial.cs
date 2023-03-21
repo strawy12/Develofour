@@ -30,6 +30,7 @@ public class ProfileTutorial : MonoBehaviour
 
         for(int i = 0; i < data.Count; i++)
         {
+            //yield return new WaitUntil(() => )
             AIChatting(data[i].text);
             yield return new WaitForSeconds(delay);
         }

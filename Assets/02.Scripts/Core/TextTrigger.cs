@@ -9,10 +9,9 @@ public static class TextTrigger
     {
 
         string cmdMsg = EncordingCommandText(msg);
-        Debug.Log(cmdMsg);
         string[] cmdMsgSplit = cmdMsg.Split('_');
 
-        if (cmdMsgSplit.Length < 1)
+        if (cmdMsgSplit.Length == 1)
         {
             return;
         }
@@ -101,8 +100,9 @@ public static class TextTrigger
         return richText;
     }
 
-    public static string RemoveCommandText(string message, bool registerCmd = false)
+    public static string RemoveCommandText(string message, Dictionary<int, Action> triggerDictionary, GameObject gobj, bool registerCmd = false)
     {
+
         string removeText = message;
         int signTextLength = 0;
 
@@ -116,6 +116,22 @@ public static class TextTrigger
             {
                 string signText = TextTrigger.EncordingCommandText(removeText.Substring(i)); // {} 문자열
                 removeText = removeText.Remove(i, signText.Length + 2); // {} 이 문자열을 제외시킨 문자열
+
+                if (registerCmd)
+                {
+                    if (triggerDictionary != null)
+                    {
+                        if (triggerDictionary.ContainsKey(i + signTextLength))
+                        {
+                            triggerDictionary[i + signTextLength] += () => TextTrigger.CommandTrigger(signText, gobj);
+                        }
+                        else
+                        {
+                            triggerDictionary.Add(i + signTextLength, () => TextTrigger.CommandTrigger(signText, gobj));
+                        }
+                    }
+
+                }
 
                 signTextLength += signText.Length;
                 i -= signText.Length;

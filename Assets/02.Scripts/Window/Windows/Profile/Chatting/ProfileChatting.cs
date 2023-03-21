@@ -91,7 +91,7 @@ public class ProfileChatting : MonoBehaviour
         
         NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null, ENoticeTag.AIAlarm);
 
-        string currentStr = TextTrigger.EncordingCommandText(str);
+        string currentStr = TextTrigger.RemoveCommandText(str, null, this.gameObject);
         SOData.saveList.Add(currentStr);
 
         obj.GetComponent<TMP_Text>().text = ">> " + currentStr;
@@ -115,7 +115,7 @@ public class ProfileChatting : MonoBehaviour
 
     public void SetDelay(object[] ps)
     {
-        if(ps[0] is string)
+        if(ps[0] is float)
         {
             currentDelay = (float)ps[0];
             Debug.Log(currentDelay);

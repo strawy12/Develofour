@@ -58,7 +58,6 @@ public class MonologSystem : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             textBox.PrintText();
-            Debug.Log(i);
             yield return new WaitUntil(() => textBox.IsClick);
         }
 
