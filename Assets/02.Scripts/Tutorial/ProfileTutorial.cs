@@ -30,15 +30,16 @@ public class ProfileTutorial : MonoBehaviour
             return;   
         }
 
-        FileSO fileData = (FileSO)ps[0];
+        Debug.Log("클릭");
 
+        FileSO fileData = (FileSO)ps[0];
 
         if(fileData.fileName == "BestUSB")
         {
             MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 1f, 3);
+            EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
         }
-        
-        EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
+
     }
 
     public void StartChatting(EAIChattingTextDataType textDataType)
