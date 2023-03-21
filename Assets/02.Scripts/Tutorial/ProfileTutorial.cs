@@ -9,6 +9,7 @@ public class ProfileTutorial : MonoBehaviour
 {
     [SerializeField]
     private WindowAlterationSO profileWindowAlteration;
+
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
