@@ -7,15 +7,11 @@ using System;
 
 public class ProfileTutorial : MonoBehaviour
 {
-    public string[] startAIChatting;
-    public string[] findNoticeAIChatting;
-    public string[] completeProfileChatting;
-
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
         //EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCoroutine(NoticeProfileChattingTutorial()); });
-        EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { Debug.Log("왜안됨"); StartCompleteProfileTutorial(); });
+        EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
 
         //skip debug 코드
         
@@ -29,8 +25,6 @@ public class ProfileTutorial : MonoBehaviour
         {
             return;   
         }
-
-        Debug.Log("클릭");
 
         FileSO fileData = (FileSO)ps[0];
 
@@ -88,6 +82,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartCompleteProfileTutorial()
     {
+        EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
         ProfileChattingSystem.OnChatEnd += StartProfileEnd;
         StartChatting(EAIChattingTextDataType.CompleteProfileAIChatting);
     }

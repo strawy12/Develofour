@@ -271,8 +271,6 @@ public class Library : Window
         {
             Debug.Log("BestUSB");
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);
-            
-            MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 0.5f, 3);
         }
         else if(currentDirectory.fileName == "User\\")
         {
