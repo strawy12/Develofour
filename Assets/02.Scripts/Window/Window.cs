@@ -146,7 +146,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         Destroy(gameObject);
     }
 
-    public void WindowMinimum()
+    public virtual void WindowMinimum()
     {
         WindowManager.Inst.SelectedObjectNull();
         SetActive(false);

@@ -7,6 +7,9 @@ using System;
 
 public class ProfileTutorial : MonoBehaviour
 {
+    [SerializeField]
+    private WindowAlterationSO profileWindowAlteration;
+
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
@@ -17,6 +20,7 @@ public class ProfileTutorial : MonoBehaviour
         
         EventManager.StartListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
         // 만약 USB 화면 들어가면
+        
     }
 
     public void FirstOpenUSBFile(object[] ps)
@@ -45,7 +49,6 @@ public class ProfileTutorial : MonoBehaviour
     {
         Debug.Log("프로파일러 튜토리얼 시작");
         DataManager.Inst.SaveData.isTutorialStart = true;
-        WindowManager.Inst.StartTutorialSetting();
         yield return new WaitForSeconds(0.5f);
         
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
@@ -63,13 +66,26 @@ public class ProfileTutorial : MonoBehaviour
     public void StartProfileNextTutorial()
     {
         MonologSystem.OnEndMonologEvent -= StartProfileNextTutorial;
-        ProfileChattingSystem.OnChatEnd += BackgroundNoticeTutorial;
+        ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
         StartChatting(EAIChattingTextDataType.StartNextAiChatting);
+    }
+
+    private void CheckMaximumWindow()
+    {
+        ProfileChattingSystem.OnChatEnd -= CheckMaximumWindow;
+
+        if (profileWindowAlteration.isMaximum)
+        {
+            EventManager.TriggerEvent(ETutorialEvent.ProfileMidiumStart);
+        }
+        else
+        {
+            BackgroundNoticeTutorial();
+        }
     }
 
     public void BackgroundNoticeTutorial()
     {
-        ProfileChattingSystem.OnChatEnd -= BackgroundNoticeTutorial;
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
 
