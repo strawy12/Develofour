@@ -29,8 +29,8 @@ public class MediaPlayerDownBar : MonoBehaviour
 
     private void PlayAudio()
     {
-        Debug.Log("≈¨∏Ø§ª");
-        PlayButtonClick?.Invoke();
+        Debug.Log("∏ÿ√„");
+        //layButtonClick?.Invoke();
 
         playButton.gameObject.SetActive(true);
         stopButton.gameObject.SetActive(false);
@@ -38,7 +38,8 @@ public class MediaPlayerDownBar : MonoBehaviour
 
     private void StopAudio()
     {
-        StopButtonClick?.Invoke();
+        Debug.Log("¿ÁΩ√¿€");
+        //StopButtonClick?.Invoke();
 
         playButton.gameObject.SetActive(false);
         stopButton.gameObject.SetActive(true);
