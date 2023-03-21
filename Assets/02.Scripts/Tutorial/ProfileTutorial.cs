@@ -30,8 +30,6 @@ public class ProfileTutorial : MonoBehaviour
             return;   
         }
 
-        Debug.Log("클릭");
-
         FileSO fileData = (FileSO)ps[0];
 
         if(fileData.fileName == Constant.USB_FILENAME)
