@@ -64,7 +64,11 @@ public static class Define
 
     public static void GameQuit()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
 
     public static bool ExistInHits(GameObject obj, object hits)
