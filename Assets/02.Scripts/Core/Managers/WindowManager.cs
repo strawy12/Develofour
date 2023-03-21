@@ -247,7 +247,7 @@ public class WindowManager : MonoSingleton<WindowManager>
             SelectedObjectNull();
         }
 
-        if(InputManager.AnyMouseButtonUp())
+        if (InputManager.AnyMouseButtonUp())
         {
             Sound.OnPlaySound?.Invoke(Sound.EAudioType.MouseUp);
         }
@@ -263,16 +263,4 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
     }
 
-
-    public void StartTutorialSetting()
-    {
-        //foreach (Window window in windowDictionary[EWindowType.Directory])
-        //{
-        //    window.WindowClose();
-        //}
-        //foreach (Window window in windowDictionary[EWindowType.Notepad])
-        //{
-        //    window.WindowClose();
-        //}
-    }
 }

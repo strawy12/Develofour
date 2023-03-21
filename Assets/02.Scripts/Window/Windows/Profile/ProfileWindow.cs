@@ -43,7 +43,7 @@ public class ProfileWindow : Window
 
     [SerializeField]
     private float moveDelay = 0.75f;
-    
+
     private bool isOpen = true;
     private bool isMoving = false;
 
@@ -70,7 +70,7 @@ public class ProfileWindow : Window
 
     private void OnClickShowProfilingBtn()
     {
-        if(beforeClickButton == profileSystemBtn)
+        if (beforeClickButton == profileSystemBtn)
         {
             return;
         }
@@ -94,7 +94,7 @@ public class ProfileWindow : Window
 
     private void OnClickShowInfo()
     {
-        if(beforeClickButton == infoCheckBtn)
+        if (beforeClickButton == infoCheckBtn)
         {
             return;
         }
@@ -118,7 +118,7 @@ public class ProfileWindow : Window
 
     private void OnClickShowFileSearch()
     {
-        if(beforeClickButton == fileSearchBtn)
+        if (beforeClickButton == fileSearchBtn)
         {
             return;
         }
@@ -142,9 +142,10 @@ public class ProfileWindow : Window
 
     private void TutorialStart()
     {
-        if(DataManager.Inst.SaveData.isTutorialStart == false)
+        if (DataManager.Inst.SaveData.isTutorialStart == false)
         {
             EventManager.TriggerEvent(ETutorialEvent.TutorialStart, new object[0]);
+            EventManager.StartListening(ETutorialEvent.ProfileMidiumStart, StartGuideMinimumBtn);
             DataManager.Inst.SaveData.isTutorialStart = true;
         }
     }
@@ -154,9 +155,9 @@ public class ProfileWindow : Window
         isMoving = true;
         area.DOAnchorPosY(-1000, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
-           profilePanel.gameObject.SetActive(false);
-           infoCheckPanel.gameObject.SetActive(false);
-           fileSearchPanel.gameObject.SetActive(false);
+            profilePanel.gameObject.SetActive(false);
+            infoCheckPanel.gameObject.SetActive(false);
+            fileSearchPanel.gameObject.SetActive(false);
         });
 
         yield return new WaitForSeconds(moveDelay + 0.05f);
@@ -165,7 +166,7 @@ public class ProfileWindow : Window
 
     private IEnumerator OnShowProfile()
     {
-        if(!isMoving)
+        if (!isMoving)
         {
             isMoving = true;
             if (isOpen)
@@ -196,8 +197,8 @@ public class ProfileWindow : Window
     private IEnumerator OnShowFileSearch()
     {
         if (GameManager.Inst.GameState == EGameState.Tutorial) yield break;
-        
-        if(!isMoving)
+
+        if (!isMoving)
         {
             isMoving = true;
             if (isOpen)
@@ -243,5 +244,23 @@ public class ProfileWindow : Window
             isOpen = true;
             isMoving = false;
         });
+    }
+    private void StartGuideMinimumBtn(object[] ps)
+    {
+        GuideUISystem.OnGuide?.Invoke((RectTransform)windowBar.MinimumBtn.transform);
+        EventManager.StartListening(ETutorialEvent.ProfileMidiumEnd, TutotrialClickMinimumBtn);
+    }
+    private void TutotrialClickMinimumBtn(object[] ps)
+    {
+        GuideUISystem.EndGuide?.Invoke();
+        EventManager.StopListening(ETutorialEvent.ProfileMidiumEnd, TutotrialClickMinimumBtn);
+        EventManager.StopListening(ETutorialEvent.ProfileMidiumStart, StartGuideMinimumBtn);
+        EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
+    }
+    public override void WindowMinimum()
+    {
+        base.WindowMinimum();
+        EventManager.TriggerEvent(ETutorialEvent.ProfileMidiumEnd);
+
     }
 }
