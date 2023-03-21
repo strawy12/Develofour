@@ -4015,37 +4015,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9886895ad34946c4bfb544ba0ff11f47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &647811195
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 647811196}
-  m_Layer: 0
-  m_Name: GetWordSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &647811196
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 647811195}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1115888032}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &684913212
 GameObject:
   m_ObjectHideFlags: 0
@@ -4287,33 +4256,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1226968990}
     m_Modifications:
-    - target: {fileID: 450795840068727609, guid: 7056b033a46df7245a245533d088f923, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 450795840068727609, guid: 7056b033a46df7245a245533d088f923, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 450795840068727609, guid: 7056b033a46df7245a245533d088f923, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 532772624170592265, guid: 7056b033a46df7245a245533d088f923, type: 3}
       propertyPath: m_Name
       value: MediaPlayerWindow
-      objectReference: {fileID: 0}
-    - target: {fileID: 2154756875211318276, guid: 7056b033a46df7245a245533d088f923, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2154756875211318276, guid: 7056b033a46df7245a245533d088f923, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2154756875211318276, guid: 7056b033a46df7245a245533d088f923, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4109291492559180681, guid: 7056b033a46df7245a245533d088f923, type: 3}
       propertyPath: m_Pivot.x
@@ -4397,18 +4342,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4109291492559180681, guid: 7056b033a46df7245a245533d088f923, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7074053763744063459, guid: 7056b033a46df7245a245533d088f923, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7074053763744063459, guid: 7056b033a46df7245a245533d088f923, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8394367138655672373, guid: 7056b033a46df7245a245533d088f923, type: 3}
-      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -7281,7 +7214,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 994238858}
-  - {fileID: 647811196}
+  - {fileID: 2073536018}
   - {fileID: 1378105539}
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -13156,6 +13089,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a0fd7057e3a4fb18082ec3c247079d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2073536017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2073536018}
+  - component: {fileID: 2073536019}
+  m_Layer: 0
+  m_Name: GetProfilerWordSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2073536018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073536017}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1115888032}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2073536019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073536017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1389dcd3b9b14021b1ff0fccb4283367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  willGetWordList:
+  - isFinded: 0
+    word: "\uC5F0\uACE0\uB300\uD559\uAD50"
+    value:
+      category: 2
+      information: SuspectUniversity
+  - isFinded: 0
+    word: "\uBC18\uB824\uB3D9\uBB3C\uD559\uACFC"
+    value:
+      category: 2
+      information: SuspectDepartment
 --- !u!114 &2107233123 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6230100377067028930, guid: dfe5b8f1296a4c9799eec4de2825b785, type: 3}
@@ -13490,11 +13478,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7144530945994159918, guid: 50dba3278399485b9f84f2e25a52fb07, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7144530945994159918, guid: 50dba3278399485b9f84f2e25a52fb07, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7144530945994159918, guid: 50dba3278399485b9f84f2e25a52fb07, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

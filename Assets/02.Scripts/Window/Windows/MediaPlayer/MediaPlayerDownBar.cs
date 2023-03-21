@@ -29,12 +29,17 @@ public class MediaPlayerDownBar : MonoBehaviour
 
     private void PlayAudio()
     {
+        Debug.Log("Å¬¸¯¤»");
+        PlayButtonClick?.Invoke();
+
         playButton.gameObject.SetActive(true);
         stopButton.gameObject.SetActive(false);
     }
 
     private void StopAudio()
     {
+        StopButtonClick?.Invoke();
+
         playButton.gameObject.SetActive(false);
         stopButton.gameObject.SetActive(true);
     }

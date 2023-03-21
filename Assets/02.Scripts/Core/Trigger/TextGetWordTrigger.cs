@@ -27,10 +27,10 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!GameManager.Inst.isProfilerTownloadCompleted)
-        {
-            return;
-        }
+        //if (!GameManager.Inst.isProfilerTownloadCompleted)
+        //{
+        //    return;
+        //}
 
         if (eventData.button == PointerEventData.InputButton.Left)
         {
@@ -40,6 +40,9 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
             }
 
             Debug.Log(word);
+
+            GetProfilerWordSystem.OnGeneratedProfiler?.Invoke(word);
+            GetProfilerWordSystem.OnFindWord?.Invoke(word);
         }
     }
 
@@ -107,6 +110,8 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { "None" });
+        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
+
+        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
     }
 }
