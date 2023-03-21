@@ -40,6 +40,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private bool isUSBEvent = false;
     public FileSO File => fileData;
 
+    private int IconDefaultSize => isBackground ? 60 : 100;
+
     public void Bind()
     {
         rectTranstform = GetComponent<RectTransform>();
@@ -64,9 +66,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             return;
         }
+
         fileData = newFileData;
         iconNameText.text = fileData.fileName;
-
+        Debug.Log(newFileData.fileName);
         float x1, y1, x2, y2;
 
         if (newFileData.iconSprite.rect.width != newFileData.iconSprite.rect.height)
@@ -75,25 +78,40 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             y1 = newFileData.iconSprite.rect.height;
             if (x1 > y1)
             {
-                x2 = 100;
+                x2 = IconDefaultSize;
                 y2 = y1 * x2 / x1;
             }
             else
             {
-                y2 = 100;
+                y2 = IconDefaultSize;
                 x2 = x1 * y2 / y1;
             }
-            iconImage.rectTransform.sizeDelta = new Vector2(x2, y2);
+
         }
+        else
+        {
+            x2 = y2 = IconDefaultSize;
+        }
+
+        iconImage.rectTransform.sizeDelta = new Vector2(x2, y2);
 
         iconImage.sprite = newFileData.iconSprite;
 
-        if(fileData.windowType == EWindowType.ImageViewer)
+        if (fileData.windowType == EWindowType.ImageViewer)
         {
             iconImage.color = Color.white;
         }
+        else
+        {
+            iconImage.color = Color.black;
+        }
+        //if(fileData.windowType == EWindowType.Directory)
+        //{
+        //    iconImage.color = Color.black;
+        //    iconImage.rectTransform.sizeDelta = new Vector2(100, 100);
+        //}
 
-        if (isRegisterEvent == false && fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일러\\")    
+        if (isRegisterEvent == false && fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일러\\")
         {
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
@@ -130,7 +148,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 if (fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일러\\")
                 {
                     Debug.Log("용의자 프로파일러 " + GameManager.Inst.GameState);
-                    if(GameManager.Inst.GameState == EGameState.Tutorial)
+                    if (GameManager.Inst.GameState == EGameState.Tutorial)
                     {
                         EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
                     }
@@ -168,7 +186,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Close()
     {
-        UnSelect(); 
+        UnSelect();
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
@@ -182,7 +200,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         targetWindow = WindowManager.Inst.WindowOpen(fileData.windowType, fileData);
 
-        if (targetWindow == null || targetWindow.File.windowType == EWindowType.WindowPinLock )
+        if (targetWindow == null || targetWindow.File.windowType == EWindowType.WindowPinLock)
         {
             return;
         }
