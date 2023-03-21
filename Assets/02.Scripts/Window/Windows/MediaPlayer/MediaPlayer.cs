@@ -42,19 +42,20 @@ public class MediaPlayer : Window
         mediaPlayerData = ResourceManager.Inst.GetMediaPlayerData(file.GetFileLocation());
 
         mediaPlayerDownBar.mediaPlayFileName.SetText(mediaPlayerData.name);
+
         mediaDetailText.SetText(mediaPlayerData.textData);
-
         mediaDetailText.maxVisibleCharacters = 0;
-
-        mediaPlaySlider.OnMousePointDown += SetSliderMediaText;
+        
+        mediaPlaySlider.OnMousePointDown += MediaSliderDown;
         mediaPlaySlider.OnMousePointUp += PlayMediaPlayer;
+        mediaPlaySlider.OnMouseSlider += SetSliderMediaText;
 
         secondTimer = 0;
         minuteTimer = 0;
 
         isRePlaying = false;
 
-        PlayMediaPlayer();
+        StartMediaPlayer();
     }
 
     private void ButtonActionInit()
@@ -66,8 +67,16 @@ public class MediaPlayer : Window
         mediaPlayerDownBar.StopButtonClick += cdPlayMedia.StopCdAnimation;
     }
 
+    private void StartMediaPlayer()
+    {
+        StartCoroutine(PrintMediaText());
+        StartCoroutine(PrintTimerText());
+    }
+
     private void PlayMediaPlayer()
     {
+        cdPlayMedia.PlayCdAnimation();
+
         StartCoroutine(PrintMediaText());
         StartCoroutine(PrintTimerText());
     }
@@ -125,8 +134,6 @@ public class MediaPlayer : Window
 
     private void SetSliderMediaText(float t)
     {
-        StopAllCoroutines();
-        
         int m = (int)(mediaPlayerData.textPlaySpeed * mediaPlayerData.textData.Length);
         int n = (int)(m * t); // √ 
 
@@ -144,5 +151,11 @@ public class MediaPlayer : Window
             mediaPlayerDownBar.PlayButtonClick?.Invoke();
             isRePlaying = false;
         }
+    }
+
+    private void MediaSliderDown()
+    {
+        cdPlayMedia.StopCdAnimation();
+        StopAllCoroutines();
     }
 }
