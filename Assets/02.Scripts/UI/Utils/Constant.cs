@@ -11,8 +11,6 @@ public static class Constant
 
     public static readonly Vector2 NOTICE_POS = new Vector2(-17.5f, -470f);
 
-    public static readonly Vector2 MIDDLIE_ANCHORPOS = new Vector2(0.5f, 0.5f);
-
     public static readonly float NOTICEDRAG_INVISIBILITY = 65.5f;
     public static readonly float NOTICEDRAG_INTERVAL = -45f;
 
