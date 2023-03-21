@@ -56,11 +56,18 @@ public class TextBox : MonoUI
     private void Start()
     {
         triggerDictionary = new Dictionary<int, Action>();
+
+        GameManager.Inst.OnStartCallback += EventInitStartCallback;
+    }
+
+    private void EventInitStartCallback()
+    {
         EventManager.StartListening(ECoreEvent.OpenTextBox, Init);
 
         EventManager.StartListening(ETextboxEvent.Shake, SetShake);
         EventManager.StartListening(ETextboxEvent.Delay, SetDelay);
     }
+
 
     private void OnPressNextKey(object[] ps) => OnPressNextKey();
     private void OnPressNextKey()

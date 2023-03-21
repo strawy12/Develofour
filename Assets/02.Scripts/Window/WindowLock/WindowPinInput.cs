@@ -67,8 +67,6 @@ public class WindowPinInput : Window
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
     }
 
-
-
     private void CheckPinPassword()
     {
         if (pinInputField.text == file.windowPin)

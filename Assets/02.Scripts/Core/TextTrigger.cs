@@ -7,7 +7,6 @@ public static class TextTrigger
 {
     public static void CommandTrigger(string msg, GameObject obj = null)
     {
-
         string cmdMsg = EncordingCommandText(msg);
         string[] cmdMsgSplit = cmdMsg.Split('_');
 
