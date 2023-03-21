@@ -137,12 +137,12 @@ public enum EProfileEvent
 {
     None = -1,
     FindInfoText,
-    SendMessage,
+    SaveMessage,
     InstalledProfile,
+    SendMessage,
 }
 public enum EGuideEventType
 {
-    OpenPlayGuide,
     ClearGuideType,
     GuideConditionCheck,
 }
@@ -163,8 +163,9 @@ public enum ETutorialEvent
     ProfileInfoStart, 
     ProfileInfoEnd, 
     ProfileEventStop, 
-    EndClickInfoTutorial, 
+    EndClickInfoTutorial,
 }
+
 
 public enum EDebugSkipEvent
 {

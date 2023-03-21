@@ -74,7 +74,6 @@ public class StartCutScene : MonoBehaviour
         }
 
         yield return new WaitForSeconds(time.Value);
-        Debug.Log(11);
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.ComputerNoise);
     }
 

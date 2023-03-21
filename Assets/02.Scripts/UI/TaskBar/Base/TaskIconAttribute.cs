@@ -71,7 +71,6 @@ public class TaskIconAttribute : MonoBehaviour
 
     public void WindowClose()
     {
-        Debug.Log("WindowClose");
         OnCloseWindow?.Invoke();
     }
 

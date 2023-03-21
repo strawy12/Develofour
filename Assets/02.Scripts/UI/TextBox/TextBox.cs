@@ -120,7 +120,6 @@ public class TextBox : MonoUI
 
     public void SimpleTypePrint(TextData textData)
     {
-        Debug.Log("asdf");
         bgImage.color = Color.black;
         bgImage.ChangeImageAlpha(1f);
         bgImage.sprite = simpleTypeSprite;

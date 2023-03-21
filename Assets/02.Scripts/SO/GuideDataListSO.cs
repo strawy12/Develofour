@@ -7,7 +7,6 @@ public class GuideData
 {
     public EGuideTopicName topicName;
     public string[] guideTexts;
-    public float timer;
 }
 
 [CreateAssetMenu(menuName ="SO/GuideData")]

@@ -17,32 +17,42 @@ public class CursorChangeSystem : MonoBehaviour
         EventManager.StartListening(ECoreEvent.CursorChange, CursorChange);
     }
 
+    public enum ECursorState
+    {
+        Default,
+        FindInfo,
+        FoundInfo,
+    }
+
     private void CursorChange(object[] ps)
     {
-        if (ps[0] == null || !GameManager.Inst.isProfilerTownloadCompleted)
+        if (ps[0] == null || !Define.CheckIntallProfile())
         {
             return;
         }
 
-        string commandWord = ps[0].ToString();
 
-        switch (commandWord)
+        ECursorState state = (ECursorState)ps[0];
+
+        switch (state)
         {
-            case "FindingWord":
-            {
-                Cursor.SetCursor(provisoCursor, new Vector2(provisoCursor.width / 2, provisoCursor.height / 2), CursorMode.Auto);
-                break;
-            }
-            case "FindedWord":
-            {
-                Cursor.SetCursor(findedProvisoCursor, new Vector2(findedProvisoCursor.width / 2, findedProvisoCursor.height / 2), CursorMode.Auto);
-                break;
-            }
-            default:
-            {
-                Cursor.SetCursor(defaultCursor, new Vector2(0, 0), CursorMode.Auto);
-                break;
-            }
+            case ECursorState.Default:
+                {
+                    Cursor.SetCursor(defaultCursor, new Vector2(0, 0), CursorMode.Auto);
+                    break;
+                }
+
+            case ECursorState.FindInfo:
+                {
+                    Cursor.SetCursor(provisoCursor, new Vector2(provisoCursor.width / 2, provisoCursor.height / 2), CursorMode.Auto);
+                    break;
+                }
+            case ECursorState.FoundInfo:
+                {
+                    Cursor.SetCursor(findedProvisoCursor, new Vector2(findedProvisoCursor.width / 2, findedProvisoCursor.height / 2), CursorMode.Auto);
+                    break;
+                }
+
         }
     }
 

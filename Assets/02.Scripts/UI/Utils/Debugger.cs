@@ -15,6 +15,9 @@ public class DebugEvent
 
 public class Debugger : MonoBehaviour
 {
+#if UNITY_EDITOR
+    private int testTextCnt = 0;
+
     [SerializeField]
     private List<DebugEvent> debugEventList;
 
@@ -48,8 +51,14 @@ public class Debugger : MonoBehaviour
             }
         }
 
+        if(Input.GetKeyDown(KeyCode.V))
+        {
+            EventManager.TriggerEvent(EProfileEvent.SaveMessage, new object[1] { $"test{testTextCnt}" });
+            testTextCnt++;
+
+        }
     }
 
-
+#endif
 
 }
