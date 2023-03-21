@@ -269,19 +269,16 @@ public class Library : Window
 
         if (currentDirectory.GetFileLocation() == "User\\BestUSB\\")
         {
-            Debug.Log("BestUSB");
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);
-            
+
             MonologSystem.OnStartMonolog?.Invoke(ETextDataType.OnUSBFileMonoLog, 0.5f, 3);
         }
-        else if(currentDirectory.fileName == "User\\")
+        else if (currentDirectory.GetFileLocation() == "User\\")
         {
-            Debug.Log("User");
             EventManager.TriggerEvent(ETutorialEvent.LibraryUSBStart);
         }
         else
         {
-            Debug.Log("C");
             EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonStart);
         }
     }

@@ -11,13 +11,14 @@ public static class Constant
 
     public static readonly Vector2 NOTICE_POS = new Vector2(-17.5f, -470f);
 
+    public static readonly Vector2 MIDDLIE_ANCHORPOS = new Vector2(0.5f, 0.5f);
+
     public static readonly float NOTICEDRAG_INVISIBILITY = 65.5f;
     public static readonly float NOTICEDRAG_INTERVAL = -45f;
 
     public static readonly float NOTICE_DELAYTIME = 5f;
     public static readonly float NOTICE_DURATION = 0.3f;
     public static readonly float NOTICE_SIZE_DURATION = 0.13f;
-
     public static readonly EWindowType BROWSER_KEY = EWindowType.Browser;
 
     public const float LOADING_DELAY = 0.75f;
