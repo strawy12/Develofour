@@ -178,7 +178,7 @@ public class WindowsLoginScreen : MonoBehaviour
     private void StartMonolog()
     {
         MonologSystem.OnEndMonologEvent += USBNoticeFunc;
-        MonologSystem.OnStartMonolog(ETextDataType.USBMonolog, monologDelay, 2);
+        MonologSystem.OnStartMonolog(EMonologTextDataType.USBMonolog, monologDelay, 2);
     }
 
     private void USBNoticeFunc()
