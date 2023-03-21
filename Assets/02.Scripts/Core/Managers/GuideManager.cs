@@ -74,13 +74,13 @@ public class GuideManager: MonoBehaviour
             case EGuideTopicName.GuestLoginGuide:
                 {
                     Debug.Log("Guide In");
-                    MonologSystem.OnStartMonolog.Invoke(ETextDataType.GuestLoginGuideLog, 0.5f, 2);
+                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuestLoginGuideLog, 0.5f, 2);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
             case EGuideTopicName.LibraryOpenGuide:
                 {
-                    MonologSystem.OnStartMonolog.Invoke(ETextDataType.GuideLog1, 0.2f, 1);
+                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuideLog1, 0.2f, 1);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }

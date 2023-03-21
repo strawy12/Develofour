@@ -12,7 +12,7 @@ public class PinSaveData
 [System.Serializable]
 public class MonologSaveData
 {
-    public ETextDataType monologType;
+    public EMonologTextDataType monologType;
     public bool isShow;
 }
 [System.Serializable]
@@ -47,6 +47,7 @@ public class SaveData
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
     public bool isZooglePinHintNoteOpen;
+    public bool isTutorialStart;
     public EComputerLoginState computerLoginState;
 }
 

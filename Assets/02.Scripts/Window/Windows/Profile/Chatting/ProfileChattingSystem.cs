@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,34 +8,47 @@ public class ProfileChattingSystem : MonoBehaviour
     [SerializeField]
     private ProfileChattingSaveSO saveData;
 
+    private float currentDelay;
+    private float saveDelay = 2f;
+    private bool isSkip;
+    public static Action OnChatEnd;
+
     private void Awake()
     {
-        EventManager.StartListening(EProfileEvent.SaveMessage, AddText);
+        EventManager.StartListening(EProfileEvent.SendMessage, AddText);
+        EventManager.StartListening(ETextboxEvent.Delay, SetDelay);
+        EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { isSkip = true; });
     }
 
     public void AddText(object[] ps)
     {
-        if (!(ps[0] is EAiChatData))
+        if (ps[0] is EAIChattingTextDataType)
         {
-            if (ps[0] is string)
+            if (ps[0] is EAIChattingTextDataType)
             {
-                AddText(ps[0] as string);
+                StartCoroutine(AddText((EAIChattingTextDataType)ps[0]));
             }
             return;
         }
+        Debug.LogError("형식이 잘못되었습니다.");
+    }
 
-        EAiChatData data = (EAiChatData)ps[0];
+    public IEnumerator AddText(EAIChattingTextDataType type)
+    {
+        AIChattingTextDataSO data = ResourceManager.Inst.GetAIChattingTextDataSO(type);
 
-        foreach (var save in saveData.saveList)
+        for (int i = 0; i < data.Count; i++)
         {
-            if (save == data.ToString())
-            {
-                Debug.Log("동일한 데이터");
-                return;
-            }
+            
+            currentDelay = saveDelay;
+            TextTrigger.CommandTrigger(data[i].text);
+            if (isSkip) currentDelay = 0.05f;
+            yield return new WaitForSeconds(currentDelay);
+            string text = TextTrigger.RemoveCommandText(data[i].text, null, null);
+            AddText(text);
         }
-        saveData.saveList.Add(data.ToString());
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { data });
+
+        OnChatEnd?.Invoke();
     }
 
     public void AddText(string str)
@@ -51,6 +65,16 @@ public class ProfileChattingSystem : MonoBehaviour
         NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null,Color.white, ENoticeTag.AIAlarm);
 
         saveData.saveList.Add(str);
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
+        EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[1] { str });
     }
+
+    public void SetDelay(object[] ps)
+    {
+        if (ps[0] is float)
+        {
+            currentDelay = (float)ps[0];
+            Debug.Log(currentDelay);
+        }
+    }
+
 }

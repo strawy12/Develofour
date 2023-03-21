@@ -10,14 +10,15 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);
-        LoadTextDataSOAssets(() => cnt--);
+        LoadAIChattingTextDataSOAssets(() => cnt--);
+        LoadMonologTextDataSOAssets(() => cnt--);
         LoadImageViewerDataAssets(() => cnt--);
         LoadNotepadDataAssets(() => cnt--);
         LoadMediaPlayerDataAssets(() => cnt--);
         LoadProfileCategoryDataResourcesAssets(() => cnt--);
-        Debug.Log("SuccessLoad");
         yield return new WaitUntil(() => cnt == 0);
 
         EventManager.TriggerEvent(ECoreEvent.EndLoadResources);
     }
 }
+ 
