@@ -102,14 +102,14 @@ public class ProfileInfoSystem : MonoBehaviour
             DataManager.Inst.SetGuide(EGuideTopicName.SuspectRelationWithVictim, true);
         }
 
-        if (DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectIsLivingWithVictim") 
-            && DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectResidence")
-            && DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation ,"SuspectRelationWithVictim"))
+        if (DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectIsLivingWithVictim") 
+            && DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectResidence")
+            && DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectRelationWithVictim"))
         {
             EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectInfoComplete });
         }
 
-        if (!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectName") || !DataManager.Inst.SaveData.isTutorialClear)
+        if (!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectName") || !DataManager.Inst.SaveData.isTutorialClear)
         {
             return;
         }

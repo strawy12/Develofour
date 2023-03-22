@@ -74,17 +74,17 @@ public class GuideManager : MonoBehaviour
     }
     private void CheckStartFindInfoGuide()
     {
-        if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectIsLivingWithVictim"))
+        if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectIsLivingWithVictim"))
         {
             ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectIsLivingWithVictim, 30f); };
             EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictimGuide });
         }
-        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectResidence"))
+        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectResidence"))
         {
             ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectResidence, 30f); };
             EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectResidenceGuide });
         }
-        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectRelationWithVictim"))
+        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectRelationWithVictim"))
         {
             ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectRelationWithVictim, 30f); };
             ProfileChattingSystem.OnChatEnd += delegate { MonologSystem.OnStartMonolog(EMonologTextDataType.SuspectRelationWithVictimGuide, 0.1f); };
