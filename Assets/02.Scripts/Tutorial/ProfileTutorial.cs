@@ -9,7 +9,8 @@ public class ProfileTutorial : MonoBehaviour
 {
     [SerializeField]
     private WindowAlterationSO profileWindowAlteration;
-
+    [SerializeField]
+    private float guideDelayWhenEndTuto = 30f;
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
@@ -34,7 +35,7 @@ public class ProfileTutorial : MonoBehaviour
 
         if(fileData.fileName == Constant.USB_FILENAME)
         {
-            MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 1f, 3);
+            MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 1f);
             EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
         }
 
@@ -61,7 +62,7 @@ public class ProfileTutorial : MonoBehaviour
     public void StartProfileMonolog()
     {
         MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
-        MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, 1);
+        MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f);
     }
     public void StartProfileNextTutorial()
     {
@@ -94,16 +95,16 @@ public class ProfileTutorial : MonoBehaviour
     public void StartCompleteProfileTutorial()
     {
         EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
-        ProfileChattingSystem.OnChatEnd += StartProfileEnd;
+        ProfileChattingSystem.OnChatEnd += EndMonolog;
         StartChatting(EAIChattingTextDataType.CompleteProfileAIChatting);
     }
 
-
-    private void AIChatting(string str)
+    public void EndMonolog()
     {
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
+        ProfileChattingSystem.OnChatEnd -= EndMonolog;
+        MonologSystem.OnEndMonologEvent += StartProfileEnd;
+        MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog2, 0.1f);
     }
-
 
     public void StartProfileEnd()
     {
@@ -117,6 +118,8 @@ public class ProfileTutorial : MonoBehaviour
     {
         GameManager.Inst.ChangeGameState(EGameState.Game);
         GameManager.Inst.isTutorial = false;
-        MonologSystem.OnEndMonologEvent -= EndTutoMonologEvent;
+        DataManager.Inst.SaveData.isTutorialClear = true;
+        GuideManager.OnCheckPlayFindInfoGuide?.Invoke();
+        GuideManager.OnPlayGuide?.Invoke(EGuideTopicName.ClickPinNotePadHint, guideDelayWhenEndTuto);
     }
 }

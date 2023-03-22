@@ -67,7 +67,6 @@ public static class TextTrigger
                         float delay = float.Parse(cmdValueArray[1]);
 
                         NoticeSystem.OnGeneratedNotice?.Invoke(noticeTypeobj, delay);
-
                     }
                     else
                     {

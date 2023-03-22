@@ -44,9 +44,9 @@ public class ProfilePanel : MonoBehaviour
 
         EProfileCategory category = (EProfileCategory)ps[0];
 
-        
         if(ps[2] != null)
         {
+            Debug.Log("ps[2] is not null");
             List<string> strList = ps[2] as List<string>;
             foreach(var temp in strList)
             {

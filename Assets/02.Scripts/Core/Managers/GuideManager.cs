@@ -10,18 +10,23 @@ public enum EGuideTopicName
     LibraryOpenGuide,
     ClickPinNotePadHint,
     ClearPinNotePadQuiz,
+    SuspectIsLivingWithVictim,
+    SuspectResidence,
+    SuspectRelationWithVictim,
     Count
 }
 
 
-public class GuideManager: MonoBehaviour
+public class GuideManager : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
-
+    public static Action OnCheckPlayFindInfoGuide;
     [SerializeField]
     private GuideDataListSO guideListData;
 
     private Dictionary<EGuideTopicName, GuideData> guideTopicDictionary;
+
+
 
     void Start()
     {
@@ -31,14 +36,14 @@ public class GuideManager: MonoBehaviour
     private void Init()
     {
         guideTopicDictionary = new Dictionary<EGuideTopicName, GuideData>();
-        
+
         foreach (var guideData in guideListData.guideDataList)
         {
             guideTopicDictionary.Add(guideData.topicName, guideData);
         }
 
         OnPlayGuide += StartPlayGuide;
-
+        OnCheckPlayFindInfoGuide += CheckStartFindInfoGuide;
         EventManager.StartListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
         EventManager.StartListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
@@ -46,12 +51,13 @@ public class GuideManager: MonoBehaviour
 
     private void StartPlayGuide(EGuideTopicName guideTopicName, float timer)
     {
-
+        
         if (DataManager.Inst.IsGuideUse(guideTopicName))
         {
             return;
         }
 
+        
         StartCoroutine(SetTimer(timer, guideTopicName));
     }
 
@@ -63,24 +69,47 @@ public class GuideManager: MonoBehaviour
         {
             yield break;
         }
-        
+
         StartGudie(guideTopicName);
     }
-
+    private void CheckStartFindInfoGuide()
+    {
+        if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectIsLivingWithVictim"))
+        {
+            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectIsLivingWithVictim, 30f); };
+            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictimGuide });
+        }
+        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectResidence"))
+        {
+            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectResidence, 30f); };
+            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectResidenceGuide });
+        }
+        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectRelationWithVictim"))
+        {
+            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectRelationWithVictim, 30f); };
+            ProfileChattingSystem.OnChatEnd += delegate { MonologSystem.OnStartMonolog(EMonologTextDataType.SuspectRelationWithVictimGuide, 0.1f); };
+            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectRelationWithVictimGuide });
+        }
+        else 
+        {
+            return;
+        }
+    }
     private void StartGudie(EGuideTopicName guideTopic)
     {
         switch (guideTopic)
         {
+            case EGuideTopicName.None:
+                break;
             case EGuideTopicName.GuestLoginGuide:
                 {
-                    Debug.Log("Guide In");
-                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuestLoginGuideLog, 0.5f, 2);
+                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuestLoginGuideLog, 0.5f);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
             case EGuideTopicName.LibraryOpenGuide:
                 {
-                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuideLog1, 0.2f, 1);
+                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuideLog1, 0.2f);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
@@ -95,7 +124,24 @@ public class GuideManager: MonoBehaviour
                 {
                     StartCoroutine(SendAiMessageTexts(guideTopicDictionary[guideTopic].guideTexts));
                     DataManager.Inst.SetGuide(guideTopic, true);
+                    break;
+                }
+            case EGuideTopicName.SuspectIsLivingWithVictim:
+                {
+                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictimHint });
+                    DataManager.Inst.SetGuide(guideTopic, true);
 
+                    break;
+                }
+            case EGuideTopicName.SuspectResidence:
+                {
+                    MonologSystem.OnStartMonolog(EMonologTextDataType.SuspectResidenceHint, 0.1f);
+                    DataManager.Inst.SetGuide(guideTopic, true);
+                    break;
+                }
+            case EGuideTopicName.SuspectRelationWithVictim:
+                {
+                    DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
             default:
@@ -132,7 +178,7 @@ public class GuideManager: MonoBehaviour
         bool isZooglePinHintNoteOpen = DataManager.Inst.SaveData.isZooglePinHintNoteOpen;
 
         string fileLocation = file.GetFileLocation();
-       
+
 
         if (fileLocation == "User\\C\\내 문서\\Zoogle\\Zoogle비밀번호\\")
         {

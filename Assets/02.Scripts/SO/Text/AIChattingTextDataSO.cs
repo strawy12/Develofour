@@ -7,6 +7,11 @@ public enum EAIChattingTextDataType
     StartAIChatting,
     CompleteProfileAIChatting,
     StartNextAiChatting,
+    SuspectIsLivingWithVictimGuide,
+    SuspectIsLivingWithVictimHint,
+    SuspectResidenceGuide,
+    SuspectRelationWithVictimGuide,
+    SuspectInfoComplete,
     Count
 }
 

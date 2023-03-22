@@ -100,14 +100,14 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
         StartCoroutine(CoverSetting());
         MonologSystem.OnEndMonologEvent += NextMonolog;
-        MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartMonolog, 1f, 13);
+        MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartMonolog, 1f);
     }
 
 
     public void NextMonolog()
     {
         MonologSystem.OnEndMonologEvent -= NextMonolog;
-        MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartNextMonolog, 0.75f, 2);
+        MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartNextMonolog, 0.75f);
         GuideManager.OnPlayGuide(EGuideTopicName.GuestLoginGuide, 30);
     }
 

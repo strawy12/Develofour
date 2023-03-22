@@ -16,7 +16,7 @@ public class ProfileInfoSystem : MonoBehaviour
 
         infoList = ResourceManager.Inst.GetProfileCategoryDataList();
         Debug.Log(infoList.Count);
-        foreach(var info in infoList)
+        foreach (var info in infoList)
         {
             Debug.Log($"{info.Key}");
         }
@@ -52,6 +52,7 @@ public class ProfileInfoSystem : MonoBehaviour
         {
             DataManager.Inst.AddProfileinfoData(category, str);
             SendAlarm(category, str);
+            CheckGuideValue(str);
 
         }
         else
@@ -67,7 +68,6 @@ public class ProfileInfoSystem : MonoBehaviour
     }
     public void SendAlarm(EProfileCategory category, string key)
     {
-
         string answer;
         string temp = "nullError";
         ProfileCategoryDataSO categoryData = infoList[category];
@@ -80,6 +80,38 @@ public class ProfileInfoSystem : MonoBehaviour
             }
         }
         string text = categoryData.categoryTitle + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
-        NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profileSprite,Color.white,  ENoticeTag.Profiler);
+        NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
+    }
+
+    private void CheckGuideValue(string str)
+    {
+
+        if (str == "SuspectIsLivingWithVictim")
+        {
+            DataManager.Inst.SetGuide(EGuideTopicName.SuspectIsLivingWithVictim, true);
+
+        }
+        else if (str == "SuspectResidence")
+        {
+            DataManager.Inst.SetGuide(EGuideTopicName.SuspectResidence, true);
+        }
+        else if (str == "SuspectRelationWithVictim")
+        {
+            DataManager.Inst.SetGuide(EGuideTopicName.SuspectRelationWithVictim, true);
+        }
+
+        if (DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectIsLivingWithVictim") 
+            && DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectResidence")
+            && DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation ,"SuspectRelationWithVictim"))
+        {
+            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectInfoComplete });
+        }
+
+        if (!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInfomation, "SuspectName") || !DataManager.Inst.SaveData.isTutorialClear)
+        {
+            return;
+        }
+
+        GuideManager.OnCheckPlayFindInfoGuide?.Invoke();
     }
 }

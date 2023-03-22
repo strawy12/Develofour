@@ -44,6 +44,8 @@ public class TextBox : MonoUI
     private int currentTextIndex;
     private float currentDelay = 0f;
     private Dictionary<int, Action> triggerDictionary;
+
+    public TextDataSO CurrentTextData { get => currentTextData; }
     #endregion
 
     #region Flag 변수
