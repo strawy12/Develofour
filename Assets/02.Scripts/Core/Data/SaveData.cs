@@ -48,6 +48,7 @@ public class SaveData
     public bool isClearStartCutScene;
     public bool isZooglePinHintNoteOpen;
     public bool isTutorialStart;
+    public bool isTutorialClear;
     public EComputerLoginState computerLoginState;
 }
 

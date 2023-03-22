@@ -12,4 +12,10 @@ public class ProfileChattingSaveSO : ScriptableObject
     [Header("ÀúÀå¿ë")]
     [SerializeField]
     public List<string> saveList;
+
+    public void Reset()
+    {
+        saveList.Clear();
+        saveList = new List<string>();
+    }
 }

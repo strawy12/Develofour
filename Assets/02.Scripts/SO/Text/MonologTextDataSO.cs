@@ -9,9 +9,12 @@ public enum EMonologTextDataType
     StartMonolog,
     StartNextMonolog,
     TutorialMonolog1,
+    TutorialMonolog2,
     GuideLog1,
     OnUSBFileMonoLog,
     GuestLoginGuideLog,
+    SuspectResidenceHint,
+    SuspectRelationWithVictimGuide,
     Count
 }
 
