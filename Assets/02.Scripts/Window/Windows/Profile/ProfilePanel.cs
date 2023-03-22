@@ -8,6 +8,7 @@ public enum EProfileCategory
     SuspectProfileInfomation,
     SuspectProfileExtensionInfomation,
     VictimProfileInfomation,
+    PetInformation,
     Count,
 }
 
