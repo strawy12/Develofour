@@ -1,5 +1,5 @@
 ﻿public enum ECoreEvent
-{
+{ 
     None = -1,
     LeftButtonClick,
     ChangeBGM,

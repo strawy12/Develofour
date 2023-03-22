@@ -28,6 +28,7 @@ public class HarmonyMassegeMail : Mail
         if (playBGM == false)
         {
             playBGM = true;
+            Sound.OnImmediatelyStop(Sound.EAudioType.StartMainBGM);
             Sound.OnPlaySound(Sound.EAudioType.AfterDiscordMail);
         }
         base.ShowMail();

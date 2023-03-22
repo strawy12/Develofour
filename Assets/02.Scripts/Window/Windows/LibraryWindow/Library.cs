@@ -9,7 +9,8 @@ using UnityEngine.UI;
 /// Library에서 fileSO는 rootDirectory의 fileSO을 가지고 있는다.
 /// </summary>
 public class Library : Window
-{   
+{
+    [Header("UI")]
     #region poolParam
     [SerializeField]
     private WindowIcon iconPrefab;
@@ -18,9 +19,7 @@ public class Library : Window
     [SerializeField]
     private Transform iconParent;
 
-    private Queue<WindowIcon> poolQueue = new Queue<WindowIcon>();
-    private List<WindowIcon> iconList = new List<WindowIcon>();
-
+    [Header("Directory")]
     #endregion
     [SerializeField]
     private DirectorySO currentDirectory;
@@ -33,10 +32,14 @@ public class Library : Window
     #endregion
     [SerializeField]
     private FileAddressPanel fileAddressPanel;
+
+    [Header("SearchUI")]
     [SerializeField]
     private TMP_InputField searchInputField;
     [SerializeField]
     private Button searchBtn;
+
+    [Header("FuctionBar")]
     #region UI
     [SerializeField]
     private Button undoBtn;
@@ -47,6 +50,7 @@ public class Library : Window
     [SerializeField]
     private TextMeshProUGUI redoText;
     #endregion
+
     private WindowIcon selectIcon;
     #region pooling
     private void CreatePool()
@@ -96,14 +100,17 @@ public class Library : Window
         return icon;
     }
     #endregion
+
     private bool isSetLibrary = false;
+
+    private Queue<WindowIcon> poolQueue = new Queue<WindowIcon>();
+    private List<WindowIcon> iconList = new List<WindowIcon>();
 
     protected override void Init()
     {
         base.Init();
         currentDirectory = file as DirectorySO;
 
-        EventManager.StartListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
 
         undoStack = new Stack<DirectorySO>();
         redoStack = new Stack<DirectorySO>();
@@ -112,20 +119,22 @@ public class Library : Window
         fileAddressPanel.Init();
         SetHighlightImage();
         SetLibrary();
+
+        EventManager.StartListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
+        
         EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StartListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StartListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
+        
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
         
-
         searchInputField.onSubmit.AddListener(SearchFunction);
         searchBtn.onClick.AddListener(SearchFunction);
         undoBtn.onClick.AddListener(UndoFile);
         redoBtn.onClick.AddListener(RedoFile);
 
         EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.LibraryOpenGuide });
-
     }
 
     private void SearchFunction(string text)
@@ -158,6 +167,7 @@ public class Library : Window
 
     private void CreateChildren()
     {
+        Debug.Log("CreateChlidren");
         PushAll();
         foreach (FileSO file in currentDirectory.children)
         {
@@ -166,7 +176,6 @@ public class Library : Window
         }
         isSetLibrary = false;
     }
-
     
     private void CheckSearchInputTextLength(string text)
     {
@@ -201,6 +210,7 @@ public class Library : Window
     }
 
     public void RedoFile(object[] emptyParam) => RedoFile();
+
     public void RedoFile()
     {
         //count가 0이면 알파값 내리는게 맞을듯
@@ -229,7 +239,6 @@ public class Library : Window
             currentDirectory = ps[0] as DirectorySO;
             SetLibrary();
         }
-
     }
 
     private void SetHighlightImage()
@@ -244,6 +253,7 @@ public class Library : Window
         else
             redoText.color = new Color32(50, 50, 50, 255);
     }
+
     public void SelectIcon(object[] ps)
     {
         if (ps[0] == null || !(ps[0] is WindowIcon)) return;
@@ -283,11 +293,12 @@ public class Library : Window
             EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonStart);
         }
     }
+
     public override void WindowOpen()
     {
         base.WindowOpen();
         //if (GameManager.Inst.GameState == EGameState.Tutorial)
-            EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd);
+        EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd);
     }
 
     private void OnDisable()

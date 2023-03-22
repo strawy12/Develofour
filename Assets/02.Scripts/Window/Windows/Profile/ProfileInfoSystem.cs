@@ -9,11 +9,13 @@ public class ProfileInfoSystem : MonoBehaviour
 
     private Dictionary<EProfileCategory, ProfileCategoryDataSO> infoList = new Dictionary<EProfileCategory, ProfileCategoryDataSO>();
 
-    private IEnumerator Start()
+    private void Start()
     {
-        Debug.Log("나중에 Start Callback 으로 만듭시다");
-        yield return new WaitForSeconds(3f);
+        GameManager.Inst.OnStartCallback += StartCallback;
+    }
 
+    private void StartCallback()
+    {
         infoList = ResourceManager.Inst.GetProfileCategoryDataList();
         Debug.Log(infoList.Count);
         foreach (var info in infoList)

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using System;
 
 public class ProfileWindow : Window
 {
@@ -49,6 +50,9 @@ public class ProfileWindow : Window
 
     private bool isFirstTutorial;
 
+    private bool isOpenFileSearch;
+    private bool isOpenInfoCheck;
+
     private Button beforeClickButton;
 
     protected override void Init()
@@ -62,10 +66,32 @@ public class ProfileWindow : Window
         profileSystemBtn.onClick?.AddListener(OnClickShowProfilingBtn);
         infoCheckBtn.onClick?.AddListener(OnClickShowInfo);
         fileSearchBtn.onClick?.AddListener(OnClickShowFileSearch);
+        CheckingButton();
 
         moveBtn.onClick.AddListener(delegate { StartCoroutine(HideAllPanel()); });
 
         TutorialStart();
+    }
+        
+    private void CheckingButton()
+    {
+        if(isOpenFileSearch)
+        {
+            fileSearchBtn.interactable = true;
+        }
+        else
+        {
+            fileSearchBtn.interactable = false;
+        }
+
+        if(isOpenInfoCheck)
+        {
+            infoCheckBtn.interactable = true;
+        }
+        else
+        {
+            infoCheckBtn.interactable = false;
+        }
     }
 
     private void OnClickShowProfilingBtn()

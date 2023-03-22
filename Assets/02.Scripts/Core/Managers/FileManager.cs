@@ -29,7 +29,7 @@ public class FileManager : MonoSingleton<FileManager>
     {
         foreach (var fileData in additionFileList)
         {
-            Debug.Log("fileDAta");
+            Debug.Log("fileData");
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
                 string str = DataManager.Inst.GetAdditionalFileLocation(fileData);

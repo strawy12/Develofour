@@ -44,6 +44,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public TextMeshProUGUI alarmText;
     public GameObject alarm;
     private int alarmCount = 0;
+        
+    public List<Sprite> exceptionIconList = new List<Sprite>();
 
     #region Task Icon
 
@@ -58,7 +60,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         attributePanel.Init(windowFile);
         targetWindowPanels.Init();
 
-        SetIcon(windowFile.iconSprite);
+        IconException(windowFile);
 
         targetWindowPanels.OnUnSelectIgnoreFlag += () => isEnter && !isClick;
         attributePanel.OnCloseWindow += CloseIcon;
@@ -70,6 +72,19 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             EventManager.StartListening(EWindowEvent.AlarmCheck, AlarmCheck);
         }
     }
+    
+    private void IconException(FileSO windowFile)
+    {
+        if(windowFile.windowType == EWindowType.ImageViewer)
+        {
+            SetIcon(exceptionIconList[0]);
+        }
+        else
+        {
+            SetIcon(windowFile.iconSprite);
+        }
+    }
+
     public void Init(FileSO windowFile, EWindowType windowType)
     {
         this.windowType = windowType;
