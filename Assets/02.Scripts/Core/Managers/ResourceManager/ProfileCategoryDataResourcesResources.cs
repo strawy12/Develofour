@@ -6,7 +6,6 @@ using UnityEngine.AddressableAssets;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-    [SerializeField]
     private Dictionary<EProfileCategory, ProfileCategoryDataSO> profileCategoryDataResourcesList;
 
     public ProfileCategoryDataSO GetProfileCategoryData(EProfileCategory key)
