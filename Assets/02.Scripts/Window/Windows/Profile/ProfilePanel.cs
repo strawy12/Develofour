@@ -5,9 +5,9 @@ using UnityEngine;
 public enum EProfileCategory
 {
     None,
-    SuspectProfileInfomation,
-    SuspectProfileExtensionInfomation,
-    VictimProfileInfomation,
+    SuspectProfileInformation,
+    SuspectProfileExtensionInformation,
+    VictimProfileInformation,
     PetInformation,
     Count,
 }
@@ -28,7 +28,7 @@ public class ProfilePanel : MonoBehaviour
 
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
 
-
+        Debug.Log(infoList.Count);
         foreach(var info in infoList)
         {
             infoPanelList.Find(x => x.category == info.Key).Init(info.Value);
