@@ -147,6 +147,17 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             file = FileManager.Inst.GetDefaultFile(windowType);
         }
+        
+        if(windowType == EWindowType.Directory)
+        {
+            Debug.Log("타입 디렉토리");
+            if(windowDictionary[windowType].Count != 0)
+            {
+                Window directory = windowDictionary[windowType][0];
+                EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[] { file });
+                return directory;
+            }
+        }
 
         Window window = GetWindowPrefab(windowType);
         window.CreatedWindow(file);

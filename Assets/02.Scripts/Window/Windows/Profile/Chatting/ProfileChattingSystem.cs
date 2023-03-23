@@ -12,6 +12,7 @@ public class ProfileChattingSystem : MonoBehaviour
     private float saveDelay = 2f;
     private bool isSkip;
     public static Action OnChatEnd;
+    public Sprite aiChattingSprite;
 
     private void Awake()
     {
@@ -62,7 +63,7 @@ public class ProfileChattingSystem : MonoBehaviour
             }
         }
 
-        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null, Color.white, ENoticeTag.AIAlarm);
+        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, aiChattingSprite, Color.white, ENoticeTag.AIAlarm);
 
         saveData.saveList.Add(str);
         EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[1] { str });

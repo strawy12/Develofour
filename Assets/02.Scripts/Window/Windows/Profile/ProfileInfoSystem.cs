@@ -17,12 +17,6 @@ public class ProfileInfoSystem : MonoBehaviour
     private void StartCallback()
     {
         infoList = ResourceManager.Inst.GetProfileCategoryDataList();
-        Debug.Log(infoList.Count);
-        foreach (var info in infoList)
-        {
-            Debug.Log($"{info.Key}");
-        }
-
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
     }
 
