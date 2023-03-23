@@ -118,7 +118,6 @@ public class ProfileTutorial : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Game);
         GameManager.Inst.isTutorial = false;
         DataManager.Inst.SaveData.isTutorialClear = true;
-        GuideManager.OnCheckPlayFindInfoGuide?.Invoke();
         GuideManager.OnPlayGuide?.Invoke(EGuideTopicName.ClickPinNotePadHint, guideDelayWhenEndTuto);
     }
 }

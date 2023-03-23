@@ -19,7 +19,6 @@ public class ProfileWindow : Window
     [Header("ProfilerChatUI")]
     [SerializeField]
     private ProfileChatting profileChatting;
-
     [Header("ProfilerBar")]
     [SerializeField]
     private Button profileSystemBtn;

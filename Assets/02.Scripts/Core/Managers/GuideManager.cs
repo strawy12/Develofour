@@ -20,13 +20,11 @@ public enum EGuideTopicName
 public class GuideManager : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
-    public static Action OnCheckPlayFindInfoGuide;
+
     [SerializeField]
     private GuideDataListSO guideListData;
 
     private Dictionary<EGuideTopicName, GuideData> guideTopicDictionary;
-
-
 
     void Start()
     {
@@ -43,7 +41,6 @@ public class GuideManager : MonoBehaviour
         }
 
         OnPlayGuide += StartPlayGuide;
-        OnCheckPlayFindInfoGuide += CheckStartFindInfoGuide;
         EventManager.StartListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
         EventManager.StartListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
@@ -72,29 +69,7 @@ public class GuideManager : MonoBehaviour
 
         StartGudie(guideTopicName);
     }
-    private void CheckStartFindInfoGuide()
-    {
-        if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectIsLivingWithVictim"))
-        {
-            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectIsLivingWithVictim, 30f); };
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictimGuide });
-        }
-        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectResidence"))
-        {
-            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectResidence, 30f); };
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectResidenceGuide });
-        }
-        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectRelationWithVictim"))
-        {
-            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectRelationWithVictim, 30f); };
-            ProfileChattingSystem.OnChatEnd += delegate { MonologSystem.OnStartMonolog(EMonologTextDataType.SuspectRelationWithVictimGuide, 0.1f); };
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectRelationWithVictimGuide });
-        }
-        else 
-        {
-            return;
-        }
-    }
+
     private void StartGudie(EGuideTopicName guideTopic)
     {
         switch (guideTopic)

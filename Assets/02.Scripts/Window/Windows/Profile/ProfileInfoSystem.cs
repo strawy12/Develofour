@@ -113,7 +113,5 @@ public class ProfileInfoSystem : MonoBehaviour
         {
             return;
         }
-
-        GuideManager.OnCheckPlayFindInfoGuide?.Invoke();
     }
 }

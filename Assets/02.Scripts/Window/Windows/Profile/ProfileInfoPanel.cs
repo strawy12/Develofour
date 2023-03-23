@@ -53,7 +53,7 @@ public class ProfileInfoPanel : MonoBehaviour
             }
             foreach (var infoText in infoTextList)
             {
-                if (infoText.infoNameKey == save.key)
+                if (infoText.textDataSO.key == save.key)
                 {
                     infoText.ChangeText();
                 }
@@ -66,7 +66,7 @@ public class ProfileInfoPanel : MonoBehaviour
         foreach (var infoText in infoTextList)
         {
 
-            if (infoText.infoNameKey == key)
+            if (infoText.textDataSO.key == key)
             {
                 if(gameObject.activeSelf == false)
                 {

@@ -24,43 +24,47 @@ public class ProfileChatting : MonoBehaviour
 {
     [Header("움직임 관련")]
     [SerializeField]
-    private Button OpenCloseButton;
+    protected Button OpenCloseButton;
     [SerializeField]
-    private GameObject showImage;
+    protected GameObject showImage;
     [SerializeField]
-    private GameObject hideImage;
+    protected GameObject hideImage;
     [SerializeField]
-    private float hideValue;
+    protected float hideValue;
     [SerializeField]
-    private float showValue;
+    protected float showValue;
 
     [SerializeField]
-    private GameObject loadingPanel;
+    protected GameObject loadingPanel;
 
-    private float currentValue;
+    protected float currentValue;
 
     [SerializeField]
-    private float moveDuration;
-    private bool isMoving;
-    private RectTransform movePanelRect;
+    protected float moveDuration;
+    protected bool isMoving;
+    protected RectTransform movePanelRect;
 
     [Header("채팅관련")]
 
-    private Dictionary<EAiChatData, string> chatDataDictionary = new Dictionary<EAiChatData, string>();
+    protected Dictionary<EAiChatData, string> chatDataDictionary = new Dictionary<EAiChatData, string>();
 
     [SerializeField]
-    private GameObject textPrefab;
+    protected GameObject textPrefab;
     [SerializeField]
-    private Transform textParent;
+    protected Transform textParent;
     [SerializeField]
-    private ScrollRect scroll;
+    protected ScrollRect scroll;
     [SerializeField]
-    private ContentSizeFitter contentSizeFitter;
+    protected ContentSizeFitter contentSizeFitter;
 
     [SerializeField]
-    private ProfileChattingSaveSO SOData;
+    protected ProfileChattingSaveSO SOData;
 
-    private float currentDelay;
+    protected float currentDelay;
+
+    [Header("가이드관련")]
+    [SerializeField]
+    private ProfileGuidePanel guidePanel;
     public void DictionaryToList()
     {
         foreach(var data in SOData.chatDataList)
@@ -92,19 +96,23 @@ public class ProfileChatting : MonoBehaviour
 
 
 
-    public void Init()
+    public virtual void Init()
     {
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
-        EventManager.StartListening(EProfileEvent.ProfileSendMessage, AddText);
-
-        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        ConnectEvent();
 
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
+        guidePanel.Init(SOData);
         DictionaryToList();
         GetSaveSetting();
         SetScrollView();
+    }
+
+    protected virtual void ConnectEvent()
+    {
+        EventManager.StartListening(EProfileEvent.ProfileSendMessage, AddText);
     }
 
     public void GetSaveSetting()
@@ -141,7 +149,7 @@ public class ProfileChatting : MonoBehaviour
             return EAiChatData.None;
     }
 
-    public void ShowPanel()
+    protected virtual void ShowPanel()
     {
         if (isMoving) return;
         isMoving = true;
@@ -161,7 +169,7 @@ public class ProfileChatting : MonoBehaviour
 
     }
 
-    public void HidePanel()
+    protected virtual void HidePanel()
     {
         if (isMoving) return;
         isMoving = true;
@@ -180,7 +188,7 @@ public class ProfileChatting : MonoBehaviour
         });
     }
 
-    private void SetScrollView()
+    protected void SetScrollView()
     {
         if(this.gameObject.activeInHierarchy)
         {
@@ -193,14 +201,14 @@ public class ProfileChatting : MonoBehaviour
         }
     }
 
-    private IEnumerator ScrollCor()
+    protected IEnumerator ScrollCor()
     {
         yield return new WaitForSeconds(0.025f);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
         scroll.verticalNormalizedPosition = 0;
     }
 
-    private void SetWidths()
+    protected void SetWidths()
     {
         RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
         foreach (var temp in rects)
@@ -208,7 +216,7 @@ public class ProfileChatting : MonoBehaviour
             temp.sizeDelta = new Vector2(currentValue - 60, 0);
         }
     }
-    private void SetLastWidth()
+    protected void SetLastWidth()
     {
         RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
         rects[rects.Length - 1].sizeDelta = new Vector2(currentValue - 60, 0);

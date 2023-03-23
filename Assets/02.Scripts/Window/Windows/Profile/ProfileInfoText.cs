@@ -7,11 +7,8 @@ using UnityEngine.EventSystems;
 
 public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public string infoNameKey;
+    public ProfileInfoTextDataSO textDataSO;
 
-    public string afterText;
-
-    public string getInfoText;
     public bool isTitleShow = false;
     public TMP_Text infoText;
 
@@ -51,19 +48,19 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void ChangeText()
     {
         //infoTitleText.text = infoTitle;
-        infoText.text = afterText;
+        infoText.text = textDataSO.afterText;
         isFind = true;
         OnFindText?.Invoke();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (infoText.text != afterText)
+        if (infoText.text != textDataSO.afterText)
         {
             return;
         }
 
-        showPanel.text.text = getInfoText;
+        showPanel.text.text = textDataSO.getInfoText;
         showPanel.transform.SetParent(gameObject.transform.parent);
         showPanel.GetComponent<RectTransform>().position = gameObject.GetComponent<RectTransform>().position;
         showPanel.transform.SetParent(showPanel.showPanelParent.transform);

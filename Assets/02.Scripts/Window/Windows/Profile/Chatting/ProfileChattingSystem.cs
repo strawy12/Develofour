@@ -75,6 +75,8 @@ public class ProfileChattingSystem : MonoBehaviour
             currentDelay = (float)ps[0];
         }
     }
+
+ 
 #if UNITY_EDITOR
     private void OnApplicationQuit()
     {
