@@ -45,6 +45,7 @@ public enum ENoticeEvent
     ClickNoticeBtn,
     GeneratedProfileFindNotice,
 }
+
 public enum ELibraryEvent
 {
     None = -1,

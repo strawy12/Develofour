@@ -35,7 +35,6 @@ public class ProfileWindow : Window
     [SerializeField]
     private TMP_Text fileSearchText;
 
-
     [Header("UIEtc")]
     [SerializeField]
     private Button moveBtn;
@@ -47,8 +46,6 @@ public class ProfileWindow : Window
 
     private bool isOpen = true;
     private bool isMoving = false;
-
-    private bool isFirstTutorial;
 
     private bool isOpenFileSearch;
     private bool isOpenInfoCheck;
@@ -71,8 +68,10 @@ public class ProfileWindow : Window
         moveBtn.onClick.AddListener(delegate { StartCoroutine(HideAllPanel()); });
 
         TutorialStart();
+
+        EventManager.StartListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
     }
-        
+
     private void CheckingButton()
     {
         if(isOpenFileSearch)
@@ -94,8 +93,18 @@ public class ProfileWindow : Window
         }
     }
 
+    private void CheckProfilerOnOff(object[] emptyPs)
+    {
+        if(profilePanel.gameObject.activeSelf == false)
+        {
+            OnClickShowProfilingBtn();
+        }
+    }
+
     private void OnClickShowProfilingBtn()
     {
+        Debug.Log("Click On");
+
         if (beforeClickButton == profileSystemBtn)
         {
             return;
@@ -286,7 +295,12 @@ public class ProfileWindow : Window
     public override void WindowMinimum()
     {
         base.WindowMinimum();
-        EventManager.TriggerEvent(ETutorialEvent.ProfileMidiumEnd);
 
+        EventManager.TriggerEvent(ETutorialEvent.ProfileMidiumEnd);
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
     }
 }
