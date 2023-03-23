@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum EProfileCategory
 {
@@ -63,7 +64,6 @@ public class ProfilePanel : MonoBehaviour
         if (!categoryPanel.gameObject.activeSelf)
         {
             categoryPanel.gameObject.SetActive(true);
-
         }
         GetInfoPanel(category).ChangeValue(ps[1] as string);
     }
