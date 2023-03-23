@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 
 public class ProfileGuideButtonParent : MonoBehaviour
 {
+    public Action OnClickGuideButton;
+
     [SerializeField]
     private ProfileGuideButton guideButtonPrefab;
 
@@ -24,6 +27,9 @@ public class ProfileGuideButtonParent : MonoBehaviour
     private int currentIndex = 0;
 
     public bool isWeightSizeUp = false;
+
+
+
     public void Init()
     {
         guideButtonList = new List<ProfileGuideButton>();
@@ -42,7 +48,7 @@ public class ProfileGuideButtonParent : MonoBehaviour
         for (int i = 0; i < 15; i++)
         {
             ProfileGuideButton button = Instantiate(guideButtonPrefab, poolParent);
-
+            button.OnClick.AddListener(delegate { OnClickGuideButton?.Invoke(); });
             button.gameObject.SetActive(false);
             poolQueue.Enqueue(button);
         }
@@ -66,7 +72,7 @@ public class ProfileGuideButtonParent : MonoBehaviour
         poolQueue.Enqueue(button);
     }
     #endregion
-
+    #region ButtonSetting
     private void SaveSetting()
     {
         foreach (var categoryData in infoCategoryDataList)
@@ -145,7 +151,8 @@ public class ProfileGuideButtonParent : MonoBehaviour
         PushButton(button);
         UpdateButton();
     }
-
+    #endregion
+    #region Page
     public void UpdateButton()
     {
         if(currentIndex >= guideButtonList.Count)
@@ -193,7 +200,6 @@ public class ProfileGuideButtonParent : MonoBehaviour
 
         UpdateButton();
     }
-
     private void ClickPrev()
     {
         if (currentIndex - 1 < 0)
@@ -207,9 +213,11 @@ public class ProfileGuideButtonParent : MonoBehaviour
 
         UpdateButton();
     }
+    #endregion
     private void OnDestroy()
     {
         EventManager.StopListening(EProfileEvent.AddGuideButton, AddButtonOnActiveNewCategory);
         EventManager.StopListening(EProfileEvent.AddGuideButton, CheckRemoveBtn);
+        OnClickGuideButton = null;
     }
 }

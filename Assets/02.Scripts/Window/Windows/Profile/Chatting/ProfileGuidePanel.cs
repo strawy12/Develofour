@@ -39,6 +39,7 @@ public class ProfileGuidePanel : MonoBehaviour
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
         guideParent.Init();
+        guideParent.OnClickGuideButton += HidePanel;
     }
     #region 이동관련
     protected void HidePanel()

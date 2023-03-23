@@ -18,7 +18,10 @@ public class ProfileGuideButton : MonoBehaviour
     private Button guideBtn;
     [SerializeField]
     private TMP_Text infoNameText;
-
+    public Button.ButtonClickedEvent OnClick
+    {
+        get => guideBtn.onClick;
+    }
     private bool isGuide = false;
     public void Init(ProfileInfoTextDataSO data)
     {
