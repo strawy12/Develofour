@@ -152,7 +152,7 @@ public class Library : Window
         ShowFoundFile(fileList);
     }   
 
-    private void SetLibrary()
+    public void SetLibrary()
     {
         windowBar.SetNameText(currentDirectory.fileName);
         fileAddressPanel.SetButtons(currentDirectory);
@@ -167,7 +167,6 @@ public class Library : Window
 
     private void CreateChildren()
     {
-        Debug.Log("CreateChlidren");
         PushAll();
         foreach (FileSO file in currentDirectory.children)
         {
