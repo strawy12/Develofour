@@ -147,7 +147,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
                 if (fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일러\\")
                 {
-                    Debug.Log("용의자 프로파일러 " + GameManager.Inst.GameState);
                     if (GameManager.Inst.GameState == EGameState.Tutorial)
                     {
                         EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);

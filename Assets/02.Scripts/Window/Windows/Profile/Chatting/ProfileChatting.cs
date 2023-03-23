@@ -75,7 +75,6 @@ public class ProfileChatting : MonoBehaviour
         
     public void AddText(string str)
     {
-        
         GameObject obj = Instantiate(textPrefab, textParent);
         obj.GetComponent<TMP_Text>().text = ">> " + str;
         SetLastWidth();
@@ -165,6 +164,7 @@ public class ProfileChatting : MonoBehaviour
             showImage.SetActive(true);
             isMoving = false;
             loadingPanel.SetActive(false);
+            guidePanel.SetGuideParentWeight(false);
         });
 
     }
@@ -185,6 +185,7 @@ public class ProfileChatting : MonoBehaviour
             showImage.SetActive(false);
             isMoving = false;
             loadingPanel.SetActive(false);
+            guidePanel.SetGuideParentWeight(true);
         });
     }
 

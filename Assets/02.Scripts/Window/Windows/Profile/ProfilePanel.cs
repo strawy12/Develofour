@@ -60,10 +60,6 @@ public class ProfilePanel : MonoBehaviour
 
         ProfileInfoPanel categoryPanel = infoPanelList.Find(x=>x.category == category);
 
-        if (!categoryPanel.gameObject.activeSelf)
-        {
-            categoryPanel.gameObject.SetActive(true);
-        }
         GetInfoPanel(category).ChangeValue(ps[1] as string);
     }
 

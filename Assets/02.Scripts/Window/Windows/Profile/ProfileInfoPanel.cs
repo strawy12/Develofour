@@ -29,14 +29,14 @@ public class ProfileInfoPanel : MonoBehaviour
 
     public void Setting()//켰을때 기초 세팅
     {
-        
+
         foreach (var infoText in infoTextList)
         {
             infoText.Init();
             infoText.OnFindText += ShowLinkedPost;
         }
 
-        if(DataManager.Inst.GetProfileSaveData(saveData.category).isShowCategory)
+        if (DataManager.Inst.GetProfileSaveData(saveData.category).isShowCategory)
         {
             ShowPost();
         }
@@ -68,17 +68,17 @@ public class ProfileInfoPanel : MonoBehaviour
 
             if (infoText.textDataSO.key == key)
             {
-                if(gameObject.activeSelf == false)
+                if (gameObject.activeSelf == false)
                 {
                     ShowPost();
                 }
                 infoText.ChangeText();
 
-                if(DataManager.Inst.IsProfileInfoData(saveData.category, key) == false)
-                {
-                    DataManager.Inst.AddProfileinfoData(saveData.category, key);
-                    FindAlarm(categoryNameText.text, key);
-                }
+
+                Debug.Log("1");
+
+                DataManager.Inst.AddProfileinfoData(saveData.category, key);
+                EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[2] { category, key });
 
                 if (key == "SuspectName" && DataManager.Inst.SaveData.isTutorialStart)
                 {
@@ -88,14 +88,9 @@ public class ProfileInfoPanel : MonoBehaviour
         }
     }
 
-    public void FindAlarm(string category, string key)
-    {
-        EventManager.TriggerEvent(ENoticeEvent.GeneratedProfileFindNotice, new object[2] { category, key });
-    }
     private void ShowPost()
     {
         gameObject.SetActive(true);
-        EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[1] { category });
         DataManager.Inst.SetCategoryData(saveData.category, true);
     }
 
@@ -107,14 +102,14 @@ public class ProfileInfoPanel : MonoBehaviour
 
     private void ShowLinkedPost()
     {
-        if(LinkInfoPenelList.Count == 0)
+        if (LinkInfoPenelList.Count == 0)
         {
             return;
         }
 
-        if(GetIsFindAll())
+        if (GetIsFindAll())
         {
-            foreach(var infoPost in LinkInfoPenelList)
+            foreach (var infoPost in LinkInfoPenelList)
             {
                 infoPost.ShowPost();
             }
@@ -123,9 +118,9 @@ public class ProfileInfoPanel : MonoBehaviour
 
     public bool GetIsFindAll()
     {
-        foreach(var info in infoTextList)
+        foreach (var info in infoTextList)
         {
-            if(info.isFind == false)
+            if (info.isFind == false)
             {
                 return false;
             }

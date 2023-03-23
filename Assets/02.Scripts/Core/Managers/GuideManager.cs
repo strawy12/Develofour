@@ -20,7 +20,7 @@ public enum EGuideTopicName
 public class GuideManager : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
-
+    public static Action<EGuideTopicName> OnPlayInfoGuide;
     [SerializeField]
     private GuideDataListSO guideListData;
 
@@ -41,14 +41,13 @@ public class GuideManager : MonoBehaviour
         }
 
         OnPlayGuide += StartPlayGuide;
+        OnPlayInfoGuide += StartGudie;
         EventManager.StartListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
         EventManager.StartListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
 
-
     private void StartPlayGuide(EGuideTopicName guideTopicName, float timer)
     {
-        
         if (DataManager.Inst.IsGuideUse(guideTopicName))
         {
             return;
@@ -103,13 +102,15 @@ public class GuideManager : MonoBehaviour
                 }
             case EGuideTopicName.SuspectIsLivingWithVictim:
                 {
-                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictimHint });
+                    ProfileChattingSystem.OnChatEnd += EndProfileGuide;
+                    EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictimHint });
                     DataManager.Inst.SetGuide(guideTopic, true);
 
                     break;
                 }
             case EGuideTopicName.SuspectResidence:
                 {
+                    MonologSystem.OnEndMonologEvent += EndProfileGuide;
                     MonologSystem.OnStartMonolog(EMonologTextDataType.SuspectResidenceHint, 0.1f);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
@@ -125,7 +126,10 @@ public class GuideManager : MonoBehaviour
                 }
         }
     }
-
+    private void EndProfileGuide()
+    {
+        EventManager.TriggerEvent(EProfileEvent.EndGuide);
+    }
     private IEnumerator SendAiMessageTexts(string[] values)
     {
         foreach (string str in values)

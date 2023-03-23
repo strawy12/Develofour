@@ -16,6 +16,8 @@ public class ProfileChattingSystem : MonoBehaviour
     private void Awake()
     {
         EventManager.StartListening(EProfileEvent.SendMessage, AddText);
+        EventManager.StartListening(EProfileEvent.SendGuide, AddGuide);
+
         EventManager.StartListening(ETextboxEvent.Delay, SetDelay);
         EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { isSkip = true; });
     }
@@ -25,10 +27,10 @@ public class ProfileChattingSystem : MonoBehaviour
         if (ps[0] is EAIChattingTextDataType)
         {
             EAIChattingTextDataType chattingType = (EAIChattingTextDataType)ps[0];
-            Debug.Log($"{chattingType}");
             StartCoroutine(AddText((chattingType)));
             return;
         }
+       
         Debug.LogError("형식이 잘못되었습니다.");
     }
 
@@ -75,8 +77,45 @@ public class ProfileChattingSystem : MonoBehaviour
             currentDelay = (float)ps[0];
         }
     }
+    #region Guide
+    public void AddGuide(object[] ps)
+    {
+        if (ps[0] is EAIChattingTextDataType)
+        {
+            EAIChattingTextDataType chattingType = (EAIChattingTextDataType)ps[0];
+            StartCoroutine(AddGuide((chattingType)));
+            return;
+        }
+        Debug.LogError("형식이 잘못되었습니다.");
 
- 
+    }
+    public IEnumerator AddGuide(EAIChattingTextDataType type)
+    {
+        AIChattingTextDataSO data = ResourceManager.Inst.GetAIChattingTextDataSO(type);
+
+        for (int i = 0; i < data.Count; i++)
+        {
+
+            currentDelay = saveDelay;
+            TextTrigger.CommandTrigger(data[i].text);
+            if (isSkip) currentDelay = 0.05f;
+            yield return new WaitForSeconds(currentDelay);
+            string text = TextTrigger.RemoveCommandText(data[i].text, null, null);
+            AddGuide(text);
+        }
+
+        OnChatEnd?.Invoke();
+        OnChatEnd = null;
+    }
+
+    public void AddGuide(string str)
+    {
+        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null, Color.white, ENoticeTag.AIAlarm);
+
+        saveData.saveList.Add(str);
+        EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[1] { str });
+    }
+    #endregion
 #if UNITY_EDITOR
     private void OnApplicationQuit()
     {

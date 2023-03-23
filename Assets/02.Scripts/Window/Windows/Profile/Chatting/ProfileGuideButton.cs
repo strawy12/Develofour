@@ -19,30 +19,41 @@ public class ProfileGuideButton : MonoBehaviour
     [SerializeField]
     private TMP_Text infoNameText;
 
-    public Action OnFind;
-
-    private bool isGuide;
+    private bool isGuide = false;
     public void Init(ProfileInfoTextDataSO data)
     {
         infoData = data;
         guideBtn.onClick.AddListener(PlayGuide);
         infoNameText.text = data.infoName;
+        EventManager.StartListening(EProfileEvent.EndGuide, EndGuide);
 
     }
 
     private void PlayGuide()
     {
+
         if (isGuide)
+        {
             return;
+        }
 
         isGuide = true;
-        GuideManager.OnPlayGuide?.Invoke(infoData.guideTopicName, 0.1f);
+        GuideManager.OnPlayInfoGuide?.Invoke(infoData.guideTopicName);
         
     }
 
-    private void EndGuide()
+    private void EndGuide(object[] ps)
     {
+        isGuide = false;
+    }
 
+    public void Releasse()
+    {
+        Debug.Log("ButtonRelease");
+
+        infoData = null;
+        infoNameText.text = "";
+        EventManager.StopListening(EProfileEvent.EndGuide, EndGuide);
     }
 
 

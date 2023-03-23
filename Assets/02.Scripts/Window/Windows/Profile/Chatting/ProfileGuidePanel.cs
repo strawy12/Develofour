@@ -24,8 +24,6 @@ public class ProfileGuidePanel : MonoBehaviour
 
     protected float currentValue;
     [SerializeField]
-    protected ContentSizeFitter contentSizeFitter;
-    [SerializeField]
     protected float moveDuration;
     protected bool isMoving;
     protected RectTransform movePanelRect;
@@ -40,6 +38,7 @@ public class ProfileGuidePanel : MonoBehaviour
         //스크롤뷰 가장 밑으로 내리기;
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
+        guideParent.Init();
     }
     #region 이동관련
     protected void HidePanel()
@@ -61,7 +60,6 @@ public class ProfileGuidePanel : MonoBehaviour
 
     protected void ShowPanel()
     {
-        Debug.Log("ShowPanel");
         if (isMoving) return;
         isMoving = true;
         loadingPanel.SetActive(true);
@@ -75,6 +73,12 @@ public class ProfileGuidePanel : MonoBehaviour
             isMoving = false;
             loadingPanel.SetActive(false);
         });
+    }
+
+    public void SetGuideParentWeight(bool value)
+    {
+        guideParent.isWeightSizeUp = value;
+        guideParent.UpdateButton();
     }
 
     #endregion
