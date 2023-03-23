@@ -44,6 +44,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         EventManager.StartListening(EWindowEvent.ExpendMenu, ToggleMenu);
         EventManager.StartListening(EWindowEvent.ActivePowerPanel, ActivePowerPanel);
         EventManager.StartListening(EWindowEvent.WindowsSuccessLogin, SetName);
+        EventManager.StartListening(EWindowEvent.CloseAttribute, Close);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
@@ -96,6 +97,11 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
             expendSize.y,
             0.2f
         ).SetEase(Ease.InCubic);
+    }
+
+    public void Close(object[] ps)
+    {
+        Close();
     }
 
     public void Close()

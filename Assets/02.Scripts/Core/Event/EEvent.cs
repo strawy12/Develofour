@@ -35,6 +35,7 @@ public enum EWindowEvent
     AlarmSend,
     AlarmRecieve,
     AlarmCheck,
+    CloseAttribute,
 }
 
 public enum ENoticeEvent
