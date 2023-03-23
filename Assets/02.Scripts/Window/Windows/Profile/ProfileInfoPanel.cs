@@ -95,6 +95,7 @@ public class ProfileInfoPanel : MonoBehaviour
     private void ShowPost()
     {
         gameObject.SetActive(true);
+        EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[1] { category });
         DataManager.Inst.SetCategoryData(saveData.category, true);
     }
 

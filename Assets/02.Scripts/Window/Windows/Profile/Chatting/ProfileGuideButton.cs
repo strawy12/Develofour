@@ -1,36 +1,33 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ProfileGuideButton : MonoBehaviour
 {
-    private EProfileCategory category;
+    private ProfileInfoTextDataSO infoData;
 
-    public EProfileCategory Category
+    public ProfileInfoTextDataSO InfoData
     {
-        get => category;
+        get => infoData;
     }
-
-    private string infoKey;
-
-    private bool isGuide;
 
     [SerializeField]
     private Button guideBtn;
+    [SerializeField]
+    private TMP_Text infoNameText;
 
-    public string InfoKey
+    public Action OnFind;
+
+    private bool isGuide;
+    public void Init(ProfileInfoTextDataSO data)
     {
-        get => infoKey;
-    }
-
-    public void Init(EProfileCategory category, string infoKey)
-    {
-        this.category = category;
-        this.infoKey = infoKey;
-
+        infoData = data;
         guideBtn.onClick.AddListener(PlayGuide);
+        infoNameText.text = data.infoName;
+
     }
 
     private void PlayGuide()
@@ -38,13 +35,16 @@ public class ProfileGuideButton : MonoBehaviour
         if (isGuide)
             return;
 
+        isGuide = true;
+        GuideManager.OnPlayGuide?.Invoke(infoData.guideTopicName, 0.1f);
         
-
-
     }
-    
+
     private void EndGuide()
     {
 
     }
+
+
+
 }

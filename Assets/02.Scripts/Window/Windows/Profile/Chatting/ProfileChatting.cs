@@ -104,7 +104,7 @@ public class ProfileChatting : MonoBehaviour
 
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
-        guidePanel.Init(SOData);
+        guidePanel.Init();
         DictionaryToList();
         GetSaveSetting();
         SetScrollView();

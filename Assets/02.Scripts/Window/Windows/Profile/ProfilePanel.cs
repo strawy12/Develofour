@@ -63,7 +63,6 @@ public class ProfilePanel : MonoBehaviour
         if (!categoryPanel.gameObject.activeSelf)
         {
             categoryPanel.gameObject.SetActive(true);
-
         }
         GetInfoPanel(category).ChangeValue(ps[1] as string);
     }

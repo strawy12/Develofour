@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ProfileGuidePanel : MonoBehaviour
 {
 
-    [Header("¿òÁ÷ÀÓ °ü·Ã")]
+    [Header("ì›€ì§ì„ ê´€ë ¨")]
     [SerializeField]
     protected Button OpenCloseButton;
     [SerializeField]
@@ -30,24 +30,18 @@ public class ProfileGuidePanel : MonoBehaviour
     protected bool isMoving;
     protected RectTransform movePanelRect;
 
-
-    [Header("°¡ÀÌµå °ü·Ã")]
+    [Header("ê°€ì´ë“œ ê´€ë ¨")]
     [SerializeField]
     private ProfileGuideButtonParent guideParent;
 
-    private ProfileChattingSaveSO chattingSaveSO;
-
-    public void Init(ProfileChattingSaveSO saveSO)
+    public void Init()
     {
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
-        //½ºÅ©·Ñºä °¡Àå ¹ØÀ¸·Î ³»¸®±â;
+        //ìŠ¤í¬ë¡¤ë·° ê°€ì¥ ë°‘ìœ¼ë¡œ ë‚´ë¦¬ê¸°;
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
-        chattingSaveSO = saveSO;
-
-
     }
-
+    #region ì´ë™ê´€ë ¨
     protected void HidePanel()
     {
         if (isMoving) return;
@@ -67,7 +61,6 @@ public class ProfileGuidePanel : MonoBehaviour
 
     protected void ShowPanel()
     {
-
         Debug.Log("ShowPanel");
         if (isMoving) return;
         isMoving = true;
@@ -82,8 +75,8 @@ public class ProfileGuidePanel : MonoBehaviour
             isMoving = false;
             loadingPanel.SetActive(false);
         });
-
     }
 
+    #endregion
 
 }

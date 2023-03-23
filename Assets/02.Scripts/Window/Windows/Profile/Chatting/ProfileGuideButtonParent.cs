@@ -15,10 +15,16 @@ public class ProfileGuideButtonParent : MonoBehaviour
 
     private Queue<ProfileGuideButton> poolQueue;
 
+    private Dictionary<EProfileCategory, ProfileCategoryDataSO> infoCategoryDataList;
+
     public void Init()
     {
         guideButtonList = new List<ProfileGuideButton>();
         CreatePool();
+        infoCategoryDataList = ResourceManager.Inst.GetProfileCategoryDataList();
+        EventManager.StartListening(EProfileEvent.AddGuideButton, AddButtonOnActiveNewCategory);
+
+        SaveSetting();
     }
     #region Pool
     private void CreatePool()
@@ -50,9 +56,56 @@ public class ProfileGuideButtonParent : MonoBehaviour
     }
     #endregion
 
-    public void AddButton(EProfileCategory category, string infoKey)
+    private void SaveSetting()
     {
+        foreach(var categoryData in infoCategoryDataList)
+        {
+            if (!DataManager.Inst.IsCategoryShow(categoryData.Key))
+            {
+                continue;
+            }
 
+            foreach(var infoTextData in categoryData.Value.infoTextList)
+            {
+                AddButton(infoTextData);
+            }
+        }
     }
 
+    private void AddButtonOnActiveNewCategory(object[] ps)
+    {
+        if(!(ps[0] is EProfileCategory))
+        {
+            return;
+        }
+        EProfileCategory category = (EProfileCategory)ps[0];
+        foreach (var infoText in ResourceManager.Inst.GetProfileCategoryData(category).infoTextList)
+        {
+            AddButton(infoText);
+        }
+    }
+
+    public void AddButton(ProfileInfoTextDataSO data)
+    {
+        if(data.guideTopicName == EGuideTopicName.None || DataManager.Inst.IsGuideUse(data.guideTopicName))
+        {
+            return;
+        }
+        ProfileGuideButton button  = guideButtonList.Find(x => x.InfoData == data);
+        if(button != null)
+        {
+            return;
+        }
+
+        button = PopButton();
+        button.transform.SetParent(transform);
+        button.Init(data);
+        button.gameObject.SetActive(true);
+    }
+
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EProfileEvent.AddGuideButton, AddButtonOnActiveNewCategory);
+    }
 }
