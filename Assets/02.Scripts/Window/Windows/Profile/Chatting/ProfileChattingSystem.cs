@@ -87,7 +87,6 @@ public class ProfileChattingSystem : MonoBehaviour
             return;
         }
         Debug.LogError("형식이 잘못되었습니다.");
-
     }
     public IEnumerator AddGuide(EAIChattingTextDataType type)
     {
@@ -95,11 +94,8 @@ public class ProfileChattingSystem : MonoBehaviour
 
         for (int i = 0; i < data.Count; i++)
         {
-
-            currentDelay = saveDelay;
             TextTrigger.CommandTrigger(data[i].text);
-            if (isSkip) currentDelay = 0.05f;
-            yield return new WaitForSeconds(currentDelay);
+            yield return new WaitForSeconds(0.5f);
             string text = TextTrigger.RemoveCommandText(data[i].text, null, null);
             AddGuide(text);
         }
@@ -107,7 +103,6 @@ public class ProfileChattingSystem : MonoBehaviour
         OnChatEnd?.Invoke();
         OnChatEnd = null;
     }
-
     public void AddGuide(string str)
     {
         NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null, Color.white, ENoticeTag.AIAlarm);

@@ -106,10 +106,8 @@ public class ProfileGuideButtonParent : MonoBehaviour
 
     public void AddButton(ProfileInfoTextDataSO data)
     {
-
-        if (data.guideTopicName == EGuideTopicName.None || DataManager.Inst.IsGuideUse(data.guideTopicName))
+        if (data.guideTopicName == EGuideTopicName.None || DataManager.Inst.IsProfileInfoData(data.category, data.key))
         {
-
             return;
         }
         ProfileGuideButton button = PopButton();
@@ -117,8 +115,6 @@ public class ProfileGuideButtonParent : MonoBehaviour
         {
             return;
         }
-
-        Debug.Log($"AddButton {data.key}");
 
         button.transform.SetParent(transform);
         button.Init(data);

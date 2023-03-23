@@ -9,6 +9,6 @@ public class ProfileInfoTextDataSO : ScriptableObject
     public string afterText;
     public string getInfoText;
     public string infoName;
-
+    public EProfileCategory category;
     public EGuideTopicName guideTopicName;
 }

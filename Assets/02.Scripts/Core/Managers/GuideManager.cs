@@ -103,21 +103,20 @@ public class GuideManager : MonoBehaviour
             case EGuideTopicName.SuspectIsLivingWithVictim:
                 {
                     ProfileChattingSystem.OnChatEnd += EndProfileGuide;
-                    EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictimHint });
-                    DataManager.Inst.SetGuide(guideTopic, true);
+                    EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictim });
 
                     break;
                 }
             case EGuideTopicName.SuspectResidence:
                 {
                     MonologSystem.OnEndMonologEvent += EndProfileGuide;
-                    MonologSystem.OnStartMonolog(EMonologTextDataType.SuspectResidenceHint, 0.1f);
-                    DataManager.Inst.SetGuide(guideTopic, true);
+                    EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.SuspectResidence });
                     break;
                 }
             case EGuideTopicName.SuspectRelationWithVictim:
                 {
-                    DataManager.Inst.SetGuide(guideTopic, true);
+                    ProfileChattingSystem.OnChatEnd += EndProfileGuide;
+                    EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.SuspectRelationWithVictim });
                     break;
                 }
             default:
