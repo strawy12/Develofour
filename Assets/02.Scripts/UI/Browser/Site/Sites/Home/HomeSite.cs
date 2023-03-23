@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.AddressableAssets;
 
 public class HomeSite : Site , IPointerClickHandler
 {
+    private static HomeSearchRecordDataSO searchRecordData;
 
     [SerializeField]
     private HomeFavoriteBar favoriteBar;
@@ -14,36 +16,29 @@ public class HomeSite : Site , IPointerClickHandler
     [SerializeField]
     private Button SeacrhPanel;
     [SerializeField]
-    private List<HomeSearchRecordDataSO> searchRecordDatas = new List<HomeSearchRecordDataSO>();
-    [SerializeField]
     private HomeProfile profilePanel;
 
     public override void Init()
     {
-        profilePanel.Init();
+        if(searchRecordData == null)
+        {
+            var handle = Addressables.LoadAssetAsync<HomeSearchRecordDataSO>("HomeSearchData");
+            searchRecordData = handle.WaitForCompletion();
+        }
+
         favoriteBar.Init();
-        CheckData();
+
+        profilePanel.Init();
+        recordPanel.Init(searchRecordData);
         SeacrhPanel.onClick.AddListener(ShowRecordPanel);
         recordPanel.OnCloseRecord += ShowSearchPanel;
 
         base.Init();
     }
-    private void CheckData()
-    {
-        foreach (var data in searchRecordDatas)
-        {
-            if (data.characterDataType == DataManager.Inst.CurrentPlayer.currentChapterType)
-            {
-                recordPanel.Init(data);
-                break;
-            }
-        }
-    }
+
     protected override void ShowSite()
     {
         base.ShowSite();
-        CheckData();
-        favoriteBar.ReadSiteListsData();
     }
 
     protected override void HideSite()
@@ -68,7 +63,7 @@ public class HomeSite : Site , IPointerClickHandler
     {
         if(profilePanel.isActiveAndEnabled)
         {
-            profilePanel.LoginPanel.gameObject.SetActive(false);
+            profilePanel.loginPanel.gameObject.SetActive(false);
         }
     }
 }

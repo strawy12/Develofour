@@ -38,7 +38,7 @@ public class PowerPanel : MonoUI
     private void CheckClose(object[] hits)
     {
         if (isOpen == false) { return; }
-        if (Define.ExistInHits(gameObject, hits[0]) == false)
+        if (Define.ExistInHits(agreeBtn.gameObject, hits[0]) == false)
         {
             Close();
         }

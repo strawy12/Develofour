@@ -1,9 +1,8 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class FacebookSite : Site
 {
-    
     [Header("Pid")]
     [SerializeField]
     private List<FacebookPidPanelDataSO> pidDataList;
@@ -29,7 +28,7 @@ public class FacebookSite : Site
 
     public FacebookProfilePanel myProfile;
 
-    //PidºÎºĞÀº ³ªÁß¿¡ ´Ù½Ã ¸¸µé¾î¾ßÇÔ
+    //Pidë¶€ë¶„ì€ ë‚˜ì¤‘ì— ë‹¤ì‹œ ë§Œë“¤ì–´ì•¼í•¨
 
     private void CreatePid()
     {
@@ -75,21 +74,9 @@ public class FacebookSite : Site
     {
         base.ShowSite();
         //EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSite, new object[] { ESiteLink.Facebook, Constant.LOADING_DELAY });
-       
-        if(!DataManager.Inst.CurrentPlayer.CurrentChapterData.isLoginSNSSite && DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
-        {
-            if(FacebookLoginSite.isResettingPassword)
-            {
-                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookPasswordResetSite, 0f, false });
-            }
-            else
-            {
-                EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.FacebookLoginSite, 0f, false});
-            }
-            return;
-        }
+      
         SettingPid();
-
+        
     }
 
     private void ShowHomePanel()

@@ -10,8 +10,7 @@ public class FileManager : MonoSingleton<FileManager>
     public DirectorySO rootDirectory;
 
     public List<FileSO> additionFileList = new List<FileSO>();
-
-    public List<FileSO> fileList = new List<FileSO>();
+    //새롭게 추가된 파일은 fileList에 등록된다.
 
     public List<FileSO> defaultFileList = new List<FileSO>();
 
@@ -19,15 +18,34 @@ public class FileManager : MonoSingleton<FileManager>
 
     private void Awake()
     {
-        foreach(FileSO file in defaultFileList)
+        foreach (FileSO file in defaultFileList)
         {
             defaultFileDictionary.Add(file.windowType, file);
+        }
+
+      
+    }
+    private void Start()
+    {
+        foreach (var fileData in additionFileList)
+        {
+            Debug.Log("fileData");
+            if (DataManager.Inst.AdditionalFileContain(fileData))
+            {
+                string str = DataManager.Inst.GetAdditionalFileLocation(fileData);
+                string settingStr = str.Substring(0, str.Length - 1);
+                int index = settingStr.LastIndexOf("\\");
+                Debug.Log(index);
+                string location = str.Substring(0, index + 1);
+                Debug.Log(location);
+                AddFile(fileData, location);
+            }
         }
     }
 
     public FileSO GetDefaultFile(EWindowType windowType)
     {
-        if(!defaultFileDictionary.ContainsKey(windowType))
+        if (!defaultFileDictionary.ContainsKey(windowType))
         {
             Debug.Log("존재하지 않는 defaultfile 윈도우 입니다.");
             return null;
@@ -38,50 +56,36 @@ public class FileManager : MonoSingleton<FileManager>
 
     public void AddFile(FileSO file, string location)
     {
-        string[] locations = location.Split('/');
+        List<FileSO> fileList = ALLFileAddList();
+
         DirectorySO currentDir = rootDirectory;
 
-        if (locations[0] == "User")
+        currentDir = fileList.Find((x) => x.GetFileLocation() == location) as DirectorySO;
+
+        if (!currentDir.children.Contains(file))
         {
-            Debug.LogError("Location에 User을 포함시키지 마세요");
-            return;
+            currentDir.children.Add(file);
+            file.parent = currentDir;
+            additionFileList.Add(file);
         }
 
-        for (int i = 0; i < locations.Length; i++)
+        if (!DataManager.Inst.AdditionalFileContain(file))
         {
-            DirectorySO beforeDir = currentDir;
-            foreach (FileSO child in currentDir.children)
-            {
-                if (child.name == locations[i])
-                {
-                    if((child is DirectorySO) == false)
-                    {
-                        Debug.LogError($"Location 도중 파일 {child.name}이 Directory가 아닙니다");
-                        return;
-                    }
-                    currentDir = child as DirectorySO;
-                    break;
-                }
-            }
-
-            if(beforeDir == currentDir)
-            {
-                Debug.LogError($"모든 탐색을 하였으나 Directory가 변경되지않았습니다.");
-                return;
-            }
+            DataManager.Inst.AddNewFileData(location + file.fileName + "\\");
         }
-
-        currentDir.children.Add(file);
-        file.parent = currentDir;
-
-        additionFileList.Add(file);
-        fileList.Add(file);
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
     }
 
-    public void ALLFileAddList(DirectorySO currentDirectory)
+    public List<FileSO> ALLFileAddList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
-        fileList.Clear();
+        //fileList.Clear();
+        if (currentDirectory == null)
+        {
+            currentDirectory = rootDirectory;
+        }
+
+        List<FileSO> fileList = new List<FileSO>();
+
         Queue<DirectorySO> directories = new Queue<DirectorySO>();
         directories.Enqueue(currentDirectory);
         int i = 0;
@@ -103,19 +107,28 @@ public class FileManager : MonoSingleton<FileManager>
                 }
             }
         }
+
+        if (isAdditional)
+        {
+            fileList.AddRange(additionFileList);
+        }
+
+        return fileList;
     }
 
-    public List<FileSO> SearchFile(string text)
+    public List<FileSO> SearchFile(string text, DirectorySO currentDirectory = null)
     {
+        List<FileSO> allFileList = ALLFileAddList(currentDirectory);
+
         List<FileSO> searchFileList = new List<FileSO>();
-      
-        foreach (FileSO file in fileList)
+
+        foreach (FileSO file in allFileList)
         {
             if (file == null)
             {
                 continue;
             }
-            if (file.windowName.Contains(text, StringComparison.OrdinalIgnoreCase))
+            if (file.fileName.Contains(text, StringComparison.OrdinalIgnoreCase))
             {
                 searchFileList.Add(file);
             }
@@ -124,24 +137,25 @@ public class FileManager : MonoSingleton<FileManager>
         return searchFileList;
     }
 
-    public List<FileSO> ProfileSearchFile(string text)
+    public List<FileSO> ProfileSearchFile(string text, DirectorySO currentDirectory = null)
     {
+        List<FileSO> allFileList = ALLFileAddList(currentDirectory);
         List<FileSO> searchFileList = new List<FileSO>();
 
-        if(text.Length < 2)
+        if (text.Length < 2)
         {
             return null;
         }
 
 
-        foreach (FileSO file in fileList)
+        foreach (FileSO file in allFileList)
         {
             if (file == null)
             {
                 continue;
             }
 
-            if (file.windowName.Contains(text, StringComparison.OrdinalIgnoreCase))
+            if (file.fileName.Contains(text, StringComparison.OrdinalIgnoreCase))
             {
                 searchFileList.Add(file);
             }
@@ -149,11 +163,10 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 searchFileList.Add(file);
             }
-            else if(file.windowType == EWindowType.Notepad)
+            else if (file.windowType == EWindowType.Notepad)
             {
-                if(NotePadFileLoad(text, file))
+                if (NotePadFileLoad(text, file))
                 {
-                    Debug.Log("NotePadAdd");
                     searchFileList.Add(file);
                 }
             }
@@ -185,6 +198,13 @@ public class FileManager : MonoSingleton<FileManager>
         return false;
     }
 
+
+    private FileSO GetFile(string location)
+    {
+        FileSO resultFile = null;
+        resultFile = ALLFileAddList().Find((x) => x.GetFileLocation() == location);
+        return resultFile;
+    }
     private void OnApplicationQuit()
     {
         Debug.LogError("디버깅을 위해 추가한 파일들을 모두 제거합니다");

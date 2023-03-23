@@ -64,7 +64,11 @@ public static class Define
 
     public static void GameQuit()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
 
     public static bool ExistInHits(GameObject obj, object hits)
@@ -117,5 +121,15 @@ public static class Define
     public static bool IsBoundOver(int idx, int maxCnt)
     {
         return idx < 0 || idx >= maxCnt;
+    }
+
+    public static bool CheckComputerLoginState(EComputerLoginState state)
+    {
+        return GameManager.Inst.ComputerLoginState == state;
+    }
+
+    public static bool CheckIntallProfile()
+    {
+        return FileManager.Inst.SearchFile("Profile") != null;
     }
 }

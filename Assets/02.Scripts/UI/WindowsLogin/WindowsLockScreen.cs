@@ -1,16 +1,18 @@
-using DG.Tweening;
+Ôªøusing DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
-public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler 
+public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [SerializeField]
     private GameObject loginScreen;
     [SerializeField]
     private GameObject loginChoice;
+    [SerializeField]
+    private GameObject coverPanel;
 
     [SerializeField]
     private float targetMovementY;
@@ -23,8 +25,8 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
 
-    //¿˙¿Â±‚¥…ø° ≤¿ ≥÷æÓæﬂ«‘
-    public bool isTutorialEnd;
+    //Ï†ÄÏû•Í∏∞Îä•Ïóê Íº≠ ÎÑ£Ïñ¥ÏïºÌï®
+    private bool isTutorialEnd;
     private bool holdingDown;
     private bool anyKeyUp;
     private bool isDrag;
@@ -40,11 +42,13 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     {
         EventManager.StartListening(EInputType.InputAnyKeyUp, AnyKeyUp);
         EventManager.StartListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
+        isTutorialEnd = DataManager.Inst.SaveData.isClearStartCutScene;
     }
 
     private void TurnInteractable(object[] ps)
     {
         isTutorialEnd = true;
+        DataManager.Inst.SaveData.isClearStartCutScene = true; 
         EventManager.StopListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
     }
 
@@ -69,7 +73,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
         float movementY = eventData.position.y - beginPosY;
         if (movementY < 0f) return;
-        
+
         rectTransform.anchoredPosition = originPos + Vector3.up * movementY;
         canvasGroup.alpha = (targetMovementY - movementY) / targetMovementY;
     }
@@ -78,7 +82,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     {
         float movementY = eventData.position.y - beginPosY;
 
-        if(movementY + offset >= targetMovementY)
+        if (movementY + offset >= targetMovementY)
         {
             OpenLoginScreen();
         }
@@ -87,15 +91,33 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
             rectTransform.DOAnchorPos(originPos, 0.2f);
             canvasGroup.alpha = 1f;
         }
-
     }
 
     private void OpenLoginScreen()
     {
-        MonologSystem.OnStartMonolog.Invoke(ETextDataType.StartMonolog, 0f, 5);
         loginScreen.SetActive(true);
         loginChoice.SetActive(true);
-        gameObject.SetActive(false);
+
+        StartCoroutine(CoverSetting());
+        MonologSystem.OnEndMonologEvent += NextMonolog;
+        MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartMonolog, 1f);
     }
 
+
+    public void NextMonolog()
+    {
+        MonologSystem.OnEndMonologEvent -= NextMonolog;
+        MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartNextMonolog, 0.75f);
+        GuideManager.OnPlayGuide(EGuideTopicName.GuestLoginGuide, 30);
+    }
+
+
+    public IEnumerator CoverSetting()
+    {
+        coverPanel.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.26f);
+        coverPanel.gameObject.SetActive(false);
+
+        gameObject.SetActive(false);
+    }
 }

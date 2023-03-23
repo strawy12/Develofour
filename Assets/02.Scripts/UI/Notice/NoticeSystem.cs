@@ -14,7 +14,7 @@ public class NoticeSystem : MonoUI
     public static Action<ENoticeType, float> OnGeneratedNotice;
     public static Action OnTagReset;
     //public static Action<Decision, float> OnDecisionPanel;
-    public static System.Action<string, string, float, bool, Sprite, ENoticeTag> OnNotice;
+    public static System.Action<string, string, float, bool, Sprite,Color, ENoticeTag> OnNotice;
 
     [SerializeField]
     private NoticePanel noticePanelTemp;
@@ -51,7 +51,7 @@ public class NoticeSystem : MonoUI
 
     private void Start()
     {
-        Init();
+        GameManager.Inst.OnStartCallback += Init;
     }
 
     private void Bind()
@@ -84,7 +84,7 @@ public class NoticeSystem : MonoUI
 
     private void FixedNoticePanelInit()
     {
-        for(int i = 0; i < noticePanelParant.childCount; i++)
+        for (int i = 0; i < noticePanelParant.childCount; i++)
         {
             NoticePanel panel = noticePanelParant.GetChild(i).GetComponent<NoticePanel>();
             panel.Init(false);
@@ -148,10 +148,10 @@ public class NoticeSystem : MonoUI
     {
         NoticeDataSO data = ResourceManager.Inst.GetNoticeData(eNoticeDataType);
 
-        if(data.noticeTag == currentTag && data.noticeTag != ENoticeTag.None && noticePanel != null)
+        if (data.noticeTag == currentTag && data.noticeTag != ENoticeTag.None && noticePanel != null)
         {
             extendCount++;
-            if(extendCount == maxExtend)
+            if (extendCount == maxExtend)
             {
                 noticePanel.ImmediatelyStop();
             }
@@ -184,7 +184,7 @@ public class NoticeSystem : MonoUI
         //    return;
         //}
 
-        saveNoticeList.Add(data.noticeDataList);
+        saveNoticeList.Add(data.noticeData);
         StartCoroutine(NoticeCoroutine(data, delay));
     }
 
@@ -201,7 +201,7 @@ public class NoticeSystem : MonoUI
         panel.OnCompeleted += IncludePanel;
         panel.OnClosed += PushPanel;
         noticeOutline.StartOutline();
-        panel.Notice(data);
+        panel.Notice(data, isOpen);
     }
 
     public void IncludePanel(NoticePanel panel)
@@ -215,9 +215,9 @@ public class NoticeSystem : MonoUI
     {
         panel.gameObject.SetActive(false);
         panel.OnClosed -= PushPanel;
-        foreach(var temp in saveNoticeList)
+        foreach (var temp in saveNoticeList)
         {
-            if(panel.headText.text == temp.head)
+            if (panel.headText.text == temp.head)
             {
                 saveNoticeList.Remove(temp);
                 break;
@@ -245,9 +245,9 @@ public class NoticeSystem : MonoUI
         return panel;
     }
 
-    private void Notice(string head, string body, float delay, bool canDelete, Sprite icon, ENoticeTag noticeTag)
+    private void Notice(string head, string body, float delay, bool canDelete, Sprite icon, Color color, ENoticeTag noticeTag)
     {
-     
+
         if (noticeTag == currentTag && noticeTag != ENoticeTag.None && noticePanel != null)
         {
             extendCount++;
@@ -271,8 +271,16 @@ public class NoticeSystem : MonoUI
         noticeOutline.StartOutline();
 
         currentTag = noticeTag;
-        panel.Notice(head, body, icon);
-        
+
+        if (!isOpen)
+        {
+            panel.Notice(head, body, icon, color, false);
+        }
+        else
+        {
+            panel.Notice(head, body, icon, color, true);
+        }
+
         NoticeData data = new NoticeData();
         data.head = head;
         data.body = body;
@@ -282,7 +290,7 @@ public class NoticeSystem : MonoUI
         data.tag = noticeTag;
 
         //so에 있는 노티스태그 데이타에도 넣어
-        
+
 
 
         saveNoticeList.Add(data);
@@ -297,14 +305,14 @@ public class NoticeSystem : MonoUI
     }
 
     private void SaveNoticeData()
-    { 
+    {
         saveNoticeData.noticeDataList = saveNoticeList;
     }
 
     private void LoadSaveNotice()
     {
         saveNoticeList = saveNoticeData.noticeDataList;
-        foreach(NoticeData data in saveNoticeList)
+        foreach (NoticeData data in saveNoticeList)
         {
             NoticePanel panel = GetPanel(data.canDeleted);
             panel.transform.SetParent(noticePanelParant);

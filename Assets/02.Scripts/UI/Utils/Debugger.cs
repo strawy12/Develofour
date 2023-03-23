@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using TMPro;
@@ -15,6 +15,9 @@ public class DebugEvent
 
 public class Debugger : MonoBehaviour
 {
+#if UNITY_EDITOR
+    private int testTextCnt = 0;
+
     [SerializeField]
     private List<DebugEvent> debugEventList;
 
@@ -23,10 +26,6 @@ public class Debugger : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            EventManager.TriggerEvent(EBrowserEvent.AddFavoriteSiteAll);
-        }
         if (Input.GetKeyDown(KeyCode.D))
         {
             MonologSystem.OnStopMonolog?.Invoke();
@@ -39,9 +38,9 @@ public class Debugger : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.F))
         {
-            //µğ¹ö±×¿ë ½ºÅµ ÄÚµå ÀÌº¥Æ®±îÁö Áö¿öÁÖ±â
+            //ë””ë²„ê·¸ìš© ìŠ¤í‚µ ì½”ë“œ ì´ë²¤íŠ¸ê¹Œì§€ ì§€ì›Œì£¼ê¸°
             if(GameManager.Inst.GameState == EGameState.Tutorial)
-            EventManager.TriggerEvent(EDebugSkipEvent.TutorialSkip);
+                EventManager.TriggerEvent(EDebugSkipEvent.TutorialSkip);
         }
 
         foreach (DebugEvent e in debugEventList)
@@ -52,5 +51,7 @@ public class Debugger : MonoBehaviour
             }
         }
     }
+
+#endif
 
 }

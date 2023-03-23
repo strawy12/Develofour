@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class MonologSystem : MonoBehaviour
 {
-    public static Action<ETextDataType, float, int> OnStartMonolog;
+    public static Action<EMonologTextDataType, float> OnStartMonolog;
     public static Action OnEndMonologEvent;
-    public static Action<ETextDataType, float, int> OnTutoMonolog;
+    public static Action<EMonologTextDataType, float> OnTutoMonolog;
     public static Action OnStopMonolog;
     [SerializeField]
     private TextBox textBox;
@@ -20,17 +20,26 @@ public class MonologSystem : MonoBehaviour
         OnStopMonolog += StopMonolog;
     }
 
-    public void StartMonolog(ETextDataType textDataType, float delay, int cnt)
+    public void StartMonolog(EMonologTextDataType textDataType, float delay)
     {
-        StartCoroutine(StartMonologCoroutine(textDataType, delay, cnt, false));
+        if (DataManager.Inst.IsMonologShow(textDataType))
+        {
+            OnEndMonologEvent = null;
+            return;
+        }
+        StartCoroutine(StartMonologCoroutine(textDataType, delay, false));
     }
-    public void TutoMonolog(ETextDataType textDataType, float delay, int cnt)
+    public void TutoMonolog(EMonologTextDataType textDataType, float delay)
     {
-        StartCoroutine(StartMonologCoroutine(textDataType, delay, cnt, true));
+        if (DataManager.Inst.IsMonologShow(textDataType))
+        {
+            OnEndMonologEvent = null;
+            return;
+        }
+        StartCoroutine(StartMonologCoroutine(textDataType, delay, true));
     }
     private void StopMonolog()
     {
-        Debug.Log("stopmonolog의 onendmonologevent");
         OnEndMonologEvent?.Invoke();
         StopAllCoroutines();
         textBox.StopAllCoroutines();
@@ -38,14 +47,14 @@ public class MonologSystem : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Game);
     }
 
-    private IEnumerator StartMonologCoroutine(ETextDataType textDataType, float startDelay, int cnt, bool isTuto)
+    private IEnumerator StartMonologCoroutine(EMonologTextDataType textDataType, float startDelay, bool isTuto)
     {
         yield return new WaitForSeconds(startDelay);
 
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
         textBox.Init(textDataType);
-        
-        for (int i = 0; i < cnt; i++)
+
+        for (int i = 0; i < textBox.CurrentTextData.Count; i++)
         {
             yield return new WaitForSeconds(0.1f);
             textBox.PrintText();
@@ -61,8 +70,10 @@ public class MonologSystem : MonoBehaviour
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
         }
-        Debug.Log("startmonologcoroutine의 onendmonologevent");
+
         OnEndMonologEvent?.Invoke();
+
+        DataManager.Inst.SetMonologShow(textDataType, true);
     }
 
 }

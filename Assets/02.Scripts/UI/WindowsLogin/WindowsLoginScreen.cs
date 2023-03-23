@@ -48,16 +48,13 @@ public class WindowsLoginScreen : MonoBehaviour
     [SerializeField]
     private Button guestLoginButton;
     private bool isFirst = true;
-    
+
     private void Start()
     {
         Init();
 
-        //if (DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin)
-        //{
-        //    gameObject.SetActive(false);
-        //    return;
-        //}
+
+        GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Logout);
 
         Subscribe();
     }
@@ -97,14 +94,16 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            DataManager.Inst.CurrentPlayer.CurrentChapterData.isAdminWindowLogin = true;
+            GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Admin);
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
-            windowLoginCanvas.SetActive(false);
             if (isFirst)
             {
                 StartMonolog();
             }
             isFirst = false;
+            EndLogin();
+
+            windowLoginCanvas.SetActive(false);
         }));
     }
 
@@ -148,7 +147,9 @@ public class WindowsLoginScreen : MonoBehaviour
         failedLoginCnt++;
 
         if (failedLoginCnt >= 5)
-            loginFailText.SetText("»ß»ß-»ß»ß-»ß»ß-»ß»ß-»ß»ß");
+        {
+            GuideManager.OnPlayGuide(EGuideTopicName.GuestLoginGuide, 1.5f);
+        }
 
         loginFailUI.SetActive(true);
         loginInputUI.SetActive(false);
@@ -156,27 +157,34 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void WindowGuestLogin()
     {
-        DataManager.Inst.CurrentPlayer.CurrentChapterData.isGuestWindowLogin = true;
+        GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Guest);
         EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
-        windowLoginCanvas.SetActive(false);
+
+        EndLogin();
+
         if (isFirst)
         {
             StartMonolog();
         }
         isFirst = false;
+        windowLoginCanvas.SetActive(false);
+    }
+
+    private void EndLogin()
+    {
+        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.GuestLoginGuide });
     }
 
     private void StartMonolog()
     {
         MonologSystem.OnEndMonologEvent += USBNoticeFunc;
-        MonologSystem.OnStartMonolog(ETextDataType.USBMonolog, monologDelay, 1);
+        MonologSystem.OnStartMonolog(EMonologTextDataType.USBMonolog, monologDelay);
     }
+
     private void USBNoticeFunc()
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ConnectUSB, 0f);
         MonologSystem.OnEndMonologEvent -= USBNoticeFunc;
 
-        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 40f , EGuideType.ProfilerDownGuide });
-
+        GuideManager.OnPlayGuide(EGuideTopicName.LibraryOpenGuide, 40);
     }
 }

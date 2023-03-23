@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
+using Unity.VisualScripting; 
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -61,30 +61,22 @@ public class GmailLoginSite : Site
 
     protected override void ShowSite()
     {
-        if (!DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite)
-        {
-            //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.EnterLoginSite, 0f);
-        }
-
         base.ShowSite();
     }
 
     private void SuccessLogin()
     {
        // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
-        EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
+        DataManager.Inst.SaveData.isSuccessLoginZoogle = true;
 
-        DataManager.Inst.CurrentPlayer.CurrentChapterData.isEnterLoginGoogleSite = true;
+        EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 
         if (requestSite == ESiteLink.None)
         {
-            EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
-
             InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: GmailLoginButtonClick);
         }
         else
         {
-          //  Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginFailed);
             textMove.FaliedInput("다시 입력하세요");
             EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { requestSite, Constant.LOADING_DELAY });
             requestSite = ESiteLink.None;

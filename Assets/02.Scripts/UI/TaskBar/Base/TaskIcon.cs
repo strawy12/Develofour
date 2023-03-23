@@ -44,6 +44,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public TextMeshProUGUI alarmText;
     public GameObject alarm;
     private int alarmCount = 0;
+        
+    public List<Sprite> exceptionIconList = new List<Sprite>();
 
     #region Task Icon
 
@@ -53,11 +55,45 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public void Init(FileSO windowFile)
     {
         this.windowType = windowFile.windowType;
+
         file = windowFile;
         attributePanel.Init(windowFile);
         targetWindowPanels.Init();
 
-        SetIcon(windowFile.iconSprite);
+        IconException(windowFile);
+
+        targetWindowPanels.OnUnSelectIgnoreFlag += () => isEnter && !isClick;
+        attributePanel.OnCloseWindow += CloseIcon;
+        attributePanel.OnOpenWindow += ShowFirstWindow;
+
+        if (windowFile.isAlarm)
+        {
+            EventManager.StartListening(EWindowEvent.AlarmRecieve, Alarm);
+            EventManager.StartListening(EWindowEvent.AlarmCheck, AlarmCheck);
+        }
+    }
+    
+    private void IconException(FileSO windowFile)
+    {
+        if(windowFile.windowType == EWindowType.ImageViewer)
+        {
+            SetIcon(exceptionIconList[0]);
+        }
+        else
+        {
+            SetIcon(windowFile.iconSprite);
+        }
+    }
+
+    public void Init(FileSO windowFile, EWindowType windowType)
+    {
+        this.windowType = windowType;
+
+        file = windowFile;
+        attributePanel.Init(windowFile);
+        targetWindowPanels.Init();
+
+        SetIcon(FileManager.Inst.GetDefaultFile(windowType).iconSprite);
 
         targetWindowPanels.OnUnSelectIgnoreFlag += () => isEnter && !isClick;
         attributePanel.OnCloseWindow += CloseIcon;
@@ -77,6 +113,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void CloseIcon()
     {
+
         if (file.windowType == EWindowType.ProfileWindow)
         {
             if (GameManager.Inst.isTutorial) return;

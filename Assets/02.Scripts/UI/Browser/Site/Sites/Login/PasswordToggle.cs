@@ -21,8 +21,6 @@ public class PasswordToggle : MonoBehaviour
     [SerializeField]
     private float checkDuration = 0.25f;
 
-
-
     public UnityEvent<bool> onValueChanged
     {
         get

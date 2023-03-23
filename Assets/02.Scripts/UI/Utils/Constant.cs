@@ -17,10 +17,11 @@ public static class Constant
     public static readonly float NOTICE_DELAYTIME = 5f;
     public static readonly float NOTICE_DURATION = 0.3f;
     public static readonly float NOTICE_SIZE_DURATION = 0.13f;
-
     public static readonly EWindowType BROWSER_KEY = EWindowType.Browser;
 
     public const float LOADING_DELAY = 0.75f;
     public const float POLICE_REPLY_DELAY = 2f;
-
+    #region File
+    public const string USB_FILENAME = "BestUSB";
+    #endregion
 }

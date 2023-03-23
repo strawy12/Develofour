@@ -1,119 +1,147 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public enum EGuideType
+public enum EGuideTopicName
 {
     None,
-    ProfilerDownGuide,
-    BrowserConnectGuide,
+    GuestLoginGuide,
+    LibraryOpenGuide,
     ClickPinNotePadHint,
     ClearPinNotePadQuiz,
+    SuspectIsLivingWithVictim,
+    SuspectResidence,
+    SuspectRelationWithVictim,
+    Count
 }
 
-[System.Serializable]
-public class GuideStatusData
+
+public class GuideManager : MonoBehaviour
 {
-    public bool isCompleted;
-    public EGuideType guideTopic;
-}
-
-public class GuideManager : MonoSingleton<GuideManager>
-{
-    public bool isZooglePinNotePadOpenCheck = false;
-
-    public Dictionary<EGuideType, bool> guidesDictionary;
-    
+    public static Action<EGuideTopicName, float> OnPlayGuide;
+    public static Action OnCheckPlayFindInfoGuide;
     [SerializeField]
-    private List<GuideStatusData> guideStatusesList;
+    private GuideDataListSO guideListData;
 
-    [SerializeField]
-    private string browserConnectGuideHint;
-    [SerializeField]
-    private string notePadHintClickChatting;
-    [SerializeField]
-    private string[] pinNotePadHintChatting;
+    private Dictionary<EGuideTopicName, GuideData> guideTopicDictionary;
 
-    private EGuideType guideType;
+
 
     void Start()
     {
-        guidesDictionary = new Dictionary<EGuideType, bool>();
-
         Init();
     }
 
     private void Init()
     {
-        EventManager.StartListening(ECoreEvent.OpenPlayGuide, OnPlayGuide);
+        guideTopicDictionary = new Dictionary<EGuideTopicName, GuideData>();
 
-        DictionaryInit();
+        foreach (var guideData in guideListData.guideDataList)
+        {
+            guideTopicDictionary.Add(guideData.topicName, guideData);
+        }
+
+        OnPlayGuide += StartPlayGuide;
+        OnCheckPlayFindInfoGuide += CheckStartFindInfoGuide;
+        EventManager.StartListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
+        EventManager.StartListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
 
-    private void DictionaryInit()
-    {
-        foreach (GuideStatusData guideStatus in guideStatusesList)
-        {
-            guidesDictionary.Add(guideStatus.guideTopic, guideStatus.isCompleted);
-        }
-    }    
 
-    private void OnPlayGuide(object[] ps)
+    private void StartPlayGuide(EGuideTopicName guideTopicName, float timer)
     {
-        if (ps[0] == null || ps[1] == null)
+        
+        if (DataManager.Inst.IsGuideUse(guideTopicName))
         {
             return;
         }
 
-        float timer = (float)ps[0];
-        guideType = (EGuideType)ps[1];
-
-        StartCoroutine(SetTimer(timer));
+        
+        StartCoroutine(SetTimer(timer, guideTopicName));
     }
 
-    private IEnumerator SetTimer(float timer)
+    private IEnumerator SetTimer(float timer, EGuideTopicName guideTopicName)
     {
         yield return new WaitForSeconds(timer);
 
-        if (!guidesDictionary[guideType]) // 완료되어 있지 않다면
+        if (DataManager.Inst.IsGuideUse(guideTopicName))
         {
-            StartGudie(guideType);
+            yield break;
+        }
+
+        StartGudie(guideTopicName);
+    }
+    private void CheckStartFindInfoGuide()
+    {
+        if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectIsLivingWithVictim"))
+        {
+            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectIsLivingWithVictim, 30f); };
+            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictimGuide });
+        }
+        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectResidence"))
+        {
+            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectResidence, 30f); };
+            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectResidenceGuide });
+        }
+        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectRelationWithVictim"))
+        {
+            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectRelationWithVictim, 30f); };
+            ProfileChattingSystem.OnChatEnd += delegate { MonologSystem.OnStartMonolog(EMonologTextDataType.SuspectRelationWithVictimGuide, 0.1f); };
+            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectRelationWithVictimGuide });
+        }
+        else 
+        {
+            return;
         }
     }
-
-    private void StartGudie(EGuideType guideTopic)
+    private void StartGudie(EGuideTopicName guideTopic)
     {
-        switch(guideTopic)
+        switch (guideTopic)
         {
-            case EGuideType.ProfilerDownGuide:
+            case EGuideTopicName.None:
+                break;
+            case EGuideTopicName.GuestLoginGuide:
                 {
-                    MonologSystem.OnStartMonolog.Invoke(ETextDataType.GuideLog1, 0.2f, 1);
-                    guidesDictionary[guideType] = true;
+                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuestLoginGuideLog, 0.5f);
+                    DataManager.Inst.SetGuide(guideTopic, true);
+                    break;
+                }
+            case EGuideTopicName.LibraryOpenGuide:
+                {
+                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuideLog1, 0.2f);
+                    DataManager.Inst.SetGuide(guideTopic, true);
+                    break;
+                }
+            case EGuideTopicName.ClickPinNotePadHint:
+                {
+                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { guideTopicDictionary[guideTopic].guideTexts[0] });
+                    DataManager.Inst.SetGuide(guideTopic, true);
 
                     break;
                 }
-            case EGuideType.BrowserConnectGuide:
+            case EGuideTopicName.ClearPinNotePadQuiz:
                 {
-                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { browserConnectGuideHint });
-                    NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
-                    guidesDictionary[guideType] = true;
-                    
+                    StartCoroutine(SendAiMessageTexts(guideTopicDictionary[guideTopic].guideTexts));
+                    DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
-            case EGuideType.ClickPinNotePadHint:
+            case EGuideTopicName.SuspectIsLivingWithVictim:
                 {
-                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { notePadHintClickChatting });
-                    NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
-                    guidesDictionary[guideType] = true;
+                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictimHint });
+                    DataManager.Inst.SetGuide(guideTopic, true);
 
                     break;
                 }
-            case EGuideType.ClearPinNotePadQuiz:
+            case EGuideTopicName.SuspectResidence:
                 {
-                    StartCoroutine(SendHintMessage());
-                    guidesDictionary[guideType] = true;
-
+                    MonologSystem.OnStartMonolog(EMonologTextDataType.SuspectResidenceHint, 0.1f);
+                    DataManager.Inst.SetGuide(guideTopic, true);
+                    break;
+                }
+            case EGuideTopicName.SuspectRelationWithVictim:
+                {
+                    DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
             default:
@@ -123,21 +151,57 @@ public class GuideManager : MonoSingleton<GuideManager>
         }
     }
 
-    private IEnumerator SendHintMessage()
+    private IEnumerator SendAiMessageTexts(string[] values)
     {
-        foreach (string str in pinNotePadHintChatting)
+        foreach (string str in values)
         {
             EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
             yield return new WaitForSeconds(1f);
-
-            NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 1f);
         }
     }
 
+    private void ThisClearGuideTopic(object[] ps)
+    {
+        if (ps[0] == null)
+        {
+            return;
+        }
+
+        EGuideTopicName eGuideTopic = (EGuideTopicName)ps[0];
+
+        DataManager.Inst.SetGuide(eGuideTopic, true);
+    }
+
+    private void GuideConditionCheckClear(object[] ps)
+    {
+        FileSO file = (FileSO)ps[0];
+        bool isZooglePinHintNoteOpen = DataManager.Inst.SaveData.isZooglePinHintNoteOpen;
+
+        string fileLocation = file.GetFileLocation();
+
+
+        if (fileLocation == "User\\C\\내 문서\\Zoogle\\Zoogle비밀번호\\")
+        {
+            if (!isZooglePinHintNoteOpen)
+            {
+                DataManager.Inst.SaveData.isZooglePinHintNoteOpen = true;
+
+                OnPlayGuide(EGuideTopicName.ClickPinNotePadHint, 40);
+            }
+            else if (isZooglePinHintNoteOpen)
+            {
+                DataManager.Inst.SetGuide(EGuideTopicName.ClickPinNotePadHint, true);
+            }
+        }
+        if (fileLocation == "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\" && isZooglePinHintNoteOpen)
+        {
+            DataManager.Inst.SetGuide(EGuideTopicName.ClearPinNotePadQuiz, true);
+            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 1200);
+        }
+    }
     private void OnApplicationQuit()
     {
-        isZooglePinNotePadOpenCheck = false;
-
-        EventManager.StopListening(ECoreEvent.OpenPlayGuide, OnPlayGuide);
+        EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
+        EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
 }

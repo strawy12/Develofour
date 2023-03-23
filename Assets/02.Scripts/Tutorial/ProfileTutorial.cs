@@ -3,99 +3,112 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public class ProfileTutorial : MonoBehaviour
 {
-    public string[] startAIChatting;
-    public string[] findNoticeAIChatting;
-    public string[] completeProfileChatting;
-
-
+    [SerializeField]
+    private WindowAlterationSO profileWindowAlteration;
+    [SerializeField]
+    private float guideDelayWhenEndTuto = 30f;
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
-        EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCoroutine(NoticeProfileChattingTutorial()); });
+        //EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCoroutine(NoticeProfileChattingTutorial()); });
+        EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
 
         //skip debug 코드
-        EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { StopAllCoroutines(); EndTutoMonologEvent(); });
+        
+        EventManager.StartListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
+        // 만약 USB 화면 들어가면
+    }
+
+    public void FirstOpenUSBFile(object[] ps)
+    {
+        if (ps[0] == null) 
+        {
+            return;   
+        }
+
+        FileSO fileData = (FileSO)ps[0];
+
+        if(fileData.fileName == Constant.USB_FILENAME)
+        {
+            MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 0);
+            EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
+        }
+    }
+
+    public void StartChatting(EAIChattingTextDataType textDataType)
+    {
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { textDataType });
     }
 
     public IEnumerator StartProfileTutorial()
     {
-        Debug.Log("ASDDF");
-        WindowManager.Inst.StartTutorialSetting();
-        //tutorialPanel.SetActive(true);
+        Debug.Log("프로파일러 튜토리얼 시작");
+        DataManager.Inst.SaveData.isTutorialStart = true;
         yield return new WaitForSeconds(0.5f);
         
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
-        EventManager.StartListening(ETutorialEvent.ProfileInfoEnd, delegate { StartCoroutine(StartProfileLastTutorial()); });
 
-        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
+        ProfileChattingSystem.OnChatEnd += StartProfileMonolog;
+        StartChatting(EAIChattingTextDataType.StartAIChatting);
+    }
 
-        for (int i = 0; i < 3; i++)
+
+    public void StartProfileMonolog()
+    {
+        MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
+        MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f);
+    }
+    public void StartProfileNextTutorial()
+    {
+        MonologSystem.OnEndMonologEvent -= StartProfileNextTutorial;
+        ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
+        StartChatting(EAIChattingTextDataType.StartNextAiChatting);
+    }
+
+    private void CheckMaximumWindow()
+    {
+        ProfileChattingSystem.OnChatEnd -= CheckMaximumWindow;
+
+        if (profileWindowAlteration.isMaximum)
         {
-            AIChatting(startAIChatting[i]);
-            if (i == 2)
-            {
-                MonologSystem.OnEndMonologEvent += StartContinueProfileTutorial;
-                MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog1, 0.1f, 1);
-            }
-
-            yield return new WaitForSeconds(2f);
+            EventManager.TriggerEvent(ETutorialEvent.ProfileMidiumStart);
+        }
+        else
+        {
+            BackgroundNoticeTutorial();
         }
     }
 
-    public void StartContinueProfileTutorial()
+    public void BackgroundNoticeTutorial()
     {
-        StartCoroutine(ContinueProfileTutorial());
-    }
-
-    public IEnumerator ContinueProfileTutorial()
-    {
-        Debug.Log("fdsa");
-        MonologSystem.OnEndMonologEvent -= StartContinueProfileTutorial;
-        for (int i = 3; i < startAIChatting.Length; i++)
-        {
-            AIChatting(startAIChatting[i]);
-
-            yield return new WaitForSeconds(2f);
-        }
-
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 0.1f);
-
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
+
     }
 
-    private void AIChatting(string str)
+    public void StartCompleteProfileTutorial()
     {
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
+        EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
+        ProfileChattingSystem.OnChatEnd += EndMonolog;
+        StartChatting(EAIChattingTextDataType.CompleteProfileAIChatting);
     }
 
-    public IEnumerator NoticeProfileChattingTutorial()
+    public void EndMonolog()
     {
-        EventManager.StopAllListening(ETutorialEvent.LibraryRootCheck);
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
-        EventManager.TriggerEvent(ETutorialEvent.ProfileInfoStart);
-        foreach (string str in findNoticeAIChatting)
-        {
-            AIChatting(str);
-            yield return new WaitForSeconds(2f);
-        }
+        ProfileChattingSystem.OnChatEnd -= EndMonolog;
+        MonologSystem.OnEndMonologEvent += StartProfileEnd;
+        MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog2, 0.1f);
     }
 
-    public IEnumerator StartProfileLastTutorial()
+    public void StartProfileEnd()
     {
-        //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AiMessageAlarm, 0f);
-        yield return new WaitForSeconds(0.5f);
-        foreach (string str in completeProfileChatting)
-        {
-            AIChatting(str);
-            yield return new WaitForSeconds(2f);
-        }
-
-        MonologSystem.OnEndMonologEvent += EndTutoMonologEvent;
-        MonologSystem.OnTutoMonolog(ETextDataType.TutorialMonolog2, 0.2f, 3);
-
+        ProfileChattingSystem.OnChatEnd -= StartProfileEnd;
+        GuideUISystem.EndGuide?.Invoke();
+        EndTutoMonologEvent();
         EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
     }
 
@@ -103,11 +116,8 @@ public class ProfileTutorial : MonoBehaviour
     {
         GameManager.Inst.ChangeGameState(EGameState.Game);
         GameManager.Inst.isTutorial = false;
-        MonologSystem.OnStartMonolog(ETextDataType.TutorialMonolog3, 0f, 3);
-
-        EventManager.TriggerEvent(ECoreEvent.OpenPlayGuide, new object[2] { 90f, EGuideType.BrowserConnectGuide });
-        MonologSystem.OnEndMonologEvent -= EndTutoMonologEvent;
+        DataManager.Inst.SaveData.isTutorialClear = true;
+        GuideManager.OnCheckPlayFindInfoGuide?.Invoke();
+        GuideManager.OnPlayGuide?.Invoke(EGuideTopicName.ClickPinNotePadHint, guideDelayWhenEndTuto);
     }
-
-
 }

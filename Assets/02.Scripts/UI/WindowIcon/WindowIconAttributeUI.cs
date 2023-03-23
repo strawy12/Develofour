@@ -12,9 +12,6 @@ public class WindowIconAttributeUI : MonoUI
     [SerializeField]
     private Button openPropertyBtn;
 
-    [SerializeField]
-    private PropertyUI propertyUI;
-
     public RectTransform rectTransform;
 
     private FileSO windowPropertyData;
@@ -48,7 +45,6 @@ public class WindowIconAttributeUI : MonoUI
 
     public void CreateMenu(Vector2 mousePos, FileSO fileData)
     {
-        Debug.Log("메뉴생성");
         Vector2 offset = Vector2.zero;
 
         if (Mathf.Abs(Constant.MAX_CANVAS_POS.x - mousePos.x) < rectTransform.rect.width)
@@ -79,9 +75,7 @@ public class WindowIconAttributeUI : MonoUI
 
     public void CreateProperty()
     {
-        Debug.Log("click");
-        Debug.Log(windowPropertyData.name);
-        propertyUI.CreatePropertyUI(windowPropertyData);
+        WindowManager.Inst.OpenIconProperty(windowPropertyData);
         CloseMenu();
     }
 }

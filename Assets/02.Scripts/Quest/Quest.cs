@@ -20,9 +20,7 @@ public class Quest : MonoBehaviour
     private List<Decision> decisionList;
 
     public void Init(bool isNotice)
-    {
- 
-
+    { 
         LoadQuestDatas();
 
         if (CheckDecisions() || questData.isClear)

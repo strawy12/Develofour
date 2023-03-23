@@ -9,10 +9,12 @@ using System.Threading;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using Object = System.Object;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class SOSettingWindow : EditorWindow
 {
-    const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv";
+    const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv&range=2:1000";
     //https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv&gid=1984911729
 
     private TextField sheetField;
@@ -49,56 +51,25 @@ public class SOSettingWindow : EditorWindow
     {
         UnityWebRequest www;
 
-       
+
         if (id == "")
         {
             www = UnityWebRequest.Get($"{URL}");
         }
         else
         {
-           www = UnityWebRequest.Get($"{URL}&gid={id}");
+            www = UnityWebRequest.Get($"{URL}&gid={id}");
         }
         yield return www.SendWebRequest();
         string add = www.downloadHandler.text;
 
-        string[] ver = add.Split('\n'); //ї­
-
-        string[] firstLine = ver[0].Split('\t'); //За
-        Assembly asm = typeof(SOParent).Assembly;
-        Type soType = asm.GetType(firstLine[0]);
-
-        string[] top = ver[0].Split('\t');
-
-        if(soType == typeof(FileSO))
+        switch (scriptField.text)
         {
-            StartFileSOCreate(ver, soType);
-            yield break;
-        }
-
-        if (!Directory.Exists($"Assets/07.ScriptableObjects/{firstLine[0]}"))
-        {
-            Directory.CreateDirectory($"Assets/07.ScriptableObjects/{firstLine[0]}");
-        }
-
-        for (int i = 1; i < ver.Length; i++)
-        {
-            string[] hor = ver[i].Split('\t');
-
-            string SO_PATH = $"Assets/07.ScriptableObjects/{firstLine[0]}/{hor[0]}.asset";
-
-            if (File.Exists(SO_PATH))
-            {
-                object obj = AssetDatabase.LoadAssetAtPath(SO_PATH, typeof(SOParent));
-                SOParent soObj = obj as SOParent;
-                soObj.Setting(hor);
-            }
-            else
-            {
-                object obj = CreateInstance(soType);
-                SOParent soObj = obj as SOParent;
-                soObj.Setting(hor);
-                AssetDatabase.CreateAsset(soObj, SO_PATH);
-            }
+            case "FileSO":
+                {
+                    SettingFileSO(add);
+                }
+                break;
         }
 
     }
@@ -133,45 +104,80 @@ public class SOSettingWindow : EditorWindow
         return obj;
     }
 
-    public void StartFileSOCreate(string[] ver, Type soType)
+    public void SettingFileSO(string dataText)
     {
-        string[] top = ver[0].Split('\t');
+        string[] rows = dataText.Split('\n');
 
-        for (int i = 1; i < ver.Length; i++)
+        string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
+        List<FileSO> fileSOList = new List<FileSO>();
+        foreach (string guid in guids)
         {
-            string[] hor = ver[i].Split('\t');
-            string[] root = hor[0].Split('/');
-            CreateRoot(root);
-            string SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{hor[0]}/{hor[1]}.asset";
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            fileSOList.Add(AssetDatabase.LoadAssetAtPath<FileSO>(path));
+        }
 
-            if (File.Exists(SO_PATH))
+        for (int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+
+            int id = int.Parse(columns[0]);
+            string fileName = columns[1];
+            EWindowType type = (EWindowType)Enum.Parse(typeof(EWindowType), columns[2]);
+            bool isMultiple = columns[4] == "TRUE";
+            bool isFileLock = columns[5] == "TRUE";
+             
+            string pin = columns[6];
+            string pinHint = columns[7];
+
+            bool isAlram = columns[8] == "TRUE";
+
+            List<int> childIdList = new List<int>();
+
+            string[] children = columns[11].Split(',');
+            foreach (string child in children)
             {
-                object obj = AssetDatabase.LoadAssetAtPath(SO_PATH, typeof(FileSO));
-                FileSO soObj = obj as FileSO;
-                soObj.Setting(hor);
-                SetChildren(hor, soObj);
+                string newChild = Regex.Replace(child, "[^0-9]", "");
+
+                if (string.IsNullOrEmpty(newChild)) continue;
+
+                childIdList.Add(int.Parse(newChild));
             }
-            else
+
+            FileSO file = fileSOList.Find(x => x.id == id);
+            bool isCreate = false;
+
+            if (file == null)
             {
-                if(hor[3] == "Directory")
+                file = CreateInstance<FileSO>();
+                isCreate = true;
+            }
+
+            file.fileName = fileName;
+            file.windowType = type;
+            file.isMultiple = isMultiple;
+            file.isFileLock = isFileLock;
+            file.windowPin = pin;
+            file.windowPinHintGuide = pinHint;
+            file.isAlarm = isAlram;
+
+            if (file is DirectorySO)
+            {
+                (file as DirectorySO).children.Clear();
+                foreach (int childID in childIdList)
                 {
-                    object obj = CreateInstance(typeof(DirectorySO));
-                    DirectorySO soObj = obj as DirectorySO;
-                    soObj.Setting(hor);
-                    AssetDatabase.CreateAsset(soObj, SO_PATH);
-                    SetChildren(hor, soObj);
-                }
-                else
-                {
-                    object obj = CreateInstance(soType);
-                    FileSO soObj = obj as FileSO;
-                    soObj.Setting(hor);
-                    AssetDatabase.CreateAsset(soObj, $"Assets/07.ScriptableObjects/DirectorySO/{hor[0]}/{hor[1]}.asset");
-                    SetChildren(hor, soObj);
+                    FileSO child = fileSOList.Find(x => x.id == childID);
+                    Debug.Log($"{child}_{childID}");
+                    child.parent = file as DirectorySO;
+                    (file as DirectorySO).children.Add(child);
                 }
             }
 
-
+            if (isCreate)
+            {
+                string SO_PATH = $"Assets/{file.fileName}.asset";
+                AssetDatabase.CreateAsset(file, SO_PATH);
+                AssetDatabase.Refresh();
+            }
         }
     }
 
@@ -179,7 +185,7 @@ public class SOSettingWindow : EditorWindow
     {
         string current = $"Assets/07.ScriptableObjects/DirectorySO";
 
-        for(int i = 0; i < root.Length; i++)
+        for (int i = 0; i < root.Length; i++)
         {
             current = current + "/" + root[i];
             if (!Directory.Exists(current))
@@ -193,7 +199,7 @@ public class SOSettingWindow : EditorWindow
     {
         string path = $"Assets/07.ScriptableObjects/DirectorySO";
         string[] root = hor[0].Split('/');
-        for(int i = 0; i < root.Length - 1; i++)
+        for (int i = 0; i < root.Length - 1; i++)
         {
             path += '/';
             path += root[i];

@@ -1,5 +1,5 @@
 ﻿public enum ECoreEvent
-{
+{ 
     None = -1,
     LeftButtonClick,
     ChangeBGM,
@@ -7,7 +7,7 @@
     EndLoadResources,
     EndDataLoading,
     CursorChange,
-    OpenPlayGuide,
+    CoverPanelSetting,
 }
     
 public enum EQuestEvent
@@ -43,7 +43,9 @@ public enum ENoticeEvent
     GeneratedNotice,
     OpenNoticeSystem,
     ClickNoticeBtn,
+    GeneratedProfileFindNotice,
 }
+
 public enum ELibraryEvent
 {
     None = -1,
@@ -59,9 +61,6 @@ public enum EBrowserEvent
     None = -1,
     OnOpenSite,
     OnUndoSite,
-    AddFavoriteSite,
-    RemoveFavoriteSite,
-    AddFavoriteSiteAll,
 }
 
 #region Site
@@ -93,7 +92,6 @@ public enum EMailSiteEvent
 {
     None = -1,
     PoliceGameClear,
-    ShowBlogGmail,
     VisiableMail,
     RefreshPavoriteMail,
 }
@@ -134,6 +132,7 @@ public enum EAiChatData
     LastAiChat,
     Email,
     Password,
+    ChattingEnd,
 }
 
 public enum EProfileEvent 
@@ -142,12 +141,20 @@ public enum EProfileEvent
     FindInfoText,
     SendMessage,
     InstalledProfile,
+    ProfileSendMessage,
+}
+public enum EGuideEventType
+{
+    ClearGuideType,
+    GuideConditionCheck,
 }
 
 public enum ETutorialEvent
 {
     None = -1,
     TutorialStart, // 튜토리얼 시작 이벤트
+    ProfileMidiumStart,
+    ProfileMidiumEnd,
     BackgroundSignStart, 
     BackgroundSignEnd, 
     LibraryRootCheck, 
@@ -160,11 +167,19 @@ public enum ETutorialEvent
     ProfileInfoStart, 
     ProfileInfoEnd, 
     ProfileEventStop, 
-    EndClickInfoTutorial, 
+    EndClickInfoTutorial,
 }
+
 
 public enum EDebugSkipEvent
 {
     None = -1,
     TutorialSkip,
+}
+
+public enum ETextboxEvent
+{
+    None = -1,
+    Shake,
+    Delay,
 }

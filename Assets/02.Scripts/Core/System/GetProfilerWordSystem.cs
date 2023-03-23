@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
 [System.Serializable]
@@ -12,27 +11,28 @@ public class ProfilerWord
 }
 
 [System.Serializable]
-public class ProfilerWordElement
+public class SubstitutionWord
 {
-    public bool isFindWord;
+    public bool isFinded;
     public string word;
+
     public ProfilerWord value;
 }
 
 
-public class GetProfilerWordSystem : MonoBehaviour
+public class GetProfilerWordSystem : MonoBehaviour 
 {
-    public static Action<string> OnGeneratedProfiler; // 프로파일러에 정보를 넣어주는 애고
-    public static Action<string> OnFindWord; // 프로파일러가 정보를 찾았는지 알려주는 애
+    public static Action<string> OnGeneratedProfiler; 
+    public static Action<string> OnFindWord;
 
     [SerializeField]
-    private List<ProfilerWordElement> substitutionList;
+    private List<SubstitutionWord> willGetWordList;
 
-    private Dictionary<string, ProfilerWord> substitutionDictionary;
+    private Dictionary<string, ProfilerWord> wordListDictionary;
 
     private void Start()
     {
-        substitutionDictionary = new Dictionary<string, ProfilerWord>();
+        wordListDictionary = new Dictionary<string, ProfilerWord>();
 
         Init();
     }
@@ -47,27 +47,24 @@ public class GetProfilerWordSystem : MonoBehaviour
 
     private void DictionaryInit()
     {
-        foreach (ProfilerWordElement profiler in substitutionList)
+        foreach (SubstitutionWord profiler in willGetWordList)
         {
-            substitutionDictionary.Add(profiler.word, profiler.value);
+            wordListDictionary.Add(profiler.word, profiler.value);
         }
     }
 
     private void RegistrationProfiler(string word)
     {
-        if (!substitutionDictionary.ContainsKey(word))
+        if (!wordListDictionary.ContainsKey(word))
         {
             return;
         }
 
-        substitutionList.Find(x => x.word == word).isFindWord = true;
+        EProfileCategory category = wordListDictionary[word].category;
+        string information = wordListDictionary[word].information;
 
-
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.GetNotePadWordsForProfiler, 0);
-
-        EventManager.TriggerEvent(
-            EProfileEvent.FindInfoText,
-            new object[2] { substitutionDictionary[word].category, substitutionDictionary[word].information });
+        willGetWordList.Find(x => x.word == word).isFinded = true;
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
     }
 
     private void FindedWordCheck(string word)
@@ -77,13 +74,17 @@ public class GetProfilerWordSystem : MonoBehaviour
             return;
         }
 
-        if(!substitutionDictionary.ContainsKey(word) || !substitutionList.Find(x => x.word == word).isFindWord)
+        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
+
+        if (!wordListDictionary.ContainsKey(word) || !willGetWordList.Find(x => x.word == word).isFinded)
         {
-            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { "FindingWord" });
+            state = CursorChangeSystem.ECursorState.FindInfo;
+            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
         }
         else
         {
-            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { "FindedWord" });
+            state = CursorChangeSystem.ECursorState.FoundInfo;
+            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
         }
     }
 }
