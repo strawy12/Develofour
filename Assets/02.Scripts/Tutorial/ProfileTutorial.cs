@@ -21,7 +21,6 @@ public class ProfileTutorial : MonoBehaviour
         
         EventManager.StartListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
         // 만약 USB 화면 들어가면
-        
     }
 
     public void FirstOpenUSBFile(object[] ps)
@@ -35,7 +34,7 @@ public class ProfileTutorial : MonoBehaviour
 
         if(fileData.fileName == Constant.USB_FILENAME)
         {
-            MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 1f);
+            MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 0);
             EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
         }
     }

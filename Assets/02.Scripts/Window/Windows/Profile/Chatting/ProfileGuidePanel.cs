@@ -47,6 +47,8 @@ public class ProfileGuidePanel : MonoBehaviour
         if (isMoving) return;
         isMoving = true;
         loadingPanel.SetActive(true);
+        guideParent.SetActiveBtn(false);
+
         movePanelRect.DOSizeDelta(new Vector2(0, hideValue), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
             currentValue = hideValue;
@@ -64,6 +66,7 @@ public class ProfileGuidePanel : MonoBehaviour
         if (isMoving) return;
         isMoving = true;
         loadingPanel.SetActive(true);
+        guideParent.SetActiveBtn(true);
         movePanelRect.DOSizeDelta(new Vector2(0, showValue), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
             currentValue = showValue;
@@ -73,6 +76,7 @@ public class ProfileGuidePanel : MonoBehaviour
             hideImage.SetActive(true);
             isMoving = false;
             loadingPanel.SetActive(false);
+
         });
     }
 

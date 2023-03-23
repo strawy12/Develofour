@@ -69,7 +69,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         fileData = newFileData;
         iconNameText.text = fileData.fileName;
-        Debug.Log(newFileData.fileName);
         float x1, y1, x2, y2;
 
         if (newFileData.iconSprite.rect.width != newFileData.iconSprite.rect.height)
@@ -193,7 +192,15 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (fileData is DirectorySO && isBackground == false)
         {
-            EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
+            if (fileData.isFileLock && DataManager.Inst.IsWindowLock(fileData.GetFileLocation()))
+            {
+                targetWindow = WindowManager.Inst.WindowOpen(EWindowType.WindowPinLock, fileData);
+            }
+            else
+            {
+                Debug.Log("asdf");
+                EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
+            }
             return;
         }
 

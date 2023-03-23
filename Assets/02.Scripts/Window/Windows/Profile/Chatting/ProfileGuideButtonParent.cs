@@ -24,11 +24,17 @@ public class ProfileGuideButtonParent : MonoBehaviour
     [SerializeField]
     private Button prevBtn;
 
+
     private int currentIndex = 0;
 
     public bool isWeightSizeUp = false;
 
+    public void SetActiveBtn(bool value)
+    {
+        nextBtn.gameObject.SetActive(value);
+        prevBtn.gameObject.SetActive(value);
 
+    }
 
     public void Init()
     {
@@ -151,11 +157,11 @@ public class ProfileGuideButtonParent : MonoBehaviour
     #region Page
     public void UpdateButton()
     {
-        if(currentIndex >= guideButtonList.Count)
+        if (currentIndex >= guideButtonList.Count)
         {
             currentIndex = currentIndex <= 0 ? 0 : guideButtonList.Count - 1;
         }
-        
+
         if (isWeightSizeUp == false)
         {
             for (int i = 0; i < guideButtonList.Count; i++)

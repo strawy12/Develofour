@@ -35,6 +35,7 @@ public enum EWindowEvent
     AlarmSend,
     AlarmRecieve,
     AlarmCheck,
+    CloseAttribute,
 }
 
 public enum ENoticeEvent
@@ -45,6 +46,7 @@ public enum ENoticeEvent
     ClickNoticeBtn,
     GeneratedProfileFindNotice,
 }
+
 public enum ELibraryEvent
 {
     None = -1,
