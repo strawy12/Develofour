@@ -3,20 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EGuideTopicName
-{
-    None,
-    GuestLoginGuide,
-    LibraryOpenGuide,
-    ClickPinNotePadHint,
-    ClearPinNotePadQuiz,
-    SuspectIsLivingWithVictim,
-    SuspectResidence,
-    SuspectRelationWithVictim,
-    Count
-}
-
-
 public class GuideManager : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
@@ -41,7 +27,7 @@ public class GuideManager : MonoBehaviour
         }
 
         OnPlayGuide += StartPlayGuide;
-        OnPlayInfoGuide += StartGudie;
+        OnPlayInfoGuide += StartProfileInfoGuide;
         EventManager.StartListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
         EventManager.StartListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
@@ -68,6 +54,16 @@ public class GuideManager : MonoBehaviour
 
         StartGudie(guideTopicName);
     }
+
+    private void StartProfileInfoGuide(EGuideTopicName guideTopic)
+    {
+        string temp = guideTopic.ToString();
+
+        EAIChattingTextDataType aIChattingTextDataType = Enum.Parse<EAIChattingTextDataType>(temp);
+
+        SendProfileGuide(aIChattingTextDataType);
+    }
+
 
     private void StartGudie(EGuideTopicName guideTopic)
     {
@@ -98,25 +94,6 @@ public class GuideManager : MonoBehaviour
                 {
                     StartCoroutine(SendAiMessageTexts(guideTopicDictionary[guideTopic].guideTexts));
                     DataManager.Inst.SetGuide(guideTopic, true);
-                    break;
-                }
-            case EGuideTopicName.SuspectIsLivingWithVictim:
-                {
-                    ProfileChattingSystem.OnChatEnd += EndProfileGuide;
-                    EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictim });
-
-                    break;
-                }
-            case EGuideTopicName.SuspectResidence:
-                {
-                    MonologSystem.OnEndMonologEvent += EndProfileGuide;
-                    EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.SuspectResidence });
-                    break;
-                }
-            case EGuideTopicName.SuspectRelationWithVictim:
-                {
-                    ProfileChattingSystem.OnChatEnd += EndProfileGuide;
-                    EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.SuspectRelationWithVictim });
                     break;
                 }
             default:
@@ -181,5 +158,11 @@ public class GuideManager : MonoBehaviour
     {
         EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
         EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
+    }
+
+    private void SendProfileGuide(EAIChattingTextDataType aIChattingText)
+    {
+        ProfileChattingSystem.OnChatEnd += EndProfileGuide;
+        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { aIChattingText });
     }
 }

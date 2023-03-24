@@ -1,18 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum EAIChattingTextDataType
-{
-    None,
-    StartAIChatting,
-    CompleteProfileAIChatting,
-    StartNextAiChatting,
-    SuspectIsLivingWithVictim,
-    SuspectResidence,
-    SuspectRelationWithVictim,
-    SuspectInfoComplete,
-    Count
-}
+
 
 [CreateAssetMenu(fileName = "TextData_", menuName = "SO/TextDataSO/AIChatting")]
 public class AIChattingTextDataSO : TextDataSO
