@@ -298,6 +298,11 @@ public class ProfileWindow : Window
         EventManager.TriggerEvent(ETutorialEvent.ProfileMidiumEnd);
     }
 
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
+    }
+
     private void OnApplicationQuit()
     {
         EventManager.StopListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
