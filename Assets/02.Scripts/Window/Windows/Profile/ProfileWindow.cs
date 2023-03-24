@@ -19,7 +19,6 @@ public class ProfileWindow : Window
     [Header("ProfilerChatUI")]
     [SerializeField]
     private ProfileChatting profileChatting;
-
     [Header("ProfilerBar")]
     [SerializeField]
     private Button profileSystemBtn;
@@ -297,6 +296,11 @@ public class ProfileWindow : Window
         base.WindowMinimum();
 
         EventManager.TriggerEvent(ETutorialEvent.ProfileMidiumEnd);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
     }
 
     private void OnApplicationQuit()

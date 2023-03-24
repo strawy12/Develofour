@@ -45,6 +45,7 @@ public class MonologSystem : MonoBehaviour
         textBox.StopAllCoroutines();
         textBox.SetActive(false);
         GameManager.Inst.ChangeGameState(EGameState.Game);
+        OnEndMonologEvent = null;
     }
 
     private IEnumerator StartMonologCoroutine(EMonologTextDataType textDataType, float startDelay, bool isTuto)

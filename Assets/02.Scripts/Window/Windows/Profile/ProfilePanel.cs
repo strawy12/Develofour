@@ -61,10 +61,6 @@ public class ProfilePanel : MonoBehaviour
 
         ProfileInfoPanel categoryPanel = infoPanelList.Find(x=>x.category == category);
 
-        if (!categoryPanel.gameObject.activeSelf)
-        {
-            categoryPanel.gameObject.SetActive(true);
-        }
         GetInfoPanel(category).ChangeValue(ps[1] as string);
     }
 
@@ -95,7 +91,7 @@ public class ProfilePanel : MonoBehaviour
         {
             foreach(var infoText in infoPanel.infoTextList)
             {
-                if(key == infoText.infoNameKey)
+                if(key == infoText.textDataSO.key)
                 {
                     answer = infoText.infoTitleText.text;
                     temp = answer.Replace(": ", "");

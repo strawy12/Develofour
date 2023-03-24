@@ -3,13 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[Serializable]
-public class ProfileInfoSaveData
-{ 
-    public string key;
-}
-
-[CreateAssetMenu(menuName = "SO/Profile/ProfileInfo/Data")]
+[CreateAssetMenu(menuName = "SO/Profile/ProfileInfo/Category")]
 public class ProfileCategoryDataSO : ScriptableObject
 {
     [Header("Category")]
@@ -17,13 +11,13 @@ public class ProfileCategoryDataSO : ScriptableObject
     public string categoryTitle;
     [Header("Information")]
     [SerializeField]
-    public List<ProfileInfoSaveData> infoTextList;
+    public List<ProfileInfoTextDataSO> infoTextList;
 
-    public ProfileInfoSaveData GetSaveData(string key)
+    public ProfileInfoTextDataSO GetSaveData(string key)
     {
-        ProfileInfoSaveData data = null;
+        ProfileInfoTextDataSO data = null;
 
-        foreach(ProfileInfoSaveData saveData in infoTextList)
+        foreach(ProfileInfoTextDataSO saveData in infoTextList)
         {
             if (saveData.key == key)
             {
