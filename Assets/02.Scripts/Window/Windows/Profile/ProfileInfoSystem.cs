@@ -47,6 +47,7 @@ public class ProfileInfoSystem : MonoBehaviour
         if (!DataManager.Inst.IsProfileInfoData(category, str))
         {
             DataManager.Inst.AddProfileinfoData(category, str);
+
             SendAlarm(category, str);
         }
         else

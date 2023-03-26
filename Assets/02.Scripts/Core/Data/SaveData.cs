@@ -49,6 +49,7 @@ public class SaveData
     public bool isZooglePinHintNoteOpen;
     public bool isTutorialStart;
     public bool isTutorialClear;
+    public bool isOnceOpenWindowProperty;
     public EComputerLoginState computerLoginState;
 }
 
