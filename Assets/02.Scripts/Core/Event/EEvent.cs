@@ -187,3 +187,10 @@ public enum ETextboxEvent
     Shake,
     Delay,
 }
+
+public enum EProfileSearchTutorialEvent
+{
+    None = -1,
+    TutorialStart,
+
+}

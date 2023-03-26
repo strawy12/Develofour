@@ -50,6 +50,8 @@ public class SaveData
     public bool isTutorialStart;
     public bool isTutorialClear;
     public bool isOnceOpenWindowProperty;
+    public bool isOnceEnterZoogleLogin;
+
     public EComputerLoginState computerLoginState;
 }
 
