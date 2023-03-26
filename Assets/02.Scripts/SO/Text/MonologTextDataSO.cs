@@ -14,6 +14,7 @@ public enum EMonologTextDataType
     OnUSBFileMonoLog,
     GuestLoginGuideLog,
     SuspectResidence,
+    SuspectRelationWithVictimGuide,
     Count
 }
 
