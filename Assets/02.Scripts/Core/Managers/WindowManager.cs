@@ -37,7 +37,6 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     private void InitDictionary()
     {
-
         for (EWindowType type = EWindowType.None + 1; type < EWindowType.End; type++)
         {
             windowDictionary.Add(type, new List<Window>());
@@ -176,14 +175,14 @@ public class WindowManager : MonoSingleton<WindowManager>
             targetWindow = CreateWindow(EWindowType.IconProperty, file);
         }
 
+        DataManager.Inst.SaveData.isOnceOpenWindowProperty = true;
         targetWindow.WindowOpen();
-        return targetWindow;
 
+        return targetWindow;
     }
     public Window GetWindowPrefab(EWindowType windowType)
     {
         Window prefab = windowPrefabList.Find((x) => x.windowType == windowType).windowPrefab;
-
         return Instantiate(prefab, Define.WindowCanvasTrm);
     }
 
