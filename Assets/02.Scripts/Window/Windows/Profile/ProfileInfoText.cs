@@ -16,9 +16,15 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public TMP_Text infoTitleText;
 
-    private string infoTitle;
+    private string infoTitle; 
 
-    public bool isFind;
+    private bool isFind;
+    public bool IsFind
+    {
+        get => isFind;
+        set => isFind = value;
+    }
+
     public Action OnFindText;
     //이전 텍스트로 변경, 이후 텍스트로 변경해주는 함수
 
@@ -26,7 +32,7 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         infoTitle = infoTitleText.text;
 
-        if (!isTitleShow)
+        if (!isTitleShow) 
         {
             string[] info = infoTitle.Split(" ");
             string str = "";

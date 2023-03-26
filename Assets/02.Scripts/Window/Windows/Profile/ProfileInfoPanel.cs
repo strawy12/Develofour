@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
 using System;
 using UnityEngine.UI;
 
@@ -14,12 +13,12 @@ public class ProfileInfoPanel : MonoBehaviour
     private TMP_Text categoryNameText;
     //동적 저장을 위해서는 활성화 비활성화 여부를 들고있는 SO 혹은 Json이 저장 정보를 불러오고 저장
     [SerializeField]
-    public List<ProfileInfoText> infoTextList;
+    private List<ProfileInfoText> infoTextList; 
 
     private ProfileCategoryDataSO saveData;
     //이 패널이 정보를 모두 찾았다면 연결된 패널들이 보임
     [SerializeField]
-    private List<ProfileInfoPanel> LinkInfoPenelList;
+    private List<ProfileInfoPanel> linkInfoPenelList;
     public void Init(ProfileCategoryDataSO profileInfoDataSO)
     {
         saveData = profileInfoDataSO;
@@ -74,9 +73,6 @@ public class ProfileInfoPanel : MonoBehaviour
                 }
                 infoText.ChangeText();
 
-
-                Debug.Log("1");
-
                 DataManager.Inst.AddProfileinfoData(saveData.category, key);
                 EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[2] { category, key });
 
@@ -88,9 +84,22 @@ public class ProfileInfoPanel : MonoBehaviour
         }
     }
 
+    private void SendNotice()
+    {
+        //string head, string body, float delay, bool canDelete, Sprite icon, Color color, ENoticeTag noticeTag
+
+        string head = "새로운 카테고리가 추가되었습니다";
+        string body = $"새 카테고리 {saveData.categoryTitle}가 추가되었습니다.";
+
+        NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
+
+    }
+
     private void ShowPost()
     {
         gameObject.SetActive(true);
+
+        SendNotice();
         DataManager.Inst.SetCategoryData(saveData.category, true);
     }
 
@@ -102,14 +111,14 @@ public class ProfileInfoPanel : MonoBehaviour
 
     private void ShowLinkedPost()
     {
-        if (LinkInfoPenelList.Count == 0)
+        if (linkInfoPenelList.Count == 0)
         {
             return;
         }
 
         if (GetIsFindAll())
         {
-            foreach (var infoPost in LinkInfoPenelList)
+            foreach (var infoPost in linkInfoPenelList)
             {
                 infoPost.ShowPost();
             }
@@ -120,11 +129,25 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         foreach (var info in infoTextList)
         {
-            if (info.isFind == false)
+            if (info.IsFind == false)
             {
                 return false;
             }
         }
         return true;
+    }
+
+    public string SetInfoText(string key)
+    {
+        string answer = "";
+        foreach (var infoText in infoTextList)
+        {
+            if (key == infoText.textDataSO.key)
+            {
+                answer = infoText.infoTitleText.text;
+            }
+        }
+
+        return answer;
     }
 }
