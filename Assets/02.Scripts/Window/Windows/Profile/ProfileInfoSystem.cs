@@ -42,8 +42,6 @@ public class ProfileInfoSystem : MonoBehaviour
             }
         }
 
-        ProfileCategoryDataSO categoryData = infoList[category];
-
         if (!DataManager.Inst.IsProfileInfoData(category, str))
         {
             DataManager.Inst.AddProfileinfoData(category, str);
@@ -59,8 +57,8 @@ public class ProfileInfoSystem : MonoBehaviour
         {
             DataManager.Inst.SetCategoryData(category, true);
         }
-
     }
+
     public void SendAlarm(EProfileCategory category, string key)
     {
         string answer;

@@ -55,7 +55,7 @@ public class ProfileInfoPanel : MonoBehaviour
             {
                 if (infoText.textDataSO.key == save.key)
                 {
-                    infoText.ChangeText();
+                    infoText.ChangeText(); 
                 }
             }
         }
@@ -65,7 +65,6 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         foreach (var infoText in infoTextList)
         {
-
             if (infoText.textDataSO.key == key)
             {
                 if (gameObject.activeSelf == false)
@@ -73,6 +72,8 @@ public class ProfileInfoPanel : MonoBehaviour
                     ShowPost();
                 }
                 infoText.ChangeText();
+
+                Debug.Log("1");
 
                 DataManager.Inst.AddProfileinfoData(saveData.category, key);
                 EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[2] { category, key });
@@ -85,7 +86,7 @@ public class ProfileInfoPanel : MonoBehaviour
         }
     }
 
-    private void ShowPost()
+    public void ShowPost()
     {
         gameObject.SetActive(true);
         DataManager.Inst.SetCategoryData(saveData.category, true);
