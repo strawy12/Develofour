@@ -199,7 +199,10 @@ public class DataManager : MonoSingleton<DataManager>
     {
         saveData.profileSaveData.Find(x => x.category == category).isShowCategory = value;
     }
-
+    public bool IsCategoryShow(EProfileCategory category)
+    {
+        return saveData.profileSaveData.Find(x => x.category == category).isShowCategory;
+    }
     public bool IsProfileInfoData(EProfileCategory category, string str)
     {
         return GetProfileSaveData(category).infoData.Contains(str);

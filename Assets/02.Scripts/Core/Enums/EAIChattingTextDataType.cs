@@ -1,0 +1,26 @@
+public enum EAIChattingTextDataType
+{
+    None,
+    StartAIChatting,
+    CompleteProfileAIChatting,
+    StartNextAiChatting,
+    SuspectIsLivingWithVictim,
+    SuspectResidence,
+    SuspectRelationWithVictim,
+    SuspectInfoComplete,
+    SuspectBirth,
+    SuspectEmail,
+    SuspectUniversity,
+    SuspectDepartment,
+    SuspectIsPetHaveAnswer,
+    VictimName,
+    VictimDeathTime,
+    VictimBirthDate,
+    VictimJob,
+    VictimUniversity,
+    PetName,
+    PetAge,
+    PetAdoptionDate,
+    PetBreed,
+    Count
+}

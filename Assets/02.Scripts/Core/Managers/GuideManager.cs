@@ -3,30 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EGuideTopicName
-{
-    None,
-    GuestLoginGuide,
-    LibraryOpenGuide,
-    ClickPinNotePadHint,
-    ClearPinNotePadQuiz,
-    SuspectIsLivingWithVictim,
-    SuspectResidence,
-    SuspectRelationWithVictim,
-    Count
-}
-
-
 public class GuideManager : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
-    public static Action OnCheckPlayFindInfoGuide;
+    public static Action<EGuideTopicName> OnPlayInfoGuide;
     [SerializeField]
     private GuideDataListSO guideListData;
 
     private Dictionary<EGuideTopicName, GuideData> guideTopicDictionary;
-
-
 
     void Start()
     {
@@ -43,15 +27,13 @@ public class GuideManager : MonoBehaviour
         }
 
         OnPlayGuide += StartPlayGuide;
-        OnCheckPlayFindInfoGuide += CheckStartFindInfoGuide;
+        OnPlayInfoGuide += StartProfileInfoGuide;
         EventManager.StartListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
         EventManager.StartListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
 
-
     private void StartPlayGuide(EGuideTopicName guideTopicName, float timer)
     {
-        
         if (DataManager.Inst.IsGuideUse(guideTopicName))
         {
             return;
@@ -72,29 +54,17 @@ public class GuideManager : MonoBehaviour
 
         StartGudie(guideTopicName);
     }
-    private void CheckStartFindInfoGuide()
+
+    private void StartProfileInfoGuide(EGuideTopicName guideTopic)
     {
-        if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectIsLivingWithVictim"))
-        {
-            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectIsLivingWithVictim, 30f); };
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictimGuide });
-        }
-        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectResidence"))
-        {
-            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectResidence, 30f); };
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectResidenceGuide });
-        }
-        else if(!DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectRelationWithVictim"))
-        {
-            ProfileChattingSystem.OnChatEnd += delegate { StartPlayGuide(EGuideTopicName.SuspectRelationWithVictim, 30f); };
-            ProfileChattingSystem.OnChatEnd += delegate { MonologSystem.OnStartMonolog(EMonologTextDataType.SuspectRelationWithVictimGuide, 0.1f); };
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectRelationWithVictimGuide });
-        }
-        else 
-        {
-            return;
-        }
+        string temp = guideTopic.ToString();
+
+        EAIChattingTextDataType aIChattingTextDataType = Enum.Parse<EAIChattingTextDataType>(temp);
+
+        SendProfileGuide(aIChattingTextDataType);
     }
+
+
     private void StartGudie(EGuideTopicName guideTopic)
     {
         switch (guideTopic)
@@ -126,31 +96,16 @@ public class GuideManager : MonoBehaviour
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
-            case EGuideTopicName.SuspectIsLivingWithVictim:
-                {
-                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SuspectIsLivingWithVictimHint });
-                    DataManager.Inst.SetGuide(guideTopic, true);
-
-                    break;
-                }
-            case EGuideTopicName.SuspectResidence:
-                {
-                    MonologSystem.OnStartMonolog(EMonologTextDataType.SuspectResidenceHint, 0.1f);
-                    DataManager.Inst.SetGuide(guideTopic, true);
-                    break;
-                }
-            case EGuideTopicName.SuspectRelationWithVictim:
-                {
-                    DataManager.Inst.SetGuide(guideTopic, true);
-                    break;
-                }
             default:
                 {
                     break;
                 }
         }
     }
-
+    private void EndProfileGuide()
+    {
+        EventManager.TriggerEvent(EProfileEvent.EndGuide);
+    }
     private IEnumerator SendAiMessageTexts(string[] values)
     {
         foreach (string str in values)
@@ -203,5 +158,11 @@ public class GuideManager : MonoBehaviour
     {
         EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
         EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
+    }
+
+    private void SendProfileGuide(EAIChattingTextDataType aIChattingText)
+    {
+        ProfileChattingSystem.OnChatEnd += EndProfileGuide;
+        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { aIChattingText });
     }
 }
