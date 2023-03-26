@@ -271,15 +271,17 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     //EWindowType type = EWindowType.ProfileWindow;
     //EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { type });
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
+        GuideUISystem.EndGuide?.Invoke();
+
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
