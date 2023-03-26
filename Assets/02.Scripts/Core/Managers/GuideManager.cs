@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuideManager : MonoBehaviour
+public partial class GuideManager : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
     public static Action<EGuideTopicName> OnPlayInfoGuide;
@@ -39,7 +39,7 @@ public class GuideManager : MonoBehaviour
             return;
         }
 
-        
+
         StartCoroutine(SetTimer(timer, guideTopicName));
     }
 
@@ -57,51 +57,9 @@ public class GuideManager : MonoBehaviour
 
     private void StartProfileInfoGuide(EGuideTopicName guideTopic)
     {
-        string temp = guideTopic.ToString();
-
-        EAIChattingTextDataType aIChattingTextDataType = Enum.Parse<EAIChattingTextDataType>(temp);
-
-        SendProfileGuide(aIChattingTextDataType);
+        StartGudie(guideTopic);
     }
 
-
-    private void StartGudie(EGuideTopicName guideTopic)
-    {
-        switch (guideTopic)
-        {
-            case EGuideTopicName.None:
-                break;
-            case EGuideTopicName.GuestLoginGuide:
-                {
-                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuestLoginGuideLog, 0.5f);
-                    DataManager.Inst.SetGuide(guideTopic, true);
-                    break;
-                }
-            case EGuideTopicName.LibraryOpenGuide:
-                {
-                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuideLog1, 0.2f);
-                    DataManager.Inst.SetGuide(guideTopic, true);
-                    break;
-                }
-            case EGuideTopicName.ClickPinNotePadHint:
-                {
-                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { guideTopicDictionary[guideTopic].guideTexts[0] });
-                    DataManager.Inst.SetGuide(guideTopic, true);
-
-                    break;
-                }
-            case EGuideTopicName.ClearPinNotePadQuiz:
-                {
-                    StartCoroutine(SendAiMessageTexts(guideTopicDictionary[guideTopic].guideTexts));
-                    DataManager.Inst.SetGuide(guideTopic, true);
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
-    }
     private void EndProfileGuide()
     {
         EventManager.TriggerEvent(EProfileEvent.EndGuide);
@@ -160,9 +118,11 @@ public class GuideManager : MonoBehaviour
         EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
 
-    private void SendProfileGuide(EAIChattingTextDataType aIChattingText)
+    private void SendProfileGuide(EGuideTopicName topicName)
     {
+        string temp = topicName.ToString();
+        EAIChattingTextDataType textType = Enum.Parse<EAIChattingTextDataType>(temp);
         ProfileChattingSystem.OnChatEnd += EndProfileGuide;
-        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { aIChattingText });
+        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { textType });
     }
 }

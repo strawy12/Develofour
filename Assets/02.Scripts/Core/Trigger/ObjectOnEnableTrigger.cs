@@ -6,7 +6,6 @@ public class ObjectOnEnableTrigger : MonoBehaviour
 {
     public EProfileCategory category;
     public string information;
-    public List<string> needStringList;
 
     private void OnEnable()
     {

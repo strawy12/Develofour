@@ -22,5 +22,9 @@ public enum EAIChattingTextDataType
     PetAge,
     PetAdoptionDate,
     PetBreed,
+    SuspectResidenceFailed,
+    VictimBirthDateElse,
+    VictimUniversityFailed,
+    PetAdoptionDateElse,
     Count
 }
