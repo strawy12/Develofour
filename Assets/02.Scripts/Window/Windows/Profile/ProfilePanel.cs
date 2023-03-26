@@ -30,7 +30,7 @@ public class ProfilePanel : MonoBehaviour
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
 
         Debug.Log(infoList.Count);
-        foreach(var info in infoList)
+        foreach (var info in infoList)
         {
             infoPanelList.Find(x => x.category == info.Key).Init(info.Value);
         }
@@ -47,11 +47,11 @@ public class ProfilePanel : MonoBehaviour
         EProfileCategory category = (EProfileCategory)ps[0];
         string key = ps[1] as string;
 
-        if(ps[2] != null)
+        if (ps[2] != null)
         {
             Debug.Log("ps[2] is not null");
             List<string> strList = ps[2] as List<string>;
-            foreach(var temp in strList)
+            foreach (var temp in strList)
             {
                 if (!DataManager.Inst.IsProfileInfoData(category, temp))
                 {
@@ -60,7 +60,7 @@ public class ProfilePanel : MonoBehaviour
             }
         }
 
-        ProfileInfoPanel categoryPanel = infoPanelList.Find(x=>x.category == category);
+        ProfileInfoPanel categoryPanel = infoPanelList.Find(x => x.category == category);
 
         GetInfoPanel(category).ChangeValue(key);
 
@@ -72,11 +72,11 @@ public class ProfilePanel : MonoBehaviour
 
     private ProfileInfoPanel GetInfoPanel(EProfileCategory category)
     {
-        foreach(var panel in infoPanelList)
+        foreach (var panel in infoPanelList)
         {
-            if(panel.category == category)
+            if (panel.category == category)
             {
-                return panel;   
+                return panel;
             }
         }
 
@@ -85,7 +85,7 @@ public class ProfilePanel : MonoBehaviour
 
     public void SendAlarm(object[] ps)
     {
-        if(!(ps[0] is string) || !(ps[1] is string))
+        if (!(ps[0] is string) || !(ps[1] is string))
         {
             return;
         }
@@ -95,15 +95,15 @@ public class ProfilePanel : MonoBehaviour
         string temp = "nullError";
         foreach (var infoPanel in infoPanelList)
         {
-            foreach(var infoText in infoPanel.infoTextList)
+            answer = infoPanel.SetInfoText(key);
+
+            if (string.IsNullOrEmpty(answer) == false)
             {
-                if(key == infoText.textDataSO.key)
-                {
-                    answer = infoText.infoTitleText.text;
-                    temp = answer.Replace(": ", "");
-                }
+                temp = answer.Replace(": ", "");
             }
         }
+
+
 
         string text = ps[0] as string + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
         NoticeSystem.OnNotice?.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profilerSpeite, Color.white, ENoticeTag.Profiler);
