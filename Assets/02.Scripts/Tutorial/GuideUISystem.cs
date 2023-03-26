@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-public class GuideUISystem : MonoBehaviour
+public class GuideUISystem : MonoBehaviour 
 {
     [SerializeField]
     private Image guideUI;
@@ -51,6 +51,7 @@ public class GuideUISystem : MonoBehaviour
 
     private void StopGuideUICor()
     {
+        guideUI.transform.SetParent(transform);
         isSign = false;
         StopAllCoroutines();
         guideUI.gameObject.SetActive(false);
