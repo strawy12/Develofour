@@ -20,6 +20,7 @@ public enum EWindowType // 확장자
     WindowPinLock,
     MediaPlayer,
     IconProperty,
+    Calculator,
     End 
 }
 
