@@ -47,7 +47,7 @@ public class ProfilePanel : MonoBehaviour
         EProfileCategory category = (EProfileCategory)ps[0];
         string key = ps[1] as string;
 
-        if(key != null)
+        if(ps[2] != null)
         {
             Debug.Log("ps[2] is not null");
             List<string> strList = ps[2] as List<string>;
@@ -64,10 +64,10 @@ public class ProfilePanel : MonoBehaviour
 
         GetInfoPanel(category).ChangeValue(key);
 
-        //if(key == "SuspectIsPetHaveAnswer")
-        //{
-        //    GetInfoPanel(EProfileCategory.PetInformation).ChangeValue("PetBreed");
-        //}
+        if (key == "SuspectIsPetHaveAnswer")
+        {
+            GetInfoPanel(EProfileCategory.PetInformation).ShowPost();
+        }
     }
 
     private ProfileInfoPanel GetInfoPanel(EProfileCategory category)

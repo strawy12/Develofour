@@ -86,7 +86,7 @@ public class ProfileInfoPanel : MonoBehaviour
         }
     }
 
-    private void ShowPost()
+    public void ShowPost()
     {
         gameObject.SetActive(true);
         DataManager.Inst.SetCategoryData(saveData.category, true);
