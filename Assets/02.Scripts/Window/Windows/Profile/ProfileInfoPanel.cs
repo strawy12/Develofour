@@ -55,7 +55,7 @@ public class ProfileInfoPanel : MonoBehaviour
             {
                 if (infoText.textDataSO.key == save.key)
                 {
-                    infoText.ChangeText();
+                    infoText.ChangeText(); 
                 }
             }
         }
@@ -65,7 +65,6 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         foreach (var infoText in infoTextList)
         {
-
             if (infoText.textDataSO.key == key)
             {
                 if (gameObject.activeSelf == false)
@@ -73,7 +72,6 @@ public class ProfileInfoPanel : MonoBehaviour
                     ShowPost();
                 }
                 infoText.ChangeText();
-
 
                 Debug.Log("1");
 
