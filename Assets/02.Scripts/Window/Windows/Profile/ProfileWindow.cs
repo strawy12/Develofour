@@ -19,20 +19,11 @@ public class ProfileWindow : Window
     [Header("ProfilerChatUI")]
     [SerializeField]
     private ProfileChatting profileChatting;
-    [Header("ProfilerBar")]
-    [SerializeField]
-    private Button profileSystemBtn;
-    [SerializeField]
-    private Button infoCheckBtn;
-    [SerializeField]
-    private Button fileSearchBtn;
 
     [SerializeField]
-    private TMP_Text profilingText;
+    private List<Button> btnList;
     [SerializeField]
-    private TMP_Text infoCheckText;
-    [SerializeField]
-    private TMP_Text fileSearchText;
+    private List<TMP_Text> btnTextList;
 
     [Header("UIEtc")]
     [SerializeField]
@@ -46,10 +37,14 @@ public class ProfileWindow : Window
     private bool isOpen = true;
     private bool isMoving = false;
 
+    //DataManager
     private bool isOpenFileSearch;
     private bool isOpenInfoCheck;
 
     private Button beforeClickButton;
+    private Color blackColor;
+    private Color whiteColor;
+
 
     protected override void Init()
     {
@@ -59,9 +54,9 @@ public class ProfileWindow : Window
         profilePanel.Init();
         fileSearchPanel.Init();
 
-        profileSystemBtn.onClick?.AddListener(OnClickShowProfilingBtn);
-        infoCheckBtn.onClick?.AddListener(OnClickShowInfo);
-        fileSearchBtn.onClick?.AddListener(OnClickShowFileSearch);
+        btnList[0].onClick?.AddListener(OnClickShowInfo);
+        btnList[1].onClick?.AddListener(OnClickShowProfilingBtn);
+        btnList[2].onClick?.AddListener(OnClickShowFileSearch);
         CheckingButton();
 
         moveBtn.onClick.AddListener(delegate { StartCoroutine(HideAllPanel()); });
@@ -70,26 +65,30 @@ public class ProfileWindow : Window
 
         EventManager.StartListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StartListening(EProfileSearchTutorialEvent.GuideSearchButton, GuideSearchButton);
+        blackColor = new Color(0, 0, 0, 255);
+        whiteColor = new Color(255, 255, 255, 255);
+        ButtonSetting("profileSystem");
+        beforeClickButton = btnList[1];
     }
 
     private void CheckingButton()
     {
         if(isOpenFileSearch)
         {
-            fileSearchBtn.interactable = true;
+            btnList[2].interactable = true;
         }
         else
         {
-            fileSearchBtn.interactable = false;
+            btnList[2].interactable = false;
         }
 
         if(isOpenInfoCheck)
         {
-            infoCheckBtn.interactable = true;
+            btnList[0].interactable = true;
         }
         else
         {
-            infoCheckBtn.interactable = false;
+            btnList[0].interactable = false;
         }
     }
 
@@ -103,74 +102,48 @@ public class ProfileWindow : Window
 
     private void OnClickShowProfilingBtn()
     {
-        Debug.Log("Click On");
+        ButtonSetting("profileSystem");
 
-        if (beforeClickButton == profileSystemBtn)
+        if (beforeClickButton == btnList[1])
         {
+            isOpen = false;
+            ShowProfileCategoryPanel();
             return;
         }
 
-        Color blackColor = new Color(0, 0, 0, 255);
-        Color whiteColor = new Color(255, 255, 255, 255);
-
-        profileSystemBtn.image.color = blackColor;
-        profilingText.color = whiteColor;
-
-        infoCheckBtn.image.color = whiteColor;
-        infoCheckText.color = blackColor;
-
-        fileSearchBtn.image.color = whiteColor;
-        fileSearchText.color = blackColor;
-
-        beforeClickButton = profileSystemBtn;
+        beforeClickButton = btnList[1];
 
         StartCoroutine(OnShowProfile());
     }
 
     private void OnClickShowInfo()
     {
-        if (beforeClickButton == infoCheckBtn)
+
+        ButtonSetting("infoCheck");
+
+        if (beforeClickButton == btnList[0])
         {
+            isOpen = false;
+            ShowInfoCheckPanel();
             return;
         }
 
-        Color blackColor = new Color(0, 0, 0, 255);
-        Color whiteColor = new Color(255, 255, 255, 255);
-
-        infoCheckBtn.image.color = blackColor;
-        infoCheckText.color = whiteColor;
-
-        profileSystemBtn.image.color = whiteColor;
-        profilingText.color = blackColor;
-
-        fileSearchBtn.image.color = whiteColor;
-        fileSearchText.color = blackColor;
-
-        beforeClickButton = infoCheckBtn;
+        beforeClickButton = btnList[0];
 
         StartCoroutine(OnShowInfo());
     }
-
+    
     private void OnClickShowFileSearch()
     {
-        if (beforeClickButton == fileSearchBtn)
+        ButtonSetting("fileSearch");
+
+        if (beforeClickButton == btnList[2])
         {
+            isOpen = false;
+            ShowFileSearchPanel();
             return;
         }
-
-        Color blackColor = new Color(0, 0, 0, 255);
-        Color whiteColor = new Color(255, 255, 255, 255);
-
-        fileSearchBtn.image.color = blackColor;
-        fileSearchText.color = whiteColor;
-
-        infoCheckBtn.image.color = whiteColor;
-        infoCheckText.color = blackColor;
-
-        profileSystemBtn.image.color = whiteColor;
-        profilingText.color = blackColor;
-
-        beforeClickButton = fileSearchBtn;
+        beforeClickButton = btnList[2];
 
         StartCoroutine(OnShowFileSearch());
     }
@@ -188,6 +161,7 @@ public class ProfileWindow : Window
     private IEnumerator HideAllPanel()
     {
         isMoving = true;
+        ButtonSetting();
         area.DOAnchorPosY(-1000, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
             profilePanel.gameObject.SetActive(false);
@@ -247,32 +221,23 @@ public class ProfileWindow : Window
 
     private void ShowProfileCategoryPanel()
     {
-        isMoving = true;
-        profilePanel.gameObject.SetActive(true);
-
-        area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
-        {
-            isOpen = true;
-            isMoving = false;
-        });
+        ShowPanel(profilePanel.gameObject);
     }
 
     private void ShowInfoCheckPanel()
     {
-        isMoving = true;
-        infoCheckPanel.gameObject.SetActive(true);
-
-        area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
-        {
-            isOpen = true;
-            isMoving = false;
-        });
+        ShowPanel(infoCheckPanel.gameObject);
     }
 
     private void ShowFileSearchPanel()
     {
+        ShowPanel(fileSearchPanel.gameObject);
+    }
+
+    private void ShowPanel(GameObject panel)
+    {
         isMoving = true;
-        fileSearchPanel.Show();
+        panel.gameObject.SetActive(true);
 
         area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
@@ -284,6 +249,47 @@ public class ProfileWindow : Window
             }
         });
     }
+
+    private void ButtonSetting(string str = "")
+    {
+         isMoving = true;
+        fileSearchPanel.Show();
+        Debug.Log("¤±¤¤¤·¤©");
+        int ex = 1;
+        switch(str)
+        {
+            case "infoCheck":
+                ex = 0;
+                break;
+            case "profileSystem":
+                ex = 1;
+                break;
+            case "fileSearch":
+                ex = 2;
+                break;
+
+            default:
+                ex = -1;
+                break;
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            isOpen = true;
+            isMoving = false;
+            if (ex == i)
+            {
+                btnList[i].image.color = blackColor;
+                btnTextList[i].color = whiteColor;
+            }
+            else
+            {
+                btnList[i].image.color = whiteColor;
+                btnTextList[i].color = blackColor;
+            }
+        }
+    }
+
     private void StartGuideMinimumBtn(object[] ps)
     {
         GuideUISystem.OnGuide?.Invoke((RectTransform)windowBar.MinimumBtn.transform);
@@ -315,6 +321,6 @@ public class ProfileWindow : Window
 
     private void GuideSearchButton(object[] ps)
     {
-        GuideUISystem.OnGuide?.Invoke(fileSearchBtn.transform as RectTransform);
+        GuideUISystem.OnGuide?.Invoke(btnList[2].transform as RectTransform);
     }
 }
