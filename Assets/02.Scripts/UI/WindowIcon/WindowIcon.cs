@@ -198,7 +198,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             }
             else
             {
-                Debug.Log("asdf");
                 EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
             }
             return;

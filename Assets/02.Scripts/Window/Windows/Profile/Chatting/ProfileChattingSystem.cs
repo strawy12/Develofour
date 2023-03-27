@@ -31,7 +31,13 @@ public class ProfileChattingSystem : MonoBehaviour
             StartCoroutine(AddText((chattingType)));
             return;
         }
-       
+        else if (ps[0] is string)
+        {
+            string text = (string)ps[0];
+            AddText(text);
+            return;
+        }
+
         Debug.LogError("형식이 잘못되었습니다.");
     }
 
@@ -41,7 +47,6 @@ public class ProfileChattingSystem : MonoBehaviour
 
         for (int i = 0; i < data.Count; i++)
         {
-
             currentDelay = saveDelay;
             TextTrigger.CommandTrigger(data[i].text);
             if (isSkip) currentDelay = 0.05f;
