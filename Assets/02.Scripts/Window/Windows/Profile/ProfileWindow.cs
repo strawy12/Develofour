@@ -205,8 +205,10 @@ public class ProfileWindow : Window
 
     private IEnumerator OnShowFileSearch()
     {
-        if (GameManager.Inst.GameState == EGameState.Tutorial) yield break;
-
+        if(!DataManager.Inst.SaveData.isTutorialClear)
+        {
+            yield break;
+        }
         if (!isMoving)
         {
             isMoving = true;
