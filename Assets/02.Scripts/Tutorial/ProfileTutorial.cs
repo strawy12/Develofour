@@ -47,7 +47,7 @@ public class ProfileTutorial : MonoBehaviour
     public IEnumerator StartProfileTutorial()
     {
         Debug.Log("프로파일러 튜토리얼 시작");
-        DataManager.Inst.SaveData.isTutorialStart = true;
+        DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
         yield return new WaitForSeconds(0.5f);
         
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
@@ -115,8 +115,7 @@ public class ProfileTutorial : MonoBehaviour
     private void EndTutoMonologEvent()
     {
         GameManager.Inst.ChangeGameState(EGameState.Game);
-        GameManager.Inst.isTutorial = false;
-        DataManager.Inst.SaveData.isTutorialClear = true;
+        DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler , true);
         GuideManager.OnPlayGuide?.Invoke(EGuideTopicName.ClickPinNotePadHint, guideDelayWhenEndTuto);
     }
 }

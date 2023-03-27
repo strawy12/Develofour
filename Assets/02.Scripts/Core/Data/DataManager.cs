@@ -207,6 +207,27 @@ public class DataManager : MonoSingleton<DataManager>
     {
         return GetProfileSaveData(category).infoData.Contains(str);
     }
+
+    public bool GetIsStartTutorial(ETutorialType type)
+    {
+        return saveData.isStartTutorialList[(int)type];
+    }
+
+    public bool GetIsClearTutorial(ETutorialType type)
+    {
+        return saveData.isClearTutorialList[(int)type];
+    }
+    public void SetIsStartTutorial(ETutorialType type, bool value)
+    {
+        saveData.isStartTutorialList[(int)type] = value;
+    }
+
+    public void SetIsClearTutorial(ETutorialType type, bool value)
+    {
+        saveData.isClearTutorialList[(int)type] = value;
+    }
+
+
     private void OnDestroy()
     {
         SaveToJson();
