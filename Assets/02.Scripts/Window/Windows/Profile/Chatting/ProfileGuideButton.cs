@@ -52,8 +52,6 @@ public class ProfileGuideButton : MonoBehaviour
 
     public void Releasse()
     {
-        Debug.Log("ButtonRelease");
-
         infoData = null;
         infoNameText.text = "";
         EventManager.StopListening(EProfileEvent.EndGuide, EndGuide);

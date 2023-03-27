@@ -247,7 +247,6 @@ public class ProfileWindow : Window
 
     private void ButtonSetting(string str = "")
     {
-        Debug.Log("¤±¤¤¤·¤©");
         int ex = 1;
         switch(str)
         {
