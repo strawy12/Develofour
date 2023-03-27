@@ -64,10 +64,12 @@ public partial class GuideManager : MonoBehaviour
     {
         EventManager.TriggerEvent(EProfileEvent.EndGuide);
     }
+
     private IEnumerator SendAiMessageTexts(string[] values)
     {
         foreach (string str in values)
         {
+            Debug.Log(str);
             EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
             yield return new WaitForSeconds(1f);
         }
@@ -92,24 +94,10 @@ public partial class GuideManager : MonoBehaviour
 
         string fileLocation = file.GetFileLocation();
 
-
-        if (fileLocation == "User\\C\\내 문서\\Zoogle\\Zoogle비밀번호\\")
+        if (fileLocation == "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\")
         {
-            if (!isZooglePinHintNoteOpen)
-            {
-                DataManager.Inst.SaveData.isZooglePinHintNoteOpen = true;
-
-                OnPlayGuide(EGuideTopicName.ClickPinNotePadHint, 40);
-            }
-            else if (isZooglePinHintNoteOpen)
-            {
-                DataManager.Inst.SetGuide(EGuideTopicName.ClickPinNotePadHint, true);
-            }
-        }
-        if (fileLocation == "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\" && isZooglePinHintNoteOpen)
-        {
-            DataManager.Inst.SetGuide(EGuideTopicName.ClearPinNotePadQuiz, true);
-            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 1200);
+            Debug.Log("비번 가이드 조건 충족");
+            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 40);
         }
     }
     private void OnApplicationQuit()
