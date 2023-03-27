@@ -7,9 +7,8 @@ using DG.Tweening;
 using static Sound;
 using System.Collections.Generic;
 using ExtenstionMethod;
-using Unity.VisualScripting;
 
-public class TextBox : MonoUI
+public class TextBox : TextUI
 {
     #region Binding 변수
     [SerializeField]
@@ -34,16 +33,14 @@ public class TextBox : MonoUI
     [SerializeField]
     private Sprite simpleTypeSprite;
 
-    [SerializeField]
-    private Sprite boxTypeSprite;
     #endregion
 
     private bool isClick = false;
     public bool IsClick { get { return isClick; } }
+
     private TextDataSO currentTextData;
     private int currentTextIndex;
     private float currentDelay = 0f;
-    private Dictionary<int, Action> triggerDictionary;
 
     public TextDataSO CurrentTextData { get => currentTextData; }
     #endregion
@@ -57,9 +54,7 @@ public class TextBox : MonoUI
 
     private void Start()
     {
-        triggerDictionary = new Dictionary<int, Action>();
-
-        GameManager.Inst.OnStartCallback += EventInitStartCallback;
+        //GameManager.Inst.OnStartCallback += EventInitStartCallback;
     }
 
     private void EventInitStartCallback()
@@ -70,22 +65,7 @@ public class TextBox : MonoUI
         EventManager.StartListening(ETextboxEvent.Delay, SetDelay);
     }
 
-
-    private void OnPressNextKey(object[] ps) => OnPressNextKey();
-    private void OnPressNextKey()
-    {
-        if (isTextPrinted)
-        {
-            SkipPrintText();
-        }
-        else
-        {
-            PrintText();
-        }
-    }
-
-    #region Init
-
+    // 텍스트박스의 시작
     private void Init(object[] param)
     {
         if (param == null || !(param[0] is EMonologTextDataType))
@@ -298,8 +278,6 @@ public class TextBox : MonoUI
         isActive = false;
         SetActive(false);
 
-        InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyUp: OnPressNextKey);
-        EventManager.StopListening(EInputType.InputMouseUp, OnPressNextKey);
     }
 
     private void CompletePrint(string msg)
@@ -447,8 +425,23 @@ public class TextBox : MonoUI
         }
     }
 
+
+
     public void SetShake(object[] ps)
     {
+        //            case "SK":
+        //        {
+        //    if (obj == null)
+        //    {
+        //        Debug.LogError("obj가 넘어오지 않았습니다.");
+        //    }
+        //    string[] cmdValueArray = cmdValue.Split(',');
+        //    float delay = float.Parse(cmdValueArray[0]);
+        //    float strength = float.Parse(cmdValueArray[1]);
+        //    int vibrato = int.Parse(cmdValueArray[2]);
+        //    EventManager.TriggerEvent(ETextboxEvent.Shake, new object[] { delay, strength, vibrato, obj });
+        //    break;
+        //}
         //float delay, float strength, int vibrato, GameObject obj;
         if (ps[3] as GameObject == this.gameObject)
         {
@@ -466,6 +459,11 @@ public class TextBox : MonoUI
         messageText.rectTransform.DOShakeAnchorPos(delay, strength, vibrato, 0, true);
         yield return new WaitForSeconds(delay);
         isEffected = false;
+    }
+
+    protected override void PrintText(string msg)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }

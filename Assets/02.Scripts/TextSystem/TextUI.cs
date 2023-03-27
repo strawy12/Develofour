@@ -3,9 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class TextTrigger
+public abstract class TextUI : MonoBehaviour
 {
-    public static void CommandTrigger(string msg, GameObject obj = null)
+    protected Dictionary<int, Action> triggerDictionary;
+
+    protected virtual void Start()
+    {
+        triggerDictionary = new Dictionary<int, Action>();
+    }
+
+    protected abstract void PrintText(string msg);
+
+    public void CommandTrigger(string msg)
     {
         string cmdMsg = EncordingCommandText(msg);
         string[] cmdMsgSplit = cmdMsg.Split('_');
@@ -33,21 +42,7 @@ public static class TextTrigger
                     Sound.EAudioType audioType = (Sound.EAudioType)Enum.Parse(typeof(Sound.EAudioType), cmdValue);
                     float? delayNull = Sound.OnPlaySound?.Invoke(audioType);
                     float delay = delayNull != null ? (float)delayNull : 0f;
-                    EventManager.TriggerEvent(ETextboxEvent.Delay, new object[] { delay });
-                    break;
-                }
 
-            case "SK":
-                {
-                    if(obj == null)
-                    {
-                        Debug.LogError("obj가 넘어오지 않았습니다.");
-                    }
-                    string[] cmdValueArray = cmdValue.Split(',');
-                    float delay = float.Parse(cmdValueArray[0]);
-                    float strength = float.Parse(cmdValueArray[1]);
-                    int vibrato = int.Parse(cmdValueArray[2]);
-                    EventManager.TriggerEvent(ETextboxEvent.Shake, new object[] { delay, strength, vibrato, obj });
                     break;
                 }
 
@@ -80,7 +75,7 @@ public static class TextTrigger
 
     // text에서 cmdText 뽑아냄
     // ex) {BS_WriterBGM}
-    public static string EncordingCommandText(string message)
+    public string EncordingCommandText(string message)
     {
         string richText = "";
 
@@ -102,9 +97,11 @@ public static class TextTrigger
         return richText;
     }
 
-    public static string RemoveCommandText(string message, Dictionary<int, Action> triggerDictionary, GameObject gobj, bool registerCmd = false)
-    {
+    // AI -> 이벤트 전부 한번에 실행
+    // 텍스트박스는 인덱스에 맞춰 실행 
 
+    public string RemoveCommandText(string message, bool registerCmd = false)
+    {
         string removeText = message;
         int signTextLength = 0;
 
@@ -116,25 +113,18 @@ public static class TextTrigger
             }
             if (removeText[i] == '{')
             {
-                string signText = TextTrigger.EncordingCommandText(removeText.Substring(i)); // {} 문자열
+                string signText = EncordingCommandText(removeText.Substring(i)); // {} 문자열
                 removeText = removeText.Remove(i, signText.Length + 2); // {} 이 문자열을 제외시킨 문자열
 
                 if (registerCmd)
                 {
-                    if (triggerDictionary == null || gobj == null)
+                    if (triggerDictionary.ContainsKey(i + signTextLength))
                     {
-                        Debug.LogError("딕셔너리랑 게임오브젝트가 null임");
+                        triggerDictionary[i + signTextLength] += () => CommandTrigger(signText);
                     }
                     else
                     {
-                        if (triggerDictionary.ContainsKey(i + signTextLength))
-                        {
-                            triggerDictionary[i + signTextLength] += () => TextTrigger.CommandTrigger(signText, gobj);
-                        }
-                        else
-                        {
-                            triggerDictionary.Add(i + signTextLength, () => TextTrigger.CommandTrigger(signText, gobj));
-                        }
+                        triggerDictionary.Add(i + signTextLength, () => CommandTrigger(signText));
                     }
                 }
 
