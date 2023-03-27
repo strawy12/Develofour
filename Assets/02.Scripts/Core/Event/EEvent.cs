@@ -145,6 +145,7 @@ public enum EProfileEvent
     InstalledProfile,
     ProfileSendMessage,
     AddGuideButton,
+    RemoveGuideButton,
     EndGuide,
 }
 public enum EGuideEventType
