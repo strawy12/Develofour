@@ -18,7 +18,7 @@ public class MenuAttributeNotepad : MenuAttributePanel, IPointerClickHandler
         isClick = true;
         SelectedPanel(false);
         EventManager.TriggerEvent(EWindowEvent.CloseAttribute);
-        WindowManager.Inst.CreateWindow(EWindowType.Notepad);
+        WindowManager.Inst.WindowOpen(EWindowType.Notepad);
     }
 
     public override void OnPointerEnter(PointerEventData eventData)
