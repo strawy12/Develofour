@@ -15,6 +15,8 @@ public class FileSearchPanel : MonoBehaviour
     [SerializeField]
     private Button searchBtn;
 
+    private bool isGuide;
+
     public void Init()
     {
         searchBtn.onClick.AddListener(SearchFile);
@@ -22,13 +24,31 @@ public class FileSearchPanel : MonoBehaviour
 
         InitAllIcon();
 
+
+        EventManager.StartListening(EProfileSearchTutorialEvent.GuideSearchInputPanel, GuideInputPanel);
     }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+
+    }
+
 
     private void SearchFile(string text)
     {
         if(text.Length < 2)
         {
             return;
+        }
+        if(isGuide)
+        {
+            if(text == "ÀÌ¸§")
+            {
+                isGuide = false;
+                EventManager.TriggerEvent(EProfileSearchTutorialEvent.SearchNameText);
+                EventManager.StopListening(EProfileSearchTutorialEvent.GuideSearchInputPanel, GuideInputPanel);
+            }
         }
         List<FileSO> fileList = FileManager.Inst.ProfileSearchFile(text);
         ShowFileIcon(fileList);    
@@ -68,5 +88,10 @@ public class FileSearchPanel : MonoBehaviour
         {
             icon.gameObject.SetActive(false);
         }
+    }
+    private void GuideInputPanel(object[] ps)
+    {
+        GuideUISystem.OnGuide?.Invoke(searchField.transform as RectTransform);
+        isGuide = true;
     }
 }

@@ -69,6 +69,7 @@ public class ProfileWindow : Window
         TutorialStart();
 
         EventManager.StartListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
+        EventManager.StartListening(EProfileSearchTutorialEvent.GuideSearchButton, GuideSearchButton);
     }
 
     private void CheckingButton()
@@ -271,12 +272,16 @@ public class ProfileWindow : Window
     private void ShowFileSearchPanel()
     {
         isMoving = true;
-        fileSearchPanel.gameObject.SetActive(true);
+        fileSearchPanel.Show();
 
         area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
             isOpen = true;
             isMoving = false;
+            if (GameManager.Inst.GameState == EGameState.Tutorial && DataManager.Inst.SaveData.isTutorialClear)
+            {
+                EventManager.TriggerEvent(EProfileSearchTutorialEvent.GuideSearchInputPanel);
+            }
         });
     }
     private void StartGuideMinimumBtn(object[] ps)
@@ -297,7 +302,7 @@ public class ProfileWindow : Window
 
         EventManager.TriggerEvent(ETutorialEvent.ProfileMidiumEnd);
     }
-
+   
     private void OnDestroy()
     {
         EventManager.StopListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
@@ -306,5 +311,10 @@ public class ProfileWindow : Window
     private void OnApplicationQuit()
     {
         EventManager.StopListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
+    }
+
+    private void GuideSearchButton(object[] ps)
+    {
+        GuideUISystem.OnGuide?.Invoke(fileSearchBtn.transform as RectTransform);
     }
 }

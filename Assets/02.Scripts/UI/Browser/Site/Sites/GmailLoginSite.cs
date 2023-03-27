@@ -66,7 +66,7 @@ public class GmailLoginSite : Site
         if(!DataManager.Inst.SaveData.isOnceEnterZoogleLogin)
         {
             DataManager.Inst.SaveData.isOnceEnterZoogleLogin = true;
-            EventManager.TriggerEvent(EProfileSearchTutorialEvent.TutorialStart);
+            EventManager.TriggerEvent(EProfileSearchTutorialEvent.TutorialMonologStart);
         }
     }
 

@@ -191,6 +191,11 @@ public enum ETextboxEvent
 public enum EProfileSearchTutorialEvent
 {
     None = -1,
+    TutorialMonologStart,
     TutorialStart,
-
+    GuideSearchButton,
+    ClickSearchButton,
+    GuideSearchInputPanel,
+    SearchNameText,
+    EndTutorial,
 }

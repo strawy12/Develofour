@@ -263,6 +263,21 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
     }
 
+    public void PopupOpen(FileSO file)
+    {
+        FileSO popupFile = FileManager.Inst.GetDefaultFile(EWindowType.Popup);
+
+        Window targetWindow = GetWindow(popupFile.windowType, file.GetFileLocation());
+
+        if (targetWindow == null)
+        {
+            targetWindow = CreateWindow(EWindowType.Popup, file);
+        }
+
+        DataManager.Inst.SaveData.isOnceOpenWindowProperty = true;
+        targetWindow.WindowOpen();
+    }
+
     public void OnApplicationQuit()
     {
         foreach (var temp in windowPrefabList)
