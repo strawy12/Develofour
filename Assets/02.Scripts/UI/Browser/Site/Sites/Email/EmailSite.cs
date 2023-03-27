@@ -21,7 +21,7 @@ public enum EMailType
     MunjeoCanvas,
     StarbookJoin,
     StarbookSecurityCode,
-    HealthStoreEvent,
+    Investigation,
     NewFitnessCenterOpen,
     ZooogleNewIP,
     NevarDormantWarning,
