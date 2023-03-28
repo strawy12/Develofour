@@ -24,7 +24,7 @@ public partial class GuideManager : MonoBehaviour
                 }
             case EGuideTopicName.ClickPinNotePadHint:
                 {
-                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { guideTopicDictionary[guideTopic].guideTexts[0] });
+                    EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[1] { guideTopicDictionary[guideTopic].guideTexts[0] });
                     DataManager.Inst.SetGuide(guideTopic, true);
 
                     break;

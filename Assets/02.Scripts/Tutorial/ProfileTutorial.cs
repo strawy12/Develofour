@@ -11,6 +11,7 @@ public class ProfileTutorial : MonoBehaviour
     private WindowAlterationSO profileWindowAlteration;
     [SerializeField]
     private float guideDelayWhenEndTuto = 30f;
+
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
@@ -39,9 +40,10 @@ public class ProfileTutorial : MonoBehaviour
         }
     }
 
-    public void StartChatting(EAIChattingTextDataType textDataType)
+    public void StartChatting(int textListIndex)
     {
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { textDataType });
+        //
+        //EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { textDataType });
     }
 
     public IEnumerator StartProfileTutorial()

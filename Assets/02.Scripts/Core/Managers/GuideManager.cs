@@ -68,7 +68,7 @@ public partial class GuideManager : MonoBehaviour
         foreach (string str in values)
         {
             Debug.Log(str);
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
+            EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[1] { str });
             yield return new WaitForSeconds(1f);
         }
     }
@@ -98,12 +98,6 @@ public partial class GuideManager : MonoBehaviour
             OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 40);
         }
     }
-    private void OnApplicationQuit()
-    {
-        EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
-        EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
-    }
-
     private void SendProfileGuide(EGuideTopicName topicName)
     {
         string temp = topicName.ToString();
@@ -111,4 +105,11 @@ public partial class GuideManager : MonoBehaviour
         ProfileChattingSystem.OnChatEnd += EndProfileGuide;
         EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { textType });
     }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
+        EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
+    }
+
 }
