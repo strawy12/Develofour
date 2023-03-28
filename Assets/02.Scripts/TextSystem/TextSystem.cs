@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,7 +43,7 @@ public abstract class TextSystem : MonoBehaviour
                 {
                     Sound.EAudioType audioType = (Sound.EAudioType)Enum.Parse(typeof(Sound.EAudioType), cmdValue);
                     Sound.OnPlaySound?.Invoke(audioType);
-                    Debug.Log("¿Í~");
+                    Debug.Log("ì™€~");
 
                     break;
                 }
@@ -85,7 +85,7 @@ public abstract class TextSystem : MonoBehaviour
 
     public abstract void SetDelay(float value);
 
-    // text¿¡¼­ cmdText »Ì¾Æ³¿
+    // textì—ì„œ cmdText ë½‘ì•„ëƒ„
     // ex) {BS_WriterBGM}
     protected string EncordingCommandText(string message)
     {
@@ -109,8 +109,8 @@ public abstract class TextSystem : MonoBehaviour
         return richText;
     }
 
-    // AI -> ÀÌº¥Æ® ÀüºÎ ÇÑ¹ø¿¡ ½ÇÇà
-    // ÅØ½ºÆ®¹Ú½º´Â ÀÎµ¦½º¿¡ ¸ÂÃç ½ÇÇà 
+    // AI -> ì´ë²¤íŠ¸ ì „ë¶€ í•œë²ˆì— ì‹¤í–‰
+    // í…ìŠ¤íŠ¸ë°•ìŠ¤ëŠ” ì¸ë±ìŠ¤ì— ë§ì¶° ì‹¤í–‰ 
     protected string RemoveCommandText(string message, bool registerCmd = false)
     {
         string removeText = message;
@@ -123,8 +123,8 @@ public abstract class TextSystem : MonoBehaviour
             }
             if (removeText[i] == '{')
             {
-                string signText = EncordingCommandText(removeText.Substring(i)); // {} ¹®ÀÚ¿­
-                removeText = removeText.Remove(i, signText.Length + 2); // {} ÀÌ ¹®ÀÚ¿­À» Á¦¿Ü½ÃÅ² ¹®ÀÚ¿­
+                string signText = EncordingCommandText(removeText.Substring(i)); // {} ë¬¸ìì—´
+                removeText = removeText.Remove(i, signText.Length + 2); // {} ì´ ë¬¸ìì—´ì„ ì œì™¸ì‹œí‚¨ ë¬¸ìì—´
 
                 if (registerCmd)
                 {
