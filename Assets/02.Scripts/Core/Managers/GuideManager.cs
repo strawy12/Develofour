@@ -67,16 +67,6 @@ public partial class GuideManager : MonoBehaviour
         EventManager.TriggerEvent(EProfileEvent.EndGuide);
     }
 
-    private IEnumerator SendAiMessageTexts(string[] values)
-    {
-        foreach (string str in values)
-        {
-            Debug.Log(str);
-            EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[1] { str });
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
     private void ThisClearGuideTopic(object[] ps)
     {
         if (ps[0] == null)
@@ -99,12 +89,12 @@ public partial class GuideManager : MonoBehaviour
         if (fileLocation == "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\")
         {
             Debug.Log("비번 가이드 조건 충족");
-            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 40);
+            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 5);
         }
     }
 
 
-private void SendProfileGuide()
+    private void SendProfileGuide()
     {
         ProfileChattingSystem.OnChatEnd += EndProfileGuide;
 
@@ -120,8 +110,6 @@ private void SendProfileGuide()
 
         data.color = new Color(255, 255, 255, 100);
 
-
-
         ProfileChattingSystem.OnPlayChat?.Invoke(data, false);
     }
 
@@ -132,7 +120,7 @@ private void SendProfileGuide()
         ProfileChattingSystem.OnPlayChat?.Invoke(data, isSave);
     }
 
-    private void SendAiChattingGuide(List<string> strList, float delay, bool isSave)
+    private void SendAiChattingGuide(string[] strList, float delay, bool isSave)
     {
         List<TextData> textDataList = new List<TextData>();
         foreach (string str in strList)
