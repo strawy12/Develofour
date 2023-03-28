@@ -3,7 +3,6 @@
     None = -1,
     LeftButtonClick,
     ChangeBGM,
-    OpenTextBox,
     EndLoadResources,
     EndDataLoading,
     CursorChange,
@@ -107,17 +106,6 @@ public enum ECutSceneEvent
     EndStartCutScene,
 }
 
-public enum EInputType
-{
-    None = -1,
-    InputMouseDown,
-    InputMouse,
-    InputMouseUp,
-    InputAnyKeyDown,
-    InputAnyKey,
-    InputAnyKeyUp,
-}
-
 public enum EDiscordEvent
 {
     None = -1,
@@ -140,11 +128,10 @@ public enum EProfileEvent
 {
     None = -1,
     FindInfoText,
-    SendMessage,
-    SendGuide,
     InstalledProfile,
     ProfileSendMessage,
     AddGuideButton,
+    RemoveGuideButton,
     EndGuide,
 }
 public enum EGuideEventType

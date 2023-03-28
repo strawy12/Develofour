@@ -53,7 +53,6 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         Init();
 
-
         GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Logout);
 
         Subscribe();
@@ -95,6 +94,7 @@ public class WindowsLoginScreen : MonoBehaviour
         StartCoroutine(LoadingCoroutine(() =>
         {
             GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Admin);
+
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             if (isFirst)
             {
@@ -178,7 +178,7 @@ public class WindowsLoginScreen : MonoBehaviour
     private void StartMonolog()
     {
         MonologSystem.OnEndMonologEvent += USBNoticeFunc;
-        MonologSystem.OnStartMonolog(EMonologTextDataType.USBMonolog, monologDelay);
+        //MonologSystem.OnStartMonolog(EMonologTextDataType.USBMonolog, monologDelay);
     }
 
     private void USBNoticeFunc()

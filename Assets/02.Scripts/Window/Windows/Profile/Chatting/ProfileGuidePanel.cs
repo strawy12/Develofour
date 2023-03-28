@@ -36,10 +36,10 @@ public class ProfileGuidePanel : MonoBehaviour
     {
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
-        OpenCloseButton.onClick.AddListener(HidePanel);
+        OpenCloseButton.onClick.AddListener(ShowPanel);
         movePanelRect = GetComponent<RectTransform>();
         guideParent.Init();
-        guideParent.OnClickGuideButton += ShowPanel;
+        guideParent.OnClickGuideButton += HidePanel;
     }
     #region 이동관련
     protected void HidePanel()
@@ -76,7 +76,7 @@ public class ProfileGuidePanel : MonoBehaviour
             hideImage.SetActive(true);
             isMoving = false;
             loadingPanel.SetActive(false);
-
+            
         });
     }
 
@@ -85,6 +85,8 @@ public class ProfileGuidePanel : MonoBehaviour
         guideParent.isWeightSizeUp = value;
         guideParent.UpdateButton();
     }
+
+
 
     #endregion
 

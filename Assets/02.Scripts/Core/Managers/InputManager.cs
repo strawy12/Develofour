@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum EMouseType
 {
@@ -15,12 +16,15 @@ public enum EMouseType
 public class InputManager : MonoSingleton<InputManager>
 {
     private Dictionary<KeyCode, KeyInfo> keyCodes;
+    private Dictionary<EMouseType, KeyInfo> mouseEvents;
+    private KeyInfo anyKeyEvent;
 
     private bool holdingDown;
 
     private void Awake()
     {
         keyCodes = new Dictionary<KeyCode, KeyInfo>();
+        mouseEvents = new Dictionary<EMouseType, KeyInfo>();
     }
 
     void Update()
@@ -28,19 +32,19 @@ public class InputManager : MonoSingleton<InputManager>
         #region AnyKey
         if (Input.anyKeyDown)
         {
-            EventManager.TriggerEvent(EInputType.InputAnyKeyDown);
+            anyKeyEvent.OnKeyDown?.Invoke();
         }
 
         if (Input.anyKey)
         {
             holdingDown = true;
-            EventManager.TriggerEvent(EInputType.InputAnyKey);
+            anyKeyEvent.OnKeyStay?.Invoke();
         }
 
         if (!Input.anyKey && holdingDown)
         {
             holdingDown = false;
-            EventManager.TriggerEvent(EInputType.InputAnyKeyUp);
+            anyKeyEvent.OnKeyUp?.Invoke();
         }
         #endregion
 
@@ -48,21 +52,21 @@ public class InputManager : MonoSingleton<InputManager>
         // 마우스
         for (int i = 0; i < (int)EMouseType.Cnt; i++)
         {
+            if (!mouseEvents.ContainsKey((EMouseType)i)) continue;
+
             if (Input.GetMouseButtonDown(i))
             {
-                EventManager.TriggerEvent(EInputType.InputMouseDown, new object[1] { i });
+                mouseEvents[(EMouseType)i].OnKeyDown?.Invoke();
             }
 
             if (Input.GetMouseButton(i))
             {
-                EventManager.TriggerEvent(EInputType.InputMouse, new object[1] { i });
+                mouseEvents[(EMouseType)i].OnKeyStay?.Invoke();
             }
 
             if (Input.GetMouseButtonUp(i))
             {
-                //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.MouseClickUp);
-
-                EventManager.TriggerEvent(EInputType.InputMouseUp, new object[1] { i });
+                mouseEvents[(EMouseType)i].OnKeyUp?.Invoke();
             }
         }
 
@@ -89,6 +93,53 @@ public class InputManager : MonoSingleton<InputManager>
         #endregion
     }
 
+    #region Mouse
+    public void AddMouseInput(EMouseType type, Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)
+    {
+        if (mouseEvents.ContainsKey(type) == false)
+        {
+            mouseEvents[type] = new KeyInfo();
+        }
+
+        KeyInfo info = mouseEvents[type];
+        AddKeyEvent(info, onKeyDown, onKeyStay, onKeyUp);
+    }
+    public void RemoveMouseInput(EMouseType type, Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)
+    {
+        if (mouseEvents.ContainsKey(type) == false)
+        {
+            Debug.LogError($"InputManager의 KeyInfo Dictionary에 해당 키가 존재하지 않습니다. : {type}");
+            return;
+        }
+
+        KeyInfo info = mouseEvents[type];
+        RemoveKeyEvent(info, onKeyDown, onKeyStay, onKeyUp);
+    }
+    #endregion
+
+    #region AnyKey
+    public void AddAnyKeyInput(Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)
+    {
+        if (anyKeyEvent == null)
+        {
+            anyKeyEvent = new KeyInfo();
+        }
+
+        AddKeyEvent(anyKeyEvent, onKeyDown, onKeyStay, onKeyUp);
+    }
+    public void RemoveAnyKeyInput(Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)
+    {
+        if (anyKeyEvent == null)
+        {
+            Debug.LogError($"InputManager의 AnyKeyEvent가 존재하지 않습니다.");
+            return;
+        }
+
+        RemoveKeyEvent(anyKeyEvent, onKeyDown, onKeyStay, onKeyUp);
+    }
+    #endregion
+
+    #region Keyboard
     public void AddKeyInput(KeyCode keyCode, Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)
     {
         if (keyCodes.ContainsKey(keyCode) == false)
@@ -97,12 +148,8 @@ public class InputManager : MonoSingleton<InputManager>
         }
 
         KeyInfo info = keyCodes[keyCode];
-
-        info.OnKeyDown += onKeyDown;
-        info.OnKeyStay += onKeyStay;
-        info.OnKeyUp += onKeyUp;
+        AddKeyEvent(info, onKeyDown, onKeyStay, onKeyUp);
     }
-
     public void RemoveKeyInput(KeyCode keyCode, Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)
     {
         if (keyCodes.ContainsKey(keyCode) == false)
@@ -112,7 +159,18 @@ public class InputManager : MonoSingleton<InputManager>
         }
 
         KeyInfo info = keyCodes[keyCode];
+        RemoveKeyEvent(info, onKeyDown, onKeyStay, onKeyUp);
+    }
+    #endregion
 
+    public void AddKeyEvent(KeyInfo info, Action onKeyDown, Action onKeyStay, Action onKeyUp)
+    {
+        info.OnKeyDown += onKeyDown;
+        info.OnKeyStay += onKeyStay;
+        info.OnKeyUp += onKeyUp;
+    }
+    public void RemoveKeyEvent(KeyInfo info, Action onKeyDown, Action onKeyStay, Action onKeyUp)
+    {
         info.OnKeyDown -= onKeyDown;
         info.OnKeyStay -= onKeyStay;
         info.OnKeyUp -= onKeyUp;

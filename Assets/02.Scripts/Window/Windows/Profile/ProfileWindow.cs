@@ -150,11 +150,11 @@ public class ProfileWindow : Window
 
     private void TutorialStart()
     {
-        if (DataManager.Inst.SaveData.isTutorialStart == false)
+        if (DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) == false)
         {
             EventManager.TriggerEvent(ETutorialEvent.TutorialStart, new object[0]);
             EventManager.StartListening(ETutorialEvent.ProfileMidiumStart, StartGuideMinimumBtn);
-            DataManager.Inst.SaveData.isTutorialStart = true;
+            DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
         }
     }
 
@@ -257,6 +257,7 @@ public class ProfileWindow : Window
          isMoving = true;
         fileSearchPanel.Show();
         Debug.Log("¤±¤¤¤·¤©");
+
         int ex = 1;
         switch(str)
         {

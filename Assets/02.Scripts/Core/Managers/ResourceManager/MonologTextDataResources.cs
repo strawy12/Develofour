@@ -8,12 +8,12 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     private Dictionary<EMonologTextDataType, MonologTextDataSO> monologTextDataSOList;
 
-    public MonologTextDataSO GetMonologTextDataSO(EMonologTextDataType textType)
+    public MonologTextDataSO GetMonologTextData(EMonologTextDataType textType)
     {
         return monologTextDataSOList[textType];
     }
 
-    private async void LoadMonologTextDataSOAssets(Action callBack)
+    private async void LoadMonologTextDataAssets(Action callBack)
     {
         monologTextDataSOList = new Dictionary<EMonologTextDataType, MonologTextDataSO>();
         var handle = Addressables.LoadResourceLocationsAsync("MonologTextData", typeof(MonologTextDataSO));

@@ -13,7 +13,7 @@ public class ProfileInfoPanel : MonoBehaviour
     private TMP_Text categoryNameText;
     //동적 저장을 위해서는 활성화 비활성화 여부를 들고있는 SO 혹은 Json이 저장 정보를 불러오고 저장
     [SerializeField]
-    private List<ProfileInfoText> infoTextList; 
+    private List<ProfileInfoText> infoTextList;
 
     private ProfileCategoryDataSO saveData;
     //이 패널이 정보를 모두 찾았다면 연결된 패널들이 보임
@@ -54,7 +54,7 @@ public class ProfileInfoPanel : MonoBehaviour
             {
                 if (infoText.textDataSO.key == save.key)
                 {
-                    infoText.ChangeText(); 
+                    infoText.ChangeText();
                 }
             }
         }
@@ -73,9 +73,9 @@ public class ProfileInfoPanel : MonoBehaviour
                 infoText.ChangeText();
 
                 DataManager.Inst.AddProfileinfoData(saveData.category, key);
-                EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[2] { category, key });
+                EventManager.TriggerEvent(EProfileEvent.RemoveGuideButton, new object[2] { category, key });
                 EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { saveData.infoTextList.Find(x => x.key == key).guideTopicName });
-                if (key == "SuspectName" && DataManager.Inst.SaveData.isTutorialStart)
+                if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
                 {
                     EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
                 }
@@ -97,7 +97,7 @@ public class ProfileInfoPanel : MonoBehaviour
     public void ShowPost()
     {
         gameObject.SetActive(true);
-
+        EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[1] { category });
         SendNotice();
         DataManager.Inst.SetCategoryData(saveData.category, true);
     }

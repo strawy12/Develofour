@@ -23,16 +23,14 @@ public class GameManager : MonoSingleton<GameManager>
     public EGameState GameState => gameState;
     public EComputerLoginState ComputerLoginState => computerLoginState;
 
-    public bool isTutorial;
-
     public bool profilerTutorialClear;
     public bool isProfilerTownloadCompleted;
 
-    public void ChangeGameState(EGameState state)
-    {
-        if (gameState == state) { return; }
+    public bool IsTutorial => gameState == EGameState.Tutorial;
 
-        if (state == EGameState.Tutorial) isTutorial = true;
+    public EGameState ChangeGameState(EGameState state)
+    {
+        if (gameState == state) { return gameState; }
 
         gameState = state;
 
@@ -44,6 +42,8 @@ public class GameManager : MonoSingleton<GameManager>
         {
             EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { false });
         }
+
+        return gameState;
     }
 
     public void ClickStop(float time)

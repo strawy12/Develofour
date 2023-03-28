@@ -116,7 +116,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
         if (file.windowType == EWindowType.ProfileWindow)
         {
-            if (GameManager.Inst.isTutorial) return;
+            if (GameManager.Inst.IsTutorial) return;
         }
         int i = 0;
         while (targetPanelList.Count > 0)

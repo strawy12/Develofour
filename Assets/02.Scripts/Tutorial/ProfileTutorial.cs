@@ -34,20 +34,20 @@ public class ProfileTutorial : MonoBehaviour
 
         if(fileData.fileName == Constant.USB_FILENAME)
         {
-            MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 0);
+          //  MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 0);
             EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
         }
     }
 
     public void StartChatting(EAIChattingTextDataType textDataType)
     {
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { textDataType });
+        //EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { textDataType });
     }
 
     public IEnumerator StartProfileTutorial()
     {
         Debug.Log("프로파일러 튜토리얼 시작");
-        DataManager.Inst.SaveData.isTutorialStart = true;
+        DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
         yield return new WaitForSeconds(0.5f);
         
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
@@ -60,7 +60,7 @@ public class ProfileTutorial : MonoBehaviour
     public void StartProfileMonolog()
     {
         MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
-        MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f);
+    //    MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f);
     }
     public void StartProfileNextTutorial()
     {
@@ -101,7 +101,7 @@ public class ProfileTutorial : MonoBehaviour
     {
         ProfileChattingSystem.OnChatEnd -= EndMonolog;
         MonologSystem.OnEndMonologEvent += StartProfileEnd;
-        MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog2, 0.1f);
+     //   MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog2, 0.1f);
     }
 
     public void StartProfileEnd()
@@ -115,8 +115,6 @@ public class ProfileTutorial : MonoBehaviour
     private void EndTutoMonologEvent()
     {
         GameManager.Inst.ChangeGameState(EGameState.Game);
-        GameManager.Inst.isTutorial = false;
-        DataManager.Inst.SaveData.isTutorialClear = true;
-        GuideManager.OnPlayGuide?.Invoke(EGuideTopicName.ClickPinNotePadHint, guideDelayWhenEndTuto);
+        DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler , true);
     }
 }
