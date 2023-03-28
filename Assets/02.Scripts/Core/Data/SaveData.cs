@@ -42,6 +42,7 @@ public class SaveData
     public List<AdditionFileData> additionFileData;
     public List<GuideSaveData> guideSaveData;
     public List<ProfileSaveData> profileSaveData;
+    public List<TextData> aiChattingList;
     
     public bool isSuccessLoginZoogle;
     public bool isSuccessLoginStarbook;
