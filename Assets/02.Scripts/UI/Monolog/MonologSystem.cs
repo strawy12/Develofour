@@ -57,7 +57,7 @@ public class MonologSystem : TextSystem
     {
         OnEndMonologEvent?.Invoke();
         StopAllCoroutines();
-        textBox.Release();
+        //textBox.Release();
         GameManager.Inst.ChangeGameState(EGameState.Game);
         OnEndMonologEvent = null;
     }
@@ -69,6 +69,12 @@ public class MonologSystem : TextSystem
 
         // TextBox 한테 일시키기
         // {}
+
+        textBox.Init(data, triggerDictionary);
     }
 
+    public override void SetDelay(float value)
+    {
+        textBox.SetDelay(value);
+    }
 }

@@ -16,6 +16,8 @@ public class ProfileChattingSystem : TextSystem
     private List<TextData> textDataList;
     private TextData currentTextData;
 
+    private float currentDelay = 0f;
+
     private void Awake()
     {
         OnPlayChatList += StartChatting;
@@ -46,6 +48,12 @@ public class ProfileChattingSystem : TextSystem
             PrintText();
 
             yield return new WaitForSeconds(delay);
+
+            if(currentDelay != 0f)
+            {
+                yield return new WaitForSeconds(currentDelay);
+                currentDelay = 0f;
+            }
         }
 
         EndChatting();
@@ -76,5 +84,10 @@ public class ProfileChattingSystem : TextSystem
     public void SendNotice(string body)
     {
         NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", body, 0, true, null, Color.white, ENoticeTag.AIAlarm);
+    }
+
+    public override void SetDelay(float value)
+    {
+        currentDelay = value;
     }
 }

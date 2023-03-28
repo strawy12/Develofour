@@ -59,7 +59,7 @@ public abstract class TextSystem : MonoBehaviour
             case "DL":
                 {
                     float delay = float.Parse(cmdValue);
-                    EventManager.TriggerEvent(ETextboxEvent.Delay, new object[] { delay });
+                    SetDelay(delay);
                     break;
                 }
             case "SN":
@@ -82,6 +82,7 @@ public abstract class TextSystem : MonoBehaviour
     }
 
 
+    public abstract void SetDelay(float value);
 
     // text에서 cmdText 뽑아냄
     // ex) {BS_WriterBGM}
@@ -109,11 +110,9 @@ public abstract class TextSystem : MonoBehaviour
 
     // AI -> 이벤트 전부 한번에 실행
     // 텍스트박스는 인덱스에 맞춰 실행 
-
     protected string RemoveCommandText(string message, bool registerCmd = false)
     {
         string removeText = message;
-        int signTextLength = 0;
 
         for (int i = 0; i < removeText.Length; i++)
         {
@@ -128,17 +127,16 @@ public abstract class TextSystem : MonoBehaviour
 
                 if (registerCmd)
                 {
-                    if (triggerDictionary.ContainsKey(i + signTextLength))
+                    if (triggerDictionary.ContainsKey(i))
                     {
-                        triggerDictionary[i + signTextLength] += () => CommandTrigger(signText);
+                        triggerDictionary[i] += () => CommandTrigger(signText);
                     }
                     else
                     {
-                        triggerDictionary.Add(i + signTextLength, () => CommandTrigger(signText));
+                        triggerDictionary.Add(i, () => CommandTrigger(signText));
                     }
                 }
 
-                signTextLength += signText.Length;
                 i -= signText.Length;
             }
         }

@@ -24,6 +24,7 @@ public class InputManager : MonoSingleton<InputManager>
     private void Awake()
     {
         keyCodes = new Dictionary<KeyCode, KeyInfo>();
+        mouseEvents = new Dictionary<EMouseType, KeyInfo>();
     }
 
     void Update()
@@ -51,6 +52,8 @@ public class InputManager : MonoSingleton<InputManager>
         // ¸¶¿ì½º
         for (int i = 0; i < (int)EMouseType.Cnt; i++)
         {
+            if (!mouseEvents.ContainsKey((EMouseType)i)) continue;
+
             if (Input.GetMouseButtonDown(i))
             {
                 mouseEvents[(EMouseType)i].OnKeyDown?.Invoke();
@@ -117,7 +120,7 @@ public class InputManager : MonoSingleton<InputManager>
     #region AnyKey
     public void AddAnyKeyInput(Action onKeyDown = null, Action onKeyStay = null, Action onKeyUp = null)
     {
-        if(anyKeyEvent  == null)
+        if (anyKeyEvent == null)
         {
             anyKeyEvent = new KeyInfo();
         }

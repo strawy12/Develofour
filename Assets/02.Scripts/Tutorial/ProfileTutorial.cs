@@ -34,7 +34,7 @@ public class ProfileTutorial : MonoBehaviour
 
         if(fileData.fileName == Constant.USB_FILENAME)
         {
-            MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 0);
+          //  MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 0);
             EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
         }
     }
@@ -60,7 +60,7 @@ public class ProfileTutorial : MonoBehaviour
     public void StartProfileMonolog()
     {
         MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
-        MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f);
+    //    MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f);
     }
     public void StartProfileNextTutorial()
     {
@@ -101,7 +101,7 @@ public class ProfileTutorial : MonoBehaviour
     {
         ProfileChattingSystem.OnChatEnd -= EndMonolog;
         MonologSystem.OnEndMonologEvent += StartProfileEnd;
-        MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog2, 0.1f);
+     //   MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog2, 0.1f);
     }
 
     public void StartProfileEnd()

@@ -12,13 +12,13 @@ public partial class GuideManager : MonoBehaviour
                 break;
             case EGuideTopicName.GuestLoginGuide:
                 {
-                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuestLoginGuideLog, 0.5f);
+                    //MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuestLoginGuideLog, 0.5f);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
             case EGuideTopicName.LibraryOpenGuide:
                 {
-                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuideLog1, 0.2f);
+                    //MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuideLog1, 0.2f);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
@@ -42,7 +42,7 @@ public partial class GuideManager : MonoBehaviour
                     {
                         ProfileChattingSystem.OnChatEnd += delegate
                         {
-                            MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.SuspectResidence, 0.1f);
+                            //MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.SuspectResidence, 0.1f);
                         };
                         SendProfileGuide(guideTopic);
                     }

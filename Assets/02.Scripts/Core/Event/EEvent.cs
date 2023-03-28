@@ -169,10 +169,3 @@ public enum EDebugSkipEvent
     None = -1,
     TutorialSkip,
 }
-
-public enum ETextboxEvent
-{
-    None = -1,
-    Shake,
-    Delay,
-}
