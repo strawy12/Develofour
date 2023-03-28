@@ -69,12 +69,12 @@ public partial class GuideManager : MonoBehaviour
 
     private IEnumerator SendAiMessageTexts(string[] values)
     {
-        foreach (string str in values)
-        {
-            Debug.Log(str);
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
-            yield return new WaitForSeconds(1f);
-        }
+        //foreach (string str in values)
+        //{
+        //    Debug.Log(str);
+        //    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
+        yield return new WaitForSeconds(1f);
+        //}
     }
 
     private void ThisClearGuideTopic(object[] ps)
@@ -115,11 +115,11 @@ public partial class GuideManager : MonoBehaviour
         TextData data = new TextData();
         if (currentInfoTextData.getInfoText == "")
         {
-            data.text = $"{currentInfoTextData.infoName}의 정보는 {currentInfoTextData.getInfoText}(에)서 획득 가능합니다.";
+            data.text = $"{currentInfoTextData.infoName}에 대한 정보를 찾지 못했습니다. 죄송합니다";
         }
         else
         {
-            data.text = $"{currentInfoTextData.infoName}에 대한 정보를 찾지 못했습니다. 죄송합니다";
+            data.text = $"{currentInfoTextData.infoName}의 정보는 {currentInfoTextData.getInfoText}(에)서 획득 가능합니다.";
         }
 
         data.color = new Color(255, 255, 255, 100);
