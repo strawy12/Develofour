@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class ProfileGuideButtonParent : MonoBehaviour
 {
-    public Action OnClickGuideButton;
-
     [SerializeField]
     private ProfileGuideButton guideButtonPrefab;
 
@@ -43,7 +41,7 @@ public class ProfileGuideButtonParent : MonoBehaviour
         CreatePool();
         infoCategoryDataList = ResourceManager.Inst.GetProfileCategoryDataList();
         EventManager.StartListening(EProfileEvent.AddGuideButton, AddButtonOnActiveNewCategory);
-        EventManager.StartListening(EProfileEvent.AddGuideButton, CheckRemoveBtn);
+        EventManager.StartListening(EProfileEvent.RemoveGuideButton, CheckRemoveBtn);
         prevBtn.onClick.AddListener(ClickPrev);
         nextBtn.onClick.AddListener(ClickNext);
         SaveSetting();
@@ -54,7 +52,6 @@ public class ProfileGuideButtonParent : MonoBehaviour
         for (int i = 0; i < 15; i++)
         {
             ProfileGuideButton button = Instantiate(guideButtonPrefab, poolParent);
-            button.OnClick.AddListener(delegate { OnClickGuideButton?.Invoke(); });
             button.gameObject.SetActive(false);
             poolQueue.Enqueue(button);
         }
@@ -101,8 +98,7 @@ public class ProfileGuideButtonParent : MonoBehaviour
         {
             return;
         }
-        Debug.Log("AddButtonOnActiveCategory");
-
+        
         EProfileCategory category = (EProfileCategory)ps[0];
         foreach (var infoText in infoCategoryDataList[category].infoTextList)
         {
@@ -112,6 +108,11 @@ public class ProfileGuideButtonParent : MonoBehaviour
 
     public void AddButton(ProfileInfoTextDataSO data)
     {
+        ProfileGuideButton guideButton = guideButtonList.Find(x=>x.InfoData == data);
+        if (guideButton != null)
+        {
+            return;
+        } 
         if (data.guideTopicName == EGuideTopicName.None || DataManager.Inst.IsProfileInfoData(data.category, data.key))
         {
             return;
@@ -135,7 +136,6 @@ public class ProfileGuideButtonParent : MonoBehaviour
         {
             return;
         }
-        Debug.Log("CheckRemoveBtn");
 
         string key = ps[1] as string;
         if (key == null)
@@ -216,10 +216,10 @@ public class ProfileGuideButtonParent : MonoBehaviour
         UpdateButton();
     }
     #endregion
+
     private void OnDestroy()
     {
         EventManager.StopListening(EProfileEvent.AddGuideButton, AddButtonOnActiveNewCategory);
-        EventManager.StopListening(EProfileEvent.AddGuideButton, CheckRemoveBtn);
-        OnClickGuideButton = null;
+        EventManager.StopListening(EProfileEvent.RemoveGuideButton, CheckRemoveBtn);
     }
 }

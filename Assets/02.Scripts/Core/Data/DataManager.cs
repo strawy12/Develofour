@@ -62,9 +62,25 @@ public class DataManager : MonoSingleton<DataManager>
         {
             saveData.profileSaveData.Add(new ProfileSaveData() { category = (EProfileCategory)i,isShowCategory = false ,infoData = new List<string>() }); ;
         }
+
+        saveData.isStartTutorialList = InitTutorialSaveData();
+        saveData.isClearTutorialList = InitTutorialSaveData();
+
         SaveToJson();
 
         debug_Data = saveData;
+    }
+
+    private List<bool> InitTutorialSaveData()
+    {
+        List<bool> list = new List<bool>();
+
+        for(int i  = 0; i < 2; i++)
+        {
+            list.Add(false);
+        }
+
+        return list;
     }
 
     private void LoadFromJson()
@@ -207,6 +223,27 @@ public class DataManager : MonoSingleton<DataManager>
     {
         return GetProfileSaveData(category).infoData.Contains(str);
     }
+
+    public bool GetIsStartTutorial(ETutorialType type)
+    {
+        return saveData.isStartTutorialList[(int)type];
+    }
+
+    public bool GetIsClearTutorial(ETutorialType type)
+    {
+        return saveData.isClearTutorialList[(int)type];
+    }
+    public void SetIsStartTutorial(ETutorialType type, bool value)
+    {
+        saveData.isStartTutorialList[(int)type] = value;
+    }
+
+    public void SetIsClearTutorial(ETutorialType type, bool value)
+    {
+        saveData.isClearTutorialList[(int)type] = value;
+    }
+
+
     private void OnDestroy()
     {
         SaveToJson();
