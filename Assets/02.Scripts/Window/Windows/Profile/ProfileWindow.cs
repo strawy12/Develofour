@@ -205,7 +205,7 @@ public class ProfileWindow : Window
 
     private IEnumerator OnShowFileSearch()
     {
-        if(!DataManager.Inst.SaveData.isTutorialClear)
+        if(!DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
         {
             yield break;
         }
@@ -245,7 +245,7 @@ public class ProfileWindow : Window
         {
             isOpen = true;
             isMoving = false;
-            if (GameManager.Inst.GameState == EGameState.Tutorial && DataManager.Inst.SaveData.isTutorialClear)
+            if (GameManager.Inst.GameState == EGameState.Tutorial && DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
             {
                 EventManager.TriggerEvent(EProfileSearchTutorialEvent.GuideSearchInputPanel);
             }

@@ -1,9 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ProfileSearchTutorial : MonoBehaviour
 {
+
+    // 유진이 작업 다하고 나면 SendMessage번경해주기
     [SerializeField]
     private FileSO profiler;
     private void Start()
@@ -23,26 +25,26 @@ public class ProfileSearchTutorial : MonoBehaviour
             Debug.Log("EndEvent");
             WindowManager.Inst.PopupOpen(profiler);
         };
-        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartSearchTutoMonolog, 0.3f);
+        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartSearchTutoMonolog, 0.3f, true);
     }
 
     private void TutorialStart(object[] ps)
     {
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
         ProfileChattingSystem.OnChatEnd += delegate { EventManager.TriggerEvent(EProfileSearchTutorialEvent.GuideSearchButton); };
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SearchTutoClickBtn });
+        //EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SearchTutoClickBtn });
     }
 
     private void OnClickGuideSearchButton(object[] ps)
     {
         GuideUISystem.EndGuide?.Invoke();
         ProfileChattingSystem.OnChatEnd += delegate { EventManager.TriggerEvent(EProfileSearchTutorialEvent.GuideSearchInputPanel); };
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SearchTutoClickInput });
+        //EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.SearchTutoClickInput });
     }
 
     private void SearchName(object[] ps)
     {
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.CompleteSearchTuto });
+        //EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { EAIChattingTextDataType.CompleteSearchTuto });
 
         EndTutorial(ps);
     }
