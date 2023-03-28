@@ -13,7 +13,6 @@ public class ProfileGuideButton : MonoBehaviour
     {
         get => infoData;
     }
-
     [SerializeField]
     private Button guideBtn;
     [SerializeField]
@@ -23,13 +22,13 @@ public class ProfileGuideButton : MonoBehaviour
         get => guideBtn.onClick;
     }
     private bool isGuide = false;
+    
     public void Init(ProfileInfoTextDataSO data)
     {
         infoData = data;
         guideBtn.onClick.AddListener(PlayGuide);
         infoNameText.text = data.infoName;
         EventManager.StartListening(EProfileEvent.EndGuide, EndGuide);
-
     }
 
     private void PlayGuide()
