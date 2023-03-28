@@ -12,6 +12,5 @@ public class TextList
 [CreateAssetMenu(fileName = "TextData_", menuName = "SO/TextDataSO/TutorialTextSO")]
 public class TutorialTextSO : ScriptableObject
 {
-    [SerializeField]
-    private List<TextList> tutorialTexts;
+    public List<TextList> tutorialTexts;
 }

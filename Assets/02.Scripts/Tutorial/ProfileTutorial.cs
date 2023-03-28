@@ -8,6 +8,8 @@ using System;
 public class ProfileTutorial : MonoBehaviour
 {
     [SerializeField]
+    private TutorialTextSO profileTutorialTextData;
+    [SerializeField]
     private WindowAlterationSO profileWindowAlteration;
     [SerializeField]
     private float guideDelayWhenEndTuto = 30f;
@@ -42,8 +44,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartChatting(int textListIndex)
     {
-
-        //EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { textDataType });
+        //ProfileChattingSystem.OnPlayChatList(profileTutorialTextData
     }
 
     public IEnumerator StartProfileTutorial()
@@ -68,7 +69,7 @@ public class ProfileTutorial : MonoBehaviour
     {
         MonologSystem.OnEndMonologEvent -= StartProfileNextTutorial;
         ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
-        StartChatting();
+        StartChatting(2);
     }
 
     private void CheckMaximumWindow()
@@ -89,14 +90,13 @@ public class ProfileTutorial : MonoBehaviour
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
-
     }
 
     public void StartCompleteProfileTutorial()
     {
         EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
         ProfileChattingSystem.OnChatEnd += EndMonolog;
-        StartChatting();
+        StartChatting(3);
     }
 
     public void EndMonolog()
