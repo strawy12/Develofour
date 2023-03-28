@@ -6,9 +6,12 @@ using UnityEngine;
 public partial class GuideManager : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
-    public static Action<EGuideTopicName> OnPlayInfoGuide;
+    public static Action<ProfileInfoTextDataSO> OnPlayInfoGuide;
     [SerializeField]
     private GuideDataListSO guideListData;
+
+    private ProfileInfoTextDataSO currentInfoTextData;
+
 
     private Dictionary<EGuideTopicName, GuideData> guideTopicDictionary;
 
@@ -53,24 +56,15 @@ public partial class GuideManager : MonoBehaviour
         StartGudie(guideTopicName);
     }
 
-    private void StartProfileInfoGuide(EGuideTopicName guideTopic)
+    private void StartProfileInfoGuide(ProfileInfoTextDataSO data)
     {
-        StartGudie(guideTopic);
+        currentInfoTextData = data;
+        StartGudie(data.guideTopicName);
     }
 
     private void EndProfileGuide()
     {
         EventManager.TriggerEvent(EProfileEvent.EndGuide);
-    }
-
-    private IEnumerator SendAiMessageTexts(string[] values)
-    {
-        foreach (string str in values)
-        {
-            Debug.Log(str);
-            EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
-            yield return new WaitForSeconds(1f);
-        }
     }
 
     private void ThisClearGuideTopic(object[] ps)
@@ -95,20 +89,53 @@ public partial class GuideManager : MonoBehaviour
         if (fileLocation == "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\")
         {
             Debug.Log("비번 가이드 조건 충족");
-            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 40);
+            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 5);
         }
     }
+
+
+    private void SendProfileGuide()
+    {
+        ProfileChattingSystem.OnChatEnd += EndProfileGuide;
+
+        TextData data = new TextData();
+        if (currentInfoTextData.getInfoText == "")
+        {
+            data.text = $"{currentInfoTextData.infoName}에 대한 정보를 찾지 못했습니다. 죄송합니다";
+        }
+        else
+        {
+            data.text = $"{currentInfoTextData.infoName}의 정보는 {currentInfoTextData.getInfoText}(에)서 획득 가능합니다.";
+        }
+
+        data.color = new Color(255, 255, 255, 100);
+
+        ProfileChattingSystem.OnPlayChat?.Invoke(data, false);
+    }
+
+    private void SendAiChattingGuide(string str, bool isSave)
+    {
+        TextData data = new TextData() { color = new Color(255, 255, 255, 100), text = str };
+
+        ProfileChattingSystem.OnPlayChat?.Invoke(data, isSave);
+    }
+
+    private void SendAiChattingGuide(string[] strList, float delay, bool isSave)
+    {
+        List<TextData> textDataList = new List<TextData>();
+        foreach (string str in strList)
+        {
+            TextData data = new TextData() { color = new Color(255, 255, 255, 100), text = str };
+            textDataList.Add(data);
+        }
+
+        ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList, delay, isSave);
+    }
+
     private void OnApplicationQuit()
     {
         EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
         EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
 
-    private void SendProfileGuide(EGuideTopicName topicName)
-    {
-        string temp = topicName.ToString();
-        EAIChattingTextDataType textType = Enum.Parse<EAIChattingTextDataType>(temp);
-        ProfileChattingSystem.OnChatEnd += EndProfileGuide;
-        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { textType });
-    }
 }

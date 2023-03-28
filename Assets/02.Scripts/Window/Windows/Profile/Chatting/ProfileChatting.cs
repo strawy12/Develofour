@@ -60,7 +60,6 @@ public class ProfileChatting : MonoBehaviour
     [SerializeField]
     private ProfileGuidePanel guidePanel;
 
-
     public void Init()
     {
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
