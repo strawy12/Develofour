@@ -17,50 +17,87 @@ public class TextBox : MonoUI
     private float printTextDelay = 0.05f;
 
     [SerializeField]
+    private Image bgImage;
+
+    [SerializeField]
+    private Sprite simpleTypeSprite;
+
+    [SerializeField]
     private Vector2 offsetSize;
 
     private float currentDelay = 0f;
 
     private TextData currentTextData;
+    private string currentString;
 
-    private bool isTextPrinting = false;
+    public bool isTextPrinting = false;
     private bool isActive = false;
 
     private Dictionary<int, Action> triggerDictionary;
 
-    public void Init(TextData data, Dictionary<int, Action> triggerList)
+    public void Init(TextData data, string str, Dictionary<int, Action> triggerList)
     {
+        EndPrintText();
         currentTextData = data;
+        currentString = str;
         triggerDictionary = triggerList;
 
         messageText.SetText("");
 
-        ShowBox();
+        //ShowBox();
         PrintText();
     }
 
     public void PrintText()
     {
-        if (isTextPrinting) { return; }
+        if (isTextPrinting) 
+        {
+            //if (CheckDataEnd())
+            //{
+            //    EndPrintText();
+            //    return;
+            //}
+            Debug.Log("리턴");
+            
+            return; 
+        }
 
         isTextPrinting = true;
-
         StartCoroutine(PrintMonologTextCoroutine());
     }
+
+    public bool CheckDataEnd()
+    {
+        if (currentTextData == null)
+        {
+            GameManager.Inst.ChangeGameState(EGameState.Game);
+            return true;
+        }
+        return messageText.text.Length >= currentString.Length ;
+    }
+
 
     private IEnumerator PrintMonologTextCoroutine()
     {
         bool isRich = false;
 
-        string msg = currentTextData.text;
+        string msg = currentString;
 
         msg = SliceLineText(msg);
 
-        messageText.SetText(msg);
+        SimpleTypePrint(currentTextData, msg);
+
         messageText.maxVisibleCharacters = 0;
+        messageText.SetText(msg);
+
 
         for (int i = 0; i < msg.Length; i++)
         {
+            if (triggerDictionary.ContainsKey(i))
+            {
+                triggerDictionary[i]?.Invoke();
+                triggerDictionary[i] = null;
+            }
 
             if (msg[i] == '<')
             {
@@ -73,19 +110,11 @@ public class TextBox : MonoUI
                 continue;
             }
 
-            messageText.maxVisibleCharacters++;
-
             if (!isRich)
             {
                 Sound.OnPlaySound?.Invoke(EAudioType.MonologueTyping);
             }
 
-            if (triggerDictionary.ContainsKey(i))
-            {
-                triggerDictionary[i]?.Invoke();
-            }
-
-            // Rich 일때는 한번에 나오게 하기 위해서 딜레이 X
             if (!isRich)
             {
                 yield return new WaitForSeconds(printTextDelay);
@@ -96,9 +125,12 @@ public class TextBox : MonoUI
                 yield return new WaitForSeconds(currentDelay);
                 currentDelay = 0f;
             }
+
+            messageText.maxVisibleCharacters++;
         }
 
-        HideBox();
+        isTextPrinting = false;
+        Debug.Log(1);
     }
 
     public void ShowBox()
@@ -112,17 +144,29 @@ public class TextBox : MonoUI
     public void HideBox()
     {
         messageText.SetText("");
-
+        isTextPrinting = false;
         isActive = false;
         SetActive(false);
-
     }
 
     public void EndPrintText()
     {
         StopAllCoroutines();
+        //isTextPrinting = false;
         HideBox();
-        isTextPrinting = false;
+    }
+
+    public void SimpleTypePrint(TextData data, string str)
+    {
+        bgImage.color = Color.black;
+        bgImage.ChangeImageAlpha(1f);
+        bgImage.sprite = simpleTypeSprite;
+
+        messageText.SetText(str);
+        ShowBox();
+        bgImage.rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + offsetSize;
+        messageText.SetText("");
+        messageText.color = data.color;
     }
 
 
