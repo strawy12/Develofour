@@ -44,7 +44,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartChatting(int textListIndex)
     {
-        //ProfileChattingSystem.OnPlayChatList(profileTutorialTextData
+        ProfileChattingSystem.OnPlayChatList(profileTutorialTextData.tutorialTexts[textListIndex].data, 0.5f, true); 
     }
 
     public IEnumerator StartProfileTutorial()
