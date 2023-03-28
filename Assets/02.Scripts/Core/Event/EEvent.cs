@@ -128,8 +128,6 @@ public enum EProfileEvent
 {
     None = -1,
     FindInfoText,
-    SendMessage,
-    SendGuide,
     InstalledProfile,
     ProfileSendMessage,
     AddGuideButton,

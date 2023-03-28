@@ -75,7 +75,7 @@ public class ProfileChattingSystem : TextSystem
             trigger?.Invoke();
         }
 
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { currentTextData });
+        EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[] { currentTextData });
         DataManager.Inst.AddAiChattingList(currentTextData);
 
         SendNotice(currentTextData.text);

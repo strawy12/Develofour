@@ -41,7 +41,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartChatting(EAIChattingTextDataType textDataType)
     {
-        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { textDataType });
+        //EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { textDataType });
     }
 
     public IEnumerator StartProfileTutorial()
