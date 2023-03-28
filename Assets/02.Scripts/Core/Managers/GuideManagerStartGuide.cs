@@ -42,9 +42,9 @@ public partial class GuideManager : MonoBehaviour
                     {
                         ProfileChattingSystem.OnChatEnd += delegate
                         {
-                            //MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.SuspectResidence, 0.1f);
+                            MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.SuspectResidence, 0.1f, Define.CheckGameState(EGameState.Tutorial));
                         };
-                        SendProfileGuide(guideTopic);
+                        SendProfileGuide();
                     }
                     else
                     {
@@ -57,7 +57,7 @@ public partial class GuideManager : MonoBehaviour
                 {
                     if (DataManager.Inst.SaveData.isOnceOpenWindowProperty)
                     {
-                        SendProfileGuide(guideTopic);
+                        SendProfileGuide();
                     }
                     else
                     {
@@ -71,7 +71,7 @@ public partial class GuideManager : MonoBehaviour
                 {
                     if (DataManager.Inst.IsProfileInfoData(EProfileCategory.VictimProfileInformation, "VictimName"))
                     {
-                        SendProfileGuide(guideTopic);
+                        SendProfileGuide();
                     }
                     else
                     {
@@ -85,11 +85,12 @@ public partial class GuideManager : MonoBehaviour
                 {
                     if (DataManager.Inst.SaveData.isOnceOpenWindowProperty)
                     {
-                        SendProfileGuide(guideTopic);
-
+                        SendProfileGuide();
                     }
                     else
                     {
+
+
                         EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.PetAdoptionDateElse });
                     }
                     break;

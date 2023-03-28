@@ -6,9 +6,12 @@ using UnityEngine;
 public partial class GuideManager : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
-    public static Action<EGuideTopicName> OnPlayInfoGuide;
+    public static Action<ProfileInfoTextDataSO > OnPlayInfoGuide;
     [SerializeField]
     private GuideDataListSO guideListData;
+
+    private ProfileInfoTextDataSO currentInfoTextData;
+
 
     private Dictionary<EGuideTopicName, GuideData> guideTopicDictionary;
 
@@ -53,9 +56,10 @@ public partial class GuideManager : MonoBehaviour
         StartGudie(guideTopicName);
     }
 
-    private void StartProfileInfoGuide(EGuideTopicName guideTopic)
+    private void StartProfileInfoGuide(ProfileInfoTextDataSO data)
     {
-        StartGudie(guideTopic);
+        currentInfoTextData = data;
+        StartGudie(data.guideTopicName);
     }
 
     private void EndProfileGuide()
@@ -104,11 +108,15 @@ public partial class GuideManager : MonoBehaviour
         EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
 
-    private void SendProfileGuide(EGuideTopicName topicName)
+    private void SendProfileGuide()
     {
-        string temp = topicName.ToString();
-        EAIChattingTextDataType textType = Enum.Parse<EAIChattingTextDataType>(temp);
         ProfileChattingSystem.OnChatEnd += EndProfileGuide;
-        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { textType });
+
+        TextData data = new TextData();
+        data.text = $"{currentInfoTextData.infoName}의 정보는 {currentInfoTextData.getInfoText}(에)서 획득 가능합니다.";
+        data.color = new Color(255, 255, 255, 100);
+
+
+        ProfileChattingSystem.OnPlayChat?.Invoke(data, false);
     }
 }
