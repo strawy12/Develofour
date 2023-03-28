@@ -32,6 +32,7 @@ public class TextBox : MonoUI
 
     public bool isTextPrinting = false;
     private bool isActive = false;
+    private bool isDelayEnd = false;
 
     private Dictionary<int, Action> triggerDictionary;
 
@@ -125,12 +126,18 @@ public class TextBox : MonoUI
                 yield return new WaitForSeconds(currentDelay);
                 currentDelay = 0f;
             }
-
+            isDelayEnd = true;
             messageText.maxVisibleCharacters++;
         }
 
-        isTextPrinting = false;
+        StartCoroutine( EndSetting());
         Debug.Log(1);
+    }
+
+    private IEnumerator EndSetting()
+    {
+        yield return new WaitUntil(() => isDelayEnd == true);
+        isTextPrinting = false;
     }
 
     public void ShowBox()
