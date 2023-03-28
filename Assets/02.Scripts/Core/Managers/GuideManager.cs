@@ -67,16 +67,6 @@ public partial class GuideManager : MonoBehaviour
         EventManager.TriggerEvent(EProfileEvent.EndGuide);
     }
 
-    private IEnumerator SendAiMessageTexts(string[] values)
-    {
-        //foreach (string str in values)
-        //{
-        //    Debug.Log(str);
-        //    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
-        yield return new WaitForSeconds(1f);
-        //}
-    }
-
     private void ThisClearGuideTopic(object[] ps)
     {
         if (ps[0] == null)
@@ -99,14 +89,10 @@ public partial class GuideManager : MonoBehaviour
         if (fileLocation == "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\")
         {
             Debug.Log("비번 가이드 조건 충족");
-            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 40);
+            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 5);
         }
     }
-    private void OnApplicationQuit()
-    {
-        EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
-        EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
-    }
+
 
     private void SendProfileGuide()
     {
@@ -124,8 +110,6 @@ public partial class GuideManager : MonoBehaviour
 
         data.color = new Color(255, 255, 255, 100);
 
-
-
         ProfileChattingSystem.OnPlayChat?.Invoke(data, false);
     }
 
@@ -136,7 +120,7 @@ public partial class GuideManager : MonoBehaviour
         ProfileChattingSystem.OnPlayChat?.Invoke(data, isSave);
     }
 
-    private void SendAiChattingGuide(List<string> strList, float delay, bool isSave)
+    private void SendAiChattingGuide(string[] strList, float delay, bool isSave)
     {
         List<TextData> textDataList = new List<TextData>();
         foreach (string str in strList)
@@ -147,4 +131,11 @@ public partial class GuideManager : MonoBehaviour
 
         ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList, delay, isSave);
     }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
+        EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
+    }
+
 }

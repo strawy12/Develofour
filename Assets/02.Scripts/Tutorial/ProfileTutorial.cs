@@ -8,9 +8,12 @@ using System;
 public class ProfileTutorial : MonoBehaviour
 {
     [SerializeField]
+    private TutorialTextSO profileTutorialTextData;
+    [SerializeField]
     private WindowAlterationSO profileWindowAlteration;
     [SerializeField]
     private float guideDelayWhenEndTuto = 30f;
+
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
@@ -39,9 +42,9 @@ public class ProfileTutorial : MonoBehaviour
         }
     }
 
-    public void StartChatting(EAIChattingTextDataType textDataType)
+    public void StartChatting(int textListIndex)
     {
-        //EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { textDataType });
+        ProfileChattingSystem.OnPlayChatList(profileTutorialTextData.tutorialTexts[textListIndex].data, 0.5f, true); 
     }
 
     public IEnumerator StartProfileTutorial()
@@ -53,7 +56,7 @@ public class ProfileTutorial : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
 
         ProfileChattingSystem.OnChatEnd += StartProfileMonolog;
-        StartChatting(EAIChattingTextDataType.StartAIChatting);
+        StartChatting(0);
     }
 
 
@@ -66,7 +69,7 @@ public class ProfileTutorial : MonoBehaviour
     {
         MonologSystem.OnEndMonologEvent -= StartProfileNextTutorial;
         ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
-        StartChatting(EAIChattingTextDataType.StartNextAiChatting);
+        StartChatting(2);
     }
 
     private void CheckMaximumWindow()
@@ -87,14 +90,13 @@ public class ProfileTutorial : MonoBehaviour
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
-
     }
 
     public void StartCompleteProfileTutorial()
     {
         EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
         ProfileChattingSystem.OnChatEnd += EndMonolog;
-        StartChatting(EAIChattingTextDataType.CompleteProfileAIChatting);
+        StartChatting(3);
     }
 
     public void EndMonolog()
