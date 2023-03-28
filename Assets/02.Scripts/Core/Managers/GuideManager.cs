@@ -6,7 +6,7 @@ using UnityEngine;
 public partial class GuideManager : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
-    public static Action<ProfileInfoTextDataSO > OnPlayInfoGuide;
+    public static Action<ProfileInfoTextDataSO> OnPlayInfoGuide;
     [SerializeField]
     private GuideDataListSO guideListData;
 
@@ -113,10 +113,38 @@ public partial class GuideManager : MonoBehaviour
         ProfileChattingSystem.OnChatEnd += EndProfileGuide;
 
         TextData data = new TextData();
-        data.text = $"{currentInfoTextData.infoName}의 정보는 {currentInfoTextData.getInfoText}(에)서 획득 가능합니다.";
+        if (currentInfoTextData.getInfoText == "")
+        {
+            data.text = $"{currentInfoTextData.infoName}의 정보는 {currentInfoTextData.getInfoText}(에)서 획득 가능합니다.";
+        }
+        else
+        {
+            data.text = $"{currentInfoTextData.infoName}에 대한 정보를 찾지 못했습니다. 죄송합니다";
+        }
+
         data.color = new Color(255, 255, 255, 100);
 
 
+
         ProfileChattingSystem.OnPlayChat?.Invoke(data, false);
+    }
+
+    private void SendAiChattingGuide(string str, bool isSave)
+    {
+        TextData data = new TextData() { color = new Color(255, 255, 255, 100), text = str };
+
+        ProfileChattingSystem.OnPlayChat?.Invoke(data, isSave);
+    }
+
+    private void SendAiChattingGuide(List<string> strList, float delay, bool isSave)
+    {
+        List<TextData> textDataList = new List<TextData>();
+        foreach (string str in strList)
+        {
+            TextData data = new TextData() { color = new Color(255, 255, 255, 100), text = str };
+            textDataList.Add(data);
+        }
+
+        ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList, delay, isSave);
     }
 }

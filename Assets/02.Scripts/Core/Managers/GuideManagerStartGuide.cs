@@ -48,7 +48,8 @@ public partial class GuideManager : MonoBehaviour
                     }
                     else
                     {
-                        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.SuspectResidenceFailed });
+                        SendAiChattingGuide("용의자 거주지에 대한 정보를 찾지 못했습니다. 죄송합니다", false);
+                        //EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.SuspectResidenceFailed });
                     }
                     break;
                 }
@@ -61,7 +62,13 @@ public partial class GuideManager : MonoBehaviour
                     }
                     else
                     {
-                        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.VictimBirthDateElse });
+                        List<string> strList = new List<string>();
+                        strList.Add("정보를 탐색해본 결과 피해자 생년월일은 여친 생일 파일 에서 획득 가능합니다.");
+                        strList.Add("또한 파일을 우클릭 한다면 속성 창을 열 수 있습니다.");
+
+                        SendAiChattingGuide(strList,0.75f, false);
+
+                        //EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.VictimBirthDateElse });
                     }
                     break;
 
@@ -75,7 +82,9 @@ public partial class GuideManager : MonoBehaviour
                     }
                     else
                     {
-                        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.VictimUniversityFailed });
+
+                        SendAiChattingGuide("피해자 대학교에 대한 정보를 찾지 못했습니다. 죄송합니다", false);
+                        //EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.VictimUniversityFailed });
                     }
                     break;
 
@@ -89,9 +98,13 @@ public partial class GuideManager : MonoBehaviour
                     }
                     else
                     {
+                        List<string> strList = new List<string>();
+                        strList.Add("정보를 탐색해본 결과 반려동물 첫 입양일은 처음 만난 날 파일 에서 획득 가능합니다.");
+                        strList.Add("또한 파일을 우클릭 한다면 속성 창을 열 수 있습니다.");
 
+                        SendAiChattingGuide(strList, 0.75f, false);
 
-                        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.PetAdoptionDateElse });
+                        //EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.PetAdoptionDateElse });
                     }
                     break;
                 }
@@ -109,7 +122,7 @@ public partial class GuideManager : MonoBehaviour
             case EGuideTopicName.VictimDeathTime:
             case EGuideTopicName.PetBreed:
                 {
-                    SendProfileGuide(guideTopic);
+                    SendProfileGuide();
                     break;
                 }
             default:
