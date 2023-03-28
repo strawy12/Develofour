@@ -43,6 +43,7 @@ public abstract class TextSystem : MonoBehaviour
                 {
                     Sound.EAudioType audioType = (Sound.EAudioType)Enum.Parse(typeof(Sound.EAudioType), cmdValue);
                     Sound.OnPlaySound?.Invoke(audioType);
+                    Debug.Log("¿Í~");
 
                     break;
                 }
@@ -52,7 +53,7 @@ public abstract class TextSystem : MonoBehaviour
                     Sound.EAudioType audioType = (Sound.EAudioType)Enum.Parse(typeof(Sound.EAudioType), cmdValue);
                     float? delayNull = Sound.OnPlaySound?.Invoke(audioType);
                     float delay = delayNull != null ? (float)delayNull : 0f;
-
+                    SetDelay(delay);
                     break;
                 }
 
