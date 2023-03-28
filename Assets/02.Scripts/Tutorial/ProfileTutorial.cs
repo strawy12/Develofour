@@ -116,6 +116,5 @@ public class ProfileTutorial : MonoBehaviour
     {
         GameManager.Inst.ChangeGameState(EGameState.Game);
         DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler , true);
-        GuideManager.OnPlayGuide?.Invoke(EGuideTopicName.ClickPinNotePadHint, guideDelayWhenEndTuto);
     }
 }

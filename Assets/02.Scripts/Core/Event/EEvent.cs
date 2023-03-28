@@ -3,7 +3,6 @@
     None = -1,
     LeftButtonClick,
     ChangeBGM,
-    OpenTextBox,
     EndLoadResources,
     EndDataLoading,
     CursorChange,
@@ -105,17 +104,6 @@ public enum ECutSceneEvent
     SkipCutScene,
     EndNewsCutScene,
     EndStartCutScene,
-}
-
-public enum EInputType
-{
-    None = -1,
-    InputMouseDown,
-    InputMouse,
-    InputMouseUp,
-    InputAnyKeyDown,
-    InputAnyKey,
-    InputAnyKeyUp,
 }
 
 public enum EDiscordEvent

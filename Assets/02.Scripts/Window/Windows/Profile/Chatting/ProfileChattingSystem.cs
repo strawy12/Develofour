@@ -1,126 +1,80 @@
 using System;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProfileChattingSystem : MonoBehaviour
+public class ProfileChattingSystem : TextSystem
 {
-    [SerializeField]
-    private ProfileChattingSaveSO saveData;
-
-    private float currentDelay;
-    private float saveDelay = 2f;
-    private bool isSkip;
+    public static Action<TextData, bool> OnPlayChat;
+    public static Action<List<TextData>, float, bool> OnPlayChatList;
+    
     public static Action OnChatEnd;
+
     public Sprite aiChattingSprite;
+
+    private List<TextData> textDataList;
+    private TextData currentTextData;
 
     private void Awake()
     {
-        EventManager.StartListening(EProfileEvent.SendMessage, AddText);
-        EventManager.StartListening(EProfileEvent.SendGuide, AddGuide);
-
-        EventManager.StartListening(ETextboxEvent.Delay, SetDelay);
-        EventManager.StartListening(EDebugSkipEvent.TutorialSkip, delegate { isSkip = true; });
+        OnPlayChatList += StartChatting;
+        OnPlayChat += StartChatting;
     }
 
-    public void AddText(object[] ps)
+    public void StartChatting(TextData data, bool isSave)
     {
-        if (ps[0] is EAIChattingTextDataType)
-        {
-            EAIChattingTextDataType chattingType = (EAIChattingTextDataType)ps[0];
-            StartCoroutine(AddText((chattingType)));
-            return;
-        }
-        else if (ps[0] is string)
-        {
-            string text = (string)ps[0];
-            AddText(text);
-            return;
-        }
+        currentTextData = data;
 
-        Debug.LogError("형식이 잘못되었습니다.");
+        PrintText();
+        EndChatting();
     }
 
-    public IEnumerator AddText(EAIChattingTextDataType type)
+    // delay = 채팅 간격 시간
+    public void StartChatting(List<TextData> list, float delay, bool isSave)
     {
-        AIChattingTextDataSO data = ResourceManager.Inst.GetAIChattingTextDataSO(type);
+        textDataList = list;
 
-        for (int i = 0; i < data.Count; i++)
+        StartCoroutine(ChattingCoroutine(delay));
+    }
+
+    private IEnumerator ChattingCoroutine(float delay)
+    {
+        foreach(TextData data in textDataList)
         {
-            currentDelay = saveDelay;
-            TextTrigger.CommandTrigger(data[i].text);
-            if (isSkip) currentDelay = 0.05f;
-            yield return new WaitForSeconds(currentDelay);
-            string text = TextTrigger.RemoveCommandText(data[i].text, null, null);
-            AddText(text);
+            currentTextData = data;
+            PrintText();
+
+            yield return new WaitForSeconds(delay);
         }
 
+        EndChatting();
+    }
+
+    private void EndChatting()
+    {
         OnChatEnd?.Invoke();
-        OnChatEnd = null;
     }
 
-    public void AddText(string str)
+    private void PrintText()
     {
-        foreach (var save in saveData.saveList)
+        // 이벤트매니저로 쏴주고 
+        // 데이터 저장
+
+        currentTextData.text = RemoveCommandText(currentTextData.text, true);
+        foreach (Action trigger in triggerDictionary.Values)
         {
-            if (save == str)
-            {
-                Debug.Log("동일한 데이터");
-                return;
-            }
+            trigger?.Invoke();
         }
 
-        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, aiChattingSprite, Color.white, ENoticeTag.AIAlarm);
+        EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { currentTextData });
+        DataManager.Inst.AddAiChattingList(currentTextData);
 
-        saveData.saveList.Add(str);
-        EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[1] { str });
+        SendNotice(currentTextData.text);
     }
 
-    public void SetDelay(object[] ps)
+    public void SendNotice(string body)
     {
-        if (ps[0] is float)
-        {
-            currentDelay = (float)ps[0];
-        }
+        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", body, 0, true, null, Color.white, ENoticeTag.AIAlarm);
     }
-    #region Guide
-    public void AddGuide(object[] ps)
-    {
-        if (ps[0] is EAIChattingTextDataType)
-        {
-            EAIChattingTextDataType chattingType = (EAIChattingTextDataType)ps[0];
-            StartCoroutine(AddGuide((chattingType)));
-            return;
-        }
-        Debug.LogError("형식이 잘못되었습니다.");
-    }
-    public IEnumerator AddGuide(EAIChattingTextDataType type)
-    {
-        AIChattingTextDataSO data = ResourceManager.Inst.GetAIChattingTextDataSO(type);
-
-        for (int i = 0; i < data.Count; i++)
-        {
-            TextTrigger.CommandTrigger(data[i].text);
-            yield return new WaitForSeconds(0.5f);
-            string text = TextTrigger.RemoveCommandText(data[i].text, null, null);
-            AddGuide(text);
-        }
-
-        OnChatEnd?.Invoke();
-        OnChatEnd = null;
-    }
-    public void AddGuide(string str)
-    {
-        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", str, 0, true, null, Color.white, ENoticeTag.AIAlarm);
-
-        saveData.saveList.Add(str);
-        EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[1] { str });
-    }
-    #endregion
-#if UNITY_EDITOR
-    private void OnApplicationQuit()
-    {
-        saveData.Reset();
-    }
-#endif
 }

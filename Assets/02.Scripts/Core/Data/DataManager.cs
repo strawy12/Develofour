@@ -227,6 +227,16 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.isClearTutorialList[(int)type] = value;
     }
 
+    public void AddAiChattingList(TextData data)
+    {
+        if(saveData.aiChattingList == null)
+        {
+            saveData.aiChattingList = new List<TextData>();
+        }
+
+        saveData.aiChattingList.Add(data);
+    }
+
 
     private void OnDestroy()
     {

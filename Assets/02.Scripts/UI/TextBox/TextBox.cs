@@ -8,18 +8,11 @@ using static Sound;
 using System.Collections.Generic;
 using ExtenstionMethod;
 
-public class TextBox : TextUI
+public class TextBox : MonoUI
 {
     #region Binding 변수
     [SerializeField]
     private ContentSizeFitterText messageText;
-
-    [SerializeField]
-    private TMP_Text nameText;
-
-    [SerializeField]
-    private Image bgImage;
-    #endregion
 
     #region 일반 변수
 
@@ -29,21 +22,15 @@ public class TextBox : TextUI
 
     [SerializeField]
     private Vector2 offsetSize;
-
-    [SerializeField]
-    private Sprite simpleTypeSprite;
-
     #endregion
 
     private bool isClick = false;
     public bool IsClick { get { return isClick; } }
 
-    private TextDataSO currentTextData;
     private int currentTextIndex;
     private float currentDelay = 0f;
 
-    public TextDataSO CurrentTextData { get => currentTextData; }
-    #endregion
+    private TextData currentTextData;
 
     #region Flag 변수
     private bool isTextPrinted = false;
@@ -52,150 +39,63 @@ public class TextBox : TextUI
     private bool isFindSign = false;
     #endregion
 
-    private void Start()
+    private void Init(TextData data)
     {
-        //GameManager.Inst.OnStartCallback += EventInitStartCallback;
-    }
+        currentTextData = data;
 
-    private void EventInitStartCallback()
-    {
-        EventManager.StartListening(ECoreEvent.OpenTextBox, Init);
-
-        EventManager.StartListening(ETextboxEvent.Shake, SetShake);
-        EventManager.StartListening(ETextboxEvent.Delay, SetDelay);
-    }
-
-    // 텍스트박스의 시작
-    private void Init(object[] param)
-    {
-        if (param == null || !(param[0] is EMonologTextDataType))
-        {
-            return;
-        }
-
-        Init((EMonologTextDataType)param[0]);
         messageText.SetText("");
+        currentTextIndex = 0;
 
         ShowBox();
         PrintText();
     }
 
-    public void Init(EMonologTextDataType textDataType)
+    public void PrintText()
     {
-        if (GameManager.Inst.GameState != EGameState.CutScene)
-        {
-            GameManager.Inst.ChangeGameState(EGameState.UI);
-        }
-
-        currentTextData = ResourceManager.Inst.GetMonologTextDataSO(textDataType);
-        currentTextIndex = 0;
-    }
-
-    #endregion
-
-    #region PrintText
-    public float PrintText()
-    {
-        if (isTextPrinted) { return 0f; }
+        if (isTextPrinted) { return; }
         if (CheckDataEnd())
         {
             EndPrintText();
-            return 0f;
+            return;
         }
 
         isTextPrinted = true;
-        TextData textData = currentTextData[currentTextIndex++];
 
-        SimpleTypePrint(textData);
-        return textData.text.Length * printTextDelay;
+        SimpleTypePrint();
     }
 
-    public void SimpleTypePrint(TextData textData)
+    public void SimpleTypePrint()
     {
-        bgImage.color = Color.black;
-        bgImage.ChangeImageAlpha(1f);
-        bgImage.sprite = simpleTypeSprite;
 
-        string settingText = RemoveCmd(textData.text);
-        messageText.SetText(settingText);
-
-        bgImage.rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + offsetSize;
-        messageText.SetText("");
-        nameText.SetText("");
-        messageText.color = textData.color;
         isTextPrinted = false;
         ShowBox();
 
-        StartCoroutine(PrintMonologTextCoroutine(textData.text));
+        StartCoroutine(PrintMonologTextCoroutine());
     }
 
-    //{} 안에있는 내용을 없에줌
-    private string RemoveCmd(string settingText)
-    {
-        List<Vector2> veclist = new List<Vector2>();
-        string temp = string.Empty;
-
-        int cnt = 0;
-        for (int i = 0; i < settingText.Length; i++)
-        {
-            if (settingText[i] == '{')
-            {
-                veclist.Add(new Vector2(-1, -1));
-                veclist[cnt] = new Vector2(i, -1);
-            }
-            if (settingText[i] == '}')
-            {
-                veclist[cnt] = new Vector2(veclist[cnt].x, i);
-                cnt++;
-            }
-        }
-
-        for (int i = veclist.Count; i > 0; i--)
-        {
-            if (veclist[i - 1].x != -1)
-            {
-                settingText = settingText.Remove((int)veclist[i - 1].x, ((int)veclist[i - 1].y - (int)veclist[i - 1].x) + 1);
-            }
-        }
-        return settingText;
-    }
-
-    private IEnumerator PrintMonologTextCoroutine(string message)
+    private IEnumerator PrintMonologTextCoroutine()
     {
         bool isRich = false;
         bool isCmd = false;
-        triggerDictionary.Clear();
-        // 텍스트 박스 안에 넣을 텍스트
-        // <color> 같은 것은 텍스트 박스 안에 넣어야함
-        string textBoxInText = TextTrigger.RemoveCommandText(message, triggerDictionary, this.gameObject, true);
-        // 텍스트가 너무 길 경우 자동으로 줄 바꿈 처리
-        textBoxInText = SliceLineText(textBoxInText);
 
-        messageText.SetText(textBoxInText);
+        string msg = currentTextData.text;
+
+        msg = SliceLineText(msg);
+
+        messageText.SetText(msg);
         messageText.maxVisibleCharacters = 0;
 
-        for (int i = 0; i < message.Length; i++)
+        for (int i = 0; i < msg.Length; i++)
         {
 
-            if (message[i] == '<')
+            if (msg[i] == '<')
             {
                 isRich = true;
             }
 
-            if (message[i] == '>')
+            if (msg[i] == '>')
             {
                 isRich = false;
-                continue;
-            }
-
-            if (message[i] == '{')
-            {
-                isCmd = true;
-            }
-
-            if (message[i] == '}')
-            {
-                isCmd = false;
                 continue;
             }
 
@@ -371,49 +271,6 @@ public class TextBox : TextUI
 
         return removeText;
     }
-
-    // text에서 cmdText 없앰
-    // 만약 registerCmd를 true할 시 커맨드 등록도 시킴
-    //private string RemoveCommandText(string message, bool registerCmd = false)
-    //{
-    //    string removeText = message;
-    //    int signTextLength = 0;
-
-
-    //    for (int i = 0; i < removeText.Length; i++)
-    //    {
-    //        if (i < 0)
-    //        {
-    //            i = 0;
-    //        }
-    //        if (removeText[i] == '{')
-    //        {
-    //            isFindSign = true;
-
-    //            string signText = TextTrigger.EncordingCommandText(removeText.Substring(i)); // {} 문자열
-    //            removeText = removeText.Remove(i, signText.Length + 2); // {} 이 문자열을 제외시킨 문자열
-
-    //                if (registerCmd)
-    //                {
-
-    //                    if (triggerDictionary.ContainsKey(i + signTextLength))
-    //                        triggerDictionary[i + signTextLength] += () => TextTrigger.CommandTrigger(signText, this.gameObject);
-
-    //                    else
-    //                    {
-    //                        triggerDictionary.Add(i + signTextLength, () => TextTrigger.CommandTrigger(signText, this.gameObject));
-    //                    }
-    //                }
-
-    //            signTextLength += signText.Length;
-    //            i -= signText.Length;
-    //        }
-    //    }
-
-    //    return removeText;
-    //}
-
-    #endregion
 
     #region CommandTrigger
 
