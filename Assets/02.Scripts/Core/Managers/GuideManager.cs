@@ -69,12 +69,12 @@ public partial class GuideManager : MonoBehaviour
 
     private IEnumerator SendAiMessageTexts(string[] values)
     {
-        //foreach (string str in values)
-        //{
-        //    Debug.Log(str);
-        //    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { str });
-        yield return new WaitForSeconds(1f);
-        //}
+        foreach (string str in values)
+        {
+            Debug.Log(str);
+            EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[1] { str });
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     private void ThisClearGuideTopic(object[] ps)
@@ -102,13 +102,9 @@ public partial class GuideManager : MonoBehaviour
             OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 40);
         }
     }
-    private void OnApplicationQuit()
-    {
-        EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
-        EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
-    }
 
-    private void SendProfileGuide()
+
+private void SendProfileGuide()
     {
         ProfileChattingSystem.OnChatEnd += EndProfileGuide;
 
@@ -147,4 +143,11 @@ public partial class GuideManager : MonoBehaviour
 
         ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList, delay, isSave);
     }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
+        EventManager.StopListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
+    }
+
 }
