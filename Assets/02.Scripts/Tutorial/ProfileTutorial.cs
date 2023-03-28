@@ -42,7 +42,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartChatting(int textListIndex)
     {
-        //
+
         //EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[] { textDataType });
     }
 
@@ -55,7 +55,7 @@ public class ProfileTutorial : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
 
         ProfileChattingSystem.OnChatEnd += StartProfileMonolog;
-        StartChatting(EAIChattingTextDataType.StartAIChatting);
+        StartChatting(0);
     }
 
 
@@ -68,7 +68,7 @@ public class ProfileTutorial : MonoBehaviour
     {
         MonologSystem.OnEndMonologEvent -= StartProfileNextTutorial;
         ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
-        StartChatting(EAIChattingTextDataType.StartNextAiChatting);
+        StartChatting();
     }
 
     private void CheckMaximumWindow()
@@ -96,7 +96,7 @@ public class ProfileTutorial : MonoBehaviour
     {
         EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
         ProfileChattingSystem.OnChatEnd += EndMonolog;
-        StartChatting(EAIChattingTextDataType.CompleteProfileAIChatting);
+        StartChatting();
     }
 
     public void EndMonolog()
