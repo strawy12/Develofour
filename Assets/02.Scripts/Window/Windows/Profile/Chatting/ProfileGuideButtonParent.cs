@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class ProfileGuideButtonParent : MonoBehaviour
 {
+    public Action OnClickGuideButton;
+
     [SerializeField]
     private ProfileGuideButton guideButtonPrefab;
 
@@ -125,6 +127,7 @@ public class ProfileGuideButtonParent : MonoBehaviour
 
         button.transform.SetParent(transform);
         button.Init(data);
+        button.OnClick.AddListener(delegate { OnClickGuideButton?.Invoke(); });
         guideButtonList.Add(button);
 
         UpdateButton();
