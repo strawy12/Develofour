@@ -93,8 +93,6 @@ public class ProfileChatting : MonoBehaviour
         return;
     }
 
-
-
     public virtual void Init()
     {
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
