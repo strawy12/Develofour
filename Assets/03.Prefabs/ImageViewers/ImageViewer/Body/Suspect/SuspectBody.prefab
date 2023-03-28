@@ -91,7 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   information: SuspectRelationWithVictim
-  needStringList: []
+  needInformaitonList: []
 --- !u!1 &5557635916138299879
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   information: SuspectIsLivingWithVictim
-  needStringList: []
+  needInformaitonList: []
 --- !u!1 &6302246490556891876
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 3
   information: VictimName
-  needStringList: []
+  needInformaitonList: []
 --- !u!1 &7969038130583203241
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   information: SuspectName
-  needStringList: []
+  needInformaitonList: []
 --- !u!1 &8004805431077693257
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 3
   information: VictimName
-  needStringList: []
+  needInformaitonList: []
 --- !u!1 &8096703127126436895
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,8 +551,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   information: SuspectResidence
-  needStringList:
-  - SuspectIsLivingWithVictim
+  needInformaitonList:
+  - category: 1
+    information: SuspectIsLivingWithVictim
 --- !u!1 &8454321266748870906
 GameObject:
   m_ObjectHideFlags: 0
