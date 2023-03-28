@@ -1,14 +1,14 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 //[CreateAssetMenu(fileName ="TextData_",menuName = "SO/TextDataSO")]
 public class TextDataSO : ScriptableObject
 {
-    // ÀÌ¸§À» ÅëÇØ¼­ Å¸ÀÔ ±¸ºĞ
-    // º¯¼ö·Î Å¸ÀÔ ±¸ºĞÀ» ÇÏ´À³Ä SO ³ª´« °Å °°¾Æ
-    // º¯¼ö·Î ±¸ºĞÀ» ÇÏ°Ô ¸¸µå´Â°Ô ¸Â°í
-    // TextDataSO °íÁ¤ 
+    // ì´ë¦„ì„ í†µí•´ì„œ íƒ€ì… êµ¬ë¶„
+    // ë³€ìˆ˜ë¡œ íƒ€ì… êµ¬ë¶„ì„ í•˜ëŠëƒ SO ë‚˜ëˆˆ ê±° ê°™ì•„
+    // ë³€ìˆ˜ë¡œ êµ¬ë¶„ì„ í•˜ê²Œ ë§Œë“œëŠ”ê²Œ ë§ê³ 
+    // TextDataSO ê³ ì • 
 
     [SerializeField]
     private List<TextData> textDataList;
