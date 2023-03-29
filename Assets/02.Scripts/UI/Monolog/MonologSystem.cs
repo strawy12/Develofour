@@ -59,7 +59,7 @@ public class MonologSystem : TextSystem
     private void EndMonolog()
     {
         textBox.HideBox();
-        InputManager.Inst.RemoveAnyKeyInput(onKeyDown: null);
+        InputManager.Inst.RemoveAnyKeyInput(onKeyDown: PrintText);
         GameManager.Inst.ChangeGameState(beforeGameState);
 
         textBox.DictionaryClear();
