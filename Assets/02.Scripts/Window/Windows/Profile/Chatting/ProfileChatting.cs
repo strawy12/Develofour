@@ -30,9 +30,9 @@ public class ProfileChatting : MonoBehaviour
     [SerializeField]
     protected GameObject hideImage;
     [SerializeField]
-    protected float hideValue;
-    [SerializeField]
     protected float showValue;
+    [SerializeField]
+    protected float hideValue;
 
     [SerializeField]
     protected GameObject loadingPanel;
@@ -65,13 +65,14 @@ public class ProfileChatting : MonoBehaviour
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
         ConnectEvent();
-
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
         guidePanel.Init();
         AddSaveTexts();
 
         SetScrollView();
+
+        ShowPanel();
     }
 
     protected virtual void ConnectEvent()
@@ -114,16 +115,16 @@ public class ProfileChatting : MonoBehaviour
         return textUI;
     }
 
-    protected virtual void ShowPanel()
+    protected virtual void HidePanel()
     {
         if (isMoving) return;
         isMoving = true;
         loadingPanel.SetActive(true);
-        movePanelRect.DOSizeDelta(new Vector2(showValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
+        movePanelRect.DOSizeDelta(new Vector2(hideValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
-            currentValue = showValue;
+            currentValue = hideValue;
             OpenCloseButton.onClick.RemoveAllListeners();
-            OpenCloseButton.onClick.AddListener(HidePanel);
+            OpenCloseButton.onClick.AddListener(ShowPanel);
             SetWidths();
             SetScrollView();
             hideImage.SetActive(false);
@@ -135,16 +136,16 @@ public class ProfileChatting : MonoBehaviour
 
     }
 
-    protected virtual void HidePanel()
+    protected virtual void ShowPanel()
     {
         if (isMoving) return;
         isMoving = true;
         loadingPanel.SetActive(true);
-        movePanelRect.DOSizeDelta(new Vector2(hideValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
+        movePanelRect.DOSizeDelta(new Vector2(showValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
-            currentValue = hideValue;
+            currentValue = showValue;
             OpenCloseButton.onClick.RemoveAllListeners();
-            OpenCloseButton.onClick.AddListener(ShowPanel);
+            OpenCloseButton.onClick.AddListener(HidePanel);
             SetWidths();
             SetScrollView();
             hideImage.SetActive(true);

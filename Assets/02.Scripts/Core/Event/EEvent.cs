@@ -167,3 +167,22 @@ public enum EDebugSkipEvent
     None = -1,
     TutorialSkip,
 }
+
+public enum ETextboxEvent
+{
+    None = -1,
+    Shake,
+    Delay,
+}
+
+public enum EProfileSearchTutorialEvent
+{
+    None = -1,
+    TutorialMonologStart,
+    TutorialStart,
+    GuideSearchButton,
+    ClickSearchButton,
+    GuideSearchInputPanel,
+    SearchNameText,
+    EndTutorial,
+}

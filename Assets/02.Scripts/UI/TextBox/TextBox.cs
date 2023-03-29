@@ -36,6 +36,12 @@ public class TextBox : MonoUI
 
     private Dictionary<int, Action> triggerDictionary;
 
+    private void Start()
+    {
+        triggerDictionary = new Dictionary<int, Action>();
+    }
+
+
     public void DictionaryClear()
     {
         triggerDictionary.Clear();

@@ -20,6 +20,7 @@ public enum EWindowType // 확장자
     WindowPinLock,
     MediaPlayer,
     IconProperty,
+    Popup,
     End 
 }
 
@@ -266,8 +267,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     protected virtual void OnDestroy()
     {
-        GuideUISystem.EndGuide?.Invoke();
-
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
     protected virtual void OnEnable()
