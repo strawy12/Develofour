@@ -32,6 +32,7 @@ public class TextBox : MonoUI
 
     public bool isTextPrinting = false;
     private bool isActive = false;
+    private bool isDelayEnd = false;
 
     private Dictionary<int, Action> triggerDictionary;
 
@@ -50,7 +51,7 @@ public class TextBox : MonoUI
 
     public void PrintText()
     {
-        if (isTextPrinting) 
+        if (isTextPrinting)
         {
             //if (CheckDataEnd())
             //{
@@ -58,8 +59,8 @@ public class TextBox : MonoUI
             //    return;
             //}
             Debug.Log("리턴");
-            
-            return; 
+
+            return;
         }
 
         isTextPrinting = true;
@@ -73,9 +74,8 @@ public class TextBox : MonoUI
             GameManager.Inst.ChangeGameState(EGameState.Game);
             return true;
         }
-        return messageText.text.Length >= currentString.Length ;
+        return messageText.text.Length >= currentString.Length;
     }
-
 
     private IEnumerator PrintMonologTextCoroutine()
     {
@@ -93,12 +93,15 @@ public class TextBox : MonoUI
 
         for (int i = 0; i < msg.Length; i++)
         {
+            if (msg.Length - 1 == i)
+            {
+                messageText.maxVisibleCharacters++;
+            }
             if (triggerDictionary.ContainsKey(i))
             {
                 triggerDictionary[i]?.Invoke();
                 triggerDictionary[i] = null;
             }
-
             if (msg[i] == '<')
             {
                 isRich = true;
@@ -125,12 +128,22 @@ public class TextBox : MonoUI
                 yield return new WaitForSeconds(currentDelay);
                 currentDelay = 0f;
             }
-
+            isDelayEnd = true;
+            if (msg.Length - 1 != i)
+            {
+                messageText.maxVisibleCharacters++;
+            }
             messageText.maxVisibleCharacters++;
         }
 
-        isTextPrinting = false;
+        StartCoroutine(EndSetting());
         Debug.Log(1);
+    }
+
+    private IEnumerator EndSetting()
+    {
+        yield return new WaitUntil(() => isDelayEnd == true);
+        isTextPrinting = false;
     }
 
     public void ShowBox()
