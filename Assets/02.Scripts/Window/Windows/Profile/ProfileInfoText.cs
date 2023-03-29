@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -16,9 +17,13 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public TMP_Text infoTitleText;
 
-    private string infoTitle; 
+    private string infoTitle;
+
+    [SerializeField]
+    private Image checkLine;
 
     private bool isFind;
+
     public bool IsFind
     {
         get => isFind;
@@ -53,10 +58,13 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void ChangeText()
     {
-        //infoTitleText.text = infoTitle;
         infoText.text = textDataSO.afterText;
         isFind = true;
+        
+        checkLine.gameObject.SetActive(true);
+
         DataManager.Inst.SetGuide(textDataSO.guideTopicName, true);
+
         OnFindText?.Invoke();
     }
 
