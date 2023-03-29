@@ -43,7 +43,6 @@ public abstract class TextSystem : MonoBehaviour
                 {
                     Sound.EAudioType audioType = (Sound.EAudioType)Enum.Parse(typeof(Sound.EAudioType), cmdValue);
                     Sound.OnPlaySound?.Invoke(audioType);
-                    Debug.Log("와~");
 
                     break;
                 }
@@ -125,7 +124,10 @@ public abstract class TextSystem : MonoBehaviour
             {
                 string signText = EncordingCommandText(removeText.Substring(i)); // {} 문자열
                 removeText = removeText.Remove(i, signText.Length + 2); // {} 이 문자열을 제외시킨 문자열
-
+                if(i >= removeText.Length)
+                {
+                    i-= 1;
+                } 
                 if (registerCmd)
                 {
                     if (triggerDictionary.ContainsKey(i))
@@ -137,7 +139,6 @@ public abstract class TextSystem : MonoBehaviour
                         triggerDictionary.Add(i, () => CommandTrigger(signText));
                     }
                 }
-
                 i -= signText.Length;
             }
         }

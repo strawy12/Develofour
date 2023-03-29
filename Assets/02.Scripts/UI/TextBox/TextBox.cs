@@ -32,8 +32,20 @@ public class TextBox : MonoUI
 
     public bool isTextPrinting = false;
     private bool isActive = false;
+    private bool isDelayEnd = false;
 
     private Dictionary<int, Action> triggerDictionary;
+
+    private void Start()
+    {
+        triggerDictionary = new Dictionary<int, Action>();
+    }
+
+
+    public void DictionaryClear()
+    {
+        triggerDictionary.Clear();
+    }
 
     public void Init(TextData data, string str, Dictionary<int, Action> triggerList)
     {
@@ -50,7 +62,7 @@ public class TextBox : MonoUI
 
     public void PrintText()
     {
-        if (isTextPrinting) 
+        if (isTextPrinting)
         {
             //if (CheckDataEnd())
             //{
@@ -58,8 +70,8 @@ public class TextBox : MonoUI
             //    return;
             //}
             Debug.Log("리턴");
-            
-            return; 
+
+            return;
         }
 
         isTextPrinting = true;
@@ -73,9 +85,8 @@ public class TextBox : MonoUI
             GameManager.Inst.ChangeGameState(EGameState.Game);
             return true;
         }
-        return messageText.text.Length >= currentString.Length ;
+        return messageText.text.Length >= currentString.Length;
     }
-
 
     private IEnumerator PrintMonologTextCoroutine()
     {
@@ -93,12 +104,15 @@ public class TextBox : MonoUI
 
         for (int i = 0; i < msg.Length; i++)
         {
+            if (msg.Length - 1 == i)
+            {
+                messageText.maxVisibleCharacters++;
+            }
             if (triggerDictionary.ContainsKey(i))
             {
                 triggerDictionary[i]?.Invoke();
                 triggerDictionary[i] = null;
             }
-
             if (msg[i] == '<')
             {
                 isRich = true;
@@ -125,12 +139,21 @@ public class TextBox : MonoUI
                 yield return new WaitForSeconds(currentDelay);
                 currentDelay = 0f;
             }
-
+            isDelayEnd = true;
+            if (msg.Length - 1 != i)
+            {
+                messageText.maxVisibleCharacters++;
+            }
             messageText.maxVisibleCharacters++;
         }
 
+        StartCoroutine(EndSetting());
+    }
+
+    private IEnumerator EndSetting()
+    {
+        yield return new WaitUntil(() => isDelayEnd == true);
         isTextPrinting = false;
-        Debug.Log(1);
     }
 
     public void ShowBox()

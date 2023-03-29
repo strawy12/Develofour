@@ -37,7 +37,6 @@ public class ProfileTutorial : MonoBehaviour
 
         if(fileData.fileName == Constant.USB_FILENAME)
         {
-          //  MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.OnUSBFileMonoLog, 0);
             EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
         }
     }
@@ -61,7 +60,7 @@ public class ProfileTutorial : MonoBehaviour
     public void StartProfileMonolog()
     {
         MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
-    //    MonologSystem.OnTutoMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f);
+        MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, true);
     }
     public void StartProfileNextTutorial()
     {
