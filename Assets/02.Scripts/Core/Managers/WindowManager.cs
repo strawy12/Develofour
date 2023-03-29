@@ -170,13 +170,11 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         int num = 0;
         bool isClear = true;
-        Debug.Log("현재 개수 : " + CurrentWindowCount(type));
         while(isClear)
         {
             isClear = false;
             foreach (var temp in windowDictionary[type])
             {
-                Debug.Log(temp.openInt + " " + num);
                 if (temp.openInt == num)
                 {
                     isClear = true;
@@ -189,7 +187,6 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
 
         window.openInt = num;
-        Debug.Log(num);
     }
 
     public Window OpenIconProperty(FileSO file)
