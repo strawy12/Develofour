@@ -27,5 +27,6 @@ public class PopupWindow : Window
     private void Agree()
     {
         EventManager.TriggerEvent(EProfileSearchTutorialEvent.TutorialStart);
+        WindowClose();
     }
 }

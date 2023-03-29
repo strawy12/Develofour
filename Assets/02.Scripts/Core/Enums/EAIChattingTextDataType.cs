@@ -9,8 +9,5 @@ public enum EAIChattingTextDataType
     VictimBirthDateElse,
     VictimUniversityFailed,
     PetAdoptionDateElse,
-    SearchTutoClickBtn,
-    SearchTutoClickInput,
-    CompleteSearchTuto,
     Count
 }

@@ -19,12 +19,9 @@ public class ProfileWindow : Window
     private ProfileChatting profileChatting;
 
     [SerializeField]
-    private Button infoPanelBtn;
+    private ProfilePanelButton infoPanelBtn;
     [SerializeField]
-    private Button searchPanelBtn;
-
-    [SerializeField]
-    private List<TMP_Text> btnTextList;
+    private ProfilePanelButton searchPanelBtn;
 
     [Header("UIEtc")]
     [SerializeField]
@@ -39,12 +36,8 @@ public class ProfileWindow : Window
     private bool isMoving = false;
 
     //DataManager
-    private bool isOpenFileSearch;
-    private bool isOpenInfoCheck;
 
-    private Button beforeClickButton;
-    private Color blackColor;
-    private Color whiteColor;
+    private ProfilePanelButton beforeClickButton;
 
 
     protected override void Init()
@@ -55,52 +48,30 @@ public class ProfileWindow : Window
         profilePanel.Init();
         fileSearchPanel.Init();
 
-        infoPanelBtn.onClick?.AddListener(OnClickShowProfilingBtn);
-        searchPanelBtn.onClick?.AddListener(OnClickShowFileSearch);
-        CheckingButton();
+        infoPanelBtn.button.onClick?.AddListener(OnClickShowProfiling);
+        searchPanelBtn.button.onClick?.AddListener(OnClickShowFileSearch);
 
         moveBtn.onClick.AddListener(delegate { StartCoroutine(HideAllPanel()); });
+
         EventManager.StartListening(EProfileSearchTutorialEvent.GuideSearchButton, GuideSearchButton);
         TutorialStart();
-
         EventManager.StartListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
-        blackColor = new Color(0, 0, 0, 255);
-        whiteColor = new Color(255, 255, 255, 255);
 
         beforeClickButton = infoPanelBtn;
+
+        ButtonBlackSetting();
     }
-
-    private void CheckingButton()
-    {
-        if (isOpenFileSearch)
-        {
-            searchPanelBtn.interactable = true;
-        }
-        else
-        {
-            searchPanelBtn.interactable = false;
-        }
-
-        if (isOpenInfoCheck)
-        {
-            infoPanelBtn.interactable = true;
-        }
-        else
-        {
-            infoPanelBtn.interactable = false;
-        }
-    }
-
     private void CheckProfilerOnOff(object[] emptyPs)
     {
         if (profilePanel.gameObject.activeSelf == false)
         {
-            OnClickShowProfilingBtn();
+            OnClickShowProfiling();
         }
     }
 
-    private void OnClickShowProfilingBtn()
+    private void OnClickShowProfiling()
     {
+        Debug.Log("ShowFileInfo");
 
         if (beforeClickButton == infoPanelBtn)
         {
@@ -111,11 +82,23 @@ public class ProfileWindow : Window
 
         beforeClickButton = infoPanelBtn;
 
+        ButtonBlackSetting();
+
         StartCoroutine(OnShowProfile());
     }
 
     private void OnClickShowFileSearch()
     {
+        if(!DataManager.Inst.GetIsStartTutorial(ETutorialType.Search))
+        {
+
+            ProfileChattingSystem.OnPlayChat(new TextData() { text = "아직은 열람할 수 없는 기능입니다.", color = new Color(255, 255, 255, 100) }, false);
+            return;
+        }
+
+
+        Debug.Log("ShowFileSearch");
+
         if (beforeClickButton == searchPanelBtn)
         {
             isOpen = false;
@@ -124,19 +107,21 @@ public class ProfileWindow : Window
         }
         beforeClickButton = searchPanelBtn;
 
+        ButtonBlackSetting();
         StartCoroutine(OnShowFileSearch());
     }
 
     private void ButtonBlackSetting()
     {
-
+        infoPanelBtn.Setting(beforeClickButton);
+        searchPanelBtn.Setting(beforeClickButton);
     }
 
     private void TutorialStart()
     {
         if (DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) == false)
         {
-            EventManager.TriggerEvent(ETutorialEvent.TutorialStart, new object[0]);
+            EventManager.TriggerEvent(ETutorialEvent.TutorialStart);
             EventManager.StartListening(ETutorialEvent.ProfileMidiumStart, StartGuideMinimumBtn);
             DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
         }
@@ -164,7 +149,6 @@ public class ProfileWindow : Window
             {
                 yield return StartCoroutine(HideAllPanel());
             }
-
             ShowProfileCategoryPanel();
         }
     }
@@ -204,9 +188,9 @@ public class ProfileWindow : Window
         {
             isOpen = true;
             isMoving = false;
-            if (GameManager.Inst.GameState == EGameState.Tutorial && DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+            if (DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler) && DataManager.Inst.GetIsStartTutorial(ETutorialType.Search))
             {
-                EventManager.TriggerEvent(EProfileSearchTutorialEvent.GuideSearchInputPanel);
+                EventManager.TriggerEvent(EProfileSearchTutorialEvent.ClickSearchButton);
             }
         });
     }
@@ -241,6 +225,6 @@ public class ProfileWindow : Window
     }
     private void GuideSearchButton(object[] ps)
     {
-        GuideUISystem.OnGuide?.Invoke(btnList[2].transform as RectTransform);
+        GuideUISystem.OnGuide?.Invoke(searchPanelBtn.RectTrm);
     }
 }

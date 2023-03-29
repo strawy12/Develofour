@@ -274,8 +274,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     protected virtual void OnDestroy()
     {
-        GuideUISystem.EndGuide?.Invoke();
-
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
     protected virtual void OnEnable()

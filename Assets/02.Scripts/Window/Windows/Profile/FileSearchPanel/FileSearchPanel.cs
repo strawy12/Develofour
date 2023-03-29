@@ -43,7 +43,7 @@ public class FileSearchPanel : MonoBehaviour
         }
         if(isGuide)
         {
-            if(text == "이름")
+            if(text == "대학교")
             {
                 isGuide = false;
                 EventManager.TriggerEvent(EProfileSearchTutorialEvent.SearchNameText);
