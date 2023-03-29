@@ -31,10 +31,10 @@ public class MonologSystem : TextSystem
 
     public IEnumerator StartMonologCor(EMonologTextDataType textDataType, float beforeDelay, bool isSave)
     {
+
         if (DataManager.Inst.IsMonologShow(textDataType))
         {
             OnEndMonologEvent = null;
-            Debug.Log("tlqkf");
             yield break;
         }
 
@@ -61,17 +61,26 @@ public class MonologSystem : TextSystem
         textBox.HideBox();
         InputManager.Inst.RemoveAnyKeyInput(onKeyDown: null);
         GameManager.Inst.ChangeGameState(beforeGameState);
+
+        textBox.DictionaryClear();
+
         OnEndMonologEvent?.Invoke();
         OnEndMonologEvent = null;
     }
 
     private void StopMonolog()
     {
-        OnEndMonologEvent?.Invoke();
-        StopAllCoroutines();
-        //textBox.Release();
+        textBox.HideBox();
+        InputManager.Inst.RemoveAnyKeyInput(onKeyDown: null);
         GameManager.Inst.ChangeGameState(beforeGameState);
+        textBox.DictionaryClear();
+        OnEndMonologEvent?.Invoke();
         OnEndMonologEvent = null;
+        //OnEndMonologEvent?.Invoke();
+        //StopAllCoroutines();
+        ////textBox.Release();
+        //GameManager.Inst.ChangeGameState(beforeGameState);
+        //OnEndMonologEvent = null;
     }
 
     private void PrintText()
@@ -90,7 +99,6 @@ public class MonologSystem : TextSystem
         string text = data.text;
         text = RemoveCommandText(text, true);
 
-        Debug.Log(data.text);
         // TextBox 한테 일시키기
         // {}
 

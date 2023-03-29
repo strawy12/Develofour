@@ -36,6 +36,11 @@ public class TextBox : MonoUI
 
     private Dictionary<int, Action> triggerDictionary;
 
+    public void DictionaryClear()
+    {
+        triggerDictionary.Clear();
+    }
+
     public void Init(TextData data, string str, Dictionary<int, Action> triggerList)
     {
         EndPrintText();
@@ -137,7 +142,6 @@ public class TextBox : MonoUI
         }
 
         StartCoroutine(EndSetting());
-        Debug.Log(1);
     }
 
     private IEnumerator EndSetting()
