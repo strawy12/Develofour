@@ -7,7 +7,6 @@ public enum EMonologTextDataType
     USBMonolog,
     Profile,
     StartMonolog,
-    StartNextMonolog,
     TutorialMonolog1,
     TutorialMonolog2,
     GuideLog1,
@@ -32,4 +31,5 @@ public class MonologTextDataSO : TextDataSO
             return textDataType;
         }
     }
+
 }
