@@ -6,17 +6,19 @@ using System;
 
 public class HomeSearchRecord : MonoBehaviour
 {
-    private HomeSearchRecordDataSO recordData;
     [SerializeField]
     private HomeSearchRecordPrefab recordPrefab;
     [SerializeField]
     private int poolCnt;
     [SerializeField]
     private Transform contectTrm;
+    
+    private HomeSearchRecordDataSO recordData;
 
     private List<HomeSearchRecordPrefab> poolPanels = new List<HomeSearchRecordPrefab>();
     public Action OnCloseRecord;
     private bool isOpen;
+
     public void Init(HomeSearchRecordDataSO data)
     {
         if (poolPanels.Count < 5)
