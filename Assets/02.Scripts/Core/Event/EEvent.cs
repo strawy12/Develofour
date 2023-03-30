@@ -186,3 +186,10 @@ public enum EProfileSearchTutorialEvent
     SearchNameText,
     EndTutorial,
 }
+
+public enum EMonologEvent
+{
+    None = -1,
+    MonologException,
+
+}

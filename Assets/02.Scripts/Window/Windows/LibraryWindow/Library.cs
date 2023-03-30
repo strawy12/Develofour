@@ -157,6 +157,7 @@ public class Library : Window
         windowBar.SetNameText(currentDirectory.fileName);
         fileAddressPanel.SetButtons(currentDirectory);
         CreateChildren();
+        EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
 
         if (GameManager.Inst.GameState == EGameState.Tutorial)
