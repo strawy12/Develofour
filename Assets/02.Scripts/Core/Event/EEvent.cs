@@ -186,10 +186,17 @@ public enum EProfileSearchTutorialEvent
     SearchNameText,
     EndTutorial,
 }
-
+public enum EGuideButtonTutorialEvent
+{
+    None = -1,
+    OpenPopup,
+    TutorialStart,
+    GuideMoveBtn,
+    ClickMoveBtn,
+    ClickAnyBtn,
+}
 public enum EMonologEvent
 {
     None = -1,
     MonologException,
-
 }

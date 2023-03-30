@@ -33,6 +33,11 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
+
         CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
 
         if (needInformaitonList.Count > 0)

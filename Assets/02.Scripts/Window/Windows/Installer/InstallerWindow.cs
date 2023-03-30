@@ -70,6 +70,7 @@ public class InstallerWindow : Window
     }
     public void EndInstall()
     {
+        DataManager.Inst.SaveData.isProfilerInstall = true;
         FileManager.Inst.AddFile(installFile, "User\\C\\바탕화면\\");
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
