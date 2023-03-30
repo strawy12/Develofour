@@ -117,11 +117,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         int i = 0;
         while (targetPanelList.Count > 0)
         {
-            i++;
-            if (i > 1000)
-            {
-                Debug.Log("while문이 계속 반복됩니다.");
-            }
             targetPanelList[0].TargetWindow.WindowClose();
         }
         Release();

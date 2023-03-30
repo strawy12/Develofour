@@ -26,6 +26,7 @@ public class TaskBar : MonoBehaviour
 
         CreatePool(poolCnt);
     }
+    static int _cnt;
 
     private void CreatePool(int cnt)
     {
@@ -33,6 +34,7 @@ public class TaskBar : MonoBehaviour
         {
             TaskIcon taskIcon = Instantiate(taskIconPrefab, taskIconParent);
             taskIconPool.Push(taskIcon);
+            taskIcon.name = taskIcon.name + (_cnt++);
             taskIcon.gameObject.SetActive(false);
         }
     }
@@ -77,7 +79,6 @@ public class TaskBar : MonoBehaviour
     }
     public void AddIcon(Window window)
     {
- 
         if(taskIcons.ContainsKey(window.File.windowType))
         {
             taskIcons[window.File.windowType].AddTargetPanel(window);
@@ -109,6 +110,7 @@ public class TaskBar : MonoBehaviour
         }
         else if (taskIcons.ContainsKey(windowType))
         {
+
             taskIcons[windowType].AddTargetPanel(window);
             return;
         }
@@ -133,15 +135,28 @@ public class TaskBar : MonoBehaviour
             CreatePool(1);
         }
 
-        TaskIcon newTaskIcon = taskIconPool.Pop();
-
+        TaskIcon newTaskIcon = Pop();
         return newTaskIcon;
+    }
+
+    private TaskIcon Pop()
+    {
+        TaskIcon icon =taskIconPool.Pop();
+        Debug.Log(icon.name);
+        return icon;
+    }
+
+    private void Push(TaskIcon icon)
+    {
+        Debug.Log(icon.name); 
+        taskIconPool.Push(icon);
     }
 
     public void RemoveTaskIcon(TaskIcon icon)
     {
         icon.gameObject.SetActive(false);
-        taskIconPool.Push(icon);
+        icon.OnClose -= RemoveTaskIcon;
+        Push(icon);
         taskIcons.Remove(icon.WindowType);
         icon.CloseIcon();
     }
