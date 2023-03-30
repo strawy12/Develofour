@@ -71,16 +71,12 @@ public class MonologSystem : TextSystem
     private void StopMonolog()
     {
         textBox.HideBox();
+        currentTextDataIdx = currentTextData.Count;
         InputManager.Inst.RemoveAnyKeyInput(onKeyDown: null);
         GameManager.Inst.ChangeGameState(beforeGameState);
         textBox.DictionaryClear();
         OnEndMonologEvent?.Invoke();
         OnEndMonologEvent = null;
-        //OnEndMonologEvent?.Invoke();
-        //StopAllCoroutines();
-        ////textBox.Release();
-        //GameManager.Inst.ChangeGameState(beforeGameState);
-        //OnEndMonologEvent = null;
     }
 
     private void PrintText()
