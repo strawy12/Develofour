@@ -22,7 +22,7 @@ public class Library : Window
     [Header("Directory")]
     #endregion
     [SerializeField]
-    private DirectorySO currentDirectory;
+    public DirectorySO currentDirectory;
 
     #region Redo & Undo
     [Header("Redo & Undo")]
@@ -154,6 +154,7 @@ public class Library : Window
 
     public void SetLibrary()
     {
+        WindowManager.Inst.SetWindowOrder(this);
         windowBar.SetNameText(currentDirectory.fileName);
         fileAddressPanel.SetButtons(currentDirectory);
         CreateChildren();

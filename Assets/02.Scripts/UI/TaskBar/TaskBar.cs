@@ -142,13 +142,11 @@ public class TaskBar : MonoBehaviour
     private TaskIcon Pop()
     {
         TaskIcon icon =taskIconPool.Pop();
-        Debug.Log(icon.name);
         return icon;
     }
 
     private void Push(TaskIcon icon)
     {
-        Debug.Log(icon.name); 
         taskIconPool.Push(icon);
     }
 
