@@ -33,20 +33,19 @@ public class ProfileGuideButton : MonoBehaviour
 
     private void PlayGuide()
     {
-
         if (isGuide)
         {
             return;
         }
-
         isGuide = true;
         GuideManager.OnPlayInfoGuide?.Invoke(infoData);
-        
+
     }
 
     private void EndGuide(object[] ps)
     {
         isGuide = false;
+        EventManager.TriggerEvent(EGuideButtonTutorialEvent.ClickAnyBtn);
     }
 
     public void Releasse()
@@ -55,7 +54,5 @@ public class ProfileGuideButton : MonoBehaviour
         infoNameText.text = "";
         EventManager.StopListening(EProfileEvent.EndGuide, EndGuide);
     }
-
-
 
 }
