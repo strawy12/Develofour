@@ -25,6 +25,7 @@ public class InputManager : MonoSingleton<InputManager>
     {
         keyCodes = new Dictionary<KeyCode, KeyInfo>();
         mouseEvents = new Dictionary<EMouseType, KeyInfo>();
+        anyKeyEvent = new KeyInfo();
     }
 
     void Update()
