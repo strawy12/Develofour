@@ -12,28 +12,7 @@ using Unity.VisualScripting;
 public enum EMailType
 {
     Default = 0,
-    ADShopPurchase,
-    Danaga,
-    Dropcircle,
-    FunnyMoney,
-    GyogoBookStore,
-    IntRun, 
-    MunjeoCanvas,
-    StarbookJoin,
     StarbookSecurityCode,
-    Investigation,
-    NewFitnessCenterOpen,
-    ZooogleNewIP,
-    NevarDormantWarning,
-    NevarDormantComplete,
-    YeonGoFitnessCenter,
-    OrangeYoung,
-    HarmonyMassege,
-    UkktubePremiumCancel,
-    BranchMemorial,
-    CloseGym,
-    BaycoPurchase, 
-    InderPark,
     End,
 }
 
