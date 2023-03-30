@@ -62,6 +62,12 @@ public class GmailLoginSite : Site
     protected override void ShowSite()
     {
         base.ShowSite();
+
+        if(!DataManager.Inst.SaveData.isOnceEnterZoogleLogin)
+        {
+            DataManager.Inst.SaveData.isOnceEnterZoogleLogin = true;
+            EventManager.TriggerEvent(EProfileSearchTutorialEvent.TutorialMonologStart);
+        }
     }
 
     private void SuccessLogin()

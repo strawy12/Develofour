@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,7 +52,7 @@ public abstract class TextSystem : MonoBehaviour
                     Sound.EAudioType audioType = (Sound.EAudioType)Enum.Parse(typeof(Sound.EAudioType), cmdValue);
                     float? delayNull = Sound.OnPlaySound?.Invoke(audioType);
                     float delay = delayNull != null ? (float)delayNull : 0f;
-
+                    SetDelay(delay);
                     break;
                 }
 
@@ -84,7 +84,7 @@ public abstract class TextSystem : MonoBehaviour
 
     public abstract void SetDelay(float value);
 
-    // text¿¡¼­ cmdText »Ì¾Æ³¿
+    // textì—ì„œ cmdText ë½‘ì•„ëƒ„
     // ex) {BS_WriterBGM}
     protected string EncordingCommandText(string message)
     {
@@ -108,8 +108,8 @@ public abstract class TextSystem : MonoBehaviour
         return richText;
     }
 
-    // AI -> ÀÌº¥Æ® ÀüºÎ ÇÑ¹ø¿¡ ½ÇÇà
-    // ÅØ½ºÆ®¹Ú½º´Â ÀÎµ¦½º¿¡ ¸ÂÃç ½ÇÇà 
+    // AI -> ì´ë²¤íŠ¸ ì „ë¶€ í•œë²ˆì— ì‹¤í–‰
+    // í…ìŠ¤íŠ¸ë°•ìŠ¤ëŠ” ì¸ë±ìŠ¤ì— ë§žì¶° ì‹¤í–‰ 
     protected string RemoveCommandText(string message, bool registerCmd = false)
     {
         string removeText = message;
@@ -122,9 +122,12 @@ public abstract class TextSystem : MonoBehaviour
             }
             if (removeText[i] == '{')
             {
-                string signText = EncordingCommandText(removeText.Substring(i)); // {} ¹®ÀÚ¿­
-                removeText = removeText.Remove(i, signText.Length + 2); // {} ÀÌ ¹®ÀÚ¿­À» Á¦¿Ü½ÃÅ² ¹®ÀÚ¿­
-
+                string signText = EncordingCommandText(removeText.Substring(i)); // {} ë¬¸ìžì—´
+                removeText = removeText.Remove(i, signText.Length + 2); // {} ì´ ë¬¸ìžì—´ì„ ì œì™¸ì‹œí‚¨ ë¬¸ìžì—´
+                if(i >= removeText.Length)
+                {
+                    i-= 1;
+                } 
                 if (registerCmd)
                 {
                     if (triggerDictionary.ContainsKey(i))
@@ -136,7 +139,6 @@ public abstract class TextSystem : MonoBehaviour
                         triggerDictionary.Add(i, () => CommandTrigger(signText));
                     }
                 }
-
                 i -= signText.Length;
             }
         }

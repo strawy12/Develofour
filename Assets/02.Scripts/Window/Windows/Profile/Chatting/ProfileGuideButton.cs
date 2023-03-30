@@ -40,7 +40,7 @@ public class ProfileGuideButton : MonoBehaviour
         }
 
         isGuide = true;
-        GuideManager.OnPlayInfoGuide?.Invoke(infoData.guideTopicName);
+        GuideManager.OnPlayInfoGuide?.Invoke(infoData);
         
     }
 

@@ -28,9 +28,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     public bool IsTutorial => gameState == EGameState.Tutorial;
 
-    public EGameState ChangeGameState(EGameState state)
+    public void ChangeGameState(EGameState state)
     {
-        if (gameState == state) { return gameState; }
+        if (gameState == state) { return; }
 
         gameState = state;
 
@@ -43,7 +43,6 @@ public class GameManager : MonoSingleton<GameManager>
             EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { false });
         }
 
-        return gameState;
     }
 
     public void ClickStop(float time)

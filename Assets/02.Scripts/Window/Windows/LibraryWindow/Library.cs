@@ -275,10 +275,6 @@ public class Library : Window
 
     private void CheckTutorialRoot(object[] ps)
     {
-        if (GameManager.Inst.GameState != EGameState.Tutorial && GameManager.Inst.GameState != EGameState.CutScene) return;
-
-        Debug.Log("CheckRoot");
-
         if (currentDirectory.GetFileLocation() == "User\\BestUSB\\")
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);

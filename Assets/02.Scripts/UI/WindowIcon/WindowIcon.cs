@@ -310,7 +310,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (this.gameObject != null)
         {
             if (gameObject.activeSelf)
+            {
+                Debug.Log("가이드ui");
                 GuideUISystem.OnGuide?.Invoke(rectTranstform);
+            }
+
         }
         EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { RequesterInfoEventStop(); });
     }

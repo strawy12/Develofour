@@ -38,6 +38,7 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.additionFileData = new List<AdditionFileData>();
         saveData.guideSaveData = new List<GuideSaveData>();
         saveData.profileSaveData = new List<ProfileSaveData>();
+        saveData.aiChattingList = new List<TextData>();
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
         foreach (FileSO file in fileList)
@@ -75,7 +76,7 @@ public class DataManager : MonoSingleton<DataManager>
     {
         List<bool> list = new List<bool>();
 
-        for(int i  = 0; i < 2; i++)
+        for(int i  = 0; i < 3; i++)
         {
             list.Add(false);
         }
@@ -245,11 +246,6 @@ public class DataManager : MonoSingleton<DataManager>
 
     public void AddAiChattingList(TextData data)
     {
-        if(saveData.aiChattingList == null)
-        {
-            saveData.aiChattingList = new List<TextData>();
-        }
-
         saveData.aiChattingList.Add(data);
     }
 

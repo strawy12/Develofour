@@ -4,7 +4,6 @@ public enum ENoticeType
 	SnsSetNewPassword,
 	ConnectUSB,
     FindLaptopOwner,
-    AiMessageAlarm,
 	ProfileInstallingFinish,
 	LookBackground,
 	GetNotePadWordsForProfiler,
