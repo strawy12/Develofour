@@ -67,7 +67,6 @@ public class ProfileSearchTutorial : MonoBehaviour
         DataManager.Inst.SetIsStartTutorial(ETutorialType.Search, true);   //튜토리얼 스킵했을 때 상황을 위한 저장
         DataManager.Inst.SetIsClearTutorial(ETutorialType.Search, true);
 
-        DataManager.Inst.SaveData.isSearchFileTuto = true;
         GameManager.Inst.ChangeGameState(EGameState.Game);
     }
 }

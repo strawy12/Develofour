@@ -114,5 +114,7 @@ public class ProfileTutorial : MonoBehaviour
     {
         GameManager.Inst.ChangeGameState(EGameState.Game);
         DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler , true);
+
+        EventManager.TriggerEvent(EGuideButtonTutorialEvent.TutorialStart);
     }
 }
