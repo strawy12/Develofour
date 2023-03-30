@@ -121,6 +121,8 @@ public class ProfileInfoPanel : MonoBehaviour
             {
                 infoPost.ShowPost();
             }
+
+            FillPostItColor();
         }
     }
 
@@ -148,5 +150,10 @@ public class ProfileInfoPanel : MonoBehaviour
         }
 
         return answer;
+    }
+
+    private void FillPostItColor()
+    {
+
     }
 }
