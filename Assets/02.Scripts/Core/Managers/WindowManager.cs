@@ -11,7 +11,7 @@ public class WindowPrefabElement
     public EWindowType windowType;
     public Window windowPrefab;
 }
- 
+
 public class WindowManager : MonoSingleton<WindowManager>
 {
     // 이거는 동적으로 생성된 Window 모음
@@ -125,7 +125,6 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         if (targetWindow == null)
         {
-            Debug.Log("targetWindow is null");
             // lock이 설정 되어있는 fileSO가 이미 락이 풀려있는지 체크
             if (file.isFileLock && DataManager.Inst.IsWindowLock(file.GetFileLocation()))
             {
@@ -135,8 +134,10 @@ public class WindowManager : MonoSingleton<WindowManager>
             {
                 targetWindow = CreateWindow(file.windowType, file);
             }
+
+
         }
-         
+
         targetWindow.WindowOpen();
         return targetWindow;
     }
@@ -147,15 +148,23 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             file = FileManager.Inst.GetDefaultFile(windowType);
         }
-        
-        if(windowType == EWindowType.Directory)
+
+        if (windowType == EWindowType.Directory)
         {
-            if(windowDictionary[windowType].Count != 0)
+            if (windowDictionary[windowType].Count == 0)
             {
-                Window directory = windowDictionary[windowType][0];
-                EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[] { file });
-                return directory;
+                Window fileExplore = GetWindowPrefab(windowType);
+                fileExplore.CreatedWindow(file);
+                SetWindowOpenInt(windowType, fileExplore);
+                windowDictionary[windowType].Add(fileExplore);
+                fileExplore.OnClosed += (s) => windowOrderList.Remove(fileExplore);;
+                fileExplore.WindowOpen();
             }
+            Window directory = windowDictionary[windowType][0];
+
+            EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[] { file });
+            SetWindowOrder(directory);
+            return directory;
         }
 
         Window window = GetWindowPrefab(windowType);
@@ -170,7 +179,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         int num = 0;
         bool isClear = true;
-        while(isClear)
+        while (isClear)
         {
             isClear = false;
             foreach (var temp in windowDictionary[type])
@@ -180,7 +189,7 @@ public class WindowManager : MonoSingleton<WindowManager>
                     isClear = true;
                 }
             }
-            if(isClear)
+            if (isClear)
             {
                 num++;
             }
@@ -228,7 +237,7 @@ public class WindowManager : MonoSingleton<WindowManager>
         selectedObject?.OnSelected?.Invoke();
     }
 
-    private void SetWindowOrder(Window targetWindow)
+    public void SetWindowOrder(Window targetWindow)
     {
         if (targetWindow == null) return;
         if (windowOrderList.First?.Value == targetWindow) return;
@@ -306,6 +315,7 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         DataManager.Inst.SaveData.isOnceOpenWindowProperty = true;
         targetWindow.WindowOpen();
+
     }
 
     public void OnApplicationQuit()

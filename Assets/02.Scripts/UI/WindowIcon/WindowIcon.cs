@@ -85,7 +85,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 y2 = IconDefaultSize;
                 x2 = x1 * y2 / y1;
             }
-
         }
         else
         {
@@ -175,7 +174,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void CheckClose(object[] hits)
     {
-        if (Define.ExistInHits(gameObject, hits[0]) == false)
+        if (Define.ExistInFirstHits(gameObject, hits[0]) == false)
         {
             Close();
         }
@@ -197,6 +196,17 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             }
             else
             {
+                Library window;
+                if(WindowManager.Inst.CurrentWindowCount(EWindowType.Directory) == 0)
+                {
+                    window = WindowManager.Inst.CreateWindow(EWindowType.Directory, fileData) as Library;
+
+                }
+                else
+                {
+                    window = WindowManager.Inst.WindowOpen(EWindowType.Directory, fileData) as Library;
+                }
+
                 EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
             }
             return;

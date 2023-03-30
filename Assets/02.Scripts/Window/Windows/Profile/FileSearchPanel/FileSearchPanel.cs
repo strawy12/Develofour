@@ -24,7 +24,6 @@ public class FileSearchPanel : MonoBehaviour
 
         InitAllIcon();
 
-
         EventManager.StartListening(EProfileSearchTutorialEvent.GuideSearchInputPanel, GuideInputPanel);
     }
 

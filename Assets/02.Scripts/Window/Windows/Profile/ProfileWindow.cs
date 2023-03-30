@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -88,7 +88,7 @@ public class ProfileWindow : Window
     {
         if (!DataManager.Inst.GetIsStartTutorial(ETutorialType.Search))
         {
-            ProfileChattingSystem.OnPlayChat(new TextData() { text = "¾ÆÁ÷Àº ¿­¶÷ÇÒ ¼ö ¾ø´Â ±â´ÉÀÔ´Ï´Ù.", color = new Color(255, 255, 255, 100) }, false);
+            ProfileChattingSystem.OnPlayChat(new TextData() { text = "ì•„ì§ì€ ì—´ëŒí•  ìˆ˜ ì—†ëŠ” ê¸°ëŠ¥ì…ë‹ˆë‹¤.", color = new Color(255, 255, 255, 100) }, false);
             return;
         }
 
