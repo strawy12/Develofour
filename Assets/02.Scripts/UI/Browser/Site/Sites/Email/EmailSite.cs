@@ -13,6 +13,8 @@ public enum EMailType
 {
     Default = 0,
     StarbookSecurityCode,
+    OrderListMail,
+    ReplyCCTVMail,
     End,
 }
 
