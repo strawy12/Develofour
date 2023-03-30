@@ -30,6 +30,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     public static int windowMaxCnt;
     public static Window currentWindow;
 
+    public int openInt = 0;
+
     [Header("Window Data")]
     [SerializeField]
     public WindowAlterationSO windowAlteration; // 위도우 위치 크기 정보
@@ -186,19 +188,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
         if (!windowAlteration.isMaximum)
         {
-            int num = WindowManager.Inst.CurrentWindowCount(file.windowType);
-            if (num > 1)
-            {
-                num -= 1;
-                Vector2 pos = windowAlteration.pos + new Vector2(20 * num, -20 * num);
-                rectTransform.localPosition = pos;
-            }
-            else
-            {
-
-                rectTransform.localPosition = windowAlteration.pos;
-
-            }
+            Vector2 pos = windowAlteration.pos + new Vector2(20 * (openInt), -20 * (openInt));
+            rectTransform.localPosition = pos;
         }
         else
         {
