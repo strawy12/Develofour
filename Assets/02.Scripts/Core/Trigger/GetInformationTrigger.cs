@@ -19,15 +19,17 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(needInformaitonList.Count == 0)
+        if(!DataManager.Inst.IsProfileInfoData(category, information))
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+            if (needInformaitonList.Count == 0)
+            {
+                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+            }
+            else
+            {
+                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, needInformaitonList });
+            }
         }
-        else
-        {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, needInformaitonList });
-        }
-
         OnPointerEnter(eventData);
     }
 
