@@ -21,7 +21,7 @@ public enum EWindowType // 확장자
     MediaPlayer,
     IconProperty,
     Popup,
-    End 
+    End
 }
 
 [RequireComponent(typeof(GraphicRaycaster))]
@@ -96,7 +96,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         {
             windowBar.OnMinimum?.AddListener(WindowMinimum);
         }
-        
+
         if (windowBar.OnMaximum != null)
         {
             windowBar.OnMaximum?.AddListener(WindowMaximum);
@@ -133,7 +133,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     }
 
     public void WindowClose()
-    { 
+    {
+        CloseEventAdd();
         OnClosed?.Invoke(file.fileName);
 
         windowMaxCnt--;
@@ -143,7 +144,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
             WindowManager.Inst.SelectedObjectNull();
         }
         EventManager.StopListening(EWindowEvent.AlarmSend, AlarmCheck);
-        OnDestroy();
+        OnDestroyWindow();
         Destroy(gameObject);
     }
 
@@ -181,7 +182,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
         SetCurrentWindow(this);
 
-        windowBar.OnClose.AddListener(CloseEventAdd);
+        windowBar.OnClose?.AddListener(CloseEventAdd);
 
         if (!windowAlteration.isMaximum)
         {
@@ -194,13 +195,16 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
             }
             else
             {
+
                 rectTransform.localPosition = windowAlteration.pos;
+
             }
         }
-        else 
+        else
         {
             rectTransform.localPosition = new Vector2(0, 30);
         }
+
 
         rectTransform.sizeDelta = windowAlteration.size;
 
@@ -221,7 +225,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         currentWindow = selecetedWindow;
     }
 
-    public  virtual void CreatedWindow(FileSO file)
+    public virtual void CreatedWindow(FileSO file)
     {
         this.file = file;
         Init();
@@ -272,9 +276,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     //EWindowType type = EWindowType.ProfileWindow;
     //EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { type });
 
-    protected virtual void OnDestroy()
+    protected virtual void OnDestroyWindow()
     {
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
+        Debug.Log($"{file.windowType} is Destroy");
     }
     protected virtual void OnEnable()
     {
@@ -290,5 +295,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     {
         windowBar = GetComponentInChildren<WindowBar>();
     }
+    
 #endif
 }
