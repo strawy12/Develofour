@@ -27,10 +27,10 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //if (!GameManager.Inst.isProfilerTownloadCompleted)
-        //{
-        //    return;
-        //}
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
 
         if (eventData.button == PointerEventData.InputButton.Left)
         {
