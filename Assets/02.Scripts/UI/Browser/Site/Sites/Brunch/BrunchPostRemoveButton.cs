@@ -25,6 +25,7 @@ public class BrunchPostRemoveButton : MonoBehaviour
         isOpen = true;
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
+
     private void CheckClose(object[] hits)
     {
         if (!isOpen) return;
@@ -33,6 +34,7 @@ public class BrunchPostRemoveButton : MonoBehaviour
             Close();
         }
     }
+
     public void Close()
     {
         isOpen = false;

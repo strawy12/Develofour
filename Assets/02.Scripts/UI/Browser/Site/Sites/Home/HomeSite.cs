@@ -48,6 +48,9 @@ public class HomeSite : Site , IPointerClickHandler
         if(profilePanel.isActiveAndEnabled)
         {
             profilePanel.loginPanel.gameObject.SetActive(false);
+
+            SeacrhPanel.gameObject.SetActive(true);
+            recordPanel.Close();
         }
     }
 }
