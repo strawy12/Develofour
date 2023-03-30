@@ -37,7 +37,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     protected FileSO file;
 
     [SerializeField]
-    protected WindowBar windowBar;
+    public WindowBar windowBar;
 
     protected bool isSelected;
 
@@ -134,9 +134,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     }
 
     public void WindowClose()
-    { 
+    {
+        CloseEventAdd();
         OnClosed?.Invoke(file.fileName);
-
+        
         windowMaxCnt--;
 
         if (isSelected)
@@ -181,8 +182,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         WindowManager.Inst.SelectObject(this);
 
         SetCurrentWindow(this);
-
-        windowBar.OnClose.AddListener(CloseEventAdd);
+        windowBar.OnClose?.AddListener(CloseEventAdd);
 
         if (!windowAlteration.isMaximum)
         {

@@ -63,6 +63,7 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void Close()
     {
+        //targetWindow.windowBar.OnClose?.Invoke();
         OnClose?.Invoke(this);
         Destroy(this.gameObject);
     }

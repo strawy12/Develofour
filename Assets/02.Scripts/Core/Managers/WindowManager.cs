@@ -149,7 +149,6 @@ public class WindowManager : MonoSingleton<WindowManager>
         
         if(windowType == EWindowType.Directory)
         {
-            Debug.Log("타입 디렉토리");
             if(windowDictionary[windowType].Count != 0)
             {
                 Window directory = windowDictionary[windowType][0];
