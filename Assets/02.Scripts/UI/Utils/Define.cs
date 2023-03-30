@@ -123,6 +123,12 @@ public static class Define
         return idx < 0 || idx >= maxCnt;
     }
 
+    public static bool CheckGameState(EGameState state)
+    {
+        return GameManager.Inst.GameState == state;
+    }
+
+
     public static bool CheckComputerLoginState(EComputerLoginState state)
     {
         return GameManager.Inst.ComputerLoginState == state;

@@ -68,9 +68,6 @@ public class ProfileInfoPanel : MonoBehaviour
             {
                 if (gameObject.activeSelf == false)
                 {
-
-                    EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[1] { category });
-
                     ShowPost();
                 }
                 infoText.ChangeText();
@@ -78,7 +75,7 @@ public class ProfileInfoPanel : MonoBehaviour
                 DataManager.Inst.AddProfileinfoData(saveData.category, key);
                 EventManager.TriggerEvent(EProfileEvent.RemoveGuideButton, new object[2] { category, key });
                 EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { saveData.infoTextList.Find(x => x.key == key).guideTopicName });
-                if (key == "SuspectName" && DataManager.Inst.SaveData.isTutorialStart)
+                if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
                 {
                     EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
                 }
@@ -100,7 +97,7 @@ public class ProfileInfoPanel : MonoBehaviour
     public void ShowPost()
     {
         gameObject.SetActive(true);
-
+        EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[1] { category });
         SendNotice();
         DataManager.Inst.SetCategoryData(saveData.category, true);
     }
@@ -123,11 +120,6 @@ public class ProfileInfoPanel : MonoBehaviour
             foreach (var infoPost in linkInfoPenelList)
             {
                 infoPost.ShowPost();
-
-                EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[1] { infoPost.category });
-
-
-
             }
         }
     }

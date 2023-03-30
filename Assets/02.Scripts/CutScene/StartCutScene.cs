@@ -81,7 +81,7 @@ public class StartCutScene : MonoBehaviour
     {
         //StartCoroutine(OnType(mainTexts[0], 0.1f, scripts[0]));
 
-        EventManager.StartListening(EInputType.InputMouseDown, ShowText);
+        InputManager.Inst.AddMouseInput(EMouseType.LeftClick, ShowText);
         InputManager.Inst.AddKeyInput(KeyCode.S, onKeyDown: EndCutScene);
         InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyDown: ShowText);
     }
@@ -205,7 +205,7 @@ public class StartCutScene : MonoBehaviour
 
     private void EventStop()
     {
-        EventManager.StopListening(EInputType.InputMouseDown, ShowText);
+        InputManager.Inst.RemoveMouseInput(EMouseType.LeftClick, ShowText);
         InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyDown: ShowText);
         InputManager.Inst.RemoveKeyInput(KeyCode.S, onKeyDown: EndCutScene);
     }

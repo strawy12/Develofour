@@ -30,6 +30,9 @@ public class GuideUISystem : MonoBehaviour
         {
             Debug.Log("rect is null");
         }
+
+        Debug.Log(rect.gameObject.name);
+
         guideUI.rectTransform.SetParent(rect);
         guideUI.rectTransform.anchorMin = rect.anchorMin;
         guideUI.rectTransform.anchorMax = rect.anchorMax;
@@ -51,6 +54,8 @@ public class GuideUISystem : MonoBehaviour
 
     private void StopGuideUICor()
     {
+        Debug.Log("StopGuide");
+
         guideUI.transform.SetParent(transform);
         isSign = false;
         StopAllCoroutines();

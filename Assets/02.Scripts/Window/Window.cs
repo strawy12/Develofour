@@ -20,6 +20,7 @@ public enum EWindowType // 확장자
     WindowPinLock,
     MediaPlayer,
     IconProperty,
+    Popup,
     End 
 }
 
@@ -28,6 +29,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 {
     public static int windowMaxCnt;
     public static Window currentWindow;
+
+    public int openInt = 0;
 
     [Header("Window Data")]
     [SerializeField]
@@ -184,17 +187,8 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
         if (!windowAlteration.isMaximum)
         {
-            int num = WindowManager.Inst.CurrentWindowCount(file.windowType);
-            if (num > 1)
-            {
-                num -= 1;
-                Vector2 pos = windowAlteration.pos + new Vector2(20 * num, -20 * num);
-                rectTransform.localPosition = pos;
-            }
-            else
-            {
-                rectTransform.localPosition = windowAlteration.pos;
-            }
+            Vector2 pos = windowAlteration.pos + new Vector2(20 * (openInt), -20 * (openInt));
+            rectTransform.localPosition = pos;
         }
         else 
         {
@@ -273,8 +267,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     protected virtual void OnDestroy()
     {
-        GuideUISystem.EndGuide?.Invoke();
-
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
     protected virtual void OnEnable()

@@ -40,7 +40,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private void Start()
     {
-        EventManager.StartListening(EInputType.InputAnyKeyUp, AnyKeyUp);
+        InputManager.Inst.AddAnyKeyInput(onKeyUp: AnyKeyUp);
         EventManager.StartListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
         isTutorialEnd = DataManager.Inst.SaveData.isClearStartCutScene;
     }
@@ -52,7 +52,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         EventManager.StopListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
     }
 
-    private void AnyKeyUp(object[] ps)
+    private void AnyKeyUp()
     {
         if (anyKeyUp) return;
         if (!isTutorialEnd) return;
@@ -100,14 +100,14 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
         StartCoroutine(CoverSetting());
         MonologSystem.OnEndMonologEvent += NextMonolog;
-        MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartMonolog, 1f);
+        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartMonolog, 1f, true);
     }
 
 
     public void NextMonolog()
     {
         MonologSystem.OnEndMonologEvent -= NextMonolog;
-        MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartNextMonolog, 0.75f);
+        MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.StartNextMonolog, 0.75f, true);
         GuideManager.OnPlayGuide(EGuideTopicName.GuestLoginGuide, 30);
     }
 

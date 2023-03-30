@@ -160,10 +160,35 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         Window window = GetWindowPrefab(windowType);
         window.CreatedWindow(file);
+        SetWindowOpenInt(windowType, window);
         windowDictionary[windowType].Add(window);
         window.OnClosed += (s) => windowOrderList.Remove(window);
         return window;
     }
+
+    public void SetWindowOpenInt(EWindowType type, Window window)
+    {
+        int num = 0;
+        bool isClear = true;
+        while(isClear)
+        {
+            isClear = false;
+            foreach (var temp in windowDictionary[type])
+            {
+                if (temp.openInt == num)
+                {
+                    isClear = true;
+                }
+            }
+            if(isClear)
+            {
+                num++;
+            }
+        }
+
+        window.openInt = num;
+    }
+
     public Window OpenIconProperty(FileSO file)
     {
         FileSO propertyFile = FileManager.Inst.GetDefaultFile(EWindowType.IconProperty);
@@ -261,6 +286,21 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             Sound.OnPlaySound?.Invoke(Sound.EAudioType.MouseUp);
         }
+    }
+
+    public void PopupOpen(FileSO file)
+    {
+        FileSO popupFile = FileManager.Inst.GetDefaultFile(EWindowType.Popup);
+
+        Window targetWindow = GetWindow(popupFile.windowType, file.GetFileLocation());
+
+        if (targetWindow == null)
+        {
+            targetWindow = CreateWindow(EWindowType.Popup, file);
+        }
+
+        DataManager.Inst.SaveData.isOnceOpenWindowProperty = true;
+        targetWindow.WindowOpen();
     }
 
     public void OnApplicationQuit()

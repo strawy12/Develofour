@@ -3,78 +3,110 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonologSystem : MonoBehaviour
+public class MonologSystem : TextSystem
 {
-    public static Action<EMonologTextDataType, float> OnStartMonolog;
+    public static Action<EMonologTextDataType, float, bool> OnStartMonolog { get; private set; }
+    public static Action OnStopMonolog { get; private set; }
+
     public static Action OnEndMonologEvent;
-    public static Action<EMonologTextDataType, float> OnTutoMonolog;
-    public static Action OnStopMonolog;
+
     [SerializeField]
     private TextBox textBox;
 
+    private TextDataSO currentTextData;
+    private int currentTextDataIdx = 0;
+
+    private EGameState beforeGameState;
+
     private void Awake()
     {
-        Debug.Log("Awake");
         OnStartMonolog += StartMonolog;
-        OnTutoMonolog += TutoMonolog;
         OnStopMonolog += StopMonolog;
     }
+    
+    public void StartMonolog(EMonologTextDataType textDataType, float beforeDelay, bool isSave)
+    {
+        StartCoroutine(StartMonologCor(textDataType, beforeDelay, isSave));
+    }
 
-    public void StartMonolog(EMonologTextDataType textDataType, float delay)
+    public IEnumerator StartMonologCor(EMonologTextDataType textDataType, float beforeDelay, bool isSave)
     {
+
         if (DataManager.Inst.IsMonologShow(textDataType))
         {
             OnEndMonologEvent = null;
-            return;
+            yield break;
         }
-        StartCoroutine(StartMonologCoroutine(textDataType, delay, false));
-    }
-    public void TutoMonolog(EMonologTextDataType textDataType, float delay)
-    {
-        if (DataManager.Inst.IsMonologShow(textDataType))
+
+        yield return new WaitForSeconds(beforeDelay);
+
+        beforeGameState = GameManager.Inst.GameState;
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
+
+        currentTextDataIdx = 0;
+
+        currentTextData = ResourceManager.Inst.GetMonologTextData(textDataType);
+
+        PrintText();
+        InputManager.Inst.AddAnyKeyInput(onKeyDown: PrintText);
+
+        if (isSave)
         {
-            OnEndMonologEvent = null;
-            return;
+            DataManager.Inst.SetMonologShow(textDataType, true);
         }
-        StartCoroutine(StartMonologCoroutine(textDataType, delay, true));
     }
-    private void StopMonolog()
+
+    private void EndMonolog()
     {
+        textBox.HideBox();
+        InputManager.Inst.RemoveAnyKeyInput(onKeyDown: PrintText);
+        GameManager.Inst.ChangeGameState(beforeGameState);
+
+        textBox.DictionaryClear();
+
         OnEndMonologEvent?.Invoke();
-        StopAllCoroutines();
-        textBox.StopAllCoroutines();
-        textBox.SetActive(false);
-        GameManager.Inst.ChangeGameState(EGameState.Game);
         OnEndMonologEvent = null;
     }
 
-    private IEnumerator StartMonologCoroutine(EMonologTextDataType textDataType, float startDelay, bool isTuto)
+    private void StopMonolog()
     {
-        yield return new WaitForSeconds(startDelay);
-
-        GameManager.Inst.ChangeGameState(EGameState.CutScene);
-        textBox.Init(textDataType);
-
-        for (int i = 0; i < textBox.CurrentTextData.Count; i++)
-        {
-            yield return new WaitForSeconds(0.1f);
-            textBox.PrintText();
-            yield return new WaitUntil(() => textBox.IsClick);
-        }
-
-        yield return new WaitForSeconds(0.1f);
-        if (isTuto)
-        {
-            GameManager.Inst.ChangeGameState(EGameState.Tutorial);
-        }
-        else
-        {
-            GameManager.Inst.ChangeGameState(EGameState.Game);
-        }
-
+        textBox.HideBox();
+        InputManager.Inst.RemoveAnyKeyInput(onKeyDown: null);
+        GameManager.Inst.ChangeGameState(beforeGameState);
+        textBox.DictionaryClear();
         OnEndMonologEvent?.Invoke();
-
-        DataManager.Inst.SetMonologShow(textDataType, true);
+        OnEndMonologEvent = null;
+        //OnEndMonologEvent?.Invoke();
+        //StopAllCoroutines();
+        ////textBox.Release();
+        //GameManager.Inst.ChangeGameState(beforeGameState);
+        //OnEndMonologEvent = null;
     }
 
+    private void PrintText()
+    {
+        if (textBox.isTextPrinting)
+        {
+            return;
+        }
+        //triggerDictionary = new Dictionary<int, Action>();
+        if (currentTextData.Count == currentTextDataIdx)
+        {
+            EndMonolog();
+            return;
+        }
+        TextData data = currentTextData[currentTextDataIdx++];
+        string text = data.text;
+        text = RemoveCommandText(text, true);
+
+        // TextBox 한테 일시키기
+        // {}
+
+        textBox.Init(data, text, triggerDictionary);
+    }   
+
+    public override void SetDelay(float value)
+    {
+        textBox.SetDelay(value);
+    }
 }

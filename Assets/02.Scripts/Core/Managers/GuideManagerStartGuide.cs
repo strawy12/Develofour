@@ -12,85 +12,80 @@ public partial class GuideManager : MonoBehaviour
                 break;
             case EGuideTopicName.GuestLoginGuide:
                 {
-                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuestLoginGuideLog, 0.5f);
+                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuestLoginGuideLog, 0.5f, true);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
             case EGuideTopicName.LibraryOpenGuide:
                 {
-                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuideLog1, 0.2f);
+                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuideLog1, 0.2f, true);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
             case EGuideTopicName.ClickPinNotePadHint:
                 {
-                    EventManager.TriggerEvent(EProfileEvent.SendMessage, new object[1] { guideTopicDictionary[guideTopic].guideTexts[0] });
+                    EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[1] { guideTopicDictionary[guideTopic].guideTexts[0] });
+
                     DataManager.Inst.SetGuide(guideTopic, true);
 
                     break;
                 }
             case EGuideTopicName.ClearPinNotePadQuiz:
                 {
-                    StartCoroutine(SendAiMessageTexts(guideTopicDictionary[guideTopic].guideTexts));
+                    SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, false);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
-
             case EGuideTopicName.SuspectResidence:
                 {
                     if (DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectIsLivingWithVictim"))
                     {
                         ProfileChattingSystem.OnChatEnd += delegate
                         {
-                            MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.SuspectResidence, 0.1f);
+                            MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.SuspectResidence, 0.1f, false);
                         };
-                        SendProfileGuide(guideTopic);
+                        SendProfileGuide();
                     }
                     else
                     {
-                        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.SuspectResidenceFailed });
+                        SendAiChattingGuide("용의자 거주지에 대한 정보를 찾지 못했습니다. 죄송합니다", false);
                     }
                     break;
                 }
-
             case EGuideTopicName.VictimBirthDate:
                 {
                     if (DataManager.Inst.SaveData.isOnceOpenWindowProperty)
                     {
-                        SendProfileGuide(guideTopic);
+                        SendProfileGuide();
                     }
                     else
                     {
-                        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.VictimBirthDateElse });
+                        SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, false);
                     }
                     break;
-
                 }
-
             case EGuideTopicName.VictimUniversity:
                 {
                     if (DataManager.Inst.IsProfileInfoData(EProfileCategory.VictimProfileInformation, "VictimName"))
                     {
-                        SendProfileGuide(guideTopic);
+                        SendProfileGuide();
                     }
                     else
                     {
-                        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.VictimUniversityFailed });
+                        SendAiChattingGuide("피해자 대학교에 대한 정보를 찾지 못했습니다. 죄송합니다", false);
                     }
                     break;
 
                 }
-
             case EGuideTopicName.PetAdoptionDate:
                 {
                     if (DataManager.Inst.SaveData.isOnceOpenWindowProperty)
                     {
-                        SendProfileGuide(guideTopic);
-
+                        SendProfileGuide();
                     }
                     else
                     {
-                        EventManager.TriggerEvent(EProfileEvent.SendGuide, new object[1] { EAIChattingTextDataType.PetAdoptionDateElse });
+                        SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, false);
                     }
                     break;
                 }
@@ -108,7 +103,7 @@ public partial class GuideManager : MonoBehaviour
             case EGuideTopicName.VictimDeathTime:
             case EGuideTopicName.PetBreed:
                 {
-                    SendProfileGuide(guideTopic);
+                    SendProfileGuide();
                     break;
                 }
             default:

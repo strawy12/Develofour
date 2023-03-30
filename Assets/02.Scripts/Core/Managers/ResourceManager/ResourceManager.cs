@@ -11,7 +11,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);
         LoadAIChattingTextDataSOAssets(() => cnt--);
-        LoadMonologTextDataSOAssets(() => cnt--);
+        LoadMonologTextDataAssets(() => cnt--);
         LoadImageViewerDataAssets(() => cnt--);
         LoadNotepadDataAssets(() => cnt--);
         LoadMediaPlayerDataAssets(() => cnt--);

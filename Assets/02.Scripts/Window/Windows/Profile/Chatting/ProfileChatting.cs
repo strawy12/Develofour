@@ -30,9 +30,9 @@ public class ProfileChatting : MonoBehaviour
     [SerializeField]
     protected GameObject hideImage;
     [SerializeField]
-    protected float hideValue;
-    [SerializeField]
     protected float showValue;
+    [SerializeField]
+    protected float hideValue;
 
     [SerializeField]
     protected GameObject loadingPanel;
@@ -44,12 +44,9 @@ public class ProfileChatting : MonoBehaviour
     protected bool isMoving;
     protected RectTransform movePanelRect;
 
-    [Header("채팅관련")]
-
-    protected Dictionary<EAiChatData, string> chatDataDictionary = new Dictionary<EAiChatData, string>();
 
     [SerializeField]
-    protected GameObject textPrefab;
+    protected TMP_Text textPrefab;
     [SerializeField]
     protected Transform textParent;
     [SerializeField]
@@ -57,116 +54,65 @@ public class ProfileChatting : MonoBehaviour
     [SerializeField]
     protected ContentSizeFitter contentSizeFitter;
 
-    [SerializeField]
-    protected ProfileChattingSaveSO SOData;
-
     protected float currentDelay;
 
     [Header("가이드관련")]
     [SerializeField]
     private ProfileGuidePanel guidePanel;
-    public void DictionaryToList()
-    {
-        foreach(var data in SOData.chatDataList)
-        {
-            chatDataDictionary.Add(data.eChat, data.script);
-        }
-    }
-        
-    public void AddText(string str)
-    {
-        GameObject obj = Instantiate(textPrefab, textParent);
-        obj.GetComponent<TMP_Text>().text = ">> " + str;
-        SetLastWidth();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(obj.GetComponent<RectTransform>());
-        SetScrollView();
-        obj.gameObject.SetActive(true);
-        SetLastWidth();
-    }
 
-    public void AddText(object[] ps)
-    {
-        if (ps[0] is string)
-        {
-            AddText(ps[0] as string);
-        }
-        return;
-    }
-
-
-
-    public virtual void Init()
+    public void Init()
     {
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
         ConnectEvent();
-
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
         guidePanel.Init();
-        DictionaryToList();
-        GetSaveSetting();
+        AddSaveTexts();
+
         SetScrollView();
+
+        ShowPanel();
     }
 
     protected virtual void ConnectEvent()
     {
-        EventManager.StartListening(EProfileEvent.ProfileSendMessage, AddText);
+        EventManager.StartListening(EProfileEvent.ProfileSendMessage, PrintText);
     }
 
-    public void GetSaveSetting()
+    private void PrintText(object[] ps)
     {
-        foreach(var save in SOData.saveList)
+        if (ps[0] == null || !(ps[0] is TextData))
         {
-            AddSaveText(save);
+            return;
         }
+
+        string msg = (ps[0] as TextData).text;
+        CreateTextUI(msg);
+    }
+
+    private void AddSaveTexts()
+    {
+        List<TextData> list = DataManager.Inst.SaveData.aiChattingList;
+        
+        foreach(TextData data in list)
+        {
+            CreateTextUI(data.text);
+        }
+    }
+
+    private TMP_Text CreateTextUI(string msg)
+    {
+        TMP_Text textUI = Instantiate(textPrefab, textParent);
+        textUI.text = msg;
+
+        SetLastWidth();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(textUI.rectTransform);
         SetScrollView();
-        SetWidths();
-    }
+        textUI.gameObject.SetActive(true);
+        SetLastWidth();
 
-    private void AddSaveText(string data)
-    {
-        if (chatDataDictionary.ContainsKey(AIStringToEnum(data)))
-        {
-            GameObject obj = Instantiate(textPrefab, textParent);
-            obj.GetComponent<TMP_Text>().text = ">> " + chatDataDictionary[AIStringToEnum(data)];
-            obj.gameObject.SetActive(true);
-        }
-        else
-        {
-            GameObject obj = Instantiate(textPrefab, textParent);
-            obj.GetComponent<TMP_Text>().text = ">> " + data;
-            obj.gameObject.SetActive(true);
-        }
-    }
-
-    EAiChatData AIStringToEnum(string str)
-    {
-        if (Enum.IsDefined(typeof(EAiChatData), str))
-            return (EAiChatData)Enum.Parse(typeof(EAiChatData), str);
-        else
-            return EAiChatData.None;
-    }
-
-    protected virtual void ShowPanel()
-    {
-        if (isMoving) return;
-        isMoving = true;
-        loadingPanel.SetActive(true);
-        movePanelRect.DOSizeDelta(new Vector2(showValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
-        {
-            currentValue = showValue;
-            OpenCloseButton.onClick.RemoveAllListeners();
-            OpenCloseButton.onClick.AddListener(HidePanel);
-            SetWidths();
-            SetScrollView();
-            hideImage.SetActive(false);
-            showImage.SetActive(true);
-            isMoving = false;
-            loadingPanel.SetActive(false);
-            guidePanel.SetGuideParentWeight(false);
-        });
-
+        return textUI;
     }
 
     protected virtual void HidePanel()
@@ -179,6 +125,27 @@ public class ProfileChatting : MonoBehaviour
             currentValue = hideValue;
             OpenCloseButton.onClick.RemoveAllListeners();
             OpenCloseButton.onClick.AddListener(ShowPanel);
+            SetWidths();
+            SetScrollView();
+            hideImage.SetActive(false);
+            showImage.SetActive(true);
+            isMoving = false;
+            loadingPanel.SetActive(false);
+            guidePanel.SetGuideParentWeight(false);
+        });
+
+    }
+
+    protected virtual void ShowPanel()
+    {
+        if (isMoving) return;
+        isMoving = true;
+        loadingPanel.SetActive(true);
+        movePanelRect.DOSizeDelta(new Vector2(showValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            currentValue = showValue;
+            OpenCloseButton.onClick.RemoveAllListeners();
+            OpenCloseButton.onClick.AddListener(HidePanel);
             SetWidths();
             SetScrollView();
             hideImage.SetActive(true);
@@ -221,14 +188,5 @@ public class ProfileChatting : MonoBehaviour
     {
         RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
         rects[rects.Length - 1].sizeDelta = new Vector2(currentValue - 60, 0);
-    }
-    public void OnDestroy()
-    {
-        EventManager.StopListening(EProfileEvent.ProfileSendMessage, AddText);
-    }
-    public void OnApplicationQuit()
-    {
-        Debug.Log("디버그 용으로 Profile의 ChatDataSaveSO의 값을 매번 초기화 시키고 있습니다.");
-        SOData.saveList.Clear();
     }
 }
