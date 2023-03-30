@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 [System.Serializable]
 public class NeedInfomation
 {
-    public EProfileCategory category;
+    public EProfileCategory category; 
     public string information;
 }
 
@@ -34,6 +34,18 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
     public void OnPointerEnter(PointerEventData eventData)
     {
         CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
+
+        if (needInformaitonList.Count > 0)
+        {
+            foreach(NeedInfomation needData in needInformaitonList)
+            {
+                if(!DataManager.Inst.IsProfileInfoData(needData.category, needData.information))
+                {
+                    EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
+                    return;
+                }
+            }
+        }
 
         if (DataManager.Inst.IsProfileInfoData(category, information))
         {
