@@ -114,10 +114,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public void CloseIcon()
     {
 
-        if (file.windowType == EWindowType.ProfileWindow)
-        {
-            if (GameManager.Inst.IsTutorial) return;
-        }
         int i = 0;
         while (targetPanelList.Count > 0)
         {

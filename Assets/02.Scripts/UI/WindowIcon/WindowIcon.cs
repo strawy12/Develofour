@@ -136,6 +136,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 if (targetWindow == null)
                 {
                     OpenWindow();
+
                     //TaskBar.OnAddIcon?.Invoke(targetWindow);
                 }
                 else

@@ -292,7 +292,6 @@ public class Library : Window
     public override void WindowOpen()
     {
         base.WindowOpen();
-        //if (GameManager.Inst.GameState == EGameState.Tutorial)
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd);
     }
 
@@ -306,9 +305,9 @@ public class Library : Window
         EventManager.StopListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
     }
 
-    protected override void OnDestroy()
+    protected override void OnDestroyWindow()
     {
-        base.OnDestroy();
+        base.OnDestroyWindow();
 
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
