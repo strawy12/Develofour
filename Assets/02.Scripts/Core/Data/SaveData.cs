@@ -49,6 +49,7 @@ public class SaveData
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
     public bool isZooglePinHintNoteOpen;
+    public bool isProfilerInstall;
 
     // ENUM으로 타입을 나눠서 튜토리얼 타입
     // List<bool> (int)type
@@ -57,7 +58,6 @@ public class SaveData
 
     public bool isOnceOpenWindowProperty;
     public bool isOnceEnterZoogleLogin;
-    public bool isSearchFileTuto;
 
     public EComputerLoginState computerLoginState;
 }

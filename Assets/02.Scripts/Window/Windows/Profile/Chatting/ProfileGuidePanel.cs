@@ -9,7 +9,7 @@ public class ProfileGuidePanel : MonoBehaviour
 
     [Header("움직임 관련")]
     [SerializeField]
-    protected Button OpenCloseButton;
+    protected Button moveButton;
     [SerializeField]
     protected GameObject showImage;
     [SerializeField]
@@ -36,10 +36,12 @@ public class ProfileGuidePanel : MonoBehaviour
     {
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
-        OpenCloseButton.onClick.AddListener(ShowPanel);
+        moveButton.onClick.AddListener(ShowPanel);
         movePanelRect = GetComponent<RectTransform>();
         guideParent.Init();
         guideParent.OnClickGuideButton += HidePanel;
+        EventManager.StartListening(EGuideButtonTutorialEvent.GuideMoveBtn, GuideMoveButton);
+
     }
     #region 이동관련
     protected void HidePanel()
@@ -52,8 +54,8 @@ public class ProfileGuidePanel : MonoBehaviour
         movePanelRect.DOSizeDelta(new Vector2(0, hideValue), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
             currentValue = hideValue;
-            OpenCloseButton.onClick.RemoveAllListeners();
-            OpenCloseButton.onClick.AddListener(ShowPanel);
+            moveButton.onClick.RemoveAllListeners();
+            moveButton.onClick.AddListener(ShowPanel);
             showImage.SetActive(true);
             hideImage.SetActive(false);
             isMoving = false;
@@ -70,13 +72,13 @@ public class ProfileGuidePanel : MonoBehaviour
         movePanelRect.DOSizeDelta(new Vector2(0, showValue), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
             currentValue = showValue;
-            OpenCloseButton.onClick.RemoveAllListeners();
-            OpenCloseButton.onClick.AddListener(HidePanel);
+            moveButton.onClick.RemoveAllListeners();
+            moveButton.onClick.AddListener(HidePanel);
             showImage.SetActive(false);
             hideImage.SetActive(true);
             isMoving = false;
             loadingPanel.SetActive(false);
-            
+            EventManager.TriggerEvent(EGuideButtonTutorialEvent.ClickMoveBtn);
         });
     }
 
@@ -86,7 +88,22 @@ public class ProfileGuidePanel : MonoBehaviour
         guideParent.UpdateButton();
     }
 
-
+    private void GuideMoveButton(object[] ps)
+    {
+        if (!DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        {
+            return;
+        }
+        GuideUISystem.EndGuide?.Invoke();
+        if (currentValue == hideValue)
+        {
+            GuideUISystem.OnGuide?.Invoke((RectTransform)moveButton.transform);
+        }
+        else
+        {
+            EventManager.TriggerEvent(EGuideButtonTutorialEvent.ClickMoveBtn);
+        }
+    }
 
     #endregion
 

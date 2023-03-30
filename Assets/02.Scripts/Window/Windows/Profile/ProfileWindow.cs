@@ -75,35 +75,28 @@ public class ProfileWindow : Window
 
         if (beforeClickButton == infoPanelBtn)
         {
-            isOpen = false;
-            ShowProfileCategoryPanel();
             return;
         }
 
         beforeClickButton = infoPanelBtn;
 
         ButtonBlackSetting();
-
         StartCoroutine(OnShowProfile());
     }
 
     private void OnClickShowFileSearch()
     {
-        if(!DataManager.Inst.GetIsStartTutorial(ETutorialType.Search))
+        if (!DataManager.Inst.GetIsStartTutorial(ETutorialType.Search))
         {
             ProfileChattingSystem.OnPlayChat(new TextData() { text = "아직은 열람할 수 없는 기능입니다.", color = new Color(255, 255, 255, 100) }, false);
             return;
         }
 
-
-        Debug.Log("ShowFileSearch");
-
         if (beforeClickButton == searchPanelBtn)
         {
-            isOpen = false;
-            ShowFileSearchPanel();
             return;
         }
+        
         beforeClickButton = searchPanelBtn;
 
         ButtonBlackSetting();
@@ -144,26 +137,17 @@ public class ProfileWindow : Window
         if (!isMoving)
         {
             isMoving = true;
-            if (isOpen)
-            {
-                yield return StartCoroutine(HideAllPanel());
-            }
+            yield return StartCoroutine(HideAllPanel());
             ShowProfileCategoryPanel();
         }
     }
 
     private IEnumerator OnShowFileSearch()
     {
-        if (GameManager.Inst.GameState == EGameState.Tutorial) yield break;
-
         if (!isMoving)
         {
             isMoving = true;
-            if (isOpen)
-            {
-                yield return StartCoroutine(HideAllPanel());
-            }
-
+            yield return StartCoroutine(HideAllPanel());
             ShowFileSearchPanel();
         }
     }
