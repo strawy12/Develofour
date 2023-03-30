@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.UI;
-
+using DG.Tweening;
 
 public class ProfileInfoPanel : MonoBehaviour
 {
@@ -19,8 +19,13 @@ public class ProfileInfoPanel : MonoBehaviour
     //이 패널이 정보를 모두 찾았다면 연결된 패널들이 보임
     [SerializeField]
     private List<ProfileInfoPanel> linkInfoPenelList;
+
+    private Image currentImage;
+
     public void Init(ProfileCategoryDataSO profileInfoDataSO)
     {
+        currentImage = GetComponent<Image>();
+        currentImage.material = Instantiate(currentImage.material);
         saveData = profileInfoDataSO;
 
         Setting();
@@ -57,6 +62,11 @@ public class ProfileInfoPanel : MonoBehaviour
                     infoText.ChangeText();
                 }
             }
+        }
+
+        if (GetIsFindAll())
+        {
+            FillPostItColor();
         }
     }
 
@@ -154,6 +164,10 @@ public class ProfileInfoPanel : MonoBehaviour
 
     private void FillPostItColor()
     {
-
+        DOTween.To(
+            () => currentImage.material.GetFloat("_Dissolve"),
+            (v) => currentImage.material.SetFloat("_Dissolve", v),
+            1f, 3f
+     );
     }
 }
