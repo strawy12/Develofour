@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonologSystem : TextSystem
+public partial class MonologSystem : TextSystem
 {
     public static Action<EMonologTextDataType, float, bool> OnStartMonolog { get; private set; }
     public static Action OnStopMonolog { get; private set; }
@@ -22,6 +22,8 @@ public class MonologSystem : TextSystem
     {
         OnStartMonolog += StartMonolog;
         OnStopMonolog += StopMonolog;
+
+        EventManager.StartListening(EMonologEvent.MonologException, ProfileFileException);
     }
     
     public void StartMonolog(EMonologTextDataType textDataType, float beforeDelay, bool isSave)
