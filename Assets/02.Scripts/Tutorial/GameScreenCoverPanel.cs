@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameScreenCoverPanel : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
         EventManager.StartListening(ECoreEvent.CoverPanelSetting, ScreenSetting);
 

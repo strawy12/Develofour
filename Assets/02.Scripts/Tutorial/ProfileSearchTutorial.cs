@@ -12,7 +12,7 @@ public class ProfileSearchTutorial : MonoBehaviour
     }
     [SerializeField]
     public TutorialTextSO textDataList;
-
+    
     [SerializeField]
     private FileSO profiler;
     private void Start()
@@ -29,7 +29,7 @@ public class ProfileSearchTutorial : MonoBehaviour
     {
         MonologSystem.OnEndMonologEvent += delegate
         {
-            WindowManager.Inst.PopupOpen(profiler);
+            WindowManager.Inst.PopupOpen(profiler, textDataList.popText, delegate { TutorialStart(null); },delegate { EndTutorial(null); });
         };
         MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartSearchTutoMonolog, 0.3f, true);
     }
@@ -47,16 +47,17 @@ public class ProfileSearchTutorial : MonoBehaviour
 
     private void OnClickGuideSearchButton(object[] ps)
     {
+        EventManager.StopListening(EProfileSearchTutorialEvent.ClickSearchButton, OnClickGuideSearchButton);
         GuideUISystem.EndGuide?.Invoke();
         ProfileChattingSystem.OnChatEnd += delegate { EventManager.TriggerEvent(EProfileSearchTutorialEvent.GuideSearchInputPanel); };
 
-        ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.SearchTutoClickInput].data, 0.75f ,true);
+        ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.SearchTutoClickInput].data, 1f ,true);
     }
 
     private void SearchName(object[] ps)
     {
         GuideUISystem.EndGuide?.Invoke();
-        ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.CompleteSearchTuto].data, 0.75f, true);
+        ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.CompleteSearchTuto].data, 1f, true);
 
         EndTutorial(ps);
     }
@@ -66,7 +67,6 @@ public class ProfileSearchTutorial : MonoBehaviour
         DataManager.Inst.SetIsStartTutorial(ETutorialType.Search, true);   //튜토리얼 스킵했을 때 상황을 위한 저장
         DataManager.Inst.SetIsClearTutorial(ETutorialType.Search, true);
 
-        DataManager.Inst.SaveData.isSearchFileTuto = true;
         GameManager.Inst.ChangeGameState(EGameState.Game);
     }
 }

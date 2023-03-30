@@ -13,4 +13,6 @@ public class TextList
 public class TutorialTextSO : ScriptableObject
 {
     public List<TextList> tutorialTexts;
+    [Multiline]
+    public string popText;
 }

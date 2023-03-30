@@ -43,7 +43,7 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartChatting(int textListIndex)
     {
-        ProfileChattingSystem.OnPlayChatList?.Invoke(profileTutorialTextData.tutorialTexts[textListIndex].data, 0.5f, true); 
+        ProfileChattingSystem.OnPlayChatList?.Invoke(profileTutorialTextData.tutorialTexts[textListIndex].data, 1f, true); 
     }
 
     public IEnumerator StartProfileTutorial()
@@ -114,5 +114,7 @@ public class ProfileTutorial : MonoBehaviour
     {
         GameManager.Inst.ChangeGameState(EGameState.Game);
         DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler , true);
+
+        EventManager.TriggerEvent(EGuideButtonTutorialEvent.TutorialStart);
     }
 }
