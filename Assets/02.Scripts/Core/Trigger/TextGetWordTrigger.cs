@@ -13,7 +13,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
     private void Start()
     {
         textMeshPro = GetComponent<TMP_Text>();
-    }
+    } 
 
     public void OnPointerMove(PointerEventData eventData)
     {
