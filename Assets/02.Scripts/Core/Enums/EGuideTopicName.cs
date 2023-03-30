@@ -22,7 +22,11 @@ public enum EGuideTopicName
     PetName,
     PetAge,
     PetAdoptionDate,
-    PetBreed, 
+    PetBreed,
+    MurderItem,
+    MurderPlan,
+    MurderPrepare,
+    MurderPlace,
     Count
 }
 
