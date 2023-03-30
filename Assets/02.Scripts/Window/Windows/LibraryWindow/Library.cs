@@ -157,6 +157,7 @@ public class Library : Window
         windowBar.SetNameText(currentDirectory.fileName);
         fileAddressPanel.SetButtons(currentDirectory);
         CreateChildren();
+        EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
 
         if (GameManager.Inst.GameState == EGameState.Tutorial)
@@ -292,7 +293,6 @@ public class Library : Window
     public override void WindowOpen()
     {
         base.WindowOpen();
-        //if (GameManager.Inst.GameState == EGameState.Tutorial)
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd);
     }
 
@@ -306,9 +306,9 @@ public class Library : Window
         EventManager.StopListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
     }
 
-    protected override void OnDestroy()
+    protected override void OnDestroyWindow()
     {
-        base.OnDestroy();
+        base.OnDestroyWindow();
 
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);

@@ -62,6 +62,7 @@ public class ProfileChattingSystem : TextSystem
     private void EndChatting()
     {
         OnChatEnd?.Invoke();
+        OnChatEnd = null;
     }
 
     private void PrintText()

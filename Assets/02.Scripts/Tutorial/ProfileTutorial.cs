@@ -43,17 +43,15 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartChatting(int textListIndex)
     {
-        ProfileChattingSystem.OnPlayChatList(profileTutorialTextData.tutorialTexts[textListIndex].data, 0.5f, true); 
+        ProfileChattingSystem.OnPlayChatList?.Invoke(profileTutorialTextData.tutorialTexts[textListIndex].data, 0.5f, true); 
     }
 
     public IEnumerator StartProfileTutorial()
     {
-        Debug.Log("프로파일러 튜토리얼 시작");
-        DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
         yield return new WaitForSeconds(0.5f);
         
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
-
+        DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
         ProfileChattingSystem.OnChatEnd += StartProfileMonolog;
         StartChatting(0);
     }
@@ -94,6 +92,7 @@ public class ProfileTutorial : MonoBehaviour
     public void StartCompleteProfileTutorial()
     {
         EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
+        GuideUISystem.EndGuide?.Invoke();
         ProfileChattingSystem.OnChatEnd += EndMonolog;
         StartChatting(3);
     }
@@ -107,8 +106,6 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartProfileEnd()
     {
-        ProfileChattingSystem.OnChatEnd -= StartProfileEnd;
-        GuideUISystem.EndGuide?.Invoke();
         EndTutoMonologEvent();
         EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
     }
