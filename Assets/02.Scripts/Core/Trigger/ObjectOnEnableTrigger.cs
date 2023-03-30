@@ -9,6 +9,11 @@ public class ObjectOnEnableTrigger : MonoBehaviour
 
     private void OnEnable()
     {
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
+
         EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
     }
 }
