@@ -7,12 +7,10 @@ using UnityEngine.AddressableAssets;
 
 public class HomeSite : Site , IPointerClickHandler
 {
-    private static HomeSearchRecordDataSO searchRecordData;
-
-    [SerializeField]
-    private HomeFavoriteBar favoriteBar;
     [SerializeField]
     private HomeSearchRecord recordPanel;
+    [SerializeField]
+    private HomeFavoriteBar favoriteBar;
     [SerializeField]
     private Button SeacrhPanel;
     [SerializeField]
@@ -20,18 +18,10 @@ public class HomeSite : Site , IPointerClickHandler
 
     public override void Init()
     {
-        if(searchRecordData == null)
-        {
-            var handle = Addressables.LoadAssetAsync<HomeSearchRecordDataSO>("HomeSearchData");
-            searchRecordData = handle.WaitForCompletion();
-        }
-
         favoriteBar.Init();
 
         profilePanel.Init();
-        recordPanel.Init(searchRecordData);
         SeacrhPanel.onClick.AddListener(ShowRecordPanel);
-        recordPanel.OnCloseRecord += ShowSearchPanel;
 
         base.Init();
     }
@@ -51,12 +41,6 @@ public class HomeSite : Site , IPointerClickHandler
     {
         SeacrhPanel.gameObject.SetActive(false);
         recordPanel.OpenPanel();
-    }
-
-    private void ShowSearchPanel()
-    {
-        SeacrhPanel.gameObject.SetActive(true);
-        recordPanel.gameObject.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)
