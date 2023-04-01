@@ -134,8 +134,6 @@ public class WindowManager : MonoSingleton<WindowManager>
             {
                 targetWindow = CreateWindow(file.windowType, file);
             }
-
-
         }
 
         targetWindow.WindowOpen();
@@ -161,7 +159,6 @@ public class WindowManager : MonoSingleton<WindowManager>
                 fileExplore.WindowOpen();
             }
             Window directory = windowDictionary[windowType][0];
-
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[] { file });
             SetWindowOrder(directory);
             return directory;
