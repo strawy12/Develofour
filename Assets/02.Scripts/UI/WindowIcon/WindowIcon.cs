@@ -206,8 +206,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 {
                     window = WindowManager.Inst.WindowOpen(EWindowType.Directory, fileData) as Library;
                 }
-
-                EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[1] { fileData });
             }
             return;
         }
