@@ -29,7 +29,7 @@ public class AutoInputSystem : MonoBehaviour
         isHave = false;
         for(int i = 0;  i < answerDatas.Count; i++)
         {
-            if(answerDatas[i].isShow)
+            if(!answerDatas[i].isLock)
             {
                 autoInputPanelList[i].Setting(inputFields, answerDatas[i]);
                 isHave = true;

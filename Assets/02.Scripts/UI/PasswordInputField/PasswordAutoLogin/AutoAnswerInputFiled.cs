@@ -11,15 +11,14 @@ public class AutoAnswerData
     public string id;
     public string password;
 
-    public bool isShow
+    public bool isLock
     {
         get
         {
-            return DataManager.Inst.IsProfileInfoData(category, infoKey);
+            return DataManager.Inst.IsWindowLock(location);
         }
     }
-    public EProfileCategory category;
-    public string infoKey;
+    public string location;
 }
 
 public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
