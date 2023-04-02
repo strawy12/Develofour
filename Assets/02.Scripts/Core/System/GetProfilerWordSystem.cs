@@ -64,27 +64,30 @@ public class GetProfilerWordSystem : MonoBehaviour
         string information = wordListDictionary[word].information;
 
         willGetWordList.Find(x => x.word == word).isFinded = true;
+
         EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
     }
 
     private void FindedWordCheck(string word)
     {
-        if (word == null)
+        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
+
+        if (word == null || !wordListDictionary.ContainsKey(word))
         {
+            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
             return;
         }
 
-        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
 
-        if (!wordListDictionary.ContainsKey(word) || !willGetWordList.Find(x => x.word == word).isFinded)
+        if (!willGetWordList.Find(x => x.word == word).isFinded)
         {
             state = CursorChangeSystem.ECursorState.FindInfo;
-            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
         }
         else
         {
             state = CursorChangeSystem.ECursorState.FoundInfo;
-            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
         }
+
+        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
     }
 }
