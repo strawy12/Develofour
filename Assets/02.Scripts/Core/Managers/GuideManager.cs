@@ -110,14 +110,14 @@ public partial class GuideManager : MonoBehaviour
 
         data.color = new Color(255, 255, 255, 100);
 
-        ProfileChattingSystem.OnPlayChat?.Invoke(data, false);
+        ProfileChattingSystem.OnPlayChat?.Invoke(data, false, false);
     }
 
     private void SendAiChattingGuide(string str, bool isSave)
     {
         TextData data = new TextData() { color = new Color(255, 255, 255, 100), text = str };
 
-        ProfileChattingSystem.OnPlayChat?.Invoke(data, isSave);
+        ProfileChattingSystem.OnPlayChat?.Invoke(data, isSave, false);
     }
 
     private void SendAiChattingGuide(string[] strList, float delay, bool isSave)

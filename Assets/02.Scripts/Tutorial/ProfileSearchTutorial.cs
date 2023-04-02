@@ -43,7 +43,7 @@ public class ProfileSearchTutorial : MonoBehaviour
             EventManager.TriggerEvent(EProfileSearchTutorialEvent.GuideSearchButton);
         };
 
-        ProfileChattingSystem.OnPlayChat?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.SearchTutoClickBtn].data[0], true);
+        ProfileChattingSystem.OnPlayChat?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.SearchTutoClickBtn].data[0], true, false);
     }
 
     private void OnClickGuideSearchButton(object[] ps)
