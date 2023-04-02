@@ -59,14 +59,16 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartProfileMonolog()
     {
-        MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
-        MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, true);
+        StartProfileNextTutorial();
+        //MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
+        //MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, true);
     }
     public void StartProfileNextTutorial()
     {
         MonologSystem.OnEndMonologEvent -= StartProfileNextTutorial;
         ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
         StartChatting(2);
+        CheckMaximumWindow();
     }
 
     private void CheckMaximumWindow()
@@ -100,8 +102,9 @@ public class ProfileTutorial : MonoBehaviour
     public void EndMonolog()
     {
         ProfileChattingSystem.OnChatEnd -= EndMonolog;
-        MonologSystem.OnEndMonologEvent += StartProfileEnd;
-        MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog2, 0.1f, true);
+        StartProfileEnd();
+        //MonologSystem.OnEndMonologEvent += StartProfileEnd;
+        //MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog2, 0.1f, true);
     }
 
     public void StartProfileEnd()
