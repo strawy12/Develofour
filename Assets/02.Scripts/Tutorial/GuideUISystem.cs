@@ -54,8 +54,6 @@ public class GuideUISystem : MonoBehaviour
 
     private void StopGuideUICor()
     {
-        Debug.Log("StopGuide");
-
         guideUI.transform.SetParent(transform);
         isSign = false;
         StopAllCoroutines();
