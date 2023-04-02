@@ -69,14 +69,14 @@ public class GetProfilerWordSystem : MonoBehaviour
 
     private void FindedWordCheck(string word)
     {
-        if (word == null)
+        if (word == null || wordListDictionary.ContainsKey(word))
         {
             return;
         }
 
         CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
 
-        if (!wordListDictionary.ContainsKey(word) || !willGetWordList.Find(x => x.word == word).isFinded)
+        if (!willGetWordList.Find(x => x.word == word).isFinded)
         {
             state = CursorChangeSystem.ECursorState.FindInfo;
             EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
