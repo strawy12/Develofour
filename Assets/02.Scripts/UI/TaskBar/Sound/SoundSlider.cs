@@ -39,7 +39,7 @@ public class SoundSlider : MonoBehaviour
     {
         if (isMute)
         {
-            isMute = false;
+            return;
         }
         SetValueText(slider); 
         SetSoundImage(slider, soundImage);
