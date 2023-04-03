@@ -88,6 +88,7 @@ public class ProfileInfoPanel : MonoBehaviour
                 EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { saveData.infoTextList.Find(x => x.key == key).guideTopicName });
                 if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
                 {
+                    DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
                     EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
                 }
             }

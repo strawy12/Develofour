@@ -161,10 +161,10 @@ public class Library : Window
         EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
 
-        if (GameManager.Inst.GameState == EGameState.Tutorial)
-        {
-            EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
-        }
+        //if (GameManager.Inst.GameState == EGameState.Tutorial)
+        //{
+        //    EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
+        //}
     }
 
     private void CreateChildren()
@@ -277,6 +277,12 @@ public class Library : Window
 
     private void CheckTutorialRoot(object[] ps)
     {
+        Debug.Log(DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler));
+        if(DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        {
+            return;
+        }
+
         if (currentDirectory.GetFileLocation() == "User\\BestUSB\\")
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);
@@ -310,7 +316,7 @@ public class Library : Window
     protected override void OnDestroyWindow()
     {
         base.OnDestroyWindow();
-
+        GuideUISystem.EndGuide?.Invoke();
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);

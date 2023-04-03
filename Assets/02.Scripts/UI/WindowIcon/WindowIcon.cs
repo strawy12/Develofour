@@ -284,6 +284,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private void BackgroundEventStop()
     {
         GuideUISystem.EndGuide?.Invoke();
+        EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { BackgroundEventStop(); });
         EventManager.StopListening(ETutorialEvent.BackgroundSignStart, BackgroundSignStart);
 
         EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
@@ -327,10 +328,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void BackgroundSignStart(object[] ps)
     {
-
         rectTranstform ??= GetComponent<RectTransform>();
         GuideUISystem.OnGuide?.Invoke(rectTranstform);
-
         EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, delegate { BackgroundEventStop(); });
     }
     #endregion
