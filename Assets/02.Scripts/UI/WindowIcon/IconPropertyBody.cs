@@ -31,7 +31,7 @@ public class IconPropertyBody : MonoBehaviour
 
         location = location.Replace('\\', '/');
         iconLocation.text = location;
-        iconByte.text = file.GetFileBytes().ToString();
+        iconByte.text = file.GetFileBytes().ToString() + "KB";
         iconMadeData.text = file.GetMadeDate();
         iconFixData.text = file.GetFixDate();
         iconAccessData.text = file.GetAccessDate();

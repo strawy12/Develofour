@@ -20,7 +20,7 @@ public struct DateTime
 [System.Serializable]
 public struct WindowIconData
 {
-    public int bytes;
+    public float bytes;
     public string madeDate;
     public string lastFixDate;
     public string lastAccessDate;
@@ -67,7 +67,7 @@ public class FileSO : SOParent
         Debug.Log(GetFileBytes());
     }
 
-    public virtual int GetFileBytes()
+    public virtual float GetFileBytes()
     {
         return fileData.bytes;
     }
