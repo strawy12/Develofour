@@ -78,6 +78,7 @@ public class ProfileInfoPanel : MonoBehaviour
             {
                 if (gameObject.activeSelf == false)
                 {
+                    SendNotice();
                     ShowPost();
                 }
                 infoText.ChangeText();
@@ -108,7 +109,7 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         gameObject.SetActive(true);
         EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[1] { category });
-        SendNotice();
+        
         DataManager.Inst.SetCategoryData(saveData.category, true);
     }
 
@@ -129,6 +130,7 @@ public class ProfileInfoPanel : MonoBehaviour
         {
             foreach (var infoPost in linkInfoPenelList)
             {
+                SendNotice();
                 infoPost.ShowPost();
             }
 
