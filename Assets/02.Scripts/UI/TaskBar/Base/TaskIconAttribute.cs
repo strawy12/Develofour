@@ -47,8 +47,10 @@ public class TaskIconAttribute : MonoBehaviour
     public void CheckClose(object[] hits)
     {
         if (gameObject.activeSelf == false) return;
+
         if (Define.ExistInHits(gameObject, hits[0]) == false)
         {
+            EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
             Hide();
         }
     }
@@ -76,11 +78,12 @@ public class TaskIconAttribute : MonoBehaviour
 
     public void WindowClone()
     {
-        WindowManager.Inst.CreateWindow(file.windowType, file);
+        Window window = WindowManager.Inst.CreateWindow(file.windowType, file);
+        window.WindowOpen();
     }
     public void WindowCreateOrigin()
     {
-        WindowManager.Inst.CreateWindow(file.windowType);
+        WindowManager.Inst.WindowOpen(file.windowType);
     }
 
 }

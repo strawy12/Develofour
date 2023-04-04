@@ -331,6 +331,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 ClickIcon();
                 break;
             case PointerEventData.InputButton.Right:
+                attributePanel.Init(file);
                 HideTargetPanels();
                 attributePanel.Show();
                 break;
