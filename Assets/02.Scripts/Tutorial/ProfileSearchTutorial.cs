@@ -36,6 +36,8 @@ public class ProfileSearchTutorial : MonoBehaviour
 
     private void TutorialStart(object[] ps)
     {
+        WindowManager.Inst.WindowOpen(EWindowType.ProfileWindow, profiler);
+
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
         ProfileChattingSystem.OnChatEnd += delegate {
             DataManager.Inst.SetIsStartTutorial(ETutorialType.Search, true);

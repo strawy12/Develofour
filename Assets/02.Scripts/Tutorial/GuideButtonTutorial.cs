@@ -32,6 +32,7 @@ public class GuideButtonTutorial : MonoBehaviour
 
     private void TutorialStart(object[] ps)
     {
+        WindowManager.Inst.WindowOpen(EWindowType.ProfileWindow, profiler);
 
         DataManager.Inst.SetIsStartTutorial(ETutorialType.Guide, true);
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
