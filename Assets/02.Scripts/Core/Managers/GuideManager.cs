@@ -97,7 +97,6 @@ public partial class GuideManager : MonoBehaviour
     private void SendProfileGuide()
     {
         ProfileChattingSystem.OnChatEnd += EndProfileGuide;
-
         TextData data = new TextData();
         if (currentInfoTextData.getInfoText == "")
         {
@@ -110,7 +109,7 @@ public partial class GuideManager : MonoBehaviour
 
         data.color = new Color(255, 255, 255, 100);
 
-        ProfileChattingSystem.OnPlayChat?.Invoke(data, false, false);
+        ProfileChattingSystem.OnPlayChat?.Invoke(data, true, false);
     }
 
     private void SendAiChattingGuide(string str, bool isSave)
