@@ -6,6 +6,7 @@ public partial class GuideManager : MonoBehaviour
 {
     private void StartGudie(EGuideTopicName guideTopic)
     {
+        Debug.Log(guideTopic);
         switch (guideTopic)
         {
             case EGuideTopicName.None:
@@ -48,7 +49,7 @@ public partial class GuideManager : MonoBehaviour
                     }
                     else
                     {
-                        SendAiChattingGuide("용의자 거주지에 대한 정보를 찾지 못했습니다. 죄송합니다", false);
+                        SendAiChattingGuide("용의자 거주지에 대한 정보를 찾지 못했습니다. 죄송합니다", true);
                     }
                     break;
                 }
@@ -72,7 +73,7 @@ public partial class GuideManager : MonoBehaviour
                     }
                     else
                     {
-                        SendAiChattingGuide("피해자 대학교에 대한 정보를 찾지 못했습니다. 죄송합니다", false);
+                        SendAiChattingGuide("피해자 대학교에 대한 정보를 찾지 못했습니다. 죄송합니다", true);
                     }
                     break;
 
@@ -115,5 +116,7 @@ public partial class GuideManager : MonoBehaviour
                     break;
                 }
         }
+
+        EndProfileGuide();
     }
 }
