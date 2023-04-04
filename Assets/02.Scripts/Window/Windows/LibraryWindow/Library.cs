@@ -143,7 +143,7 @@ public class Library : Window
     private void SearchFunction(string text)
     {
         if (text.Length < 2) return;
-        List<FileSO> fileList = FileManager.Inst.SearchFile(text);
+        List<FileSO> fileList = FileManager.Inst.SearchFile(text, currentDirectory);
         ShowFoundFile(fileList);
     }
         
@@ -151,7 +151,7 @@ public class Library : Window
     {
         if (searchInputField.text.Length < 2) return;
 
-        List<FileSO> fileList = FileManager.Inst.SearchFile(searchInputField.text);
+        List<FileSO> fileList = FileManager.Inst.SearchFile(searchInputField.text, currentDirectory);
         ShowFoundFile(fileList);
     }   
 
