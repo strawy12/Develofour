@@ -205,16 +205,5 @@ public class FileManager : MonoSingleton<FileManager>
         resultFile = ALLFileAddList().Find((x) => x.GetFileLocation() == location);
         return resultFile;
     }
-    private void OnApplicationQuit()
-    {
-        Debug.LogError("디버깅을 위해 추가한 파일들을 모두 제거합니다");
-
-        foreach (FileSO file in additionFileList)
-        {
-            DirectorySO dir = file.parent;
-            file.parent = null;
-            dir.children.Remove(file);
-        }
-    }
 
 }
