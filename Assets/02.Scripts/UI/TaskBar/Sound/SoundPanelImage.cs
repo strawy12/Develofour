@@ -13,7 +13,7 @@ public enum ESoundCondition
     X
 }
 
-public class SoundPanelImage : MonoBehaviour, IPointerDownHandler
+public class SoundPanelImage : MonoBehaviour, IPointerClickHandler
 {
     public Image bigSound;
     public Image middleSound;
@@ -72,13 +72,13 @@ public class SoundPanelImage : MonoBehaviour, IPointerDownHandler
         image.color = new Color(image.color.r, image.color.g, image.color.b, value);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if(isSoundPanelOpen && !isClickMute)
+        if (isSoundPanelOpen && !isClickMute)
         {
             soundPanel.gameObject.SetActive(true);
         }
-        if(isClickMute)
+        if (isClickMute)
         {
             soundPanel.Mute();
         }

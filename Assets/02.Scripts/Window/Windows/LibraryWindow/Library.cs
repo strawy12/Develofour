@@ -102,6 +102,7 @@ public class Library : Window
     #endregion
 
     private bool isSetLibrary = false;
+    private bool isFirstOpen = false;
 
     private Queue<WindowIcon> poolQueue = new Queue<WindowIcon>();
     private List<WindowIcon> iconList = new List<WindowIcon>();
@@ -126,6 +127,8 @@ public class Library : Window
         EventManager.StartListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StartListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
+        EventManager.StartListening(ELibraryEvent.AddUndoStack, UndoStackPush);
+        EventManager.StartListening(ELibraryEvent.ResetRedoStack, RedoStackReset);
         
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
         
@@ -140,7 +143,7 @@ public class Library : Window
     private void SearchFunction(string text)
     {
         if (text.Length < 2) return;
-        List<FileSO> fileList = FileManager.Inst.SearchFile(text);
+        List<FileSO> fileList = FileManager.Inst.SearchFile(text, currentDirectory);
         ShowFoundFile(fileList);
     }
         
@@ -148,7 +151,7 @@ public class Library : Window
     {
         if (searchInputField.text.Length < 2) return;
 
-        List<FileSO> fileList = FileManager.Inst.SearchFile(searchInputField.text);
+        List<FileSO> fileList = FileManager.Inst.SearchFile(searchInputField.text, currentDirectory);
         ShowFoundFile(fileList);
     }   
 
@@ -161,10 +164,10 @@ public class Library : Window
         EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
 
-        if (GameManager.Inst.GameState == EGameState.Tutorial)
-        {
-            EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
-        }
+        //if (GameManager.Inst.GameState == EGameState.Tutorial)
+        //{
+        //    EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
+        //}
     }
 
     private void CreateChildren()
@@ -217,19 +220,40 @@ public class Library : Window
         //count가 0이면 알파값 내리는게 맞을듯
         if (redoStack.Count == 0) return;
         DirectorySO data = redoStack.Pop();
+        Debug.Log("가나다라마바사아자차카타파하");
         undoStack.Push(currentDirectory);
         EventManager.TriggerEvent(ELibraryEvent.ButtonOpenFile, new object[1] { data });
     }
-
     private void OnClickIcon(object[] ps)
     {
+
         if (redoStack.Count != 0)
         {
             redoStack.Pop();
         }
 
-        undoStack.Push(currentDirectory);
+        if(!isFirstOpen)
+        {
+            isFirstOpen = true;
+        }
+        else
+        {
+            undoStack.Push(currentDirectory);
+        }
+
+        Debug.Log(undoStack.Count);
+        RedoStackReset(ps);
         OnFileOpen(ps);
+    }
+
+    public void UndoStackPush(object[] ps)
+    {
+        undoStack.Push(currentDirectory);
+    }
+
+    public void RedoStackReset(object[] ps)
+    {
+        redoStack.Clear();
     }
 
     private void OnFileOpen(object[] ps)
@@ -277,6 +301,12 @@ public class Library : Window
 
     private void CheckTutorialRoot(object[] ps)
     {
+        Debug.Log(DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler));
+        if(DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        {
+            return;
+        }
+
         if (currentDirectory.GetFileLocation() == "User\\BestUSB\\")
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);
@@ -310,12 +340,14 @@ public class Library : Window
     protected override void OnDestroyWindow()
     {
         base.OnDestroyWindow();
-
+        isFirstOpen = false;
+        GuideUISystem.EndGuide?.Invoke();
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
-
+        EventManager.StopListening(ELibraryEvent.AddUndoStack, UndoStackPush);
         EventManager.StopListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
+        EventManager.StopListening(ELibraryEvent.ResetRedoStack, RedoStackReset);
     }
 }

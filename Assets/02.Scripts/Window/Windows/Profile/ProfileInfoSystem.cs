@@ -22,6 +22,11 @@ public class ProfileInfoSystem : MonoBehaviour
 
     private void ChangeValue(object[] ps) // string 값으로 들고옴
     {
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
+
         if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
         {
             return;

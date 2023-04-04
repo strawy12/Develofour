@@ -10,10 +10,10 @@ public class DirectorySO : FileSO
     public List<FileSO> children;
 
 
-    public override int GetFileBytes()
+    public override float GetFileBytes()
     {
 
-        int bytes = 0;
+        float bytes = 0;
 
         foreach (FileSO child in children)
         {

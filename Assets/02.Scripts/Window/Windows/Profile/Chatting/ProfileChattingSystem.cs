@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class ProfileChattingSystem : TextSystem
 {
-    public static Action<TextData, bool> OnPlayChat;
+    public static Action<TextData, bool, bool> OnPlayChat;
     public static Action<List<TextData>, float, bool> OnPlayChatList;
-    
+
     public static Action OnChatEnd;
 
     public Sprite aiChattingSprite;
@@ -24,12 +24,16 @@ public class ProfileChattingSystem : TextSystem
         OnPlayChat += StartChatting;
     }
 
-    public void StartChatting(TextData data, bool isSave)
+    public void StartChatting(TextData data, bool isSave, bool isEnd)
     {
         currentTextData = data;
 
         PrintText();
-        EndChatting();
+
+        if(isEnd)
+        {
+            EndChatting();
+        }
     }
 
     // delay = 채팅 간격 시간

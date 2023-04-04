@@ -55,6 +55,11 @@ public class GetProfilerWordSystem : MonoBehaviour
 
     private void RegistrationProfiler(string word)
     {
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
+
         if (!wordListDictionary.ContainsKey(word))
         {
             return;
@@ -70,6 +75,11 @@ public class GetProfilerWordSystem : MonoBehaviour
 
     private void FindedWordCheck(string word)
     {
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
+
         CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
 
         if (word == null || !wordListDictionary.ContainsKey(word))

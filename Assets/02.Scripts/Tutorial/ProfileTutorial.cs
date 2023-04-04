@@ -67,6 +67,7 @@ public class ProfileTutorial : MonoBehaviour
         MonologSystem.OnEndMonologEvent -= StartProfileNextTutorial;
         ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
         StartChatting(2);
+        
     }
 
     private void CheckMaximumWindow()
@@ -113,8 +114,7 @@ public class ProfileTutorial : MonoBehaviour
     private void EndTutoMonologEvent()
     {
         GameManager.Inst.ChangeGameState(EGameState.Game);
-        DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler , true);
-
+        DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
         EventManager.TriggerEvent(EGuideButtonTutorialEvent.TutorialStart);
     }
 }

@@ -12,7 +12,7 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     [SerializeField]
     private Image fileImage;
     [SerializeField]
-    private GameObject highrightedImage;
+    private GameObject highlightedImage;
     private DirectorySO currentDirectory;
 
     [Header("Tutorial")]
@@ -33,22 +33,22 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            OpenFIle();
+            OpenFile();
         }
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        highrightedImage.gameObject.SetActive(true);
+        highlightedImage.gameObject.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        highrightedImage.gameObject.SetActive(false);
+        highlightedImage.gameObject.SetActive(false);
     }
 
     public void SetDirectory(DirectorySO directoryData)
     {
-        highrightedImage.gameObject.SetActive(false);
+        highlightedImage.gameObject.SetActive(false);
         currentDirectory = directoryData;
         fileName.text = directoryData.fileName;
         fileImage.sprite = directoryData.iconSprite;
@@ -65,12 +65,14 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         }
     }
 
-    private void OpenFIle()
+    private void OpenFile()
     {
+        EventManager.TriggerEvent(ELibraryEvent.AddUndoStack);
+        EventManager.TriggerEvent(ELibraryEvent.ResetRedoStack);
         object[] ps = new object[1] { currentDirectory };
-
+        Debug.Log(currentDirectory.fileName);
         EventManager.TriggerEvent(ELibraryEvent.ButtonOpenFile, ps);
-
+        
         if (currentDirectory.fileName == "User\\")
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonEnd);
