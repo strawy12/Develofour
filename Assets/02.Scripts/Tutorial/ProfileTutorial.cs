@@ -59,9 +59,8 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartProfileMonolog()
     {
-        StartProfileNextTutorial();
-        //MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
-        //MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, true);
+        MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
+        MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, true);
     }
     public void StartProfileNextTutorial()
     {
@@ -104,9 +103,8 @@ public class ProfileTutorial : MonoBehaviour
     public void EndMonolog()
     {
         ProfileChattingSystem.OnChatEnd -= EndMonolog;
-        StartProfileEnd();
-        //MonologSystem.OnEndMonologEvent += StartProfileEnd;
-        //MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog2, 0.1f, true);
+        MonologSystem.OnEndMonologEvent += StartProfileEnd;
+        MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog2, 0.1f, true);
     }
 
     public void StartProfileEnd()

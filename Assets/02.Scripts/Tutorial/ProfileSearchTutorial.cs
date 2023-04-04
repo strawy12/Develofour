@@ -27,12 +27,11 @@ public class ProfileSearchTutorial : MonoBehaviour
 
     private void TutorialStartMonolog(object[] ps)
     {
-        WindowManager.Inst.PopupOpen(profiler, textDataList.popText, delegate { TutorialStart(null); }, delegate { EndTutorial(null); });
-        //MonologSystem.OnEndMonologEvent += delegate
-        //{
-        //    WindowManager.Inst.PopupOpen(profiler, textDataList.popText, delegate { TutorialStart(null); },delegate { EndTutorial(null); });
-        //};
-        //MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartSearchTutoMonolog, 0.3f, true);
+        MonologSystem.OnEndMonologEvent += delegate
+        {
+            WindowManager.Inst.PopupOpen(profiler, textDataList.popText, delegate { TutorialStart(null); },delegate { EndTutorial(null); });
+        };
+        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartSearchTutoMonolog, 0.3f, true);
     }
 
     private void TutorialStart(object[] ps)
