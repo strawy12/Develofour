@@ -109,7 +109,7 @@ public class ProfileChatting : MonoBehaviour
             DG.Tweening.Sequence seq = DOTween.Sequence();
 
             seq.Append(
-                DOTween.To(() => scrollrectTransform.offsetMin, (x) => scrollrectTransform.offsetMin = x, new Vector2(0, 200), moveDuration));
+                DOTween.To(() => scrollrectTransform.offsetMin, (x) => scrollrectTransform.offsetMin = x, new Vector2(0, 200), 0.2f));
             
             seq.AppendCallback(() =>
             {
@@ -125,7 +125,7 @@ public class ProfileChatting : MonoBehaviour
             DG.Tweening.Sequence seq = DOTween.Sequence();
 
             seq.Append(
-                DOTween.To(() => scrollrectTransform.offsetMin, (x) => scrollrectTransform.offsetMin = x, new Vector2(0, 0), moveDuration));
+                DOTween.To(() => scrollrectTransform.offsetMin, (x) => scrollrectTransform.offsetMin = x, new Vector2(0, 0), 0.2f));
 
             seq.AppendCallback(() =>
             {

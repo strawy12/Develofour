@@ -51,9 +51,10 @@ public class ProfileGuidePanel : MonoBehaviour
         loadingPanel.SetActive(true);
         guideParent.SetActiveBtn(false);
 
+        EventManager.TriggerEvent(EProfileEvent.ClickGuideToggleButton, new object[] { false });
+
         movePanelRect.DOSizeDelta(new Vector2(0, hideValue), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
-            EventManager.TriggerEvent(EProfileEvent.ClickGuideToggleButton, new object[] { false });
             
             currentValue = hideValue;
             moveButton.onClick.RemoveAllListeners();
@@ -71,10 +72,11 @@ public class ProfileGuidePanel : MonoBehaviour
         isMoving = true;
         loadingPanel.SetActive(true);
         guideParent.SetActiveBtn(true);
+
+        EventManager.TriggerEvent(EProfileEvent.ClickGuideToggleButton, new object[] { true });
+
         movePanelRect.DOSizeDelta(new Vector2(0, showValue), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
-            EventManager.TriggerEvent(EProfileEvent.ClickGuideToggleButton, new object[] { true });
-            
             currentValue = showValue;
             moveButton.onClick.RemoveAllListeners();
             moveButton.onClick.AddListener(HidePanel);
