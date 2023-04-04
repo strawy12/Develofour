@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
@@ -28,28 +28,28 @@ public class ProfileChattingSystem : TextSystem
     {
         currentTextData = data;
 
-        PrintText();
+        PrintText(isSave);
 
-        if(isEnd)
+        if (isEnd)
         {
             EndChatting();
         }
     }
 
-    // delay = Ã¤ÆÃ °£°İ ½Ã°£
+    // delay = ì±„íŒ… ê°„ê²© ì‹œê°„
     public void StartChatting(List<TextData> list, float delay, bool isSave)
     {
         textDataList = list;
 
-        StartCoroutine(ChattingCoroutine(delay));
+        StartCoroutine(ChattingCoroutine(delay, isSave));
     }
 
-    private IEnumerator ChattingCoroutine(float delay)
+    private IEnumerator ChattingCoroutine(float delay, bool isSave)
     {
         foreach(TextData data in textDataList)
         {
             currentTextData = data;
-            PrintText();
+            PrintText(isSave);
 
             yield return new WaitForSeconds(delay);
 
@@ -69,10 +69,10 @@ public class ProfileChattingSystem : TextSystem
         OnChatEnd = null;
     }
 
-    private void PrintText()
+    private void PrintText(bool isSave)
     {
-        // ÀÌº¥Æ®¸Å´ÏÀú·Î ½÷ÁÖ°í 
-        // µ¥ÀÌÅÍ ÀúÀå
+        // ì´ë²¤íŠ¸ë§¤ë‹ˆì €ë¡œ ì´ì£¼ê³  
+        // ë°ì´í„° ì €ì¥
 
         currentTextData.text = RemoveCommandText(currentTextData.text, true);
         foreach (Action trigger in triggerDictionary.Values)
@@ -80,7 +80,11 @@ public class ProfileChattingSystem : TextSystem
             trigger?.Invoke();
         }
 
-        EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[] { currentTextData });
+        if(isSave)
+        {
+            EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[] { currentTextData });
+        }
+
         DataManager.Inst.AddAiChattingList(currentTextData);
 
         SendNotice(currentTextData.text);
@@ -88,7 +92,7 @@ public class ProfileChattingSystem : TextSystem
 
     public void SendNotice(string body)
     {
-        NoticeSystem.OnNotice.Invoke("AI¿¡°Ô¼­ ¸Ş¼¼Áö°¡ µµÂøÇß½À´Ï´Ù!", body, 0, true, null, Color.white, ENoticeTag.AIAlarm);
+        NoticeSystem.OnNotice.Invoke("AIì—ê²Œì„œ ë©”ì„¸ì§€ê°€ ë„ì°©í–ˆìŠµë‹ˆë‹¤!", body, 0, true, null, Color.white, ENoticeTag.AIAlarm);
     }
 
     public override void SetDelay(float value)
