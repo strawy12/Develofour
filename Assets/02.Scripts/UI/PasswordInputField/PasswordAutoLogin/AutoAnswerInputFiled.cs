@@ -8,8 +8,7 @@ using System;
 [Serializable]
 public class AutoAnswerData
 {
-    public string id;
-    public string password;
+    public string answer;
 
     public bool isLock
     {
