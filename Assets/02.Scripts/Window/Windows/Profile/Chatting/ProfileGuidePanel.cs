@@ -53,6 +53,8 @@ public class ProfileGuidePanel : MonoBehaviour
 
         movePanelRect.DOSizeDelta(new Vector2(0, hideValue), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
+            EventManager.TriggerEvent(EProfileEvent.ClickGuideToggleButton, new object[] { false });
+            
             currentValue = hideValue;
             moveButton.onClick.RemoveAllListeners();
             moveButton.onClick.AddListener(ShowPanel);
@@ -60,7 +62,6 @@ public class ProfileGuidePanel : MonoBehaviour
             hideImage.SetActive(false);
             isMoving = false;
             loadingPanel.SetActive(false);
-            EventManager.TriggerEvent(EProfileEvent.ClickGuideToggleButton, new object[] { false });
         });
     }
 
@@ -72,6 +73,8 @@ public class ProfileGuidePanel : MonoBehaviour
         guideParent.SetActiveBtn(true);
         movePanelRect.DOSizeDelta(new Vector2(0, showValue), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
+            EventManager.TriggerEvent(EProfileEvent.ClickGuideToggleButton, new object[] { true });
+            
             currentValue = showValue;
             moveButton.onClick.RemoveAllListeners();
             moveButton.onClick.AddListener(HidePanel);
@@ -80,7 +83,6 @@ public class ProfileGuidePanel : MonoBehaviour
             isMoving = false;
             loadingPanel.SetActive(false);
             EventManager.TriggerEvent(EGuideButtonTutorialEvent.ClickMoveBtn);
-            EventManager.TriggerEvent(EProfileEvent.ClickGuideToggleButton, new object[] { true });
         });
     }
 

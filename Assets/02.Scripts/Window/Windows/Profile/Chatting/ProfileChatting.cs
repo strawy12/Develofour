@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System;
 using TMPro;
+using Unity.VisualScripting;
 
 public enum EProfileChatting
 {
@@ -56,9 +57,13 @@ public class ProfileChatting : MonoBehaviour
     [SerializeField]
     protected ScrollRect scroll;
     [SerializeField]
+    protected RectTransform scrollrectTransform;
+    [SerializeField]
     protected ContentSizeFitter contentSizeFitter;
 
     protected float currentDelay;
+
+    private float defaultOffsetMinY;
 
     [Header("가이드관련")]
     [SerializeField]
@@ -78,6 +83,7 @@ public class ProfileChatting : MonoBehaviour
 
         ShowPanel();
 
+        defaultOffsetMinY = scrollrectTransform.offsetMax.y;
         EventManager.StartListening(EProfileEvent.ClickGuideToggleButton, SetChattingHeight);
     }
 
@@ -95,13 +101,37 @@ public class ProfileChatting : MonoBehaviour
 
         bool isGuideOnOff = (bool)ps[0];
 
-        if (isGuideOnOff) // 가이드 오픈 시
+        if (isGuideOnOff) // 가이드 패널 오픈 시
         {
+            if (isMoving) return;
+            isMoving = true;
 
+            DG.Tweening.Sequence seq = DOTween.Sequence();
+
+            seq.Append(
+                DOTween.To(() => scrollrectTransform.offsetMin, (x) => scrollrectTransform.offsetMin = x, new Vector2(0, 200), moveDuration));
+            
+            seq.AppendCallback(() =>
+            {
+                isMoving = false;
+                SetScrollView();
+            });
         }
-        else if (!isGuideOnOff)
+        else if (!isGuideOnOff) // 가이드 패널 Close 시
         {
+            if (isMoving) return;
+            isMoving = true;
 
+            DG.Tweening.Sequence seq = DOTween.Sequence();
+
+            seq.Append(
+                DOTween.To(() => scrollrectTransform.offsetMin, (x) => scrollrectTransform.offsetMin = x, new Vector2(0, 0), moveDuration));
+
+            seq.AppendCallback(() =>
+            {
+                isMoving = false;
+                SetScrollView();
+            });
         }
     }
 
@@ -158,7 +188,6 @@ public class ProfileChatting : MonoBehaviour
             loadingPanel.SetActive(false);
             guidePanel.SetGuideParentWeight(false);
         });
-
     }
 
     protected virtual void ShowPanel()
