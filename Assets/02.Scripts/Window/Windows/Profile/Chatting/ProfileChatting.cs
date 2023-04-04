@@ -189,4 +189,10 @@ public class ProfileChatting : MonoBehaviour
         RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
         rects[rects.Length - 1].sizeDelta = new Vector2(currentValue - 60, 0);
     }
+
+
+    protected void OnDestroy()
+    {
+        EventManager.StopListening(EProfileEvent.ProfileSendMessage, PrintText);
+    }
 }
