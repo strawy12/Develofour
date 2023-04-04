@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using System;
+using System.Linq.Expressions;
 
 public class ProfileWindow : Window
 {
@@ -28,12 +29,18 @@ public class ProfileWindow : Window
     private Button moveBtn;
     [SerializeField]
     private RectTransform area;
+    [SerializeField]
+    private Image openImage;
+    [SerializeField]
+    private Image closeImage;
+
+
 
     [SerializeField]
     private float moveDelay = 0.75f;
 
-    private bool isOpen = true;
-    private bool isMoving = false;
+    private bool isPanelOpen;
+    private bool isMoving;
 
     //DataManager
 
@@ -42,6 +49,9 @@ public class ProfileWindow : Window
 
     protected override void Init()
     {
+        isPanelOpen = true;
+        isMoving = false;
+
         base.Init();
 
         profileChatting.Init();
@@ -51,7 +61,7 @@ public class ProfileWindow : Window
         infoPanelBtn.button.onClick?.AddListener(OnClickShowProfiling);
         searchPanelBtn.button.onClick?.AddListener(OnClickShowFileSearch);
 
-        moveBtn.onClick.AddListener(delegate { StartCoroutine(HideAllPanel()); });
+        moveBtn.onClick.AddListener(MoveButtonClick);
 
         EventManager.StartListening(EProfileSearchTutorialEvent.GuideSearchButton, GuideSearchButton);
         TutorialStart();
@@ -61,6 +71,7 @@ public class ProfileWindow : Window
 
         ButtonBlackSetting();
     }
+
     private void CheckProfilerOnOff(object[] emptyPs)
     {
         if (profilePanel.gameObject.activeSelf == false)
@@ -96,7 +107,7 @@ public class ProfileWindow : Window
         {
             return;
         }
-        
+
         beforeClickButton = searchPanelBtn;
 
         ButtonBlackSetting();
@@ -119,10 +130,31 @@ public class ProfileWindow : Window
         }
     }
 
+    private void MoveButtonClick()
+    {
+        if(isPanelOpen)
+        {
+            area.DOAnchorPosY(-680, moveDelay);
+            closeImage.gameObject.SetActive(true);
+            openImage.gameObject.SetActive(false);
+
+            isPanelOpen = false;
+        }
+        else if(!isPanelOpen)
+        {
+            area.DOAnchorPosY(-50, moveDelay);
+            openImage.gameObject.SetActive(true);
+            closeImage.gameObject.SetActive(false);
+
+            isPanelOpen = true;
+        }
+    }
+
     private IEnumerator HideAllPanel()
     {
         isMoving = true;
-        area.DOAnchorPosY(-1000, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
+
+        area.DOAnchorPosY(-680, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
             profilePanel.gameObject.SetActive(false);
             fileSearchPanel.gameObject.SetActive(false);
@@ -169,7 +201,7 @@ public class ProfileWindow : Window
 
         area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
-            isOpen = true;
+            isPanelOpen = true;
             isMoving = false;
             if (DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler) && DataManager.Inst.GetIsStartTutorial(ETutorialType.Search))
             {
