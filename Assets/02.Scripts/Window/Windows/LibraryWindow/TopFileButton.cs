@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using System;
+
 public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
@@ -21,12 +23,19 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     private Image yellowUI;
 
     private bool isSign;
-
+    private RectTransform rectTransform;
     public void Init()
     {
+        Bind();
+
         fileName.text = "";
         fileImage.sprite = null;
         currentDirectory = null;
+    }
+
+    private void Bind()
+    {
+        rectTransform ??= GetComponent<RectTransform>();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -53,14 +62,15 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         fileName.text = directoryData.fileName;
         fileImage.sprite = directoryData.iconSprite;
 
-        if (currentDirectory.fileName == "User\\")
+        if (currentDirectory.GetFileLocation() == "User\\")
         {
             EventManager.StartListening(ETutorialEvent.LibraryUserButtonStart, delegate
             {
-                if (gameObject.activeSelf)
-                    GuideUISystem.OnGuide?.Invoke((RectTransform)transform);
-
-                EventManager.StartListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopTutorialEvent(); });
+                if(gameObject.activeSelf)
+                {
+                    GuideUISystem.OnGuide?.Invoke(rectTransform);
+                    EventManager.StartListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopTutorialEvent(); });
+                }
             });
         }
     }
@@ -83,10 +93,6 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
     private void StopTutorialEvent()
     {
-        //EventManager.StopListening(ETutorialEvent.LibraryUserButtonStart, delegate { StartCoroutine(YellowSignCor()); });
-        //EventManager.StopListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopCor(); });
-
-        //EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
         GuideUISystem.EndGuide?.Invoke();
     }
     #endregion

@@ -210,7 +210,7 @@ public class Library : Window
         if (undoStack.Count == 0) return;
         DirectorySO data = undoStack.Pop();
         redoStack.Push(currentDirectory);
-        EventManager.TriggerEvent(ELibraryEvent.ButtonOpenFile, new object[1] { data });
+        OnFileOpen(new object[1] { data });
     }
 
     public void RedoFile(object[] emptyParam) => RedoFile();
@@ -222,7 +222,7 @@ public class Library : Window
         DirectorySO data = redoStack.Pop();
         Debug.Log("가나다라마바사아자차카타파하");
         undoStack.Push(currentDirectory);
-        EventManager.TriggerEvent(ELibraryEvent.ButtonOpenFile, new object[1] { data });
+        OnFileOpen(new object[1] { data });
     }
     private void OnClickIcon(object[] ps)
     {
@@ -258,11 +258,13 @@ public class Library : Window
 
     private void OnFileOpen(object[] ps)
     {
+
         if (ps[0] is DirectorySO)
         {
             SetHighlightImage();
             currentDirectory = ps[0] as DirectorySO;
             SetLibrary();
+            CheckTutorialRoot(null);
         }
     }
 
@@ -301,8 +303,7 @@ public class Library : Window
 
     private void CheckTutorialRoot(object[] ps)
     {
-        Debug.Log(DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler));
-        if(DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        if(!DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) || DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
         {
             return;
         }
