@@ -20,13 +20,13 @@ public class AutoInputPanel : MonoBehaviour, IPointerClickHandler
         if(inputFields.Count < 2)
         {
             passwordInputField = inputFields[0];
-            passwordText.text = data.password;  
+            passwordText.text = data.answer;  
             isHaveID = false;
         }
         else
         {
             passwordInputField = inputFields[1];
-            passwordText.text = data.password;
+            passwordText.text = data.answer;
             isHaveID = true;
         }
 
