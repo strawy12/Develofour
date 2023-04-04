@@ -67,8 +67,6 @@ public class ProfileTutorial : MonoBehaviour
         MonologSystem.OnEndMonologEvent -= StartProfileNextTutorial;
         ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
         StartChatting(2);
-        Invoke("CheckMaximumWindow", 7);
-        Debug.Log("임시적 인보크 사용중. 주석 떼면 잘 작동할껄?.. 아마");
         
     }
 
