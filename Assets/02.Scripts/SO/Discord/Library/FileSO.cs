@@ -50,12 +50,16 @@ public class FileSO : SOParent
     [ContextMenu("GetFileLocation")]
     public string GetFileLocation()
     {
-        if(parent == null)
+        string location = "";
+        if (parent == null)
         {
-            return this.fileName + '\\';
+            location = this.fileName + '\\';
+
+            Debug.Log(location);
+            return location;
         } 
 
-        string location = string.Format("{0}{1}\\", parent.GetFileLocation(), this.fileName);
+        location = string.Format("{0}{1}\\", parent.GetFileLocation(), this.fileName);
 
         Debug.Log(location);
         return location;

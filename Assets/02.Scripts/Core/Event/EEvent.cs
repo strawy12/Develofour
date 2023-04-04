@@ -54,6 +54,8 @@ public enum ELibraryEvent
     AddFile,
     SelectIcon,
     SelectNull,
+    AddUndoStack,
+    ResetRedoStack,
 }
 
 public enum EBrowserEvent
