@@ -51,7 +51,6 @@ public class ProfileTutorial : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
-        DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
         ProfileChattingSystem.OnChatEnd += StartProfileMonolog;
         StartChatting(0);
     }
@@ -73,6 +72,8 @@ public class ProfileTutorial : MonoBehaviour
     private void CheckMaximumWindow()
     {
         ProfileChattingSystem.OnChatEnd -= CheckMaximumWindow;
+
+        DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
 
         if (profileWindowAlteration.isMaximum)
         {
