@@ -42,7 +42,10 @@ public class ProfileInfoPanel : MonoBehaviour
 
         if (DataManager.Inst.GetProfileSaveData(saveData.category).isShowCategory)
         {
-            ShowPost();
+            if (category != EProfileCategory.InvisibleInformation)
+            {
+                ShowPost();
+            }
         }
         else
         {
@@ -79,13 +82,20 @@ public class ProfileInfoPanel : MonoBehaviour
                 if (gameObject.activeSelf == false)
                 {
                     SendNotice();
-                    ShowPost();
+                    if (category != EProfileCategory.InvisibleInformation)
+                    {
+                        ShowPost();
+                    }
                 }
                 infoText.ChangeText();
 
                 DataManager.Inst.AddProfileinfoData(saveData.category, key);
-                EventManager.TriggerEvent(EProfileEvent.RemoveGuideButton, new object[2] { category, key });
-                EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { saveData.infoTextList.Find(x => x.key == key).guideTopicName });
+                if (category != EProfileCategory.InvisibleInformation)
+                {
+                    EventManager.TriggerEvent(EProfileEvent.RemoveGuideButton, new object[2] { category, key });
+                    EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { saveData.infoTextList.Find(x => x.key == key).guideTopicName });
+                }
+
                 if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
                 {
                     DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
@@ -100,7 +110,11 @@ public class ProfileInfoPanel : MonoBehaviour
         //string head, string body, float delay, bool canDelete, Sprite icon, Color color, ENoticeTag noticeTag
 
         string head = "새로운 카테고리가 추가되었습니다";
-        string body = $"새 카테고리 {saveData.categoryTitle}가 추가되었습니다.";
+        string body = "";
+        if (saveData.category != EProfileCategory.InvisibleInformation)
+        {
+            body = $"새 카테고리 {saveData.categoryTitle}가 추가되었습니다.";
+        }
 
         NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
 
