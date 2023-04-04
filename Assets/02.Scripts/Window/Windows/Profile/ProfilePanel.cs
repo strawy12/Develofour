@@ -11,6 +11,7 @@ public enum EProfileCategory
     VictimProfileInformation,
     PetInformation,
     MurderEvidence,
+    InvisibleInformation,
     Count,
 }
 
@@ -46,6 +47,7 @@ public class ProfilePanel : MonoBehaviour
         }
 
         EProfileCategory category = (EProfileCategory)ps[0];
+
         string key = ps[1] as string;
 
         if (ps[2] != null)
@@ -58,6 +60,11 @@ public class ProfilePanel : MonoBehaviour
                     return;
                 }
             }
+        }
+
+        if (category == EProfileCategory.InvisibleInformation)
+        {
+
         }
 
         ProfileInfoPanel categoryPanel = infoPanelList.Find(x => x.category == category);

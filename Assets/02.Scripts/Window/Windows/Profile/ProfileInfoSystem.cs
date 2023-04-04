@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +20,7 @@ public class ProfileInfoSystem : MonoBehaviour
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
     }
 
-    private void ChangeValue(object[] ps) // string °ªÀ¸·Î µé°í¿È
+    private void ChangeValue(object[] ps) // string ê°’ìœ¼ë¡œ ë“¤ê³ ì˜´
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
@@ -77,7 +77,17 @@ public class ProfileInfoSystem : MonoBehaviour
                 temp = answer.Replace(": ", "");
             }
         }
-        string text = categoryData.categoryTitle + " Ä«Å×°í¸®ÀÇ " + temp + "Á¤º¸°¡ ¾÷µ¥ÀÌÆ® µÇ¾ú½À´Ï´Ù.";
-        NoticeSystem.OnNotice.Invoke("Profiler Á¤º¸°¡ ¾÷µ¥ÀÌÆ®°¡ µÇ¾ú½À´Ï´Ù!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
+        string text;
+        if (category != EProfileCategory.InvisibleInformation)
+        {
+            text = categoryData.categoryTitle + " ì¹´í…Œê³ ë¦¬ì˜ " + temp + "ì •ë³´ê°€ ì—…ë°ì´íŠ¸ ë˜ì—ˆìŠµë‹ˆë‹¤.";
+            NoticeSystem.OnNotice.Invoke("Profiler ì •ë³´ê°€ ì—…ë°ì´íŠ¸ê°€ ë˜ì—ˆìŠµë‹ˆë‹¤!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
+        }
+        else
+        {
+            text = key + " ì •ë³´ê°€ í™•ì¸ë˜ì—ˆìŠµë‹ˆë‹¤.";
+            NoticeSystem.OnNotice.Invoke("Profiler ì •ë³´ê°€ í™•ì¸ë˜ì—ˆìŠµë‹ˆë‹¤!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
+        }
+        
     }
 }
