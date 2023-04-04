@@ -100,7 +100,7 @@ public class ProfileGuideButtonParent : MonoBehaviour
         {
             return;
         }
-        
+
         EProfileCategory category = (EProfileCategory)ps[0];
         foreach (var infoText in infoCategoryDataList[category].infoTextList)
         {
@@ -110,11 +110,11 @@ public class ProfileGuideButtonParent : MonoBehaviour
 
     public void AddButton(ProfileInfoTextDataSO data)
     {
-        ProfileGuideButton guideButton = guideButtonList.Find(x=>x.InfoData == data);
+        ProfileGuideButton guideButton = guideButtonList.Find(x => x.InfoData == data);
         if (guideButton != null)
         {
             return;
-        } 
+        }
         if (data.guideTopicName == EGuideTopicName.None || DataManager.Inst.IsProfileInfoData(data.category, data.key))
         {
             return;
@@ -198,10 +198,20 @@ public class ProfileGuideButtonParent : MonoBehaviour
         {
             return;
         }
+        if (isWeightSizeUp)
+        {
+            currentIndex += 3;
+            if(currentIndex >= guideButtonList.Count)
+            {
+                int value = (currentIndex) % 3;
+                currentIndex =currentIndex - (3 -  value);
+            }
+        }
         else
         {
             currentIndex++;
         }
+
 
         UpdateButton();
     }
@@ -211,9 +221,18 @@ public class ProfileGuideButtonParent : MonoBehaviour
         {
             return;
         }
+        if (isWeightSizeUp)
+        {
+            currentIndex -= 3;
+            if (currentIndex < 0)
+            {
+                currentIndex = 0;
+            }
+        }
         else
         {
             currentIndex--;
+
         }
 
         UpdateButton();
