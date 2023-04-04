@@ -133,6 +133,7 @@ public enum EProfileEvent
     InstalledProfile,
     ProfileSendMessage,
     AddGuideButton,
+    ClickGuideToggleButton,
     RemoveGuideButton,
     EndGuide,
 }

@@ -60,6 +60,7 @@ public class ProfileGuidePanel : MonoBehaviour
             hideImage.SetActive(false);
             isMoving = false;
             loadingPanel.SetActive(false);
+            EventManager.TriggerEvent(EProfileEvent.ClickGuideToggleButton, new object[] { false });
         });
     }
 
@@ -79,6 +80,7 @@ public class ProfileGuidePanel : MonoBehaviour
             isMoving = false;
             loadingPanel.SetActive(false);
             EventManager.TriggerEvent(EGuideButtonTutorialEvent.ClickMoveBtn);
+            EventManager.TriggerEvent(EProfileEvent.ClickGuideToggleButton, new object[] { true });
         });
     }
 

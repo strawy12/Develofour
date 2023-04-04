@@ -30,9 +30,13 @@ public class ProfileChatting : MonoBehaviour
     [SerializeField]
     protected GameObject hideImage;
     [SerializeField]
-    protected float showValue;
+    protected float showWeightValue;
     [SerializeField]
-    protected float hideValue;
+    protected float hideWeightValue;
+    [SerializeField]
+    protected float showHeightValue;
+    [SerializeField]
+    protected float hideHeightValue;
 
     [SerializeField]
     protected GameObject loadingPanel;
@@ -73,11 +77,32 @@ public class ProfileChatting : MonoBehaviour
         SetScrollView();
 
         ShowPanel();
+
+        EventManager.StartListening(EProfileEvent.ClickGuideToggleButton, SetChattingHeight);
     }
 
     protected virtual void ConnectEvent()
     {
         EventManager.StartListening(EProfileEvent.ProfileSendMessage, PrintText);
+    }
+
+    private void SetChattingHeight(object[] ps)
+    {
+        if (ps[0] == null)
+        {
+            return;
+        }
+
+        bool isGuideOnOff = (bool)ps[0];
+
+        if (isGuideOnOff) // 가이드 오픈 시
+        {
+
+        }
+        else if (!isGuideOnOff)
+        {
+
+        }
     }
 
     private void PrintText(object[] ps)
@@ -94,8 +119,8 @@ public class ProfileChatting : MonoBehaviour
     private void AddSaveTexts()
     {
         List<TextData> list = DataManager.Inst.SaveData.aiChattingList;
-        
-        foreach(TextData data in list)
+
+        foreach (TextData data in list)
         {
             CreateTextUI(data.text);
         }
@@ -120,9 +145,9 @@ public class ProfileChatting : MonoBehaviour
         if (isMoving) return;
         isMoving = true;
         loadingPanel.SetActive(true);
-        movePanelRect.DOSizeDelta(new Vector2(hideValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
+        movePanelRect.DOSizeDelta(new Vector2(hideWeightValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
-            currentValue = hideValue;
+            currentValue = hideWeightValue;
             OpenCloseButton.onClick.RemoveAllListeners();
             OpenCloseButton.onClick.AddListener(ShowPanel);
             SetWidths();
@@ -141,9 +166,9 @@ public class ProfileChatting : MonoBehaviour
         if (isMoving) return;
         isMoving = true;
         loadingPanel.SetActive(true);
-        movePanelRect.DOSizeDelta(new Vector2(showValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
+        movePanelRect.DOSizeDelta(new Vector2(showWeightValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
-            currentValue = showValue;
+            currentValue = showWeightValue;
             OpenCloseButton.onClick.RemoveAllListeners();
             OpenCloseButton.onClick.AddListener(HidePanel);
             SetWidths();
@@ -158,7 +183,7 @@ public class ProfileChatting : MonoBehaviour
 
     protected void SetScrollView()
     {
-        if(this.gameObject.activeInHierarchy)
+        if (this.gameObject.activeInHierarchy)
         {
             StartCoroutine(ScrollCor());
         }
