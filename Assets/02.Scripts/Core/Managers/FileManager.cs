@@ -24,7 +24,7 @@ public class FileManager : MonoSingleton<FileManager>
             defaultFileDictionary.Add(file.windowType, file);
         }
 
-      
+
     }
     private void Start()
     {
@@ -32,10 +32,8 @@ public class FileManager : MonoSingleton<FileManager>
         {
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
-                string str = DataManager.Inst.GetAdditionalFileLocation(fileData);
-                string settingStr = str.Substring(0, str.Length - 1);
-                int index = settingStr.LastIndexOf("\\");
-                string location = str.Substring(0, index + 1);
+                string location = DataManager.Inst.GetAdditionalFileName(fileData);
+
                 AddFile(fileData, location);
             }
         }
@@ -69,7 +67,7 @@ public class FileManager : MonoSingleton<FileManager>
 
         if (!DataManager.Inst.AdditionalFileContain(file))
         {
-            DataManager.Inst.AddNewFileData(location + file.fileName + "\\");
+            DataManager.Inst.AddNewFileData(file, location + file.fileName + "\\");
         }
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
     }
@@ -208,11 +206,11 @@ public class FileManager : MonoSingleton<FileManager>
 
     private void OnDestroy()
     {
-       foreach(var dd in debugAdditionFileList)
+        foreach (var dd in debugAdditionFileList)
         {
             DirectorySO parent = dd.parent;
 
-            if(parent != null)
+            if (parent != null)
             {
                 parent.children.Remove(dd);
             }

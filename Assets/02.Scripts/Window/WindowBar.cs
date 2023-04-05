@@ -80,7 +80,8 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
     public void Init(WindowAlterationSO windowAlteration, FileSO file, RectTransform rectTrm) 
     {
         this.windowAlteration = windowAlteration;
-        if(file != null)
+
+        if (file != null)
         {
             this.currentFile = file;
         }
@@ -101,7 +102,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
 
     public void Init(WindowAlterationSO windowAlteration, RectTransform rectTrm)
     {
-        this.windowAlteration = windowAlteration;
+      this.windowAlteration = windowAlteration;
 
         windowRectTransform = rectTrm;
     }

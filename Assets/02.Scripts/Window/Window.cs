@@ -34,7 +34,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
     [Header("Window Data")]
     [SerializeField]
-    public WindowAlterationSO windowAlteration; // 위도우 위치 크기 정보
+    public WindowAlterationSO originWindowAlteration; // 위도우 위치 크기 정보
+
+    protected WindowAlterationSO windowAlteration;
+
     protected FileSO file;
 
     [SerializeField]
@@ -74,6 +77,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
 
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
+        windowAlteration = new WindowAlterationSO(originWindowAlteration);
 
         if (file == null)
         {
@@ -106,6 +110,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         }
 
         windowBar.OnSelected += SelectWindow;
+
     }
 
     // SelectableObject를 위한 함수
@@ -140,6 +145,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         OnClosed?.Invoke(file.fileName);
         
         windowMaxCnt--;
+
+        originWindowAlteration.isMaximum = windowAlteration.isMaximum;
+        originWindowAlteration.size = windowAlteration.size;
+        originWindowAlteration.pos = windowAlteration.pos;
 
         if (isSelected)
         {

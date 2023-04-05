@@ -18,6 +18,7 @@ public class MonologSaveData
 [System.Serializable]
 public class AdditionFileData
 {
+    public string fileName;
     public string fileLocation;
 }
 [System.Serializable]

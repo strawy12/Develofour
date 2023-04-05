@@ -150,28 +150,27 @@ public class DataManager : MonoSingleton<DataManager>
         data.isShow = value;
     }
 
-    public void AddNewFileData(string location)
+    public void AddNewFileData(FileSO file, string location)
     {
-        saveData.additionFileData.Add(new AdditionFileData() { fileLocation = location });
+        saveData.additionFileData.Add(new AdditionFileData() { fileName = file.fileName, fileLocation = location });
     }
 
     public bool AdditionalFileContain(FileSO file)
     {
-        foreach(AdditionFileData data in saveData.additionFileData)
+        AdditionFileData fileData = saveData.additionFileData.Find(x => x.fileName == file.fileName);
+
+        if(fileData != null)
         {
-            if(data.fileLocation.Contains(file.fileName))
-            {
-                return true;
-            }
+            return true;
         }
         return false;
     }
 
-    public string GetAdditionalFileLocation(FileSO file)
+    public string GetAdditionalFileName(FileSO file)
     {
         foreach (AdditionFileData data in saveData.additionFileData)
         {
-            if (data.fileLocation.Contains(file.fileName))
+            if (data.fileName.Contains(file.fileName))
             {
                 return data.fileLocation;
             }
