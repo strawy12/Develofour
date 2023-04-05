@@ -14,6 +14,8 @@ public class GuideUISystem : MonoBehaviour
     public static Action EndGuide;
     private void Start()
     {
+        guideUI.gameObject.SetActive(false);
+
         OnGuide += StartGuide;
         EndGuide += StopGuideUICor;
     }

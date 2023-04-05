@@ -18,4 +18,12 @@ public class WindowAlterationSO : SOParent
         pos.y = int.Parse(ps[4]);
         saveSize = size;
     }
+
+    public WindowAlterationSO(WindowAlterationSO origin)
+    {
+        isMaximum = origin.isMaximum;
+        size = origin.size;
+        pos = origin.pos;
+        saveSize = origin.saveSize;
+    }
 }

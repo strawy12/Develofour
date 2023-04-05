@@ -29,15 +29,10 @@ public class FileManager : MonoSingleton<FileManager>
     {
         foreach (var fileData in additionFileList)
         {
-            Debug.Log("fileData");
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
-                string str = DataManager.Inst.GetAdditionalFileLocation(fileData);
-                string settingStr = str.Substring(0, str.Length - 1);
-                int index = settingStr.LastIndexOf("\\");
-                Debug.Log(index);
-                string location = str.Substring(0, index + 1);
-                Debug.Log(location);
+                string location = DataManager.Inst.GetAdditionalFileName(fileData);
+                
                 AddFile(fileData, location);
             }
         }
@@ -66,12 +61,11 @@ public class FileManager : MonoSingleton<FileManager>
         {
             currentDir.children.Add(file);
             file.parent = currentDir;
-            additionFileList.Add(file);
         }
 
         if (!DataManager.Inst.AdditionalFileContain(file))
         {
-            DataManager.Inst.AddNewFileData(location + file.fileName + "\\");
+            DataManager.Inst.AddNewFileData(file,location + file.fileName + "\\");
         }
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
     }
