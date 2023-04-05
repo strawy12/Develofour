@@ -24,17 +24,15 @@ public class ProfileWindow : Window
     [SerializeField]
     private ProfilePanelButton searchPanelBtn;
 
+    [Header("UIPanelButton")]
+    [SerializeField]
+    private Button moveDownPanelBtn;
+    [SerializeField]
+    private Button movePopUpPanelBtn;
+
     [Header("UIEtc")]
     [SerializeField]
-    private Button moveBtn;
-    [SerializeField]
     private RectTransform area;
-    [SerializeField]
-    private Image openImage;
-    [SerializeField]
-    private Image closeImage;
-
-
 
     [SerializeField]
     private float moveDelay = 0.75f;
@@ -61,7 +59,8 @@ public class ProfileWindow : Window
         infoPanelBtn.button.onClick?.AddListener(OnClickShowProfiling);
         searchPanelBtn.button.onClick?.AddListener(OnClickShowFileSearch);
 
-        moveBtn.onClick.AddListener(MoveButtonClick);
+        moveDownPanelBtn.onClick.AddListener(MoveButtonClick);
+        movePopUpPanelBtn.onClick.AddListener(MoveButtonClick);
 
         EventManager.StartListening(EProfileSearchTutorialEvent.GuideSearchButton, GuideSearchButton);
         TutorialStart();
@@ -134,17 +133,19 @@ public class ProfileWindow : Window
     {
         if(isPanelOpen)
         {
-            area.DOAnchorPosY(-680, moveDelay);
-            closeImage.gameObject.SetActive(true);
-            openImage.gameObject.SetActive(false);
+            area.DOAnchorPosY(-1000, moveDelay);
+
+            movePopUpPanelBtn.gameObject.SetActive(true);
+            moveDownPanelBtn.gameObject.SetActive(false);
 
             isPanelOpen = false;
         }
         else if(!isPanelOpen)
         {
             area.DOAnchorPosY(-50, moveDelay);
-            openImage.gameObject.SetActive(true);
-            closeImage.gameObject.SetActive(false);
+
+            moveDownPanelBtn.gameObject.SetActive(true);
+            movePopUpPanelBtn.gameObject.SetActive(false);
 
             isPanelOpen = true;
         }
@@ -154,7 +155,7 @@ public class ProfileWindow : Window
     {
         isMoving = true;
 
-        area.DOAnchorPosY(-680, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
+        area.DOAnchorPosY(-1000, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
             profilePanel.gameObject.SetActive(false);
             fileSearchPanel.gameObject.SetActive(false);
