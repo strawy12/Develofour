@@ -7,12 +7,13 @@ using System;
 public class FileManager : MonoSingleton<FileManager>
 {
     [SerializeField]
-    public DirectorySO rootDirectory;
-
-    public List<FileSO> additionFileList = new List<FileSO>();
+    private DirectorySO rootDirectory;
+    [SerializeField]
+    private List<FileSO> additionFileList = new List<FileSO>();
+    private List<FileSO> debugAdditionFileList = new List<FileSO>();
     //새롭게 추가된 파일은 fileList에 등록된다.
-
-    public List<FileSO> defaultFileList = new List<FileSO>();
+    [SerializeField]
+    private List<FileSO> defaultFileList = new List<FileSO>();
 
     private Dictionary<EWindowType, FileSO> defaultFileDictionary = new Dictionary<EWindowType, FileSO>();
 
@@ -23,21 +24,16 @@ public class FileManager : MonoSingleton<FileManager>
             defaultFileDictionary.Add(file.windowType, file);
         }
 
-      
+
     }
     private void Start()
     {
         foreach (var fileData in additionFileList)
         {
-            Debug.Log("fileData");
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
-                string str = DataManager.Inst.GetAdditionalFileLocation(fileData);
-                string settingStr = str.Substring(0, str.Length - 1);
-                int index = settingStr.LastIndexOf("\\");
-                Debug.Log(index);
-                string location = str.Substring(0, index + 1);
-                Debug.Log(location);
+                string location = DataManager.Inst.GetAdditionalFileName(fileData);
+
                 AddFile(fileData, location);
             }
         }
@@ -66,12 +62,12 @@ public class FileManager : MonoSingleton<FileManager>
         {
             currentDir.children.Add(file);
             file.parent = currentDir;
-            additionFileList.Add(file);
+            debugAdditionFileList.Add(file);
         }
 
         if (!DataManager.Inst.AdditionalFileContain(file))
         {
-            DataManager.Inst.AddNewFileData(location + file.fileName + "\\");
+            DataManager.Inst.AddNewFileData(file, location + file.fileName + "\\");
         }
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
     }
@@ -206,4 +202,19 @@ public class FileManager : MonoSingleton<FileManager>
         return resultFile;
     }
 
+#if UNITY_EDITOR
+
+    private void OnDestroy()
+    {
+        foreach (var dd in debugAdditionFileList)
+        {
+            DirectorySO parent = dd.parent;
+
+            if (parent != null)
+            {
+                parent.children.Remove(dd);
+            }
+        }
+    }
+#endif
 }
