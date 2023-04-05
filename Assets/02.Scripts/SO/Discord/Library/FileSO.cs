@@ -47,7 +47,6 @@ public class FileSO : SOParent
     public TaskBarData taskBarData;
     #region GetFileData
 
-    [ContextMenu("GetFileLocation")]
     public string GetFileLocation()
     {
         string location = "";
@@ -55,15 +54,35 @@ public class FileSO : SOParent
         {
             location = this.fileName + '\\';
 
-            Debug.Log(location);
             return location;
         } 
 
         location = string.Format("{0}{1}\\", parent.GetFileLocation(), this.fileName);
 
-        Debug.Log(location);
         return location;
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("GetFileLocation")]
+    public string DebugGetFileLocation()
+    {
+        string location = "";
+        if (parent == null)
+        {
+            location = this.fileName + '\\';
+            
+            Debug.Log(location);
+            return location;
+        }
+
+        location = string.Format("{0}{1}\\", parent.GetFileLocation(), this.fileName);
+
+        Debug.Log(location);
+
+        return location;
+    }
+#endif
+
 
     [ContextMenu("GetFileBytes")]
     public void Test()
