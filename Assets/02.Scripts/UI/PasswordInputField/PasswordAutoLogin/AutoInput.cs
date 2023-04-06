@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 //여기에 Data클래스랑 Enum울 하나 추가한다음 
 
-public class AutoInputSystem : MonoBehaviour
+public class AutoInput : MonoBehaviour
 {
     //여기에 리스트를 추가하고 그 Data의 이넘을 기반으로 불러오는 방식
     [SerializeField]
@@ -15,27 +15,22 @@ public class AutoInputSystem : MonoBehaviour
 
     private bool isOpen;
 
-    private bool isHave;
-    public void HideAllPanel()
-    {
-        foreach(AutoInputPanel panel in autoInputPanelList) 
-        {
-            panel.gameObject.SetActive(false);
-        }
-    }
+    private bool isCanShowPanel;
 
-    public void ShowPanel(List<TMP_InputField> inputFields, List<AutoAnswerData> answerDatas)
+    public void ShowPanel(TMP_InputField inputField, List<AutoAnswerData> answerDatas)
     {
-        isHave = false;
+        isCanShowPanel = false;
         for(int i = 0;  i < answerDatas.Count; i++)
         {
-            if(!answerDatas[i].isLock)
+            AutoAnswerData data = answerDatas[i];
+
+            if(DataManager.Inst.IsProfileInfoData(data.infoData.category, data.infoData.key))
             {
-                autoInputPanelList[i].Setting(inputFields, answerDatas[i]);
-                isHave = true;
+                autoInputPanelList[i].Setting(inputField, answerDatas[i]);
+                isCanShowPanel = true;
             }
         }
-        if (!isHave)
+        if (!isCanShowPanel)
         {
             return;
         }
@@ -57,7 +52,7 @@ public class AutoInputSystem : MonoBehaviour
     {
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
         isOpen = false;
-        gameObject.SetActive(false);
+        OffAutoPanel();
     }
 
     public void OffAutoPanel()
@@ -66,6 +61,12 @@ public class AutoInputSystem : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-
+    public void HideAllPanel()
+    {
+        foreach (AutoInputPanel panel in autoInputPanelList)
+        {
+            panel.gameObject.SetActive(false);
+        }
+    }
 
 }

@@ -16,7 +16,6 @@ public class DiscordLogin : MonoBehaviour
 
     [Header("본인 확인 로그인 정답")]
     public string identificationAnswerText;
-    public string PINAnswerText;
 
     [SerializeField]
     private DiscordInputField IDInputField;
@@ -52,7 +51,7 @@ public class DiscordLogin : MonoBehaviour
     public void Init()
     {
         background.OnIDPWPanelOff += SetIDPWPanel;
-        identificationPanel.Init(identificationAnswerText, PINAnswerText);
+        identificationPanel.Init(identificationAnswerText);
         //IDAccountPanel.Init();
         //pwAccountPanel.Init();
         //IDAccountPanel.OnClick += SetIDText;
@@ -72,17 +71,6 @@ public class DiscordLogin : MonoBehaviour
         }    
     }
 
-    public void SetIDText(string str)
-    {
-        IDInputField.text.text = str;
-    }
-
-    public void SetPWText(string str)
-    {
-        passwordInputField.text.text = str;
-    }
-
-
     public void ShowIDAccountPanel()
     {
         //IDAccountPanel.gameObject.SetActive(true);
@@ -97,8 +85,7 @@ public class DiscordLogin : MonoBehaviour
     {
         if(IDInputField.text.text == answerID && passwordInputField.text.text == answerPassword)
         {
-          //  Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
-
+            //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
             SuccessLogin();
         }
         else
@@ -108,6 +95,7 @@ public class DiscordLogin : MonoBehaviour
             {
                 currentIdInputFieldText.gameObject.SetActive(false);
                 wrongIDInputFieldText.gameObject.SetActive(true);
+                wrongIDInputFieldText.text = "<b>이메일 또는 전화번호 </b>- <i><size=85%> 유효하지 않은 아이디입니다.</i>";
                 //wrongIDInputFieldText.GetComponent<TextMove>().FaliedInput("<b>이메일 또는 전화번호 </b>- <i><size=85%> 유효하지 않은 아이디입니다.</i>");
             }
 
@@ -115,7 +103,8 @@ public class DiscordLogin : MonoBehaviour
             {
                 currentPasswordInputFieldText.gameObject.SetActive(false);
                 wrongPasswordInputFieldText.gameObject.SetActive(true);
-                //wrongPasswordInputFieldText.GetComponent<TextMove>().FaliedInput("<b>비밀번호 </b>- <i><size=85%> 유효하지 않은 비밀번호입니다.</i>");
+                wrongPasswordInputFieldText.text = "<b>비밀번호 </b>- <i><size=85%> 유효하지 않은 비밀번호입니다.</i>";
+                //wrongPasswordInputFieldText.GetComponent<TextMove>().FaliedInput("<b>비밀번호 </b>- <i><size=85%> 유효하지 않은 비밀번호입니다.</i>"); 
             }
 
         }
@@ -123,10 +112,9 @@ public class DiscordLogin : MonoBehaviour
 
     public void SuccessLogin()
     {
-        //Debug.Log("성공");
+        Debug.Log("성공");
         //성공을 알리는 이벤트
 
-        //Discord Identification 켜기
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: OnClickLogin);
         isLogin = true;
         identificationPanel.gameObject.SetActive(true);
