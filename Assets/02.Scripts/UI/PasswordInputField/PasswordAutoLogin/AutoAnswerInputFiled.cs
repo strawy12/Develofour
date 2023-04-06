@@ -16,7 +16,7 @@ public class AutoAnswerData
 public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
-    private TMP_InputField inputField;
+    private TMP_InputField inputField; 
 
     [SerializeField]
     private List<AutoAnswerData> autoAnswerDatas;
