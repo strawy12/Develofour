@@ -129,7 +129,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             Define.ChangeInfoCursor(currentChatData.needInformaitonList, currentChatData.infoData.category, currentChatData.infoData.key);
         }
-
+            
     }
 
     public void OnPointerExit(PointerEventData eventData)
