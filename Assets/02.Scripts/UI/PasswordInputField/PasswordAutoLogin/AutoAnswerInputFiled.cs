@@ -10,29 +10,22 @@ public class AutoAnswerData
 {
     public string answer;
 
-    public bool isLock
-    {
-        get
-        {
-            return DataManager.Inst.IsWindowLock(location);
-        }
-    }
-    public string location;
+    public ProfileInfoTextDataSO infoData;
 }
 
 public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
-    private List<TMP_InputField> inputFields;
+    private TMP_InputField inputField;
 
     [SerializeField]
     private List<AutoAnswerData> autoAnswerDatas;
 
     [SerializeField]
-    private AutoInputSystem inputSystem;
+    private AutoInput inputSystem;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        inputSystem.ShowPanel(inputFields, autoAnswerDatas);
+        inputSystem.ShowPanel(inputField, autoAnswerDatas);
     }
 }
