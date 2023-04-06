@@ -8,8 +8,9 @@ using UnityEngine.UI;
 public class MediaPlayerSlider : Slider, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     public Action OnMousePointDown;
-    public Action OnMousePointUp;
+    public Action<float> OnMousePointUp;
     public Action<float> OnMouseSlider;
+
     public override void OnPointerDown(PointerEventData eventData)
     {
         base.OnPointerDown(eventData);
@@ -29,6 +30,6 @@ public class MediaPlayerSlider : Slider, IPointerDownHandler, IPointerUpHandler,
     {
         base.OnPointerUp(eventData);
 
-        OnMousePointUp?.Invoke();
+        OnMousePointUp?.Invoke(value);
     }
 }

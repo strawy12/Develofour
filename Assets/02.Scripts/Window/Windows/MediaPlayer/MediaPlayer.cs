@@ -47,7 +47,7 @@ public class MediaPlayer : Window
         mediaDetailText.maxVisibleCharacters = 0;
         
         mediaPlaySlider.OnMousePointDown += MediaSliderDown;
-        mediaPlaySlider.OnMousePointUp += PlayMediaPlayer;
+        mediaPlaySlider.OnMousePointUp += PointUpMediaPlayer;
         mediaPlaySlider.OnMouseSlider += SetSliderMediaText;
 
         secondTimer = 0;
@@ -67,14 +67,24 @@ public class MediaPlayer : Window
         mediaPlayerDownBar.StopButtonClick += cdPlayMedia.StopCdAnimation;
     }
 
-    private void StartMediaPlayer()
+    private void StartMediaPlayer() // 시작
     {
         StartCoroutine(PrintMediaText());
         StartCoroutine(PrintTimerText());
     }
 
-    private void PlayMediaPlayer()
+    private void PlayMediaPlayer() // 플레이 
     {
+        cdPlayMedia.PlayCdAnimation();
+
+        StartCoroutine(PrintMediaText());
+        StartCoroutine(PrintTimerText());
+    }
+
+    private void PointUpMediaPlayer(float value)
+    {
+        SetSliderMediaText(value);
+
         cdPlayMedia.PlayCdAnimation();
 
         StartCoroutine(PrintMediaText());
