@@ -37,10 +37,10 @@ public class ProfileInfoSystem : MonoBehaviour
 
         if (ps[2] != null)
         {
-            List<NeedInfomation> strList = ps[2] as List<NeedInfomation>;
+            List<ProfileInfoTextDataSO> strList = ps[2] as List<ProfileInfoTextDataSO>;
             foreach (var temp in strList)
             {
-                if (!DataManager.Inst.IsProfileInfoData(temp.category, temp.information))
+                if (!DataManager.Inst.IsProfileInfoData(temp.category, temp.key))
                 {
                     return;
                 }

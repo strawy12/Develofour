@@ -4,18 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-[System.Serializable]
-public class NeedInfomation
-{
-    public EProfileCategory category; 
-    public string information;
-}
-
 public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public EProfileCategory category;
     public string information;
-    public List<NeedInfomation> needInformaitonList;
+    public List<ProfileInfoTextDataSO> needInformaitonList;
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -40,30 +33,7 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
             return;
         }
 
-        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
-
-        if (needInformaitonList.Count > 0)
-        {
-            foreach(NeedInfomation needData in needInformaitonList)
-            {
-                if(!DataManager.Inst.IsProfileInfoData(needData.category, needData.information))
-                {
-                    EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
-                    return;
-                }
-            }
-        }
-
-        if (DataManager.Inst.IsProfileInfoData(category, information))
-        {
-            state = CursorChangeSystem.ECursorState.FoundInfo;
-        }
-        else
-        {
-            state = CursorChangeSystem.ECursorState.FindInfo;
-        }
-
-        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
+        Define.ChangeInfoCursor(needInformaitonList, category, information);
     }
 
     public void OnPointerExit(PointerEventData eventData)

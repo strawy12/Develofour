@@ -138,4 +138,37 @@ public static class Define
     {
         return FileManager.Inst.SearchFile("Profile") != null;
     }
+
+    public static void ChangeInfoCursor(List<ProfileInfoTextDataSO> needInfoList, EProfileCategory category, string infoKey)
+    {
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
+
+        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
+
+        if (needInfoList.Count > 0)
+        {
+            foreach(ProfileInfoTextDataSO needData in needInfoList)
+            {
+                if (!DataManager.Inst.IsProfileInfoData(needData.category, needData.key))
+                {
+                    EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
+                    return;
+                }
+            }
+        }
+
+        if (DataManager.Inst.IsProfileInfoData(category, infoKey))
+        {
+            state = CursorChangeSystem.ECursorState.FoundInfo;
+        }
+        else
+        {
+            state = CursorChangeSystem.ECursorState.FindInfo;
+        }
+
+        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
+    }
 }
