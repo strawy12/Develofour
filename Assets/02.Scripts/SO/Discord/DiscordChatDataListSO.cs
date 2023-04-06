@@ -30,6 +30,10 @@ public class DiscordChatData
         isTalked = false;
     }
 
+    [Header("정보 찾기")]
+    public ProfileInfoTextDataSO infoData;
+    public List<ProfileInfoTextDataSO> needInformaitonList;
+
 }
 
 [CreateAssetMenu(menuName = "SO/Discord/ChatDataList")]
