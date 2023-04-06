@@ -10,25 +10,13 @@ public class AutoInputPanel : MonoBehaviour, IPointerClickHandler
 
     private TMP_InputField passwordInputField;
 
-    private bool isHaveID;
-
     [SerializeField]
-    private AutoInputSystem inputSystem;
+    private AutoInput inputSystem;
 
-    public void Setting(List<TMP_InputField> inputFields, AutoAnswerData data)
+    public void Setting(TMP_InputField inputFields, AutoAnswerData data)
     {
-        if(inputFields.Count < 2)
-        {
-            passwordInputField = inputFields[0];
-            passwordText.text = data.answer;  
-            isHaveID = false;
-        }
-        else
-        {
-            passwordInputField = inputFields[1];
-            passwordText.text = data.answer;
-            isHaveID = true;
-        }
+        passwordInputField = inputFields;
+        passwordText.text = data.answer;
 
         gameObject.SetActive(true);
     }
@@ -38,6 +26,4 @@ public class AutoInputPanel : MonoBehaviour, IPointerClickHandler
         passwordInputField.text = passwordText.text;
         inputSystem.OffAutoPanel();
     }
-
-
 }

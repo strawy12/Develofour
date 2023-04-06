@@ -6,7 +6,7 @@ using TMPro;
 using System;
 public class DiscordInputField : MonoBehaviour, IPointerClickHandler
 {
-    public TextMeshProUGUI text;
+    public TMP_InputField text;
     public Action OnShowAccount;
 
     public void OnPointerClick(PointerEventData eventData)
