@@ -141,14 +141,19 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left && currentChatData.msgSprite != null)
+        if(eventData.button == PointerEventData.InputButton.Left)
         {
-            EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSprite }); ;
+            if (currentChatData.msgSprite != null)
+            {
+                EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSprite }); ;
+            }
+            if (currentChatData.infoData != null)
+            {
+                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { currentChatData.infoData.category, currentChatData.infoData.key });
+            }
         }
+      
 
-        if(eventData.button == PointerEventData.InputButton.Left && currentChatData.infoData != null)
-        {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { currentChatData.infoData.category, currentChatData.infoData.key });
-        }
+       
     }
 }
