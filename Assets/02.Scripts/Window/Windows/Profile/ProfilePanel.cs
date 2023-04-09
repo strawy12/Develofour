@@ -10,7 +10,10 @@ public enum EProfileCategory
     SuspectProfileExtensionInformation,
     VictimProfileInformation,
     PetInformation,
-    MurderEvidence,
+    MurderEvidence_1,
+    MurderEvidence_2,
+    MurderEvidence_3,
+    MurderTrigger,
     InvisibleInformation,
     Count,
 }
