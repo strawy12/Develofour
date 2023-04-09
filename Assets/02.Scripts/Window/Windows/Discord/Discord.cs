@@ -33,6 +33,7 @@ public class Discord : Window
         EventManager.StartListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
         EventManager.StartListening(EDiscordEvent.StartTalk, StartTalkChat);
         friendList.Init();
+        chattingPanel.Init();
         discordLogin.Init();
     }
 

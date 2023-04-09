@@ -45,6 +45,12 @@ public class Debugger : MonoBehaviour
                 e.debugEvent?.Invoke();
             }
         }
+
+
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.InvisibleInformation, "BranchID" });
+        }
     }
 
 #endif

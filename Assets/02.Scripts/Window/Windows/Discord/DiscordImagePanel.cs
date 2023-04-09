@@ -32,8 +32,9 @@ public class DiscordImagePanel : MonoBehaviour, IPointerClickHandler
             Sprite sprite = obj[0] as Sprite;
             profileImage.rectTransform.sizeDelta = new Vector2(sprite.rect.width - (sideX * sideCount), sprite.rect.height - (sideY * sideCount));
             profileImage.sprite = sprite;
-            this.gameObject.SetActive(true);
+            gameObject.SetActive(true);
         }
+
         return;
     }
 }

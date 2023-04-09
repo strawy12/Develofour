@@ -119,18 +119,41 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     public void OnPointerEnter(PointerEventData eventData)
     {
         backgroundImage.enabled = true;
+
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
+
+        if(currentChatData.infoData != null)
+        {
+            Define.ChangeInfoCursor(currentChatData.needInformaitonList, currentChatData.infoData.category, currentChatData.infoData.key);
+        }
+            
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         backgroundImage.enabled = false;
+
+        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[1] { CursorChangeSystem.ECursorState.Default });
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left && currentChatData.msgSprite != null)
+        if(eventData.button == PointerEventData.InputButton.Left)
         {
-            EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSprite }); ;
+            if (currentChatData.msgSprite != null)
+            {
+                EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSprite }); ;
+            }
+            if (currentChatData.infoData != null)
+            {
+                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { currentChatData.infoData.category, currentChatData.infoData.key });
+            }
         }
+      
+
+       
     }
 }

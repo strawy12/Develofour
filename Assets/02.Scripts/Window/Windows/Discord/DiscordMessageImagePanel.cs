@@ -19,15 +19,10 @@ public class DiscordMessageImagePanel : MonoBehaviour
         }
     }
 
-
-    private void Awake()
-    {
-        rectTransform = GetComponent<RectTransform>();
-    }
-
-
     public void SettingImage(Sprite sprite, Vector2 sizeVector)
     {
+        rectTransform ??= GetComponent<RectTransform>();
+
         msgImage.rectTransform.sizeDelta = sizeVector;
         msgImage.sprite = sprite;
         PanelSizeSetting();
