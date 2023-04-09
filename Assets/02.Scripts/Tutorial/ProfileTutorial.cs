@@ -59,7 +59,7 @@ public class ProfileTutorial : MonoBehaviour
     public void StartProfileMonolog()
     {
         MonologSystem.OnEndMonologEvent += StartProfileNextTutorial;
-        MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, true);
+        //MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, true);
     }
     public void StartProfileNextTutorial()
     {
