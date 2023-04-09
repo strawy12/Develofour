@@ -220,7 +220,6 @@ public class Library : Window
         //count가 0이면 알파값 내리는게 맞을듯
         if (redoStack.Count == 0) return;
         DirectorySO data = redoStack.Pop();
-        Debug.Log("가나다라마바사아자차카타파하");
         undoStack.Push(currentDirectory);
         OnFileOpen(new object[1] { data });
     }
@@ -241,7 +240,6 @@ public class Library : Window
             undoStack.Push(currentDirectory);
         }
 
-        Debug.Log(undoStack.Count);
         RedoStackReset(ps);
         OnFileOpen(ps);
     }
