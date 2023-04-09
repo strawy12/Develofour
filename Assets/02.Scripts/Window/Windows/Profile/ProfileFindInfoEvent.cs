@@ -48,6 +48,11 @@ public class ProfileFindInfoEvent : MonoBehaviour
             {
                 MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.SuspectResidence, 0.1f, true);
             }
+            if(category == EProfileCategory.VictimProfileInformation && key == Constant.ProfileInfoKey.VICTIMUNIVERSITY)
+            {
+                MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.VictimUniversity, 0.1f, true);
+
+            }
         }
     }
     

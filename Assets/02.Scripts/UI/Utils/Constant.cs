@@ -29,6 +29,7 @@ public static class Constant
     public static class ProfileInfoKey
     {
         public const string SUSPECTRESIDENCE = "SuspectResidence";
+        public const string VICTIMUNIVERSITY = "VictimUniversity";
     }
     #endregion
 }
