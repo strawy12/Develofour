@@ -74,20 +74,18 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     protected virtual void Init()
     {
         currentCanvas = GetComponent<Canvas>();
-
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
-        windowAlteration = new WindowAlterationSO(originWindowAlteration);
+
+        windowAlteration = Instantiate(originWindowAlteration);
 
         if (file == null)
         {
             windowBar.Init(windowAlteration, rectTransform);
-
         }
         else
         {
             windowBar.Init(windowAlteration, file, rectTransform);
-
         }
 
         OnSelected += () => WindowSelected(true);
@@ -106,11 +104,9 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         if (windowBar.OnMaximum != null)
         {
             windowBar.OnMaximum?.AddListener(WindowMaximum);
-
         }
 
         windowBar.OnSelected += SelectWindow;
-
     }
 
     // SelectableObject를 위한 함수
@@ -145,10 +141,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         OnClosed?.Invoke(file.fileName);
         
         windowMaxCnt--;
-
-        originWindowAlteration.isMaximum = windowAlteration.isMaximum;
-        originWindowAlteration.size = windowAlteration.size;
-        originWindowAlteration.pos = windowAlteration.pos;
 
         if (isSelected)
         {
