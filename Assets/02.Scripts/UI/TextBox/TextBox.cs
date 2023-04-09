@@ -113,6 +113,17 @@ public class TextBox : MonoUI
                 triggerDictionary[i]?.Invoke();
                 triggerDictionary[i] = null;
             }
+            if (currentDelay != 0f)
+            {
+                yield return new WaitForSeconds(currentDelay);
+                currentDelay = 0f;
+            }
+
+            if(!bgImage.enabled)
+            {
+                bgImage.enabled = true;
+            }
+
             if (msg[i] == '<')
             {
                 isRich = true;
@@ -134,11 +145,6 @@ public class TextBox : MonoUI
                 yield return new WaitForSeconds(printTextDelay);
             }
 
-            if (currentDelay != 0f)
-            {
-                yield return new WaitForSeconds(currentDelay);
-                currentDelay = 0f;
-            }
             isDelayEnd = true;
             if (msg.Length - 1 != i)
             {
@@ -188,6 +194,7 @@ public class TextBox : MonoUI
         messageText.SetText(str);
         ShowBox();
         bgImage.rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + offsetSize;
+        bgImage.enabled = false;
         messageText.SetText("");
         messageText.color = data.color;
     }
