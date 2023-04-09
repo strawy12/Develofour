@@ -15,6 +15,7 @@ public enum EMonologTextDataType
     SuspectResidence,
     SuspectRelationWithVictimGuide,
     StartSearchTutoMonolog,
+    VictimUniversity,
     Count
 }
 

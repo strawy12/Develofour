@@ -33,7 +33,7 @@ public class ProfileInfoSystem : MonoBehaviour
         }
 
         EProfileCategory category = (EProfileCategory)ps[0];
-        string str = ps[1] as string;
+        string key = ps[1] as string;
 
         if (ps[2] != null)
         {
@@ -47,11 +47,11 @@ public class ProfileInfoSystem : MonoBehaviour
             }
         }
 
-        if (!DataManager.Inst.IsProfileInfoData(category, str))
+        if (!DataManager.Inst.IsProfileInfoData(category, key))
         {
-            DataManager.Inst.AddProfileinfoData(category, str);
+            DataManager.Inst.AddProfileinfoData(category, key);
 
-            SendAlarm(category, str);
+            SendAlarm(category, key);
         }
         else
         {

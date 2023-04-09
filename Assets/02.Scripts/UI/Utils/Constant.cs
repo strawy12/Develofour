@@ -24,5 +24,12 @@ public static class Constant
     #region File
     public const string USB_FILENAME = "BestUSB";
     #endregion
-
+    #region ProfileInfoKey
+   
+    public static class ProfileInfoKey
+    {
+        public const string SUSPECTRESIDENCE = "SuspectResidence";
+        public const string VICTIMUNIVERSITY = "VictimUniversity";
+    }
+    #endregion
 }
