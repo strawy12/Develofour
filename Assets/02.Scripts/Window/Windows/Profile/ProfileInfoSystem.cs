@@ -73,8 +73,7 @@ public class ProfileInfoSystem : MonoBehaviour
         {
             if (key == infoText.key)
             {
-                answer = infoText.key;
-                temp = answer.Replace(": ", "");
+                temp = infoText.infoName;
             }
         }
         string text;
