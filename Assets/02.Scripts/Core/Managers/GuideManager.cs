@@ -41,6 +41,7 @@ public partial class GuideManager : MonoBehaviour
         {
             return;
         }
+
         StartCoroutine(SetTimer(timer, guideTopicName));
     }
 
@@ -89,7 +90,7 @@ public partial class GuideManager : MonoBehaviour
         if (fileLocation == "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\")
         {
             Debug.Log("비번 가이드 조건 충족");
-            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 5);
+            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 30f);
         }
     }
 
