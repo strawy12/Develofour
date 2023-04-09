@@ -31,9 +31,9 @@ public partial class GuideManager : MonoBehaviour
 
                     break;
                 }
-            case EGuideTopicName.ClearPinNotePadQuiz:
+            case EGuideTopicName.ClearPinNotePadQuiz: // ÁÖ±Û ÇÉ ¹øÈ£ ÈùÆ®
                 {
-                    SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, false);
+                    SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, true);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
@@ -63,7 +63,7 @@ public partial class GuideManager : MonoBehaviour
                     }
                     else
                     {
-                        SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, false);
+                        SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, true);
                     }
                     break;
                 }
@@ -89,7 +89,7 @@ public partial class GuideManager : MonoBehaviour
                     }
                     else
                     {
-                        SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, false);
+                        SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, true);
                     }
                     break;
                 }
