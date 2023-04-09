@@ -156,6 +156,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         if (isDrag) { return; }
 
         OnSelected?.Invoke();
+
         if (isClicked == false)
         {
             isClicked = true;
