@@ -206,8 +206,8 @@ public class WindowManager : MonoSingleton<WindowManager>
             targetWindow = CreateWindow(EWindowType.IconProperty, file);
         }
 
-        DataManager.Inst.SaveData.isOnceOpenWindowProperty = true;
         targetWindow.WindowOpen();
+        DataManager.Inst.SaveData.isOnceOpenWindowProperty = true;
 
         return targetWindow;
     }
@@ -310,7 +310,6 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         popupWindow.Setting(text, agreeAction, degreeAction);
 
-        DataManager.Inst.SaveData.isOnceOpenWindowProperty = true;
         targetWindow.WindowOpen();
 
     }
