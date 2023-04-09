@@ -41,6 +41,7 @@ public partial class GuideManager : MonoBehaviour
         {
             return;
         }
+
         StartCoroutine(SetTimer(timer, guideTopicName));
     }
 
