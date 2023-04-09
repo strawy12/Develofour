@@ -37,6 +37,7 @@ public partial class GuideManager : MonoBehaviour
 
     private void StartPlayGuide(EGuideTopicName guideTopicName, float timer)
     {
+
         if (DataManager.Inst.IsGuideUse(guideTopicName))
         {
             return;
@@ -82,6 +83,10 @@ public partial class GuideManager : MonoBehaviour
 
     private void GuideConditionCheckClear(object[] ps)
     {
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
         FileSO file = (FileSO)ps[0];
         bool isZooglePinHintNoteOpen = DataManager.Inst.SaveData.isZooglePinHintNoteOpen;
 
