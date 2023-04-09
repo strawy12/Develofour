@@ -55,6 +55,8 @@ public partial class GuideManager : MonoBehaviour
                 }
             case EGuideTopicName.VictimBirthDate:
                 {
+                    Debug.Log($"OnceOpenWindowProperty : {DataManager.Inst.SaveData.isOnceOpenWindowProperty}");
+
                     if (DataManager.Inst.SaveData.isOnceOpenWindowProperty)
                     {
                         SendProfileGuide();
@@ -80,6 +82,7 @@ public partial class GuideManager : MonoBehaviour
                 }
             case EGuideTopicName.PetAdoptionDate:
                 {
+                    Debug.Log($"OnceOpenWindowProperty : {DataManager.Inst.SaveData.isOnceOpenWindowProperty}");
                     if (DataManager.Inst.SaveData.isOnceOpenWindowProperty)
                     {
                         SendProfileGuide();
