@@ -28,13 +28,19 @@ public class DiscordChattingPanel : MonoBehaviour
     public DiscordProfileDataSO opponentProfileData;
     [SerializeField]
     private DiscordFriendList friendList;
-    private void Awake()
+
+    [SerializeField]
+    private DiscordImagePanel clickImagePanel;
+
+    public void Init()
     {
         messagePoolList = new List<DiscordMessagePanel>();
         messageList = new List<DiscordMessagePanel>();
         CreatePool();
 
+        clickImagePanel.Init();
     }
+
     #region Pooling
     public void PushAllPanel()
     {
