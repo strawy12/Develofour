@@ -135,6 +135,7 @@ public class ProfileInfoPanel : MonoBehaviour
 
     private void HidePost()
     {
+        Debug.Log(gameObject.name);
         gameObject.SetActive(false);
     }
 
