@@ -115,7 +115,8 @@ public class ProfileGuideButtonParent : MonoBehaviour
         {
             return;
         }
-        if (data.guideTopicName == EGuideTopicName.None || DataManager.Inst.IsProfileInfoData(data.category, data.key))
+        if (data.guideTopicName == EGuideTopicName.None || DataManager.Inst.IsProfileInfoData(data.category, data.key) 
+            || data.infoName == "" || data.infoName == "?")
         {
             return;
         }

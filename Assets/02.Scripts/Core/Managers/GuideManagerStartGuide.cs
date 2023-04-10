@@ -110,10 +110,22 @@ public partial class GuideManager : MonoBehaviour
             case EGuideTopicName.MurderPlan:
             case EGuideTopicName.MurderPrepare:
             case EGuideTopicName.MurderPlace:
+            case EGuideTopicName.MurderMotive:
+            case EGuideTopicName.MurderFirstPlan:
+            case EGuideTopicName.MurderCriminal:
+            case EGuideTopicName.MurderStuff:
+            case EGuideTopicName.MurderrFirstConditions:
+            case EGuideTopicName.MurderSecondConditions:
+            case EGuideTopicName.MurderAlibi:
+            case EGuideTopicName.MurderCorpse:
+            case EGuideTopicName.MurderTime:
+            case EGuideTopicName.MurderSecondPlan:
                 {
                     SendProfileGuide();
                     break;
                 }
+            case EGuideTopicName.Count:
+                break;
             default:
                 {
                     break;
