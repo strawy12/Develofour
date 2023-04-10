@@ -62,11 +62,14 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartProfileNextTutorial()
     {
+        StartCoroutine(StartProfileNextTutorialCoroutine());  
+    }
+    public IEnumerator StartProfileNextTutorialCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
         ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
         StartChatting(1);
-        
     }
-
     private void CheckMaximumWindow()
     {
         ProfileChattingSystem.OnChatEnd -= CheckMaximumWindow;
