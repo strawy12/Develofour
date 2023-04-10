@@ -10,9 +10,7 @@ public enum EProfileCategory
     SuspectProfileExtensionInformation,
     VictimProfileInformation,
     PetInformation,
-    MurderEvidence_1,
-    MurderEvidence_2,
-    MurderEvidence_3,
+    MurderEvidence,
     MurderTrigger,
     InvisibleInformation,
     Count,
@@ -37,7 +35,13 @@ public class ProfilePanel : MonoBehaviour
         Debug.Log(infoList.Count);
         foreach (var info in infoList)
         {
-            infoPanelList.Find(x => x.category == info.Key).Init(info.Value);
+            foreach(var infoPanel in infoPanelList)
+            {
+                if(infoPanel.category == info.Key)
+                {
+                    infoPanel.Init(info.Value);
+                }
+            }
         }
     }
 
@@ -67,30 +71,19 @@ public class ProfilePanel : MonoBehaviour
 
         if (category == EProfileCategory.InvisibleInformation)
         {
-
+            return;
         }
 
-        ProfileInfoPanel categoryPanel = infoPanelList.Find(x => x.category == category);
-
-        GetInfoPanel(category).ChangeValue(key);
-
-        if (key == "SuspectIsPetHaveAnswer")
+        foreach(var infoPanel in infoPanelList)
         {
-            GetInfoPanel(EProfileCategory.PetInformation).ShowPost();
-        }
-    }
-
-    private ProfileInfoPanel GetInfoPanel(EProfileCategory category)
-    {
-        foreach (var panel in infoPanelList)
-        {
-            if (panel.category == category)
+            if(infoPanel.category == category)
             {
-                return panel;
+                Debug.Log($"{infoPanel.gameObject.name}");
+
+                infoPanel.ShowPost();
+                infoPanel.ChangeValue(key);
             }
         }
-
-        return null;
     }
 
     public void SendAlarm(object[] ps)

@@ -55,9 +55,10 @@ public class ProfileInfoSystem : MonoBehaviour
         }
         else
         {
+            Debug.Log("이미 찾은 정보입니다");
             return;
         }
-
+        Debug.Log(category);
         if (!DataManager.Inst.GetProfileSaveData(category).isShowCategory)
         {
             DataManager.Inst.SetCategoryData(category, true);

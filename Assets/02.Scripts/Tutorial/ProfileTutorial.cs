@@ -96,7 +96,7 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
         GuideUISystem.EndGuide?.Invoke();
         ProfileChattingSystem.OnChatEnd += StartProfileEnd;
-        StartChatting(3);
+        StartChatting(2);
     }
 
     public void StartProfileEnd()
