@@ -181,10 +181,11 @@ public class ProfileInfoPanel : MonoBehaviour
 
     private void FillPostItColor()
     {
+        Debug.Log("Fill");
+
         DOTween.To(
             () => currentImage.material.GetFloat("_Dissolve"),
             (v) => currentImage.material.SetFloat("_Dissolve", v),
-            1f, 3f
-     );
+            1f, 3f);
     }
 }
