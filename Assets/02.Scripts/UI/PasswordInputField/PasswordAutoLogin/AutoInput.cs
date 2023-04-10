@@ -23,7 +23,7 @@ public class AutoInput : MonoBehaviour
         for(int i = 0;  i < answerDatas.Count; i++)
         {
             AutoAnswerData data = answerDatas[i];
-
+            Debug.Log(DataManager.Inst.IsProfileInfoData(data.infoData.category, data.infoData.key));
             if(DataManager.Inst.IsProfileInfoData(data.infoData.category, data.infoData.key))
             {
                 autoInputPanelList[i].Setting(inputField, answerDatas[i]);
