@@ -42,7 +42,7 @@ public class GuideButtonTutorial : MonoBehaviour
             EventManager.StartListening(EGuideButtonTutorialEvent.ClickMoveBtn, ClickMoveBtn);
             EventManager.TriggerEvent(EGuideButtonTutorialEvent.GuideMoveBtn);
         };
-        ProfileChattingSystem.OnPlayChatList?.Invoke(tutorialTextList.tutorialTexts[(int)EGuideButtonTutorialChatting.Start].data, 1f, true);
+        ProfileChattingSystem.OnPlayChatList?.Invoke(tutorialTextList.tutorialTexts[(int)EGuideButtonTutorialChatting.Start].data, 1.5f, true);
 
     }
 
@@ -54,7 +54,7 @@ public class GuideButtonTutorial : MonoBehaviour
 
         EventManager.StartListening(EGuideButtonTutorialEvent.ClickAnyBtn, ClickAnyBtn);
 
-        ProfileChattingSystem.OnPlayChatList?.Invoke(tutorialTextList.tutorialTexts[(int)EGuideButtonTutorialChatting.ClickMoveBtn].data, 1f, true);
+        ProfileChattingSystem.OnPlayChatList?.Invoke(tutorialTextList.tutorialTexts[(int)EGuideButtonTutorialChatting.ClickMoveBtn].data, 1.5f, true);
     }
 
     private void ClickAnyBtn(object[] ps)
@@ -65,7 +65,7 @@ public class GuideButtonTutorial : MonoBehaviour
         {
             EndTutorial();
         };
-        ProfileChattingSystem.OnPlayChatList?.Invoke(tutorialTextList.tutorialTexts[(int)EGuideButtonTutorialChatting.ClickAnyBtn].data, 1f, true);
+        ProfileChattingSystem.OnPlayChatList?.Invoke(tutorialTextList.tutorialTexts[(int)EGuideButtonTutorialChatting.ClickAnyBtn].data, 1.5f, true);
     }
 
     private void EndTutorial()
