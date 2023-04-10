@@ -48,7 +48,7 @@ public class GuideButtonTutorial : MonoBehaviour
 
     private void ClickMoveBtn(object[] ps)
     {
-        GuideUISystem.EndGuide?.Invoke();
+        GuideUISystem.EndAllGuide?.Invoke();
 
         EventManager.StopListening(EGuideButtonTutorialEvent.ClickMoveBtn, ClickMoveBtn);
 

@@ -93,7 +93,7 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
     private void StopTutorialEvent()
     {
-        GuideUISystem.EndGuide?.Invoke();
+        GuideUISystem.EndGuide?.Invoke(rectTransform);
     }
     #endregion
 
@@ -101,6 +101,6 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     private void OnDestroy()
     {
         EventManager.StopAllListening(ETutorialEvent.LibraryUserButtonStart);
-        GuideUISystem.EndGuide?.Invoke();
+        GuideUISystem.EndGuide?.Invoke(rectTransform);
     }
 }
