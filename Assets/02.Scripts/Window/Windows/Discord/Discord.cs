@@ -34,7 +34,14 @@ public class Discord : Window
         EventManager.StartListening(EDiscordEvent.StartTalk, StartTalkChat);
         friendList.Init();
         chattingPanel.Init();
-        discordLogin.Init();
+        if (!DataManager.Inst.SaveData.isSuccessLoginHarmony)
+        {
+            discordLogin.Init();
+        }
+        else
+        {
+            discordLogin.gameObject.SetActive(false);
+        }
     }
 
     public DiscordChatDataListSO GetChatDataList(string userName)
