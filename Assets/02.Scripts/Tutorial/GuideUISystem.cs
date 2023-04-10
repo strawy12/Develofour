@@ -33,8 +33,6 @@ public class GuideUISystem : MonoBehaviour
             Debug.Log("rect is null");
         }
 
-        Debug.Log(rect.gameObject.name);
-
         guideUI.rectTransform.SetParent(rect);
         guideUI.rectTransform.anchorMin = rect.anchorMin;
         guideUI.rectTransform.anchorMax = rect.anchorMax;

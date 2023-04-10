@@ -103,6 +103,11 @@ public class ProfileInfoPanel : MonoBehaviour
                 }
             }
         }
+
+        if (GetIsFindAll())
+        {
+            FillPostItColor();
+        }
     }
 
     private void SendNotice()
@@ -145,11 +150,9 @@ public class ProfileInfoPanel : MonoBehaviour
         {
             foreach (var infoPost in linkInfoPenelList)
             {
-                SendNotice();
+                infoPost.SendNotice();
                 infoPost.ShowPost();
             }
-
-            FillPostItColor();
         }
     }
 
@@ -184,7 +187,6 @@ public class ProfileInfoPanel : MonoBehaviour
         DOTween.To(
             () => currentImage.material.GetFloat("_Dissolve"),
             (v) => currentImage.material.SetFloat("_Dissolve", v),
-            1f, 3f
-     );
+            1f, 3f);
     }
 }
