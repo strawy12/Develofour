@@ -171,7 +171,10 @@ public class ProfileGuideButtonParent : MonoBehaviour
             {
                 guideButtonList[i].gameObject.SetActive(false);
             }
-            guideButtonList[currentIndex].gameObject.SetActive(true);
+            if(guideButtonList.Count != 0)
+            {
+                guideButtonList[currentIndex].gameObject.SetActive(true);
+            }
         }
         else
         {
