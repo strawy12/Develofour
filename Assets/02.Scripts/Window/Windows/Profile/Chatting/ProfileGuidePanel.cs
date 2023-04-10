@@ -100,7 +100,7 @@ public class ProfileGuidePanel : MonoBehaviour
         {
             return;
         }
-        GuideUISystem.EndGuide?.Invoke();
+        GuideUISystem.EndAllGuide?.Invoke();
         if (currentValue == hideValue)
         {
             GuideUISystem.OnGuide?.Invoke((RectTransform)moveButton.transform);

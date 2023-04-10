@@ -11,13 +11,18 @@ public class GuideUISystem : MonoBehaviour
     private bool isSign;
 
     public static Action<RectTransform> OnGuide;
-    public static Action EndGuide;
+    public static Action EndAllGuide;
+    public static Action<RectTransform> EndGuide;
+
+    private RectTransform currentRectTransform;
+
     private void Start()
     {
         guideUI.gameObject.SetActive(false);
 
         OnGuide += StartGuide;
-        EndGuide += StopGuideUICor;
+        EndAllGuide += StopGuideUICor;
+        EndGuide += EndGuideThis;
     }
 
     private void StartGuide(RectTransform rect)
@@ -31,8 +36,9 @@ public class GuideUISystem : MonoBehaviour
         if(rect == null)
         {
             Debug.Log("rect is null");
+            yield break;
         }
-
+      
         guideUI.rectTransform.SetParent(rect);
         guideUI.rectTransform.anchorMin = rect.anchorMin;
         guideUI.rectTransform.anchorMax = rect.anchorMax;
@@ -52,8 +58,19 @@ public class GuideUISystem : MonoBehaviour
         }
     }
 
+    private void EndGuideThis(RectTransform rect)
+    {
+        if(rect == currentRectTransform)
+        {
+            StopGuideUICor();
+        }
+        return;
+    }
+
+
     private void StopGuideUICor()
     {
+        currentRectTransform = null;
         guideUI.transform.SetParent(transform);
         isSign = false;
         StopAllCoroutines();

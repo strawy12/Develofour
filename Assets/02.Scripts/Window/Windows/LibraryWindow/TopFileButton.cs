@@ -80,7 +80,7 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         EventManager.TriggerEvent(ELibraryEvent.AddUndoStack);
         EventManager.TriggerEvent(ELibraryEvent.ResetRedoStack);
         object[] ps = new object[1] { currentDirectory };
-        Debug.Log(currentDirectory.fileName);
+
         EventManager.TriggerEvent(ELibraryEvent.ButtonOpenFile, ps);
         
         if (currentDirectory.fileName == "User\\")
@@ -93,7 +93,14 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
     private void StopTutorialEvent()
     {
-        GuideUISystem.EndGuide?.Invoke();
+        GuideUISystem.EndGuide?.Invoke(rectTransform);
     }
     #endregion
+
+
+    private void OnDestroy()
+    {
+        EventManager.StopAllListening(ETutorialEvent.LibraryUserButtonStart);
+        GuideUISystem.EndGuide?.Invoke(rectTransform);
+    }
 }
