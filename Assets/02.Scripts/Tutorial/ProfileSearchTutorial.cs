@@ -12,7 +12,7 @@ public class ProfileSearchTutorial : MonoBehaviour
     }
     [SerializeField]
     public TutorialTextSO textDataList;
-    
+
     [SerializeField]
     private FileSO profiler;
     private void Start()
@@ -29,7 +29,7 @@ public class ProfileSearchTutorial : MonoBehaviour
     {
         MonologSystem.OnEndMonologEvent += delegate
         {
-            WindowManager.Inst.PopupOpen(profiler, textDataList.popText, delegate { TutorialStart(null); },delegate { EndTutorial(null); });
+            WindowManager.Inst.PopupOpen(profiler, textDataList.popText, delegate { TutorialStart(null); }, delegate { EndTutorial(null); });
         };
         MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartSearchTutoMonolog, 0.3f, true);
     }
@@ -50,15 +50,15 @@ public class ProfileSearchTutorial : MonoBehaviour
     private void OnClickGuideSearchButton(object[] ps)
     {
         EventManager.StopListening(EProfileSearchTutorialEvent.ClickSearchButton, OnClickGuideSearchButton);
-        GuideUISystem.EndAllGuide?.Invoke();
+        GuideUISystem.EndGuide?.Invoke();
         ProfileChattingSystem.OnChatEnd += delegate { EventManager.TriggerEvent(EProfileSearchTutorialEvent.GuideSearchInputPanel); };
 
-        ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.SearchTutoClickInput].data, 1f ,true);
+        ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.SearchTutoClickInput].data, 1f, true);
     }
 
     private void SearchName(object[] ps)
     {
-        GuideUISystem.EndAllGuide?.Invoke();
+        GuideUISystem.EndGuide?.Invoke();
         ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.CompleteSearchTuto].data, 1f, true);
 
         EndTutorial(ps);

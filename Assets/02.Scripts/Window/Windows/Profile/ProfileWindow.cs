@@ -229,7 +229,7 @@ public class ProfileWindow : Window
     }
     private void TutotrialClickMinimumBtn(object[] ps)
     {
-        GuideUISystem.EndAllGuide?.Invoke();
+        GuideUISystem.EndGuide?.Invoke();
         EventManager.StopListening(ETutorialEvent.ProfileMidiumEnd, TutotrialClickMinimumBtn);
         EventManager.StopListening(ETutorialEvent.ProfileMidiumStart, StartGuideMinimumBtn);
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);

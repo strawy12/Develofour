@@ -83,7 +83,7 @@ public class Library : Window
         {
             poolQueue.Enqueue(icon);
         }
-        GuideUISystem.EndGuide.Invoke(icon.rectTranstform);
+        GuideUISystem.EndGuide.Invoke();
         icon.transform.SetParent(poolParent);
         icon.gameObject.SetActive(false);
     }
@@ -340,7 +340,7 @@ public class Library : Window
     {
         base.OnDestroyWindow();
         isFirstOpen = false;
-        GuideUISystem.EndAllGuide?.Invoke();
+        GuideUISystem.EndGuide?.Invoke();
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
