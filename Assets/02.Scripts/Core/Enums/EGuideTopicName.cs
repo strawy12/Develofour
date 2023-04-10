@@ -27,6 +27,16 @@ public enum EGuideTopicName
     MurderPlan,
     MurderPrepare,
     MurderPlace,
+    MurderMotive,
+    MurderFirstPlan,
+    MurderCriminal,
+    MurderStuff,
+    MurderrFirstConditions,
+    MurderSecondConditions,
+    MurderAlibi,
+    MurderCorpse,
+    MurderTime,
+    MurderSecondPlan,
     Count
 }
 
