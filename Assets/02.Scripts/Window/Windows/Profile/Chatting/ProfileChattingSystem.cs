@@ -8,8 +8,10 @@ public class ProfileChattingSystem : TextSystem
 {
     public static Action<TextData, bool, bool> OnPlayChat;
     public static Action<List<TextData>, float, bool> OnPlayChatList;
-
+    
     public static Action OnChatEnd;
+
+    public static Action OnImmediatelyEndChat;
 
     public Sprite aiChattingSprite;
 
@@ -22,6 +24,8 @@ public class ProfileChattingSystem : TextSystem
     {
         OnPlayChatList += StartChatting;
         OnPlayChat += StartChatting;
+
+        OnImmediatelyEndChat += ImmediateEndChat;
     }
 
     public void StartChatting(TextData data, bool isSave, bool isEnd)
@@ -42,6 +46,11 @@ public class ProfileChattingSystem : TextSystem
         textDataList = list;
 
         StartCoroutine(ChattingCoroutine(delay, isSave));
+    }
+
+    private void ImmediateEndChat()
+    {
+        StopAllCoroutines();
     }
 
     private IEnumerator ChattingCoroutine(float delay, bool isSave)
