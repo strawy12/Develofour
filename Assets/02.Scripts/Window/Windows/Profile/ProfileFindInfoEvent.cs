@@ -26,6 +26,7 @@ public class ProfileFindInfoEvent : MonoBehaviour
 
         if (ps[2] != null)
         {
+
             List<ProfileInfoTextDataSO> strList = ps[2] as List<ProfileInfoTextDataSO>;
             foreach (var temp in strList)
             {
@@ -44,7 +45,7 @@ public class ProfileFindInfoEvent : MonoBehaviour
     {
         if(strList != null)
         {
-            if (category == EProfileCategory.SuspectProfileExtensionInformation && key == Constant.ProfileInfoKey.SUSPECTRESIDENCE)
+            if (category == EProfileCategory.SuspectProfileInformation && key == Constant.ProfileInfoKey.SUSPECTRESIDENCE)
             {
                 MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.SuspectResidence, 0.1f, true);
             }
