@@ -26,7 +26,6 @@ public class ProfileFindInfoEvent : MonoBehaviour
 
         if (ps[2] != null)
         {
-
             List<ProfileInfoTextDataSO> strList = ps[2] as List<ProfileInfoTextDataSO>;
             foreach (var temp in strList)
             {
