@@ -56,6 +56,8 @@ public class ProfileWindow : Window
         profilePanel.Init();
         fileSearchPanel.Init();
 
+        OnSelected += ProfilerSelected;
+
         infoPanelBtn.button.onClick?.AddListener(OnClickShowProfiling);
         searchPanelBtn.button.onClick?.AddListener(OnClickShowFileSearch);
 
@@ -69,6 +71,15 @@ public class ProfileWindow : Window
         beforeClickButton = infoPanelBtn;
 
         ButtonBlackSetting();
+    }
+
+    private void ProfilerSelected()
+    {
+        if (DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        {
+            EventManager.TriggerEvent(EGuideButtonTutorialEvent.TutorialStart);
+            OnSelected -= ProfilerSelected;
+        }
     }
 
     private void CheckProfilerOnOff(object[] emptyPs)
@@ -131,7 +142,7 @@ public class ProfileWindow : Window
 
     private void MoveButtonClick()
     {
-        if(isPanelOpen)
+        if (isPanelOpen)
         {
             area.DOAnchorPosY(-1000, moveDelay);
 
@@ -140,7 +151,7 @@ public class ProfileWindow : Window
 
             isPanelOpen = false;
         }
-        else if(!isPanelOpen)
+        else if (!isPanelOpen)
         {
             area.DOAnchorPosY(-50, moveDelay);
 

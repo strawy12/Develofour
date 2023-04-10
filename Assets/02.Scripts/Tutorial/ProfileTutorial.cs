@@ -16,14 +16,19 @@ public class ProfileTutorial : MonoBehaviour
 
     void Start()
     {
-        EventManager.StartListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
+        EventManager.StartListening(ETutorialEvent.TutorialStart, StartTutorial);
         //EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCoroutine(NoticeProfileChattingTutorial()); });
-        EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
+        EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, StartCompleteProfileTutorial);
 
         //skip debug 코드
         
         EventManager.StartListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
         // 만약 USB 화면 들어가면
+    }
+
+    private void StartTutorial(object[] ps)
+    {
+        StartCoroutine(StartProfileTutorial());
     }
 
     public void FirstOpenUSBFile(object[] ps)
@@ -51,21 +56,14 @@ public class ProfileTutorial : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
-        ProfileChattingSystem.OnChatEnd += StartProfileMonolog;
+        ProfileChattingSystem.OnChatEnd += StartProfileNextTutorial;
         StartChatting(0);
     }
 
-
-    public void StartProfileMonolog()
-    {
-        StartProfileNextTutorial();
-        //MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, true);
-    }
     public void StartProfileNextTutorial()
     {
-        MonologSystem.OnEndMonologEvent -= StartProfileNextTutorial;
         ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
-        StartChatting(2);
+        StartChatting(1);
         
     }
 
@@ -91,24 +89,29 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
     }
 
-    public void StartCompleteProfileTutorial()
+    public void StartCompleteProfileTutorial(object[] ps)
     {
-        EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
+        // 여기다가 전부 꺼주는 작업
+        ProfileChattingSystem.OnImmediatelyEndChat?.Invoke();
+        StopAllCoroutines();
+        // ㅈㄴ 안 좋은 코드 ㅎ
+        ProfileChattingSystem.OnChatEnd = null;
+
+        EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, StartCompleteProfileTutorial);
         GuideUISystem.EndGuide?.Invoke();
         ProfileChattingSystem.OnChatEnd += StartProfileEnd;
-        StartChatting(3);
+        StartChatting(2);
     }
 
     public void StartProfileEnd()
     {
         EndTutoMonologEvent();
-        EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
+        EventManager.StopListening(ETutorialEvent.TutorialStart, StartTutorial);
     }
 
     private void EndTutoMonologEvent()
     {
         GameManager.Inst.ChangeGameState(EGameState.Game);
         DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
-        EventManager.TriggerEvent(EGuideButtonTutorialEvent.TutorialStart);
     }
 }
