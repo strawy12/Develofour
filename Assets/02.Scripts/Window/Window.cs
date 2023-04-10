@@ -165,7 +165,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
             rectTransform.sizeDelta = size;
             windowAlteration.size = new Vector2(1920, 1030);
             windowPos = rectTransform.localPosition;
-            rectTransform.localPosition = new Vector3(0, 25, 0);
+            rectTransform.localPosition = Constant.WINDOWMAXIMUMPOS;
 
             windowAlteration.isMaximum = true;
         }
@@ -193,7 +193,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         }
         else
         {
-            rectTransform.localPosition = new Vector2(0, 30);
+            rectTransform.localPosition = Constant.WINDOWMAXIMUMPOS;
         }
 
 
