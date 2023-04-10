@@ -50,7 +50,6 @@ public class ProfileInfoSystem : MonoBehaviour
         if (!DataManager.Inst.IsProfileInfoData(category, key))
         {
             DataManager.Inst.AddProfileinfoData(category, key);
-
             SendAlarm(category, key);
         }
         else
@@ -58,7 +57,7 @@ public class ProfileInfoSystem : MonoBehaviour
             Debug.Log("이미 찾은 정보입니다");
             return;
         }
-        Debug.Log(category);
+
         if (!DataManager.Inst.GetProfileSaveData(category).isShowCategory)
         {
             DataManager.Inst.SetCategoryData(category, true);
