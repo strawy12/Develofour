@@ -66,6 +66,7 @@ public class DiscordIdentification : MonoBehaviour
 
     private void Clear()
     {
+        DataManager.Inst.SaveData.isSuccessLoginHarmony = true;
         InputManager.Inst.RemoveKeyInput(KeyCode.Tab, onKeyDown: OnInputTap);
         loginPanel.SetActive(false);
     }
