@@ -59,6 +59,7 @@ public class DiscordLogin : MonoBehaviour
         IDInputField.OnShowAccount += ShowIDAccountPanel;
         passwordInputField.OnShowAccount += ShowPWAccountPanel;
         loginButton.onClick.AddListener(OnClickLogin);
+        Debug.Log("온클릭 시작");
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: OnClickLogin);
     }
 
@@ -83,6 +84,12 @@ public class DiscordLogin : MonoBehaviour
 
     public void OnClickLogin()
     {
+        //현재 내 윈도우가 가장 위에있는지 확인
+        if(WindowManager.Inst != null && !WindowManager.Inst.IsTopWindow(EWindowType.Discord))
+        {
+            return;
+        }
+
         if(IDInputField.text.text == answerID && passwordInputField.text.text == answerPassword)
         {
             //Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
@@ -119,5 +126,12 @@ public class DiscordLogin : MonoBehaviour
         isLogin = true;
         identificationPanel.gameObject.SetActive(true);
         loginPanel.SetActive(false);
+    }
+
+    void OnDisable()
+    {
+        if(InputManager.Inst != null)
+        InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: OnClickLogin);
+        Debug.Log("온클릭 끝");
     }
 }

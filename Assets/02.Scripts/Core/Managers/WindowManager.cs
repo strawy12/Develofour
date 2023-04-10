@@ -254,6 +254,14 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
     }
 
+    public bool IsTopWindow(EWindowType type)
+    {
+        Window window = windowOrderList.First.Value;
+        Debug.Log(window.File.windowType);
+
+        return window.File.windowType == type ? true : false;
+    }
+
     public void SelectedObjectNull()
     {
         selectedObject?.OnUnSelected?.Invoke();
