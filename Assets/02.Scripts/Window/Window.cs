@@ -15,7 +15,6 @@ public enum EWindowType // 확장자
     Discord,
     Directory,
     Installer,
-    TodoWindow,
     ProfileWindow,
     WindowPinLock,
     MediaPlayer,

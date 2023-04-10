@@ -80,7 +80,7 @@ public class InstallerWindow : Window
     {
         if (isWindowOpen)
         {
-            WindowManager.Inst.WindowOpen(EWindowType.TodoWindow, installFile);
+            WindowManager.Inst.WindowOpen(EWindowType.ProfileWindow, installFile);
         }
     }
 }
