@@ -149,7 +149,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
             }
             if (currentChatData.infoData != null)
             {
-                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { currentChatData.infoData.category, currentChatData.infoData.key });
+                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { currentChatData.infoData.category, currentChatData.infoData.key, null });
             }
         }
       
