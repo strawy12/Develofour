@@ -51,30 +51,27 @@ public class ProfileTutorial : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
-        ProfileChattingSystem.OnChatEnd += StartProfileMonolog;
+        ProfileChattingSystem.OnChatEnd += StartProfileNextTutorial;
         StartChatting(0);
     }
 
-
-    public void StartProfileMonolog()
-    {
-        StartProfileNextTutorial();
-        //MonologSystem.OnStartMonolog(EMonologTextDataType.TutorialMonolog1, 0.1f, true);
-    }
     public void StartProfileNextTutorial()
     {
-        MonologSystem.OnEndMonologEvent -= StartProfileNextTutorial;
+        StartCoroutine(StartProfileNextTutorialCoroutine());
+    }
+
+    public IEnumerator StartProfileNextTutorialCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
         ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
-        StartChatting(2);
-        
+        StartChatting(1);
     }
 
     private void CheckMaximumWindow()
     {
+        
         ProfileChattingSystem.OnChatEnd -= CheckMaximumWindow;
-
         DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
-
         if (profileWindowAlteration.isMaximum)
         {
             EventManager.TriggerEvent(ETutorialEvent.ProfileMidiumStart);
@@ -88,6 +85,9 @@ public class ProfileTutorial : MonoBehaviour
     public void BackgroundNoticeTutorial()
     {
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
+
+        Debug.Log("BackgroundNoticeTutorial");
+
         EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
     }
 
@@ -96,19 +96,15 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCompleteProfileTutorial(); });
         GuideUISystem.EndAllGuide?.Invoke();
         ProfileChattingSystem.OnChatEnd += StartProfileEnd;
-        StartChatting(3);
+        StartChatting(2);
     }
 
     public void StartProfileEnd()
     {
-        EndTutoMonologEvent();
-        EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
-    }
-
-    private void EndTutoMonologEvent()
-    {
         GameManager.Inst.ChangeGameState(EGameState.Game);
         DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
         EventManager.TriggerEvent(EGuideButtonTutorialEvent.TutorialStart);
+
+        EventManager.StopListening(ETutorialEvent.TutorialStart, delegate { StartCoroutine(StartProfileTutorial()); });
     }
 }

@@ -36,9 +36,10 @@ public class GuideUISystem : MonoBehaviour
         if(rect == null)
         {
             Debug.Log("rect is null");
+            yield break;
         }
 
-        Debug.Log(rect.gameObject.name);
+        Debug.Log("guideSignCor " + rect.gameObject.name);
 
         guideUI.rectTransform.SetParent(rect);
         guideUI.rectTransform.anchorMin = rect.anchorMin;
@@ -71,6 +72,7 @@ public class GuideUISystem : MonoBehaviour
 
     private void StopGuideUICor()
     {
+        currentRectTransform = null;
         guideUI.transform.SetParent(transform);
         isSign = false;
         StopAllCoroutines();

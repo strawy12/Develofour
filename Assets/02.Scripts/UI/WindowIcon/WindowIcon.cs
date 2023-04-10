@@ -281,10 +281,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     #region Tutorial
 
-    private void BackgroundEventStop()
+    private void BackgroundEventStop(object[] ps)
     {
         GuideUISystem.EndAllGuide?.Invoke();
-        EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { BackgroundEventStop(); });
+        EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, BackgroundEventStop);
         EventManager.StopListening(ETutorialEvent.BackgroundSignStart, BackgroundSignStart);
 
         EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
@@ -330,7 +330,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         rectTranstform ??= GetComponent<RectTransform>();
         GuideUISystem.OnGuide?.Invoke(rectTranstform);
-        EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, delegate { BackgroundEventStop(); });
+        EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, BackgroundEventStop);
     }
     #endregion
     private void OnDisable()
@@ -341,7 +341,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private void OnDestroy()
     {
         StopAllCoroutines();
-
+        GuideUISystem.EndGuide?.Invoke(rectTranstform);
         EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
 
