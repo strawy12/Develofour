@@ -11,13 +11,18 @@ public class GuideUISystem : MonoBehaviour
     private bool isSign;
 
     public static Action<RectTransform> OnGuide;
-    public static Action EndGuide;
+    public static Action EndAllGuide;
+    public static Action<RectTransform> EndGuide;
+
+    private RectTransform currentRectTransform;
+
     private void Start()
     {
         guideUI.gameObject.SetActive(false);
 
         OnGuide += StartGuide;
-        EndGuide += StopGuideUICor;
+        EndAllGuide += StopGuideUICor;
+        EndGuide += EndGuideThis;
     }
 
     private void StartGuide(RectTransform rect)
@@ -53,6 +58,16 @@ public class GuideUISystem : MonoBehaviour
             yield return new WaitForSeconds(2f);
         }
     }
+
+    private void EndGuideThis(RectTransform rect)
+    {
+        if(rect == currentRectTransform)
+        {
+            StopGuideUICor();
+        }
+        return;
+    }
+
 
     private void StopGuideUICor()
     {

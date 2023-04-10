@@ -283,7 +283,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void BackgroundEventStop()
     {
-        GuideUISystem.EndGuide?.Invoke();
+        GuideUISystem.EndAllGuide?.Invoke();
         EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, delegate { BackgroundEventStop(); });
         EventManager.StopListening(ETutorialEvent.BackgroundSignStart, BackgroundSignStart);
 
@@ -296,7 +296,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
         EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
         EventManager.StopAllListening(ETutorialEvent.LibraryUserButtonStart);
-        GuideUISystem.EndGuide?.Invoke();
+        GuideUISystem.EndAllGuide?.Invoke();
     }
 
     private void USBEventStop()
@@ -344,6 +344,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
         EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
+
+
     }
 }
 

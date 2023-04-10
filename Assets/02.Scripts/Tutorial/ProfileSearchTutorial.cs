@@ -50,7 +50,7 @@ public class ProfileSearchTutorial : MonoBehaviour
     private void OnClickGuideSearchButton(object[] ps)
     {
         EventManager.StopListening(EProfileSearchTutorialEvent.ClickSearchButton, OnClickGuideSearchButton);
-        GuideUISystem.EndGuide?.Invoke();
+        GuideUISystem.EndAllGuide?.Invoke();
         ProfileChattingSystem.OnChatEnd += delegate { EventManager.TriggerEvent(EProfileSearchTutorialEvent.GuideSearchInputPanel); };
 
         ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.SearchTutoClickInput].data, 1f ,true);
@@ -58,7 +58,7 @@ public class ProfileSearchTutorial : MonoBehaviour
 
     private void SearchName(object[] ps)
     {
-        GuideUISystem.EndGuide?.Invoke();
+        GuideUISystem.EndAllGuide?.Invoke();
         ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.CompleteSearchTuto].data, 1f, true);
 
         EndTutorial(ps);
