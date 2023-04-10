@@ -155,14 +155,10 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public void EnlargementButtonClick()
     {
-        enlargementArrIndex++;
-        if (enlargementArrIndex >= 5)
-        {
-            enlargementArrIndex -= 1;
-            return;
-        }
-
-        float enlarImageScale = imageScale * enlargementArr[enlargementArrIndex];
+        int idx = SetArrIndex(true);
+        if(idx < 0 || idx > 5) { return; }
+        float enlarImageScale = imageScale * enlargementArr[idx];
+        if (enlarImageScale > maxImageScale) return ;
         currentImage.transform.localScale = Vector3.one * enlarImageScale;
 
         RenewalImageText();
@@ -170,14 +166,10 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public void ReductionButtonClick()
     {
-        enlargementArrIndex--;
-        if (enlargementArrIndex <= -1)
-        {
-            enlargementArrIndex += 1;
-            return;
-        }
-
-        float enlarImageScale = imageScale * enlargementArr[enlargementArrIndex];
+        int idx = SetArrIndex(false);
+        if (idx - 2 < 0 || idx - 2 > 5) { return; }
+        float enlarImageScale = imageScale * enlargementArr[idx-2];
+        if (enlarImageScale < imageScale) return;
         currentImage.transform.localScale = Vector3.one * enlarImageScale;
 
         RenewalImageText();
@@ -189,4 +181,21 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
         imagePercentText.SetText(imageCurrentValue + "%");
     }
+
+    private int SetArrIndex(bool isEnlar)
+    {
+        int num = imageCurrentValue;
+        int result = num / 100;
+
+        if (!isEnlar)
+        {
+            if (num % 100 != 0)
+            {
+                result += 1;       
+            }
+        }
+        return result;
+    }
+
+
 }

@@ -75,6 +75,7 @@ public class ProfileChattingSystem : TextSystem
     private void EndChatting()
     {
         OnChatEnd?.Invoke();
+        Debug.Log("ChatEnd make null");
         OnChatEnd = null;
     }
 
