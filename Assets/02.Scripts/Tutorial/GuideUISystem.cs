@@ -60,7 +60,7 @@ public class GuideUISystem : MonoBehaviour
 
     private void EndGuideThis(RectTransform rect)
     {
-        if(rect == currentRectTransform)
+        if(rect.root == currentRectTransform.root)
         {
             StopGuideUICor();
         }
