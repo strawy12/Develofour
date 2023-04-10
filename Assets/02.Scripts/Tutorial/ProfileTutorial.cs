@@ -91,14 +91,12 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartCompleteProfileTutorial(object[] ps)
     {
-        // 여기다가 전부 꺼주는 작업
         ProfileChattingSystem.OnImmediatelyEndChat?.Invoke();
         StopAllCoroutines();
-        // ㅈㄴ 안 좋은 코드 ㅎ
         ProfileChattingSystem.OnChatEnd = null;
 
         EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, StartCompleteProfileTutorial);
-        GuideUISystem.EndGuide?.Invoke();
+        GuideUISystem.EndAllGuide?.Invoke();
         ProfileChattingSystem.OnChatEnd += StartProfileEnd;
         StartChatting(2);
     }
