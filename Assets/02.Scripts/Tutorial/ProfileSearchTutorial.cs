@@ -58,7 +58,11 @@ public class ProfileSearchTutorial : MonoBehaviour
 
     private void SearchName(object[] ps)
     {
+        EventManager.StopListening(EProfileSearchTutorialEvent.SearchNameText, SearchName);
+
         GuideUISystem.EndAllGuide?.Invoke();
+        ProfileChattingSystem.OnImmediatelyEndChat?.Invoke();
+        ProfileChattingSystem.OnChatEnd = null;
         ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList.tutorialTexts[(int)ESearchTutoChatting.CompleteSearchTuto].data, 1f, true);
 
         EndTutorial(ps);
