@@ -15,6 +15,7 @@ public enum EMailType
     StarbookSecurityCode,
     OrderListMail,
     ReplyCCTVMail,
+    RequestMail,
     End,
 }
 
