@@ -93,14 +93,19 @@ public class WindowPinInput : Window
 
         answerMarkText.SetText("");
 
+        ExceptionFile();
+
         WindowManager.Inst.WindowOpen(file.windowType, file);
+        DataManager.Inst.SetWindowLock(file.GetFileLocation(), false);
 
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file});
 
 
         CloseWindowPinLock();
     }
-
+    private void ExceptionFile()
+    {
+    }
     private void PinWrongAnswer()
     {
         if (isShaking) return;

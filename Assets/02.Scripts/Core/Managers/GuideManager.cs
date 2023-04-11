@@ -92,10 +92,13 @@ public partial class GuideManager : MonoBehaviour
 
         string fileLocation = file.GetFileLocation();
 
-        if (fileLocation == "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\")
+        if (fileLocation == Constant.ZOOGLEPINLOCATION)
         {
-            Debug.Log("비번 가이드 조건 충족");
-            OnPlayGuide(EGuideTopicName.ClearPinNotePadQuiz, 30f);
+            if(DataManager.Inst.IsWindowLock(Constant.ZOOGLEPASSWORDLOCATION))
+            {
+                Debug.Log("비번 가이드 조건 충족");
+                OnPlayGuide?.Invoke(EGuideTopicName.ClearPinNotePadQuiz, 30f);
+            }
         }
     }
 
