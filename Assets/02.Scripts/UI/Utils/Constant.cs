@@ -24,9 +24,10 @@ public static class Constant
     public const float POLICE_REPLY_DELAY = 2f;
     #region File
     public const string USB_FILENAME = "BestUSB";
+    public const string ZOOGLEPASSWORDLOCATION = "User\\C\\내 문서\\Zoogle\\Zoogle비밀번호\\";
+    public const string ZOOGLEPINLOCATION = "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\";
     #endregion
     #region ProfileInfoKey
-   
     public static class ProfileInfoKey
     {
         public const string SUSPECTRESIDENCE = "SuspectResidence";
