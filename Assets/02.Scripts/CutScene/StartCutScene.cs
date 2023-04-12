@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using DG.Tweening;
+using UnityEngine.Rendering;
 
 public class StartCutScene : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class StartCutScene : MonoBehaviour
 
     public Image interrogationRoomSprite;
 
+    public Volume volume;
 
     [SerializeField]
     private GameObject blackImagePanel;
@@ -60,6 +62,7 @@ public class StartCutScene : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutSceneLightPull);
+        volume.gameObject.SetActive(true);
         interrogationRoomSprite.DOFade(1, 2f);
         yield return new WaitForSeconds(1.5f);
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.InterrogationRoom);
@@ -76,13 +79,12 @@ public class StartCutScene : MonoBehaviour
     private IEnumerator FadeInterrogationRoomSpriteCor()
     {
         Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.InterrogationRoom);
+        volume.gameObject.SetActive(false);
         interrogationRoomSprite.DOFade(0, 1.5f);
         yield return new WaitForSeconds(2f);
 
-        Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneCall);
-        yield return new WaitForSeconds(3f);
-        Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneCall);
-        yield return new WaitForSeconds(2.5f);
+        Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
+        yield return new WaitForSeconds(3.3f);
 
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneReceive);
         StartRequest();
