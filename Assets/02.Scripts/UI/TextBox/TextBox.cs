@@ -115,6 +115,12 @@ public class TextBox : MonoUI
                 triggerDictionary[i]?.Invoke();
                 triggerDictionary[i] = null;
             }
+
+            if (!isRich)
+            {
+                Sound.OnPlaySound?.Invoke(EAudioType.MonologueTyping);
+            }
+
             if (currentDelay != 0f)
             {
                 yield return new WaitForSeconds(currentDelay);
@@ -135,11 +141,6 @@ public class TextBox : MonoUI
             {
                 isRich = false;
                 continue;
-            }
-
-            if (!isRich)
-            {
-                Sound.OnPlaySound?.Invoke(EAudioType.MonologueTyping);
             }
 
             if (!isRich)
