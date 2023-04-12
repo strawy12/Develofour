@@ -95,7 +95,7 @@ public class StartCutScene : MonoBehaviour
         MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartCutSceneMonolog2, 1.5f, true);
     }
 
-    private void StartLoading()
+    public void StartLoading()
     {
         StartCoroutine(StartLoadingCor());
     }
