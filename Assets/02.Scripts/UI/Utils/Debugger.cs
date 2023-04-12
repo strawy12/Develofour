@@ -31,7 +31,8 @@ public class Debugger : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            cutScene.StartLoading();
+            if(cutScene != null)
+                cutScene.StartLoading();
         }
 
         if (Input.GetKeyDown(KeyCode.D))
