@@ -62,6 +62,7 @@ public class TextBox : MonoUI
 
     public void PrintText()
     {
+
         if (isTextPrinting)
         {
             //if (CheckDataEnd())
@@ -101,9 +102,10 @@ public class TextBox : MonoUI
         messageText.maxVisibleCharacters = 0;
         messageText.SetText(msg);
 
-
+      
         for (int i = 0; i < msg.Length; i++)
         {
+
             if (msg.Length - 1 == i)
             {
                 messageText.maxVisibleCharacters++;
