@@ -24,8 +24,17 @@ public class Debugger : MonoBehaviour
     [SerializeField]
     private FileSO todoFile;
 
+    [SerializeField]
+    private StartCutScene cutScene;
+
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            if(cutScene != null)
+                cutScene.StartLoading();
+        }
+
         if (Input.GetKeyDown(KeyCode.D))
         {
             MonologSystem.OnStopMonolog?.Invoke();

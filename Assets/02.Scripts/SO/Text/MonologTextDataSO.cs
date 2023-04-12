@@ -16,6 +16,8 @@ public enum EMonologTextDataType
     SuspectRelationWithVictimGuide,
     StartSearchTutoMonolog,
     VictimUniversity,
+    StartCutSceneMonolog1,
+    StartCutSceneMonolog2,
     Count
 }
 

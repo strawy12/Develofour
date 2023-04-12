@@ -113,11 +113,6 @@ public class TextBox : MonoUI
                 triggerDictionary[i]?.Invoke();
                 triggerDictionary[i] = null;
             }
-            if (currentDelay != 0f)
-            {
-                yield return new WaitForSeconds(currentDelay);
-                currentDelay = 0f;
-            }
 
             if(!bgImage.enabled)
             {
@@ -138,6 +133,12 @@ public class TextBox : MonoUI
             if (!isRich)
             {
                 Sound.OnPlaySound?.Invoke(EAudioType.MonologueTyping);
+            }
+
+            if (currentDelay != 0f)
+            {
+                yield return new WaitForSeconds(currentDelay);
+                currentDelay = 0f;
             }
 
             if (!isRich)
@@ -203,9 +204,19 @@ public class TextBox : MonoUI
     // 텍스트 길이가 길 시 자동 줄 바꿈
     private string SliceLineText(string text)
     {
-        for (int i = 40; i < text.Length; i += 41)
+        int cnt = 0; 
+        for (int i = 0; i < text.Length; i++)
         {
-            text = text.Insert(i, "\n");
+            if(text[i] == '\n')
+            {
+                cnt = 0;
+            }
+            if(cnt > 40)
+            {
+                text = text.Insert(i, "\n");
+                cnt = 0;
+            }
+            cnt++;
         }
         return text;
     }
