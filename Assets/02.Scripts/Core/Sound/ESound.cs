@@ -8,7 +8,8 @@ public partial class Sound : MonoBehaviour
 
         StartMainBGM = 0,
         AfterDiscordMail,
-        ComputerNoise, 
+        ComputerNoise,
+        InterrogationRoom,
         BGMEnd,
 
         Notice = 1001,
@@ -20,6 +21,9 @@ public partial class Sound : MonoBehaviour
         MouseDown,
         MouseUp,
         USBConnect,
+        StartCutSceneScream,
+        StartCutScenePoint,
+        StartCutSceneLightPull,
         End
     }
 
