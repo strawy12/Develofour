@@ -35,9 +35,7 @@ public class InstallerWindow : Window
         backBtn.onClick?.AddListener(BackScreen);
         // 팝업창 띄울지 고민
         cancelBtn.onClick?.AddListener(WindowClose);
-
-        windowBar.MaximumBtn.interactable = false;
-
+        
         ChangeScreen(currentIdx);
     }
 
