@@ -4,8 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
-
-public class BranchPost : MonoBehaviour
+using UnityEngine.EventSystems;
+public class BranchPostLine : MonoBehaviour, IPointerClickHandler
 {
     public TextMeshProUGUI novelTitleText;
     public TextMeshProUGUI novelScriptsText;
@@ -15,15 +15,29 @@ public class BranchPost : MonoBehaviour
     private BranchPostDataSO postData;
     public BranchPostDataSO PostData { get { return postData; } }
 
-
-    public void Init(BranchPostDataSO postData)
+    private BranchPostPanel postPanel;
+    public void Init(BranchPostDataSO postData, BranchPostPanel postPanel)
     {
         novelTitleText.text = postData.wirteTitle;
         novelScriptsText.text = postData.wirteInfo;
         novelInfoText.text = postData.wirteDate;
         novelImage.sprite = postData.writeImage;
         this.postData = postData;
+        this.postPanel = postPanel;
 
     }
 
+    public void Release()
+    {
+        novelTitleText.text = "";
+        novelScriptsText.text = "";
+        novelInfoText.text = "";
+        novelImage.sprite = null;
+        this.postData = null;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        postPanel?.Show(postData);
+    }
 }

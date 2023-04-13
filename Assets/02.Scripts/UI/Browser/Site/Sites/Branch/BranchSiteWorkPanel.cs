@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class BranchSiteWorkPanel: MonoBehaviour
 {
@@ -18,12 +19,24 @@ public class BranchSiteWorkPanel: MonoBehaviour
     private Image workThumbnailImage;
     [SerializeField]
     private TMP_Text workThumbnailTitleText;
+    [SerializeField]
+    private BranchThumbnailPanel thumbnailPanel;
 
+    private BranchPostListPanel postListPanel;
     private int writeCount;
-    public void Init(BranchWorkDataSO workData)
+    public void Init(BranchWorkDataSO workData, BranchPostListPanel postListPanel)
     {
         this.workData = workData;
+        this.postListPanel = postListPanel;
+        thumbnailPanel.OnClick += ClickPanel;
         SettingPanel();
+
+    }
+
+    private void ClickPanel()
+    {
+        EventManager.TriggerEvent(EBranchEvent.HideAllPanel);
+        postListPanel.Setting(workData.postDataList);
     }
 
     private void SettingPanel()

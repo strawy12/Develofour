@@ -244,7 +244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5937330410879596414
 RectTransform:
   m_ObjectHideFlags: 0
@@ -296,7 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -329,6 +329,7 @@ MonoBehaviour:
   writeCountText: {fileID: 3194483497071781909}
   workThumbnailImage: {fileID: 2389290891439652423}
   workThumbnailTitleText: {fileID: 5937014917551034951}
+  thumbnailPanel: {fileID: 4394567253726424828}
 --- !u!1 &1514888814406921108
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,6 +916,7 @@ GameObject:
   - component: {fileID: 2422681856587215883}
   - component: {fileID: 2407397838603898949}
   - component: {fileID: 8472324822577883564}
+  - component: {fileID: 4394567253726424828}
   m_Layer: 5
   m_Name: ThumbnailPanel
   m_TagString: Untagged
@@ -981,6 +983,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4394567253726424828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5066894344709884992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46086f43f841c7d41b690bf3164b308f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5559344397871713111
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,8 @@ using System.Linq;
 using TMPro;
 public class BranchSite : Site
 {
-
+    [SerializeField]
+    private GameObject topPanel;
     [Header("WriterInfo")]
     [SerializeField]
     private GameObject writerInfoPanel;
@@ -14,39 +15,66 @@ public class BranchSite : Site
     private Button writerInfoBtn;
     [Header("WorkList")]
     [SerializeField]
-    private GameObject workListPanel;
-    [SerializeField]
     private Button workListBtn;
     [SerializeField]
     private List<BranchWorkDataSO> workDataList;
     [SerializeField]
-    private BranchSiteWorkPanel workPanelPrefab;
+    private BranchWorkListPanel workListPanel;
+    [Header("PostList")]
     [SerializeField]
-    private Transform workPanelParent;
+    private BranchPostListPanel postListPanel;
+    [Header("Post")]
     [SerializeField]
-    private Dictionary<EBranchWorkCategory ,BranchSiteWorkPanel> workPanels = new Dictionary<EBranchWorkCategory, BranchSiteWorkPanel>();
+    private BranchPostPanel postPanel;
     public void Awake()
     {
         workListBtn.onClick.AddListener(OnWorkListPanel);
         writerInfoBtn.onClick.AddListener(OnWriterInfoPanel);
 
-        CreateWork();
     }
 
     public override void Init()
     {
         base.Init();
+        workListPanel.Init(workDataList, postListPanel);
+        postListPanel.Init(postPanel);
+        postPanel.Init(OnPostListPanel);
+
+        EventManager.StartListening(EBranchEvent.HideAllPanel, HideAllPanel);
     }
     #region OnOffPanel
     public void OnWriterInfoPanel()
     {
         workListPanel.gameObject.SetActive(false);
+        postPanel.gameObject.SetActive(false);
+        postListPanel.HidePanel();
         writerInfoPanel.gameObject.SetActive(true);
+        topPanel.gameObject.SetActive(true);
     }
     public void OnWorkListPanel()
     {
+        postPanel.gameObject.SetActive(false);
+        postListPanel.HidePanel();
         writerInfoPanel.gameObject.SetActive(false);
-        workListPanel.gameObject.SetActive(true);
+        workListPanel.Show();
+        topPanel.gameObject.SetActive(true);
+    }
+    public void OnPostListPanel()
+    {
+        writerInfoPanel.gameObject.SetActive(false);
+        workListPanel.Show();
+        postListPanel.gameObject.SetActive(true);
+        postPanel.gameObject.SetActive(false);
+        topPanel.gameObject.SetActive(true);
+    }
+
+    public void HideAllPanel(object[] ps)
+    {
+        workListPanel.gameObject.SetActive(false);
+        postPanel.gameObject.SetActive(false);
+        postListPanel.HidePanel();
+        writerInfoPanel.gameObject.SetActive(false);
+        topPanel.gameObject.SetActive(false);
     }
     #endregion
     protected override void ResetSite()
@@ -57,16 +85,13 @@ public class BranchSite : Site
     {
         base.ShowSite();
     }
-    
-    private void CreateWork()
+
+    private void OnDestroy()
     {
-        foreach(BranchWorkDataSO workData in workDataList)
-        {
-            BranchSiteWorkPanel panel = Instantiate(workPanelPrefab, workPanelParent);
-            panel.Init(workData);
-            panel.gameObject.SetActive(true);
-            workPanels.Add(workData.workKey, panel);
-        }
+        EventManager.StopAllListening(EBranchEvent.HideAllPanel);
+
     }
+
+
 
 }
