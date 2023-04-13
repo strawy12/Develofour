@@ -22,6 +22,7 @@ public partial class Sound : MonoBehaviour
     private List<SoundPlayer> soundPlayerList;
     private Queue<SoundPlayer> soundPlayerPool;
 
+
     private void Awake()
     {
         soundPlayerList = new List<SoundPlayer>();

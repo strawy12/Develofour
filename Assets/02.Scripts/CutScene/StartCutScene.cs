@@ -9,6 +9,9 @@ using UnityEngine.Rendering;
 
 public class StartCutScene : MonoBehaviour
 {
+    [Header("디버그용")]
+    public bool isSkip;
+
     public TMP_Text titleText;
 
     public Image interrogationRoomSprite;
@@ -26,6 +29,10 @@ public class StartCutScene : MonoBehaviour
 
     [SerializeField]
     private GameObject loadingText;
+
+
+    [Header("디버그용")]
+    public bool isScreamSound;
 
 
     void Start()
@@ -51,8 +58,9 @@ public class StartCutScene : MonoBehaviour
     private IEnumerator CutSceneStart()
     {
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutSceneScream);
-
+        isScreamSound = true;
         yield return new WaitForSeconds(15f);
+        isScreamSound = false;
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutScenePoint);
         titleText.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
