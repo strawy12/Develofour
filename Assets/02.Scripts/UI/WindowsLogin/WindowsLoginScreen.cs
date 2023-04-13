@@ -44,11 +44,11 @@ public class WindowsLoginScreen : MonoBehaviour
     private Button loginFailConfirmBtn;
     [SerializeField]
     private float monologDelay = 0.8f;
-    [Header("GuestScreen")]
     [SerializeField]
-    private Button guestLoginButton;
-    private bool isFirst = true;
+    private float numberWrongDuration = 3f;
 
+    private bool isFirst = true;
+    private bool isWrong;
     private void Start()
     {
         Init();
@@ -67,12 +67,12 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.onSelect.AddListener((a) => placeHoldText.gameObject.SetActive(false));
         passwordField.onDeselect.AddListener((a) => placeHoldText.gameObject.SetActive(true));
 
-        passwordField.InputField.contentType = TMP_InputField.ContentType.Pin;
-        passwordField.InputField.characterLimit = 6;
+        passwordField.InputField.contentType = TMP_InputField.ContentType.Password;
+        passwordField.InputField.characterLimit = 4;
 
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
 
-        guestLoginButton.onClick?.AddListener(WindowGuestLogin);
+        passwordField.InputField.onValueChanged.AddListener(CheckInputNumber);
     }
 
     private void Subscribe()
@@ -88,6 +88,37 @@ public class WindowsLoginScreen : MonoBehaviour
         }
     }
 
+    private void CheckInputNumber(string text)
+    {
+        if (!int.TryParse(text, out _))
+        {
+            if (hintText.gameObject.activeSelf == false)
+            {
+                hintText.gameObject.SetActive(true);
+            }
+            StopAllCoroutines();
+            
+            StartCoroutine(InputOnlyNumberCoroutine());
+            passwordField.InputField.text = "";
+        }
+    }
+
+    private IEnumerator InputOnlyNumberCoroutine()
+    {
+        hintText.text = "숫자만 입력 가능합니다";
+
+        yield return new WaitForSeconds(numberWrongDuration);
+
+        if(isWrong)
+        {
+            hintText.text = "만우절 + 새해 =  ?";
+        }
+        else
+        {
+            hintText.text = "";
+        }
+
+    }
 
     private void SuccessLogin()
     {
@@ -111,10 +142,14 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
+            isWrong = true;
+            hintText.text = "만우절 + 새해 =  ?";
+
             if (hintText.gameObject.activeSelf == false)
             {
                 hintText.gameObject.SetActive(true);
             }
+
             passwordField.InputField.text = "";
 
             OpenLoginFailUI();
@@ -155,20 +190,7 @@ public class WindowsLoginScreen : MonoBehaviour
         loginInputUI.SetActive(false);
     }
 
-    private void WindowGuestLogin()
-    {
-        GameManager.Inst.ChangeComputerLoginState(EComputerLoginState.Guest);
-        EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
 
-        EndLogin();
-
-        if (isFirst)
-        {
-            StartMonolog();
-        }
-        isFirst = false;
-        windowLoginCanvas.SetActive(false);
-    }
 
     private void EndLogin()
     {
@@ -176,7 +198,7 @@ public class WindowsLoginScreen : MonoBehaviour
     }
 
     private void StartMonolog()
-    { 
+    {
         Sound.OnPlaySound(Sound.EAudioType.USBConnect);
         MonologSystem.OnEndMonologEvent += USBNoticeFunc;
         MonologSystem.OnStartMonolog(EMonologTextDataType.USBMonolog, monologDelay, true);
