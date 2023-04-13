@@ -66,12 +66,15 @@ public class InstallerWindow : Window
         windowBar.CloseBtn.interactable = false;
         cancelBtn.interactable = false;
     }
+
     public void EndInstall()
     {
         DataManager.Inst.SaveData.isProfilerInstall = true;
         FileManager.Inst.AddFile(installFile, "User\\C\\바탕화면\\");
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
+
+        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.InstallCompleteMonoLog, 0.5f, true);
     }
 
     public void CheckOpenWindow(bool isWindowOpen)

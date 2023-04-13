@@ -4,7 +4,7 @@ using UnityEngine;
 public enum EMonologTextDataType
 {
     None,
-    USBMonolog,
+    WindowLoginComplete,
     Profile,
     StartMonolog,
     TutorialMonolog1,
@@ -18,6 +18,7 @@ public enum EMonologTextDataType
     VictimUniversity,
     StartCutSceneMonolog1,
     StartCutSceneMonolog2,
+    InstallCompleteMonoLog,
     Count
 }
 
