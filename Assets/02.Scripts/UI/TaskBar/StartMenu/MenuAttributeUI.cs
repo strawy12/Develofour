@@ -31,6 +31,11 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         Bind();
         Init();
     }
+    private void Bind()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        canvasGroup = GetComponent<CanvasGroup>();
+    }
 
     private void Init()
     {
@@ -46,12 +51,6 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         EventManager.StartListening(EWindowEvent.WindowsSuccessLogin, SetName);
         EventManager.StartListening(EWindowEvent.CloseAttribute, Close);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
-    }
-
-    private void Bind()
-    {
-        rectTransform = GetComponent<RectTransform>();
-        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     private void SetName(object[] ps)

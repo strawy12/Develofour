@@ -43,8 +43,8 @@ public class SoundPanel : MonoUI
         //isOpen = true;
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
         SetActive(true);
-
     }
+
     private void CheckClose(object[] hits)
     {
         if (!isOpen) { isOpen = true; return; }
