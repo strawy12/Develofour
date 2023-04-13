@@ -73,6 +73,10 @@ public partial class MonologSystem : TextSystem
     private void StopMonolog()
     {
         textBox.HideBox();
+        if(currentTextData == null)
+        {
+            return;
+        }
         currentTextDataIdx = currentTextData.Count;
         InputManager.Inst.RemoveAnyKeyInput(onKeyDown: null);
         GameManager.Inst.ChangeGameState(beforeGameState);
