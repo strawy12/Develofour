@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,12 +27,12 @@ public class AudioSpectrumUI : MonoBehaviour
     {
         bars = new RectTransform[maxBarCount];
 
-        for (int i = 0; i < bars.Length; i++)//¸·´ëµé ¸¸µé±â
+        for (int i = 0; i < bars.Length; i++)//ë§‰ëŒ€ë“¤ ë§Œë“¤ê¸°
         {
-            bars[i] = Instantiate(barTemp, transform);//¸·´ë»ý¼º
+            bars[i] = Instantiate(barTemp, transform);//ë§‰ëŒ€ìƒì„±
             bars[i].anchoredPosition = new Vector2(i * width*2, 0);
 
-            bars[i].sizeDelta = new Vector2(width, 1);//»çÀÌÁî ÃÊ±âÈ­
+            bars[i].sizeDelta = new Vector2(width, 1);//ì‚¬ì´ì¦ˆ ì´ˆê¸°í™”
 
             bars[i].gameObject.SetActive(true);
         }
@@ -47,7 +47,7 @@ public class AudioSpectrumUI : MonoBehaviour
     {
         while (true)
         {
-            for (int i = 1; i <= bars.Length; i++)//Å©±â Á¶Àý
+            for (int i = 1; i <= bars.Length; i++)//í¬ê¸° ì¡°ì ˆ
             {
                 float size = Random.Range(0f, maxSize);
                 size /= (float)(i * weight);
