@@ -11,7 +11,7 @@ public enum EMonologTextDataType
     TutorialMonolog2,
     GuideLog1,
     OnUSBFileMonoLog,
-    GuestLoginGuideLog,
+    NotebookLoginGuideLog,
     SuspectResidence,
     SuspectRelationWithVictimGuide,
     StartSearchTutoMonolog,

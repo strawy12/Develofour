@@ -13,7 +13,7 @@ public partial class GuideManager : MonoBehaviour
                 break;
             case EGuideTopicName.GuestLoginGuide:
                 {
-                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.GuestLoginGuideLog, 0.5f, true);
+                    MonologSystem.OnStartMonolog.Invoke(EMonologTextDataType.NotebookLoginGuideLog, 0.5f, true);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
