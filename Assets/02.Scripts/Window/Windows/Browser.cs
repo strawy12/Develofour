@@ -16,9 +16,7 @@ public enum ESiteLink
     GoogleLogin,
     Email,
     Branch,
-    Starbook,
-    StarbookLoginSite,
-    StarbookPasswordResetSite,
+    BranchLogin,
 }
 /// <summary>
 ///  블로그 사이트 이름

@@ -58,7 +58,7 @@ public class Debugger : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.A))
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.InvisibleInformation, "BranchID" });
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { EProfileCategory.InvisibleInformation, "BranchID" ,null});
         }
     }
 

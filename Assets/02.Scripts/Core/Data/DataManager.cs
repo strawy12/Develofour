@@ -39,6 +39,8 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.guideSaveData = new List<GuideSaveData>();
         saveData.profileSaveData = new List<ProfileSaveData>();
         saveData.aiChattingList = new List<TextData>();
+        saveData.loginData = new List<LoginSaveData>();
+
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
         foreach (FileSO file in fileList)
@@ -63,7 +65,10 @@ public class DataManager : MonoSingleton<DataManager>
         {
             saveData.profileSaveData.Add(new ProfileSaveData() { category = (EProfileCategory)i,isShowCategory = false ,infoData = new List<string>() }); ;
         }
-
+        for(int i = ((int)ELoginType.Zoogle); i < (int)ELoginType.Count; i++)
+        {
+            saveData.loginData.Add(new LoginSaveData() { loginType = (ELoginType)i, isLogin = false });
+        }
         saveData.isStartTutorialList = InitTutorialSaveData();
         saveData.isClearTutorialList = InitTutorialSaveData();
 
@@ -76,14 +81,13 @@ public class DataManager : MonoSingleton<DataManager>
     {
         List<bool> list = new List<bool>();
 
-        for(int i  = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             list.Add(false);
         }
 
         return list;
     }
-
     private void LoadFromJson()
     {
 #if UNITY_EDITOR
@@ -248,6 +252,15 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.aiChattingList.Add(data);
     }
 
+    public bool GetIsLogin(ELoginType loginType)
+    {
+        return saveData.loginData.Find(x => x.loginType == loginType).isLogin;
+    }
+
+    public void SetIsLogin(ELoginType loginType, bool value)
+    {
+        saveData.loginData.Find(x => x.loginType == loginType).isLogin = value;
+    }
 
     private void OnDestroy()
     {
