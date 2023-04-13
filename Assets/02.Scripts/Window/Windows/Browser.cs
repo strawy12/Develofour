@@ -15,7 +15,7 @@ public enum ESiteLink
     Youtube_News,
     GoogleLogin,
     Email,
-    Brunch,
+    Branch,
     Starbook,
     StarbookLoginSite,
     StarbookPasswordResetSite,

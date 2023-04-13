@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BrunchSiteWorkPanel : MonoBehaviour
+public class BranchSiteWorkPanel: MonoBehaviour
 {
-    private BrunchWorkDataSO workData;
+    private BranchWorkDataSO workData;
 
     [SerializeField]
     private TMP_Text titleNameText;
@@ -20,7 +20,7 @@ public class BrunchSiteWorkPanel : MonoBehaviour
     private TMP_Text workThumbnailTitleText;
 
     private int writeCount;
-    public void Init(BrunchWorkDataSO workData)
+    public void Init(BranchWorkDataSO workData)
     {
         this.workData = workData;
         SettingPanel();
@@ -31,7 +31,7 @@ public class BrunchSiteWorkPanel : MonoBehaviour
         workThumbnailTitleText.text = workData.titleText;
         titleNameText.text = workData.titleText;
         writeUserText.text = workData.userCnt.ToString();
-        writeCount = workData.writeCnt;
+        writeCount = workData.postDataList.Count;
         writeCountText.text = writeCount.ToString();
         workThumbnailImage.sprite = workData.workSprite;
     }
