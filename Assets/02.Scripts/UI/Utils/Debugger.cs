@@ -5,6 +5,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
 
 [System.Serializable]
 public class DebugEvent
@@ -32,7 +33,17 @@ public class Debugger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             if(cutScene != null)
-                cutScene.StartLoading();
+            {
+                if(!cutScene.isSkip)
+                {
+                    cutScene.isSkip = true;
+                    cutScene.DOKill(false);
+                    if(cutScene.isScreamSound)
+                        Sound.OnImmediatelyStop(Sound.EAudioType.StartCutSceneScream);
+                    cutScene.StartLoading();
+                }
+            }
+ 
         }
 
         if (Input.GetKeyDown(KeyCode.D))

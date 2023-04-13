@@ -95,6 +95,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private void OpenLoginScreen()
     {
+
         loginScreen.SetActive(true);
         loginChoice.SetActive(true);
 
