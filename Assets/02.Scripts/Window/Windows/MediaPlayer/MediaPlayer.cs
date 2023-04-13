@@ -1,12 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using JetBrains.Annotations;
-using static System.Net.Mime.MediaTypeNames;
+using DG.Tweening;
 
-public class MediaPlayer : Window
+public partial class MediaPlayer : Window
 {
     [Header("MediaUI")]
     [SerializeField]
@@ -15,6 +15,8 @@ public class MediaPlayer : Window
     private MediaPlayerSlider mediaPlaySlider;
     [SerializeField]
     private TMP_Text mediaPlayTimeText;
+    [SerializeField]
+    private ScrollRect scroll;
 
     [Header("MediaAdditionalScripts")]
     [SerializeField]
@@ -22,13 +24,73 @@ public class MediaPlayer : Window
     [SerializeField]
     private CdPlayMedia cdPlayMedia;
 
-    private MediaPlayerDataSO mediaPlayerData;
+    public MediaPlayerDataSO mediaPlayerData;
+    private RectTransform textParentRect;
+
+    private AudioSource audioSource;
 
     private int secondTimer;
     private int minuteTimer;
 
+    private string notCommandString;
+    private bool isPlaying;
+
+    public Action OnEnd;
+
+    private MediaPlayInfoFind infoFind;
+    private float MediaLength
+    {
+        get
+        {
+            if (mediaPlayerData.mediaAudioClip != null)
+                return mediaPlayerData.mediaAudioClip.length;
+            else
+                return allDelay;
+        }
+    }
+
     private bool isRePlaying;
 
+    private void BottomScrollView()
+    {
+        
+        if(textParentRect.rect.height < 700) 
+        {
+            if (mediaDetailText.rectTransform.rect.height <= textParentRect.rect.height)
+            {
+                StartCoroutine(ScrollToTop());
+            }
+            else
+            {
+                StartCoroutine(ScrollToBottom());
+            }
+        }
+        else
+        {
+            if (mediaDetailText.rectTransform.rect.height <= 770)
+            {
+                StartCoroutine(ScrollToTop());
+            }
+            else
+            {
+                StartCoroutine(ScrollToBottom());
+            }
+        } 
+    }
+
+    IEnumerator ScrollToTop()
+    {
+        yield return new WaitForEndOfFrame();
+        scroll.gameObject.SetActive(true);
+        scroll.verticalNormalizedPosition = 1f;
+    }
+
+    IEnumerator ScrollToBottom()
+    {
+        yield return new WaitForEndOfFrame();
+        scroll.gameObject.SetActive(true);
+        scroll.verticalNormalizedPosition = 0f;
+    }
     protected override void Init()
     {
         base.Init();
@@ -38,14 +100,20 @@ public class MediaPlayer : Window
         mediaPlayerDownBar.Init();
         cdPlayMedia.Init();
         ButtonActionInit();
-
+        audioSource = GetComponent<AudioSource>();
         mediaPlayerData = ResourceManager.Inst.GetMediaPlayerData(file.GetFileLocation());
+        infoFind = GetComponent<MediaPlayInfoFind>();
+        infoFind.Init(this);
 
         mediaPlayerDownBar.mediaPlayFileName.SetText(mediaPlayerData.name);
 
-        mediaDetailText.SetText(mediaPlayerData.textData);
-        mediaDetailText.maxVisibleCharacters = 0;
-        
+        audioSource.clip = mediaPlayerData.mediaAudioClip;
+        mediaDetailText.SetText("");
+
+        textParentRect = mediaDetailText.transform.parent.GetComponent<RectTransform>();
+
+        InitDelayList();
+        BottomScrollView();
         mediaPlaySlider.OnMousePointDown += MediaSliderDown;
         mediaPlaySlider.OnMousePointUp += PointUpMediaPlayer;
         mediaPlaySlider.OnMouseSlider += SetSliderMediaText;
@@ -55,7 +123,8 @@ public class MediaPlayer : Window
 
         isRePlaying = false;
 
-        StartMediaPlayer();
+        audioSource.Play();
+        mediaPlayerDownBar.PlayButtonClick?.Invoke();
     }
 
     private void ButtonActionInit()
@@ -67,16 +136,12 @@ public class MediaPlayer : Window
         mediaPlayerDownBar.StopButtonClick += cdPlayMedia.StopCdAnimation;
     }
 
-    private void StartMediaPlayer() // 시작
-    {
-        StartCoroutine(PrintMediaText());
-        StartCoroutine(PrintTimerText());
-    }
-
     private void PlayMediaPlayer() // 플레이 
     {
+        isPlaying = true;
         cdPlayMedia.PlayCdAnimation();
-
+        audioSource.UnPause();
+        StopAllCoroutines();
         StartCoroutine(PrintMediaText());
         StartCoroutine(PrintTimerText());
     }
@@ -84,43 +149,44 @@ public class MediaPlayer : Window
     private void PointUpMediaPlayer(float value)
     {
         SetSliderMediaText(value);
-
-        cdPlayMedia.PlayCdAnimation();
-
-        StartCoroutine(PrintMediaText());
-        StartCoroutine(PrintTimerText());
+        audioSource.time = minuteTimer * 60f + secondTimer;
+        if (isPlaying)
+        {
+            PlayMediaPlayer();
+        }
+        else
+        {
+            StopMediaPlayer();
+        }
     }
 
     private void StopMediaPlayer()
     {
+        audioSource.Pause();
+        isPlaying = false;
         StopAllCoroutines();
     }
 
     private IEnumerator PrintMediaText()
     {
-        for (int i = 0; i < mediaPlayerData.textData.Length; i++)
+        for (int i = mediaDetailText.text.Length; i < delayList.Count; i++)
         {
-            mediaDetailText.maxVisibleCharacters++;
+            mediaDetailText.text += notCommandString[i];
 
-            if (mediaDetailText.maxVisibleCharacters >= mediaPlayerData.textData.Length)
-            {
-                isRePlaying = true;
+            BottomScrollView();
 
-                mediaPlayerDownBar.StopButtonClick?.Invoke();
-                Debug.Log("Media End");
-            }
-
-            yield return new WaitForSeconds(mediaPlayerData.textPlaySpeed);
+            yield return new WaitForSeconds(delayList[i]);
         }
+
     }
 
     private IEnumerator PrintTimerText()
     {
-        while (true)
+        while (minuteTimer * 60f + secondTimer < MediaLength)
         {
             secondTimer++;
 
-            if(secondTimer >= 60)
+            if (secondTimer >= 60)
             {
                 minuteTimer++;
                 secondTimer = 0;
@@ -131,12 +197,17 @@ public class MediaPlayer : Window
             mediaPlayTimeText.SetText(string.Format("{0:00} : {1:00}", minuteTimer, secondTimer));
             yield return new WaitForSeconds(1f);
         }
+
+        isRePlaying = true;
+        OnEnd?.Invoke();
+        mediaPlayerDownBar.StopButtonClick?.Invoke();
+
     }
 
     private void PlaySettingSlider()
     {
         int n = (minuteTimer * 60) + secondTimer;
-        int m = (int)(mediaPlayerData.textPlaySpeed * mediaPlayerData.textData.Length);
+        int m = (int)MediaLength;
         float t = (float)n / m;
 
         mediaPlaySlider.value = t;
@@ -144,19 +215,22 @@ public class MediaPlayer : Window
 
     private void SetSliderMediaText(float t)
     {
-        int m = (int)(mediaPlayerData.textPlaySpeed * mediaPlayerData.textData.Length);
-        int n = (int)(m * t); // 초
+        int m = (int)MediaLength;
+        float time = (m * t); // 초
 
-        mediaDetailText.maxVisibleCharacters = (int)Mathf.Lerp(0, mediaPlayerData.textData.Length, t);
 
-        minuteTimer = n / 60;
-        secondTimer = n % 60;
+        mediaDetailText.text = notCommandString.Substring(0, TimeToIndex(time));
+
+        minuteTimer = (int)(time / 60f);
+        secondTimer = (int)(time % 60f);
 
         mediaPlaySlider.value = t;
 
         mediaPlayTimeText.SetText(string.Format("{0:00} : {1:00}", minuteTimer, secondTimer));
-        
-        if(isRePlaying)
+
+        BottomScrollView();
+
+        if (isRePlaying)
         {
             mediaPlayerDownBar.PlayButtonClick?.Invoke();
             isRePlaying = false;
@@ -166,6 +240,8 @@ public class MediaPlayer : Window
     private void MediaSliderDown()
     {
         cdPlayMedia.StopCdAnimation();
+        audioSource.Pause();
         StopAllCoroutines();
     }
+
 }
