@@ -19,7 +19,6 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
     {
         word = GetWord();
 
-        Debug.Log(word);
         if (word != null)
         {
             GetProfilerWordSystem.OnFindWord?.Invoke(word);

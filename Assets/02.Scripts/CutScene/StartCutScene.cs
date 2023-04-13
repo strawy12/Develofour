@@ -79,7 +79,7 @@ public class StartCutScene : MonoBehaviour
     private IEnumerator FadeInterrogationRoomSpriteCor()
     {
         Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.InterrogationRoom);
-        volume.gameObject.SetActive(false);
+
         interrogationRoomSprite.DOFade(0, 1.5f);
         yield return new WaitForSeconds(2f);
 
@@ -99,6 +99,7 @@ public class StartCutScene : MonoBehaviour
 
     public void StartLoading()
     {
+        volume.gameObject.SetActive(false);
         StartCoroutine(StartLoadingCor());
     }
 
@@ -106,6 +107,7 @@ public class StartCutScene : MonoBehaviour
     {
         backgroundImagePanel.DOFade(0, 1.5f);
         yield return new WaitForSeconds(2f);
+        volume.gameObject.SetActive(false);
         blackImagePanel.gameObject.SetActive(true);
         loadingIcon.gameObject.SetActive(true);
         loadingText.gameObject.SetActive(true);
