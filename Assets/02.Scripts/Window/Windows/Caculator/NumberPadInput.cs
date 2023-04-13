@@ -10,6 +10,11 @@ public class NumberPadInput : Button
 
     public string currentData;
 
+    protected override void Start()
+    {
+        onClick?.AddListener(SetCurrentData);
+    }
+
     public void ClickBtn()
     {
         OnClick?.Invoke(currentData);
@@ -21,5 +26,6 @@ public class NumberPadInput : Button
     {
         currentData = gameObject.name;
 
+        ClickBtn();
     }
 }
