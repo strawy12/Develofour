@@ -20,7 +20,8 @@ public enum EWindowType // 확장자
     MediaPlayer,
     IconProperty,
     Popup,
-    End
+    Calculator,
+    End 
 }
 
 [RequireComponent(typeof(GraphicRaycaster))]
