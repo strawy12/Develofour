@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.EventSystems;
+using System.Text.RegularExpressions;
+using TMPro;
 using UnityEngine;
-using System.Net.NetworkInformation;
-using System.Security.Cryptography;
 
 public enum ESiteLink
 {
     None,
     Chrome,
-    Youtube,
-    Youtube_News,
     GoogleLogin,
     Email,
     Branch,
     BranchLogin,
+    NullSite,
 }
 /// <summary>
 ///  블로그 사이트 이름
@@ -33,6 +30,8 @@ public partial class Browser : Window
     [SerializeField] private BrowserBar browserBar;
     [SerializeField] private LoadingIcon loadingBar;
 
+    [SerializeField] private TMP_InputField addressInputField;
+
     private ESiteLink requestSite;
     private List<Site> usedSiteList;
 
@@ -40,10 +39,15 @@ public partial class Browser : Window
 
     private Coroutine loadingCoroutine;
 
+    private string saveAddressString = "";
+
     protected override void Init()
     {
         base.Init();
-
+        //한글 입력 막기/
+        addressInputField.onSelect.AddListener(ResetAddressInputField);
+        addressInputField.onDeselect.AddListener(SettingAddressInputField);
+        addressInputField.onSubmit.AddListener(AddressChangeSite);
         siteDictionary = new Dictionary<ESiteLink, Site>();
         usedSiteList = new List<Site>();
 
@@ -60,6 +64,23 @@ public partial class Browser : Window
         EventManager.StartListening(ELoginSiteEvent.LoginSuccess, LoginSiteOpen);
 
         ChangeSite(ESiteLink.Chrome, 0f, false);
+    }
+
+    private void ResetAddressInputField(string str)
+    {
+        if(usingSite.SiteLink == ESiteLink.Chrome)
+        {
+            saveAddressString = addressInputField.text;
+            addressInputField.text = "";
+        }
+    }
+
+    private void SettingAddressInputField(string str)
+    {
+        if (usingSite.SiteLink == ESiteLink.Chrome)
+        {
+            addressInputField.text = saveAddressString;
+        }
 
     }
 
@@ -70,6 +91,20 @@ public partial class Browser : Window
             Site site = siteParent.GetChild(i).GetComponent<Site>();
             siteDictionary.Add(site.SiteLink, site);
             //site.Init();
+        }
+    }
+
+    public void AddressChangeSite(string address)
+    { 
+        switch(address)
+        {
+            case "test":
+                ChangeSite(ESiteLink.Email, Constant.LOADING_DELAY);
+                break;
+
+            default:
+                ChangeSite(ESiteLink.NullSite, Constant.LOADING_DELAY);
+                break;
         }
     }
 

@@ -15,7 +15,7 @@ public class BrowserBar : MonoBehaviour
     public UnityEvent OnRedo { get { return redoBtn.onClick; } }
     public UnityEvent OnUndo { get { return undoBtn.onClick; } }
 
-    [SerializeField] private TMP_Text addressText;
+    [SerializeField] private TMP_InputField addressText;
     [SerializeField] private Image siteIcon;
     [SerializeField] private TMP_Text siteTitleText;
     private FavoriteBar favoriteBar;
@@ -29,6 +29,7 @@ public class BrowserBar : MonoBehaviour
     {
         siteIcon.sprite = siteData.siteIconSprite;
         siteTitleText.text = siteData.siteTitle;
+        if(siteData.address != "")
         addressText.text = siteData.address;
     }
     
