@@ -9,15 +9,10 @@ public enum ESiteLink
 {
     None,
     Chrome,
-    Youtube,
-    Youtube_News,
     GoogleLogin,
     Email,
     Branch,
     BranchLogin,
-    Starbook,
-    StarbookLoginSite,
-    StarbookPasswordResetSite,
     NullSite,
 }
 /// <summary>
