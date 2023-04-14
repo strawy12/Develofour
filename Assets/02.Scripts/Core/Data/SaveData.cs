@@ -44,14 +44,13 @@ public class SaveData
     public List<GuideSaveData> guideSaveData;
     public List<ProfileSaveData> profileSaveData;
     public List<TextData> aiChattingList;
-    
-    public bool isSuccessLoginZoogle;
-    public bool isSuccessLoginStarbook;
+
+    public List<bool> loginData;
+
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
     public bool isZooglePinHintNoteOpen;
     public bool isProfilerInstall;
-    public bool isSuccessLoginHarmony;
     // ENUM으로 타입을 나눠서 튜토리얼 타입
     // List<bool> (int)type
     public List<bool> isStartTutorialList;

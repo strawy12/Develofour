@@ -26,6 +26,7 @@ public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("ClickInputField");
         inputSystem.ShowPanel(inputField, autoAnswerDatas);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class BrunchPostRemoveButton : MonoBehaviour
+public class BranchPostRemoveButton : MonoBehaviour
 {
     private Button removeBtn;
     

@@ -16,7 +16,7 @@ public partial class Browser : Window
 
     public bool CheckZoogleSiteLogin() 
     {
-        if (!DataManager.Inst.SaveData.isSuccessLoginZoogle)
+        if (!DataManager.Inst.GetIsLogin(ELoginType.Zoogle))
         {
             return false;
         }
@@ -31,22 +31,17 @@ public partial class Browser : Window
         switch (siteLink)
         {
             case ESiteLink.Email:
-            case ESiteLink.Brunch:
+            case ESiteLink.Branch:
                 {
                     if (!CheckZoogleSiteLogin())
                     {
                         requestSite = siteLink;
                         siteDictionary.TryGetValue(ESiteLink.GoogleLogin, out site);
                     }
-
-                    break;
-                }
-            case ESiteLink.Starbook:
-                {
-                    if(!DataManager.Inst.SaveData.isSuccessLoginStarbook)
+                    else if(!DataManager.Inst.GetIsLogin(ELoginType.Branch))
                     {
                         requestSite = siteLink;
-                        siteDictionary.TryGetValue(ESiteLink.StarbookLoginSite, out site);
+                        siteDictionary.TryGetValue(ESiteLink.BranchLogin, out site);
                     }
                     break;
                 }

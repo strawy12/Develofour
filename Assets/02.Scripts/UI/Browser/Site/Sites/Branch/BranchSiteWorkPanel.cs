@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class BrunchSiteWorkPanel : MonoBehaviour
+public class BranchSiteWorkPanel: MonoBehaviour
 {
-    private BrunchWorkDataSO workData;
+    private BranchWorkDataSO workData;
 
     [SerializeField]
     private TMP_Text titleNameText;
@@ -18,12 +19,24 @@ public class BrunchSiteWorkPanel : MonoBehaviour
     private Image workThumbnailImage;
     [SerializeField]
     private TMP_Text workThumbnailTitleText;
+    [SerializeField]
+    private BranchThumbnailPanel thumbnailPanel;
 
+    private BranchPostListPanel postListPanel;
     private int writeCount;
-    public void Init(BrunchWorkDataSO workData)
+    public void Init(BranchWorkDataSO workData, BranchPostListPanel postListPanel)
     {
         this.workData = workData;
+        this.postListPanel = postListPanel;
+        thumbnailPanel.OnClick += ClickPanel;
         SettingPanel();
+
+    }
+
+    private void ClickPanel()
+    {
+        EventManager.TriggerEvent(EBranchEvent.HideAllPanel);
+        postListPanel.Setting(workData.postDataList);
     }
 
     private void SettingPanel()
@@ -31,7 +44,7 @@ public class BrunchSiteWorkPanel : MonoBehaviour
         workThumbnailTitleText.text = workData.titleText;
         titleNameText.text = workData.titleText;
         writeUserText.text = workData.userCnt.ToString();
-        writeCount = workData.writeCnt;
+        writeCount = workData.postDataList.Count;
         writeCountText.text = writeCount.ToString();
         workThumbnailImage.sprite = workData.workSprite;
     }

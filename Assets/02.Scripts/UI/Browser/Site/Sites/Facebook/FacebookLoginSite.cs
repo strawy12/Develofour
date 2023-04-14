@@ -83,7 +83,6 @@ public class FacebookLoginSite : Site
 
         if (requestSite == ESiteLink.None)
         {
-            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Starbook, Constant.LOADING_DELAY });
         }
         else
         {
@@ -93,7 +92,7 @@ public class FacebookLoginSite : Site
 
         // TODO
         // 구조 변경 해야함
-        DataManager.Inst.SaveData.isSuccessLoginStarbook = true;
+        DataManager.Inst.SetIsLogin(ELoginType.Zoogle, true);
          //NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.WriterFacebookLoginSuccess, 0f);
     }
 
@@ -136,7 +135,6 @@ public class FacebookLoginSite : Site
             //failedLoginText.text = "등록된 Email에 비밀번호 변경메일을 보냈습니다.";
             //failedLoginText.color = Color.black; 
 
-            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.StarbookPasswordResetSite, 0f, false });
             isResettingPassword = true;
 
             EventManager.StartListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);

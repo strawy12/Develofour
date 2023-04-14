@@ -15,10 +15,8 @@ public enum ESiteLink
     Youtube_News,
     GoogleLogin,
     Email,
-    Brunch,
-    Starbook,
-    StarbookLoginSite,
-    StarbookPasswordResetSite,
+    Branch,
+    BranchLogin,
 }
 /// <summary>
 ///  블로그 사이트 이름

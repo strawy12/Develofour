@@ -72,8 +72,8 @@ public class GmailLoginSite : Site
 
     private void SuccessLogin()
     {
-       // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
-        DataManager.Inst.SaveData.isSuccessLoginZoogle = true;
+        // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
+        DataManager.Inst.SetIsLogin(ELoginType.Zoogle, true);
 
         EventManager.TriggerEvent(ELoginSiteEvent.LoginSuccess);
 
