@@ -7,7 +7,7 @@ public enum EBranchWorkCategory
     None,
     HardLifeToday,
     WantSay,
-    LightAji,
+    OneLight,
 }
 [CreateAssetMenu(menuName = "SO/Site/Branch/Work")]
 public class BranchWorkDataSO : ScriptableObject
