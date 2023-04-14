@@ -34,12 +34,7 @@ public class ProfileSaveData
     public bool isShowCategory;
     public List<string> infoData;
 }
-[System.Serializable]
-public class LoginSaveData
-{
-    public ELoginType loginType;
-    public bool isLogin;
-}
+
 [System.Serializable]
 public class SaveData
 {
@@ -49,7 +44,8 @@ public class SaveData
     public List<GuideSaveData> guideSaveData;
     public List<ProfileSaveData> profileSaveData;
     public List<TextData> aiChattingList;
-    public List<LoginSaveData> loginData;
+
+    public List<bool> loginData;
 
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
