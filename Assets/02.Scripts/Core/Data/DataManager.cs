@@ -39,7 +39,7 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.guideSaveData = new List<GuideSaveData>();
         saveData.profileSaveData = new List<ProfileSaveData>();
         saveData.aiChattingList = new List<TextData>();
-
+        saveData.loginData = new List<bool>();
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
         foreach (FileSO file in fileList)
