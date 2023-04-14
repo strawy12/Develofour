@@ -95,13 +95,13 @@ public class WindowsLoginScreen : MonoBehaviour
             {
                 hintText.gameObject.SetActive(true);
             }
-            if(passwordField.InputField.text != "")
+            if (passwordField.InputField.text != "")
             {
                 passwordField.InputField.text = passwordField.InputField.text.Substring(0, passwordField.InputField.text.Length - 1);
             }
             StopAllCoroutines();
             StartCoroutine(InputOnlyNumberCoroutine());
-            
+
         }
     }
 
@@ -112,7 +112,7 @@ public class WindowsLoginScreen : MonoBehaviour
         yield return new WaitForSeconds(numberWrongDuration);
 
 
-            hintText.text = "만우절 + 새해 =  ?";
+        hintText.text = "만우절 + 새해 =  ?";
 
     }
 
@@ -185,8 +185,6 @@ public class WindowsLoginScreen : MonoBehaviour
         loginInputUI.SetActive(false);
     }
 
-
-
     private void EndLogin()
     {
         EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.GuestLoginGuide });
@@ -194,7 +192,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void StartMonolog()
     {
-        Sound.OnPlaySound(Sound.EAudioType.USBConnect);
+        //Sound.OnPlaySound(Sound.EAudioType.USBConnect);
         MonologSystem.OnEndMonologEvent += USBNoticeFunc;
         MonologSystem.OnStartMonolog(EMonologTextDataType.WindowLoginComplete, monologDelay, true);
     }
