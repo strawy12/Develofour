@@ -39,6 +39,7 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.guideSaveData = new List<GuideSaveData>();
         saveData.profileSaveData = new List<ProfileSaveData>();
         saveData.aiChattingList = new List<TextData>();
+        saveData.loginData = new List<bool>();
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
         foreach (FileSO file in fileList)
@@ -54,16 +55,19 @@ public class DataManager : MonoSingleton<DataManager>
             saveData.monologData.Add(new MonologSaveData() { monologType = (EMonologTextDataType)i, isShow = false });
         }
 
-        for(int i = ((int)EGuideTopicName.None) + 1; i < (int)EGuideTopicName.Count; i++)
+        for (int i = ((int)EGuideTopicName.None) + 1; i < (int)EGuideTopicName.Count; i++)
         {
             saveData.guideSaveData.Add(new GuideSaveData() { topicName = (EGuideTopicName)i, isUse = false });
         }
 
         for (int i = ((int)EProfileCategory.None) + 1; i < (int)EProfileCategory.Count; i++)
         {
-            saveData.profileSaveData.Add(new ProfileSaveData() { category = (EProfileCategory)i,isShowCategory = false ,infoData = new List<string>() }); ;
+            saveData.profileSaveData.Add(new ProfileSaveData() { category = (EProfileCategory)i, isShowCategory = false, infoData = new List<string>() }); ;
         }
-
+        for (int i = ((int)ELoginType.Zoogle); i < (int)ELoginType.Count; i++)
+        {
+            saveData.loginData.Add(false);
+        }
         saveData.isStartTutorialList = InitTutorialSaveData();
         saveData.isClearTutorialList = InitTutorialSaveData();
 
@@ -76,14 +80,13 @@ public class DataManager : MonoSingleton<DataManager>
     {
         List<bool> list = new List<bool>();
 
-        for(int i  = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             list.Add(false);
         }
 
         return list;
     }
-
     private void LoadFromJson()
     {
 #if UNITY_EDITOR
@@ -159,7 +162,7 @@ public class DataManager : MonoSingleton<DataManager>
     {
         AdditionFileData fileData = saveData.additionFileData.Find(x => x.fileName == file.fileName);
 
-        if(fileData != null)
+        if (fileData != null)
         {
             return true;
         }
@@ -180,7 +183,7 @@ public class DataManager : MonoSingleton<DataManager>
     public bool IsGuideUse(EGuideTopicName topicName)
     {
         GuideSaveData guideData = saveData.guideSaveData.Find(x => x.topicName == topicName);
-        if(guideData == null)
+        if (guideData == null)
         {
             return true;
         }
@@ -248,6 +251,15 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.aiChattingList.Add(data);
     }
 
+    public bool GetIsLogin(ELoginType loginType)
+    {
+        return saveData.loginData[(int)loginType];
+    }
+
+    public void SetIsLogin(ELoginType loginType, bool value)
+    {
+        saveData.loginData[(int)loginType] = value;
+    }
 
     private void OnDestroy()
     {

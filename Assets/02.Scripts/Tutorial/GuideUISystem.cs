@@ -51,9 +51,9 @@ public class GuideUISystem : MonoBehaviour
 
         while (isSign)
         {
-            guideUI.DOColor(new Color(255, 255, 255, 0.5f), 2f);
+            guideUI.DOFade(0.1f, 2f);
             yield return new WaitForSeconds(2f);
-            guideUI.DOColor(new Color(255, 255, 255, 1), 2f);
+            guideUI.DOFade( 0.4f, 2f);
             yield return new WaitForSeconds(2f);
         }
     }

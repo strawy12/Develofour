@@ -33,7 +33,6 @@ public partial class MonologSystem : TextSystem
 
     public IEnumerator StartMonologCor(EMonologTextDataType textDataType, float beforeDelay, bool isSave)
     {
-
         if (DataManager.Inst.IsMonologShow(textDataType))
         {
             OnEndMonologEvent = null;

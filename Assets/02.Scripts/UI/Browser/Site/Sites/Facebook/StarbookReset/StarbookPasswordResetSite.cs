@@ -81,6 +81,6 @@ public class StarbookPasswordResetSite : Site
         resetCompletedPanel.SetActive(false);
         resetGuidePanel.SetActive(true);
 
-        EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.StarbookLoginSite, 0f, false });
+        //EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.StarbookLoginSite, 0f, false });
     }
 }

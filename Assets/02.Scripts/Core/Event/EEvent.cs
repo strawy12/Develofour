@@ -8,7 +8,14 @@
     CursorChange,
     CoverPanelSetting,
 }
-    
+
+public enum EBranchEvent
+{
+    None=-1,
+    HideAllPanel,
+    ShowTopPanel,
+}
+
 public enum EQuestEvent
 {
     None = -1,

@@ -25,7 +25,7 @@ public class HomeProfile : MonoBehaviour, IPointerClickHandler
     {
         loginPanel.gameObject.SetActive(true);
 
-        if(DataManager.Inst.SaveData.isSuccessLoginZoogle)
+        if(DataManager.Inst.GetIsLogin(ELoginType.Zoogle))
         {
             ChangeLoginPanel();
         }
