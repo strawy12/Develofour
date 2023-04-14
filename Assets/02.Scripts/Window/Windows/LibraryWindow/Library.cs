@@ -112,7 +112,6 @@ public class Library : Window
         base.Init();
         currentDirectory = file as DirectorySO;
 
-
         undoStack = new Stack<DirectorySO>();
         redoStack = new Stack<DirectorySO>();
         FileManager.Inst.ALLFileAddList(currentDirectory);

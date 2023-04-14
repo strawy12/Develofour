@@ -15,10 +15,7 @@ public partial class MonologSystem : TextSystem
 
     private void OpenDirectoryEx(DirectorySO directory)
     {
-        if (directory.GetFileLocation() == "User\\BestUSB\\")
-        {
-            StartMonolog(EMonologTextDataType.OnUSBFileMonoLog, 0.3f, true);
-        }
+        
     }
 }
 

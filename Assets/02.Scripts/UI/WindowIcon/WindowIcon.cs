@@ -310,6 +310,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if (gameObject.activeSelf) GuideUISystem.OnGuide?.Invoke(rectTranstform);
         }
+
         EventManager.StartListening(ETutorialEvent.LibraryUSBEnd, delegate { USBEventStop(); });
     }
 
