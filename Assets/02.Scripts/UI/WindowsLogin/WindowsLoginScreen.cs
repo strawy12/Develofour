@@ -48,7 +48,6 @@ public class WindowsLoginScreen : MonoBehaviour
     private float numberWrongDuration = 3f;
 
     private bool isFirst = true;
-    private bool isWrong;
     private void Start()
     {
         Init();
@@ -65,13 +64,13 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.OnSuccessLogin += SuccessLogin;
         passwordField.OnFailLogin += FailLogin;
         passwordField.onSelect.AddListener((a) => placeHoldText.gameObject.SetActive(false));
-        passwordField.onDeselect.AddListener((a) => placeHoldText.gameObject.SetActive(true));
 
         passwordField.InputField.contentType = TMP_InputField.ContentType.Password;
         passwordField.InputField.characterLimit = 4;
 
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
-
+        hintText.text = "만우절 + 새해 =  ?";
+        hintText.gameObject.SetActive(true);
         passwordField.InputField.onValueChanged.AddListener(CheckInputNumber);
     }
 
@@ -96,10 +95,13 @@ public class WindowsLoginScreen : MonoBehaviour
             {
                 hintText.gameObject.SetActive(true);
             }
+            if(passwordField.InputField.text != "")
+            {
+                passwordField.InputField.text = passwordField.InputField.text.Substring(0, passwordField.InputField.text.Length - 1);
+            }
             StopAllCoroutines();
-            
             StartCoroutine(InputOnlyNumberCoroutine());
-            passwordField.InputField.text = "";
+            
         }
     }
 
@@ -109,14 +111,8 @@ public class WindowsLoginScreen : MonoBehaviour
 
         yield return new WaitForSeconds(numberWrongDuration);
 
-        if(isWrong)
-        {
+
             hintText.text = "만우절 + 새해 =  ?";
-        }
-        else
-        {
-            hintText.text = "";
-        }
 
     }
 
@@ -142,7 +138,6 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            isWrong = true;
             hintText.text = "만우절 + 새해 =  ?";
 
             if (hintText.gameObject.activeSelf == false)
