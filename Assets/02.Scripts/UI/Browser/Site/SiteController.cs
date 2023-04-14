@@ -9,6 +9,12 @@ public partial class Browser : Window
     {
         Site createSite = Instantiate(selectSite, selectSite.transform.parent);
         createSite.Init();
+        if(createSite.SiteLink == ESiteLink.NullSite)
+        {
+            NullSite nullsite = (NullSite)createSite;
+            nullsite.SetErrorText(addressInputField.text);
+            createSite = nullsite;
+        }
         createSite.gameObject.SetActive(true);
 
         return createSite;
@@ -25,7 +31,7 @@ public partial class Browser : Window
     }
 
     public bool TryGetSitePrefab(ESiteLink siteLink, out Site site)
-      {
+    {
         siteDictionary.TryGetValue(siteLink, out site);
 
         switch (siteLink)
