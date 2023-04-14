@@ -14,6 +14,9 @@ public enum EBranchEvent
     None=-1,
     HideAllPanel,
     ShowTopPanel,
+    ShowWorkPanel,
+    ShowPostList,
+    ShowPost,
 }
 
 public enum EQuestEvent

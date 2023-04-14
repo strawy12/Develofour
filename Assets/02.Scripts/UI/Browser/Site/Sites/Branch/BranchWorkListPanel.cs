@@ -17,12 +17,10 @@ public class BranchWorkListPanel : MonoBehaviour
     private List<BranchWorkDataSO> workDataList;
     private RectTransform rectTransform;
 
-    private BranchPostListPanel postListPanel;
-    public void Init(List<BranchWorkDataSO> dataList, BranchPostListPanel postListPanel)
+    public void Init(List<BranchWorkDataSO> dataList)
     {
         Bind();
         workDataList = dataList;
-        this.postListPanel = postListPanel; 
         CreateWorkPanel();
     }
 
@@ -36,7 +34,7 @@ public class BranchWorkListPanel : MonoBehaviour
         foreach (BranchWorkDataSO workData in workDataList)
         {
             BranchSiteWorkPanel panel = Instantiate(workPanelPrefab, workPanelParent);
-            panel.Init(workData, postListPanel);
+            panel.Init(workData);
             panel.gameObject.SetActive(true);
             workPanels.Add(workData.workKey, panel);
         }
@@ -49,13 +47,6 @@ public class BranchWorkListPanel : MonoBehaviour
         RectTransform workParentRect = (RectTransform)workPanelParent;
         LayoutRebuilder.ForceRebuildLayoutImmediate(workParentRect);
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, workParentRect.sizeDelta.y);
-    }
-
-    private IEnumerator ShowCoroutine(RectTransform workParentRect)
-    {
-        yield return new WaitForSeconds(0.5f);
-
-
     }
 
 }

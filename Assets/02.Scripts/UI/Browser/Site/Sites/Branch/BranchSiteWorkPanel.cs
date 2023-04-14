@@ -22,12 +22,10 @@ public class BranchSiteWorkPanel: MonoBehaviour
     [SerializeField]
     private BranchThumbnailPanel thumbnailPanel;
 
-    private BranchPostListPanel postListPanel;
     private int writeCount;
-    public void Init(BranchWorkDataSO workData, BranchPostListPanel postListPanel)
+    public void Init(BranchWorkDataSO workData)
     {
         this.workData = workData;
-        this.postListPanel = postListPanel;
         thumbnailPanel.OnClick += ClickPanel;
         SettingPanel();
 
@@ -35,8 +33,7 @@ public class BranchSiteWorkPanel: MonoBehaviour
 
     private void ClickPanel()
     {
-        EventManager.TriggerEvent(EBranchEvent.HideAllPanel);
-        postListPanel.Setting(workData.postDataList);
+        EventManager.TriggerEvent(EBranchEvent.ShowPostList, new object[1] { workData });
     }
 
     private void SettingPanel()

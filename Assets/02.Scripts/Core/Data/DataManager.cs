@@ -40,6 +40,7 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.profileSaveData = new List<ProfileSaveData>();
         saveData.aiChattingList = new List<TextData>();
         saveData.loginData = new List<bool>();
+        saveData.branchPostLcokData = new List<string>();
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
         foreach (FileSO file in fileList)
@@ -168,7 +169,7 @@ public class DataManager : MonoSingleton<DataManager>
         }
         return false;
     }
-
+    
     public string GetAdditionalFileName(FileSO file)
     {
         foreach (AdditionFileData data in saveData.additionFileData)
@@ -259,6 +260,19 @@ public class DataManager : MonoSingleton<DataManager>
     public void SetIsLogin(ELoginType loginType, bool value)
     {
         saveData.loginData[(int)loginType] = value;
+    }
+
+    public void AddBranchUnLock(BranchPostDataSO data)
+    {
+        if(saveData.branchPostLcokData.Contains(data.GetPostKey()))
+        {
+            saveData.branchPostLcokData.Add(data.GetPostKey());
+        }
+    }
+
+    public bool GetBranchUnLockData(BranchPostDataSO data)
+    {
+        return saveData.branchPostLcokData.Contains(data.GetPostKey());
     }
 
     private void OnDestroy()

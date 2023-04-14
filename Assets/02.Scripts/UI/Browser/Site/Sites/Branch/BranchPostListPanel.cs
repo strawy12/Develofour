@@ -2,31 +2,41 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BranchPostListPanel : MonoBehaviour
 {
     [SerializeField]
-    private PanelSettingChildVerticalSize settingChildVerticalSize;
-
+    private Button backBtn;
     [Header("Pool")]
     [SerializeField]
     private BranchPostLine postLinePrefab;
     [SerializeField]
     private Transform postParent;
+   
     private Queue<BranchPostLine> poolQueue;
     private int poolCnt = 15;
     private List<BranchPostLine> usePostLine;
 
     private List<BranchPostDataSO> currentPostList;
 
-    private BranchPostPanel postPanel;
-    public void Init(BranchPostPanel postPanel)
+    private RectTransform rectTransform;
+    public void Init()
     {
-        poolQueue = new Queue<BranchPostLine>();
-        usePostLine = new List<BranchPostLine>();
-        this.postPanel = postPanel;
+        Bind();
+
+        backBtn.onClick.RemoveAllListeners();
+        backBtn.onClick.AddListener(() => EventManager.TriggerEvent(EBranchEvent.ShowWorkPanel));
         CreatePool();
     }
+
+    private void Bind()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        poolQueue = new Queue<BranchPostLine>();
+        usePostLine = new List<BranchPostLine>();
+    }
+
     private BranchPostLine Pop()
     {
         BranchPostLine branchPostLine = poolQueue.Dequeue();
@@ -54,19 +64,25 @@ public class BranchPostListPanel : MonoBehaviour
         }
     }
 
-    public void Setting(List<BranchPostDataSO> postList)
+    public void Show(List<BranchPostDataSO> postList = null)
     {
-        currentPostList = postList;
+        if(postList != null)
+        {
+            currentPostList = postList;
+        }
 
         foreach (var postData in currentPostList)
         {
             BranchPostLine postLine = Pop();
-            postLine.Init(postData, postPanel);
+            postLine.Init(postData);
             postLine.gameObject.SetActive(true);
             usePostLine.Add(postLine);
         }
 
-        settingChildVerticalSize.ChangeVerticalUICount(usePostLine.Count);
+        RectTransform workParentRect = (RectTransform)postParent;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(workParentRect);
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, workParentRect.sizeDelta.y);
+
         gameObject.SetActive(true);
     }
 
