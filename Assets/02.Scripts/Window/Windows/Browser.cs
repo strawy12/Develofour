@@ -49,7 +49,6 @@ public partial class Browser : Window
     {
         base.Init();
         //한글 입력 막기/
-        addressInputField.onValueChanged.AddListener((word) => addressInputField.text = Regex.Replace(word, @"[^0-9a-zA-z]", ""));
         addressInputField.onSelect.AddListener(ResetAddressInputField);
         addressInputField.onDeselect.AddListener(SettingAddressInputField);
         addressInputField.onSubmit.AddListener(AddressChangeSite);
