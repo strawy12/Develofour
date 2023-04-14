@@ -8,6 +8,8 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 {
     private TMP_Text textMeshPro;
 
+    private List<int> idxList = new List<int>();
+
     private string word;
 
     private void Start()
@@ -15,12 +17,18 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
         textMeshPro = GetComponent<TMP_Text>();
     } 
 
+    public void SetTextColor(string str)
+    {
+        idxList.Sort();
+    }    
+
     public void OnPointerMove(PointerEventData eventData)
     {
         word = GetWord();
 
         if (word != null)
         {
+            Debug.Log(word);
             GetProfilerWordSystem.OnFindWord?.Invoke(word);
         }
     }
@@ -49,7 +57,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
     private string GetWord()
     {
         int charIndex = TMP_TextUtilities.FindIntersectingCharacter(textMeshPro, Input.mousePosition, Camera.main, false);
-
+        idxList.Add(charIndex);
         if (charIndex > -1)
         {
             int count = charIndex;
@@ -69,6 +77,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
                     break;
                 }
                 getCharIndexInfo = textMeshPro.textInfo.characterInfo[count];
+                idxList.Add(count);
                 c = getCharIndexInfo.character;
                 if (c == ' ')
                 {
@@ -90,6 +99,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
                     break;
                 }
                 getCharIndexInfo = textMeshPro.textInfo.characterInfo[count - 1];
+                idxList.Add(count - 1);
                 c = getCharIndexInfo.character;
                 
                 if (c == ' ')
