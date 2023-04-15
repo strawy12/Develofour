@@ -79,11 +79,12 @@ public class BranchPostListPanel : MonoBehaviour
             usePostLine.Add(postLine);
         }
 
+        gameObject.SetActive(true);
+
         RectTransform workParentRect = (RectTransform)postParent;
         LayoutRebuilder.ForceRebuildLayoutImmediate(workParentRect);
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, workParentRect.sizeDelta.y);
 
-        gameObject.SetActive(true);
     }
 
     public void HidePanel()

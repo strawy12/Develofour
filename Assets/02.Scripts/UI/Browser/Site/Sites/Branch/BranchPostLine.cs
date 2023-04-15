@@ -24,6 +24,8 @@ public class BranchPostLine : MonoBehaviour, IPointerClickHandler
         this.postData = postData;
 
 
+
+
     }
 
     public void Release()

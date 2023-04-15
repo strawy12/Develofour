@@ -19,6 +19,8 @@ public class BranchPostLockPanel : MonoBehaviour
 
     public void Show(BranchPostDataSO postData)
     {
+        Debug.Log("isLock");
+
         passwordField.InputField.text = "";
         currentPostData = postData;
         hintText.text = postData.postPasswordHint;
@@ -28,10 +30,14 @@ public class BranchPostLockPanel : MonoBehaviour
 
         checkBtn.onClick.RemoveAllListeners();
         checkBtn.onClick.AddListener(ClickCheckBtn);
+
+        gameObject.SetActive(true);
     }
 
     private void SuccessLogin()
     {
+        Debug.Log("Answer");
+
         DataManager.Inst.AddBranchUnLock(currentPostData);
 
         gameObject.SetActive(false);

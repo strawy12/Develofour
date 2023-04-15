@@ -79,7 +79,7 @@ public class BranchSite : Site
         writerInfoPanel.gameObject.SetActive(false);
         workListPanel.gameObject.SetActive(false);
         postPanel.gameObject.SetActive(false);
-        topPanel.gameObject.SetActive(true);
+        topPanel.gameObject.SetActive(false);
     }
     public void OnPostPanel(object[] ps)
     {

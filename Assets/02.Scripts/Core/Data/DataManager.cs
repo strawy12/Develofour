@@ -264,7 +264,7 @@ public class DataManager : MonoSingleton<DataManager>
 
     public void AddBranchUnLock(BranchPostDataSO data)
     {
-        if(saveData.branchPostLcokData.Contains(data.GetPostKey()))
+        if(!saveData.branchPostLcokData.Contains(data.GetPostKey()))
         {
             saveData.branchPostLcokData.Add(data.GetPostKey());
         }
