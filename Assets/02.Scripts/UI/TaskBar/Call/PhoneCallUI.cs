@@ -121,6 +121,7 @@ public class PhoneCallUI : MonoBehaviour
         if (data == null)
         {
             data = new CharacterInfoDataSO();
+            data.characterName = "";
             data.phoneNum = phoneNumberText.text;
         }
         CallSystem.Inst.OnRequestCall(data);

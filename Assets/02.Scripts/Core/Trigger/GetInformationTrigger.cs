@@ -34,10 +34,6 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
             }
         }
         OnPointerEnter(eventData);
-        backgroundImage.color = redColor;
-        var tempColor = backgroundImage.color;
-        tempColor.a = 0.2f;
-        backgroundImage.color = tempColor;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -54,6 +50,13 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
             tempColor.a = 0.2f;
             backgroundImage.color = tempColor;
         }
+        else
+        {
+            backgroundImage.color = redColor;
+            var tempColor = backgroundImage.color;
+            tempColor.a = 0.2f;
+            backgroundImage.color = tempColor;
+        }
 
         Define.ChangeInfoCursor(needInformaitonList, category, information);
     }
@@ -61,10 +64,7 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
     public void OnPointerExit(PointerEventData eventData)
     {
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { CursorChangeSystem.ECursorState.Default });
-        if(!DataManager.Inst.IsProfileInfoData(category, information))
-        {
-            backgroundImage.color = new Color(0, 0, 0, 0);
-        }
+        backgroundImage.color = new Color(0, 0, 0, 0);
 
     }
 }
