@@ -6,9 +6,9 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
-public class CallSystem : MonoSingleton<CallSystem>
+public class CallSystem : MonoBehaviour
 {
-    public Action<ECharacterDataType, EMonologTextDataType> OnPlayCallSystem;
+    public static Action<ECharacterDataType, EMonologTextDataType, bool> OnPlayCallSystem;
 
     [Header("CallUI")]
     public TMP_Text nameText;
@@ -21,27 +21,70 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     public void Start()
     {
+        answerBtn.gameObject.SetActive(false);
+        spectrumUI.gameObject.SetActive(false);
+
+        Init();
+    }
+
+    private void Init()
+    {
         spectrumUI.Init();
+
         OnPlayCallSystem += OnStartCall;
     }
 
-    public void OnStartCall(ECharacterDataType characterType, EMonologTextDataType monologType)
+    public void OnStartCall(ECharacterDataType characterType, EMonologTextDataType monologType, bool isAnswer)
     {
         CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
 
         SetCallUI(charSO);
 
         SetEndMonolog(characterType);
-        answerBtn.onClick.RemoveAllListeners();
-        answerBtn.onClick.AddListener(delegate { StartMonolog(monologType); });
-        answerBtn.onClick.AddListener(Hide);
 
-        Show();
+        if (isAnswer)
+        {
+            ShowAnswerButton(true);
+            answerBtn.onClick.AddListener(() => StartMonolog(monologType));
+        }
+        else
+        {
+            ShowSpectrumUI(true);
+        }
+
+        Show(isAnswer);
+    }
+
+    private void ShowAnswerButton(bool isShow)
+    {
+        if (isShow)
+        {
+            answerBtn.onClick.RemoveAllListeners();
+            answerBtn.onClick.AddListener(Hide);
+            answerBtn.onClick.AddListener(() => ShowSpectrumUI(true));
+            answerBtn.onClick.AddListener(() => ShowAnswerButton(false));
+        }
+
+        answerBtn.gameObject.SetActive(isShow);
+    }
+
+    private void ShowSpectrumUI(bool isShow)
+    {
+        spectrumUI.gameObject.SetActive(true);
+
+        if(isShow)
+        {
+            spectrumUI.StartSpectrum();
+        }
+        else
+        {
+            spectrumUI.StopSpectrum();
+        }
     }
 
     private void SetCallUI(CharacterInfoDataSO charSO)
     {
-        if(charSO.name == "")
+        if (charSO.name == "")
         {
             nameText.text = charSO.phoneNum;
         }
@@ -58,10 +101,13 @@ public class CallSystem : MonoSingleton<CallSystem>
         MonologSystem.OnStartMonolog.Invoke(monologType, 0, false);
     }
 
-    public void Show()
+    public void Show(bool isShake)
     {
-        coroutine = PhoneSoundCor();
-        StartCoroutine(coroutine);
+        if(isShake)
+        {
+            coroutine = PhoneSoundCor();
+            StartCoroutine(coroutine);
+        }
         EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { true });
         transform.DOLocalMoveX(770, 0.5f).SetEase(Ease.Linear);
     }
@@ -69,26 +115,27 @@ public class CallSystem : MonoSingleton<CallSystem>
     private IEnumerator PhoneSoundCor()
     {
         yield return new WaitForSeconds(0.8f);
-        while(true)
+        while (true)
         {
             transform.DOShakePosition(2.5f, 5);
-            Sound.OnPlaySound(Sound.EAudioType.PhoneCall);
+            Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneCall);
             yield return new WaitForSeconds(4f);
         }
     }
 
+    // 전화를 받았을 때 시작 
     public void Hide()
     {
         transform.DOKill(true);
         Sound.OnImmediatelyStop(Sound.EAudioType.PhoneCall);
         EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { false });
         StopCoroutine(coroutine);
-        transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
+        //transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
     }
 
     public void SetEndMonolog(ECharacterDataType charType)
     {
-        switch(charType)
+        switch (charType)
         {
             //여기에서 EndMonolog 해줘
         }
