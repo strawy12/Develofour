@@ -11,7 +11,7 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
     public string information;
     public List<ProfileInfoTextDataSO> needInformaitonList;
     public Image backgroundImage;
-    private Color yellowColor = new Color(255,255,0,40);
+    private Color yellowColor = new Color(255,207,0,40);
     private Color redColor = new Color(255, 0, 0, 40);
 
     void OnEnable()
@@ -47,14 +47,14 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
         {
             backgroundImage.color = yellowColor;
             var tempColor = backgroundImage.color;
-            tempColor.a = 0.2f;
+            tempColor.a = 0.4f;
             backgroundImage.color = tempColor;
         }
         else
         {
             backgroundImage.color = redColor;
             var tempColor = backgroundImage.color;
-            tempColor.a = 0.2f;
+            tempColor.a = 0.4f;
             backgroundImage.color = tempColor;
         }
 
