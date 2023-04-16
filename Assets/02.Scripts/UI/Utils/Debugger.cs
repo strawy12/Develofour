@@ -48,7 +48,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            CallSystem.OnPlayCallSystem(ECharacterDataType.person1, EMonologTextDataType.SuspectResidence, false);
+            MonologSystem.OnStopMonolog?.Invoke();
         }
 
         if(Input.GetKeyDown(KeyCode.F))

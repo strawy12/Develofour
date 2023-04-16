@@ -112,6 +112,13 @@ public class PhoneCallUI : MonoBehaviour
 
     private void CallButton()
     {
+        if(string.IsNullOrEmpty(phoneNumberText.text))
+        {
+            return;
+        }
+
+        CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(phoneNumberText.text);
+        CallSystem.Inst.OnRequestCall(data);
 
         Close();
     }
