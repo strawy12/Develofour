@@ -67,6 +67,7 @@ public partial class MediaPlayer : Window
         }
         else
         {
+
             if (mediaDetailText.rectTransform.rect.height <= 770)
             {
                 StartCoroutine(ScrollToTop());

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using ECursorState = CursorChangeSystem.ECursorState;
 [System.Serializable]
 public class ProfilerWord
 {
@@ -23,7 +23,7 @@ public class SubstitutionWord
 public class GetProfilerWordSystem : MonoBehaviour 
 {
     public static Action<string> OnGeneratedProfiler; 
-    public static Action<string> OnFindWord;
+    public static Func<string, CursorChangeSystem.ECursorState> OnFindWord;
 
     [SerializeField]
     private List<SubstitutionWord> willGetWordList;
@@ -73,31 +73,32 @@ public class GetProfilerWordSystem : MonoBehaviour
         EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
     }
 
-    private void FindedWordCheck(string word)
+    private ECursorState FindedWordCheck(string word)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
-            return;
+            return ECursorState.Default;
         }
 
-        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
+        ECursorState state = ECursorState.Default;
 
         if (word == null || !wordListDictionary.ContainsKey(word))
         {
             EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
-            return;
+            return state;
         }
 
 
         if (!willGetWordList.Find(x => x.word == word).isFinded)
         {
-            state = CursorChangeSystem.ECursorState.FindInfo;
+            state = ECursorState.FindInfo;
         }
         else
         {
-            state = CursorChangeSystem.ECursorState.FoundInfo;
+            state = ECursorState.FoundInfo;
         }
 
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
+        return state;
     }
 }
