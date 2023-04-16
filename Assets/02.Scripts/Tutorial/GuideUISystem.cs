@@ -44,7 +44,7 @@ public class GuideUISystem : MonoBehaviour
         guideUI.rectTransform.anchorMax = rect.anchorMax;
         guideUI.rectTransform.pivot = rect.pivot;
         guideUI.rectTransform.localPosition = Vector2.zero;
-        guideUI.rectTransform.sizeDelta = rect.sizeDelta;
+        guideUI.rectTransform.sizeDelta = rect.sizeDelta * 1.1f;
         guideUI.gameObject.SetActive(true);
 
         isSign = true;
