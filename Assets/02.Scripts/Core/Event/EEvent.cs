@@ -7,6 +7,7 @@
     EndDataLoading,
     CursorChange,
     CoverPanelSetting,
+    SendCallNumber,
 }
 
 public enum EBranchEvent
@@ -14,6 +15,9 @@ public enum EBranchEvent
     None=-1,
     HideAllPanel,
     ShowTopPanel,
+    ShowWorkPanel,
+    ShowPostList,
+    ShowPost,
 }
 
 public enum EQuestEvent
@@ -210,3 +214,4 @@ public enum EMonologEvent
     None = -1,
     MonologException,
 }
+

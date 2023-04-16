@@ -37,6 +37,14 @@ public partial class Browser : Window
         switch (siteLink)
         {
             case ESiteLink.Email:
+                {
+                    if (!CheckZoogleSiteLogin())
+                    {
+                        requestSite = siteLink;
+                        siteDictionary.TryGetValue(ESiteLink.GoogleLogin, out site);
+                    }
+                    break;
+                }
             case ESiteLink.Branch:
                 {
                     if (!CheckZoogleSiteLogin())

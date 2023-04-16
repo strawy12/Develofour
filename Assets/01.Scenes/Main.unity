@@ -6600,13 +6600,14 @@ MonoBehaviour:
     guideSaveData: []
     profileSaveData: []
     aiChattingList: []
-    loginData: 
+    branchPostLcokData: []
     isWatchStartCutScene: 0
     isClearStartCutScene: 0
     isZooglePinHintNoteOpen: 0
     isProfilerInstall: 0
     isStartTutorialList: 
     isClearTutorialList: 
+    loginData: 
     isOnceOpenWindowProperty: 0
     isOnceEnterZoogleLogin: 0
     computerLoginState: 0
@@ -7674,7 +7675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1723180408
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8628,7 +8629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding: {x: -8, y: -5, z: -8, w: -5}
+  m_Padding: {x: -8, y: 5, z: -8, w: 5}
   m_Softness: {x: 0, y: 0}
 --- !u!1 &1835440544
 GameObject:
@@ -9435,7 +9436,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loginScreen: {fileID: 1723180407}
-  loginChoice: {fileID: 0}
   coverPanel: {fileID: 1444147863}
   targetMovementY: 1000
   offset: 300
@@ -10735,22 +10735,6 @@ MonoBehaviour:
     value:
       category: 2
       information: SuspectDepartment
---- !u!114 &2114393460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2161882275187714770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 069f4145e084d8540baf0d8f3e541773, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameText: {fileID: 2161882274861463634}
-  profileIcon: {fileID: 2161882275024925219}
-  answerBtn: {fileID: 2161882275134689551}
-  spectrumUI: {fileID: 2161882274632275934}
 --- !u!114 &2114393464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40037,7 +40021,6 @@ GameObject:
   - component: {fileID: 2161882275187714783}
   - component: {fileID: 2161882275187714780}
   - component: {fileID: 1253276490}
-  - component: {fileID: 2114393460}
   - component: {fileID: 2114393465}
   - component: {fileID: 2114393464}
   m_Layer: 5
@@ -42824,7 +42807,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 205, y: 0}
   m_SizeDelta: {x: 230, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &2874077416091051955
@@ -57417,7 +57400,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 125, y: 0}
   m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6155462079995700940
@@ -57569,8 +57552,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 342.5, y: 0}
+  m_SizeDelta: {x: 342.5, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &6155462080139323139
 GameObject:
@@ -57764,7 +57747,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 120.65, y: 0}
   m_SizeDelta: {x: 241.3, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6155462081717301248
@@ -57893,7 +57876,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 129.995, y: 0}
   m_SizeDelta: {x: 259.99, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6155462081717301254

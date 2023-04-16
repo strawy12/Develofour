@@ -13,8 +13,15 @@ public class BranchPostDataSO : ScriptableObject
     public Sprite writeImage;
 
     [Header("Post")]
-    public string subTitle;
-    public string writerName;
-    [TextArea(3, 100)]
-    public string mainText;
+    public string postNumber;
+    public string postPassword;
+    public string postPasswordHint;
+
+
+    public string GetPostKey()
+    {
+        string key = workTitle + "_" + postNumber;
+
+        return key;
+    }
 }

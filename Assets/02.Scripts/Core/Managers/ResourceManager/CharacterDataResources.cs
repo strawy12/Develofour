@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -10,6 +11,10 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     public CharacterInfoDataSO GetCharacterDataSO(ECharacterDataType textType)
     {
         return characterDataSOList[textType];
+    }
+    public CharacterInfoDataSO GetCharacterDataSO(string phoneNumber)
+    {
+        return characterDataSOList.Values.FirstOrDefault((x) => x.phoneNum == phoneNumber);
     }
 
     private async void LoadCharacterDataDataSOAssets(Action callBack)
