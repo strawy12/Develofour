@@ -44,8 +44,7 @@ public class SaveData
     public List<GuideSaveData> guideSaveData;
     public List<ProfileSaveData> profileSaveData;
     public List<TextData> aiChattingList;
-
-    public List<bool> loginData;
+    public List<string> branchPostLcokData;
 
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
@@ -55,6 +54,7 @@ public class SaveData
     // List<bool> (int)type
     public List<bool> isStartTutorialList;
     public List<bool> isClearTutorialList;
+    public List<bool> loginData;
 
     public bool isOnceOpenWindowProperty;
     public bool isOnceEnterZoogleLogin;

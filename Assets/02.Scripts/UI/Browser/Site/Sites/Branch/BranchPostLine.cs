@@ -15,15 +15,16 @@ public class BranchPostLine : MonoBehaviour, IPointerClickHandler
     private BranchPostDataSO postData;
     public BranchPostDataSO PostData { get { return postData; } }
 
-    private BranchPostPanel postPanel;
-    public void Init(BranchPostDataSO postData, BranchPostPanel postPanel)
+    public void Init(BranchPostDataSO postData)
     {
         novelTitleText.text = postData.wirteTitle;
         novelScriptsText.text = postData.wirteInfo;
         novelInfoText.text = postData.wirteDate;
         novelImage.sprite = postData.writeImage;
         this.postData = postData;
-        this.postPanel = postPanel;
+
+
+
 
     }
 
@@ -38,6 +39,6 @@ public class BranchPostLine : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        postPanel?.Show(postData);
+        EventManager.TriggerEvent(EBranchEvent.ShowPost, new object[1] { postData });
     }
 }

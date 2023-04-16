@@ -36,11 +36,14 @@ public class BranchSite : Site
     public override void Init()
     {
         base.Init();
-        workListPanel.Init(workDataList, postListPanel);
-        postListPanel.Init(postPanel);
-        postPanel.Init(OnPostListPanel);
+        workListPanel.Init(workDataList);
+        postListPanel.Init();
+        postPanel.Init();
 
         EventManager.StartListening(EBranchEvent.HideAllPanel, HideAllPanel);
+        EventManager.StartListening(EBranchEvent.ShowWorkPanel, OnWorkListPanel);
+        EventManager.StartListening(EBranchEvent.ShowPostList, OnPostListPanel);
+        EventManager.StartListening(EBranchEvent.ShowPost, OnPostPanel);
     }
     #region OnOffPanel
     public void OnWriterInfoPanel()
@@ -53,22 +56,45 @@ public class BranchSite : Site
     }
     public void OnWorkListPanel()
     {
+        OnWorkListPanel(null);
+    }
+    public void OnWorkListPanel(object[] ps = null)
+    {
         postPanel.gameObject.SetActive(false);
         postListPanel.HidePanel();
         writerInfoPanel.gameObject.SetActive(false);
         workListPanel.Show();
         topPanel.gameObject.SetActive(true);
     }
-    public void OnPostListPanel()
+    public void OnPostListPanel(object[] ps = null)
     {
+        if(ps == null)
+        {
+            postListPanel.Show();
+        }
+        else if((ps[0] is BranchWorkDataSO))
+        {
+            postListPanel.Show((ps[0] as BranchWorkDataSO).postDataList);
+        }
         writerInfoPanel.gameObject.SetActive(false);
-        workListPanel.Show();
-        postListPanel.gameObject.SetActive(true);
+        workListPanel.gameObject.SetActive(false);
         postPanel.gameObject.SetActive(false);
-        topPanel.gameObject.SetActive(true);
+        topPanel.gameObject.SetActive(false);
     }
+    public void OnPostPanel(object[] ps)
+    {
+        if (ps == null || !(ps[0] is BranchPostDataSO))
+        {
+            return;
+        }
+        BranchPostDataSO postData = ps[0] as BranchPostDataSO;
 
-    public void HideAllPanel(object[] ps)
+        HideAllPanel();
+
+
+        postPanel.Show(postData);
+    }
+    public void HideAllPanel(object[] ps = null)
     {
         workListPanel.gameObject.SetActive(false);
         postPanel.gameObject.SetActive(false);
@@ -89,6 +115,9 @@ public class BranchSite : Site
     private void OnDestroy()
     {
         EventManager.StopAllListening(EBranchEvent.HideAllPanel);
+        EventManager.StopAllListening(EBranchEvent.ShowWorkPanel);
+        EventManager.StopAllListening(EBranchEvent.ShowPostList);
+        EventManager.StopAllListening(EBranchEvent.ShowPost);
 
     }
 

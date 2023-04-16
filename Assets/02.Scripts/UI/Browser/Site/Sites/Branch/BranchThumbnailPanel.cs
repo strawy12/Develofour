@@ -9,6 +9,7 @@ public class BranchThumbnailPanel : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("ClickThumnail");
         OnClick?.Invoke();
     }
 }
