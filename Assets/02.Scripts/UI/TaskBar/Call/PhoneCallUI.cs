@@ -118,6 +118,11 @@ public class PhoneCallUI : MonoBehaviour
         }
 
         CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(phoneNumberText.text);
+        if (data == null)
+        {
+            data = new CharacterInfoDataSO();
+            data.phoneNum = phoneNumberText.text;
+        }
         CallSystem.Inst.OnRequestCall(data);
 
         Close();
