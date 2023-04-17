@@ -34,7 +34,7 @@ public class Discord : Window
         EventManager.StartListening(EDiscordEvent.StartTalk, StartTalkChat);
         friendList.Init();
         chattingPanel.Init();
-        if (DataManager.Inst.GetIsLogin(ELoginType.Harmony))
+        if (!DataManager.Inst.GetIsLogin(ELoginType.Harmony))
         {
             discordLogin.Init();
         }
