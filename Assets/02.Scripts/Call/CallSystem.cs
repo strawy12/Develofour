@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +30,7 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     }
 
-    // ¾ê´Â °á±¹¿¡´Â ¹Ş´Â Àü¿ë
+    // ì–˜ëŠ” ê²°êµ­ì—ëŠ” ë°›ëŠ” ì „ìš©
     public void OnAnswerCall(ECharacterDataType characterType, EMonologTextDataType monologType)
     {
         CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
@@ -43,14 +43,14 @@ public class CallSystem : MonoSingleton<CallSystem>
         Show(true);
     }
 
-    // ¾ê´Â °á±¹¿¡´Â °Å´Â Àü¿ë
+    // ì–˜ëŠ” ê²°êµ­ì—ëŠ” ê±°ëŠ” ì „ìš©
     public void OnRequestCall(CharacterInfoDataSO data)
     {
         SetCallUI(data);
 
-        // ¿©±â¼­ Monolog ÆÇ´ÜÀ» ÇØÁà¾ßÇÔ
-        // ¸îÃÊ µÚ ¹ŞÀ» °ÇÁö, switch CoroutineÀ» ÃßÃµÇÔ
-        // ECharacterType À¸·Î ÇÏ°í ´Ù SO ¸¸µé¾îÁÖ±â
+        // ì—¬ê¸°ì„œ Monolog íŒë‹¨ì„ í•´ì¤˜ì•¼í•¨
+        // ëª‡ì´ˆ ë’¤ ë°›ì„ ê±´ì§€, switch Coroutineì„ ì¶”ì²œí•¨
+        // ECharacterType ìœ¼ë¡œ í•˜ê³  ë‹¤ SO ë§Œë“¤ì–´ì£¼ê¸°
         StartCoroutine(StartRequestCall(data.characterType));
 
         ShowAnswerButton(false);
@@ -129,7 +129,7 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     public void StartMonolog(EMonologTextDataType monologType)
     {
-        //ÀúÀåÂÊÀº ³ªÁß¿¡ »ı°¢
+        //ì €ì¥ìª½ì€ ë‚˜ì¤‘ì— ìƒê°
         MonologSystem.OnStartMonolog.Invoke(monologType, 0, false);
     }
 
@@ -154,7 +154,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         }
     }
 
-    // ÀüÈ­¸¦ ¹Ş¾ÒÀ» ¶§ ½ÃÀÛ 
+    // ì „í™”ë¥¼ ë°›ì•˜ì„ ë•Œ ì‹œì‘ 
     public void Hide()
     {
         transform.DOKill(true);
@@ -162,7 +162,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { false });
 
         StopAllCoroutines();
-        //transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
+        transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
     }
 
     public void SetEndMonolog(EMonologTextDataType monologType)
