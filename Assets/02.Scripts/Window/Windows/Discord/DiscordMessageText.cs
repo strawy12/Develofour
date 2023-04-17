@@ -42,4 +42,9 @@ public class DiscordMessageText : MonoBehaviour
         }
         messageText.rectTransform.sizeDelta = size;
     }
+
+    public void SetColor(Color color)
+    {
+        messageText.color = color;
+    }
 }

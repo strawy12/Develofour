@@ -139,11 +139,11 @@ public static class Define
         return FileManager.Inst.SearchFile("Profile") != null;
     }
 
-    public static void ChangeInfoCursor(List<ProfileInfoTextDataSO> needInfoList, EProfileCategory category, string infoKey)
+    public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<ProfileInfoTextDataSO> needInfoList, EProfileCategory category, string infoKey)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
-            return;
+            return CursorChangeSystem.ECursorState.Default;
         }
 
         CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
@@ -155,7 +155,7 @@ public static class Define
                 if (!DataManager.Inst.IsProfileInfoData(needData.category, needData.key))
                 {
                     EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
-                    return;
+                    return CursorChangeSystem.ECursorState.Default;
                 }
             }
         }
@@ -168,7 +168,8 @@ public static class Define
         {
             state = CursorChangeSystem.ECursorState.FindInfo;
         }
-
+        
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
+        return state;
     }
 }
