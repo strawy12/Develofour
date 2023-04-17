@@ -14,7 +14,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
     private void Start()
     {
         textMeshPro = GetComponent<TMP_Text>();
-    } 
+    }
 
     public void OnPointerMove(PointerEventData eventData)
     {
@@ -92,7 +92,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
                 }
                 getCharIndexInfo = textMeshPro.textInfo.characterInfo[count - 1];
                 c = getCharIndexInfo.character;
-                
+
                 if (c == ' ')
                 {
                     isSpace = true;
@@ -111,7 +111,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
     public void OnPointerExit(PointerEventData eventData)
     {
-      ECursorState state = ECursorState.Default;
+        ECursorState state = ECursorState.Default;
 
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
     }
@@ -119,11 +119,9 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
     private void ChangeWordColor(ECursorState? state)
     {
         // Get the current word
-        Debug.Log("1");
 
         word = GetWord();
 
-        
         if (word != null)
         {
             // Find the indices of the word
@@ -160,11 +158,11 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
             {
                 color = Color.yellow;
             }
-            else if(state == ECursorState.FoundInfo) // red
+            else if (state == ECursorState.FoundInfo) // red
             {
                 color = Color.red;
             }
-            else if(state == ECursorState.Default)
+            else if (state == ECursorState.Default)
             {
                 color = Color.black;
             }

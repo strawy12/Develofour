@@ -38,6 +38,8 @@ public partial class MediaPlayer : Window
     public Action OnEnd;
 
     private MediaPlayInfoFind infoFind;
+
+    int lineCnt = 1;
     private float MediaLength
     {
         get
@@ -51,10 +53,14 @@ public partial class MediaPlayer : Window
 
     private bool isRePlaying;
 
+    [Header("WordSize")]
+    [SerializeField]
+    private float wordSizeY;
+
     private void BottomScrollView()
     {
-        
-        if(textParentRect.rect.height < 700) 
+
+        if (textParentRect.rect.height < 700)
         {
             if (mediaDetailText.rectTransform.rect.height <= textParentRect.rect.height)
             {
@@ -67,7 +73,6 @@ public partial class MediaPlayer : Window
         }
         else
         {
-
             if (mediaDetailText.rectTransform.rect.height <= 770)
             {
                 StartCoroutine(ScrollToTop());
@@ -76,7 +81,7 @@ public partial class MediaPlayer : Window
             {
                 StartCoroutine(ScrollToBottom());
             }
-        } 
+        }
     }
 
     IEnumerator ScrollToTop()
@@ -109,16 +114,18 @@ public partial class MediaPlayer : Window
         mediaPlayerDownBar.mediaPlayFileName.SetText(mediaPlayerData.name);
 
         audioSource.clip = mediaPlayerData.mediaAudioClip;
-        mediaDetailText.SetText("");
 
         textParentRect = mediaDetailText.transform.parent.GetComponent<RectTransform>();
-
+        lineCnt = 1;
         InitDelayList();
+
         BottomScrollView();
         mediaPlaySlider.OnMousePointDown += MediaSliderDown;
         mediaPlaySlider.OnMousePointUp += PointUpMediaPlayer;
         mediaPlaySlider.OnMouseSlider += SetSliderMediaText;
+        mediaDetailText.SetText(notCommandString);
 
+        mediaDetailText.maxVisibleCharacters = 0;
         secondTimer = 0;
         minuteTimer = 0;
 
@@ -170,10 +177,10 @@ public partial class MediaPlayer : Window
 
     private IEnumerator PrintMediaText()
     {
-        for (int i = mediaDetailText.text.Length; i < delayList.Count; i++)
+        for (int i = mediaDetailText.maxVisibleCharacters; i < delayList.Count; i++)
         {
-            mediaDetailText.text += notCommandString[i];
-
+            mediaDetailText.maxVisibleCharacters++;
+            ParentSizeSetting();
             BottomScrollView();
 
             yield return new WaitForSeconds(delayList[i]);
@@ -220,7 +227,8 @@ public partial class MediaPlayer : Window
         float time = (m * t); // ÃÊ
 
 
-        mediaDetailText.text = notCommandString.Substring(0, TimeToIndex(time));
+        //mediaDetailText.text = notCommandString.Substring(0, TimeToIndex(time));
+        mediaDetailText.maxVisibleCharacters = TimeToIndex(time);
 
         minuteTimer = (int)(time / 60f);
         secondTimer = (int)(time % 60f);
@@ -245,4 +253,18 @@ public partial class MediaPlayer : Window
         StopAllCoroutines();
     }
 
+    private void ParentSizeSetting()
+    {
+        lineCnt = 1;
+        for (int i = 0; i < mediaDetailText.maxVisibleCharacters; i++)
+        {
+
+            if (notCommandString[i] == '\n')
+            {
+                lineCnt++;
+            }
+        }
+
+        mediaDetailText.rectTransform.sizeDelta = new Vector2(mediaDetailText.rectTransform.sizeDelta.x,10 + wordSizeY * lineCnt);
+    }
 }
