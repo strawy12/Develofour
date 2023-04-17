@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System.Globalization;
 
 public partial class MediaPlayer : Window
 {
@@ -38,6 +39,8 @@ public partial class MediaPlayer : Window
     public Action OnEnd;
 
     private MediaPlayInfoFind infoFind;
+
+    int lineCnt = 1;
     private float MediaLength
     {
         get
@@ -51,46 +54,10 @@ public partial class MediaPlayer : Window
 
     private bool isRePlaying;
 
-    private void BottomScrollView()
-    {
-        
-        if(textParentRect.rect.height < 700) 
-        {
-            if (mediaDetailText.rectTransform.rect.height <= textParentRect.rect.height)
-            {
-                StartCoroutine(ScrollToTop());
-            }
-            else
-            {
-                StartCoroutine(ScrollToBottom());
-            }
-        }
-        else
-        {
-            if (mediaDetailText.rectTransform.rect.height <= 770)
-            {
-                StartCoroutine(ScrollToTop());
-            }
-            else
-            {
-                StartCoroutine(ScrollToBottom());
-            }
-        } 
-    }
+    [Header("WordSize")]
+    [SerializeField]
+    private float wordSizeY;
 
-    IEnumerator ScrollToTop()
-    {
-        yield return new WaitForEndOfFrame();
-        scroll.gameObject.SetActive(true);
-        scroll.verticalNormalizedPosition = 1f;
-    }
-
-    IEnumerator ScrollToBottom()
-    {
-        yield return new WaitForEndOfFrame();
-        scroll.gameObject.SetActive(true);
-        scroll.verticalNormalizedPosition = 0f;
-    }
     protected override void Init()
     {
         base.Init();
@@ -108,16 +75,17 @@ public partial class MediaPlayer : Window
         mediaPlayerDownBar.mediaPlayFileName.SetText(mediaPlayerData.name);
 
         audioSource.clip = mediaPlayerData.mediaAudioClip;
-        mediaDetailText.SetText("");
 
         textParentRect = mediaDetailText.transform.parent.GetComponent<RectTransform>();
-
+        lineCnt = 1;
         InitDelayList();
-        BottomScrollView();
+
         mediaPlaySlider.OnMousePointDown += MediaSliderDown;
         mediaPlaySlider.OnMousePointUp += PointUpMediaPlayer;
         mediaPlaySlider.OnMouseSlider += SetSliderMediaText;
+        mediaDetailText.SetText(notCommandString);
 
+        mediaDetailText.maxVisibleCharacters = 0;
         secondTimer = 0;
         minuteTimer = 0;
 
@@ -167,13 +135,23 @@ public partial class MediaPlayer : Window
         StopAllCoroutines();
     }
 
+
     private IEnumerator PrintMediaText()
     {
-        for (int i = mediaDetailText.text.Length; i < delayList.Count; i++)
+        for (int i = mediaDetailText.maxVisibleCharacters; i < delayList.Count; i++)
         {
-            mediaDetailText.text += notCommandString[i];
+            mediaDetailText.maxVisibleCharacters++;
 
-            BottomScrollView();
+            TMP_CharacterInfo charInfo = mediaDetailText.textInfo.characterInfo[i];
+
+            float height = (charInfo.bottomRight.y * -1f) - mediaDetailText.rectTransform.anchoredPosition.y;
+            float parentHeight = (mediaDetailText.transform.parent as RectTransform).rect.height;
+            if (parentHeight < height)
+            {
+                Vector2 pos = mediaDetailText.rectTransform.anchoredPosition;
+                pos.y += Mathf.Abs(parentHeight - height);
+                mediaDetailText.rectTransform.anchoredPosition = pos;
+            }
 
             yield return new WaitForSeconds(delayList[i]);
         }
@@ -215,11 +193,11 @@ public partial class MediaPlayer : Window
 
     private void SetSliderMediaText(float t)
     {
-        int m = (int)MediaLength;
-        float time = (m * t); // ÃÊ
+        float time = (t* MediaLength); // ÃÊ
 
 
-        mediaDetailText.text = notCommandString.Substring(0, TimeToIndex(time));
+        //mediaDetailText.text = notCommandString.Substring(0, TimeToIndex(time));
+        mediaDetailText.maxVisibleCharacters = TimeToIndex(time);
 
         minuteTimer = (int)(time / 60f);
         secondTimer = (int)(time % 60f);
@@ -228,7 +206,10 @@ public partial class MediaPlayer : Window
 
         mediaPlayTimeText.SetText(string.Format("{0:00} : {1:00}", minuteTimer, secondTimer));
 
-        BottomScrollView();
+        if(isPlaying)
+        {
+            mediaDetailText.rectTransform.anchoredPosition = Vector2.zero;
+        }
 
         if (isRePlaying)
         {
