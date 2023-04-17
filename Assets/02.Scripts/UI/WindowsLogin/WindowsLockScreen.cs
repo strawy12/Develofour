@@ -96,8 +96,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         loginScreen.SetActive(true);
 
         StartCoroutine(CoverSetting());
-        //MonologSystem.OnEndMonologEvent += EndMonolog;
-        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartMonolog, 1f, true);
+        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartMonolog, 0.2f, true);
     }
 
 
