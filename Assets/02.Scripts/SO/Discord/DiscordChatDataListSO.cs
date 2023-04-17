@@ -13,7 +13,7 @@ public class DiscordChatData
     public int day;
 
     public bool isMine;
-    public Sprite msgSprite;
+    public GameObject msgSpritePrefab = null;
     public float typingDelay;
 
     public DateTime sendDateTime

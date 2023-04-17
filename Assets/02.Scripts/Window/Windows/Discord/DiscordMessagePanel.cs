@@ -58,9 +58,9 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
         currentChatData = data;
         currentProfileData = profileData;
         messageText.SettingMessage(data.message);
-        if (data.msgSprite != null)
+        if (data.msgSpritePrefab != null)
         {
-            messageImagePanel.SettingImage(data.msgSprite);
+            messageImagePanel.SettingImage(data.msgSpritePrefab.GetComponent<Image>().sprite);
             messageImagePanel.gameObject.SetActive(true);
         }
         else
@@ -127,7 +127,15 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
         if(currentChatData.infoData != null)
         {
-            Define.ChangeInfoCursor(currentChatData.needInformaitonList, currentChatData.infoData.category, currentChatData.infoData.key);
+            CursorChangeSystem.ECursorState state = Define.ChangeInfoCursor(currentChatData.needInformaitonList, currentChatData.infoData.category, currentChatData.infoData.key);
+            if(state == CursorChangeSystem.ECursorState.FindInfo)
+            {
+                messageText.SetColor(Color.yellow);
+            }
+            else if (state == CursorChangeSystem.ECursorState.FoundInfo)
+            {
+                messageText.SetColor(Color.red);
+            }
         }
             
     }
@@ -135,7 +143,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     public void OnPointerExit(PointerEventData eventData)
     {
         backgroundImage.enabled = false;
-
+        messageText.SetColor(Color.white);
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[1] { CursorChangeSystem.ECursorState.Default });
     }
 
@@ -143,17 +151,16 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         if(eventData.button == PointerEventData.InputButton.Left)
         {
-            if (currentChatData.msgSprite != null)
+            if (currentChatData.msgSpritePrefab != null)
             {
-                EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSprite }); ;
+                EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSpritePrefab }); ;
             }
             if (currentChatData.infoData != null)
             {
                 EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { currentChatData.infoData.category, currentChatData.infoData.key, null });
             }
         }
-      
 
-       
+        OnPointerEnter(eventData);
     }
 }
