@@ -33,12 +33,19 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
                 EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, needInformaitonList });
             }
         }
+
         OnPointerEnter(eventData);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
+
+        bool isListFinder = Define.ChangeInfoCursor(needInformaitonList, category, information);
+        if (!isListFinder)
         {
             return;
         }
@@ -58,7 +65,6 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
             backgroundImage.color = tempColor;
         }
 
-        Define.ChangeInfoCursor(needInformaitonList, category, information);
     }
 
     public void OnPointerExit(PointerEventData eventData)
