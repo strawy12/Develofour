@@ -26,7 +26,10 @@ public class IconPropertyBody : MonoBehaviour
     {
         iconImage.sprite = file.iconSprite;
         iconName.text = file.name;
-
+        if(file.windowType != EWindowType.ImageViewer)
+        {
+            iconImage.color = Color.black;
+        }
         string location = file.GetFileLocation();
 
         location = location.Replace('\\', '/');

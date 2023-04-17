@@ -30,6 +30,7 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
         fileName.text = "";
         fileImage.sprite = null;
+        fileImage.color = Color.black;
         currentDirectory = null;
     }
 
