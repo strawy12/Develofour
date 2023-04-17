@@ -98,7 +98,6 @@ public class ProfileInfoPanel : MonoBehaviour
 
                 if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
                 {
-                    DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
                     EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
                 }
             }
@@ -135,7 +134,6 @@ public class ProfileInfoPanel : MonoBehaviour
 
     private void HidePost()
     {
-        Debug.Log(gameObject.name);
         gameObject.SetActive(false);
     }
 
