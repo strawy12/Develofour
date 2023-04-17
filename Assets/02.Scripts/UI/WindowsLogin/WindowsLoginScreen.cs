@@ -43,11 +43,12 @@ public class WindowsLoginScreen : MonoBehaviour
     [SerializeField]
     private Button loginFailConfirmBtn;
     [SerializeField]
-    private float monologDelay = 0.8f;
+    private float monologDelay = 0.3f;
     [SerializeField]
     private float numberWrongDuration = 3f;
 
     private bool isFirst = true;
+
     private void Start()
     {
         Init();
@@ -99,9 +100,9 @@ public class WindowsLoginScreen : MonoBehaviour
             {
                 passwordField.InputField.text = passwordField.InputField.text.Substring(0, passwordField.InputField.text.Length - 1);
             }
+
             StopAllCoroutines();
             StartCoroutine(InputOnlyNumberCoroutine());
-
         }
     }
 
@@ -131,6 +132,7 @@ public class WindowsLoginScreen : MonoBehaviour
             EndLogin();
 
             windowLoginCanvas.SetActive(false);
+            EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { false });
         }));
     }
 
