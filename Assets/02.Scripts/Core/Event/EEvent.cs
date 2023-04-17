@@ -7,6 +7,7 @@
     EndDataLoading,
     CursorChange,
     CoverPanelSetting,
+    SendCallNumber,
 }
 
 public enum EBranchEvent
@@ -213,3 +214,4 @@ public enum EMonologEvent
     None = -1,
     MonologException,
 }
+

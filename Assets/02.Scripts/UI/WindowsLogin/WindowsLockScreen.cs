@@ -10,8 +10,6 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     [SerializeField]
     private GameObject loginScreen;
     [SerializeField]
-    private GameObject loginChoice;
-    [SerializeField]
     private GameObject coverPanel;
 
     [SerializeField]
@@ -95,9 +93,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private void OpenLoginScreen()
     {
-
         loginScreen.SetActive(true);
-        loginChoice.SetActive(true);
 
         StartCoroutine(CoverSetting());
         //MonologSystem.OnEndMonologEvent += EndMonolog;

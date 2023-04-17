@@ -43,6 +43,11 @@ public class AudioSpectrumUI : MonoBehaviour
         StartCoroutine(PlaySpectrum());
     }
 
+    public void StopSpectrum()
+    {
+        StopAllCoroutines();
+    }
+
     private IEnumerator PlaySpectrum()
     {
         while (true)
@@ -58,6 +63,5 @@ public class AudioSpectrumUI : MonoBehaviour
 
             yield return new WaitForSeconds(frequency);
         }
-
     }
 }

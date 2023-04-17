@@ -1,15 +1,14 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using System.Runtime.InteropServices;
 
 public class CallSystem : MonoSingleton<CallSystem>
 {
-    public Action<ECharacterDataType, EMonologTextDataType> OnPlayCallSystem;
-
     [Header("CallUI")]
     public TMP_Text nameText;
     public Image profileIcon;
@@ -17,51 +16,129 @@ public class CallSystem : MonoSingleton<CallSystem>
     public Button answerBtn;
     public AudioSpectrumUI spectrumUI;
 
-    private IEnumerator coroutine;
-
     public void Start()
     {
-        spectrumUI.Init();
-        OnPlayCallSystem += OnStartCall;
+        answerBtn.gameObject.SetActive(false);
+        spectrumUI.gameObject.SetActive(false);
+
+        Init();
     }
 
-    public void OnStartCall(ECharacterDataType characterType, EMonologTextDataType monologType)
+    private void Init()
+    {
+        spectrumUI.Init();
+
+    }
+
+    // 얘는 결국에는 받는 전용
+    public void OnAnswerCall(ECharacterDataType characterType, EMonologTextDataType monologType)
     {
         CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
-
         SetCallUI(charSO);
 
-        SetEndMonolog(characterType);
-        answerBtn.onClick.RemoveAllListeners();
-        answerBtn.onClick.AddListener(delegate { StartMonolog(monologType); });
-        answerBtn.onClick.AddListener(Hide);
+        ShowSpectrumUI(false);
+        ShowAnswerButton(true);
+        answerBtn.onClick.AddListener(() => StartMonolog(monologType));
 
-        Show();
+        Show(true);
     }
 
-    private void SetCallUI(CharacterInfoDataSO charSO)
+    // 얘는 결국에는 거는 전용
+    public void OnRequestCall(CharacterInfoDataSO data)
     {
-        if(charSO.name == "")
+        SetCallUI(data);
+
+        // 여기서 Monolog 판단을 해줘야함
+        // 몇초 뒤 받을 건지, switch Coroutine을 추천함
+        // ECharacterType 으로 하고 다 SO 만들어주기
+        StartCoroutine(StartRequestCall(data.characterType));
+
+        ShowAnswerButton(false);
+        ShowSpectrumUI(true);
+
+        Show(false);
+    }
+
+    private IEnumerator StartRequestCall(ECharacterDataType characterType)
+    {
+        float delay = 5f;
+
+        switch (characterType)
         {
-            nameText.text = charSO.phoneNum;
+            default:
+                Debug.Log(delay);
+                yield return PlayPhoneCallSound(delay);
+                Hide();
+                break;
+        }
+    }
+
+    private IEnumerator PlayPhoneCallSound(float delay)
+    {
+        Debug.Log(delay);
+        while (delay > 0f)
+        {
+            Debug.Log(delay);
+            float soundSecond = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneCall);
+
+            yield return new WaitForSeconds(soundSecond);
+            Debug.Log(delay);
+            delay -= soundSecond;
+        }
+    }
+
+    private void ShowAnswerButton(bool isShow)
+    {
+        if (isShow)
+        {
+            answerBtn.onClick.RemoveAllListeners();
+            answerBtn.onClick.AddListener(Hide);
+            answerBtn.onClick.AddListener(() => ShowSpectrumUI(true));
+            answerBtn.onClick.AddListener(() => ShowAnswerButton(false));
+        }
+
+        answerBtn.gameObject.SetActive(isShow);
+    }
+
+    private void ShowSpectrumUI(bool isShow)
+    {
+        spectrumUI.gameObject.SetActive(true);
+
+        if (isShow)
+        {
+            spectrumUI.StartSpectrum();
         }
         else
         {
-            nameText.text = charSO.name;
+            spectrumUI.StopSpectrum();
         }
-        profileIcon.sprite = charSO.profileIcon;
+    }
+
+    private void SetCallUI(CharacterInfoDataSO data)
+    {
+        if (data.characterName == "")
+        {
+            nameText.text = data.phoneNum;
+        }
+        else
+        {
+            nameText.text = data.characterName;
+        }
+        profileIcon.sprite = data.profileIcon;
     }
 
     public void StartMonolog(EMonologTextDataType monologType)
     {
-        //�������� ���߿� ����
+        //저장쪽은 나중에 생각
         MonologSystem.OnStartMonolog.Invoke(monologType, 0, false);
     }
 
-    public void Show()
+    public void Show(bool isShake)
     {
-        coroutine = PhoneSoundCor();
-        StartCoroutine(coroutine);
+        if (isShake)
+        {
+            StartCoroutine(PhoneSoundCor());
+        }
         EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { true });
         transform.DOLocalMoveX(770, 0.5f).SetEase(Ease.Linear);
     }
@@ -69,28 +146,27 @@ public class CallSystem : MonoSingleton<CallSystem>
     private IEnumerator PhoneSoundCor()
     {
         yield return new WaitForSeconds(0.8f);
-        while(true)
+        while (true)
         {
             transform.DOShakePosition(2.5f, 5);
-            Sound.OnPlaySound(Sound.EAudioType.PhoneCall);
+            Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
             yield return new WaitForSeconds(4f);
         }
     }
 
+    // 전화를 받았을 때 시작 
     public void Hide()
     {
         transform.DOKill(true);
         Sound.OnImmediatelyStop(Sound.EAudioType.PhoneCall);
         EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { false });
-        StopCoroutine(coroutine);
+
+        StopAllCoroutines();
         transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
     }
 
-    public void SetEndMonolog(ECharacterDataType charType)
+    public void SetEndMonolog(EMonologTextDataType monologType)
     {
-        switch(charType)
-        {
-            //���⿡�� EndMonolog ����
-        }
+        MonologSystem.OnStopMonolog?.Invoke();
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System.Globalization;
 
 public partial class MediaPlayer : Window
 {
@@ -57,46 +58,6 @@ public partial class MediaPlayer : Window
     [SerializeField]
     private float wordSizeY;
 
-    private void BottomScrollView()
-    {
-
-        if (textParentRect.rect.height < 700)
-        {
-            if (mediaDetailText.rectTransform.rect.height <= textParentRect.rect.height)
-            {
-                StartCoroutine(ScrollToTop());
-            }
-            else
-            {
-                StartCoroutine(ScrollToBottom());
-            }
-        }
-        else
-        {
-            if (mediaDetailText.rectTransform.rect.height <= 770)
-            {
-                StartCoroutine(ScrollToTop());
-            }
-            else
-            {
-                StartCoroutine(ScrollToBottom());
-            }
-        }
-    }
-
-    IEnumerator ScrollToTop()
-    {
-        yield return new WaitForEndOfFrame();
-        scroll.gameObject.SetActive(true);
-        scroll.verticalNormalizedPosition = 1f;
-    }
-
-    IEnumerator ScrollToBottom()
-    {
-        yield return new WaitForEndOfFrame();
-        scroll.gameObject.SetActive(true);
-        scroll.verticalNormalizedPosition = 0f;
-    }
     protected override void Init()
     {
         base.Init();
@@ -119,7 +80,6 @@ public partial class MediaPlayer : Window
         lineCnt = 1;
         InitDelayList();
 
-        BottomScrollView();
         mediaPlaySlider.OnMousePointDown += MediaSliderDown;
         mediaPlaySlider.OnMousePointUp += PointUpMediaPlayer;
         mediaPlaySlider.OnMouseSlider += SetSliderMediaText;
@@ -175,14 +135,24 @@ public partial class MediaPlayer : Window
         StopAllCoroutines();
     }
 
+
     private IEnumerator PrintMediaText()
     {
         for (int i = mediaDetailText.maxVisibleCharacters; i < delayList.Count; i++)
         {
             mediaDetailText.maxVisibleCharacters++;
-            ParentSizeSetting();
-            BottomScrollView();
 
+
+            TMP_CharacterInfo charInfo = mediaDetailText.textInfo.characterInfo[i];
+
+            float height = (charInfo.bottomRight.y * -1f) - mediaDetailText.rectTransform.anchoredPosition.y;
+            float parentHeight = (mediaDetailText.transform.parent as RectTransform).rect.height;
+            if (parentHeight < height)
+            {
+                Vector2 pos = mediaDetailText.rectTransform.anchoredPosition;
+                pos.y += Mathf.Abs(parentHeight - height);
+                mediaDetailText.rectTransform.anchoredPosition = pos;
+            }
             yield return new WaitForSeconds(delayList[i]);
         }
 
@@ -223,8 +193,7 @@ public partial class MediaPlayer : Window
 
     private void SetSliderMediaText(float t)
     {
-        int m = (int)MediaLength;
-        float time = (m * t); // ÃÊ
+        float time = (t* MediaLength); // ÃÊ
 
 
         //mediaDetailText.text = notCommandString.Substring(0, TimeToIndex(time));
@@ -237,7 +206,10 @@ public partial class MediaPlayer : Window
 
         mediaPlayTimeText.SetText(string.Format("{0:00} : {1:00}", minuteTimer, secondTimer));
 
-        BottomScrollView();
+        if(isPlaying)
+        {
+            mediaDetailText.rectTransform.anchoredPosition = Vector2.zero;
+        }
 
         if (isRePlaying)
         {
@@ -251,20 +223,5 @@ public partial class MediaPlayer : Window
         cdPlayMedia.StopCdAnimation();
         audioSource.Pause();
         StopAllCoroutines();
-    }
-
-    private void ParentSizeSetting()
-    {
-        lineCnt = 1;
-        for (int i = 0; i < mediaDetailText.maxVisibleCharacters; i++)
-        {
-
-            if (notCommandString[i] == '\n')
-            {
-                lineCnt++;
-            }
-        }
-
-        mediaDetailText.rectTransform.sizeDelta = new Vector2(mediaDetailText.rectTransform.sizeDelta.x,10 + wordSizeY * lineCnt);
     }
 }
