@@ -161,6 +161,11 @@ public class ProfileGuideButtonParent : MonoBehaviour
     #region Page
     public void UpdateButton()
     {
+        if (guideButtonList.Count == 0)
+        {
+            return;
+        }
+
         if (currentIndex >= guideButtonList.Count)
         {
             currentIndex = currentIndex <= 0 ? 0 : guideButtonList.Count - 1;
