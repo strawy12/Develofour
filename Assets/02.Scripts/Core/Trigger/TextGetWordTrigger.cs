@@ -113,47 +113,46 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
     {
         ECursorState state = ECursorState.Default;
 
+
+
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
     }
 
-    private void ChangeWordColor(ECursorState? state)
+    private List<int> GetTrinangles(string word)
     {
-        // Get the current word
+        int startIndex = wordStartIndex;
+        int endIndex = startIndex + word.Length - 1;
 
-        word = GetWord();
-
-        if (word != null)
+        // Find the triangles that make up the word
+        TMP_CharacterInfo startInfo = textMeshPro.textInfo.characterInfo[startIndex];
+        TMP_CharacterInfo endInfo = textMeshPro.textInfo.characterInfo[endIndex];
+        int startVertexIndex = startInfo.vertexIndex;
+        int endVertexIndex = endInfo.vertexIndex + 3;
+        List<int> triangles = new List<int>();
+        for (int i = startVertexIndex; i < endVertexIndex; i++)
         {
-            // Find the indices of the word
-            int startIndex = wordStartIndex;
-            int endIndex = startIndex + word.Length - 1;
-
-            // Find the triangles that make up the word
-            TMP_CharacterInfo startInfo = textMeshPro.textInfo.characterInfo[startIndex];
-            TMP_CharacterInfo endInfo = textMeshPro.textInfo.characterInfo[endIndex];
-            int startVertexIndex = startInfo.vertexIndex;
-            int endVertexIndex = endInfo.vertexIndex + 3;
-            List<int> triangles = new List<int>();
-            for (int i = startVertexIndex; i < endVertexIndex; i++)
+            int[] triangle = textMeshPro.textInfo.meshInfo[0].triangles;
+            for (int j = 0; j < triangle.Length; j += 3)
             {
-                int[] triangle = textMeshPro.textInfo.meshInfo[0].triangles;
-                for (int j = 0; j < triangle.Length; j += 3)
+                if (triangle[j] == i || triangle[j + 1] == i || triangle[j + 2] == i)
                 {
-                    if (triangle[j] == i || triangle[j + 1] == i || triangle[j + 2] == i)
-                    {
-                        triangles.Add(triangle[j]);
-                        triangles.Add(triangle[j + 1]);
-                        triangles.Add(triangle[j + 2]);
-                    }
+                    triangles.Add(triangle[j]);
+                    triangles.Add(triangle[j + 1]);
+                    triangles.Add(triangle[j + 2]);
                 }
             }
+        }
+        return triangles;
+    }
 
-            // Change the color of the vertices
+
+    private void ChangeWordColor(ECursorState? state)
+    {
+        if (word != null)
+        {
+            List<int> triangles = GetTrinangles(word);
             Color32[] vertexData = textMeshPro.textInfo.meshInfo[0].colors32;
-
-
             Color color = Color.black;
-
             if (state == ECursorState.FindInfo) //yellow
             {
                 color = Color.yellow;
@@ -172,7 +171,6 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
                 vertexData[vertexIndex] = color;
             }
 
-            // Update the mesh
             textMeshPro.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
         }
     }
