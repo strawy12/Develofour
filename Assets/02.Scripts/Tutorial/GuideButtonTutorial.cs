@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GuideButtonTutorial : MonoBehaviour
 {
-
     private enum EGuideButtonTutorialChatting
     {
         Start = 0,
         ClickMoveBtn,
         ClickAnyBtn,
     }
+
     [SerializeField]
     private TutorialTextSO tutorialTextList;
 

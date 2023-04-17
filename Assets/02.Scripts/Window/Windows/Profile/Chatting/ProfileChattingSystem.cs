@@ -20,6 +20,8 @@ public class ProfileChattingSystem : TextSystem
 
     private float currentDelay = 0f;
 
+    private float currentDataIndex;
+
     private void Awake()
     {
         OnPlayChatList += StartChatting;
@@ -69,13 +71,22 @@ public class ProfileChattingSystem : TextSystem
             }
         }
 
+        currentDataIndex = textDataList.IndexOf(currentTextData);
+
         EndChatting();
     }
 
     private void EndChatting()
     {
+        Debug.Log("ChatEnd");
+
         OnChatEnd?.Invoke();
-        Debug.Log("ChatEnd make null");
+        
+        if(currentDataIndex == 2)
+        {
+            DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
+        }
+
         OnChatEnd = null;
     }
 
