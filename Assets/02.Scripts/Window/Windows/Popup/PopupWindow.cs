@@ -26,6 +26,7 @@ public class PopupWindow : Window
         degreeBtn.onClick.AddListener(Close);
         agreeBtn.onClick.AddListener(Agree);
     }
+
     public void Setting(string text, Action agreeAction, Action degreeAction)
     {
         proposalText.text = text;
@@ -33,6 +34,7 @@ public class PopupWindow : Window
         AgreeAction += agreeAction;
         DegreeAction += degreeAction;
     }   
+
     private void Close()
     {
         DegreeAction?.Invoke();
