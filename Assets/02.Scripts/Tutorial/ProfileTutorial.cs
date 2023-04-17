@@ -64,17 +64,17 @@ public class ProfileTutorial : MonoBehaviour
     {
         StartCoroutine(StartProfileNextTutorialCoroutine());  
     }
+
     public IEnumerator StartProfileNextTutorialCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
         ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
         StartChatting(1);
     }
+    
     private void CheckMaximumWindow()
     {
         ProfileChattingSystem.OnChatEnd -= CheckMaximumWindow;
-
-        DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
 
         if (profileWindowAlteration.isMaximum)
         {
@@ -101,6 +101,7 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, StartCompleteProfileTutorial);
         GuideUISystem.EndAllGuide?.Invoke();
         ProfileChattingSystem.OnChatEnd += StartProfileEnd;
+
         StartChatting(2);
     }
 
@@ -113,6 +114,5 @@ public class ProfileTutorial : MonoBehaviour
     private void EndTutoMonologEvent()
     {
         GameManager.Inst.ChangeGameState(EGameState.Game);
-        DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
     }
 }

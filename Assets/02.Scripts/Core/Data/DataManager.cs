@@ -237,6 +237,7 @@ public class DataManager : MonoSingleton<DataManager>
     {
         return saveData.isClearTutorialList[(int)type];
     }
+
     public void SetIsStartTutorial(ETutorialType type, bool value)
     {
         saveData.isStartTutorialList[(int)type] = value;
