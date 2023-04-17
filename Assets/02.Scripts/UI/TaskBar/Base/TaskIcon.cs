@@ -54,7 +54,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     // TargetWindowPanels는 단순히 UI이며 TargetWidnowPanel은 TaskIcon가 관리한다.
     public void Init(FileSO windowFile)
     {
-        this.windowType = windowFile.windowType;
+        windowType = windowFile.windowType;
 
         file = windowFile;
         attributePanel.Init(windowFile);
@@ -145,7 +145,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
         isClick = true;
 
-        EventManager.TriggerEvent(EWindowEvent.AlarmCheck, new object[1] { (EWindowType)windowType });
+        EventManager.TriggerEvent(EWindowEvent.AlarmCheck, new object[1] { windowType });
 
         if (isSelectedTarget)
         {

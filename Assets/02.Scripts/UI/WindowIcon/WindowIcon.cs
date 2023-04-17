@@ -16,9 +16,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     protected bool isSelected = false;
 
     private Window targetWindow = null;
-    private Sprite sprite;
-
-    public Image yellowUI;
 
     [SerializeField]
     private FileSO fileData;
