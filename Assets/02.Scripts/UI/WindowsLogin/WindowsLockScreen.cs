@@ -96,10 +96,10 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         
         loginScreen.SetActive(true);
 
-        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartMonolog, 0.05f, true);
-        CoverSetting();
-        //MonologSystem.OnEndMonologEvent += EndMonolog;
-
+        MonologSystem.OnEndMonologEvent += CoverSetting;
+        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartMonolog, 1.5f, true);
+        
+        gameObject.SetActive(false);
     }
 
 
@@ -111,7 +111,8 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     public void CoverSetting()
     {
+        MonologSystem.OnEndMonologEvent -= CoverSetting;
         coverPanel.gameObject.SetActive(false);
-        gameObject.SetActive(false);
+
     }
 }
