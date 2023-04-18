@@ -17,12 +17,6 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     private GameObject highlightedImage;
     private DirectorySO currentDirectory;
 
-    [Header("Tutorial")]
-
-    [SerializeField]
-    private Image yellowUI;
-
-    private bool isSign;
     private RectTransform rectTransform;
     public void Init()
     {
@@ -30,6 +24,7 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
         fileName.text = "";
         fileImage.sprite = null;
+        fileImage.color = Color.black;
         currentDirectory = null;
     }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DiscordMessageText : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class DiscordMessageText : MonoBehaviour
     private TMP_Text messageText;
 
     private RectTransform messageRect;
+
     public RectTransform MessageRect
     {
         get
@@ -26,6 +28,8 @@ public class DiscordMessageText : MonoBehaviour
 
     private void AutoContectSize()
     {
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
+
         Vector2 size = messageText.rectTransform.sizeDelta;
         bool isLine = false;
         for(int i = 0; i < messageText.text.Length; i++)
@@ -41,5 +45,10 @@ public class DiscordMessageText : MonoBehaviour
             size.y += 10;
         }
         messageText.rectTransform.sizeDelta = size;
+    }
+
+    public void SetColor(Color color)
+    {
+        messageText.color = color;
     }
 }

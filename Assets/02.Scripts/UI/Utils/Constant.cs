@@ -19,7 +19,9 @@ public static class Constant
     public static readonly float NOTICE_DURATION = 0.3f;
     public static readonly float NOTICE_SIZE_DURATION = 0.13f;
     public static readonly EWindowType BROWSER_KEY = EWindowType.Browser;
-
+    public const int NOWYEAR = 2023;
+    public const int NOWMONTH = 10;
+    public const int NOWDAY = 23;
     public const float LOADING_DELAY = 0.75f;
     public const float POLICE_REPLY_DELAY = 2f;
     #region File

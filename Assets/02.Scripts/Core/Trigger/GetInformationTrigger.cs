@@ -13,13 +13,16 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
     public Image backgroundImage;
     private Color yellowColor = new Color(255,255,0,40);
     private Color redColor = new Color(255, 0, 0, 40);
-
+    private Color tempColor;
     void OnEnable()
     {
         if (backgroundImage == null)
             backgroundImage = GetComponent<Image>();
     }
-
+    private void Start()
+    {
+        tempColor = backgroundImage.color;
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         if(!DataManager.Inst.IsProfileInfoData(category, information))
@@ -33,6 +36,7 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
                 EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, needInformaitonList });
             }
         }
+
         OnPointerEnter(eventData);
     }
 
@@ -43,28 +47,30 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
             return;
         }
 
+        CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, category, information);
+        if (isListFinder == CursorChangeSystem.ECursorState.Default)
+        {
+            return;
+        }
+
         if (!DataManager.Inst.IsProfileInfoData(category, information))
         {
+            yellowColor.a = 0.4f;
             backgroundImage.color = yellowColor;
-            var tempColor = backgroundImage.color;
-            tempColor.a = 0.2f;
-            backgroundImage.color = tempColor;
         }
         else
         {
+            redColor.a  = 0.4f;
             backgroundImage.color = redColor;
-            var tempColor = backgroundImage.color;
-            tempColor.a = 0.2f;
-            backgroundImage.color = tempColor;
+
         }
 
-        Define.ChangeInfoCursor(needInformaitonList, category, information);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { CursorChangeSystem.ECursorState.Default });
-        backgroundImage.color = new Color(0, 0, 0, 0);
+        backgroundImage.color = tempColor;
 
     }
 }

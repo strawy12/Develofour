@@ -42,10 +42,8 @@ public class ProfileInfoPanel : MonoBehaviour
 
         if (DataManager.Inst.GetProfileSaveData(saveData.category).isShowCategory)
         {
-            if (category != EProfileCategory.InvisibleInformation)
-            {
-                ShowPost();
-            }
+
+            ShowPost();
         }
         else
         {
@@ -82,10 +80,8 @@ public class ProfileInfoPanel : MonoBehaviour
                 if (gameObject.activeSelf == false)
                 {
                     SendNotice();
-                    if (category != EProfileCategory.InvisibleInformation)
-                    {
-                        ShowPost();
-                    }
+                    ShowPost();
+
                 }
                 infoText.ChangeText();
 
@@ -98,7 +94,6 @@ public class ProfileInfoPanel : MonoBehaviour
 
                 if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
                 {
-                    DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
                     EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
                 }
             }
@@ -127,15 +122,18 @@ public class ProfileInfoPanel : MonoBehaviour
 
     public void ShowPost()
     {
+        if (category == EProfileCategory.InvisibleInformation)
+        {
+            return;
+        }
         gameObject.SetActive(true);
         EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[1] { category });
-        
+
         DataManager.Inst.SetCategoryData(saveData.category, true);
     }
 
     private void HidePost()
     {
-        Debug.Log(gameObject.name);
         gameObject.SetActive(false);
     }
 
@@ -153,6 +151,7 @@ public class ProfileInfoPanel : MonoBehaviour
             {
                 infoPost.SendNotice();
                 infoPost.ShowPost();
+
             }
         }
     }

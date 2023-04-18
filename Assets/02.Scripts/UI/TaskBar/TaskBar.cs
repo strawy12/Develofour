@@ -45,21 +45,6 @@ public class TaskBar : MonoBehaviour
         EventManager.StartListening(EWindowEvent.CreateWindow, AddIcon);
     }
 
-    private void AddFixedIcons()
-    {
-        for (int i = 0; i < taskIconParent.childCount; i++)
-        {
-            FixedTaskIcon icon = taskIconParent.GetChild(i).GetComponent<FixedTaskIcon>();
-            if (icon != null)
-            {
-                //taskIcons.Add(, icon);
-            }
-
-            // key는 자식의 WindowType Enum
-            // value는 자식의 taskicon
-        }
-    }
-
     public void AddIcon(object[] ps)
     {
         if (ps == null || ps.Length <= 0 || !(ps[0] is Window))

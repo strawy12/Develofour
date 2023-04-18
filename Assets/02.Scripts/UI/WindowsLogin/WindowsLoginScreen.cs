@@ -17,6 +17,8 @@ public class WindowsLoginScreen : MonoBehaviour
     [Header("Password")]
     [SerializeField]
     private PasswordInputField passwordField;
+    [SerializeField]
+    private GameObject coverPanel;
 
     [SerializeField]
     private string password;
@@ -43,11 +45,12 @@ public class WindowsLoginScreen : MonoBehaviour
     [SerializeField]
     private Button loginFailConfirmBtn;
     [SerializeField]
-    private float monologDelay = 0.8f;
+    private float monologDelay = 0.3f;
     [SerializeField]
     private float numberWrongDuration = 3f;
 
     private bool isFirst = true;
+
     private void Start()
     {
         Init();
@@ -69,7 +72,7 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.InputField.characterLimit = 4;
 
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
-        hintText.text = "만우절 + 새해 =  ?";
+        hintText.text = "힌트: 만우절 + 새해";
         hintText.gameObject.SetActive(true);
         passwordField.InputField.onValueChanged.AddListener(CheckInputNumber);
     }
@@ -99,9 +102,9 @@ public class WindowsLoginScreen : MonoBehaviour
             {
                 passwordField.InputField.text = passwordField.InputField.text.Substring(0, passwordField.InputField.text.Length - 1);
             }
+
             StopAllCoroutines();
             StartCoroutine(InputOnlyNumberCoroutine());
-
         }
     }
 
@@ -112,7 +115,7 @@ public class WindowsLoginScreen : MonoBehaviour
         yield return new WaitForSeconds(numberWrongDuration);
 
 
-        hintText.text = "만우절 + 새해 =  ?";
+        hintText.text = "힌트: 만우절 + 새해";
 
     }
 
@@ -131,6 +134,7 @@ public class WindowsLoginScreen : MonoBehaviour
             EndLogin();
 
             windowLoginCanvas.SetActive(false);
+            EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { false });
         }));
     }
 
@@ -138,7 +142,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            hintText.text = "만우절 + 새해 =  ?";
+            hintText.text = "힌트: 만우절 + 새해";
 
             if (hintText.gameObject.activeSelf == false)
             {
@@ -153,6 +157,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private IEnumerator LoadingCoroutine(Action callBack)
     {
+        coverPanel.SetActive(true);
         float delay = Random.Range(0.7f, 2f);
         loadingIcon.gameObject.SetActive(true);
         while (delay > 0f)
@@ -162,6 +167,7 @@ public class WindowsLoginScreen : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        coverPanel.SetActive(false);
         loadingIcon.gameObject.SetActive(false);
         callBack?.Invoke();
     }

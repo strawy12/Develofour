@@ -84,7 +84,7 @@ public class ProfileInfoSystem : MonoBehaviour
         }
         else
         {
-            text = key + " 정보가 확인되었습니다.";
+            text = temp + " 정보가 확인되었습니다.";
             NoticeSystem.OnNotice.Invoke("Profiler 정보가 확인되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
         }
         

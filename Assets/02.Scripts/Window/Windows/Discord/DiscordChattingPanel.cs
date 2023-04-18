@@ -15,6 +15,7 @@ public class DiscordChattingPanel : MonoBehaviour
     private Transform poolParent;
     [SerializeField]
     private TMP_Text stateText;
+    
     [SerializeField]
     private TMP_Text inputChatingText;
     private List<DiscordMessagePanel> messagePoolList;

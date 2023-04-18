@@ -308,7 +308,6 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         Window targetWindow = GetWindow(popupFile.windowType, file.GetFileLocation());
 
-
         if (targetWindow == null)
         {
             targetWindow = CreateWindow(EWindowType.Popup, file);

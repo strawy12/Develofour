@@ -38,6 +38,8 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     private const float RATIO = 1.636363636363636f;
 
+    public bool isDiscord;
+
     [ContextMenu("SetDegbugSize")]
     public void SetDegbugSize()
     {
@@ -63,6 +65,12 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
         SetImageSizeReset();
         ReSetting();
+    }
+
+    public void Init(bool _isDiscord)
+    {
+        currentImage = GetComponent<Image>();
+        isDiscord = _isDiscord;
     }
 
     public void SetImageSizeReset()
@@ -91,6 +99,9 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (isDiscord)
+            return;
+         
         if ((Time.time - doubleClickedTime) < interval)
         {
             doubleClickedTime = -1.0f;
@@ -111,6 +122,9 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public void OnScroll(PointerEventData eventData)
     {
+        if (isDiscord)
+            return;
+
         Vector3 delta = Vector3.one * (eventData.scrollDelta.y * zoomSpeed);
         Vector3 enlarScale = currentImage.transform.localScale + delta;
 
