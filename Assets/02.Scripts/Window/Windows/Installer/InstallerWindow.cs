@@ -75,7 +75,7 @@ public class InstallerWindow : Window
         FileManager.Inst.AddFile(installFile, "User\\C\\바탕화면\\");
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
-        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.InstallCompleteMonoLog, 0.5f, true);
+        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.InstallCompleteMonoLog, 0f, true);
     }
 
     public void CheckOpenWindow(bool isWindowOpen)
