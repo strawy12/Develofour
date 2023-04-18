@@ -47,8 +47,8 @@ public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPoint
             return;
         }
 
-        bool isListFinder = Define.ChangeInfoCursor(needInformaitonList, category, information);
-        if (!isListFinder)
+        CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, category, information);
+        if (isListFinder == CursorChangeSystem.ECursorState.Default)
         {
             return;
         }
