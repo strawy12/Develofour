@@ -17,6 +17,8 @@ public class WindowsLoginScreen : MonoBehaviour
     [Header("Password")]
     [SerializeField]
     private PasswordInputField passwordField;
+    [SerializeField]
+    private GameObject coverPanel;
 
     [SerializeField]
     private string password;
@@ -155,6 +157,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private IEnumerator LoadingCoroutine(Action callBack)
     {
+        coverPanel.SetActive(true);
         float delay = Random.Range(0.7f, 2f);
         loadingIcon.gameObject.SetActive(true);
         while (delay > 0f)
@@ -164,6 +167,7 @@ public class WindowsLoginScreen : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        coverPanel.SetActive(false);
         loadingIcon.gameObject.SetActive(false);
         callBack?.Invoke();
     }
