@@ -72,11 +72,12 @@ public class Discord : Window
         currentChatData = GetChatDataList(currentUserName);
         currentTalkData = GetTalkDataList(currentUserName);
         chattingPanel.PushAllPanel();
-
+        chattingPanel.playerProfileData = currentChatData.myProfileData;
         if (currentChatData != null)
         {
             foreach (DiscordChatData chatData in currentChatData.chatDataList)
             {
+                
                 chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData);
             }
         }
