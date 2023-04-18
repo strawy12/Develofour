@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using ECursorState = CursorChangeSystem.ECursorState;
 public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerClickHandler, IPointerExitHandler
 {
     private TMP_Text textMeshPro;
+
+    [SerializeField]
+    private Image infoImage;
 
     private string word;
     private int wordStartIndex;
@@ -22,7 +26,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
         if (word != null)
         {
-            ChangeWordColor(GetProfilerWordSystem.OnFindWord.Invoke(word));
+            GetSize(GetProfilerWordSystem.OnFindWord.Invoke(word));
         }
     }
 
@@ -43,7 +47,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
             Debug.Log(word);
 
             GetProfilerWordSystem.OnGeneratedProfiler?.Invoke(word);
-            ChangeWordColor(GetProfilerWordSystem.OnFindWord?.Invoke(word));
+            GetSize(GetProfilerWordSystem.OnFindWord.Invoke(word));
         }
     }
 
@@ -51,7 +55,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
     {
         int charIndex = TMP_TextUtilities.FindIntersectingCharacter(textMeshPro, Input.mousePosition, Define.MainCam, false);
 
-        if (charIndex > -1)
+        if (charIndex > -1 && charIndex < textMeshPro.maxVisibleCharacters)
         {
             int count = charIndex;
 
@@ -64,6 +68,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
             while (!isSpace)
             {
                 count--;
+
                 if (count == -1)
                 {
                     isSpace = true;
@@ -71,7 +76,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
                 }
                 getCharIndexInfo = textMeshPro.textInfo.characterInfo[count];
                 c = getCharIndexInfo.character;
-                if (c == ' ')
+                if (c == ' ' || c == '\n')
                 {
                     isSpace = true;
                     break;
@@ -80,11 +85,18 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
             }
 
             isSpace = false;
+            wordStartIndex = count;
             count = charIndex;
 
             while (!isSpace)
             {
                 count++;
+
+                if (count > textMeshPro.maxVisibleCharacters)
+                {
+                    return null;
+                }
+
                 if (count > textMeshPro.textInfo.characterCount - 1)
                 {
                     isSpace = true;
@@ -93,14 +105,14 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
                 getCharIndexInfo = textMeshPro.textInfo.characterInfo[count - 1];
                 c = getCharIndexInfo.character;
 
-                if (c == ' ')
+                if (c == ' ' || c == '\n')
                 {
                     isSpace = true;
                     break;
                 }
                 str = str + c;
             }
-            wordStartIndex = charIndex;
+
             return str;
         }
         else
@@ -112,66 +124,46 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
     public void OnPointerExit(PointerEventData eventData)
     {
         ECursorState state = ECursorState.Default;
-
-
-
+        infoImage.gameObject.SetActive(false);
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
     }
 
-    private List<int> GetTrinangles(string word)
+    private float GetSize(CursorChangeSystem.ECursorState state)
     {
+        if(state == ECursorState.Default)
+        {
+            return 0;
+        }
+
         int startIndex = wordStartIndex;
         int endIndex = startIndex + word.Length - 1;
-
-        // Find the triangles that make up the word
         TMP_CharacterInfo startInfo = textMeshPro.textInfo.characterInfo[startIndex];
         TMP_CharacterInfo endInfo = textMeshPro.textInfo.characterInfo[endIndex];
-        int startVertexIndex = startInfo.vertexIndex;
-        int endVertexIndex = endInfo.vertexIndex + 3;
-        List<int> triangles = new List<int>();
-        for (int i = startVertexIndex; i < endVertexIndex; i++)
+
+        float x = endInfo.topRight.x - startInfo.bottomLeft.x   +   15f;
+        float y = endInfo.topRight.y - startInfo.bottomLeft.y   +   10f;
+
+        infoImage.rectTransform.sizeDelta = new Vector2(x, y);
+        Vector3 pos = startInfo.topLeft + (endInfo.topRight - startInfo.topLeft) / 2;
+        pos.x += 15;
+        infoImage.rectTransform.localPosition = pos;
+
+        if(state == ECursorState.FindInfo)
         {
-            int[] triangle = textMeshPro.textInfo.meshInfo[0].triangles;
-            for (int j = 0; j < triangle.Length; j += 3)
-            {
-                if (triangle[j] == i || triangle[j + 1] == i || triangle[j + 2] == i)
-                {
-                    triangles.Add(triangle[j]);
-                    triangles.Add(triangle[j + 1]);
-                    triangles.Add(triangle[j + 2]);
-                }
-            }
+            Color color = Color.yellow;
+            color.a = 0.4f;
+            infoImage.color = color;
         }
-        return triangles;
+        else if(state == ECursorState.FoundInfo)
+        {
+            Color color = Color.red;
+            color.a = 0.4f;
+            infoImage.color = color;
+        }
+
+        infoImage.gameObject.SetActive(true);
+        return 0;
     }
 
 
-    private void ChangeWordColor(ECursorState? state)
-    {
-        if (word != null)
-        {
-            List<int> triangles = GetTrinangles(word);
-            Color32[] vertexData = textMeshPro.textInfo.meshInfo[0].colors32;
-            Color color = Color.black;
-            if (state == ECursorState.FindInfo) //yellow
-            {
-                color = Color.yellow;
-            }
-            else if (state == ECursorState.FoundInfo) // red
-            {
-                color = Color.red;
-            }
-            else if (state == ECursorState.Default)
-            {
-                color = Color.black;
-            }
-
-            foreach (int vertexIndex in triangles)
-            {
-                vertexData[vertexIndex] = color;
-            }
-
-            textMeshPro.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
-        }
-    }
 }
