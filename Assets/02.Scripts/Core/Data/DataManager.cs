@@ -41,6 +41,7 @@ public class DataManager : MonoSingleton<DataManager>
         saveData.aiChattingList = new List<TextData>();
         saveData.loginData = new List<bool>();
         saveData.branchPostLcokData = new List<string>();
+        saveData.savePhoneNumber = new List<string>();
         List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
 
         foreach (FileSO file in fileList)
@@ -275,7 +276,17 @@ public class DataManager : MonoSingleton<DataManager>
     {
         return saveData.branchPostLcokData.Contains(data.GetPostKey());
     }
-
+    public void AddSavePhoneNumber(string number)
+    {
+        if (!saveData.savePhoneNumber.Contains(number))
+        {
+            saveData.savePhoneNumber.Add(number);
+        }
+    }
+    public bool IsSavePhoneNumber(string number)
+    {
+        return saveData.savePhoneNumber.Contains(number);
+    }
     private void OnDestroy()
     {
         SaveToJson();
