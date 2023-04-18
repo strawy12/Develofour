@@ -16,7 +16,15 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     {
         return characterDataSOList.Values.FirstOrDefault((x) => x.phoneNum == phoneNumber);
     }
-
+    public List< CharacterInfoDataSO> GetCharacterDataSOList()
+    {
+        List<CharacterInfoDataSO> results = new List<CharacterInfoDataSO>();
+        foreach(var temp in characterDataSOList.Values)
+        {
+            results.Add(temp);
+        }
+        return results;
+    }
     private async void LoadCharacterDataDataSOAssets(Action callBack)
     {
         characterDataSOList = new Dictionary<ECharacterDataType, CharacterInfoDataSO>();

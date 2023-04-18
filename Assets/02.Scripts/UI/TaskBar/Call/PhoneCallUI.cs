@@ -15,7 +15,8 @@ public class PhoneCallUI : MonoBehaviour
     private Button eraseButton;
     [SerializeField]
     private Button callButton;
-
+    [SerializeField]
+    private CallTopPanel callTopPanel;
     [SerializeField]
     private GameObject buttonPad;
 
@@ -27,7 +28,7 @@ public class PhoneCallUI : MonoBehaviour
     {
         AllEraseText();
         ResetButtonAction();
-
+        callTopPanel.Init();
         gameObject.SetActive(true);
         Init();
     }

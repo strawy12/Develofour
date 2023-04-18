@@ -214,4 +214,8 @@ public enum EMonologEvent
     None = -1,
     MonologException,
 }
-
+public enum ECallEvent
+{
+    None = -1,
+    AddAutoCompleteCallBtn,
+}

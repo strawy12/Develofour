@@ -45,6 +45,7 @@ public class SaveData
     public List<ProfileSaveData> profileSaveData;
     public List<TextData> aiChattingList;
     public List<string> branchPostLcokData;
+    public List<string> savePhoneNumber;
 
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
