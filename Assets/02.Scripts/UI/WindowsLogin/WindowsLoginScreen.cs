@@ -70,7 +70,7 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.InputField.characterLimit = 4;
 
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
-        hintText.text = "만우절 + 새해 =  ?";
+        hintText.text = "힌트: 만우절 + 새해";
         hintText.gameObject.SetActive(true);
         passwordField.InputField.onValueChanged.AddListener(CheckInputNumber);
     }
@@ -113,7 +113,7 @@ public class WindowsLoginScreen : MonoBehaviour
         yield return new WaitForSeconds(numberWrongDuration);
 
 
-        hintText.text = "만우절 + 새해 =  ?";
+        hintText.text = "힌트: 만우절 + 새해";
 
     }
 
@@ -140,7 +140,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            hintText.text = "만우절 + 새해 =  ?";
+            hintText.text = "힌트: 만우절 + 새해";
 
             if (hintText.gameObject.activeSelf == false)
             {

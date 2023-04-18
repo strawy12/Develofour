@@ -163,6 +163,7 @@ public class CallSystem : MonoSingleton<CallSystem>
 
         StopAllCoroutines();
         transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
+        spectrumUI.StopSpectrum();
     }
 
     public void SetEndMonolog(EMonologTextDataType monologType)
