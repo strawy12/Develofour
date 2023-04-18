@@ -3,24 +3,22 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using UnityEngine.UI;
+using ECursorState = CursorChangeSystem.ECursorState;
 public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerClickHandler, IPointerExitHandler
 {
     private TMP_Text textMeshPro;
 
-    private List<int> idxList = new List<int>();
+    [SerializeField]
+    private Image infoImage;
 
     private string word;
+    private int wordStartIndex;
 
     private void Start()
     {
         textMeshPro = GetComponent<TMP_Text>();
-    } 
-
-    public void SetTextColor(string str)
-    {
-        idxList.Sort();
-    }    
+    }
 
     public void OnPointerMove(PointerEventData eventData)
     {
@@ -28,8 +26,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
         if (word != null)
         {
-            Debug.Log(word);
-            GetProfilerWordSystem.OnFindWord?.Invoke(word);
+            GetSize(GetProfilerWordSystem.OnFindWord.Invoke(word));
         }
     }
 
@@ -50,15 +47,15 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
             Debug.Log(word);
 
             GetProfilerWordSystem.OnGeneratedProfiler?.Invoke(word);
-            GetProfilerWordSystem.OnFindWord?.Invoke(word);
+            GetSize(GetProfilerWordSystem.OnFindWord.Invoke(word));
         }
     }
 
     private string GetWord()
     {
-        int charIndex = TMP_TextUtilities.FindIntersectingCharacter(textMeshPro, Input.mousePosition, Camera.main, false);
-        idxList.Add(charIndex);
-        if (charIndex > -1)
+        int charIndex = TMP_TextUtilities.FindIntersectingCharacter(textMeshPro, Input.mousePosition, Define.MainCam, false);
+
+        if (charIndex > -1 && charIndex < textMeshPro.maxVisibleCharacters)
         {
             int count = charIndex;
 
@@ -71,15 +68,15 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
             while (!isSpace)
             {
                 count--;
+
                 if (count == -1)
                 {
                     isSpace = true;
                     break;
                 }
                 getCharIndexInfo = textMeshPro.textInfo.characterInfo[count];
-                idxList.Add(count);
                 c = getCharIndexInfo.character;
-                if (c == ' ')
+                if (c == ' ' || c == '\n')
                 {
                     isSpace = true;
                     break;
@@ -88,21 +85,27 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
             }
 
             isSpace = false;
+            wordStartIndex = count;
             count = charIndex;
 
             while (!isSpace)
             {
                 count++;
+
+                if (count > textMeshPro.maxVisibleCharacters)
+                {
+                    return null;
+                }
+
                 if (count > textMeshPro.textInfo.characterCount - 1)
                 {
                     isSpace = true;
                     break;
                 }
                 getCharIndexInfo = textMeshPro.textInfo.characterInfo[count - 1];
-                idxList.Add(count - 1);
                 c = getCharIndexInfo.character;
-                
-                if (c == ' ')
+
+                if (c == ' ' || c == '\n')
                 {
                     isSpace = true;
                     break;
@@ -120,8 +123,47 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
-
+        ECursorState state = ECursorState.Default;
+        infoImage.gameObject.SetActive(false);
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
     }
+
+    private float GetSize(CursorChangeSystem.ECursorState state)
+    {
+        if(state == ECursorState.Default)
+        {
+            return 0;
+        }
+
+        int startIndex = wordStartIndex;
+        int endIndex = startIndex + word.Length - 1;
+        TMP_CharacterInfo startInfo = textMeshPro.textInfo.characterInfo[startIndex];
+        TMP_CharacterInfo endInfo = textMeshPro.textInfo.characterInfo[endIndex];
+
+        float x = endInfo.topRight.x - startInfo.bottomLeft.x   +   15f;
+        float y = endInfo.topRight.y - startInfo.bottomLeft.y   +   10f;
+
+        infoImage.rectTransform.sizeDelta = new Vector2(x, y);
+        Vector3 pos = startInfo.topLeft + (endInfo.topRight - startInfo.topLeft) / 2;
+        pos.x += 15;
+        infoImage.rectTransform.localPosition = pos;
+
+        if(state == ECursorState.FindInfo)
+        {
+            Color color = Color.yellow;
+            color.a = 0.4f;
+            infoImage.color = color;
+        }
+        else if(state == ECursorState.FoundInfo)
+        {
+            Color color = Color.red;
+            color.a = 0.4f;
+            infoImage.color = color;
+        }
+
+        infoImage.gameObject.SetActive(true);
+        return 0;
+    }
+
+
 }
