@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -29,20 +29,20 @@ public class DiscordTimeText : MonoBehaviour
 
         if (timeData.time >= 12)
         {
-            time = $"¿ÀÈÄ {timeData.time - 12}:{timeData.minute}";
+            time = $"ì˜¤í›„ {timeData.time - 12}:{timeData.minute}";
         }
         else
         {
-            time = $"¿ÀÀü {timeData.time}:{timeData.minute}";
+            time = $"ì˜¤ì „ {timeData.time}:{timeData.minute}";
         }
 
         if (timeData.year == Constant.NOWYEAR && Define.CheckTodayDate(timeData.day))
         {
-            text = $"¿À´Ã {time}";
+            text = $"ì˜¤ëŠ˜ {time}";
         }
         else if(timeData.year == Constant.NOWYEAR  && Define.CheckYesterDayDate(timeData.day))
         {
-            text = $"¾îÁ¦ {time}";
+            text = $"ì–´ì œ {time}";
         }
         else
         {
