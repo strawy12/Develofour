@@ -17,7 +17,10 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     private Image profileImage;
     [SerializeField]
     private DiscordMessageImagePanel messageImagePanel;
-
+    [SerializeField]
+    private TMP_Text userTimeText;
+    [SerializeField]
+    private DiscordTimeText timeText;
     [Header("PanelSizeSetting")]
     [SerializeField]
     private float spacing;
@@ -26,6 +29,9 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
     private DiscordProfileDataSO currentProfileData;
     private DiscordChatData currentChatData;
+
+    private bool isProfileShow;
+
     public DiscordChatData ChatData
     {
         get
@@ -49,7 +55,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
         messageText.SettingMessage("");
         userNameText.text = "";
-
+        timeText.Init();
         profileImage.sprite = null;
     }
 
@@ -57,7 +63,10 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         currentChatData = data;
         currentProfileData = profileData;
+        isProfileShow = showProfile;
         messageText.SettingMessage(data.message);
+        timeText.SettingText(data.sendTime);
+
         if (data.msgSpritePrefab != null)
         {
             messageImagePanel.SettingImage(data.msgSpritePrefab.GetComponent<Image>().sprite);
@@ -75,12 +84,13 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
             profileImage.gameObject.SetActive(true);
             userNameText.gameObject.SetActive(true);
-
+            userTimeText.text = timeText.TimeText;
         }
         else
         {
             profileImage.gameObject.SetActive(false);
             userNameText.gameObject.SetActive(false);
+            userTimeText.gameObject.SetActive(false);
         }
         AutoSettingMessagePanelSize();
     }
@@ -119,7 +129,10 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     public void OnPointerEnter(PointerEventData eventData)
     {
         backgroundImage.enabled = true;
-
+        if(!isProfileShow)
+        {
+            timeText.gameObject.SetActive(true);
+        }
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
             return;
@@ -143,6 +156,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
     public void OnPointerExit(PointerEventData eventData)
     {
         backgroundImage.enabled = false;
+        timeText.gameObject.SetActive(false);
         messageText.SetColor(Color.white);
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[1] { CursorChangeSystem.ECursorState.Default });
     }

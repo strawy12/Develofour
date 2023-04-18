@@ -172,4 +172,27 @@ public static class Define
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
         return state;
     }
+
+    public static bool CheckTodayDate(int day)
+    {
+        if(Constant.NOWDAY == day)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public static bool CheckYesterDayDate(int day)
+    {
+        if (Constant.NOWDAY -1 == day)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

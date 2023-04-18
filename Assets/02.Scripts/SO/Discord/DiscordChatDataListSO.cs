@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 [System.Serializable]
+public class DiscordSendTime
+{
+    public int year = 2023;
+    public int month = 10;
+    public int day = 23;
+    public int time;
+    public int minute;
+}
+    
+[System.Serializable]
 public class DiscordChatData
 {
     [Multiline]
     public string message;
     [Header("보낸 날짜")]
-    public int year;
-    public int month;
-    public int day;
+    public DiscordSendTime sendTime;
 
     public bool isMine;
     public GameObject msgSpritePrefab = null;
     public float typingDelay;
 
-    public DateTime sendDateTime
-    {
-        get
-        {
-            return new DateTime(year, month, day);
-        }
-    }
     public bool isTalked = false;
 
     public void Reset()
