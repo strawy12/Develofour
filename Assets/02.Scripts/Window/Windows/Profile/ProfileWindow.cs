@@ -14,6 +14,8 @@ public class ProfileWindow : Window
     private ProfilePanel profilePanel;
     [SerializeField]
     private FileSearchPanel fileSearchPanel;
+    [SerializeField]
+    private ProfileUsingDocument profilerUsingDocuments;
 
     [Header("ProfilerChatUI")]
     [SerializeField]
@@ -54,6 +56,7 @@ public class ProfileWindow : Window
 
         profileChatting.Init();
         profilePanel.Init();
+        profilerUsingDocuments.Init();
         fileSearchPanel.Init();
 
         OnSelected += ProfilerSelected;
@@ -64,13 +67,18 @@ public class ProfileWindow : Window
         moveDownPanelBtn.onClick.AddListener(MoveButtonClick);
         movePopUpPanelBtn.onClick.AddListener(MoveButtonClick);
 
+        EventManager.StartListening(ETutorialEvent.TutorialStart, ProfilerOpen);
         EventManager.StartListening(EProfileSearchTutorialEvent.GuideSearchButton, GuideSearchButton);
-        TutorialStart();
         EventManager.StartListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
 
         beforeClickButton = infoPanelBtn;
 
         ButtonBlackSetting();
+    }
+
+    private void ProfilerOpen(object ps)
+    {
+        EventManager.StartListening(ETutorialEvent.ProfileMidiumStart, StartGuideMinimumBtn);
     }
 
     private void ProfilerSelected()
@@ -128,16 +136,6 @@ public class ProfileWindow : Window
     {
         infoPanelBtn.Setting(beforeClickButton);
         searchPanelBtn.Setting(beforeClickButton);
-    }
-
-    private void TutorialStart()
-    {
-        if (DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) == false)
-        {
-            EventManager.TriggerEvent(ETutorialEvent.TutorialStart);
-            EventManager.StartListening(ETutorialEvent.ProfileMidiumStart, StartGuideMinimumBtn);
-            DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
-        }
     }
 
     private void MoveButtonClick()
