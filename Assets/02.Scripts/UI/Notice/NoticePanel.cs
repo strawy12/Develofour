@@ -23,6 +23,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     private TMP_Text dateText;
     [SerializeField]
     private TMP_Text sameTagText;
+    [SerializeField]
+    private RectTransform textSort;
 
     private string saveText;
 
@@ -95,15 +97,28 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         headText.SetText(head);
         bodyText.SetText(body);
-        iconImage.sprite = icon;
-        iconImage.color = color;
+        if (icon != null)
+        {
+            iconImage.gameObject.SetActive(true);
+            iconImage.sprite = icon;
+            iconImage.color = color;
+            Vector2 vec = textSort.sizeDelta;
+            vec.x = 230;
+            textSort.sizeDelta = vec;
+        }
+        else
+        {
+            iconImage.gameObject.SetActive(false);
+            Vector2 vec = textSort.sizeDelta;
+            vec.x = 330;
+            textSort.sizeDelta = vec;
+        }
 
         rectTransform.anchorMin = new Vector2(1f, 0.5f);
         rectTransform.anchorMax = new Vector2(1f, 0.5f);
         rectTransform.pivot = new Vector2(1f, 0f);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
-
     }
     public void Notice(string head, string body, Sprite icon, Color color, bool isOpenSystem)
     {
