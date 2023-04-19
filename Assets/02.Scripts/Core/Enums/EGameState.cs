@@ -3,7 +3,7 @@
 public enum EGameState
 { 
     Game = 0,
-    UI,
+    PlayTitle,
     CutScene,
     Tutorial,
     NotClick,
