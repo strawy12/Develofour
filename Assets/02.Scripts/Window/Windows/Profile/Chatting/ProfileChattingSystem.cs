@@ -78,15 +78,8 @@ public class ProfileChattingSystem : TextSystem
 
     private void EndChatting()
     {
-        Debug.Log("ChatEnd");
-
         OnChatEnd?.Invoke();
         
-        if(currentDataIndex == 2)
-        {
-            DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
-        }
-
         OnChatEnd = null;
     }
 

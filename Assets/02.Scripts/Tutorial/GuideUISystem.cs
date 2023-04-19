@@ -47,13 +47,15 @@ public class GuideUISystem : MonoBehaviour
         guideUI.rectTransform.sizeDelta = rect.sizeDelta * 1.1f;
         guideUI.gameObject.SetActive(true);
 
+        currentRectTransform = rect;
+
         isSign = true;
 
         while (isSign)
         {
-            guideUI.DOFade(0.1f, 2f);
+            guideUI.DOFade(0.3f, 2f);
             yield return new WaitForSeconds(2f);
-            guideUI.DOFade( 0.4f, 2f);
+            guideUI.DOFade( 0.6f, 2f);
             yield return new WaitForSeconds(2f);
         }
     }
@@ -62,12 +64,17 @@ public class GuideUISystem : MonoBehaviour
     {
         if(currentRectTransform == null)
         {
+            Debug.Log("rect is null");
             return;
         }
 
         if(rect.root == currentRectTransform.root)
         {
             StopGuideUICor();
+        }
+        else
+        {
+            Debug.Log("Different Rect");
         }
         return;
     }
