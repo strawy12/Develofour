@@ -9,4 +9,5 @@ public enum ENoticeTag
     Installer,
     AIAlarm,
     Profiler,
+    Computer,
 }
