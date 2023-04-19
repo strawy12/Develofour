@@ -33,7 +33,7 @@ public class FileManager : MonoSingleton<FileManager>
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
                 string location = DataManager.Inst.GetAdditionalFileName(fileData);
-
+                Debug.Log(location);
                 AddFile(fileData, location);
             }
         }
