@@ -54,7 +54,7 @@ public class ProfileTutorial : MonoBehaviour
     public IEnumerator StartProfileTutorial()
     {
         yield return new WaitForSeconds(0.5f);
-        
+        DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
         ProfileChattingSystem.OnChatEnd += StartProfileNextTutorial;
         StartChatting(0);
@@ -108,6 +108,7 @@ public class ProfileTutorial : MonoBehaviour
     public void StartProfileEnd()
     {
         EndTutoMonologEvent();
+        DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
         EventManager.StopListening(ETutorialEvent.TutorialStart, StartTutorial);
     }
 
