@@ -102,25 +102,6 @@ public partial class GuideManager : MonoBehaviour
         }
     }
 
-
-    private void SendProfileGuide()
-    {
-        ProfileChattingSystem.OnChatEnd += EndProfileGuide;
-        TextData data = new TextData();
-        if (currentInfoTextData.getInfoText == "")
-        {
-            data.text = $"{currentInfoTextData.infoName}에 대한 정보를 찾지 못했습니다. 죄송합니다";
-        }
-        else
-        {
-            data.text = $"{currentInfoTextData.infoName}의 정보는 {currentInfoTextData.getInfoText}(에)서 획득 가능합니다.";
-        }
-
-        data.color = new Color(255, 255, 255, 100);
-
-        ProfileChattingSystem.OnPlayChat?.Invoke(data, true, false);
-    }
-
     private void SendAiChattingGuide(string str, bool isSave)
     {
         TextData data = new TextData() { color = new Color(255, 255, 255, 100), text = str };
