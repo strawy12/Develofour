@@ -5,72 +5,31 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GetInformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class GetInformationTrigger : InformationTrigger
 {
-    public EProfileCategory category;
-    public string information;
-    public List<ProfileInfoTextDataSO> needInformaitonList;
-    public Image backgroundImage;
-    private Color yellowColor = new Color(255,255,0,40);
-    private Color redColor = new Color(255, 0, 0, 40);
-    private Color tempColor;
-    void OnEnable()
+    protected override void OnEnable()
     {
-        if (backgroundImage == null)
-            backgroundImage = GetComponent<Image>();
-    }
-    private void Start()
-    {
-        tempColor = backgroundImage.color;
-    }
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if(!DataManager.Inst.IsProfileInfoData(category, information))
-        {
-            if (needInformaitonList.Count == 0)
-            {
-                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
-            }
-            else
-            {
-                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, needInformaitonList });
-            }
-        }
-
-        OnPointerEnter(eventData);
+        base.OnEnable();
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    protected override void Start()
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall)
-        {
-            return;
-        }
-
-        CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, category, information);
-        if (isListFinder == CursorChangeSystem.ECursorState.Default)
-        {
-            return;
-        }
-
-        if (!DataManager.Inst.IsProfileInfoData(category, information))
-        {
-            yellowColor.a = 0.4f;
-            backgroundImage.color = yellowColor;
-        }
-        else
-        {
-            redColor.a  = 0.4f;
-            backgroundImage.color = redColor;
-
-        }
-
+        base.Start();
     }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { CursorChangeSystem.ECursorState.Default });
-        backgroundImage.color = tempColor;
 
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        base.OnPointerClick(eventData);
+    }
+
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        base.OnPointerEnter(eventData);
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        base.OnPointerExit(eventData);
     }
 }

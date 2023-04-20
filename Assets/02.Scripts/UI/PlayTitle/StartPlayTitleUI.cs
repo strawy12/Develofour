@@ -11,11 +11,6 @@ public class StartPlayTitleUI : MonoBehaviour
     [SerializeField]
     private Button creditButton;
 
-    [SerializeField]
-    private DataLoadingScreen loadingScene;
-    [SerializeField]
-    private StartCutScene startCutScene;
-
     private void Start()
     {
         gameObject.SetActive(true);
@@ -26,9 +21,10 @@ public class StartPlayTitleUI : MonoBehaviour
 
     private void StartplayGame()
     {
-        loadingScene.Init();
-        ResourceManager.Inst.Init();
-        startCutScene.Init();
+        gameObject.SetActive(false);
+
+        StartCutScene.OnPlayCutScene?.Invoke();
+        
         this.gameObject.SetActive(false);
     }
 

@@ -48,26 +48,8 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         EventManager.StartListening(EWindowEvent.ExpendMenu, ToggleMenu);
         EventManager.StartListening(EWindowEvent.ActivePowerPanel, ActivePowerPanel);
-        EventManager.StartListening(EWindowEvent.WindowsSuccessLogin, SetName);
         EventManager.StartListening(EWindowEvent.CloseAttribute, Close);
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
-    }
-
-    private void SetName(object[] ps)
-    {
-        // 그냥 true false 해서 어떤 로그인했는지 체크
-        // Login X
-        // Login O ㅡ 
-        //         |_ 
-        if (Define.CheckComputerLoginState(EComputerLoginState.Admin))
-        {
-            nameText.text = "박주영";
-        }
-
-        else if(Define.CheckComputerLoginState(EComputerLoginState.Guest))
-        {
-            nameText.text = "Guest";
-        }
     }
 
     private void CheckClose(object[] hits)

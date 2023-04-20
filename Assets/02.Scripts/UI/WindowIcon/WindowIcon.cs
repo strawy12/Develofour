@@ -106,7 +106,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //    iconImage.rectTransform.sizeDelta = new Vector2(100, 100);
         //}
 
-        if (isRegisterEvent == false && fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일러\\")
+        if (isRegisterEvent == false && fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일링\\")
         {
             isRegisterEvent = true;
             EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
@@ -139,7 +139,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 UnSelect();
 
-                if (fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일러\\")
+                if (fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일링\\")
                 {
                     if (GameManager.Inst.GameState == EGameState.Tutorial)
                     {
@@ -185,6 +185,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
+        if(fileData.isDummy)
+        {
+            return;
+        }
+
         if (fileData is DirectorySO && isBackground == false)
         {
             if (fileData.isFileLock && DataManager.Inst.IsWindowLock(fileData.GetFileLocation()))

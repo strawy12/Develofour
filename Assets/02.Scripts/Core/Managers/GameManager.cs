@@ -3,28 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EComputerLoginState
-{
-    Logout,
-    Guest,
-    Admin,
-}
-
 public class GameManager : MonoSingleton<GameManager>
 {
     public Action OnStartCallback;
-
-    [SerializeField]
-    private ClickEffect clickEffect;
+    public Action<EGameState> OnChangeGameState;
 
     private EGameState gameState;
-    private EComputerLoginState computerLoginState;
 
     public EGameState GameState => gameState;
-    public EComputerLoginState ComputerLoginState => computerLoginState;
 
-    public bool profilerTutorialClear;
-    public bool isProfilerTownloadCompleted;
 
     public bool IsTutorial => gameState == EGameState.Tutorial;
 
@@ -34,7 +21,9 @@ public class GameManager : MonoSingleton<GameManager>
 
         gameState = state;
 
-        if(gameState == EGameState.CutScene || gameState == EGameState.NotClick)
+        OnChangeGameState?.Invoke(gameState);
+
+        if (gameState == EGameState.CutScene || gameState == EGameState.NotClick)
         {
             EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { true });
         }
@@ -55,13 +44,6 @@ public class GameManager : MonoSingleton<GameManager>
     {
         yield return new WaitForSeconds(time);
         ChangeGameState(state);
-    }
-
-    public void ChangeComputerLoginState(EComputerLoginState state)
-    {
-        if (computerLoginState == state) return;
-
-        computerLoginState = state;
     }
 
 }

@@ -9,14 +9,14 @@ using UnityEngine.Rendering;
 
 public class StartCutScene : MonoBehaviour
 {
+    public static Action OnPlayCutScene { get; private set; }
+
     [Header("디버그용")]
     public bool isSkip;
 
     public TMP_Text titleText;
 
     public Image interrogationRoomSprite;
-
-    public Volume volume;
 
     [SerializeField]
     private GameObject blackImagePanel;
@@ -46,17 +46,19 @@ public class StartCutScene : MonoBehaviour
         }
         else
         {
-            EventManager.StartListening(ECoreEvent.EndDataLoading, CutSceneStart);
+            OnPlayCutScene += CutSceneStart;
         }
     }
 
-    private void CutSceneStart(object[] ps)
+    private void CutSceneStart()
     {
-        StartCoroutine(CutSceneStart());
+        StartCoroutine(PlayCutSceneCoroutine());
     }
 
-    private IEnumerator CutSceneStart()
+    private IEnumerator PlayCutSceneCoroutine()
     {
+        GameManager.Inst.OnChangeGameState(EGameState.CutScene);
+        EventManager.TriggerEvent(ECoreEvent.OpenVolume, new object[] { true });
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutSceneScream);
         isScreamSound = true;
         yield return new WaitForSeconds(15f);
@@ -70,7 +72,7 @@ public class StartCutScene : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutSceneLightPull);
-        volume.gameObject.SetActive(true);
+        EventManager.TriggerEvent(ECoreEvent.OpenVolume, new object[] { true });
         interrogationRoomSprite.DOFade(1, 2f);
         yield return new WaitForSeconds(1.5f);
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.InterrogationRoom);
@@ -107,7 +109,7 @@ public class StartCutScene : MonoBehaviour
 
     public void StartLoading()
     {
-        volume.gameObject.SetActive(false);
+        EventManager.TriggerEvent(ECoreEvent.OpenVolume, new object[] { false });
         StartCoroutine(StartLoadingCor());
     }
 
@@ -115,7 +117,7 @@ public class StartCutScene : MonoBehaviour
     {
         backgroundImagePanel.DOFade(0, 1.5f);
         yield return new WaitForSeconds(2f);
-        volume.gameObject.SetActive(false);
+        EventManager.TriggerEvent(ECoreEvent.OpenVolume, new object[] { false });
         blackImagePanel.gameObject.SetActive(true);
         loadingIcon.gameObject.SetActive(true);
         loadingText.gameObject.SetActive(true);
