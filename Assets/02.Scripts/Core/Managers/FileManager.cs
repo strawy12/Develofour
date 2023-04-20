@@ -34,8 +34,8 @@ public class FileManager : MonoSingleton<FileManager>
     private float findNameScore = 30f;
     [SerializeField]
     private float findTagScore = 20f;
-    private bool isSearchTag = true;
-    private bool isSearchByFileName = true;
+    private bool isSearchTag = false;
+    private bool isSearchByFileName = false;
     private Dictionary<EWindowType, FileSO> defaultFileDictionary = new Dictionary<EWindowType, FileSO>();
     private List<string> currentFileNameWord;
     private void Awake()
@@ -159,6 +159,7 @@ public class FileManager : MonoSingleton<FileManager>
         List<FileWeight> searchFileList = new List<FileWeight>();
 
         text = Regex.Replace(text, @"[^0-9a-zA-Z가-힣_\s]", "");
+        
         string[] words = text.Split(" ");
 
         currentFileNameWord.Clear();
@@ -176,6 +177,7 @@ public class FileManager : MonoSingleton<FileManager>
             float fileNameWeight = 0;
             float tagWeight = 0;
             isSearchByFileName = false;
+            bool isSearch = true;
             foreach (var word in words)
             {
                 Debug.Log(word);
@@ -185,9 +187,20 @@ public class FileManager : MonoSingleton<FileManager>
                 {
                     tagWeight += SearchTag(tag, word);
                 }
+
+                if(!isSearchTag && !isSearchByFileName)
+                {
+                    Debug.Log($"isSearchTag{isSearchTag}, isSearchByFileName{isSearchByFileName} , FileName{fileName}");
+                    isSearch = false;
+                    break;
+                }
             }
-            if(isSearchByFileName || isSearchTag)
+            if(isSearch)
             {
+                Debug.Log(isSearch);
+                if (!isSearchByFileName) fileNameWeight = 0;
+                if (!isSearchTag) tagWeight = 0;
+                Debug.Log("FileName:" + file.fileName);
                 FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
                 searchFileList.Add(fileWeight);
             }
@@ -215,14 +228,9 @@ public class FileManager : MonoSingleton<FileManager>
         {
             if (fileNameWord == word)
             {
+                Debug.Log("fileName Match" + fileNameWord);
                 isSearchByFileName = true;
                 weight += GetWeight(word.Length, fileName.Length, findNameScore);
-            }
-            else
-            {
-                isSearchByFileName = false;
-                weight = 0;
-                break;
             }
         }
         return weight;
@@ -238,13 +246,13 @@ public class FileManager : MonoSingleton<FileManager>
         {
             if (tagWord == word)
             {
+                Debug.Log("Tag Match " + tagWord);
                 isSearchTag = true;
                 weigth += GetWeight(word.Length, fileTag.Length, findTagScore);
             }
             else
             {
                 weigth = 0;
-                isSearchTag = false;
                 break;
             }
         }

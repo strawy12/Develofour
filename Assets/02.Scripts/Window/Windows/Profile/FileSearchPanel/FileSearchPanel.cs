@@ -55,10 +55,6 @@ public class FileSearchPanel : MonoBehaviour
 
     private void SearchFile()
     {
-        if (searchField.text.Length < 2)
-        {
-            return;
-        }
         List<FileSO> fileList = FileManager.Inst.ProfileSearchFile(searchField.text);
         ShowFileIcon(fileList);
     }
@@ -66,6 +62,11 @@ public class FileSearchPanel : MonoBehaviour
     private void ShowFileIcon(List<FileSO> fileList)
     {
         HideAllFile();
+        if(fileList.Count <= 0)
+        {
+            return;
+        }
+
         for (int i = 0; i < fileList.Count; i++)
         {
             if (i >= 5) break;
