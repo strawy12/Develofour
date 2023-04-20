@@ -4,9 +4,10 @@ using UnityEngine;
  
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-    public void Init()
+    public void Start()
     {
         StartCoroutine(StartGetData());
+        DataLoadingScreen.OnShowLoadingScreen?.Invoke();
     }
     private IEnumerator StartGetData()
     {

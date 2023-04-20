@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using DG.Tweening;
 using ExtenstionMethod;
+using System;
 
 public class DataLoadingScreen : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class DataLoadingScreen : MonoBehaviour
 
     public static bool completedDataLoad { get; private set; }
 
+    public static Action OnShowLoadingScreen;
+
+    private void Awake()
+    {
+        OnShowLoadingScreen += Init;
+    }
     public void Init()
     {
         this.gameObject.SetActive(true);
@@ -39,6 +46,7 @@ public class DataLoadingScreen : MonoBehaviour
         }
 
         EventManager.TriggerEvent(ECoreEvent.EndDataLoading);
+        EventManager.StopAllListening(ECoreEvent.EndLoadResources);
         gameObject.SetActive(false);
 
     }
