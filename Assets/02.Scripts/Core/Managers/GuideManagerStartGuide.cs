@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +31,7 @@ public partial class GuideManager : MonoBehaviour
 
                     break;
                 }
-            case EGuideTopicName.ClearPinNotePadQuiz: // ÁÖ±Û ÇÉ ¹øÈ£ ÈùÆ®
+            case EGuideTopicName.ClearPinNotePadQuiz: // ì£¼ê¸€ í•€ ë²ˆí˜¸ ížŒíŠ¸
                 {
                     SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, true);
                     DataManager.Inst.SetGuide(guideTopic, true);
