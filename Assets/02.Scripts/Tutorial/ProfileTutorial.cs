@@ -110,6 +110,7 @@ public class ProfileTutorial : MonoBehaviour
         EndTutoMonologEvent();
         DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
         EventManager.StopListening(ETutorialEvent.TutorialStart, StartTutorial);
+        CallSystem.Inst.OnAnswerCall(ECharacterDataType.assistant, EMonologTextDataType.EndProfileTutorial);
     }
 
     private void EndTutoMonologEvent()

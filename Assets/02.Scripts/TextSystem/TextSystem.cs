@@ -78,6 +78,11 @@ public abstract class TextSystem : MonoBehaviour
                     }
                     break;
                 }
+            case "ADPN":
+                {
+                    EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[] { cmdValue }); 
+                }
+                break;
         }
     }
 
