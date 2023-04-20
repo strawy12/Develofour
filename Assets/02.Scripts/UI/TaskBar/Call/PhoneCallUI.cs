@@ -24,20 +24,24 @@ public class PhoneCallUI : MonoBehaviour
 
     public Func<bool> OnCloseIngnoreFlag;
 
+    void Start()
+    {
+        EventManager.StartListening(ECallEvent.CallInit, Init);
+        this.gameObject.SetActive(false);
+    }
+
     public void Open()
     {
         AllEraseText();
         ResetButtonAction();
-        callTopPanel.Init();
         gameObject.SetActive(true);
-        Init();
     }
 
-    private void Init()
+    public void Init(object[] ps)
     {
         eraseButton.onClick?.AddListener(EraseButton);
         callButton.onClick?.AddListener(CallButton);
-
+        callTopPanel.Init();
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
         GetButtonAction();
     }

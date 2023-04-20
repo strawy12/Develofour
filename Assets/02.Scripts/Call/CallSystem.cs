@@ -16,6 +16,8 @@ public class CallSystem : MonoSingleton<CallSystem>
     public Button answerBtn;
     public AudioSpectrumUI spectrumUI;
 
+    public bool isRecieveCall;
+
     public void Start()
     {
         answerBtn.gameObject.SetActive(false);
@@ -68,7 +70,7 @@ public class CallSystem : MonoSingleton<CallSystem>
             default:
                 Debug.Log(delay);
                 yield return PlayPhoneCallSound(delay);
-                Hide();
+                //Hide();
                 break;
         }
     }
@@ -92,9 +94,10 @@ public class CallSystem : MonoSingleton<CallSystem>
         if (isShow)
         {
             answerBtn.onClick.RemoveAllListeners();
-            answerBtn.onClick.AddListener(Hide);
+            //answerBtn.onClick.AddListener(Hide);
             answerBtn.onClick.AddListener(() => ShowSpectrumUI(true));
             answerBtn.onClick.AddListener(() => ShowAnswerButton(false));
+            answerBtn.onClick.AddListener(() => isRecieveCall = true);
         }
 
         answerBtn.gameObject.SetActive(isShow);
@@ -130,6 +133,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     public void StartMonolog(EMonologTextDataType monologType)
     {
         //저장쪽은 나중에 생각
+        MonologSystem.OnEndMonologEvent += Hide;
         MonologSystem.OnStartMonolog.Invoke(monologType, 0, false);
     }
 
@@ -146,12 +150,13 @@ public class CallSystem : MonoSingleton<CallSystem>
     private IEnumerator PhoneSoundCor()
     {
         yield return new WaitForSeconds(0.8f);
-        while (true)
+        while (!isRecieveCall)
         {
             transform.DOShakePosition(2.5f, 5);
             Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
             yield return new WaitForSeconds(4f);
         }
+        isRecieveCall = false;
     }
 
     // 전화를 받았을 때 시작 
