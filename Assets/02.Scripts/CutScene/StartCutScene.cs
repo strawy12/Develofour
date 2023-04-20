@@ -35,8 +35,9 @@ public class StartCutScene : MonoBehaviour
     public bool isScreamSound;
 
 
-    void Start()
+    public void Init()
     {
+        this.gameObject.SetActive(true);
         if (DataManager.Inst.SaveData.isWatchStartCutScene)
         {
             EndRequestCutScene();
@@ -47,7 +48,6 @@ public class StartCutScene : MonoBehaviour
         {
             EventManager.StartListening(ECoreEvent.EndDataLoading, CutSceneStart);
         }
-
     }
 
     private void CutSceneStart(object[] ps)

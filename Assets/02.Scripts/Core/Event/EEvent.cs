@@ -8,6 +8,7 @@
     CursorChange,
     CoverPanelSetting,
     SendCallNumber,
+    MainSceneStart,
 }
 
 public enum EBranchEvent
