@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,97 +31,10 @@ public partial class GuideManager : MonoBehaviour
 
                     break;
                 }
-            case EGuideTopicName.ClearPinNotePadQuiz: // ÁÖ±Û ÇÉ ¹øÈ£ ÈùÆ®
+            case EGuideTopicName.ClearPinNotePadQuiz: // ì£¼ê¸€ í•€ ë²ˆí˜¸ ížŒíŠ¸
                 {
                     SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, true);
                     DataManager.Inst.SetGuide(guideTopic, true);
-                    break;
-                }
-            case EGuideTopicName.SuspectResidence:
-                {
-                    if (DataManager.Inst.IsProfileInfoData(EProfileCategory.SuspectProfileInformation, "SuspectIsLivingWithVictim"))
-                    {
-                        ProfileChattingSystem.OnChatEnd += delegate
-                        {
-                            MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.SuspectResidence, 0.1f, false);
-                        };
-                        SendProfileGuide();
-                    }
-                    else
-                    {
-                        SendAiChattingGuide("¿ëÀÇÀÚ °ÅÁÖÁö¿¡ ´ëÇÑ Á¤º¸¸¦ Ã£Áö ¸øÇß½À´Ï´Ù. ÁË¼ÛÇÕ´Ï´Ù", true);
-                    }
-                    break;
-                }
-            case EGuideTopicName.VictimBirthDate:
-                {
-                    Debug.Log($"OnceOpenWindowProperty : {DataManager.Inst.SaveData.isOnceOpenWindowProperty}");
-
-                    if (DataManager.Inst.SaveData.isOnceOpenWindowProperty)
-                    {
-                        SendProfileGuide();
-                    }
-                    else
-                    {
-                        SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, true);
-                    }
-                    break;
-                }
-            case EGuideTopicName.VictimUniversity:
-                {
-                    if (DataManager.Inst.IsProfileInfoData(EProfileCategory.VictimProfileInformation, "VictimName"))
-                    {
-                        SendProfileGuide();
-                    }
-                    else
-                    {
-                        SendAiChattingGuide("ÇÇÇØÀÚ ´ëÇÐ±³¿¡ ´ëÇÑ Á¤º¸¸¦ Ã£Áö ¸øÇß½À´Ï´Ù. ÁË¼ÛÇÕ´Ï´Ù", true);
-                    }
-                    break;
-
-                }
-            case EGuideTopicName.PetAdoptionDate:
-                {
-                    Debug.Log($"OnceOpenWindowProperty : {DataManager.Inst.SaveData.isOnceOpenWindowProperty}");
-                    if (DataManager.Inst.SaveData.isOnceOpenWindowProperty)
-                    {
-                        SendProfileGuide();
-                    }
-                    else
-                    {
-                        SendAiChattingGuide(guideTopicDictionary[guideTopic].guideTexts, 0.75f, true);
-                    }
-                    break;
-                }
-            case EGuideTopicName.SuspectIsLivingWithVictim:
-            case EGuideTopicName.VictimJob:
-            case EGuideTopicName.PetName:
-            case EGuideTopicName.PetAge:
-            case EGuideTopicName.SuspectRelationWithVictim:
-            case EGuideTopicName.SuspectBirth:
-            case EGuideTopicName.SuspectEmail:
-            case EGuideTopicName.SuspectUniversity:
-            case EGuideTopicName.SuspectDepartment:
-            case EGuideTopicName.SuspectIsPetHaveAnswer:
-            case EGuideTopicName.VictimName:
-            case EGuideTopicName.VictimDeathTime:
-            case EGuideTopicName.PetBreed:
-            case EGuideTopicName.MurderItem:
-            case EGuideTopicName.MurderPlan:
-            case EGuideTopicName.MurderPrepare:
-            case EGuideTopicName.MurderPlace:
-            case EGuideTopicName.MurderMotive:
-            case EGuideTopicName.MurderFirstPlan:
-            case EGuideTopicName.MurderCriminal:
-            case EGuideTopicName.MurderStuff:
-            case EGuideTopicName.MurderrFirstConditions:
-            case EGuideTopicName.MurderSecondConditions:
-            case EGuideTopicName.MurderAlibi:
-            case EGuideTopicName.MurderCorpse:
-            case EGuideTopicName.MurderTime:
-            case EGuideTopicName.MurderSecondPlan:
-                {
-                    SendProfileGuide();
                     break;
                 }
             case EGuideTopicName.Count:

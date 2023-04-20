@@ -9,6 +9,7 @@
     CoverPanelSetting,
     SendCallNumber,
     OpenVolume,
+    MainSceneStart,
 }
 
 public enum EBranchEvent

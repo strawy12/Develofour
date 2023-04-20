@@ -300,10 +300,13 @@ public class Library : Window
 
     private void CheckTutorialRoot(object[] ps)
     {
+
         if(!DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) || DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
         {
             return;
         }
+
+        Debug.Log(currentDirectory.GetFileLocation());
 
         if (currentDirectory.GetFileLocation() == "User\\BestUSB\\")
         {
@@ -322,17 +325,8 @@ public class Library : Window
     public override void WindowOpen()
     {
         base.WindowOpen();
-        EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd);
-    }
 
-    private void OnDisable()
-    {
-        EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
-        EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
-        EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
-        EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
-        
-        EventManager.StopListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
+        EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd);
     }
 
     protected override void OnDestroyWindow()

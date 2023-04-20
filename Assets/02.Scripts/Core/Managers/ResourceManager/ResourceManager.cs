@@ -4,7 +4,11 @@ using UnityEngine;
  
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-    private IEnumerator Start()
+    public void Init()
+    {
+        StartCoroutine(StartGetData());
+    }
+    private IEnumerator StartGetData()
     {
         int cnt = 9;
 

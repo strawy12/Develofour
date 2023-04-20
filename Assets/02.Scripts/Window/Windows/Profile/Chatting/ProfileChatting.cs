@@ -65,9 +65,6 @@ public class ProfileChatting : MonoBehaviour
 
     private float defaultOffsetMinY;
 
-    [Header("가이드관련")]
-    [SerializeField]
-    private ProfileGuidePanel guidePanel;
 
     public void Init()
     {
@@ -76,7 +73,6 @@ public class ProfileChatting : MonoBehaviour
         ConnectEvent();
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
-        guidePanel.Init();
         AddSaveTexts();
 
         SetScrollView();
@@ -186,7 +182,6 @@ public class ProfileChatting : MonoBehaviour
             showImage.SetActive(true);
             isMoving = false;
             loadingPanel.SetActive(false);
-            guidePanel.SetGuideParentWeight(false);
         });
     }
 
@@ -206,7 +201,6 @@ public class ProfileChatting : MonoBehaviour
             showImage.SetActive(false);
             isMoving = false;
             loadingPanel.SetActive(false);
-            guidePanel.SetGuideParentWeight(true);
         });
     }
 

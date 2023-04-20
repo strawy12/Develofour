@@ -14,8 +14,9 @@ public class DataLoadingScreen : MonoBehaviour
 
     public static bool completedDataLoad { get; private set; }
 
-    private void Awake()
+    public void Init()
     {
+        this.gameObject.SetActive(true);
         StartCoroutine(Loading());
         StartCoroutine(LoadingText());
 
