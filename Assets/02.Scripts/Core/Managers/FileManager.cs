@@ -177,10 +177,10 @@ public class FileManager : MonoSingleton<FileManager>
             float fileNameWeight = 0;
             float tagWeight = 0;
             isSearchByFileName = false;
+            isSearchTag = false;
             bool isSearch = true;
             foreach (var word in words)
             {
-                Debug.Log(word);
                 SearchFileName(fileNameWords, word, fileName);
 
                 foreach (var tag in file.tags)
@@ -190,17 +190,16 @@ public class FileManager : MonoSingleton<FileManager>
 
                 if(!isSearchTag && !isSearchByFileName)
                 {
-                    Debug.Log($"isSearchTag{isSearchTag}, isSearchByFileName{isSearchByFileName} , FileName{fileName}");
+                    Debug.Log($" 실패 isSearchTag{isSearchTag}, isSearchByFileName{isSearchByFileName} , FileName{fileName}");
                     isSearch = false;
                     break;
                 }
             }
             if(isSearch)
             {
-                Debug.Log(isSearch);
                 if (!isSearchByFileName) fileNameWeight = 0;
                 if (!isSearchTag) tagWeight = 0;
-                Debug.Log("FileName:" + file.fileName);
+                Debug.Log(" 성공 FileName:" + file.fileName +  " " + (fileNameWeight + tagWeight));
                 FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
                 searchFileList.Add(fileWeight);
             }
@@ -224,6 +223,7 @@ public class FileManager : MonoSingleton<FileManager>
     private float SearchFileName(string[] fileNameWords, string word, string fileName)
     {
         float weight = 0;
+        isSearchByFileName = false;
         foreach (var fileNameWord in fileNameWords)
         {
             if (fileNameWord == word)
@@ -250,11 +250,7 @@ public class FileManager : MonoSingleton<FileManager>
                 isSearchTag = true;
                 weigth += GetWeight(word.Length, fileTag.Length, findTagScore);
             }
-            else
-            {
-                weigth = 0;
-                break;
-            }
+
         }
         return weigth;
     }
