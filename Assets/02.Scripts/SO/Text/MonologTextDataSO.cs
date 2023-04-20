@@ -19,6 +19,7 @@ public enum EMonologTextDataType
     StartCutSceneMonolog1,
     StartCutSceneMonolog2,
     InstallCompleteMonoLog,
+    EndProfileTutorial,
     Count
 }
 

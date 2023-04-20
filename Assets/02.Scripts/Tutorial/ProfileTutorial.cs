@@ -10,8 +10,6 @@ public class ProfileTutorial : MonoBehaviour
     [SerializeField]
     private TutorialTextSO profileTutorialTextData;
     [SerializeField]
-    private float guideDelayWhenEndTuto = 30f;
-    [SerializeField]
     private float findNameGuideDelay = 60f;
     [SerializeField]
     private FileSO profiler;
@@ -108,6 +106,10 @@ public class ProfileTutorial : MonoBehaviour
     {
         DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
         EventManager.StopListening(ETutorialEvent.TutorialStart, StartTutorial);
+
         GameManager.Inst.ChangeGameState(EGameState.Game);
+
+        MonologSystem.OnEndMonologEvent += () => EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[] { "01012345678" }); 
+        CallSystem.Inst.OnAnswerCall(ECharacterDataType.assistant, EMonologTextDataType.EndProfileTutorial);
     }
 }

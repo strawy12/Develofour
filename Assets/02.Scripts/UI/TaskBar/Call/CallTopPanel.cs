@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -51,6 +51,7 @@ public class CallTopPanel : MonoBehaviour
 
     private void AddNewAutoPhoneNumber(object[] ps)
     {
+        Debug.Log("addnewautophonenumber");
         if (!(ps[0] is string))
         {
             return;
@@ -58,12 +59,16 @@ public class CallTopPanel : MonoBehaviour
 
         string number = ps[0] as string;
         DataManager.Inst.AddSavePhoneNumber(number);
-
+        
         if (!phoneNumberList.Contains(number))
         {
             phoneNumberList.Add(number);
+            NoticeSystem.OnNotice?.Invoke("전화번호가 추가되었습니다.",
+                ResourceManager.Inst.GetCharacterDataSO(phoneNumberList[currentIdx]).characterName + "의 전화번호가 전화 앱에 추가되었습니다.",
+                0.1f, true, null, Color.white, ENoticeTag.None);
         }
         gameObject.SetActive(true);
+
         nameText.text = ResourceManager.Inst.GetCharacterDataSO(phoneNumberList[currentIdx]).characterName;
     }
 

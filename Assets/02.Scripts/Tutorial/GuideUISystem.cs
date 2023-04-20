@@ -64,7 +64,6 @@ public class GuideUISystem : MonoBehaviour
     {
         if(currentRectTransform == null)
         {
-            Debug.Log("rect is null");
             return;
         }
 
@@ -74,7 +73,6 @@ public class GuideUISystem : MonoBehaviour
         }
         else
         {
-            Debug.Log("Different Rect");
         }
         return;
     }
