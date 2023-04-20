@@ -14,6 +14,11 @@ public class FileManager : MonoSingleton<FileManager>
     //새롭게 추가된 파일은 fileList에 등록된다.
     [SerializeField]
     private List<FileSO> defaultFileList = new List<FileSO>();
+    [Header("Profile FileSearch")]
+    [SerializeField]
+    private float findNameScore =30f;
+    [SerializeField]
+    private float findTagScore = 20f;
 
     private Dictionary<EWindowType, FileSO> defaultFileDictionary = new Dictionary<EWindowType, FileSO>();
 
@@ -159,39 +164,9 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 searchFileList.Add(file);
             }
-            else if (file.windowType == EWindowType.Notepad)
-            {
-                if (NotePadFileLoad(text, file))
-                {
-                    searchFileList.Add(file);
-                }
-            }
         }
 
         return searchFileList;
-    }
-
-    private bool NotePadFileLoad(string text, FileSO file)
-    {
-        try
-        {
-            NotepadDataSO notePadData = ResourceManager.Inst.GetNotepadData(file.name);
-
-            if (notePadData == null)
-            {
-                return false;
-            }
-
-            if (notePadData.scripts.Contains(text))
-            {
-                return true;
-            }
-        }
-        catch
-        {
-            Debug.Log($"Don't have this key {text} in NotePad");
-        }
-        return false;
     }
 
 

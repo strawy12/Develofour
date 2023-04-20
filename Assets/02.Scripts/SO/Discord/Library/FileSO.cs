@@ -45,6 +45,7 @@ public class FileSO : SOParent
     [SerializeField]
     private string tags;
     public TaskBarData taskBarData;
+    public bool isDummy;
     #region GetFileData
 
     public string GetFileLocation()

@@ -185,6 +185,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
+        if(fileData.isDummy)
+        {
+            return;
+        }
+
         if (fileData is DirectorySO && isBackground == false)
         {
             if (fileData.isFileLock && DataManager.Inst.IsWindowLock(fileData.GetFileLocation()))
