@@ -23,8 +23,6 @@ public class FileSearchPanel : MonoBehaviour
         searchField.onSubmit.AddListener(SearchFile);
 
         InitAllIcon();
-
-        EventManager.StartListening(EProfileSearchTutorialEvent.GuideSearchInputPanel, GuideInputPanel);
     }
 
     public void Show()
@@ -36,33 +34,42 @@ public class FileSearchPanel : MonoBehaviour
 
     private void SearchFile(string text)
     {
-        if(text.Length < 2)
+        if (text.Length < 2)
         {
             return;
         }
-        if(isGuide)
+
+        if (DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) && !DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
         {
-            if(text == "대학교")
+            if (text == "이름")
             {
-                isGuide = false;
-                EventManager.TriggerEvent(EProfileSearchTutorialEvent.SearchNameText);
-                EventManager.StopListening(EProfileSearchTutorialEvent.GuideSearchInputPanel, GuideInputPanel);
+                EventManager.TriggerEvent(ETutorialEvent.SearchNameText);
             }
         }
+
+
         List<FileSO> fileList = FileManager.Inst.ProfileSearchFile(text);
-        ShowFileIcon(fileList);    
+        ShowFileIcon(fileList);
     }
 
     private void SearchFile()
     {
         List<FileSO> fileList = FileManager.Inst.ProfileSearchFile(searchField.text);
+        if (DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) && !DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        {
+            if (searchField.text == "이름")
+            {
+                EventManager.TriggerEvent(ETutorialEvent.SearchNameText);
+            }
+        }
+
         ShowFileIcon(fileList);
     }
 
     private void ShowFileIcon(List<FileSO> fileList)
     {
         HideAllFile();
-        if(fileList.Count <= 0)
+        if (fileList.Count <= 0)
         {
             return;
         }
@@ -70,6 +77,7 @@ public class FileSearchPanel : MonoBehaviour
         for (int i = 0; i < fileList.Count; i++)
         {
             if (i >= 5) break;
+            Debug.Log(fileList[i].fileName + "Show");
             windowIconList[i].SetFileData(fileList[i]);
             windowIconList[i].gameObject.SetActive(true);
         }
@@ -84,16 +92,15 @@ public class FileSearchPanel : MonoBehaviour
     }
     private void HideAllFile()
     {
-        foreach(WindowIcon icon in windowIconList)
+        foreach (WindowIcon icon in windowIconList)
         {
             icon.gameObject.SetActive(false);
         }
     }
     private void GuideInputPanel(object[] ps)
     {
-        if(DataManager.Inst.GetIsClearTutorial(ETutorialType.Search))
+        if (DataManager.Inst.GetIsClearTutorial(ETutorialType.Search))
         {
-            EventManager.StopListening(EProfileSearchTutorialEvent.GuideSearchInputPanel, GuideInputPanel);
             return;
         }
         GuideUISystem.OnGuide?.Invoke(searchField.transform as RectTransform);

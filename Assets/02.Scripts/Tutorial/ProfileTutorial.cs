@@ -10,20 +10,23 @@ public class ProfileTutorial : MonoBehaviour
     [SerializeField]
     private TutorialTextSO profileTutorialTextData;
     [SerializeField]
-    private WindowAlterationSO profileWindowAlteration;
-    [SerializeField]
     private float guideDelayWhenEndTuto = 30f;
-
+    [SerializeField]
+    private float findNameGuideDelay = 60f;
+    [SerializeField]
+    private FileSO profiler;
     void Start()
     {
-        EventManager.StartListening(ETutorialEvent.TutorialStart, StartTutorial);
+        EventManager.StartListening(ETutorialEvent.TutorialStart, CreatePopUp);
         //EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCoroutine(NoticeProfileChattingTutorial()); });
         EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, StartCompleteProfileTutorial);
 
-        //skip debug 코드
-        
-        EventManager.StartListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
         // 만약 USB 화면 들어가면
+    }
+
+    private void CreatePopUp(object[] ps)
+    {
+        WindowManager.Inst.PopupOpen(profiler, profileTutorialTextData.popText, delegate { StartTutorial(null); }, delegate { StartProfileEnd(); });
     }
 
     private void StartTutorial(object[] ps)
@@ -31,89 +34,80 @@ public class ProfileTutorial : MonoBehaviour
         StartCoroutine(StartProfileTutorial());
     }
 
-    public void FirstOpenUSBFile(object[] ps)
-    {
-        if (ps[0] == null) 
-        {
-            return;   
-        }
-
-        FileSO fileData = (FileSO)ps[0];
-
-        if(fileData.fileName == Constant.USB_FILENAME)
-        {
-            EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FirstOpenUSBFile);
-        }
-    }
-
     public void StartChatting(int textListIndex)
     {
-        ProfileChattingSystem.OnPlayChatList?.Invoke(profileTutorialTextData.tutorialTexts[textListIndex].data, 1.5f, true); 
+        ProfileChattingSystem.OnPlayChatList?.Invoke(profileTutorialTextData.tutorialTexts[textListIndex].data, 1.5f, true);
     }
 
-    public IEnumerator StartProfileTutorial()
+    private IEnumerator StartProfileTutorial()
     {
         yield return new WaitForSeconds(0.5f);
         DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
-        ProfileChattingSystem.OnChatEnd += StartProfileNextTutorial;
+        ProfileChattingSystem.OnChatEnd += StartDelay;
         StartChatting(0);
     }
 
-    public void StartProfileNextTutorial()
+
+    private void StartDelay()
     {
-        StartCoroutine(StartProfileNextTutorialCoroutine());  
+        ProfileChattingSystem.OnChatEnd -= StartDelay;
+        StartCoroutine(FindNameCoroutine());
     }
 
-    public IEnumerator StartProfileNextTutorialCoroutine()
+    public IEnumerator FindNameCoroutine()
     {
-        yield return new WaitForSeconds(0.1f);
-        ProfileChattingSystem.OnChatEnd += CheckMaximumWindow;
+        yield return new WaitForSeconds(findNameGuideDelay);
+        SearchGuideStart();
+    }
+
+    private void SearchGuideStart()
+    {
+        ProfileChattingSystem.OnChatEnd += () =>
+        {
+            EventManager.TriggerEvent(ETutorialEvent.SearchBtnGuide);
+            EventManager.StartListening(ETutorialEvent.ClickSearchBtn, StartSearchName);
+        };
         StartChatting(1);
     }
-    
-    private void CheckMaximumWindow()
-    {
-        ProfileChattingSystem.OnChatEnd -= CheckMaximumWindow;
 
-        if (profileWindowAlteration.isMaximum)
-        {
-            EventManager.TriggerEvent(ETutorialEvent.ProfileMidiumStart);
-        }
-        else
-        {
-            BackgroundNoticeTutorial();
-        }
+    private void StartSearchName(object[] ps)
+    {
+        EventManager.StopListening(ETutorialEvent.ClickSearchBtn, StartSearchName);
+
+        GuideUISystem.EndAllGuide?.Invoke();
+
+        ProfileChattingSystem.OnChatEnd += () =>  EventManager.StartListening(ETutorialEvent.SearchNameText, SearchName);
+        StartChatting(2);
     }
 
-    public void BackgroundNoticeTutorial()
+    private void SearchName(object[] ps)
     {
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
-        EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
+        Debug.Log("1");
+        EventManager.StopListening(ETutorialEvent.SearchNameText, SearchName);
+        ProfileChattingSystem.OnChatEnd += () => StartCompleteProfileTutorial();
+        StartChatting(3);
     }
 
-    public void StartCompleteProfileTutorial(object[] ps)
+    public void StartCompleteProfileTutorial(object[] ps = null)
     {
         ProfileChattingSystem.OnImmediatelyEndChat?.Invoke();
-        StopAllCoroutines();
         ProfileChattingSystem.OnChatEnd = null;
 
-        EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, StartCompleteProfileTutorial);
         GuideUISystem.EndAllGuide?.Invoke();
-        ProfileChattingSystem.OnChatEnd += StartProfileEnd;
 
-        StartChatting(2);
+        StopAllCoroutines();
+
+        EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, StartCompleteProfileTutorial);
+        
+        ProfileChattingSystem.OnChatEnd += StartProfileEnd;
+        StartChatting(4);
     }
 
     public void StartProfileEnd()
     {
-        EndTutoMonologEvent();
         DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
         EventManager.StopListening(ETutorialEvent.TutorialStart, StartTutorial);
-    }
-
-    private void EndTutoMonologEvent()
-    {
         GameManager.Inst.ChangeGameState(EGameState.Game);
     }
 }

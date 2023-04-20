@@ -5478,7 +5478,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPlayButton: {fileID: 701449884}
   creditButton: {fileID: 1624139309}
-  loadingScene: {fileID: 424089658}
 --- !u!1 &940956729
 GameObject:
   m_ObjectHideFlags: 0
@@ -7794,6 +7793,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fd8692ae6ed645e7af7d21567087c8b0, type: 2}
   - {fileID: 11400000, guid: 76356e5ce6c8bef41b247f4201a71358, type: 2}
   - {fileID: 11400000, guid: fdc07bedaecadee489f1dad2252063e2, type: 2}
+  findNameScore: 30
+  findTagScore: 20
 --- !u!1 &1247746393
 GameObject:
   m_ObjectHideFlags: 0
@@ -9517,7 +9518,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 471829026}
   m_HandleRect: {fileID: 471829025}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -13108,8 +13109,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2114871267}
   - component: {fileID: 2114871268}
-  - component: {fileID: 2114871269}
-  - component: {fileID: 2114871270}
   m_Layer: 0
   m_Name: Tutorial
   m_TagString: Untagged
@@ -13145,35 +13144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profileTutorialTextData: {fileID: 11400000, guid: f9792479acf76ce4ebc9f66d2e0fdbaa, type: 2}
-  profileWindowAlteration: {fileID: 11400000, guid: 852eac77952c4d038601790ca1362715, type: 2}
   guideDelayWhenEndTuto: 30
---- !u!114 &2114871269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2114871266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17def4844ec60e24a8387acd4b8770fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textDataList: {fileID: 11400000, guid: 07c0de7eb085c0348bc7cd480c4dbefe, type: 2}
-  profiler: {fileID: 11400000, guid: a9ea1462e05f43e5bebcb4af754d96bd, type: 2}
---- !u!114 &2114871270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2114871266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76b6041190bf97b49bf56f58cf403fed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tutorialTextList: {fileID: 11400000, guid: 763d548a2ab090f46ab3841f6259926e, type: 2}
+  findNameGuideDelay: 10
   profiler: {fileID: 11400000, guid: a9ea1462e05f43e5bebcb4af754d96bd, type: 2}
 --- !u!1 &2134430739
 GameObject:
@@ -45131,7 +45103,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 205, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 230, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &2874077416091051955
@@ -59724,7 +59696,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 125, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6155462079995700940
@@ -59877,8 +59849,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 342.5, y: 0}
-  m_SizeDelta: {x: 342.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &6155462080139323139
 GameObject:
@@ -60072,7 +60044,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 120.65, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 241.3, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6155462081717301248
@@ -60202,7 +60174,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 129.995, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 259.99, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6155462081717301254
