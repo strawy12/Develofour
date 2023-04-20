@@ -115,12 +115,6 @@ public class ProfileWindow : Window
 
     private void OnClickShowFileSearch()
     {
-        if (!DataManager.Inst.GetIsStartTutorial(ETutorialType.Search))
-        {
-            ProfileChattingSystem.OnPlayChat(new TextData() { text = "아직은 열람할 수 없는 기능입니다.", color = new Color(255, 255, 255, 100) }, false, false);
-            return;
-        }
-
         if (beforeClickButton == searchPanelBtn)
         {
             return;

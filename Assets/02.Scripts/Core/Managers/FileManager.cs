@@ -4,8 +4,23 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
+using System.Text.RegularExpressions;
+
 public class FileManager : MonoSingleton<FileManager>
 {
+    private class FileWeight
+    {
+        public FileSO file;
+        public float weight;
+
+        public FileWeight(FileSO file, float weight)
+        {
+            this.file = file;
+            this.weight = weight;
+        }
+    }
+
     [SerializeField]
     private DirectorySO rootDirectory;
     [SerializeField]
@@ -16,20 +31,20 @@ public class FileManager : MonoSingleton<FileManager>
     private List<FileSO> defaultFileList = new List<FileSO>();
     [Header("Profile FileSearch")]
     [SerializeField]
-    private float findNameScore =30f;
+    private float findNameScore = 30f;
     [SerializeField]
     private float findTagScore = 20f;
-
+    private bool isSearchTag = false;
+    private bool isSearchByFileName = false;
     private Dictionary<EWindowType, FileSO> defaultFileDictionary = new Dictionary<EWindowType, FileSO>();
-
+    private List<string> currentFileNameWord;
     private void Awake()
     {
+        currentFileNameWord = new List<string>();
         foreach (FileSO file in defaultFileList)
         {
             defaultFileDictionary.Add(file.windowType, file);
         }
-
-
     }
     private void Start()
     {
@@ -141,13 +156,13 @@ public class FileManager : MonoSingleton<FileManager>
     public List<FileSO> ProfileSearchFile(string text, DirectorySO currentDirectory = null)
     {
         List<FileSO> allFileList = ALLFileAddList(currentDirectory);
-        List<FileSO> searchFileList = new List<FileSO>();
+        List<FileWeight> searchFileList = new List<FileWeight>();
 
-        if (text.Length < 2)
-        {
-            return null;
-        }
+        text = Regex.Replace(text, @"[^0-9a-zA-Z가-힣_\s]", "");
 
+        string[] words = text.Split(" ");
+
+        currentFileNameWord.Clear();
 
         foreach (FileSO file in allFileList)
         {
@@ -156,20 +171,93 @@ public class FileManager : MonoSingleton<FileManager>
                 continue;
             }
 
-            if (file.fileName.Contains(text, StringComparison.OrdinalIgnoreCase))
+            string fileName = Regex.Replace(file.fileName, @"[^0-9a-zA-Z가-힣\s]", "");
+            string[] fileNameWords = fileName.Split(" ");
+            float fileNameWeight = 0;
+            float tagWeight = 0;
+            isSearchByFileName = false;
+            isSearchTag = false;
+            bool isSearch = true;
+            foreach (var word in words)
             {
-                searchFileList.Add(file);
-            }
-            else if (file.SearchTag(text))
-            {
-                searchFileList.Add(file);
-            }
-        }
+                SearchFileName(fileNameWords, word, fileName);
 
-        return searchFileList;
+                foreach (var tag in file.tags)
+                {
+                    tagWeight += SearchTag(tag, word);
+                }
+
+                if (!isSearchTag && !isSearchByFileName)
+                {
+
+                    isSearch = false;
+                    break;
+                }
+            }
+            if (isSearch)
+            {
+                if (!isSearchByFileName) fileNameWeight = 0;
+                if (!isSearchTag) tagWeight = 0;
+                FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
+                searchFileList.Add(fileWeight);
+
+            }
+
+        }
+        if (searchFileList.Count > 5)
+        {
+            TextData textData = new TextData() { color = Color.black, text = $"'{text}'와 관련된 정보가 너무 많습니다." };
+            ProfileChattingSystem.OnPlayChat?.Invoke(textData, false, false);
+        }
+        List<FileSO> fileList = searchFileList.OrderByDescending((x) => x.weight).Select((x) => x.file).Take(5).ToList();
+
+        return fileList;
     }
 
+    private float GetWeight(int matchWordCnt, int wordCnt, float maxScore)
+    {
+        float weight = 0;
+        float t = 0;
+        t = matchWordCnt / wordCnt;
 
+        weight += maxScore * t;
+        return weight;
+
+    }
+    private float SearchFileName(string[] fileNameWords, string word, string fileName)
+    {
+        float weight = 0;
+        isSearchByFileName = false;
+        foreach (var fileNameWord in fileNameWords)
+        {
+            if (fileNameWord == word)
+            {
+                Debug.Log("fileName Match" + fileNameWord);
+                isSearchByFileName = true;
+                weight += GetWeight(word.Length, fileName.Length, findNameScore);
+            }
+        }
+        return weight;
+    }
+    private float SearchTag(string fileTag, string word)
+    {
+        float weigth = 0;
+        isSearchTag = false;
+
+        string[] tagWords = fileTag.Split(" ");
+
+        foreach (string tagWord in tagWords)
+        {
+            if (tagWord == word)
+            {
+                Debug.Log("Tag Match " + tagWord);
+                isSearchTag = true;
+                weigth += GetWeight(word.Length, fileTag.Length, findTagScore);
+            }
+
+        }
+        return weigth;
+    }
     private FileSO GetFile(string location)
     {
         FileSO resultFile = null;

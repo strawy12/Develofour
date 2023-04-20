@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using UnityEditor;
+using System.Collections.Generic;
 
 [System.Serializable]
 public struct DateTime
@@ -42,8 +43,7 @@ public class FileSO : SOParent
     public string windowPin;
     public string windowPinHintGuide;
     public bool isAlarm;
-    [SerializeField]
-    private string tags;
+    public List<string> tags;
     public TaskBarData taskBarData;
     public bool isDummy;
     #region GetFileData
@@ -113,23 +113,6 @@ public class FileSO : SOParent
         return fileData.madeDate;
     }
     #endregion
-
-    public bool SearchTag(string text)
-    {
-        string[] tagArray;
-        tagArray = tags.Split(',');
-
-        foreach(string tag in tagArray)
-        {
-            if(tag.Contains(text))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
     public void OpenFile()
     {
         // AccessDate 시간을 변경해줄 예정
