@@ -8,6 +8,7 @@
     CursorChange,
     CoverPanelSetting,
     SendCallNumber,
+    OpenVolume,
 }
 
 public enum EBranchEvent

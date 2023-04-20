@@ -915,7 +915,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &253664218
@@ -1874,13 +1874,15 @@ GameObject:
   - component: {fileID: 424089657}
   - component: {fileID: 424089656}
   - component: {fileID: 424089658}
+  - component: {fileID: 424089660}
+  - component: {fileID: 424089659}
   m_Layer: 5
   m_Name: LoadingScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &424089655
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1955,6 +1957,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadingIcon: {fileID: 5607095947241946255}
   loadingText: {fileID: 966577310}
+--- !u!114 &424089659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424089654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &424089660
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424089654}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: -709140319
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &446309115
 GameObject:
   m_ObjectHideFlags: 0
@@ -2939,13 +2979,14 @@ GameObject:
   m_Component:
   - component: {fileID: 601350453}
   - component: {fileID: 601350452}
+  - component: {fileID: 601350454}
   m_Layer: 0
   m_Name: Global Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &601350452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2962,7 +3003,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 9748a876f6d44574d88be6df41df8f01, type: 2}
+  sharedProfile: {fileID: 11400000, guid: db0118bb8eb4d644fbe56118e610f6fc, type: 2}
 --- !u!4 &601350453
 Transform:
   m_ObjectHideFlags: 0
@@ -2978,6 +3019,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &601350454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601350451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f477fa703fc8a1d42b00a5f8ba3bf737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  titleData: {fileID: 11400000, guid: db0118bb8eb4d644fbe56118e610f6fc, type: 2}
+  cutSceneData: {fileID: 11400000, guid: 9748a876f6d44574d88be6df41df8f01, type: 2}
 --- !u!1 &601354923
 GameObject:
   m_ObjectHideFlags: 0
@@ -3941,7 +3996,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &705588657
@@ -5239,7 +5294,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &924957043
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7344,7 +7399,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 1325060129
+  m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &1179937946
@@ -7610,9 +7665,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e728c5020684c5fb60163ab02418df0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickEffect: {fileID: 0}
-  profilerTutorialClear: 0
-  isProfilerTownloadCompleted: 0
 --- !u!1 &1231287277
 GameObject:
   m_ObjectHideFlags: 0
@@ -8186,7 +8238,6 @@ MonoBehaviour:
     loginData: 
     isOnceOpenWindowProperty: 0
     isOnceEnterZoogleLogin: 0
-    computerLoginState: 0
 --- !u!1 &1378105538
 GameObject:
   m_ObjectHideFlags: 0
@@ -44335,7 +44386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2494033995918343273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44351,7 +44402,6 @@ MonoBehaviour:
   isSkip: 0
   titleText: {fileID: 1368884595}
   interrogationRoomSprite: {fileID: 241927958}
-  volume: {fileID: 601350452}
   blackImagePanel: {fileID: 1184682964335976966}
   backgroundImagePanel: {fileID: 8824398881107081716}
   loadingIcon: {fileID: 6602001646278499896}

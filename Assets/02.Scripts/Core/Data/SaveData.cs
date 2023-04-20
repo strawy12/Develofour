@@ -60,7 +60,6 @@ public class SaveData
     public bool isOnceOpenWindowProperty;
     public bool isOnceEnterZoogleLogin;
 
-    public EComputerLoginState computerLoginState;
 }
 
 

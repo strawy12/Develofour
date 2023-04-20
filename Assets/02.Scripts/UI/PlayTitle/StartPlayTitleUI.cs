@@ -21,7 +21,9 @@ public class StartPlayTitleUI : MonoBehaviour
 
     private void StartplayGame()
     {
+        gameObject.SetActive(false);
 
+        StartCutScene.OnPlayCutScene?.Invoke();
     }
 
     private void OnCreditButton()
