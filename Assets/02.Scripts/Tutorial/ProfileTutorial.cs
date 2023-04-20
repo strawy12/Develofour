@@ -110,6 +110,9 @@ public class ProfileTutorial : MonoBehaviour
         EndTutoMonologEvent();
         DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
         EventManager.StopListening(ETutorialEvent.TutorialStart, StartTutorial);
+
+        MonologSystem.OnEndMonologEvent += () => EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[] { "01012345678" }); 
+        CallSystem.Inst.OnAnswerCall(ECharacterDataType.assistant, EMonologTextDataType.EndProfileTutorial);
     }
 
     private void EndTutoMonologEvent()

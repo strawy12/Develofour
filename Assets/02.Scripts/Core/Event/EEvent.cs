@@ -220,4 +220,5 @@ public enum ECallEvent
 {
     None = -1,
     AddAutoCompleteCallBtn,
+    CallInit,
 }
