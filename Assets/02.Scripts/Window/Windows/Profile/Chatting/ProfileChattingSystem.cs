@@ -8,7 +8,7 @@ public class ProfileChattingSystem : TextSystem
 {
     public static Action<TextData, bool, bool> OnPlayChat;
     public static Action<List<TextData>, float, bool> OnPlayChatList;
-    
+
     public static Action OnChatEnd;
 
     public static Action OnImmediatelyEndChat;
@@ -57,14 +57,14 @@ public class ProfileChattingSystem : TextSystem
 
     private IEnumerator ChattingCoroutine(float delay, bool isSave)
     {
-        foreach(TextData data in textDataList)
+        foreach (TextData data in textDataList)
         {
             currentTextData = data;
             PrintText(isSave);
 
             yield return new WaitForSeconds(delay);
 
-            if(currentDelay != 0f)
+            if (currentDelay != 0f)
             {
                 yield return new WaitForSeconds(currentDelay);
                 currentDelay = 0f;
@@ -79,7 +79,7 @@ public class ProfileChattingSystem : TextSystem
     private void EndChatting()
     {
         OnChatEnd?.Invoke();
-        
+
         OnChatEnd = null;
     }
 
@@ -94,13 +94,12 @@ public class ProfileChattingSystem : TextSystem
             trigger?.Invoke();
         }
 
-        if(isSave)
+        EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[] { currentTextData });
+
+        if (isSave)
         {
-            EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[] { currentTextData });
+            DataManager.Inst.AddAiChattingList(currentTextData);
         }
-
-        DataManager.Inst.AddAiChattingList(currentTextData);
-
         SendNotice(currentTextData.text);
     }
 

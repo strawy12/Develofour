@@ -159,7 +159,7 @@ public class FileManager : MonoSingleton<FileManager>
         List<FileWeight> searchFileList = new List<FileWeight>();
 
         text = Regex.Replace(text, @"[^0-9a-zA-Z가-힣_\s]", "");
-        
+
         string[] words = text.Split(" ");
 
         currentFileNameWord.Clear();
@@ -171,7 +171,6 @@ public class FileManager : MonoSingleton<FileManager>
                 continue;
             }
 
-            //파일 이름도 특수문자 제거해서 단어로 나눌게.
             string fileName = Regex.Replace(file.fileName, @"[^0-9a-zA-Z가-힣\s]", "");
             string[] fileNameWords = fileName.Split(" ");
             float fileNameWeight = 0;
@@ -188,22 +187,27 @@ public class FileManager : MonoSingleton<FileManager>
                     tagWeight += SearchTag(tag, word);
                 }
 
-                if(!isSearchTag && !isSearchByFileName)
+                if (!isSearchTag && !isSearchByFileName)
                 {
-                    Debug.Log($" 실패 isSearchTag{isSearchTag}, isSearchByFileName{isSearchByFileName} , FileName{fileName}");
+
                     isSearch = false;
                     break;
                 }
             }
-            if(isSearch)
+            if (isSearch)
             {
                 if (!isSearchByFileName) fileNameWeight = 0;
                 if (!isSearchTag) tagWeight = 0;
-                Debug.Log(" 성공 FileName:" + file.fileName +  " " + (fileNameWeight + tagWeight));
                 FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
                 searchFileList.Add(fileWeight);
+
             }
 
+        }
+        if (searchFileList.Count > 5)
+        {
+            TextData textData = new TextData() { color = Color.black, text = $"'{text}'와 관련된 정보가 너무 많습니다." };
+            ProfileChattingSystem.OnPlayChat?.Invoke(textData, false, false);
         }
         List<FileSO> fileList = searchFileList.OrderByDescending((x) => x.weight).Select((x) => x.file).Take(5).ToList();
 
