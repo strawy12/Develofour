@@ -13,8 +13,6 @@ public class StartPlayTitleUI : MonoBehaviour
 
     [SerializeField]
     private DataLoadingScreen loadingScene;
-    [SerializeField]
-    private StartCutScene startCutScene;
 
     private void Start()
     {
@@ -26,9 +24,13 @@ public class StartPlayTitleUI : MonoBehaviour
 
     private void StartplayGame()
     {
+        gameObject.SetActive(false);
+
         loadingScene.Init();
         ResourceManager.Inst.Init();
-        startCutScene.Init();
+
+        StartCutScene.OnPlayCutScene?.Invoke();
+        
         this.gameObject.SetActive(false);
     }
 

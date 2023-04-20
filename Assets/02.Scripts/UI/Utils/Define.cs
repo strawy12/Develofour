@@ -129,11 +129,6 @@ public static class Define
     }
 
 
-    public static bool CheckComputerLoginState(EComputerLoginState state)
-    {
-        return GameManager.Inst.ComputerLoginState == state;
-    }
-
     public static bool CheckIntallProfile()
     {
         return FileManager.Inst.SearchFile("Profile") != null;
