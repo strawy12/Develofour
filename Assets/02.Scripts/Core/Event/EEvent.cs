@@ -180,17 +180,6 @@ public enum ETextboxEvent
     Delay,
 }
 
-public enum EProfileSearchTutorialEvent
-{
-    None = -1,
-    TutorialMonologStart,
-    TutorialStart,
-    GuideSearchButton,
-    ClickSearchButton,
-    GuideSearchInputPanel,
-    SearchNameText,
-    EndTutorial,
-}
 public enum EGuideButtonTutorialEvent
 {
     None = -1,

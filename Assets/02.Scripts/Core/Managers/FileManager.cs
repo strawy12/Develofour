@@ -198,8 +198,6 @@ public class FileManager : MonoSingleton<FileManager>
                 if (!isSearchByFileName) fileNameWeight = 0;
                 if (!isSearchTag) tagWeight = 0;
 
-                Debug.Log(file.fileName);
-
                 FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
                 searchFileList.Add(fileWeight);
 
@@ -212,7 +210,7 @@ public class FileManager : MonoSingleton<FileManager>
             ProfileChattingSystem.OnPlayChat?.Invoke(textData, false, false);
         }
         List<FileSO> fileList = searchFileList.OrderByDescending((x) => x.weight).Select((x) => x.file).Take(5).ToList();
-        Debug.Log(fileList.Count);
+
         return fileList;
     }
 

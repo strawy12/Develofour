@@ -63,11 +63,6 @@ public class GmailLoginSite : Site
     {
         base.ShowSite();
 
-        if (!DataManager.Inst.SaveData.isOnceEnterZoogleLogin && DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler)) 
-        {
-            DataManager.Inst.SaveData.isOnceEnterZoogleLogin = true;
-            EventManager.TriggerEvent(EProfileSearchTutorialEvent.TutorialMonologStart);
-        }
     }
 
     private void SuccessLogin()
