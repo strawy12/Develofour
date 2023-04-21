@@ -58,8 +58,6 @@ public class SaveData
     public List<bool> loginData;
 
     public bool isOnceOpenWindowProperty;
-    public bool isOnceEnterZoogleLogin;
-
 }
 
 
