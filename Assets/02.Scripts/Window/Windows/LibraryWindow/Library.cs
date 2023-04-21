@@ -120,7 +120,6 @@ public class Library : Window
         SetHighlightImage();
         SetLibrary();
 
-        EventManager.StartListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
         
         EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StartListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
@@ -162,11 +161,6 @@ public class Library : Window
         CreateChildren();
         EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
-
-        //if (GameManager.Inst.GameState == EGameState.Tutorial)
-        //{
-        //    EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
-        //}
     }
 
     private void CreateChildren()
@@ -261,7 +255,6 @@ public class Library : Window
             SetHighlightImage();
             currentDirectory = ps[0] as DirectorySO;
             SetLibrary();
-            CheckTutorialRoot(null);
         }
     }
 
@@ -298,35 +291,11 @@ public class Library : Window
         selectIcon = null;
     }
 
-    private void CheckTutorialRoot(object[] ps)
-    {
-
-        if(!DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) || DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
-        {
-            return;
-        }
-
-        Debug.Log(currentDirectory.GetFileLocation());
-
-        if (currentDirectory.GetFileLocation() == "User\\BestUSB\\")
-        {
-            EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoStart);
-        }
-        else if (currentDirectory.GetFileLocation() == "User\\")
-        {
-            EventManager.TriggerEvent(ETutorialEvent.LibraryUSBStart);
-        }
-        else
-        {
-            EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonStart);
-        }
-    }
+   
 
     public override void WindowOpen()
     {
         base.WindowOpen();
-
-        EventManager.TriggerEvent(ETutorialEvent.BackgroundSignEnd);
     }
 
     protected override void OnDestroyWindow()
@@ -339,7 +308,6 @@ public class Library : Window
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
         EventManager.StopListening(ELibraryEvent.AddUndoStack, UndoStackPush);
-        EventManager.StopListening(ETutorialEvent.LibraryRootCheck, CheckTutorialRoot);
         EventManager.StopListening(ELibraryEvent.ResetRedoStack, RedoStackReset);
     }
 }

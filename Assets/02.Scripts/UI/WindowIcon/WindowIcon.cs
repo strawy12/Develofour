@@ -105,18 +105,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //    iconImage.color = Color.black;
         //    iconImage.rectTransform.sizeDelta = new Vector2(100, 100);
         //}
-
-        if (isRegisterEvent == false && fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일링\\")
-        {
-            isRegisterEvent = true;
-            EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
-        }
-
-        if (isUSBEvent == false && fileData.GetFileLocation() == "User\\BestUSB\\")
-        {
-            isUSBEvent = true;
-            EventManager.StartListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
-        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -139,17 +127,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 UnSelect();
 
-                if (fileData.GetFileLocation() == "User\\BestUSB\\용의자 프로파일링\\")
-                {
-                    if (GameManager.Inst.GameState == EGameState.Tutorial)
-                    {
-                        EventManager.TriggerEvent(ETutorialEvent.LibraryRequesterInfoEnd);
-                    }
-                }
-                if (fileData.GetFileLocation() == "User\\BestUSB\\")
-                {
-                    EventManager.TriggerEvent(ETutorialEvent.LibraryUSBEnd);
-                }
             }
             else
             {
@@ -260,14 +237,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         pointerStayImage.gameObject.SetActive(false);
     }
 
-    void Start()
-    {
-        if (gameObject.name == "ExplorerIcon")
-        {
-            EventManager.StartListening(ETutorialEvent.BackgroundSignStart, BackgroundSignStart);
-        }
-    }
-
     private bool isSign;
 
 
@@ -281,63 +250,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         EventManager.TriggerEvent(ELibraryEvent.SelectNull);
     }
 
-    #region Tutorial
-
-    private void BackgroundEventStop(object[] ps)
-    {
-        GuideUISystem.EndGuide?.Invoke(rectTranstform);
-
-        EventManager.StopListening(ETutorialEvent.BackgroundSignEnd, BackgroundEventStop);
-        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, BackgroundSignStart);
-
-        EventManager.TriggerEvent(ETutorialEvent.LibraryRootCheck);
-    }
-
-    private void RequesterInfoEventStop()
-    {
-        EventManager.StopListening(ETutorialEvent.BackgroundSignStart, BackgroundSignStart);
-        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
-        EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
-        EventManager.StopAllListening(ETutorialEvent.LibraryUserButtonStart);
-        GuideUISystem.EndGuide?.Invoke(rectTranstform);
-    }
-
-    private void USBEventStop()
-    {
-        
-    }
-
-    public void LibraryUSBStart(object[] ps)
-    {
-        if (this.gameObject != null)
-        {
-            if (gameObject.activeSelf) GuideUISystem.OnGuide?.Invoke(rectTranstform);
-        }
-
-        EventManager.StartListening(ETutorialEvent.LibraryUSBEnd, delegate { USBEventStop(); });
-    }
-
-    public void LibraryRequesterInfoStart(object[] ps)
-    {
-        if (this.gameObject != null)
-        {
-            if (gameObject.activeSelf)
-            {
-                GuideUISystem.OnGuide?.Invoke(rectTranstform);
-            }
-
-        }
-        EventManager.StartListening(ETutorialEvent.LibraryRequesterInfoEnd, delegate { RequesterInfoEventStop(); });
-    }
-
-    public void BackgroundSignStart(object[] ps)
-    {
-        rectTranstform ??= GetComponent<RectTransform>();
-        GuideUISystem.OnGuide?.Invoke(rectTranstform);
-
-        EventManager.StartListening(ETutorialEvent.BackgroundSignEnd, BackgroundEventStop);
-    }
-    #endregion
     private void OnDisable()
     {
         StopAllCoroutines();
@@ -347,8 +259,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         StopAllCoroutines();
         GuideUISystem.EndGuide?.Invoke(rectTranstform);
-        EventManager.StopListening(ETutorialEvent.LibraryUSBStart, LibraryUSBStart);
-        EventManager.StopListening(ETutorialEvent.LibraryRequesterInfoStart, LibraryRequesterInfoStart);
     }
 }
 

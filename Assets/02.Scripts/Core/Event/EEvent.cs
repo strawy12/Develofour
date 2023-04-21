@@ -160,20 +160,9 @@ public enum ETutorialEvent
 {
     None = -1,
     TutorialStart, // 튜토리얼 시작 이벤트
-    ProfileMidiumStart,
-    ProfileMidiumEnd,
-    BackgroundSignStart, 
-    BackgroundSignEnd, 
-    LibraryRootCheck, 
-    LibraryRequesterInfoStart, 
-    LibraryRequesterInfoEnd, 
-    LibraryUserButtonStart, 
-    LibraryUserButtonEnd, 
-    LibraryUSBStart,  
-    LibraryUSBEnd, 
-    ProfileInfoStart, 
-    ProfileInfoEnd, 
-    ProfileEventStop, 
+    SearchBtnGuide,
+    ClickSearchBtn,
+    SearchNameText,
     EndClickInfoTutorial,
 }
 

@@ -67,8 +67,7 @@ public class ProfileWindow : Window
         moveDownPanelBtn.onClick.AddListener(MoveButtonClick);
         movePopUpPanelBtn.onClick.AddListener(MoveButtonClick);
 
-        EventManager.StartListening(ETutorialEvent.TutorialStart, ProfilerOpen);
-        EventManager.StartListening(EProfileSearchTutorialEvent.GuideSearchButton, GuideSearchButton);
+        EventManager.StartListening(ETutorialEvent.SearchBtnGuide, GuideSearchButton);
         EventManager.StartListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
 
         beforeClickButton = infoPanelBtn;
@@ -76,10 +75,7 @@ public class ProfileWindow : Window
         ButtonBlackSetting();
     }
 
-    private void ProfilerOpen(object ps)
-    {
-        EventManager.StartListening(ETutorialEvent.ProfileMidiumStart, StartGuideMinimumBtn);
-    }
+
 
     private void ProfilerSelected()
     {
@@ -196,6 +192,7 @@ public class ProfileWindow : Window
     private void ShowFileSearchPanel()
     {
         ShowPanel(fileSearchPanel.gameObject);
+        EventManager.TriggerEvent(ETutorialEvent.ClickSearchBtn);
     }
 
     private void ShowPanel(GameObject panel)
@@ -207,30 +204,15 @@ public class ProfileWindow : Window
         {
             isPanelOpen = true;
             isMoving = false;
-            if (DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler) && DataManager.Inst.GetIsStartTutorial(ETutorialType.Search))
-            {
-                EventManager.TriggerEvent(EProfileSearchTutorialEvent.ClickSearchButton);
-            }
+
         });
     }
 
-    private void StartGuideMinimumBtn(object[] ps)
-    {
-        GuideUISystem.OnGuide?.Invoke((RectTransform)windowBar.MinimumBtn.transform);
-        EventManager.StartListening(ETutorialEvent.ProfileMidiumEnd, TutotrialClickMinimumBtn);
-    }
-    private void TutotrialClickMinimumBtn(object[] ps)
-    {
-        GuideUISystem.EndAllGuide?.Invoke();
-        EventManager.StopListening(ETutorialEvent.ProfileMidiumEnd, TutotrialClickMinimumBtn);
-        EventManager.StopListening(ETutorialEvent.ProfileMidiumStart, StartGuideMinimumBtn);
-        EventManager.TriggerEvent(ETutorialEvent.BackgroundSignStart);
-    }
+
+
     public override void WindowMinimum()
     {
         base.WindowMinimum();
-
-        EventManager.TriggerEvent(ETutorialEvent.ProfileMidiumEnd);
     }
 
     private void OnDestroy()

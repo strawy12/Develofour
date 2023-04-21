@@ -175,12 +175,12 @@ public class FileManager : MonoSingleton<FileManager>
             string[] fileNameWords = fileName.Split(" ");
             float fileNameWeight = 0;
             float tagWeight = 0;
-            isSearchByFileName = false;
-            isSearchTag = false;
             bool isSearch = true;
             foreach (var word in words)
             {
-                SearchFileName(fileNameWords, word, fileName);
+                isSearchByFileName = false;
+                isSearchTag = false;
+                fileNameWeight += SearchFileName(fileNameWords, word, fileName);
 
                 foreach (var tag in file.tags)
                 {
@@ -189,7 +189,6 @@ public class FileManager : MonoSingleton<FileManager>
 
                 if (!isSearchTag && !isSearchByFileName)
                 {
-
                     isSearch = false;
                     break;
                 }
@@ -198,6 +197,9 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 if (!isSearchByFileName) fileNameWeight = 0;
                 if (!isSearchTag) tagWeight = 0;
+
+                Debug.Log(file.fileName);
+
                 FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
                 searchFileList.Add(fileWeight);
 
@@ -210,7 +212,7 @@ public class FileManager : MonoSingleton<FileManager>
             ProfileChattingSystem.OnPlayChat?.Invoke(textData, false, false);
         }
         List<FileSO> fileList = searchFileList.OrderByDescending((x) => x.weight).Select((x) => x.file).Take(5).ToList();
-
+        Debug.Log(fileList.Count);
         return fileList;
     }
 
@@ -232,7 +234,6 @@ public class FileManager : MonoSingleton<FileManager>
         {
             if (fileNameWord == word)
             {
-                Debug.Log("fileName Match" + fileNameWord);
                 isSearchByFileName = true;
                 weight += GetWeight(word.Length, fileName.Length, findNameScore);
             }
@@ -242,15 +243,12 @@ public class FileManager : MonoSingleton<FileManager>
     private float SearchTag(string fileTag, string word)
     {
         float weigth = 0;
-        isSearchTag = false;
-
         string[] tagWords = fileTag.Split(" ");
 
         foreach (string tagWord in tagWords)
         {
             if (tagWord == word)
             {
-                Debug.Log("Tag Match " + tagWord);
                 isSearchTag = true;
                 weigth += GetWeight(word.Length, fileTag.Length, findTagScore);
             }

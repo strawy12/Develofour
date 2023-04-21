@@ -56,18 +56,6 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         currentDirectory = directoryData;
         fileName.text = directoryData.fileName;
         fileImage.sprite = directoryData.iconSprite;
-
-        if (currentDirectory.GetFileLocation() == "User\\")
-        {
-            EventManager.StartListening(ETutorialEvent.LibraryUserButtonStart, delegate
-            {
-                if(gameObject.activeSelf)
-                {
-                    GuideUISystem.OnGuide?.Invoke(rectTransform);
-                    EventManager.StartListening(ETutorialEvent.LibraryUserButtonEnd, delegate { StopTutorialEvent(); });
-                }
-            });
-        }
     }
 
     private void OpenFile()
@@ -78,24 +66,12 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
         EventManager.TriggerEvent(ELibraryEvent.ButtonOpenFile, ps);
         
-        if (currentDirectory.fileName == "User\\")
-        {
-            EventManager.TriggerEvent(ETutorialEvent.LibraryUserButtonEnd);
-        }
     }
 
-    #region Tutorial
-
-    private void StopTutorialEvent()
-    {
-        GuideUISystem.EndGuide?.Invoke(rectTransform);
-    }
-    #endregion
 
 
     private void OnDestroy()
     {
-        EventManager.StopAllListening(ETutorialEvent.LibraryUserButtonStart);
         GuideUISystem.EndGuide?.Invoke(rectTransform);
     }
 }
