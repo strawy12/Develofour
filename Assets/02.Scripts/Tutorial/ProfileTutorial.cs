@@ -24,7 +24,11 @@ public class ProfileTutorial : MonoBehaviour
 
     private void CreatePopUp(object[] ps)
     {
-        WindowManager.Inst.PopupOpen(profiler, profileTutorialTextData.popText, delegate { StartTutorial(null); }, delegate { StartProfileEnd(); });
+#if UNITY_EDITOR
+        WindowManager.Inst.PopupOpen(profiler, profileTutorialTextData.popText, () => StartTutorial(null), () => StartCompleteProfileTutorial());
+#else
+        WindowManager.Inst.PopupOpen(profiler, profileTutorialTextData.popText, () => StartTutorial(null), null);
+#endif
     }
 
     private void StartTutorial(object[] ps)
