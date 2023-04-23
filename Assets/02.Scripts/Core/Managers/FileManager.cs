@@ -189,20 +189,18 @@ public class FileManager : MonoSingleton<FileManager>
                 }
             }
 
-            if(!isSearchByFileName && !isSearchTag)
-            {
-                if (!isSearchByFileName)
-                {
-                    fileNameWeight = 0;
-                }
-                if (!isSearchTag)
-                {
-                    tagWeight = 0;
-                }
-                FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
 
-                foundFileWeights.Add(fileWeight);
+            if (!isSearchByFileName)
+            {
+                fileNameWeight = 0;
             }
+            if (!isSearchTag)
+            {
+                tagWeight = 0;
+            }
+            FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
+
+            foundFileWeights.Add(fileWeight);
         }
 
         foreach (FileSO file in allFileList)
@@ -211,7 +209,7 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 DirectorySO directory = file as DirectorySO;
                 CalcDirectoryWeight(directory);
-            }   
+            }
         }
 
         if (foundFileWeights.Count > 5)
@@ -220,7 +218,17 @@ public class FileManager : MonoSingleton<FileManager>
             ProfileChattingSystem.OnPlayChat?.Invoke(textData, false, false);
         }
 
-        List<FileSO> fileList = foundFileWeights.OrderByDescending((x) => x.weight).Select((x) => x.file).Take(5).ToList();
+        List<FileSO> fileList = foundFileWeights.Where(x =>
+        {
+            bool result = false;
+            if (x.file.windowType == EWindowType.SiteShortCut || x.file.windowType == EWindowType.HarmonyShortCut)
+                result = true;
+            if (x.file is DirectorySO)
+                result = true;
+            if (x.weight == 0)
+                result = false;
+            return result;
+        }).OrderByDescending((x) => x.weight).Select((x) => x.file).Take(5).ToList();
 
         return fileList;
     }
@@ -229,7 +237,7 @@ public class FileManager : MonoSingleton<FileManager>
         float totalweigt = 0;
 
         FileWeight currentFileWeight = foundFileWeights.Find(x => x.file == currentFile);
-        if(currentFileWeight == null || currentFileWeight.isCompleteWeightDirectory)
+        if (currentFileWeight == null || currentFileWeight.isCompleteWeightDirectory)
         {
             return;
         }
@@ -238,7 +246,7 @@ public class FileManager : MonoSingleton<FileManager>
         {
             FileWeight childWeight = foundFileWeights.Find(x => x.file == child);
 
-            if(childWeight == null)
+            if (childWeight == null)
             {
                 continue;
             }
@@ -250,17 +258,15 @@ public class FileManager : MonoSingleton<FileManager>
 
             totalweigt += childWeight.weight;
         }
-        Debug.Log($"{currentFileWeight.file.fileName} Weight: {totalweigt}");
         totalweigt = totalweigt / currentFile.children.Count + currentFileWeight.weight / 2;
         currentFileWeight.isCompleteWeightDirectory = true;
-        Debug.Log($"FileName : {currentFileWeight.file.fileName} Weight: {totalweigt}");
         currentFileWeight.weight = totalweigt;
     }
     private float GetWeight(int matchWordCnt, int wordCnt, float maxScore)
     {
         float weight = 0;
-        float t = 0;
-        t = matchWordCnt / wordCnt;
+        float t;
+        t = (float)matchWordCnt / wordCnt;
         weight += maxScore * t;
         return weight;
 
