@@ -17,7 +17,6 @@ public class GetInformationTrigger : InformationTrigger
         base.Start();
     }
 
-
     public override void OnPointerClick(PointerEventData eventData)
     {
         base.OnPointerClick(eventData);
