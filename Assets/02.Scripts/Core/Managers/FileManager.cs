@@ -268,7 +268,7 @@ public class FileManager : MonoSingleton<FileManager>
     private float SearchFileName(string[] fileNameWords, string word, string fileName)
     {
         float weight = 0;
-        isSearchByFileName = false;
+
         foreach (var fileNameWord in fileNameWords)
         {
             if (fileNameWord == word)
