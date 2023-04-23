@@ -34,24 +34,25 @@ public class StartCutScene : MonoBehaviour
     [Header("디버그용")]
     public bool isScreamSound;
 
+    private void Awake()
+    {
+        OnPlayCutScene += CutSceneStart;
+    }
 
-    public void Init()
+    private void CutSceneStart()
     {
         this.gameObject.SetActive(true);
         if (DataManager.Inst.SaveData.isWatchStartCutScene)
         {
             EndRequestCutScene();
             GameManager.Inst.ChangeGameState(EGameState.Game);
+            OnPlayCutScene = null;
             Destroy(this.gameObject);
         }
         else
         {
             OnPlayCutScene += CutSceneStart;
         }
-    }
-
-    private void CutSceneStart()
-    {
         StartCoroutine(PlayCutSceneCoroutine());
     }
 
