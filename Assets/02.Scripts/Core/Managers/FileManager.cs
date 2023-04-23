@@ -176,10 +176,11 @@ public class FileManager : MonoSingleton<FileManager>
             string[] fileNameWords = fileName.Split(" ");
             float fileNameWeight = 0;
             float tagWeight = 0;
+            isSearchByFileName = false;
+            isSearchTag = false;
+
             foreach (var word in words)
             {
-                isSearchByFileName = false;
-                isSearchTag = false;
                 fileNameWeight += SearchFileName(fileNameWords, word, fileName);
 
                 foreach (var tag in file.tags)
@@ -209,7 +210,7 @@ public class FileManager : MonoSingleton<FileManager>
             if (file is DirectorySO)
             {
                 DirectorySO directory = file as DirectorySO;
-                //CalcDirectoryWeight(directory);
+                CalcDirectoryWeight(directory);
             }   
         }
 
@@ -228,7 +229,7 @@ public class FileManager : MonoSingleton<FileManager>
         float totalweigt = 0;
 
         FileWeight currentFileWeight = foundFileWeights.Find(x => x.file == currentFile);
-        if (currentFileWeight.isCompleteWeightDirectory)
+        if(currentFileWeight == null || currentFileWeight.isCompleteWeightDirectory)
         {
             return;
         }
@@ -236,6 +237,11 @@ public class FileManager : MonoSingleton<FileManager>
         foreach (FileSO child in currentFile.children)
         {
             FileWeight childWeight = foundFileWeights.Find(x => x.file == child);
+
+            if(childWeight == null)
+            {
+                continue;
+            }
 
             if (child is DirectorySO && childWeight.isCompleteWeightDirectory == false)
             {
