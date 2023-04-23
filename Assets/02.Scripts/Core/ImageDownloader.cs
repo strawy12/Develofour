@@ -8,16 +8,13 @@ public class ImageDownloader : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField]
     private DownloadButton btn;
 
-    private StandaloneInputModule input;
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("이미지 엔터");
         btn.gameObject.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("이미지 엑시트");
         btn.gameObject.SetActive(false);
     }
 
