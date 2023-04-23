@@ -5,15 +5,27 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using ECursorState = CursorChangeSystem.ECursorState;
+
 public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerClickHandler, IPointerExitHandler
 {
+    [SerializeField]
+    private EMonologTextDataType monoLogType;
+    [SerializeField]
+    private float delay;
+
     private TMP_Text textMeshPro;
 
     [SerializeField]
     private Image infoImage;
 
+    [SerializeField]
+    private List<ProfileInfoTextDataSO> needInformaitonList;
+
     private string word;
     private int wordStartIndex;
+
+    private EProfileCategory category;
+    private string information;
 
     private void Start()
     {
@@ -26,7 +38,8 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
         if (word != null)
         {
-            GetSize(GetProfilerWordSystem.OnFindWord.Invoke(word));
+            CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, category, information);
+            GetSize(isListFinder);
         }
     }
 
@@ -46,8 +59,38 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
             Debug.Log(word);
 
-            GetProfilerWordSystem.OnGeneratedProfiler?.Invoke(word);
-            GetSize(GetProfilerWordSystem.OnFindWord.Invoke(word));
+            object[] value = GetProfilerWordSystem.OnGeneratedProfiler?.Invoke(word);
+
+            category = (EProfileCategory)value[0];
+            information = (string)value[1];
+
+            if (!DataManager.Inst.IsProfileInfoData(category, information))
+            {
+                if (needInformaitonList.Count == 0)
+                {
+                    if (category != EProfileCategory.None)
+                    {
+                        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+                    }
+                    else
+                    {
+                        MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
+                    }
+                 
+                    GetSize(GetProfilerWordSystem.OnFindWord.Invoke(word));
+                }
+                else
+                {
+                    foreach (ProfileInfoTextDataSO needData in needInformaitonList)
+                    {
+                        MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
+                        return;
+                    }
+
+                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+                    GetSize(GetProfilerWordSystem.OnFindWord.Invoke(word));
+                }
+            }
         }
     }
 
@@ -130,7 +173,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
     private float GetSize(CursorChangeSystem.ECursorState state)
     {
-        if(state == ECursorState.Default)
+        if (state == ECursorState.Default)
         {
             return 0;
         }
@@ -140,21 +183,21 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
         TMP_CharacterInfo startInfo = textMeshPro.textInfo.characterInfo[startIndex];
         TMP_CharacterInfo endInfo = textMeshPro.textInfo.characterInfo[endIndex];
 
-        float x = endInfo.topRight.x - startInfo.bottomLeft.x   +   15f;
-        float y = endInfo.topRight.y - startInfo.bottomLeft.y   +   10f;
+        float x = endInfo.topRight.x - startInfo.bottomLeft.x + 15f;
+        float y = endInfo.topRight.y - startInfo.bottomLeft.y + 10f;
 
         infoImage.rectTransform.sizeDelta = new Vector2(x, y);
         Vector3 pos = startInfo.topLeft + (endInfo.topRight - startInfo.topLeft) / 2;
         pos.x += 15;
         infoImage.rectTransform.localPosition = pos;
 
-        if(state == ECursorState.FindInfo)
+        if (state == ECursorState.FindInfo)
         {
             Color color = Color.yellow;
             color.a = 0.4f;
             infoImage.color = color;
         }
-        else if(state == ECursorState.FoundInfo)
+        else if (state == ECursorState.FoundInfo)
         {
             Color color = Color.red;
             color.a = 0.4f;

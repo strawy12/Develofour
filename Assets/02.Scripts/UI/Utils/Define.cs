@@ -141,7 +141,16 @@ public static class Define
             return CursorChangeSystem.ECursorState.Default;
         }
 
+
         CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
+
+        if(category == EProfileCategory.None)
+        {
+            state = CursorChangeSystem.ECursorState.FindInfo;
+            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
+
+            return state;
+        }
 
         if (needInfoList.Count > 0)
         {

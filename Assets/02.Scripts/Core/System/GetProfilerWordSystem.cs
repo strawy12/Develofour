@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ECursorState = CursorChangeSystem.ECursorState;
+
 [System.Serializable]
 public class ProfilerWord
 {
@@ -19,10 +20,9 @@ public class SubstitutionWord
     public ProfilerWord value;
 }
 
-
 public class GetProfilerWordSystem : MonoBehaviour 
 {
-    public static Action<string> OnGeneratedProfiler; 
+    public static Func<string, object[]> OnGeneratedProfiler; 
     public static Func<string, CursorChangeSystem.ECursorState> OnFindWord;
 
     [SerializeField]
@@ -53,24 +53,23 @@ public class GetProfilerWordSystem : MonoBehaviour
         }
     }
 
-    private void RegistrationProfiler(string word)
+    private object[] RegistrationProfiler(string word)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
-            return;
+            return null;
         }
 
         if (!wordListDictionary.ContainsKey(word))
         {
-            return;
+            return null;
         }
-
+        
         EProfileCategory category = wordListDictionary[word].category;
         string information = wordListDictionary[word].information;
 
-        willGetWordList.Find(x => x.word == word).isFinded = true;
-
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+        object[] value = new object[] { category, information };
+        return value;
     }
 
     private ECursorState FindedWordCheck(string word)
@@ -87,7 +86,6 @@ public class GetProfilerWordSystem : MonoBehaviour
             EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
             return state;
         }
-
 
         if (!willGetWordList.Find(x => x.word == word).isFinded)
         {
