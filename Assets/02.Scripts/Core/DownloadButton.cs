@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class DownloadButton : MonoBehaviour
@@ -17,6 +18,7 @@ public class DownloadButton : MonoBehaviour
             isInit = true;
             downloadBtn.onClick.AddListener(DownloadFile);
         }
+
     }
     public void DownloadFile()
     {
@@ -24,4 +26,6 @@ public class DownloadButton : MonoBehaviour
         string str = "C\\다운로드 폴더에서 확인해주세요.";
         NoticeSystem.OnNotice.Invoke(downloadFile.fileName + " 파일이 다운로드 되었습니다.", str, 0.1f, true, null, Color.white, ENoticeTag.None);
     }
+
+
 }

@@ -13,11 +13,12 @@ public class FileManager : MonoSingleton<FileManager>
     {
         public FileSO file;
         public float weight;
-
+        public bool isCompleteWeightDirectory;
         public FileWeight(FileSO file, float weight)
         {
             this.file = file;
             this.weight = weight;
+            isCompleteWeightDirectory = false;
         }
     }
 
@@ -30,16 +31,16 @@ public class FileManager : MonoSingleton<FileManager>
     [SerializeField]
     private List<FileSO> defaultFileList = new List<FileSO>();
     [Header("Profile FileSearch")]
-    [SerializeField]
-    private float findNameScore = 30f;
-    [SerializeField]
-    private float findTagScore = 20f;
+    private const float findNameScore = 30f;
+    private const float findTagScore = 20f;
     private bool isSearchTag = false;
     private bool isSearchByFileName = false;
     private Dictionary<EWindowType, FileSO> defaultFileDictionary = new Dictionary<EWindowType, FileSO>();
     private List<string> currentFileNameWord;
+    List<FileWeight> foundFileWeights;
     private void Awake()
     {
+        foundFileWeights = new List<FileWeight>();
         currentFileNameWord = new List<string>();
         foreach (FileSO file in defaultFileList)
         {
@@ -156,13 +157,13 @@ public class FileManager : MonoSingleton<FileManager>
     public List<FileSO> ProfileSearchFile(string text, DirectorySO currentDirectory = null)
     {
         List<FileSO> allFileList = ALLFileAddList(currentDirectory);
-        List<FileWeight> searchFileList = new List<FileWeight>();
 
         text = Regex.Replace(text, @"[^0-9a-zA-Z가-힣_\s]", "");
 
         string[] words = text.Split(" ");
 
         currentFileNameWord.Clear();
+        foundFileWeights.Clear();
 
         foreach (FileSO file in allFileList)
         {
@@ -175,51 +176,97 @@ public class FileManager : MonoSingleton<FileManager>
             string[] fileNameWords = fileName.Split(" ");
             float fileNameWeight = 0;
             float tagWeight = 0;
-            bool isSearch = true;
+            isSearchByFileName = false;
+            isSearchTag = false;
+
             foreach (var word in words)
             {
-                isSearchByFileName = false;
-                isSearchTag = false;
                 fileNameWeight += SearchFileName(fileNameWords, word, fileName);
 
                 foreach (var tag in file.tags)
                 {
                     tagWeight += SearchTag(tag, word);
                 }
-
-                if (!isSearchTag && !isSearchByFileName)
-                {
-                    isSearch = false;
-                    break;
-                }
             }
-            if (isSearch)
+
+
+            if (!isSearchByFileName)
             {
-                if (!isSearchByFileName) fileNameWeight = 0;
-                if (!isSearchTag) tagWeight = 0;
-
-                FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
-                searchFileList.Add(fileWeight);
-
+                fileNameWeight = 0;
             }
+            if (!isSearchTag)
+            {
+                tagWeight = 0;
+            }
+            FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
 
+            foundFileWeights.Add(fileWeight);
         }
-        if (searchFileList.Count > 5)
+
+        foreach (FileSO file in allFileList)
+        {
+            if (file is DirectorySO)
+            {
+                DirectorySO directory = file as DirectorySO;
+                CalcDirectoryWeight(directory);
+            }
+        }
+
+        if (foundFileWeights.Count > 5)
         {
             TextData textData = new TextData() { color = Color.black, text = $"'{text}'와 관련된 정보가 너무 많습니다." };
             ProfileChattingSystem.OnPlayChat?.Invoke(textData, false, false);
         }
-        List<FileSO> fileList = searchFileList.OrderByDescending((x) => x.weight).Select((x) => x.file).Take(5).ToList();
+
+        List<FileSO> fileList = foundFileWeights.Where(x =>
+        {
+            bool result = false;
+            if (x.file.windowType == EWindowType.SiteShortCut || x.file.windowType == EWindowType.HarmonyShortCut)
+                result = true;
+            if (x.file is DirectorySO)
+                result = true;
+            if (x.weight == 0)
+                result = false;
+            return result;
+        }).OrderByDescending((x) => x.weight).Select((x) => x.file).Take(5).ToList();
 
         return fileList;
     }
+    private void CalcDirectoryWeight(DirectorySO currentFile)
+    {
+        float totalweigt = 0;
 
+        FileWeight currentFileWeight = foundFileWeights.Find(x => x.file == currentFile);
+        if (currentFileWeight == null || currentFileWeight.isCompleteWeightDirectory)
+        {
+            return;
+        }
+
+        foreach (FileSO child in currentFile.children)
+        {
+            FileWeight childWeight = foundFileWeights.Find(x => x.file == child);
+
+            if (childWeight == null)
+            {
+                continue;
+            }
+
+            if (child is DirectorySO && childWeight.isCompleteWeightDirectory == false)
+            {
+                CalcDirectoryWeight(child as DirectorySO);
+            }
+
+            totalweigt += childWeight.weight;
+        }
+        totalweigt = totalweigt / currentFile.children.Count + currentFileWeight.weight / 2;
+        currentFileWeight.isCompleteWeightDirectory = true;
+        currentFileWeight.weight = totalweigt;
+    }
     private float GetWeight(int matchWordCnt, int wordCnt, float maxScore)
     {
         float weight = 0;
-        float t = 0;
-        t = matchWordCnt / wordCnt;
-
+        float t;
+        t = (float)matchWordCnt / wordCnt;
         weight += maxScore * t;
         return weight;
 
@@ -227,7 +274,7 @@ public class FileManager : MonoSingleton<FileManager>
     private float SearchFileName(string[] fileNameWords, string word, string fileName)
     {
         float weight = 0;
-        isSearchByFileName = false;
+
         foreach (var fileNameWord in fileNameWords)
         {
             if (fileNameWord == word)
