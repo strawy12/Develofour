@@ -77,7 +77,6 @@ public class FileSearchPanel : MonoBehaviour
         for (int i = 0; i < fileList.Count; i++)
         {
             if (i >= 5) break;
-            Debug.Log(fileList[i].fileName + "Show");
             windowIconList[i].SetFileData(fileList[i]);
             windowIconList[i].gameObject.SetActive(true);
         }
