@@ -5,11 +5,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public EProfileCategory category;
     public string information;
     public List<ProfileInfoTextDataSO> needInformaitonList;
+    public List<ProfileInfoTextDataSO> linkInformaitonList;
     public Image backgroundImage;
 
     private Color yellowColor = new Color(255, 255, 0, 40);
@@ -28,6 +29,10 @@ public abstract class InformationTrigger : MonoBehaviour, IPointerClickHandler, 
     protected virtual void Start()
     {
         tempColor = backgroundImage.color;
+        if(!TriggerList.infoList.Contains(this))
+        {
+            TriggerList.infoList.Add(this);
+        }
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)
@@ -42,9 +47,7 @@ public abstract class InformationTrigger : MonoBehaviour, IPointerClickHandler, 
             {
                 if (needInformaitonList.Count == 0)
                 {
-                    MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
-                    OnPointerEnter(eventData);
+                    GetInfo(eventData);
                 }
                 else
                 {
@@ -56,7 +59,34 @@ public abstract class InformationTrigger : MonoBehaviour, IPointerClickHandler, 
                             return;
                         }
                     }
+                    GetInfo(eventData);
                 }
+            }
+        }
+    }
+
+    private void GetInfo(PointerEventData eventData)
+    {
+        MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+        OnPointerEnter(eventData);
+        TriggerList.CheckLinkInfos();
+    }
+
+    public void CheckLinkInfo()
+    {
+        if (!DataManager.Inst.IsProfileInfoData(category, information))
+        {
+            if (linkInformaitonList.Count != 0)
+            {
+                foreach (ProfileInfoTextDataSO linkData in linkInformaitonList)
+                {
+                    if (!DataManager.Inst.IsProfileInfoData(linkData.category, linkData.key))
+                    {
+                        return;
+                    }
+                }
+                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
             }
         }
     }
