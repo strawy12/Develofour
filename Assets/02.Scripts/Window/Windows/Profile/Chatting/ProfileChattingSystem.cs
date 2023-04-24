@@ -100,6 +100,7 @@ public class ProfileChattingSystem : TextSystem
         {
             DataManager.Inst.AddAiChattingList(currentTextData);
         }
+
         SendNotice(currentTextData.text);
     }
 
