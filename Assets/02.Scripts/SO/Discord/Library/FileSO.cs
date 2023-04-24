@@ -48,12 +48,13 @@ public class FileSO : SOParent
     public List<string> tags;
     public TaskBarData taskBarData;
     public bool isDummy;
+    public bool isHide;
     [Header("Debug")]
     public string splitString;
 
     #region GetFileData
 
-public string GetFileLocation()
+    public string GetFileLocation()
     {
         string location = "";
         if (parent == null)
