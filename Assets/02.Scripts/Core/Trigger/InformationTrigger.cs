@@ -11,15 +11,13 @@ public abstract class InformationTrigger : MonoBehaviour, IPointerClickHandler, 
     public string information;
     public List<ProfileInfoTextDataSO> needInformaitonList;
     public Image backgroundImage;
- 
+
     private Color yellowColor = new Color(255, 255, 0, 40);
     private Color redColor = new Color(255, 0, 0, 40);
     private Color tempColor;
 
-    [SerializeField]
-    private EMonologTextDataType monoLogType;
-    [SerializeField]
-    private float delay;
+    public EMonologTextDataType monoLogType;
+    public float delay;
 
     protected virtual void OnEnable()
     {
@@ -34,7 +32,7 @@ public abstract class InformationTrigger : MonoBehaviour, IPointerClickHandler, 
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if(category == EProfileCategory.None)
+        if (category == EProfileCategory.None)
         {
             MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
         }
@@ -44,6 +42,7 @@ public abstract class InformationTrigger : MonoBehaviour, IPointerClickHandler, 
             {
                 if (needInformaitonList.Count == 0)
                 {
+                    MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
                     EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
                     OnPointerEnter(eventData);
                 }
