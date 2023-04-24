@@ -8,7 +8,6 @@ public class ProfileCategoryDataSO : ScriptableObject
 {
     [Header("Category")]
     public EProfileCategory category;
-    public string categoryTitle;
     [Header("Information")]
     [SerializeField]
     public List<ProfileInfoTextDataSO> infoTextList;
