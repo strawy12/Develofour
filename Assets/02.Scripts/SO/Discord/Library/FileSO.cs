@@ -31,6 +31,7 @@ public struct WindowIconData
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
 public class FileSO : SOParent
 {
+
     public int id;
 
     public DirectorySO parent;
@@ -43,10 +44,14 @@ public class FileSO : SOParent
     public string windowPin;
     public string windowPinHintGuide;
     public bool isAlarm;
+    
     public List<string> tags;
     public TaskBarData taskBarData;
     public bool isDummy;
     public bool isHide;
+    [Header("Debug")]
+    public string splitString;
+
     #region GetFileData
 
     public string GetFileLocation()
@@ -83,6 +88,15 @@ public class FileSO : SOParent
 
         return location;
     }
+    [ContextMenu("AddTag")]
+    public void EditorTagAdd()
+    {
+        string[] strings = splitString.Split(',');
+
+        tags = new List<string>();
+        tags.AddRange(strings);
+    }
+
 #endif
 
 
@@ -123,6 +137,7 @@ public class FileSO : SOParent
     {
         // FixDate 시간을 변경해줄 예정
     }
+
 
 
     public override void Setting(string[] str)
