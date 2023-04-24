@@ -27,23 +27,23 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
 
     public Action OnFindText;
+
+    private RectTransform rectTransform;
+
+    public RectTransform RectTrm
+    {
+        get
+        {
+            rectTransform ??= GetComponent<RectTransform>();
+            return rectTransform;
+        }
+    }
+
     //이전 텍스트로 변경, 이후 텍스트로 변경해주는 함수
 
     public void Init()
     {
-        infoTitle = infoTitleText.text;
-
-        if (!isTitleShow) 
-        {
-            string[] info = infoTitle.Split(" ");
-            string str = "";
-            for (int i = 0; i < info[0].Length; i++)
-            {
-                str += "?";
-            }
-            str += " :";
-            infoTitleText.text = str;
-        }
+        rectTransform ??= GetComponent<RectTransform>();
     }
 
     public void ShowTitle()
@@ -54,7 +54,7 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void ChangeText()
     {
-        infoText.text = textDataSO.afterText;
+        infoText.text = textDataSO.infomationText;
         isFind = true;
         
         OnFindText?.Invoke();
@@ -62,16 +62,16 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (infoText.text != textDataSO.afterText)
+        if (infoText.text != textDataSO.infomationText)
         {
             return;
         }
 
         showPanel.text.text = infoText.text;
         showPanel.transform.SetParent(gameObject.transform.parent);
-        showPanel.GetComponent<RectTransform>().position = gameObject.GetComponent<RectTransform>().position;
+        showPanel.RectTrm.position = rectTransform.position;
         showPanel.transform.SetParent(showPanel.showPanelParent.transform);
-        showPanel.GetComponent<RectTransform>().anchoredPosition += new Vector2(20, 35);
+        showPanel.RectTrm.anchoredPosition += new Vector2(20, 35);
         showPanel.SetDownText();
         showPanel.gameObject.SetActive(true);
     }
