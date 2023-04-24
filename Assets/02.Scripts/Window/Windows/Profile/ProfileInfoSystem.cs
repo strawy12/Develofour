@@ -35,6 +35,15 @@ public class ProfileInfoSystem : MonoBehaviour
         EProfileCategory category = (EProfileCategory)ps[0];
         string key = ps[1] as string;
 
+        if(DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) && !DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        {
+            if(key != Constant.ProfileInfoKey.SUSPECTNAME)
+            {
+                return;
+            }
+        }
+
+
         if (ps[2] != null)
         {
             List<ProfileInfoTextDataSO> strList = ps[2] as List<ProfileInfoTextDataSO>;

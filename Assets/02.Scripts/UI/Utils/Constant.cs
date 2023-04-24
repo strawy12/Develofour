@@ -34,6 +34,7 @@ public static class Constant
     {
         public const string SUSPECTRESIDENCE = "SuspectResidence";
         public const string VICTIMUNIVERSITY = "VictimUniversity";
+        public const string SUSPECTNAME = "SuspectName";
     }
     #endregion
 }
