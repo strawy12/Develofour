@@ -89,7 +89,6 @@ public class ProfileInfoPanel : MonoBehaviour
                 if (category != EProfileCategory.InvisibleInformation)
                 {
                     EventManager.TriggerEvent(EProfileEvent.RemoveGuideButton, new object[2] { category, key });
-                    EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { saveData.infoTextList.Find(x => x.key == key).guideTopicName });
                 }
 
                 if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))

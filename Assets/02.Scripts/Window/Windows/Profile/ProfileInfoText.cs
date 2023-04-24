@@ -57,8 +57,6 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
         infoText.text = textDataSO.afterText;
         isFind = true;
         
-        DataManager.Inst.SetGuide(textDataSO.guideTopicName, true);
-
         OnFindText?.Invoke();
     }
 
