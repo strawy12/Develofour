@@ -146,21 +146,19 @@ public class TextBox : MonoUI
                 yield return new WaitForSeconds(printTextDelay);
             }
 
-            isDelayEnd = true;
             if (msg.Length - 1 != i)
             {
                 messageText.maxVisibleCharacters++;
             }
-            messageText.maxVisibleCharacters++;
         }
 
-        StartCoroutine(EndSetting());
+        EndSetting();
     }
 
-    private IEnumerator EndSetting()
+    private void EndSetting()
     {
-        yield return new WaitUntil(() => isDelayEnd == true);
         isTextPrinting = false;
+        Sound.OnImmediatelyStop?.Invoke(EAudioType.MonologueTyping);
     }
 
     public void ShowBox()
