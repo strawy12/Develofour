@@ -42,18 +42,21 @@ public class ProfileFindInfoEvent : MonoBehaviour
 
     private void CheckEvent(EProfileCategory category, string key, List<ProfileInfoTextDataSO> strList = null) 
     {
-        if(strList != null)
-        {
-            if (category == EProfileCategory.SuspectProfileInformation && key == Constant.ProfileInfoKey.SUSPECTRESIDENCE)
-            {
-                MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.SuspectResidence, 0.1f, true);
-            }
-            if(category == EProfileCategory.VictimProfileInformation && key == Constant.ProfileInfoKey.VICTIMUNIVERSITY)
-            {
-                MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.VictimUniversity, 0.1f, true);
+        // 해당 함수는 해당 정보를 획득함에 따라 독백을 실행시켜주던 함수이다.
+        // 이제 필요 없어진 거 같긴 해서 주석 처리로 바꿔놓겠습니다
+         
+        //if(strList != null)
+        //{
+        //    if (category == EProfileCategory.SuspectProfileInformation && key == Constant.ProfileInfoKey.SUSPECTRESIDENCE)
+        //    {
+        //        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.SuspectResidence, 0.1f, true);
+        //    }
+        //    if(category == EProfileCategory.VictimProfileInformation && key == Constant.ProfileInfoKey.VICTIMUNIVERSITY)
+        //    {
+        //        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.VictimUniversity, 0.1f, true);
 
-            }
-        }
+        //    }
+        //}
     }
     
 }

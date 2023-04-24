@@ -30,7 +30,6 @@ public partial class GuideManager : MonoBehaviour
         }
 
         OnPlayGuide += StartPlayGuide;
-        OnPlayInfoGuide += StartProfileInfoGuide;
         EventManager.StartListening(EGuideEventType.ClearGuideType, ThisClearGuideTopic);
         EventManager.StartListening(EGuideEventType.GuideConditionCheck, GuideConditionCheckClear);
     }
@@ -56,12 +55,6 @@ public partial class GuideManager : MonoBehaviour
         }
 
         StartGudie(guideTopicName);
-    }
-
-    private void StartProfileInfoGuide(ProfileInfoTextDataSO data)
-    {
-        currentInfoTextData = data;
-        StartGudie(data.guideTopicName);
     }
 
     private void EndProfileGuide()

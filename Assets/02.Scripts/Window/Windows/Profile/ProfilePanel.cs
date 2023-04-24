@@ -6,13 +6,15 @@ using UnityEngine.UI;
 public enum EProfileCategory
 {
     None,
-    SuspectProfileInformation,
-    SuspectProfileExtensionInformation,
-    VictimProfileInformation,
-    PetInformation,
-    MurderEvidence,
-    MurderTrigger,
+    KangYohanProfile,
+    ParkJuyoungProfile,
+    KimYujinProfile,
+    PetProfile,
+    IncidentProfile,
+    VictimRelationship,
+    Other,
     InvisibleInformation,
+    KangyohanDoubtful,
     Count,
 }
 
