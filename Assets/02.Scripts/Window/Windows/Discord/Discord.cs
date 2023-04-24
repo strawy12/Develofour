@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Discord : Window
 {
+    public static Discord currentDiscord;
     [SerializeField]
     private List<DiscordChatDataListSO> chatDataList; // 대화 한 내역
     [SerializeField]
@@ -27,11 +28,18 @@ public class Discord : Window
     [SerializeField]
     private DiscordLogin discordLogin;
 
+    private HarmonyShortcutDataSO chatData;
+
     protected override void Init()
     {
         base.Init();
         EventManager.StartListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
         EventManager.StartListening(EDiscordEvent.StartTalk, StartTalkChat);
+
+        OnSelected += SelectedDiscord;
+
+        OnClosed += (a) => ResetDiscord();
+
         friendList.Init();
         chattingPanel.Init();
         if (!DataManager.Inst.GetIsLogin(ELoginType.Harmony))
@@ -42,6 +50,7 @@ public class Discord : Window
         {
             discordLogin.gameObject.SetActive(false);
         }
+        currentDiscord = this;
     }
 
     public DiscordChatDataListSO GetChatDataList(string userName)
@@ -120,6 +129,21 @@ public class Discord : Window
     public void StopTalk(object[] param)
     {
         chattingPanel.StopTalk();
+    }
+
+    public void OpenChattingRoom(string name)
+    {
+        friendList.friendLineDic[name].OnLeftClickPanel?.Invoke(friendList.friendLineDic[name]);
+    }
+
+    public void ResetDiscord()
+    {
+        currentDiscord = null;
+    }
+
+    public void SelectedDiscord()
+    {
+        currentDiscord = this;
     }
 
     private void OnDestroy()

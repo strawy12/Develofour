@@ -46,6 +46,7 @@ public class FileSO : SOParent
     public List<string> tags;
     public TaskBarData taskBarData;
     public bool isDummy;
+    public bool isHide;
     #region GetFileData
 
     public string GetFileLocation()

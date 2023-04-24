@@ -21,6 +21,8 @@ public enum EWindowType // 확장자
     IconProperty,
     Popup,
     Calculator,
+    SiteShortCut,
+    HarmonyShortCut,
     End 
 }
 
