@@ -14,8 +14,6 @@ public class EmailFavoriteButton : MonoBehaviour
     private Image starImage;
     [SerializeField]
     public Image fillStarImage;
-    [SerializeField]
-    private float colorDuraction = 0.7f;
     public UnityEvent OnClick { get { return button.onClick; } }
 
     public Action<bool> OnChangeFavorited;

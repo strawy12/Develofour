@@ -15,8 +15,6 @@ public class FileSearchPanel : MonoBehaviour
     [SerializeField]
     private Button searchBtn;
 
-    private bool isGuide;
-
     public void Init()
     {
         searchBtn.onClick.AddListener(SearchFile);
@@ -103,6 +101,5 @@ public class FileSearchPanel : MonoBehaviour
             return;
         }
         GuideUISystem.OnGuide?.Invoke(searchField.transform as RectTransform);
-        isGuide = true;
     }
 }

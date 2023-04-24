@@ -22,10 +22,6 @@ public class WindowManager : MonoSingleton<WindowManager>
     [SerializeField]
     private List<WindowPrefabElement> windowPrefabList = new List<WindowPrefabElement>();
 
-    [SerializeField]
-    private float favoriteSiteChangeDelay = 1;
-    private bool isChanging;
-
     private void Awake()
     {
         InitDictionary();
@@ -42,13 +38,6 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             windowDictionary.Add(type, new List<Window>());
         }
-    }
-
-    private IEnumerator SetDelay()
-    {
-        isChanging = true;
-        yield return new WaitForSeconds(favoriteSiteChangeDelay);
-        isChanging = false;
     }
 
     // ps[0] = SiteLink

@@ -7,7 +7,6 @@ using System;
 
 public class TargetWindowPanels : MonoUI, IPointerEnterHandler, IPointerExitHandler
 {
-    private bool isEnter;
     private bool isShow;
 
     public bool IsShow => isShow;
@@ -36,7 +35,6 @@ public class TargetWindowPanels : MonoUI, IPointerEnterHandler, IPointerExitHand
 
         if (Define.ExistInHits(gameObject, hits[0]) == false)
         {
-            isEnter = false;
             Hide();
         }
 
@@ -80,7 +78,6 @@ public class TargetWindowPanels : MonoUI, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        isEnter = false;
 
         if (hideDelayCoroutine != null)
         {
@@ -92,8 +89,6 @@ public class TargetWindowPanels : MonoUI, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        isEnter = true;
-
         if (hideDelayCoroutine != null)
         {
             StopCoroutine(hideDelayCoroutine);

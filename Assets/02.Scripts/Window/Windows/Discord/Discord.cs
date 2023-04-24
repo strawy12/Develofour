@@ -152,7 +152,7 @@ public class Discord : Window
         EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         EventManager.StopListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
         EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
