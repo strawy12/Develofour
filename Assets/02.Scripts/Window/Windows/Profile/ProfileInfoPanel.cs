@@ -112,7 +112,7 @@ public class ProfileInfoPanel : MonoBehaviour
         string body = "";
         if (saveData.category != EProfileCategory.InvisibleInformation)
         {
-            body = $"새 카테고리 {saveData.categoryTitle}가 추가되었습니다.";
+            body = $"새 카테고리 {Define.TranslateInfoCategory(saveData.category)}가 추가되었습니다.";
         }
 
         NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
