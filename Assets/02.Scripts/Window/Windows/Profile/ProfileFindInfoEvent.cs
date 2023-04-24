@@ -51,7 +51,6 @@ public class ProfileFindInfoEvent : MonoBehaviour
             if(category == EProfileCategory.VictimProfileInformation && key == Constant.ProfileInfoKey.VICTIMUNIVERSITY)
             {
                 MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.VictimUniversity, 0.1f, true);
-
             }
         }
     }
