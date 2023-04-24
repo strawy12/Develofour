@@ -6,8 +6,6 @@ using UnityEngine;
 public class ProfileInfoTextDataSO : ScriptableObject
 {
     public string key;
-    public string afterText;
-    public string getInfoText;
-    public string infoName;
+    public string infomationText;
     public EProfileCategory category;
 }

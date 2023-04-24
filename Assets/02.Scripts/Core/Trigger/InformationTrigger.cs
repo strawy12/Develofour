@@ -7,11 +7,10 @@ using UnityEngine.UI;
 
 public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public EProfileCategory category;
-    public string information;
-    public List<ProfileInfoTextDataSO> needInformaitonList;
-    public List<ProfileInfoTextDataSO> linkInformaitonList;
-    public Image backgroundImage;
+    [SerializeField] protected ProfileInfoTextDataSO infomaitionData;
+    [SerializeField] protected List<ProfileInfoTextDataSO> needInformaitonList;
+    [SerializeField] protected List<ProfileInfoTextDataSO> linkInformaitonList;
+    [SerializeField] protected Image backgroundImage;
 
     private Color yellowColor = new Color(255, 255, 0, 40);
     private Color redColor = new Color(255, 0, 0, 40);
@@ -35,15 +34,20 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
         }
     }
 
+    protected void FindInfo()
+    {
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { infomaitionData.category, infomaitionData.key, null });
+    }
+
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (category == EProfileCategory.None)
+        if (infomaitionData.category == EProfileCategory.None)
         {
             MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
         }
         else
         {
-            if (!DataManager.Inst.IsProfileInfoData(category, information))
+            if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
             {
                 if (needInformaitonList.Count == 0)
                 {
@@ -68,14 +72,14 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     private void GetInfo(PointerEventData eventData)
     {
         MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+        FindInfo();
         OnPointerEnter(eventData);
         TriggerList.CheckLinkInfos();
     }
 
     public void CheckLinkInfo()
     {
-        if (!DataManager.Inst.IsProfileInfoData(category, information))
+        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
         {
             if (linkInformaitonList.Count != 0)
             {
@@ -86,7 +90,7 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
                         return;
                     }
                 }
-                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+                FindInfo();
             }
         }
     }
@@ -98,13 +102,13 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
             return;
         }
 
-        CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, category, information);
+        CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, infomaitionData.category, infomaitionData.key);
         if (isListFinder == CursorChangeSystem.ECursorState.Default)
         {
             return;
         }
 
-        if (!DataManager.Inst.IsProfileInfoData(category, information))
+        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
         {
             yellowColor.a = 0.4f;
             backgroundImage.color = yellowColor;
