@@ -32,6 +32,9 @@ public class Debugger : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
+            if (GameManager.Inst.GameState == EGameState.PlayTitle)
+                return;
+
             if(cutScene != null)
             {
                 if(!cutScene.isSkip)
