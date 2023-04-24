@@ -33,6 +33,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     private void Start()
     {
         EventManager.StartListening(EBrowserEvent.OnOpenSite, CheckBrowserWindow);
+        EventManager.StartListening(EDiscordEvent.OpenHarmony, CheckHarmonyWindow);
     }
 
     private void InitDictionary()
@@ -64,27 +65,41 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         ESiteLink link = (ESiteLink)ps[0];
         float delay = (ps[1] is int) ? (int)ps[1] : (float)ps[1];
-
-        if (windowDictionary.ContainsKey(EWindowType.Browser))
+        bool isAddUndo = false;
+        if (ps.Length > 2)
         {
-            if (ps.Length >= 3)
-            {
-                if (ps[2] is bool)
-                {
-                    bool isAddUndo = (bool)ps[2];
-                    Browser.currentBrowser?.ChangeSite(link, delay, isAddUndo);
-                    return;
-                }
-            }
+            isAddUndo = (bool)ps[2];
         }
-        else
+
+        if (windowDictionary[EWindowType.Browser].Count == 0)
         {
             // Browser가 존재하지않을 때 하나를 새로 생성시킨다
             // 여기서 생성이 되면 자동으로 Browser.currentBrowser로 지정된다
             CreateWindow(EWindowType.Browser);
         }
 
-        Browser.currentBrowser?.ChangeSite(link, delay);
+        Browser.currentBrowser?.ChangeSite(link, delay, isAddUndo);
+    }
+
+    public void CheckHarmonyWindow(object[] ps)
+    {
+        if (!windowDictionary.ContainsKey(EWindowType.Discord))
+        {
+            Debug.LogError("Browser Type이 Dictionary에 들어가있지않습니다");
+            return;
+        }
+
+        string name = (string)ps[0];
+
+        if (windowDictionary[EWindowType.Discord].Count == 0)
+        {
+            // Browser가 존재하지않을 때 하나를 새로 생성시킨다
+            // 여기서 생성이 되면 자동으로 Browser.currentBrowser로 지정된다
+            CreateWindow(EWindowType.Discord);
+        }
+
+        Discord.currentDiscord.OpenChattingRoom(name);
+        WindowOpen(EWindowType.Discord);
     }
 
     // TODO : 같은 이름의 윈도우를 실행 시켰을 때 키 값이 겹칠 수 있음. (나중에 구분 할 수 있는 코드 짜야함)
@@ -121,7 +136,24 @@ public class WindowManager : MonoSingleton<WindowManager>
             file = FileManager.Inst.GetDefaultFile(windowType);
         }
 
-        Window targetWindow = GetWindow(file.windowType, file.GetFileLocation());
+        Window targetWindow = null;
+
+        if (file.windowType == EWindowType.SiteShortCut)
+        {
+            BrowserShortcutDataSO siteData = ResourceManager.Inst.GetBrowserShortcutData(file.GetFileLocation());
+            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { siteData.eSiteLink, Constant.LOADING_DELAY });
+            return null;
+        }
+        else if (file.windowType == EWindowType.HarmonyShortCut)
+        {
+            HarmonyShortcutDataSO harmonydata = ResourceManager.Inst.GetHarmonyShortcutData(file.GetFileLocation());
+            EventManager.TriggerEvent(EDiscordEvent.OpenHarmony, new object[] { harmonydata.chattingName });
+            return null;
+        }
+        else
+        {
+            targetWindow = GetWindow(file.windowType, file.GetFileLocation());
+        }
 
         if (targetWindow == null)
         {
@@ -155,7 +187,7 @@ public class WindowManager : MonoSingleton<WindowManager>
                 fileExplore.CreatedWindow(file);
                 SetWindowOpenInt(windowType, fileExplore);
                 windowDictionary[windowType].Add(fileExplore);
-                fileExplore.OnClosed += (s) => windowOrderList.Remove(fileExplore);;
+                fileExplore.OnClosed += (s) => windowOrderList.Remove(fileExplore); ;
                 fileExplore.WindowOpen();
             }
             Window directory = windowDictionary[windowType][0];
@@ -302,7 +334,7 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
     }
 
-    public void PopupOpen(FileSO file, string text,Action agreeAction, Action degreeAction)
+    public void PopupOpen(FileSO file, string text, Action agreeAction, Action degreeAction)
     {
         FileSO popupFile = FileManager.Inst.GetDefaultFile(EWindowType.Popup);
 
