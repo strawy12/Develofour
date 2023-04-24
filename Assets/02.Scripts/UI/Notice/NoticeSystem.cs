@@ -247,7 +247,6 @@ public class NoticeSystem : MonoUI
 
     private void Notice(string head, string body, float delay, bool canDelete, Sprite icon, Color color, ENoticeTag noticeTag)
     {
-
         if (noticeTag == currentTag && noticeTag != ENoticeTag.None && noticePanel != null)
         {
             extendCount++;
@@ -288,7 +287,6 @@ public class NoticeSystem : MonoUI
         data.canDeleted = canDelete;
         data.delay = delay;
         data.tag = noticeTag;
-
         //so에 있는 노티스태그 데이타에도 넣어
 
 
