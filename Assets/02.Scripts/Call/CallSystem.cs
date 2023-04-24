@@ -77,16 +77,13 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     private IEnumerator PlayPhoneCallSound(float delay)
     {
-        Debug.Log(delay);
         while (delay > 0f)
         {
-            Debug.Log(delay);
             float soundSecond = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneCall);
 
             yield return new WaitForSeconds(soundSecond);
             delay -= soundSecond;
         }
-        Debug.Log(delay);
         Hide();
     }
 

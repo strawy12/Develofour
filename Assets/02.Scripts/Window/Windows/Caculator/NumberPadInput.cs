@@ -12,7 +12,6 @@ public class NumberPadInput : Button
 
     protected override void Start()
     {
-        Debug.Log("add clickEvent");
         onClick?.AddListener(SetCurrentData);
     }
 
