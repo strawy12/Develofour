@@ -25,8 +25,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     private TMP_Text sameTagText;
     [SerializeField]
     private RectTransform textSort;
-
-    private string saveText;
+    [SerializeField]
+    private HorizontalLayoutGroup horizontalLayoutGroup;
 
     [SerializeField]
     private Image iconImage;
@@ -97,6 +97,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         headText.SetText(head);
         bodyText.SetText(body);
+
         if (icon != null)
         {
             iconImage.gameObject.SetActive(true);
@@ -104,6 +105,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
             iconImage.color = color;
             Vector2 vec = textSort.sizeDelta;
             vec.x = 230;
+            horizontalLayoutGroup.padding.left = 10;
             textSort.sizeDelta = vec;
         }
         else
@@ -111,6 +113,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
             iconImage.gameObject.SetActive(false);
             Vector2 vec = textSort.sizeDelta;
             vec.x = 330;
+            horizontalLayoutGroup.padding.left = 23;
             textSort.sizeDelta = vec;
         }
 

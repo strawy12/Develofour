@@ -12,7 +12,7 @@ public class DiscordFriendList : MonoBehaviour
     private List<DiscordProfileDataSO> friendList;
 
     [SerializeField]
-    private Dictionary<string, DiscordFriendLine> friendLineDic = new Dictionary<string, DiscordFriendLine>();
+    public Dictionary<string, DiscordFriendLine> friendLineDic = new Dictionary<string, DiscordFriendLine>();
 
     [SerializeField]
     private DiscordFriendLine friendLinePrefab;

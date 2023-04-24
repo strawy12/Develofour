@@ -127,6 +127,7 @@ public enum EDiscordEvent
     ShowChattingPanel,
     ShowImagePanel,
     StartTalk,
+    OpenHarmony,
 }
 
 public enum EAiChatData

@@ -11,7 +11,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     }
     private IEnumerator StartGetData()
     {
-        int cnt = 9;
+        int cnt = 11;
 
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);
@@ -22,6 +22,8 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         LoadMediaPlayerDataAssets(() => cnt--);
         LoadProfileCategoryDataResourcesAssets(() => cnt--);
         LoadCharacterDataDataSOAssets(() => cnt--);
+        LoadBrowserShortcutDataResourcesAssets(() => cnt--);
+        LoadHarmonyShortcutDataResourcesAssets(() => cnt--);
         yield return new WaitUntil(() => cnt <= 0);
 
         EventManager.TriggerEvent(ECoreEvent.EndLoadResources);

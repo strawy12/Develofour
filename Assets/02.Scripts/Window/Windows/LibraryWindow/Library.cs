@@ -168,6 +168,7 @@ public class Library : Window
         PushAll();
         foreach (FileSO file in currentDirectory.children)
         {
+            if (file.isHide) { continue; }
             WindowIcon icon = Pop();
             icon.SetFileData(file);
         }
