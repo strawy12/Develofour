@@ -12,6 +12,7 @@ public class NumberPadInput : Button
 
     protected override void Start()
     {
+        Debug.Log("add clickEvent");
         onClick?.AddListener(SetCurrentData);
     }
 
@@ -21,11 +22,9 @@ public class NumberPadInput : Button
     }
 
 
-    [ContextMenu("SetCurrentData")]
     public void SetCurrentData()
     {
         currentData = gameObject.name;
-
         ClickBtn();
     }
 }

@@ -15,7 +15,7 @@ public class CallTopPanel : MonoBehaviour
     [SerializeField]
     private Button beforeBtn;
     [SerializeField]
-    private TMP_Text phoneNumberText;
+    private PhoneCallUI phoneCallUI;
     private List<CharacterInfoDataSO> characterDataList;
 
     private List<string> phoneNumberList;
@@ -108,7 +108,7 @@ public class CallTopPanel : MonoBehaviour
             return;
         }
 
-        phoneNumberText.text = phoneNumberList[currentIdx];
+        phoneCallUI.SetNumberText(phoneNumberList[currentIdx]);
     }
 
 

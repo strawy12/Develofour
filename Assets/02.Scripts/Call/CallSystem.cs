@@ -84,9 +84,10 @@ public class CallSystem : MonoSingleton<CallSystem>
             float soundSecond = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneCall);
 
             yield return new WaitForSeconds(soundSecond);
-            Debug.Log(delay);
             delay -= soundSecond;
         }
+        Debug.Log(delay);
+        Hide();
     }
 
     private void ShowAnswerButton(bool isShow)
