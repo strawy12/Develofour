@@ -8,68 +8,73 @@ using DG.Tweening;
 
 public class ProfileInfoPanel : MonoBehaviour
 {
-    public EProfileCategory category;
+    private ProfileCategoryDataSO currentData;
     [SerializeField]
-    private TMP_Text categoryNameText;
-    //동적 저장을 위해서는 활성화 비활성화 여부를 들고있는 SO 혹은 Json이 저장 정보를 불러오고 저장
+    private TMP_Text titleText;
     [SerializeField]
+    private ProfileInfoText infoTextPrefab;
+    [SerializeField]
+    private Transform infoTextParent;
+    private Queue<ProfileInfoText> infoTextQueue;
+
     private List<ProfileInfoText> infoTextList;
 
-    private ProfileCategoryDataSO saveData;
-    //이 패널이 정보를 모두 찾았다면 연결된 패널들이 보임
-    [SerializeField]
-    private List<ProfileInfoPanel> linkInfoPenelList;
+    #region Pool
+    private void CreatePool()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            ProfileInfoText infoText = Instantiate(infoTextPrefab, infoTextParent);
+            infoText.Init();
+            infoText.Hide();
+            infoTextQueue.Enqueue(infoText);
+        }
+    }
+
+    private ProfileInfoText Pop()
+    {
+        if (infoTextQueue.Count == 0)
+        {
+            CreatePool();
+        }
+
+        ProfileInfoText infoText = infoTextQueue.Dequeue();
+        infoTextList.Add(infoText);
+        return infoText;
+    }
+
+    public void Push(ProfileInfoText infoText)
+    {
+        if (infoTextList.Contains(infoText))
+        {
+            infoText.Hide();
+            infoTextList.Remove(infoText);
+            infoTextQueue.Enqueue(infoText);
+        }
+    }
+    public void PushAll()
+    {
+        foreach(var infoText in infoTextList)
+        {
+            infoTextQueue.Enqueue(infoText);
+            infoText.Hide();
+        }
+        infoTextList.Clear();
+    }
+    #endregion
 
     private Image currentImage;
 
-    public void Init(ProfileCategoryDataSO profileInfoDataSO)
+
+    public void Init()
     {
+        infoTextQueue = new Queue<ProfileInfoText>();
+        infoTextList = new List<ProfileInfoText>();
         currentImage = GetComponent<Image>();
         currentImage.material = Instantiate(currentImage.material);
-        saveData = profileInfoDataSO;
-
-        Setting();
+        CreatePool();
     }
 
-    public void Setting()//켰을때 기초 세팅
-    {
-
-        foreach (var infoText in infoTextList)
-        {
-            infoText.Init();
-            infoText.OnFindText += ShowLinkedPost;
-        }
-
-        if (DataManager.Inst.GetProfileSaveData(saveData.category).isShowCategory)
-        {
-
-            ShowPost();
-        }
-        else
-        {
-            HidePost();
-        }
-
-        foreach (var save in saveData.infoTextList)
-        {
-            if (DataManager.Inst.IsProfileInfoData(saveData.category, save.key) == false)
-            {
-                continue;
-            }
-            foreach (var infoText in infoTextList)
-            {
-                if (infoText.textDataSO.key == save.key)
-                {
-                    infoText.ChangeText();
-                }
-            }
-        }
-
-        if (GetIsFindAll())
-        {
-            FillPostItColor();
-        }
-    }
 
     public void ChangeValue(string key)
     {
@@ -80,15 +85,12 @@ public class ProfileInfoPanel : MonoBehaviour
                 if (gameObject.activeSelf == false)
                 {
                     SendNotice();
-                    ShowPost();
-
                 }
-                infoText.ChangeText();
 
-                DataManager.Inst.AddProfileinfoData(saveData.category, key);
-                if (category != EProfileCategory.InvisibleInformation)
+                DataManager.Inst.AddProfileinfoData(currentData.category, key);
+                if (currentData.category != EProfileCategory.InvisibleInformation)
                 {
-                    EventManager.TriggerEvent(EProfileEvent.RemoveGuideButton, new object[2] { category, key });
+                    EventManager.TriggerEvent(EProfileEvent.RemoveGuideButton, new object[2] { currentData.category, key });
                 }
 
                 if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
@@ -110,50 +112,52 @@ public class ProfileInfoPanel : MonoBehaviour
 
         string head = "새로운 카테고리가 추가되었습니다";
         string body = "";
-        if (saveData.category != EProfileCategory.InvisibleInformation)
+        if (currentData.category != EProfileCategory.InvisibleInformation)
         {
-            body = $"새 카테고리 {Define.TranslateInfoCategory(saveData.category)}가 추가되었습니다.";
+            body = $"새 카테고리 {Define.TranslateInfoCategory(currentData.category)}가 추가되었습니다.";
         }
 
         NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
 
     }
 
-    public void ShowPost()
+    public void Show(ProfileCategoryDataSO categoryData)
     {
-        if (category == EProfileCategory.InvisibleInformation)
+        currentData = categoryData;
+        foreach (var infoList in currentData.infoTextList)
         {
-            return;
+            ProfileInfoText infoText = Pop();
         }
-        gameObject.SetActive(true);
-        EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[1] { category });
 
-        DataManager.Inst.SetCategoryData(saveData.category, true);
-    }
+        titleText.SetText(Define.TranslateInfoCategory(currentData.category));
 
-    private void HidePost()
-    {
-        gameObject.SetActive(false);
-    }
-
-
-    private void ShowLinkedPost()
-    {
-        if (linkInfoPenelList.Count == 0)
+        foreach (var infoData in currentData.infoTextList)
         {
-            return;
+            if (DataManager.Inst.IsProfileInfoData(currentData.category, infoData.key) == false)
+            {
+                continue;
+            }
+            foreach (var infoText in infoTextList)
+            {
+                if (infoText.textDataSO.key == infoData.key)
+                {
+                    infoText.Show();
+                }
+            }
         }
 
         if (GetIsFindAll())
         {
-            foreach (var infoPost in linkInfoPenelList)
-            {
-                infoPost.SendNotice();
-                infoPost.ShowPost();
-
-            }
+            FillPostItColor();
         }
     }
+
+    private void Hide()
+    {
+        gameObject.SetActive(false);
+        PushAll();
+    }
+
 
     public bool GetIsFindAll()
     {
@@ -174,7 +178,7 @@ public class ProfileInfoPanel : MonoBehaviour
         {
             if (key == infoText.textDataSO.key)
             {
-                answer = infoText.infoTitleText.text;
+                answer = infoText.textDataSO.noticeText;
             }
         }
 

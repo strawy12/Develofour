@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Linq;
 public enum EProfileCategory
 {
     None,
@@ -21,33 +21,92 @@ public enum EProfileCategory
 public class ProfilePanel : MonoBehaviour
 {
     [SerializeField]
-    private List<ProfileInfoPanel> infoPanelList = new List<ProfileInfoPanel>();
+    private ProfileInfoPanel infoPanel;
 
-    private Dictionary<EProfileCategory, ProfileCategoryDataSO> infoList;
+    private List<ProfileCategoryDataSO> sceneCategoryList;
+    private List<ProfileCategoryDataSO> characterCategoryList;
 
     [SerializeField]
     private Sprite profilerSpeite;
+    [SerializeField]
+    private Button sceneBtn;
+    [SerializeField]
+    private Button characterBtn;
 
-    public void Init()
+    private EProfileCategoryType categoryType;
+
+    [Header("Pool")]
+    [SerializeField]
+    private ProfileCategoryPrefab categoryPrefab;
+    [SerializeField]
+    private Transform categoryParent;
+    private Queue<ProfileCategoryPrefab> categorysQueue;
+
+    private List<ProfileCategoryPrefab> categoryList;
+
+    #region Pool
+    private void CreatePool()
     {
-        infoList = ResourceManager.Inst.GetProfileCategoryDataList();
-
-        EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
-
-        Debug.Log(infoList.Count);
-        foreach (var info in infoList)
+        for (int i = 0; i < 20; i++)
         {
-            foreach(var infoPanel in infoPanelList)
-            {
-                if(infoPanel.category == info.Key)
-                {
-                    infoPanel.Init(info.Value);
-                }
-            }
+            ProfileCategoryPrefab infoText = Instantiate(categoryPrefab, categoryParent);
+            infoText.Init();
+            infoText.Hide();
+            categorysQueue.Enqueue(infoText);
         }
     }
 
-    //이벤트 매니저 등록
+    private ProfileCategoryPrefab Pop()
+    {
+        if (categorysQueue.Count == 0)
+        {
+            CreatePool();
+        }
+
+        ProfileCategoryPrefab infoText = categorysQueue.Dequeue();
+        categoryList.Add(infoText);
+        return infoText;
+    }
+
+    public void Push(ProfileCategoryPrefab infoText)
+    {
+        if (categoryList.Contains(infoText))
+        {
+            infoText.Hide();
+            categoryList.Remove(infoText);
+            categorysQueue.Enqueue(infoText);
+        }
+    }
+    public void PushAll()
+    {
+        foreach (var infoText in categoryList)
+        {
+            categorysQueue.Enqueue(infoText);
+            infoText.Hide();
+        }
+        categoryList.Clear();
+    }
+    #endregion
+
+    public void Init()
+    {
+        sceneCategoryList = new List<ProfileCategoryDataSO>();
+        characterCategoryList = new List<ProfileCategoryDataSO>();
+        sceneCategoryList = ResourceManager.Inst.GetProfileCategoryDataList()
+            .Where(x => x.Value.categoryType == EProfileCategoryType.Scene)
+            .Select(x=>x.Value).ToList();
+        characterCategoryList = ResourceManager.Inst.GetProfileCategoryDataList()
+            .Where(x => x.Value.categoryType == EProfileCategoryType.Character)
+            .Select(x => x.Value).ToList();
+        EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
+        infoPanel.Init();
+        characterBtn.onClick.AddListener(OnClickCharacterPanelBtn);
+        sceneBtn.onClick.AddListener(OnClickScenePanelBtn);
+
+        categoryType = EProfileCategoryType.Scene;
+        CreatePool();
+    }
+
     private void ChangeValue(object[] ps) // string 값으로 들고옴
     {
         if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
@@ -62,7 +121,7 @@ public class ProfilePanel : MonoBehaviour
         if (ps[2] != null)
         {
             List<ProfileInfoTextDataSO> strList = ps[2] as List<ProfileInfoTextDataSO>;
-            foreach(var temp in strList)
+            foreach (var temp in strList)
             {
                 if (!DataManager.Inst.IsProfileInfoData(temp.category, temp.key))
                 {
@@ -75,19 +134,62 @@ public class ProfilePanel : MonoBehaviour
         {
             return;
         }
-
-        foreach(var infoPanel in infoPanelList)
+    }
+    public void Show()
+    {
+        gameObject.SetActive(true);
+        
+        if(categoryType == EProfileCategoryType.Scene)
         {
-            if(infoPanel.category == category)
-            {
-                Debug.Log($"{infoPanel.gameObject.name}");
-
-                infoPanel.ShowPost();
-                infoPanel.ChangeValue(key);
-            }
+            ShowScenePanel();
         }
+        else if(categoryType == EProfileCategoryType.Character)
+        {
+            ShowCharacterPanel();
+        }
+
+    }
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 
+    private void OnClickCharacterPanelBtn()
+    {
+        if (categoryType == EProfileCategoryType.Character)
+        {
+            return;
+        }
+        ShowCharacterPanel();
+    }
+    private void OnClickScenePanelBtn()
+    {
+        if (categoryType == EProfileCategoryType.Scene)
+        {
+            return;
+        }
+        ShowScenePanel();
+    }
+
+    private void ShowCharacterPanel()
+    {
+        categoryType = EProfileCategoryType.Character;
+
+        foreach (var data in characterCategoryList)
+        {
+            ProfileCategoryPrefab categoryPrefab = Pop();
+            categoryPrefab.Show(data);
+        }
+    }
+    private void ShowScenePanel()
+    {
+        categoryType = EProfileCategoryType.Scene;
+        foreach (var data in sceneCategoryList)
+        {
+            ProfileCategoryPrefab categoryPrefab = Pop();
+            categoryPrefab.Show(data);
+        }
+    }
     public void SendAlarm(object[] ps)
     {
         if (!(ps[0] is string) || !(ps[1] is string))
@@ -96,19 +198,8 @@ public class ProfilePanel : MonoBehaviour
         }
 
         string key = ps[1] as string;
-        string answer;
         string temp = "nullError";
-        foreach (var infoPanel in infoPanelList)
-        {
-            answer = infoPanel.SetInfoText(key);
-
-            if (string.IsNullOrEmpty(answer) == false)
-            {
-                temp = answer.Replace(": ", "");
-            }
-        }
-
-
+        temp = infoPanel.SetInfoText(key);
 
         string text = ps[0] as string + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
         NoticeSystem.OnNotice?.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profilerSpeite, Color.white, ENoticeTag.Profiler);

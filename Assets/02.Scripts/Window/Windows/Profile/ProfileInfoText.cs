@@ -9,15 +9,10 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 {
     public ProfileInfoTextDataSO textDataSO;
 
-    public bool isTitleShow = false;
-    public TMP_Text infoText;
+    [SerializeField]
+    private TMP_Text infoText;
 
     public ProfileShowInfoTextPanel showPanel;
-
-    public TMP_Text infoTitleText;
-
-    private string infoTitle;
-
     private bool isFind;
 
     public bool IsFind
@@ -46,13 +41,8 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
         rectTransform ??= GetComponent<RectTransform>();
     }
 
-    public void ShowTitle()
-    {
-        infoTitleText.text = infoTitle;
-    }
 
-
-    public void ChangeText()
+    public void Show()
     {
         infoText.text = textDataSO.infomationText;
         isFind = true;
@@ -74,6 +64,11 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
         showPanel.RectTrm.anchoredPosition += new Vector2(20, 35);
         showPanel.SetDownText();
         showPanel.gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 
     public void OnPointerExit(PointerEventData eventData)
