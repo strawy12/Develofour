@@ -199,4 +199,15 @@ public static class Define
             return false;
         }
     }
+
+    public static string TranslateInfoCategory(EProfileCategory category)
+    {
+        switch(category)
+        {
+            case EProfileCategory.InvisibleInformation:
+                return "보이지 않는 정보";
+        }
+
+        return null;
+    }
 }
