@@ -31,7 +31,6 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     private bool isEnlargement = false;
 
-    private int enlargementArrIndex = 0;
     private float[] enlargementArr = new float[] { 1f, 2f, 3f, 4f, 5f };
 
     private readonly Vector2 MAXSIZE = new Vector2(1173.333f, 660f);

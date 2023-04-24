@@ -8,8 +8,6 @@ using Unity.VisualScripting;
 
 public class FacebookLoginSite : Site
 {
-    private bool isResettingPassword = false;
-
     [SerializeField]
     private string loginEmail;
     [SerializeField]
@@ -135,8 +133,6 @@ public class FacebookLoginSite : Site
             //failedLoginText.text = "등록된 Email에 비밀번호 변경메일을 보냈습니다.";
             //failedLoginText.color = Color.black; 
 
-            isResettingPassword = true;
-
             EventManager.StartListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
        
             // NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.SnsSetNewPassword, 0f);
@@ -156,7 +152,6 @@ public class FacebookLoginSite : Site
         //DataManager.Inst.CurrentPlayer.CurrentChapterData.snsPassword = password;
         passwordField.SetPassword(password);
 
-        isResettingPassword = false;
         EventManager.StopListening(ELoginSiteEvent.FacebookNewPassword, NewPassword);
     }
 }

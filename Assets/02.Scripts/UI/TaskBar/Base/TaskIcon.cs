@@ -113,8 +113,6 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void CloseIcon()
     {
-
-        int i = 0;
         while (targetPanelList.Count > 0)
         {
             targetPanelList[0].TargetWindow.WindowClose();

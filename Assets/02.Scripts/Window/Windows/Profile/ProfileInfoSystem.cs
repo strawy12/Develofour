@@ -76,14 +76,13 @@ public class ProfileInfoSystem : MonoBehaviour
 
     public void SendAlarm(EProfileCategory category, string key)
     {
-        string answer;
         string temp = "nullError";
         ProfileCategoryDataSO categoryData = infoList[category];
         foreach (var infoText in categoryData.infoTextList)
         {
             if (key == infoText.key)
             {
-                temp = infoText.infoName;
+                temp = infoText.infoName; 
             }
         }
         string text;

@@ -33,8 +33,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private bool isBackground;
 
     private bool isInit = false;
-    private bool isRegisterEvent = false;
-    private bool isUSBEvent = false;
     public FileSO File => fileData;
 
     private int IconDefaultSize => isBackground ? 60 : 100;
