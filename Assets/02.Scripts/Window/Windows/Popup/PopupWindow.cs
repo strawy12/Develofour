@@ -32,6 +32,14 @@ public class PopupWindow : Window
         proposalText.text = text;
 
         AgreeAction += agreeAction;
+        if(degreeAction == null)
+        {
+            degreeBtn.gameObject.SetActive(false);
+        }
+        else
+        {
+            degreeBtn.gameObject.SetActive(true);
+        }
         DegreeAction += degreeAction;
     }   
 
