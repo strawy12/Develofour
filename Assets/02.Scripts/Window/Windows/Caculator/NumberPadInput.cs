@@ -21,11 +21,9 @@ public class NumberPadInput : Button
     }
 
 
-    [ContextMenu("SetCurrentData")]
     public void SetCurrentData()
     {
         currentData = gameObject.name;
-
         ClickBtn();
     }
 }

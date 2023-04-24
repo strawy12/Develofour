@@ -26,24 +26,23 @@ public class PhoneCallUI : MonoBehaviour
 
     void Start()
     {
-        EventManager.StartListening(ECallEvent.CallInit, Init);
         this.gameObject.SetActive(false);
     }
 
     public void Open()
     {
         AllEraseText();
-        ResetButtonAction();
+        GetButtonAction();
         gameObject.SetActive(true);
     }
 
-    public void Init(object[] ps)
+    public void Init()
     {
         eraseButton.onClick?.AddListener(EraseButton);
         callButton.onClick?.AddListener(CallButton);
         callTopPanel.Init();
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
-        GetButtonAction();
+
     }
 
     private void GetButtonAction()
@@ -64,9 +63,6 @@ public class PhoneCallUI : MonoBehaviour
         {
             btn.OnClick -= OnClickBtn;
         }
-
-        eraseButton.onClick?.RemoveListener(EraseButton);
-        callButton.onClick?.RemoveListener(CallButton);
     }
 
     private void OnClickBtn(string data)
@@ -78,6 +74,7 @@ public class PhoneCallUI : MonoBehaviour
 
         currentNumber += data;
 
+        Debug.Log(currentNumber);
         phoneNumberText.SetText(currentNumber);
     }
 
@@ -133,7 +130,11 @@ public class PhoneCallUI : MonoBehaviour
 
         Close();
     }
-
+    public void SetNumberText(string number)
+    {
+        currentNumber = number;
+        phoneNumberText.SetText(currentNumber);
+    }
     private void AllEraseText()
     {
         currentNumber = "";
