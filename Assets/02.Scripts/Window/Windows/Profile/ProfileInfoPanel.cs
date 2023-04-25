@@ -77,6 +77,7 @@ public class ProfileInfoPanel : MonoBehaviour
         //currentImage.material = Instantiate(currentImage.material);
         CreatePool();
         EventManager.StartListening(EProfileEvent.ShowInfoPanel, Show);
+        Hide();
     }
 
 

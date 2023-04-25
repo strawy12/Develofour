@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class ProfileCategoryPrefab : MonoBehaviour, IPointerClickHandler
 {
@@ -20,12 +21,18 @@ public class ProfileCategoryPrefab : MonoBehaviour, IPointerClickHandler
 
     [SerializeField]
     private Image categoryImage;
-
+    [SerializeField]
+    private Image selectImage;
     private Vector2 maxSize;
+    public bool isSelected { get; private set; }
 
-    public void Init()
+    private Action OnClick;
+    public void Init(Action clickAction)
     {
         maxSize = categoryImage.rectTransform.sizeDelta;
+        isSelected = false;
+        OnClick = null;
+        OnClick += clickAction;
     }
     #region Show/Hide
     public void Show(ProfileCategoryDataSO categoryData)
@@ -52,20 +59,31 @@ public class ProfileCategoryPrefab : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        EventManager.TriggerEvent(EProfileEvent.ShowInfoPanel, new object[1] { currentData });
+        Select();
     }
     #endregion
 
-    private void SendNotice()
+    public void Select()
     {
-        string head = "새로운 카테고리가 추가되었습니다";
-        string body = "";
-        if (currentData.category != EProfileCategory.InvisibleInformation)
+        if (isSelected)
         {
-            body = $"새 카테고리 {Define.TranslateInfoCategory(currentData.category)}가 추가되었습니다.";
+            return;
         }
+        OnClick?.Invoke();
+        selectImage.gameObject.SetActive(true);
+        isSelected = true;
+        EventManager.TriggerEvent(EProfileEvent.ShowInfoPanel, new object[1] { currentData });
+    }
 
-        NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
+    public void UnSelect()
+    {
+        if (!isSelected)
+        {
+            return;
+        }
+        isSelected = false;
+        selectImage.gameObject.SetActive(false);
+
     }
 
 }

@@ -18,19 +18,19 @@ public class ProfileInventoryPanel : MonoBehaviour
     private Queue<ProfileCategoryPrefab> categorysQueue;
 
     private List<ProfileCategoryPrefab> categoryList;
-
+    private int currentIndex = 0;
     #region Pool
     private void CreatePool()
     {
         for (int i = 0; i < 20; i++)
         {
             ProfileCategoryPrefab infoText = Instantiate(categoryPrefab, categoryParent.transform);
-            infoText.Init();
+            infoText.Init(UnSelectAllPanel);
             infoText.Hide();
             categorysQueue.Enqueue(infoText);
         }
     }
-    
+
     private ProfileCategoryPrefab Pop()
     {
         if (categorysQueue.Count == 0)
@@ -75,10 +75,14 @@ public class ProfileInventoryPanel : MonoBehaviour
             .Select(x => x.Value).ToList();
 
         categoryType = EProfileCategoryType.Scene;
+
         CreatePool();
     }
     public void Show()
     {
+        InputManager.Inst.AddKeyInput(KeyCode.RightArrow, RightMove);
+        InputManager.Inst.AddKeyInput(KeyCode.LeftArrow, LeftMove);
+
         if (categoryType == EProfileCategoryType.Scene)
         {
             ShowScenePanel();
@@ -88,19 +92,52 @@ public class ProfileInventoryPanel : MonoBehaviour
             ShowCharacterPanel();
         }
     }
+    public void Hide()
+    {
+        InputManager.Inst.RemoveKeyInput(KeyCode.RightArrow, RightMove);
+        InputManager.Inst.RemoveKeyInput(KeyCode.LeftArrow, LeftMove);
+        gameObject.SetActive(false);
+    }
     public void AddProfileCategoryPrefab(EProfileCategory category)
     {
-        if(categoryType == EProfileCategoryType.Character)
+        if (categoryType == EProfileCategoryType.Character)
         {
-            foreach(var data in characterCategoryList)
+            foreach (var data in characterCategoryList)
             {
-                if(data.category == category)
+                if (data.category == category)
                 {
                     var prefab = categoryList.Find(x => x.CurrentData.category == category);
                     prefab.Show(data);
                 }
             }
         }
+    }
+    public void RightMove()
+    {
+
+        if (categoryList.Count == 1 || currentIndex <= 0)
+        {
+            currentIndex = 0;
+        }
+        else
+        {
+            currentIndex -= 1;
+        }
+
+        categoryList[currentIndex].Select();
+    }
+    public void LeftMove()
+    {
+        if (currentIndex >= categoryList.Count - 1)
+        {
+            currentIndex = categoryList.Count - 1;
+        }
+        else
+        {
+            currentIndex += 1;
+        }
+
+        categoryList[currentIndex].Select();
     }
     public void ShowCharacterPanel()
     {
@@ -124,6 +161,18 @@ public class ProfileInventoryPanel : MonoBehaviour
         {
             ProfileCategoryPrefab categoryPrefab = Pop();
             categoryPrefab.Show(data);
+        }
+    }
+
+    private void UnSelectAllPanel()
+    {
+        var categoryObj = categoryList.Find(x => x.isSelected == true);
+
+        currentIndex = categoryList.IndexOf(categoryObj);
+
+        foreach (var prefab in categoryList)
+        {
+            prefab.UnSelect();
         }
     }
 }

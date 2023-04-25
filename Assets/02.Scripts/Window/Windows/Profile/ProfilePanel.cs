@@ -60,6 +60,7 @@ public class ProfilePanel : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
+        typePanel.Hide();
     }
 
     private void OnClickCharacterPanelBtn()

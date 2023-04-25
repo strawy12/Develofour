@@ -51,6 +51,7 @@ public class ProfileInfoSystem : MonoBehaviour
             if(!DataManager.Inst.IsCategoryShow(category))
             {
                 DataManager.Inst.SetCategoryData(category, true);
+                SendCategoryNotice(category);
             }
             SendAlarm(category, key);
         }
@@ -94,5 +95,16 @@ public class ProfileInfoSystem : MonoBehaviour
             NoticeSystem.OnNotice.Invoke("Profiler 정보가 확인되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
         }
         
+    }
+    private void SendCategoryNotice(EProfileCategory category)
+    {
+        string head = "새로운 카테고리가 추가되었습니다";
+        string body = "";
+        if (category != EProfileCategory.InvisibleInformation)
+        {
+            body = $"새 카테고리 {Define.TranslateInfoCategory(category)}가 추가되었습니다.";
+        }
+
+        NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
     }
 }
