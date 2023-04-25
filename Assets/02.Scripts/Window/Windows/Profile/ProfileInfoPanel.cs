@@ -77,12 +77,18 @@ public class ProfileInfoPanel : MonoBehaviour
         //currentImage.material = Instantiate(currentImage.material);
         CreatePool();
         EventManager.StartListening(EProfileEvent.ShowInfoPanel, Show);
+        EventManager.StartListening(EProfileEvent.HideInfoPanel, Hide);
+
         Hide();
     }
 
 
     public void ChangeValue(EProfileCategory category, string key)
     {
+        if(currentData == null)
+        {
+            return;
+        }
         if (category != currentData.category)
         {
             return;
@@ -103,7 +109,7 @@ public class ProfileInfoPanel : MonoBehaviour
         {
             return;
         }
-
+        gameObject.SetActive(true);
         ProfileCategoryDataSO categoryData = ps[0] as ProfileCategoryDataSO;
         currentData = categoryData;
         titleText.SetText(Define.TranslateInfoCategory(currentData.category));
@@ -123,7 +129,7 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         Define.SetSprite(categoryImage, currentData.categorySprite, categoryImageParent.sizeDelta);
     }
-    public void Hide()
+    public void Hide(object[] ps = null)
     {
         gameObject.SetActive(false);
         PushAll();
@@ -156,6 +162,8 @@ public class ProfileInfoPanel : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.StopListening(EProfileEvent.ShowInfoPanel, Show);
+        EventManager.StopListening(EProfileEvent.HideInfoPanel, Hide);
+
     }
     //private void FillPostItColor()
     //{

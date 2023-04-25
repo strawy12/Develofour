@@ -6,7 +6,12 @@ public partial class DataManager : MonoSingleton<DataManager>
 {
     private List<bool> InitTutoList()
     {
-        List<bool> list = new List<bool>((int)ETutorialType.Count);
+        List<bool> list = new List<bool>();
+
+        for(int i =0; i < (int)ETutorialType.Count; i++)
+        {
+            list.Add(false);
+        }
         return list;
     }
 

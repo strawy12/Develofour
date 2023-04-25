@@ -213,6 +213,10 @@ public static class Define
     }
     public static void SetSprite(Image image, Sprite sprite, Vector2 maxSize)
     {
+        if(sprite == null)
+        {
+            return;
+        }
         image.sprite = sprite;
 
         Vector2 size = image.sprite.rect.size;

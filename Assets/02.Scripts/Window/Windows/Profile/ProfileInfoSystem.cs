@@ -53,6 +53,7 @@ public class ProfileInfoSystem : MonoBehaviour
                 DataManager.Inst.SetCategoryData(category, true);
                 SendCategoryNotice(category);
             }
+            EventManager.TriggerEvent(EProfileEvent.FindInfoInProfile, ps);
             SendAlarm(category, key);
         }
         else
@@ -60,15 +61,12 @@ public class ProfileInfoSystem : MonoBehaviour
             return;
         }
 
-        if (!DataManager.Inst.GetProfileSaveData(category).isShowCategory)
-        {
-            DataManager.Inst.SetCategoryData(category, true);
-        }
-
         if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
         {
             EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
         }
+
+
     }
 
     public void SendAlarm(EProfileCategory category, string key)
