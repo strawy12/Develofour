@@ -149,6 +149,8 @@ public enum EProfileEvent
     ClickGuideToggleButton,
     EndGuide,
     ShowInfoPanel,
+    HideInfoPanel,
+    FindInfoInProfile,
 }
 public enum EGuideEventType
 {

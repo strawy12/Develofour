@@ -68,6 +68,7 @@ public class ProfileInventoryPanel : MonoBehaviour
         sceneCategoryList = new List<ProfileCategoryDataSO>();
         characterCategoryList = new List<ProfileCategoryDataSO>();
         categorysQueue = new Queue<ProfileCategoryPrefab>();
+        categoryParent.Init();
         sceneCategoryList = ResourceManager.Inst.GetProfileCategoryDataList()
             .Where(x => x.Value.categoryType == EProfileCategoryType.Scene)
             .Select(x => x.Value).ToList();
@@ -81,9 +82,9 @@ public class ProfileInventoryPanel : MonoBehaviour
     }
     public void Show()
     {
-        InputManager.Inst.AddKeyInput(KeyCode.RightArrow, RightMove);
-        InputManager.Inst.AddKeyInput(KeyCode.LeftArrow, LeftMove);
-
+        //InputManager.Inst.AddKeyInput(KeyCode.RightArrow, RightMove);
+        //InputManager.Inst.AddKeyInput(KeyCode.LeftArrow, LeftMove);
+        gameObject.SetActive(true);
         if (categoryType == EProfileCategoryType.Scene)
         {
             ShowScenePanel();
@@ -95,8 +96,9 @@ public class ProfileInventoryPanel : MonoBehaviour
     }
     public void Hide()
     {
-        InputManager.Inst.RemoveKeyInput(KeyCode.RightArrow, RightMove);
-        InputManager.Inst.RemoveKeyInput(KeyCode.LeftArrow, LeftMove);
+        //InputManager.Inst.RemoveKeyInput(KeyCode.RightArrow, RightMove);
+        //InputManager.Inst.RemoveKeyInput(KeyCode.LeftArrow, LeftMove);
+
         gameObject.SetActive(false);
     }
     public void AddProfileCategoryPrefab(EProfileCategory category)
@@ -104,6 +106,17 @@ public class ProfileInventoryPanel : MonoBehaviour
         if (categoryType == EProfileCategoryType.Character)
         {
             foreach (var data in characterCategoryList)
+            {
+                if (data.category == category)
+                {
+                    var prefab = categoryList.Find(x => x.CurrentData.category == category);
+                    prefab.Show(data);
+                }
+            }
+        }
+        else if(categoryType == EProfileCategoryType.Scene)
+        {
+            foreach (var data in sceneCategoryList)
             {
                 if (data.category == category)
                 {
@@ -140,13 +153,22 @@ public class ProfileInventoryPanel : MonoBehaviour
 
         categoryList[currentIndex].Select();
     }
+
+    public bool CheckCurrentType(EProfileCategoryType categoryType)
+    {
+        if(this.categoryType == categoryType)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public void ShowCharacterPanel()
     {
         PushAll();
 
         categoryType = EProfileCategoryType.Character;
-
-
+        EventManager.TriggerEvent(EProfileEvent.HideInfoPanel);
         foreach (var data in characterCategoryList)
         {
             ProfileCategoryPrefab categoryPrefab = Pop();
@@ -156,8 +178,9 @@ public class ProfileInventoryPanel : MonoBehaviour
     public void ShowScenePanel()
     {
         PushAll();
-
+        EventManager.TriggerEvent(EProfileEvent.HideInfoPanel);
         categoryType = EProfileCategoryType.Scene;
+
         foreach (var data in sceneCategoryList)
         {
             ProfileCategoryPrefab categoryPrefab = Pop();

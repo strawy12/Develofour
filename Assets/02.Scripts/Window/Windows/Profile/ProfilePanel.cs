@@ -36,7 +36,9 @@ public class ProfilePanel : MonoBehaviour
         typePanel.Init();
         characterBtn.onClick.AddListener(OnClickCharacterPanelBtn);
         sceneBtn.onClick.AddListener(OnClickScenePanelBtn);
-        EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
+        EventManager.StartListening(EProfileEvent.FindInfoInProfile, ChangeValue);
+
+        Show();
 
     }
     public void ChangeValue(object[] ps)
@@ -48,8 +50,8 @@ public class ProfilePanel : MonoBehaviour
         EProfileCategory category = (EProfileCategory)ps[0];
         string key = ps[1] as string;
 
-        infoPanel.ChangeValue(category, key);
         typePanel.AddProfileCategoryPrefab(category);
+        infoPanel.ChangeValue(category, key);
     }
     public void Show()
     {
@@ -65,16 +67,18 @@ public class ProfilePanel : MonoBehaviour
 
     private void OnClickCharacterPanelBtn()
     {
-        typePanel.ShowCharacterPanel();
+        if (typePanel.CheckCurrentType(EProfileCategoryType.Character) == false)
+            typePanel.ShowCharacterPanel();
     }
 
     private void OnClickScenePanelBtn()
     {
-        typePanel.ShowScenePanel();
+        if (typePanel.CheckCurrentType(EProfileCategoryType.Scene) == false)
+            typePanel.ShowScenePanel();
     }
     private void OnDestroy()
     {
-        EventManager.StopListening(EProfileEvent.FindInfoText, ChangeValue);
+        EventManager.StopListening(EProfileEvent.FindInfoInProfile, ChangeValue);
     }
 
 }

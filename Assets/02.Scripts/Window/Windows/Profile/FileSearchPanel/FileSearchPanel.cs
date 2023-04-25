@@ -96,10 +96,6 @@ public class FileSearchPanel : MonoBehaviour
     }
     private void GuideInputPanel(object[] ps)
     {
-        if (DataManager.Inst.GetIsClearTutorial(ETutorialType.Search))
-        {
-            return;
-        }
         GuideUISystem.OnGuide?.Invoke(searchField.transform as RectTransform);
     }
 }

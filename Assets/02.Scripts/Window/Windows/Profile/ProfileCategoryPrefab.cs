@@ -45,6 +45,7 @@ public class ProfileCategoryPrefab : MonoBehaviour, IPointerClickHandler
         }
 
         gameObject.SetActive(true);
+
         titleName.SetText(Define.TranslateInfoCategory(categoryData.category));
         Define.SetSprite(categoryImage, categoryData.categorySprite, maxSize);
     }
@@ -52,6 +53,7 @@ public class ProfileCategoryPrefab : MonoBehaviour, IPointerClickHandler
     public void Hide()
     {
         gameObject.SetActive(false);
+        UnSelect();
         categoryImage.rectTransform.sizeDelta = maxSize;
     }
     #endregion 

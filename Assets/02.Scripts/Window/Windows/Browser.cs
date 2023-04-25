@@ -14,6 +14,7 @@ public enum ESiteLink
     Branch,
     BranchLogin,
     NullSite,
+    Map
 }
 /// <summary>
 ///  블로그 사이트 이름
