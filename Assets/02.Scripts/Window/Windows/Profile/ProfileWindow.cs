@@ -52,6 +52,8 @@ public class ProfileWindow : Window
 
     protected override void Init()
     {
+        Debug.Log("InitProfile");
+
         isPanelOpen = true;
         isMoving = false;
 
@@ -195,7 +197,6 @@ public class ProfileWindow : Window
     {
         ShowPanel();
         profilePanel.Show();
-        profilePanel.infoPanel.SpriteSetting();
     }
 
     private void ShowFileSearchPanel()

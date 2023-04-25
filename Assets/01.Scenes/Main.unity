@@ -6394,6 +6394,7 @@ GameObject:
   - component: {fileID: 996333744}
   - component: {fileID: 996333746}
   - component: {fileID: 996333745}
+  - component: {fileID: 996333747}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -6459,6 +6460,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 996333743}
   m_CullTransparentMesh: 1
+--- !u!114 &996333747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996333743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infomaitionData: {fileID: 11400000, guid: 5e7ae62834be57643bba7a1d2d29b9a0, type: 2}
+  needInformaitonList: []
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 19
+  delay: 0
+  isFakeInfo: 0
 --- !u!1 &1016419457
 GameObject:
   m_ObjectHideFlags: 0
@@ -7786,14 +7806,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce6abe03822948df967abbd0ddf137db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootDirectory: {fileID: 11400000, guid: 4060df147dac49f199550e0a2f082d99, type: 2}
+  rootDirectory: {fileID: 11400000, guid: ed68c13b3a978314bb9fa9b559792614, type: 2}
   additionFileList:
-  - {fileID: 11400000, guid: a9ea1462e05f43e5bebcb4af754d96bd, type: 2}
+  - {fileID: 11400000, guid: cfe0d8351b9f22f448a424555f69a593, type: 2}
+  - {fileID: 11400000, guid: 316e63ef199187645be608cacd6b985a, type: 2}
+  - {fileID: 11400000, guid: 8a626c2a96e0d8b4abd3bfa7222ff1a5, type: 2}
+  - {fileID: 11400000, guid: 23bc421a422ecc64791e0c066a1de4a9, type: 2}
+  - {fileID: 11400000, guid: cc6791fe06ae7fc4ea56e639fa4f2dae, type: 2}
   defaultFileList:
-  - {fileID: 11400000, guid: 15aa5ea0e3744b9aae946a459f287f78, type: 2}
-  - {fileID: 11400000, guid: fd8692ae6ed645e7af7d21567087c8b0, type: 2}
-  - {fileID: 11400000, guid: 76356e5ce6c8bef41b247f4201a71358, type: 2}
-  - {fileID: 11400000, guid: fdc07bedaecadee489f1dad2252063e2, type: 2}
+  - {fileID: 11400000, guid: 3516e63345ae24340b9d15131029967b, type: 2}
+  - {fileID: 11400000, guid: e85c1f11a87e34843b5db7405eec6f62, type: 2}
+  - {fileID: 11400000, guid: 185f8e404fdc5bc43abeb0df1acc3482, type: 2}
+  - {fileID: 11400000, guid: 690bae947b65d3843bd8a37f4958f59f, type: 2}
 --- !u!1 &1247746393
 GameObject:
   m_ObjectHideFlags: 0
@@ -9517,7 +9541,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 471829026}
   m_HandleRect: {fileID: 471829025}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -10047,7 +10071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconPrefab: {fileID: 2143538916}
-  backgroundDirectory: {fileID: 11400000, guid: 5361ebe9161e46f1ae0b3a5798a4726b, type: 2}
+  backgroundDirectory: {fileID: 11400000, guid: 09d0bbd3360ee314f9b8ef516de89eb9, type: 2}
 --- !u!1 &1761625756
 GameObject:
   m_ObjectHideFlags: 0
@@ -13049,17 +13073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1389dcd3b9b14021b1ff0fccb4283367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  willGetWordList:
-  - isFinded: 0
-    word: "\uC5F0\uACE0\uB300\uD559\uAD50"
-    value:
-      category: 2
-      information: SuspectUniversity
-  - isFinded: 0
-    word: "\uBC18\uB824\uB3D9\uBB3C\uD559\uACFC"
-    value:
-      category: 2
-      information: SuspectDepartment
+  willGetWordList: []
 --- !u!114 &2114393464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45101,7 +45115,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 205, y: 0}
   m_SizeDelta: {x: 230, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &2874077416091051955
@@ -58702,7 +58716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d7630d2e3444aeac7ec4d2bb2ae048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileData: {fileID: 11400000, guid: 4060df147dac49f199550e0a2f082d99, type: 2}
+  fileData: {fileID: 11400000, guid: ed68c13b3a978314bb9fa9b559792614, type: 2}
   iconImage: {fileID: 4176014346896535283}
   selectedImage: {fileID: 7364831177718073797}
   pointerStayImage: {fileID: 8467408113674637287}
@@ -59694,7 +59708,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 125, y: 0}
   m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6155462079995700940
@@ -59848,8 +59862,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 342.5, y: 0}
+  m_SizeDelta: {x: 342.5, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &6155462080139323139
 GameObject:
@@ -60043,7 +60057,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 120.65, y: 0}
   m_SizeDelta: {x: 241.3, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6155462081717301248
@@ -60173,7 +60187,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 129.995, y: 0}
   m_SizeDelta: {x: 259.99, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6155462081717301254
@@ -60210,13 +60224,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 2
-  information: SuspectBirth
+  infomaitionData: {fileID: 11400000, guid: 5e7ae62834be57643bba7a1d2d29b9a0, type: 2}
   needInformaitonList: []
   linkInformaitonList: []
   backgroundImage: {fileID: 996333745}
   monoLogType: 0
   delay: 0
+  isFakeInfo: 0
   notFinderNeedStringMonoLog: 0
   isGetInfomation: 0
 --- !u!1 &6156749054031258555
@@ -62948,7 +62962,7 @@ MonoBehaviour:
   highLightOpacity: 0.5
   iconIntensity: 0
   iconImage: {fileID: 6338384021340713588}
-  startAttributePanel: {fileID: 0}
+  startAttributePanel: {fileID: 2058078485}
 --- !u!1 &6338384020935720198
 GameObject:
   m_ObjectHideFlags: 0

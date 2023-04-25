@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8004616013944740795}
   - component: {fileID: 8225927726678849529}
   - component: {fileID: 2246659592656024866}
-  - component: {fileID: 3965865079632165152}
+  - component: {fileID: 7076240954638209131}
   m_Layer: 5
   m_Name: ReportDateTrigger
   m_TagString: Untagged
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3965865079632165152
+--- !u!114 &7076240954638209131
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,15 +86,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 511718911440776391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
+  infomaitionData: {fileID: 11400000, guid: 1e5c78c83edd57048a52bf6fbad37c0a, type: 2}
   needInformaitonList: []
-  backgroundImage: {fileID: 2246659592656024866}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 7
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &910291631625851985
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +107,7 @@ GameObject:
   - component: {fileID: 4413128560340217325}
   - component: {fileID: 2846365881040943437}
   - component: {fileID: 7053736034020848792}
-  - component: {fileID: 5917638784566202560}
+  - component: {fileID: 523173148256320767}
   m_Layer: 5
   m_Name: VictimNameTrigger
   m_TagString: Untagged
@@ -127,7 +128,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.206, y: 0.296}
   m_AnchorMax: {x: 0.206, y: 0.296}
@@ -172,7 +173,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5917638784566202560
+--- !u!114 &523173148256320767
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,15 +182,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 910291631625851985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
+  infomaitionData: {fileID: 11400000, guid: 523a26259b6e5c34db4ea04f5c6e1edb, type: 2}
   needInformaitonList: []
-  backgroundImage: {fileID: 7053736034020848792}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 9
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &1072316887861365222
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +203,7 @@ GameObject:
   - component: {fileID: 4369377390677174276}
   - component: {fileID: 4582905771213979816}
   - component: {fileID: 2406622193640810882}
-  - component: {fileID: 1253224418319618867}
+  - component: {fileID: 4701927143503218475}
   m_Layer: 5
   m_Name: StatementTrigger
   m_TagString: Untagged
@@ -222,7 +224,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.604, y: 0.117}
   m_AnchorMax: {x: 0.604, y: 0.117}
@@ -267,7 +269,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1253224418319618867
+--- !u!114 &4701927143503218475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -276,15 +278,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1072316887861365222}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
+  infomaitionData: {fileID: 0}
   needInformaitonList: []
-  backgroundImage: {fileID: 2406622193640810882}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 10
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &1803289218557242143
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +299,7 @@ GameObject:
   - component: {fileID: 2575640782775422879}
   - component: {fileID: 7778411246819726371}
   - component: {fileID: 7269894325435865899}
-  - component: {fileID: 7966633280218123772}
+  - component: {fileID: 5636418581895178309}
   m_Layer: 5
   m_Name: VictimRelationshipTrigger
   m_TagString: Untagged
@@ -362,7 +365,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7966633280218123772
+--- !u!114 &5636418581895178309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -371,15 +374,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1803289218557242143}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
+  infomaitionData: {fileID: 11400000, guid: d84f892ea85b0464fa63d0b1ebc9f038, type: 2}
   needInformaitonList: []
-  backgroundImage: {fileID: 7269894325435865899}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 5
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &4109247117624580969
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +395,7 @@ GameObject:
   - component: {fileID: 302748325468652117}
   - component: {fileID: 8447831992808043373}
   - component: {fileID: 5022709069404715072}
-  - component: {fileID: 1477177973260845043}
+  - component: {fileID: 5777071381113906438}
   m_Layer: 5
   m_Name: SuspectAgeTrigger
   m_TagString: Untagged
@@ -457,7 +461,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1477177973260845043
+--- !u!114 &5777071381113906438
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -466,15 +470,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4109247117624580969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
+  infomaitionData: {fileID: 0}
   needInformaitonList: []
-  backgroundImage: {fileID: 5022709069404715072}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 2
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &4128980090184892358
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +491,7 @@ GameObject:
   - component: {fileID: 346662623384333569}
   - component: {fileID: 7677140686295413535}
   - component: {fileID: 1251808262444410292}
-  - component: {fileID: 5054869303920201161}
+  - component: {fileID: 4931627868857287568}
   m_Layer: 5
   m_Name: IncidentNameTrigger
   m_TagString: Untagged
@@ -552,7 +557,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5054869303920201161
+--- !u!114 &4931627868857287568
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -561,15 +566,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4128980090184892358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 1
-  information: "\uC774\uB984"
+  infomaitionData: {fileID: 11400000, guid: f3cbedc430d3c0346ba490115d62b824, type: 2}
   needInformaitonList: []
-  backgroundImage: {fileID: 1251808262444410292}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 13
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &4408314484944748437
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,7 +587,7 @@ GameObject:
   - component: {fileID: 754205706946457217}
   - component: {fileID: 7220249054323956422}
   - component: {fileID: 1856136700878954081}
-  - component: {fileID: 4173162881201893910}
+  - component: {fileID: 8820750839232031822}
   m_Layer: 5
   m_Name: IsLivingWithVictimTrigger
   m_TagString: Untagged
@@ -647,7 +653,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4173162881201893910
+--- !u!114 &8820750839232031822
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -656,15 +662,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4408314484944748437}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
+  infomaitionData: {fileID: 11400000, guid: 6811cb31453366f488ec25b3104c3792, type: 2}
   needInformaitonList: []
-  backgroundImage: {fileID: 1856136700878954081}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 6
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &4540920305037291558
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,7 +683,7 @@ GameObject:
   - component: {fileID: 808594633071090932}
   - component: {fileID: 4960093561383110764}
   - component: {fileID: 3756898526237052866}
-  - component: {fileID: 7738739322838782273}
+  - component: {fileID: 5244062434251902417}
   m_Layer: 5
   m_Name: SuspectJobTrigger
   m_TagString: Untagged
@@ -742,7 +749,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7738739322838782273
+--- !u!114 &5244062434251902417
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -751,110 +758,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4540920305037291558}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
+  infomaitionData: {fileID: 11400000, guid: 628f7ea1602127d42b3d42c6b96cae3e, type: 2}
   needInformaitonList: []
-  backgroundImage: {fileID: 3756898526237052866}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 3
   delay: 0
---- !u!1 &7027246200290211891
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4817382421710499266}
-  - component: {fileID: 3949830004617619711}
-  - component: {fileID: 6384356274654548248}
-  - component: {fileID: 890323534305591213}
-  m_Layer: 5
-  m_Name: VictimAgeTrigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4817382421710499266
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7027246200290211891}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.186, y: 0.266}
-  m_AnchorMax: {x: 0.186, y: 0.266}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 58.7712, y: 14.5}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &3949830004617619711
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7027246200290211891}
-  m_CullTransparentMesh: 1
---- !u!114 &6384356274654548248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7027246200290211891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &890323534305591213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7027246200290211891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
-  needInformaitonList: []
-  backgroundImage: {fileID: 6384356274654548248}
-  monoLogType: 0
-  delay: 0
+  isFakeInfo: 0
 --- !u!1 &7297265929428816441
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,7 +779,7 @@ GameObject:
   - component: {fileID: 3441321068810282247}
   - component: {fileID: 3840490916966436142}
   - component: {fileID: 1955071082028956084}
-  - component: {fileID: 4517220124719814208}
+  - component: {fileID: 3382190782319367550}
   m_Layer: 5
   m_Name: EvidenceTrigger
   m_TagString: Untagged
@@ -887,7 +800,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.567, y: 0.07}
   m_AnchorMax: {x: 0.567, y: 0.07}
@@ -932,7 +845,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4517220124719814208
+--- !u!114 &3382190782319367550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -941,15 +854,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7297265929428816441}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
+  infomaitionData: {fileID: 0}
   needInformaitonList: []
-  backgroundImage: {fileID: 1955071082028956084}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 11
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &7328404626931448535
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,7 +875,7 @@ GameObject:
   - component: {fileID: 4829510227596047440}
   - component: {fileID: 3096468732505804578}
   - component: {fileID: 7357555620771461565}
-  - component: {fileID: 808799793042277562}
+  - component: {fileID: 6858636400438553857}
   m_Layer: 5
   m_Name: SuspectPersonalityTrigger
   m_TagString: Untagged
@@ -1027,7 +941,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &808799793042277562
+--- !u!114 &6858636400438553857
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1036,15 +950,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7328404626931448535}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
+  infomaitionData: {fileID: 0}
   needInformaitonList: []
-  backgroundImage: {fileID: 7357555620771461565}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 4
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &7415781969013450664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,7 +971,7 @@ GameObject:
   - component: {fileID: 6136562775364300880}
   - component: {fileID: 8689658890762211429}
   - component: {fileID: 3863848257148958871}
-  - component: {fileID: 8594084276906788328}
+  - component: {fileID: 2938045872083096941}
   m_Layer: 5
   m_Name: ReporterNameTrigger
   m_TagString: Untagged
@@ -1122,7 +1037,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8594084276906788328
+--- !u!114 &2938045872083096941
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1131,15 +1046,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7415781969013450664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
+  infomaitionData: {fileID: 11400000, guid: 8c7eab39cd86dd34db1c44084ef5b4ff, type: 2}
   needInformaitonList: []
-  backgroundImage: {fileID: 3863848257148958871}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 8
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &7969038130583203241
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,7 +1067,7 @@ GameObject:
   - component: {fileID: 5466862493306471427}
   - component: {fileID: 5087769353586198298}
   - component: {fileID: 7018996266200689560}
-  - component: {fileID: 3928711643622987199}
+  - component: {fileID: 6431440550822840185}
   m_Layer: 5
   m_Name: SuspectNameTrigger
   m_TagString: Untagged
@@ -1217,7 +1133,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3928711643622987199
+--- !u!114 &6431440550822840185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1226,15 +1142,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7969038130583203241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 1
-  information: "\uC774\uB984"
+  infomaitionData: {fileID: 11400000, guid: 636d8c28fd623f24986b3a8ba0a5cbbb, type: 2}
   needInformaitonList: []
-  backgroundImage: {fileID: 7018996266200689560}
-  monoLogType: 0
+  linkInformaitonList: []
+  backgroundImage: {fileID: 0}
+  monoLogType: 1
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &8454321266748870906
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,9 +1193,7 @@ RectTransform:
   - {fileID: 754205706946457217}
   - {fileID: 8004616013944740795}
   - {fileID: 6136562775364300880}
-  - {fileID: 4168397374044981852}
   - {fileID: 4413128560340217325}
-  - {fileID: 4817382421710499266}
   - {fileID: 4369377390677174276}
   - {fileID: 3441321068810282247}
   m_Father: {fileID: 0}
@@ -1355,98 +1270,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f3829e7acb75c4bbc7a0f70d6f9e5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &9114680951237341571
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4168397374044981852}
-  - component: {fileID: 766296510182919971}
-  - component: {fileID: 4846363261864297003}
-  - component: {fileID: 4189339746077764669}
-  m_Layer: 5
-  m_Name: ReporterAgeTrigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4168397374044981852
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9114680951237341571}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.186, y: 0.366}
-  m_AnchorMax: {x: 0.186, y: 0.366}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 58.7712, y: 14.5}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &766296510182919971
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9114680951237341571}
-  m_CullTransparentMesh: 1
---- !u!114 &4846363261864297003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9114680951237341571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &4189339746077764669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9114680951237341571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  category: 0
-  information: "\uB098\uC774"
-  needInformaitonList: []
-  backgroundImage: {fileID: 4846363261864297003}
-  monoLogType: 0
-  delay: 0

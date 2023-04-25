@@ -15,6 +15,13 @@ public class GameManager : MonoSingleton<GameManager>
 
     public bool IsTutorial => gameState == EGameState.Tutorial;
 
+    public void Init()
+    {
+        DataManager.Inst.Init();
+        FileManager.Inst.Init();
+        OnStartCallback?.Invoke();
+    }
+
     public void ChangeGameState(EGameState state)
     {
         if (gameState == state) { return; }

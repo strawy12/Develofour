@@ -64,9 +64,10 @@ public class ProfileInventoryPanel : MonoBehaviour
     #endregion
     public void Init()
     {
+        categoryList = new List<ProfileCategoryPrefab>();
         sceneCategoryList = new List<ProfileCategoryDataSO>();
         characterCategoryList = new List<ProfileCategoryDataSO>();
-
+        categorysQueue = new Queue<ProfileCategoryPrefab>();
         sceneCategoryList = ResourceManager.Inst.GetProfileCategoryDataList()
             .Where(x => x.Value.categoryType == EProfileCategoryType.Scene)
             .Select(x => x.Value).ToList();

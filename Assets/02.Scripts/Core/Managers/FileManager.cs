@@ -47,19 +47,18 @@ public class FileManager : MonoSingleton<FileManager>
             defaultFileDictionary.Add(file.windowType, file);
         }
     }
-    private void Start()
+
+    public void Init()
     {
         foreach (var fileData in additionFileList)
         {
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
-                string location = DataManager.Inst.GetAdditionalFileName(fileData);
-                Debug.Log(location);
+                string location = DataManager.Inst.GetAdditionalFileLocation(fileData);
                 AddFile(fileData, location);
             }
         }
     }
-
     public FileSO GetDefaultFile(EWindowType windowType)
     {
         if (!defaultFileDictionary.ContainsKey(windowType))
@@ -70,11 +69,13 @@ public class FileManager : MonoSingleton<FileManager>
         FileSO file = defaultFileDictionary[windowType];
         return file;
     }
-
+    public FileSO GetAdditionalFIle(int id)
+    {
+        return additionFileList.Find(x => x.id == id);
+    }
     public void AddFile(FileSO file, string location)
     {
         List<FileSO> fileList = ALLFileAddList();
-
         DirectorySO currentDir = rootDirectory;
 
         currentDir = fileList.Find((x) => x.GetFileLocation() == location) as DirectorySO;
@@ -117,6 +118,10 @@ public class FileManager : MonoSingleton<FileManager>
             }
             foreach (FileSO file in directory.children)
             {
+                if(file == null)
+                {
+                    continue;
+                }
                 fileList.Add(file);
                 if (file is DirectorySO)
                 {
@@ -189,18 +194,20 @@ public class FileManager : MonoSingleton<FileManager>
                 }
             }
 
-
-            if (!isSearchByFileName)
+            if(isSearchByFileName || isSearchTag)
             {
-                fileNameWeight = 0;
-            }
-            if (!isSearchTag)
-            {
-                tagWeight = 0;
-            }
-            FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
+                if (!isSearchByFileName)
+                {
+                    fileNameWeight = 0;
+                }
+                if (!isSearchTag)
+                {
+                    tagWeight = 0;
+                }
+                FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
 
-            foundFileWeights.Add(fileWeight);
+                foundFileWeights.Add(fileWeight);
+            }
         }
 
         foreach (FileSO file in allFileList)
@@ -241,7 +248,7 @@ public class FileManager : MonoSingleton<FileManager>
         {
             return;
         }
-
+        int cnt = 0;
         foreach (FileSO child in currentFile.children)
         {
             FileWeight childWeight = foundFileWeights.Find(x => x.file == child);
@@ -250,7 +257,7 @@ public class FileManager : MonoSingleton<FileManager>
             {
                 continue;
             }
-
+            cnt++;
             if (child is DirectorySO && childWeight.isCompleteWeightDirectory == false)
             {
                 CalcDirectoryWeight(child as DirectorySO);
@@ -258,7 +265,7 @@ public class FileManager : MonoSingleton<FileManager>
 
             totalweigt += childWeight.weight;
         }
-        totalweigt = totalweigt / currentFile.children.Count + currentFileWeight.weight / 2;
+        totalweigt = totalweigt / cnt * 0.75f + currentFileWeight.weight / 2;
         currentFileWeight.isCompleteWeightDirectory = true;
         currentFileWeight.weight = totalweigt;
     }

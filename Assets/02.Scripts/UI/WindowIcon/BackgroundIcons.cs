@@ -12,18 +12,22 @@ public class BackgroundIcons : MonoBehaviour
 
     private List<BackgroundIcon> iconList;
 
+
+
     private void Start()
+    {
+        GameManager.Inst.OnStartCallback += Init;
+    }
+    private void Init()
     {
         IconListInit();
 
         EventManager.StartListening(ELibraryEvent.AddFile, RefreshIcons);
         RefreshIcons(null);
     }
-
     private void IconListInit()
     {
         iconList = new List<BackgroundIcon>();
-
         BackgroundIcon[] icons = GetComponentsInChildren<BackgroundIcon>();
         iconList.AddRange(icons);
         iconList.ForEach(x => x.Init(true));
@@ -32,8 +36,10 @@ public class BackgroundIcons : MonoBehaviour
     private void RefreshIcons(object[] ep)
     {
         var newList = backgroundDirectory.children.Except(iconList.Select(x => x.File).ToList()).ToList();
+        Debug.Log(newList);
         foreach (var file in newList)
         {
+            Debug.Log(file);
             CreateIcon(file);
         }
     }

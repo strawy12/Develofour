@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2347512145256222959}
   - component: {fileID: 1212587694329310416}
   - component: {fileID: 6582059967626977734}
-  - component: {fileID: 6572416611722701068}
+  - component: {fileID: 3440768366205308752}
   m_Layer: 5
   m_Name: PetBirthday
   m_TagString: Untagged
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6572416611722701068
+--- !u!114 &3440768366205308752
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,15 +86,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6354995909807982097}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 4
-  information: "\uC0DD\uC77C"
+  infomaitionData: {fileID: 11400000, guid: 18728ff0614fa9c4c8c6c8d641b1890b, type: 2}
   needInformaitonList: []
+  linkInformaitonList: []
   backgroundImage: {fileID: 0}
-  monoLogType: 0
+  monoLogType: 15
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &6423995700564304842
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +107,7 @@ GameObject:
   - component: {fileID: 9213069681214945222}
   - component: {fileID: 758799134667563683}
   - component: {fileID: 5328895276918163002}
-  - component: {fileID: 9014954476658218671}
+  - component: {fileID: 833759628170426230}
   m_Layer: 5
   m_Name: PetBreed
   m_TagString: Untagged
@@ -172,7 +173,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9014954476658218671
+--- !u!114 &833759628170426230
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,15 +182,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6423995700564304842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 1
-  information: SuspectName
+  infomaitionData: {fileID: 11400000, guid: 3d448313603757842a6d90cd96cc195c, type: 2}
   needInformaitonList: []
+  linkInformaitonList: []
   backgroundImage: {fileID: 0}
-  monoLogType: 0
+  monoLogType: 17
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &7969038130583203241
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +203,7 @@ GameObject:
   - component: {fileID: 5466862493306471427}
   - component: {fileID: 5087769353586198298}
   - component: {fileID: 7018996266200689560}
-  - component: {fileID: 3928711643622987199}
+  - component: {fileID: 602252742211065311}
   m_Layer: 5
   m_Name: PetTemporary_Fake
   m_TagString: Untagged
@@ -267,7 +269,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3928711643622987199
+--- !u!114 &602252742211065311
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -276,15 +278,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7969038130583203241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  information: 
+  infomaitionData: {fileID: 11400000, guid: cd5815b11b8751642bed29c132246ccc, type: 2}
   needInformaitonList: []
+  linkInformaitonList: []
   backgroundImage: {fileID: 0}
-  monoLogType: 0
+  monoLogType: 16
   delay: 0
+  isFakeInfo: 1
 --- !u!1 &8454321266748870906
 GameObject:
   m_ObjectHideFlags: 0

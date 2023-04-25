@@ -34,6 +34,8 @@ public class ProfileUsingDocument : MonoBehaviour
 
     private void ProfilerOpen()
     {
+        profilerOpenBtn.onClick?.RemoveAllListeners();
+
         gameObject.SetActive(false);
         usingDocuments.SetActive(false);
 

@@ -74,11 +74,6 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
     private Vector3 windowPos;
     protected Canvas currentCanvas;
 
-    private void Awake()
-    {
-        Init();
-    }
-
     protected virtual void Init()
     {
         currentCanvas = GetComponent<Canvas>();
