@@ -47,6 +47,7 @@ public class StartCutScene : MonoBehaviour
             EndRequestCutScene();
             GameManager.Inst.ChangeGameState(EGameState.Game);
             OnPlayCutScene = null;
+            MonologSystem.OnEndMonologEvent -= FadeInterrogationRoomSprite;
             Destroy(this.gameObject);
         }
         else
@@ -138,6 +139,7 @@ public class StartCutScene : MonoBehaviour
 
     private void SetActiveThisObject()
     {
+        MonologSystem.OnEndMonologEvent -= FadeInterrogationRoomSprite;
         Destroy(gameObject);
     }
 }
