@@ -23,7 +23,8 @@ public enum EWindowType // 확장자
     Calculator,
     SiteShortCut,
     HarmonyShortCut,
-    End
+    Dummy,
+    End 
 }
 
 [RequireComponent(typeof(GraphicRaycaster))]

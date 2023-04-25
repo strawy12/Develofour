@@ -28,19 +28,19 @@ public class TaskIconAttribute : MonoBehaviour
         file = fileData;
         windowIcon.sprite = file.iconSprite;
 
-        switch (file.taskBarData.openType)
-        {
-            case ETaskBarOpenType.Open:
-                openButton.onClick.AddListener(WindowOpen);
-                break;
-            case ETaskBarOpenType.Clone:
-                openButton.onClick.AddListener(WindowClone);
-                break;
-            case ETaskBarOpenType.CreateOrigin:
-                openButton.onClick.AddListener(WindowCreateOrigin);
-                break;
+        //switch (file.taskBarData.openType)
+        //{
+        //    case ETaskBarOpenType.Open:
+        //        openButton.onClick.AddListener(WindowOpen);
+        //        break;
+        //    case ETaskBarOpenType.Clone:
+        //        openButton.onClick.AddListener(WindowClone);
+        //        break;
+        //    case ETaskBarOpenType.CreateOrigin:
+        //        openButton.onClick.AddListener(WindowCreateOrigin);
+        //        break;
 
-        }
+        //}
 
         closeButton.onClick.AddListener(WindowClose);
     }
