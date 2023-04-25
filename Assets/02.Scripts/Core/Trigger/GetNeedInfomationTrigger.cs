@@ -26,18 +26,18 @@ public class GetNeedInfomationTrigger : InformationTrigger
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        if (category == EProfileCategory.None)
+        if (infomaitionData.category == EProfileCategory.None)
         {
             MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
         }
         else
         {
-            if (!DataManager.Inst.IsProfileInfoData(category, information))  // 찾은 정보인지 확인
+            if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))  // 찾은 정보인지 확인
             {
                 if (needInformaitonList.Count == 0) // 찾는 조건이 없으면
                 {
                     MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+                    FindInfo();
                     OnPointerEnter(eventData);
                 }
                 else // 찾아야 하는 단어가 있으면
@@ -50,7 +50,7 @@ public class GetNeedInfomationTrigger : InformationTrigger
                             MonologSystem.OnStartMonolog?.Invoke(notFinderNeedStringMonoLog, delay, true);
                             if(isGetInfomation)
                             {
-                                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+                                FindInfo();
                                 OnPointerEnter(eventData);
                             }
                             return;
@@ -59,7 +59,7 @@ public class GetNeedInfomationTrigger : InformationTrigger
 
                     // return 안되면 찾은거임
                     MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+                    FindInfo();
                 }
             }
         }
@@ -72,7 +72,7 @@ public class GetNeedInfomationTrigger : InformationTrigger
             return;
         }
 
-        if (!DataManager.Inst.IsProfileInfoData(category, information))
+        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
         {
             yellowColor.a = 0.4f;
             backgroundImage.color = yellowColor;

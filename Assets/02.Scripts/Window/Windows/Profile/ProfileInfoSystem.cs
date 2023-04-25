@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,33 +45,29 @@ public class ProfileInfoSystem : MonoBehaviour
             }
         }
 
-
-        if (ps[2] != null)
-        {
-            List<ProfileInfoTextDataSO> strList = ps[2] as List<ProfileInfoTextDataSO>;
-            foreach (var temp in strList)
-            {
-                if (!DataManager.Inst.IsProfileInfoData(temp.category, temp.key))
-                {
-                    return;
-                }
-            }
-        }
-
         if (!DataManager.Inst.IsProfileInfoData(category, key))
         {
             DataManager.Inst.AddProfileinfoData(category, key);
+            if(!DataManager.Inst.IsCategoryShow(category))
+            {
+                DataManager.Inst.SetCategoryData(category, true);
+                SendCategoryNotice(category);
+            }
             SendAlarm(category, key);
         }
         else
         {
-            Debug.Log("이미 찾은 정보입니다");
             return;
         }
 
         if (!DataManager.Inst.GetProfileSaveData(category).isShowCategory)
         {
             DataManager.Inst.SetCategoryData(category, true);
+        }
+
+        if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
+        {
+            EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
         }
     }
 
@@ -82,13 +79,14 @@ public class ProfileInfoSystem : MonoBehaviour
         {
             if (key == infoText.key)
             {
-                temp = infoText.infoName; 
+                temp = infoText.noticeText; 
             }
         }
+
         string text;
         if (category != EProfileCategory.InvisibleInformation)
         {
-            text = categoryData.categoryTitle + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
+            text = Define.TranslateInfoCategory(categoryData.category) + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
             NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
         }
         else
@@ -97,5 +95,16 @@ public class ProfileInfoSystem : MonoBehaviour
             NoticeSystem.OnNotice.Invoke("Profiler 정보가 확인되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
         }
         
+    }
+    private void SendCategoryNotice(EProfileCategory category)
+    {
+        string head = "새로운 카테고리가 추가되었습니다";
+        string body = "";
+        if (category != EProfileCategory.InvisibleInformation)
+        {
+            body = $"새 카테고리 {Define.TranslateInfoCategory(category)}가 추가되었습니다.";
+        }
+
+        NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
     }
 }

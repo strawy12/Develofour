@@ -35,9 +35,12 @@ public class ProfileWindow : Window
     [Header("UIEtc")]
     [SerializeField]
     private RectTransform area;
-
     [SerializeField]
     private float moveDelay = 0.75f;
+    [SerializeField]
+    private ProfileInventoryElements elements;
+
+
 
     private bool isPanelOpen;
     private bool isMoving;
@@ -156,7 +159,7 @@ public class ProfileWindow : Window
 
         area.DOAnchorPosY(-1000, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
-            profilePanel.gameObject.SetActive(false);
+            profilePanel.Hide();
             fileSearchPanel.gameObject.SetActive(false);
         });
 
@@ -183,22 +186,28 @@ public class ProfileWindow : Window
             ShowFileSearchPanel();
         }
     }
-
+    public override void WindowMaximum()
+    {
+        base.WindowMaximum();
+        elements.SetElementSize(windowAlteration.isMaximum);
+    }
     private void ShowProfileCategoryPanel()
     {
-        ShowPanel(profilePanel.gameObject);
+        ShowPanel();
+        profilePanel.Show();
+        profilePanel.infoPanel.SpriteSetting();
     }
 
     private void ShowFileSearchPanel()
     {
-        ShowPanel(fileSearchPanel.gameObject);
+        ShowPanel();
+        fileSearchPanel.gameObject.SetActive(true);
         EventManager.TriggerEvent(ETutorialEvent.ClickSearchBtn);
     }
 
-    private void ShowPanel(GameObject panel)
+    private void ShowPanel()
     {
         isMoving = true;
-        panel.gameObject.SetActive(true);
 
         area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {

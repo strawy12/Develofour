@@ -23,16 +23,17 @@ public enum EWindowType // 확장자
     Calculator,
     SiteShortCut,
     HarmonyShortCut,
-    End 
+    End
 }
 
 [RequireComponent(typeof(GraphicRaycaster))]
-public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
+public class Window : MonoUI, IPointerClickHandler, ISelectable
 {
     public static int windowMaxCnt;
     public static Window currentWindow;
 
     public int openInt = 0;
+
 
     [Header("Window Data")]
     [SerializeField]
@@ -72,6 +73,10 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     private Vector3 windowPos;
     protected Canvas currentCanvas;
 
+    private void Awake()
+    {
+        Init();
+    }
 
     protected virtual void Init()
     {
@@ -141,7 +146,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     {
         CloseEventAdd();
         OnClosed?.Invoke(file.fileName);
-        
+
         windowMaxCnt--;
 
         if (isSelected)
@@ -159,7 +164,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         SetActive(false);
     }
 
-    public void WindowMaximum()
+    public virtual void WindowMaximum()
     {
         if (!windowAlteration.isMaximum)
         {
@@ -175,6 +180,7 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
         else
         {
             windowAlteration.isMaximum = false;
+
             windowAlteration.size = new Vector2(1280, 720);
             rectTransform.localPosition = windowAlteration.pos;
             rectTransform.sizeDelta = windowAlteration.size;
@@ -289,6 +295,6 @@ public abstract class Window : MonoUI, IPointerClickHandler, ISelectable
     {
         windowBar = GetComponentInChildren<WindowBar>();
     }
-    
+
 #endif
 }
