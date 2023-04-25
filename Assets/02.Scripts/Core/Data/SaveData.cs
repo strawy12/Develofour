@@ -12,7 +12,7 @@ public class PinSaveData
 [System.Serializable]
 public class MonologSaveData
 {
-    public EMonologTextDataType monologType;
+    public int monologType;
     public bool isShow;
 }
 [System.Serializable]

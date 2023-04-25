@@ -39,7 +39,7 @@ public class ProfileInfoSystem : MonoBehaviour
         {
             if(key != Constant.ProfileInfoKey.SUSPECTNAME)
             {
-                MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.TutorialNotFindName, 0.1f, false);
+                MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIALNOTFINDNAME, 0.1f, false);
                 return;
             }
         }

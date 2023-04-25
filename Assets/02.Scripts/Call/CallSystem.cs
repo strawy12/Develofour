@@ -5,7 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using System.Linq;
 using System.Runtime.InteropServices;
+
+class StackMonolog
+{
+    public int priority;
+    public int monologType;
+}
 
 public class CallSystem : MonoSingleton<CallSystem>
 {
@@ -17,6 +24,8 @@ public class CallSystem : MonoSingleton<CallSystem>
     public AudioSpectrumUI spectrumUI;
 
     public bool isRecieveCall;
+
+    private Dictionary<ECharacterDataType, List<StackMonolog>> characterStackList = new Dictionary<ECharacterDataType, List<StackMonolog>>();
 
     public void Start()
     {
@@ -33,14 +42,14 @@ public class CallSystem : MonoSingleton<CallSystem>
     }
 
     // 얘는 결국에는 받는 전용
-    public void OnAnswerCall(ECharacterDataType characterType, EMonologTextDataType monologType)
+    public void OnAnswerCall(ECharacterDataType characterType, int monologType)
     {
         CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
         SetCallUI(charSO);
 
         ShowSpectrumUI(false);
         ShowAnswerButton(true);
-        answerBtn.onClick.AddListener(() => StartMonolog(monologType));
+        ButtonSetting(monologType);
 
         Show(true);
     }
@@ -58,13 +67,33 @@ public class CallSystem : MonoSingleton<CallSystem>
         ShowAnswerButton(false);
         ShowSpectrumUI(true);
 
+        var monolog = characterStackList[data.characterType].OrderBy(x => x.priority).First();
+        ButtonSetting(monolog.monologType);
+
         Show(false);
+    }
+
+    private void ButtonSetting(int data)
+    {
+        answerBtn.onClick.AddListener(() => StartMonolog(data));
+    }
+
+    public void StackMonolog(ECharacterDataType data, MonologTextDataSO monologType)
+    {
+        StackMonolog stackMonolog = new StackMonolog() { monologType = monologType.TextDataType, priority = monologType.CallPriority };
+        if (!characterStackList.ContainsKey(data))
+        {
+            characterStackList.Add(data, new List<StackMonolog>());
+        }
+        if (!characterStackList[data].Contains(stackMonolog))
+        {
+            characterStackList[data].Add(stackMonolog);
+        }
     }
 
     private IEnumerator StartRequestCall(ECharacterDataType characterType)
     {
         float delay = 5f;
-
         switch (characterType)
         {
             default:
@@ -128,7 +157,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         profileIcon.sprite = data.profileIcon;
     }
 
-    public void StartMonolog(EMonologTextDataType monologType)
+    public void StartMonolog(int monologType)
     {
         //저장쪽은 나중에 생각
         MonologSystem.OnEndMonologEvent += Hide;
@@ -169,7 +198,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         spectrumUI.StopSpectrum();
     }
 
-    public void SetEndMonolog(EMonologTextDataType monologType)
+    public void SetEndMonolog(int monologType)
     {
         MonologSystem.OnStopMonolog?.Invoke();
     }

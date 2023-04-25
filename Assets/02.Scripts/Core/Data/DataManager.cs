@@ -15,7 +15,12 @@ public class DataManager : MonoSingleton<DataManager>
 
     public SaveData debug_Data;
 
-    private void Awake()
+    private void Start()
+    {
+        GameManager.Inst.OnStartCallback += Init;
+    }
+
+    private void Init()
     {
         SAVE_PATH = Application.dataPath + "/Save/";
         CheckDirectory();
@@ -52,10 +57,17 @@ public class DataManager : MonoSingleton<DataManager>
             }
         }
 
-        for (int i = ((int)EMonologTextDataType.None) + 1; i < (int)EMonologTextDataType.Count; i++)
+        Debug.Log(ResourceManager.Inst.MonologDataListCount);
+        for (int i = 0; i < ResourceManager.Inst.MonologDataListCount; i++)
         {
-            saveData.monologData.Add(new MonologSaveData() { monologType = (EMonologTextDataType)i, isShow = false });
+            saveData.monologData.Add(new MonologSaveData() { monologType = 0, isShow = false });
         }
+
+        for (int i = 0; i < ResourceManager.Inst.MonologDataListCount; i++)
+        {
+            saveData.monologData[i].monologType = ResourceManager.Inst.MonologTextDataSOList[i].TextDataType;
+        }
+
 
         for (int i = ((int)EGuideTopicName.None) + 1; i < (int)EGuideTopicName.Count; i++)
         {
@@ -133,9 +145,10 @@ public class DataManager : MonoSingleton<DataManager>
             data.isLock = value;
     }
 
-    public bool IsMonologShow(EMonologTextDataType type)
+    public bool IsMonologShow(int type)
     {
-        MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);
+        Debug.Log("자신의 타입 : " + type);
+        MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);;
         if (data == null)
         {
             Debug.Log("Json에 존재하지않는 텍스트 데이터 입니다.");
@@ -145,7 +158,7 @@ public class DataManager : MonoSingleton<DataManager>
         return data.isShow;
     }
 
-    public void SetMonologShow(EMonologTextDataType type, bool value)
+    public void SetMonologShow(int type, bool value)
     {
         MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);
         if (data == null)

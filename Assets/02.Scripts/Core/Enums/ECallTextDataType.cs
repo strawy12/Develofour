@@ -1,5 +1,6 @@
 public enum ECharacterDataType
 {
     None = -1,
-    assistant
+    assistant,
+    detective,
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public partial class MonologSystem : TextSystem
 {
-    public static Action<EMonologTextDataType, float, bool> OnStartMonolog { get; private set; }
+    public static Action<int, float, bool> OnStartMonolog { get; private set; }
     public static Action OnStopMonolog { get; private set; }
 
     public static Action OnEndMonologEvent;
@@ -26,12 +26,12 @@ public partial class MonologSystem : TextSystem
         EventManager.StartListening(EMonologEvent.MonologException, ProfileFileException);
     }
     
-    public void StartMonolog(EMonologTextDataType textDataType, float beforeDelay, bool isSave)
+    public void StartMonolog(int textDataType, float beforeDelay, bool isSave)
     {
         StartCoroutine(StartMonologCor(textDataType, beforeDelay, isSave));
     }
 
-    public IEnumerator StartMonologCor(EMonologTextDataType textDataType, float beforeDelay, bool isSave)
+    public IEnumerator StartMonologCor(int textDataType, float beforeDelay, bool isSave)
     {
         if (DataManager.Inst.IsMonologShow(textDataType))
         {

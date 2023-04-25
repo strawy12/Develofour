@@ -11,7 +11,7 @@ public class TextDataSO : ScriptableObject
     // TextDataSO 고정 
 
     [SerializeField]
-    private List<TextData> textDataList;
+    public List<TextData> textDataList;
 
 
     public TextData this[int index]
