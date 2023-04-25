@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 using UnityEditor.UIElements;
 using System.Data;
 
-public class FileSOWindow : EditorWindow
+public class FileSOToolsWindow : EditorWindow
 {
     const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv&range=2:1000&gid=1984911729";
     //https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv&gid=1984911729
@@ -24,15 +24,15 @@ public class FileSOWindow : EditorWindow
     private Label resultLabel;
     private Button translateBtn;
 
-    [MenuItem("Tools/FileSOWindow")]
+    [MenuItem("Tools/FileSOToolsWindow")]
     public static void ShowWindow()
     {
-        FileSOWindow win = GetWindow<FileSOWindow>();
+        FileSOToolsWindow win = GetWindow<FileSOToolsWindow>();
     }
 
     private void OnEnable()
     {
-        VisualTreeAsset xml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/10.CustomWindows/Editor/FileSOTools/FileSOTools.uxml");
+        VisualTreeAsset xml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/10.CustomWindows/Editor/FileSOToolsWindow/FileSOToolsWindow.uxml");
 
         TemplateContainer tree = xml.CloneTree();
         rootVisualElement.Add(tree);
