@@ -25,8 +25,6 @@ public abstract class Mail : MonoBehaviour
 
     public Action OnChangeRemoveCatagory;
 
-    [SerializeField]
-    private bool isCanDelete = true;
 
     private int originMask;
 

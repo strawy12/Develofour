@@ -40,7 +40,6 @@ public partial class MediaPlayer : Window
 
     private MediaPlayInfoFind infoFind;
 
-    int lineCnt = 1;
     private float MediaLength
     {
         get
@@ -77,7 +76,6 @@ public partial class MediaPlayer : Window
         audioSource.clip = mediaPlayerData.mediaAudioClip;
 
         textParentRect = mediaDetailText.transform.parent.GetComponent<RectTransform>();
-        lineCnt = 1;
         InitDelayList();
 
         mediaPlaySlider.OnMousePointDown += MediaSliderDown;

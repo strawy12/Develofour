@@ -27,7 +27,6 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private bool isTutorialEnd;
     private bool holdingDown;
     private bool anyKeyUp;
-    private bool isDrag;
 
     private void Awake()
     {
@@ -61,7 +60,6 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (!isTutorialEnd) return;
-        isDrag = true;
         beginPosY = eventData.position.y;
     }
 

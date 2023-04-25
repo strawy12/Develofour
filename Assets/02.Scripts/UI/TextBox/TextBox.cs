@@ -32,7 +32,6 @@ public class TextBox : MonoUI
 
     public bool isTextPrinting = false;
     private bool isActive = false;
-    private bool isDelayEnd = false;
 
     private Dictionary<int, Action> triggerDictionary;
 

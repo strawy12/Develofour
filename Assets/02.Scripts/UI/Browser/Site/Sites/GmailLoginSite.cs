@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class GmailLoginSite : Site 
 {
-    private bool isShowToggleClick = false;
-
     [SerializeField]
     private string password;
     [SerializeField]
@@ -48,8 +46,6 @@ public class GmailLoginSite : Site
 
     private void ShowPassword(bool isShow)
     {
-        isShowToggleClick = true;
- 
         passwordField.InputField.contentType = isShow ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
         passwordField.InputField.ForceLabelUpdate();
     }
