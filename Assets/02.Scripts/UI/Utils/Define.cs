@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public static class Define
 {
@@ -198,5 +199,34 @@ public static class Define
         {
             return false;
         }
+    }
+
+    public static string TranslateInfoCategory(EProfileCategory category)
+    {
+        switch(category)
+        {
+            case EProfileCategory.InvisibleInformation:
+                return "보이지 않는 정보";
+        }
+
+        return null;
+    }
+    public static void SetSprite(Image image, Sprite sprite, Vector2 maxSize)
+    {
+        image.sprite = sprite;
+
+        Vector2 size = image.sprite.rect.size;
+
+        float scale = 1f;
+        if (size.y > maxSize.y)
+        {
+            scale = maxSize.y / size.y;
+        }
+        else if (size.x > maxSize.x)
+        {
+            scale = maxSize.x / size.x;
+        }
+
+        image.rectTransform.sizeDelta = size * scale;
     }
 }

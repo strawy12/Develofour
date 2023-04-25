@@ -7,17 +7,21 @@ using UnityEngine.EventSystems;
 
 public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public ProfileInfoTextDataSO textDataSO;
 
-    public bool isTitleShow = false;
-    public TMP_Text infoText;
+    private ProfileInfoTextDataSO currentInfoData;
+
+    public ProfileInfoTextDataSO InfoData
+    {
+        get
+        {
+            return currentInfoData;
+        }
+    }
+
+    [SerializeField]
+    private TMP_Text infoText;
 
     public ProfileShowInfoTextPanel showPanel;
-
-    public TMP_Text infoTitleText;
-
-    private string infoTitle;
-
     private bool isFind;
 
     public bool IsFind
@@ -27,34 +31,31 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
 
     public Action OnFindText;
-    //이전 텍스트로 변경, 이후 텍스트로 변경해주는 함수
 
-    public void Init()
+    private RectTransform rectTransform;
+
+    public RectTransform RectTrm
     {
-        infoTitle = infoTitleText.text;
-
-        if (!isTitleShow) 
+        get
         {
-            string[] info = infoTitle.Split(" ");
-            string str = "";
-            for (int i = 0; i < info[0].Length; i++)
-            {
-                str += "?";
-            }
-            str += " :";
-            infoTitleText.text = str;
+            rectTransform ??= GetComponent<RectTransform>();
+            return rectTransform;
         }
     }
 
-    public void ShowTitle()
+    public void Init()
     {
-        infoTitleText.text = infoTitle;
+        rectTransform ??= GetComponent<RectTransform>();
     }
 
-
-    public void ChangeText()
+    public void Setting(ProfileInfoTextDataSO infoData)
     {
-        infoText.text = textDataSO.afterText;
+        currentInfoData = infoData;
+    }
+
+    public void Show()
+    {
+        infoText.text = currentInfoData.infomationText;
         isFind = true;
         
         OnFindText?.Invoke();
@@ -62,18 +63,23 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (infoText.text != textDataSO.afterText)
+        if (infoText.text != currentInfoData.infomationText)
         {
             return;
         }
 
         showPanel.text.text = infoText.text;
         showPanel.transform.SetParent(gameObject.transform.parent);
-        showPanel.GetComponent<RectTransform>().position = gameObject.GetComponent<RectTransform>().position;
+        showPanel.RectTrm.position = rectTransform.position;
         showPanel.transform.SetParent(showPanel.showPanelParent.transform);
-        showPanel.GetComponent<RectTransform>().anchoredPosition += new Vector2(20, 35);
+        showPanel.RectTrm.anchoredPosition += new Vector2(20, 35);
         showPanel.SetDownText();
         showPanel.gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 
     public void OnPointerExit(PointerEventData eventData)

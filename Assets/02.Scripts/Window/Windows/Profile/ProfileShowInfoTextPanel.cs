@@ -10,6 +10,17 @@ public class ProfileShowInfoTextPanel : MonoBehaviour
 
     public TMP_Text downText;
 
+    private RectTransform rectTransform; 
+
+    public RectTransform RectTrm
+    {
+        get
+        {
+            rectTransform ??= GetComponent<RectTransform>();
+            return rectTransform;
+        }
+    }
+
     public void SetDownText()
     {
         downText.text = text.text;

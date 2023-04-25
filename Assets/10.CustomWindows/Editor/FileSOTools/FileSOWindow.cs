@@ -103,11 +103,19 @@ public class FileSOWindow : EditorWindow
     public void SearchFileSO(int id, string dataText)
     {
         string[] rows = dataText.Split('\n');
-
         for (int i = 0; i < rows.Length; i++)
         {
-            string[] columns = rows[i].Split('\t');
+            if(i == 49)
+            {
+                int a = 0;
+                a = 1;
+                if(a == 0)
+                {
 
+                }
+            }
+            string[] columns = rows[i].Split('\t');
+             
             List<int> childIdList = new List<int>();
             string[] children = columns[11].Split(',');
             foreach (string child in children)

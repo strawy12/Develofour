@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +45,6 @@ public class ProfileInfoSystem : MonoBehaviour
             }
         }
 
-
         if (ps[2] != null)
         {
             List<ProfileInfoTextDataSO> strList = ps[2] as List<ProfileInfoTextDataSO>;
@@ -72,6 +72,11 @@ public class ProfileInfoSystem : MonoBehaviour
         {
             DataManager.Inst.SetCategoryData(category, true);
         }
+
+        if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
+        {
+            EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
+        }
     }
 
     public void SendAlarm(EProfileCategory category, string key)
@@ -82,13 +87,14 @@ public class ProfileInfoSystem : MonoBehaviour
         {
             if (key == infoText.key)
             {
-                temp = infoText.infoName; 
+                temp = infoText.noticeText; 
             }
         }
+
         string text;
         if (category != EProfileCategory.InvisibleInformation)
         {
-            text = categoryData.categoryTitle + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
+            text = Define.TranslateInfoCategory(categoryData.category) + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
             NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
         }
         else

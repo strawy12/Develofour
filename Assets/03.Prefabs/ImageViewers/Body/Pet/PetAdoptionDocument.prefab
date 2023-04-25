@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8837064048313490610}
   - component: {fileID: 5321420390031160960}
   - component: {fileID: 8530326333680677032}
-  - component: {fileID: 6571917767431958131}
+  - component: {fileID: 1933475388381514370}
   m_Layer: 5
   m_Name: KangYohanName
   m_TagString: Untagged
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.49019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6571917767431958131
+--- !u!114 &1933475388381514370
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,15 +86,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1402699708931610458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 1
-  information: SuspectName
+  infomaitionData: {fileID: 11400000, guid: 636d8c28fd623f24986b3a8ba0a5cbbb, type: 2}
   needInformaitonList: []
+  linkInformaitonList: []
   backgroundImage: {fileID: 0}
-  monoLogType: 0
+  monoLogType: 1
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &2657647842557664394
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +107,7 @@ GameObject:
   - component: {fileID: 6380963532844660737}
   - component: {fileID: 5855707600897257063}
   - component: {fileID: 8166666513653731511}
-  - component: {fileID: 3305387575055249846}
+  - component: {fileID: 8301711498836949260}
   m_Layer: 5
   m_Name: ParkJuyoungName
   m_TagString: Untagged
@@ -155,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.49019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -172,7 +173,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3305387575055249846
+--- !u!114 &8301711498836949260
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,15 +182,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2657647842557664394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 1
-  information: SuspectName
+  infomaitionData: {fileID: 11400000, guid: 523a26259b6e5c34db4ea04f5c6e1edb, type: 2}
   needInformaitonList: []
+  linkInformaitonList: []
   backgroundImage: {fileID: 0}
-  monoLogType: 0
+  monoLogType: 21
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &3818261189880684645
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +203,7 @@ GameObject:
   - component: {fileID: 2148257995480145353}
   - component: {fileID: 1107419813764250994}
   - component: {fileID: 1460146047793184396}
-  - component: {fileID: 6847546609235671011}
+  - component: {fileID: 9067040286866725854}
   m_Layer: 5
   m_Name: KangYohanResidence
   m_TagString: Untagged
@@ -250,7 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.49019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -267,7 +269,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6847546609235671011
+--- !u!114 &9067040286866725854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -276,15 +278,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3818261189880684645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 1
-  information: SuspectName
+  infomaitionData: {fileID: 11400000, guid: b85ff34ce8ea0be41aacefaa439c972b, type: 2}
   needInformaitonList: []
+  linkInformaitonList: []
   backgroundImage: {fileID: 0}
-  monoLogType: 0
+  monoLogType: 20
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &6423995700564304842
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +299,7 @@ GameObject:
   - component: {fileID: 9213069681214945222}
   - component: {fileID: 758799134667563683}
   - component: {fileID: 5328895276918163002}
-  - component: {fileID: 9014954476658218671}
+  - component: {fileID: 5070030814786423508}
   m_Layer: 5
   m_Name: KangYohanName
   m_TagString: Untagged
@@ -345,7 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.49019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -362,7 +365,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9014954476658218671
+--- !u!114 &5070030814786423508
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -371,15 +374,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6423995700564304842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 1
-  information: SuspectName
+  infomaitionData: {fileID: 11400000, guid: 636d8c28fd623f24986b3a8ba0a5cbbb, type: 2}
   needInformaitonList: []
+  linkInformaitonList: []
   backgroundImage: {fileID: 0}
-  monoLogType: 0
+  monoLogType: 1
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &6454808332370733193
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +395,7 @@ GameObject:
   - component: {fileID: 5962409139678740383}
   - component: {fileID: 4743722669467388465}
   - component: {fileID: 6185612128712086359}
-  - component: {fileID: 4301570637955148081}
+  - component: {fileID: 4876262900930263310}
   m_Layer: 5
   m_Name: KangYohanBirth
   m_TagString: Untagged
@@ -440,7 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.49019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -457,7 +461,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4301570637955148081
+--- !u!114 &4876262900930263310
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -466,15 +470,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6454808332370733193}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 1
-  information: SuspectName
+  infomaitionData: {fileID: 11400000, guid: 5e7ae62834be57643bba7a1d2d29b9a0, type: 2}
   needInformaitonList: []
+  linkInformaitonList: []
   backgroundImage: {fileID: 0}
-  monoLogType: 0
+  monoLogType: 19
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &7969038130583203241
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +491,7 @@ GameObject:
   - component: {fileID: 5466862493306471427}
   - component: {fileID: 5087769353586198298}
   - component: {fileID: 7018996266200689560}
-  - component: {fileID: 3928711643622987199}
+  - component: {fileID: 970448463340243604}
   m_Layer: 5
   m_Name: PetTemporaryTrigger
   m_TagString: Untagged
@@ -535,7 +540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.49019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -552,7 +557,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3928711643622987199
+--- !u!114 &970448463340243604
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -561,16 +566,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7969038130583203241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821eea7ff19ed014084f76f8ce9d623d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 4
-  information: "\uC784\uC2DC \uC774\uB984"
-  needInformaitonList:
-  - {fileID: 11400000, guid: f3cbedc430d3c0346ba490115d62b824, type: 2}
+  infomaitionData: {fileID: 11400000, guid: cd5815b11b8751642bed29c132246ccc, type: 2}
+  needInformaitonList: []
+  linkInformaitonList: []
   backgroundImage: {fileID: 0}
-  monoLogType: 0
+  monoLogType: 18
   delay: 0
+  isFakeInfo: 0
 --- !u!1 &8454321266748870906
 GameObject:
   m_ObjectHideFlags: 0
