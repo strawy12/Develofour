@@ -197,7 +197,6 @@ public class ProfileWindow : Window
     {
         ShowPanel();
         profilePanel.Show();
-        profilePanel.infoPanel.SpriteSetting();
     }
 
     private void ShowFileSearchPanel()
