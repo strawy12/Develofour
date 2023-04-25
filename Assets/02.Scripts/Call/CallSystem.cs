@@ -16,6 +16,7 @@ class StackMonolog
 
 public class CallSystem : MonoSingleton<CallSystem>
 {
+
     [Header("CallUI")]
     public TMP_Text nameText;
     public Image profileIcon;
@@ -58,17 +59,22 @@ public class CallSystem : MonoSingleton<CallSystem>
     public void OnRequestCall(CharacterInfoDataSO data)
     {
         SetCallUI(data);
+        if (characterStackList.ContainsKey(data.characterType) && characterStackList[data.characterType].Count != 0)
+        {
+            StartCoroutine(StartRequestCall(characterStackList[data.characterType][0].monologType));
+            characterStackList[data.characterType].RemoveAt(0);
+        }
+        else
+        {
+            StartCoroutine(StartRequestCall(-1));
+        }
 
         // 여기서 Monolog 판단을 해줘야함
         // 몇초 뒤 받을 건지, switch Coroutine을 추천함
         // ECharacterType 으로 하고 다 SO 만들어주기
-        StartCoroutine(StartRequestCall(data.characterType));
 
         ShowAnswerButton(false);
         ShowSpectrumUI(true);
-
-        var monolog = characterStackList[data.characterType].OrderBy(x => x.priority).First();
-        ButtonSetting(monolog.monologType);
 
         Show(false);
     }
@@ -89,18 +95,22 @@ public class CallSystem : MonoSingleton<CallSystem>
         {
             characterStackList[data].Add(stackMonolog);
         }
+
+        var monolog = characterStackList[data].OrderBy(x => x.priority).First();
     }
 
-    private IEnumerator StartRequestCall(ECharacterDataType characterType)
+    private IEnumerator StartRequestCall(int characterType)
     {
         float delay = 5f;
-        switch (characterType)
+        yield return PlayPhoneCallSound(delay);
+        if(characterType != -1)
         {
-            default:
-                Debug.Log(delay);
-                yield return PlayPhoneCallSound(delay);
-                //Hide();
-                break;
+            MonologSystem.OnEndMonologEvent += Hide;
+            MonologSystem.OnStartMonolog(characterType, 0, true);
+        }
+        else
+        {
+            Hide();
         }
     }
 
@@ -113,7 +123,6 @@ public class CallSystem : MonoSingleton<CallSystem>
             yield return new WaitForSeconds(soundSecond);
             delay -= soundSecond;
         }
-        Hide();
     }
 
     private void ShowAnswerButton(bool isShow)
@@ -189,6 +198,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     // 전화를 받았을 때 시작 
     public void Hide()
     {
+        MonologSystem.OnEndMonologEvent -= Hide;
         transform.DOKill(true);
         Sound.OnImmediatelyStop(Sound.EAudioType.PhoneCall);
         EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { false });
