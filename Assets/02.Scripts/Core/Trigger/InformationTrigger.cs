@@ -85,6 +85,8 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
 
     public void CheckLinkInfo()
     {
+        if(infomaitionData == null) { return; }
+
         if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
         {
             if (linkInformaitonList.Count != 0)
