@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ProfileCategoryTypePanel : MonoBehaviour
+public class ProfileInventoryPanel : MonoBehaviour
 {
     private EProfileCategoryType categoryType;
 
@@ -14,7 +14,7 @@ public class ProfileCategoryTypePanel : MonoBehaviour
     [SerializeField]
     private ProfileCategoryPrefab categoryPrefab;
     [SerializeField]
-    private Transform categoryParent;
+    private ProfileInventoryElements categoryParent;
     private Queue<ProfileCategoryPrefab> categorysQueue;
 
     private List<ProfileCategoryPrefab> categoryList;
@@ -24,7 +24,7 @@ public class ProfileCategoryTypePanel : MonoBehaviour
     {
         for (int i = 0; i < 20; i++)
         {
-            ProfileCategoryPrefab infoText = Instantiate(categoryPrefab, categoryParent);
+            ProfileCategoryPrefab infoText = Instantiate(categoryPrefab, categoryParent.transform);
             infoText.Init();
             infoText.Hide();
             categorysQueue.Enqueue(infoText);
@@ -88,7 +88,20 @@ public class ProfileCategoryTypePanel : MonoBehaviour
             ShowCharacterPanel();
         }
     }
-
+    public void AddProfileCategoryPrefab(EProfileCategory category)
+    {
+        if(categoryType == EProfileCategoryType.Character)
+        {
+            foreach(var data in characterCategoryList)
+            {
+                if(data.category == category)
+                {
+                    var prefab = categoryList.Find(x => x.CurrentData.category == category);
+                    prefab.Show(data);
+                }
+            }
+        }
+    }
     public void ShowCharacterPanel()
     {
         PushAll();

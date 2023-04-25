@@ -164,7 +164,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
         SetActive(false);
     }
 
-    public void WindowMaximum()
+    public virtual void WindowMaximum()
     {
         if (!windowAlteration.isMaximum)
         {

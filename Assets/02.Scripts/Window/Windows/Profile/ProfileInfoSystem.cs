@@ -45,26 +45,17 @@ public class ProfileInfoSystem : MonoBehaviour
             }
         }
 
-        if (ps[2] != null)
-        {
-            List<ProfileInfoTextDataSO> strList = ps[2] as List<ProfileInfoTextDataSO>;
-            foreach (var temp in strList)
-            {
-                if (!DataManager.Inst.IsProfileInfoData(temp.category, temp.key))
-                {
-                    return;
-                }
-            }
-        }
-
         if (!DataManager.Inst.IsProfileInfoData(category, key))
         {
             DataManager.Inst.AddProfileinfoData(category, key);
+            if(!DataManager.Inst.IsCategoryShow(category))
+            {
+                DataManager.Inst.SetCategoryData(category, true);
+            }
             SendAlarm(category, key);
         }
         else
         {
-            Debug.Log("이미 찾은 정보입니다");
             return;
         }
 

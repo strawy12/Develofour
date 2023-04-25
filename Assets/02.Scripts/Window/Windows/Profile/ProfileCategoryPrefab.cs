@@ -5,18 +5,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ProfileCategoryPrefab : MonoBehaviour, IPointerClickHandler, IPointerExitHandler, IPointerEnterHandler
+public class ProfileCategoryPrefab : MonoBehaviour, IPointerClickHandler
 {
     private ProfileCategoryDataSO currentData;
-
+    public ProfileCategoryDataSO CurrentData
+    {
+        get
+        {
+            return currentData;
+        }
+    }
     [SerializeField]
     private TMP_Text titleName;
 
     [SerializeField]
     private Image categoryImage;
-
-    [SerializeField]
-    private GameObject highlightImage;
 
     private Vector2 maxSize;
 
@@ -28,6 +31,12 @@ public class ProfileCategoryPrefab : MonoBehaviour, IPointerClickHandler, IPoint
     public void Show(ProfileCategoryDataSO categoryData)
     {
         currentData = categoryData;
+
+        if (!DataManager.Inst.IsCategoryShow(categoryData.category))
+        {
+            return;   
+        }
+
         gameObject.SetActive(true);
         titleName.SetText(Define.TranslateInfoCategory(categoryData.category));
         Define.SetSprite(categoryImage, categoryData.categorySprite, maxSize);
@@ -40,15 +49,6 @@ public class ProfileCategoryPrefab : MonoBehaviour, IPointerClickHandler, IPoint
     }
     #endregion 
     #region EventSystem
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        highlightImage.gameObject.SetActive(true);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        highlightImage.gameObject.SetActive(false);
-    }
 
     public void OnPointerClick(PointerEventData eventData)
     {

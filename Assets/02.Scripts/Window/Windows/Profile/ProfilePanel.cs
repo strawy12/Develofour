@@ -19,10 +19,10 @@ public enum EProfileCategory
 
 public class ProfilePanel : MonoBehaviour
 {
+    public ProfileInfoPanel infoPanel;
+
     [SerializeField]
-    private ProfileInfoPanel infoPanel;
-    [SerializeField]
-    private ProfileCategoryTypePanel typePanel;
+    private ProfileInventoryPanel typePanel;
     [SerializeField]
     private Sprite profilerSpeite;
     [SerializeField]
@@ -30,15 +30,27 @@ public class ProfilePanel : MonoBehaviour
     [SerializeField]
     private Button characterBtn;
 
-
     public void Init()
     {
         infoPanel.Init();
         typePanel.Init();
         characterBtn.onClick.AddListener(OnClickCharacterPanelBtn);
         sceneBtn.onClick.AddListener(OnClickScenePanelBtn);
-    }
+        EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
 
+    }
+    public void ChangeValue(object[] ps)
+    {
+        if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
+        {
+            return;
+        }
+        EProfileCategory category = (EProfileCategory)ps[0];
+        string key = ps[1] as string;
+
+        infoPanel.ChangeValue(category, key);
+        typePanel.AddProfileCategoryPrefab(category);
+    }
     public void Show()
     {
         gameObject.SetActive(true);
@@ -59,6 +71,9 @@ public class ProfilePanel : MonoBehaviour
     {
         typePanel.ShowScenePanel();
     }
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EProfileEvent.FindInfoText, ChangeValue);
+    }
 
-   
 }
