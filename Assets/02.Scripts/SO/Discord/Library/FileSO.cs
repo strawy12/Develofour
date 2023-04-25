@@ -43,12 +43,28 @@ public class FileSO : SOParent
     public string windowPinHintGuide;
     
     public List<string> tags;
-    public bool isDummy;
     public bool isHide;
     [Header("Debug")]
     public string splitString;
 
     #region GetFileData
+
+#if UNITY_EDITOR
+    public string GetRealFileLocation()
+    {
+        string location = "";
+        if (parent == null)
+        {
+            location = this.name + '\\';
+
+            return location;
+        }
+
+        location = string.Format("{0}{1}\\", parent.GetRealFileLocation(), this.name);
+
+        return location;
+    }
+#endif
 
     public string GetFileLocation()
     {

@@ -23,6 +23,7 @@ public enum EWindowType // 확장자
     Calculator,
     SiteShortCut,
     HarmonyShortCut,
+    Dummy,
     End 
 }
 

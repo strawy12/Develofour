@@ -11,6 +11,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Object = System.Object;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Unity.VisualScripting.YamlDotNet.Serialization.TypeInspectors;
 
 public class SOSettingWindow : EditorWindow
 {
@@ -115,7 +116,6 @@ public class SOSettingWindow : EditorWindow
             string path = AssetDatabase.GUIDToAssetPath(guid);
             fileSOList.Add(AssetDatabase.LoadAssetAtPath<FileSO>(path));
         }
-
         for (int i = 0; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split('\t');
@@ -130,7 +130,7 @@ public class SOSettingWindow : EditorWindow
 
             List<int> childIdList = new List<int>();
 
-            string[] children = columns[11].Split(',');
+            string[] children = columns[8].Split(',');
             foreach (string child in children)
             {
                 string newChild = Regex.Replace(child, "[^0-9]", "");
@@ -145,10 +145,20 @@ public class SOSettingWindow : EditorWindow
 
             if (file == null)
             {
-                file = CreateInstance<FileSO>();
+                if (type == EWindowType.Directory)
+                {
+                    file = CreateInstance<DirectorySO>();
+                    (file as DirectorySO).children = new List<FileSO>();
+
+                }
+                else
+                {
+                    file = CreateInstance<FileSO>();
+                }
                 isCreate = true;
             }
 
+            file.id = id;
             file.fileName = fileName;
             file.windowType = type;
             file.isFileLock = isFileLock;
@@ -157,23 +167,62 @@ public class SOSettingWindow : EditorWindow
 
             if (file is DirectorySO)
             {
-                (file as DirectorySO).children.Clear();
+                DirectorySO directory = (DirectorySO)file;
+                directory.children.Clear();
                 foreach (int childID in childIdList)
                 {
                     FileSO child = fileSOList.Find(x => x.id == childID);
-                    Debug.Log($"{child}_{childID}");
-                    child.parent = file as DirectorySO;
-                    (file as DirectorySO).children.Add(child);
+                    if (child == null) continue;
+                    //Debug.Log($"{child}_{childID}");
+                    child.parent = directory;
+                    directory.children.Add(child);
                 }
+            }
+
+            string path = file.GetRealFileLocation();
+            string SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}.asset";
+            SO_PATH = SO_PATH.Replace("\\", "/");
+
+            CreateFolder(SO_PATH); 
+
+            if (!File.Exists(SO_PATH))
+            {
+                Debug.Log(11);
+                string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());
+                AssetDatabase.MoveAsset(oldPath, SO_PATH);
+                AssetDatabase.Refresh();
             }
 
             if (isCreate)
             {
-                string SO_PATH = $"Assets/{file.fileName}.asset";
+                if (File.Exists(SO_PATH))
+                {
+                    SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path}_{id}.asset";
+                }
+
+                CreateFolder(SO_PATH);
+
+
                 AssetDatabase.CreateAsset(file, SO_PATH);
                 AssetDatabase.Refresh();
             }
         }
+    }
+
+    private void CreateFolder(string path)
+    {
+        string[] splitPath = path.Split('/');
+        string temp = "Assets/07.ScriptableObjects/DirectorySO/";
+        for (int i = 3; i < splitPath.Length -1; i++)
+        {
+            temp += '/'+splitPath[i];
+            if (!Directory.Exists(temp))
+            {
+                Debug.Log(temp);
+                Directory.CreateDirectory(temp);
+            }
+        }
+        AssetDatabase.Refresh();
     }
 
     public void CreateRoot(string[] root)
