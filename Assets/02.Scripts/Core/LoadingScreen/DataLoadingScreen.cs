@@ -27,7 +27,7 @@ public class DataLoadingScreen : MonoBehaviour
         StartCoroutine(Loading());
         StartCoroutine(LoadingText());
 
-        EventManager.StartListening(ECoreEvent.EndLoadResources, (ps) => completedDataLoad = true);
+        GameManager.Inst.OnStartCallback += () => completedDataLoad = true;
     }
 
     private IEnumerator Loading()
@@ -46,7 +46,6 @@ public class DataLoadingScreen : MonoBehaviour
         }
 
         EventManager.TriggerEvent(ECoreEvent.EndDataLoading);
-        EventManager.StopAllListening(ECoreEvent.EndLoadResources);
         gameObject.SetActive(false);
 
     }

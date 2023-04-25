@@ -9,7 +9,10 @@ public class GetNeedInfomationTrigger : InformationTrigger
 {
     [Header("MonoLogTexts")]
     [SerializeField]
-    private EMonologTextDataType notFinderNeedStringMonoLog;
+    protected int notFinderNeedStringMonoLog;
+
+    [SerializeField]
+    private bool isGetInfomation;
 
     protected override void OnEnable()
     {
@@ -45,6 +48,11 @@ public class GetNeedInfomationTrigger : InformationTrigger
                             // 안 찾은게 있다면
                         {
                             MonologSystem.OnStartMonolog?.Invoke(notFinderNeedStringMonoLog, delay, true);
+                            if(isGetInfomation)
+                            {
+                                FindInfo();
+                                OnPointerEnter(eventData);
+                            }
                             return;
                         }
                     }
@@ -59,7 +67,21 @@ public class GetNeedInfomationTrigger : InformationTrigger
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        base.OnPointerEnter(eventData);
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
+
+        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
+        {
+            yellowColor.a = 0.4f;
+            backgroundImage.color = yellowColor;
+        }
+        else
+        {
+            redColor.a = 0.4f;
+            backgroundImage.color = redColor;
+        }
     }
 
     public override void OnPointerExit(PointerEventData eventData)

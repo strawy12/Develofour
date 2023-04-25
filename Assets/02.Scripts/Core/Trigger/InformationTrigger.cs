@@ -12,11 +12,11 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     [SerializeField] protected List<ProfileInfoTextDataSO> linkInformaitonList;
     [SerializeField] protected Image backgroundImage;
 
-    private Color yellowColor = new Color(255, 255, 0, 40);
-    private Color redColor = new Color(255, 0, 0, 40);
-    private Color tempColor;
+    protected Color yellowColor = new Color(255, 255, 0, 40);
+    protected Color redColor = new Color(255, 0, 0, 40);
+    protected Color tempColor;
 
-    public EMonologTextDataType monoLogType;
+    public int monoLogType;
     public float delay;
 
     protected virtual void OnEnable()
@@ -36,7 +36,7 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
 
     protected void FindInfo()
     {
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { infomaitionData.category, infomaitionData.key, null });
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infomaitionData.category, infomaitionData.key});
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)
