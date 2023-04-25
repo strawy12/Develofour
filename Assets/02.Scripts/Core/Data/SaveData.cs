@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 [System.Serializable]
-public class PinSaveData
+public class FileLockData
 {
     public string fileLocation;
     public bool isLock = true;
@@ -38,13 +38,13 @@ public class ProfileSaveData
 [System.Serializable]
 public class SaveData
 {
-    public List<PinSaveData> PinData;
+    public List<FileLockData> FileLockData;
     public List<MonologSaveData> monologData;
     public List<AdditionFileData> additionFileData;
     public List<GuideSaveData> guideSaveData;
     public List<ProfileSaveData> profileSaveData;
     public List<TextData> aiChattingList;
-    public List<string> branchPostLcokData;
+    public List<string> branchPostLockData;
     public List<string> savePhoneNumber;
 
     public bool isWatchStartCutScene;

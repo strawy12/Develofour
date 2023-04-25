@@ -47,7 +47,7 @@ public class ProfileInfoSystem : MonoBehaviour
 
         if (!DataManager.Inst.IsProfileInfoData(category, key))
         {
-            DataManager.Inst.AddProfileinfoData(category, key);
+            DataManager.Inst.AddProfileSaveData(category, key);
             if(!DataManager.Inst.IsCategoryShow(category))
             {
                 DataManager.Inst.SetCategoryData(category, true);
