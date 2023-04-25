@@ -23,7 +23,6 @@ public class DirectorySO : FileSO
             Debug.Log($"ID: {so.id}");
             Debug.Log($"FileName: {so.fileName}");
             Debug.Log($"WindowType: {so.windowType}");
-            Debug.Log($"IsMultiple: {so.isMultiple}");
 
             if (so.isFileLock)
             {
