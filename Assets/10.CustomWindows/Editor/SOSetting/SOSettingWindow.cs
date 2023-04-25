@@ -185,7 +185,7 @@ public class SOSettingWindow : EditorWindow
 
             CreateFolder(SO_PATH); 
 
-            if (!File.Exists(SO_PATH))
+            if (!File.Exists(SO_PATH) && string.IsNullOrEmpty( columns[9]))
             {
                 Debug.Log(11);
                 string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());

@@ -15,12 +15,7 @@ public class DataManager : MonoSingleton<DataManager>
 
     public SaveData debug_Data;
 
-    private void Start()
-    {
-        GameManager.Inst.OnStartCallback += Init;
-    }
-
-    private void Init()
+    public void Init()
     {
         SAVE_PATH = Application.dataPath + "/Save/";
         CheckDirectory();
@@ -38,9 +33,9 @@ public class DataManager : MonoSingleton<DataManager>
     private void CreateSaveData()
     {
         saveData = new SaveData();
+        saveData.additionFileData = new List<AdditionFileData>();
         saveData.PinData = new List<PinSaveData>();
         saveData.monologData = new List<MonologSaveData>();
-        saveData.additionFileData = new List<AdditionFileData>();
         saveData.guideSaveData = new List<GuideSaveData>();
         saveData.profileSaveData = new List<ProfileSaveData>();
         saveData.aiChattingList = new List<TextData>();
@@ -175,7 +170,13 @@ public class DataManager : MonoSingleton<DataManager>
 
     public bool AdditionalFileContain(FileSO file)
     {
-        AdditionFileData fileData = saveData.additionFileData.Find(x => x.fileName == file.fileName);
+        Debug.Log(file);
+
+        AdditionFileData fileData = saveData.additionFileData.Find(x =>
+        {
+            Debug.Log(x);
+            return x.fileName == file.fileName;
+            });
 
         if (fileData != null)
         {
