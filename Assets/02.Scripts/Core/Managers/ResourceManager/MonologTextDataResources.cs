@@ -6,16 +6,19 @@ using UnityEngine.AddressableAssets;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-    private Dictionary<EMonologTextDataType, MonologTextDataSO> monologTextDataSOList;
+    private Dictionary<int, MonologTextDataSO> monologTextDataSOList;
+    public Dictionary<int, MonologTextDataSO> MonologTextDataSOList => monologTextDataSOList;
+    public int MonologDataListCount => monologTextDataSOList.Count;
 
-    public MonologTextDataSO GetMonologTextData(EMonologTextDataType textType)
+    public MonologTextDataSO GetMonologTextData(int textType)
     {
         return monologTextDataSOList[textType];
     }
 
+
     private async void LoadMonologTextDataAssets(Action callBack)
     {
-        monologTextDataSOList = new Dictionary<EMonologTextDataType, MonologTextDataSO>();
+        monologTextDataSOList = new Dictionary<int, MonologTextDataSO>();
         var handle = Addressables.LoadResourceLocationsAsync("MonologTextData", typeof(MonologTextDataSO));
         await handle.Task;
 
@@ -23,7 +26,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         {
             var task = Addressables.LoadAssetAsync<MonologTextDataSO>(handle.Result[i]).Task;
             await task;
-
+            Debug.Log(task.Result.TextDataType);
             monologTextDataSOList.Add(task.Result.TextDataType, task.Result);
         }
 

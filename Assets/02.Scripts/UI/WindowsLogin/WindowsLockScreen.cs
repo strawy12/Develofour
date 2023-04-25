@@ -97,7 +97,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         loginScreen.SetActive(true);
 
         MonologSystem.OnEndMonologEvent += CoverSetting;
-        MonologSystem.OnStartMonolog?.Invoke(EMonologTextDataType.StartMonolog, 1.5f, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.STARTMONOLOG, 1.5f, true);
         
         gameObject.SetActive(false);
     }

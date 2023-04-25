@@ -3,7 +3,6 @@
     None = -1,
     LeftButtonClick,
     ChangeBGM,
-    EndLoadResources,
     EndDataLoading,
     CursorChange,
     CoverPanelSetting,

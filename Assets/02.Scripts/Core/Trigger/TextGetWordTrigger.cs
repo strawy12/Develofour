@@ -10,7 +10,7 @@ using ECursorState = CursorChangeSystem.ECursorState;
 public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerClickHandler, IPointerExitHandler
 {
     [SerializeField]
-    private EMonologTextDataType monoLogType;
+    private int monoLogType;
     [SerializeField]
     private float delay;
 

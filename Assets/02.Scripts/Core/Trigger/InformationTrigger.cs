@@ -13,11 +13,11 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     public List<ProfileInfoTextDataSO> linkInformaitonList;
     public Image backgroundImage;
 
-    private Color yellowColor = new Color(255, 255, 0, 40);
-    private Color redColor = new Color(255, 0, 0, 40);
-    private Color tempColor;
+    protected Color yellowColor = new Color(255, 255, 0, 40);
+    protected Color redColor = new Color(255, 0, 0, 40);
+    protected Color tempColor;
 
-    public EMonologTextDataType monoLogType;
+    public int monoLogType;
     public float delay;
 
     protected virtual void OnEnable()
