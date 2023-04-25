@@ -167,7 +167,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         if (fileData is DirectorySO && isBackground == false)
         {
-            if (fileData.isFileLock && DataManager.Inst.IsWindowLock(fileData.GetFileLocation()))
+            if (fileData.isFileLock && DataManager.Inst.IsFileLock(fileData.GetFileLocation()))
             {
                 targetWindow = WindowManager.Inst.WindowOpen(EWindowType.WindowPinLock, fileData);
             }

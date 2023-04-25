@@ -4,4 +4,5 @@ public enum ETutorialType
     Profiler,
     Guide,
     Search,
+    Count
 }

@@ -87,7 +87,7 @@ public partial class GuideManager : MonoBehaviour
 
         if (fileLocation == Constant.ZOOGLEPINLOCATION)
         {
-            if(DataManager.Inst.IsWindowLock(Constant.ZOOGLEPASSWORDLOCATION))
+            if(DataManager.Inst.IsFileLock(Constant.ZOOGLEPASSWORDLOCATION))
             {
                 Debug.Log("비번 가이드 조건 충족");
                 OnPlayGuide?.Invoke(EGuideTopicName.ClearPinNotePadQuiz, 30f);

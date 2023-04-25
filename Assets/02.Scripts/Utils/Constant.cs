@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Constant
+public static partial class Constant
 {
     public static readonly Vector2 MAX_CANVAS_SIZE = new Vector2(1920, 1080);
     public static readonly Vector2 MAX_CANVAS_POS = new Vector2(960, 540);
@@ -24,6 +24,7 @@ public static class Constant
     public const int NOWDAY = 23;
     public const float LOADING_DELAY = 0.75f;
     public const float POLICE_REPLY_DELAY = 2f;
+
     #region File
     public const string USB_FILENAME = "BestUSB";
     public const string ZOOGLEPASSWORDLOCATION = "User\\C\\내 문서\\Zoogle\\Zoogle비밀번호\\";

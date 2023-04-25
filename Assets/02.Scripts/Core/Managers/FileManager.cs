@@ -53,8 +53,7 @@ public class FileManager : MonoSingleton<FileManager>
         {
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
-                string location = DataManager.Inst.GetAdditionalFileName(fileData);
-                Debug.Log(location);
+                string location = DataManager.Inst.GetAdditionalFileLocation(fileData);
                 AddFile(fileData, location);
             }
         }
