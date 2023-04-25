@@ -72,6 +72,7 @@ public class WindowsLoginScreen : MonoBehaviour
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
         hintText.text = "힌트: 만우절 + 새해";
         hintText.gameObject.SetActive(true);
+
         passwordField.InputField.onValueChanged.AddListener(CheckInputNumber);
     }
 
