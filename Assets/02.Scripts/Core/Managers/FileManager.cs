@@ -70,11 +70,13 @@ public class FileManager : MonoSingleton<FileManager>
         FileSO file = defaultFileDictionary[windowType];
         return file;
     }
-
+    public FileSO GetAdditionalFIle(int id)
+    {
+        return additionFileList.Find(x => x.id == id);
+    }
     public void AddFile(FileSO file, string location)
     {
         List<FileSO> fileList = ALLFileAddList();
-
         DirectorySO currentDir = rootDirectory;
 
         currentDir = fileList.Find((x) => x.GetFileLocation() == location) as DirectorySO;
