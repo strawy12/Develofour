@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
- 
+
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     public void Start()
@@ -26,7 +26,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         LoadHarmonyShortcutDataResourcesAssets(() => cnt--);
         yield return new WaitUntil(() => cnt <= 0);
 
-        GameManager.Inst.OnStartCallback?.Invoke();
+        GameManager.Inst.Init();
     }
+
 }
- 

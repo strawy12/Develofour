@@ -15,12 +15,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public SaveData debug_Data;
 
-    private void Start()
-    {
-        GameManager.Inst.OnStartCallback += Init;
-    }
-
-    private void Init()
+    public void Init()
     {
         SAVE_PATH = Application.dataPath + "/Save/";
         CheckDirectory();

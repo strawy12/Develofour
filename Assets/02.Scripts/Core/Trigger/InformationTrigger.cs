@@ -19,6 +19,8 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     public int monoLogType;
     public float delay;
 
+    [SerializeField] protected bool isFakeInfo;
+
     protected virtual void OnEnable()
     {
         if (backgroundImage == null)
@@ -41,10 +43,12 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (infomaitionData.category == EProfileCategory.None)
+        if (infomaitionData == null || infomaitionData.category == EProfileCategory.None)
         {
             MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
+            return;
         }
+
         else
         {
             if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
@@ -72,9 +76,11 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     private void GetInfo(PointerEventData eventData)
     {
         MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
+       
         FindInfo();
-        OnPointerEnter(eventData);
         TriggerList.CheckLinkInfos();
+
+        OnPointerEnter(eventData);
     }
 
     public void CheckLinkInfo()
