@@ -28,6 +28,8 @@ public class MapSite : Site
 
     public override void Init()
     {
+        hintText.gameObject.SetActive(false);
+
         searchButton.onClick?.AddListener(SearchingCoordinates);
 
         longitudeInputField.onValueChanged.AddListener(CheckLongitudeInput);
@@ -64,9 +66,11 @@ public class MapSite : Site
 
     private IEnumerator InputOnlyNumberCoroutine()
     {
+        hintText.gameObject.SetActive(true);
         hintText.text = "경도 및 위도 좌표엔 숫자만 입력 가능합니다.";
 
         yield return new WaitForSeconds(0.5f);
+        hintText.gameObject.SetActive(false);
     }
 
     private void SearchingCoordinates()
