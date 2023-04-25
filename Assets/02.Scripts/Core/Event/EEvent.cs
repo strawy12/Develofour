@@ -148,8 +148,8 @@ public enum EProfileEvent
     ProfileSendMessage,
     AddGuideButton,
     ClickGuideToggleButton,
-    RemoveGuideButton,
     EndGuide,
+    ShowInfoPanel,
 }
 public enum EGuideEventType
 {

@@ -45,7 +45,6 @@ public class ProfileInfoSystem : MonoBehaviour
             }
         }
 
-
         if (ps[2] != null)
         {
             List<ProfileInfoTextDataSO> strList = ps[2] as List<ProfileInfoTextDataSO>;
@@ -72,6 +71,11 @@ public class ProfileInfoSystem : MonoBehaviour
         if (!DataManager.Inst.GetProfileSaveData(category).isShowCategory)
         {
             DataManager.Inst.SetCategoryData(category, true);
+        }
+
+        if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
+        {
+            EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
         }
     }
 

@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class ProfileInfoPanel : MonoBehaviour
 {
     private ProfileCategoryDataSO currentData;
     [SerializeField]
     private TMP_Text titleText;
+    [SerializeField]
+    private Image categoryImage;
+    [SerializeField]
+    private RectTransform categoryImageParent;
     [SerializeField]
     private ProfileInfoText infoTextPrefab;
     [SerializeField]
@@ -54,7 +56,7 @@ public class ProfileInfoPanel : MonoBehaviour
     }
     public void PushAll()
     {
-        foreach(var infoText in infoTextList)
+        foreach (var infoText in infoTextList)
         {
             infoTextQueue.Enqueue(infoText);
             infoText.Hide();
@@ -63,102 +65,78 @@ public class ProfileInfoPanel : MonoBehaviour
     }
     #endregion
 
-    private Image currentImage;
+    //private Image currentImage;
 
 
     public void Init()
     {
+
         infoTextQueue = new Queue<ProfileInfoText>();
         infoTextList = new List<ProfileInfoText>();
-        currentImage = GetComponent<Image>();
-        currentImage.material = Instantiate(currentImage.material);
+        //currentImage = GetComponent<Image>();
+        //currentImage.material = Instantiate(currentImage.material);
         CreatePool();
+        EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
+        EventManager.StartListening(EProfileEvent.ShowInfoPanel, Show);
     }
 
 
-    public void ChangeValue(string key)
+    public void ChangeValue(object[] ps)
     {
+        if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
+        {
+            return;
+        }
+        EProfileCategory category = (EProfileCategory)ps[0];
+        string key = ps[1] as string;
+
+
+        if (category != currentData.category)
+        {
+            return;
+        }
+
         foreach (var infoText in infoTextList)
         {
-            if (infoText.textDataSO.key == key)
+            if (infoText.InfoData.key == key)
             {
-                if (gameObject.activeSelf == false)
-                {
-                    SendNotice();
-                }
-
-                DataManager.Inst.AddProfileinfoData(currentData.category, key);
-                if (currentData.category != EProfileCategory.InvisibleInformation)
-                {
-                    EventManager.TriggerEvent(EProfileEvent.RemoveGuideButton, new object[2] { currentData.category, key });
-                }
-
-                if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
-                {
-                    EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
-                }
+                infoText.Show();
             }
         }
-
-        if (GetIsFindAll())
-        {
-            FillPostItColor();
-        }
     }
 
-    private void SendNotice()
+    public void Show(object[] ps)
     {
-        //string head, string body, float delay, bool canDelete, Sprite icon, Color color, ENoticeTag noticeTag
-
-        string head = "새로운 카테고리가 추가되었습니다";
-        string body = "";
-        if (currentData.category != EProfileCategory.InvisibleInformation)
+        if (!(ps[0] is ProfileCategoryDataSO))
         {
-            body = $"새 카테고리 {Define.TranslateInfoCategory(currentData.category)}가 추가되었습니다.";
+            return;
         }
 
-        NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
-
-    }
-
-    public void Show(ProfileCategoryDataSO categoryData)
-    {
+        ProfileCategoryDataSO categoryData = ps[0] as ProfileCategoryDataSO;
         currentData = categoryData;
-        foreach (var infoList in currentData.infoTextList)
-        {
-            ProfileInfoText infoText = Pop();
-        }
 
         titleText.SetText(Define.TranslateInfoCategory(currentData.category));
-
+        SpriteSetting();
         foreach (var infoData in currentData.infoTextList)
         {
-            if (DataManager.Inst.IsProfileInfoData(currentData.category, infoData.key) == false)
-            {
-                continue;
-            }
-            foreach (var infoText in infoTextList)
-            {
-                if (infoText.textDataSO.key == infoData.key)
-                {
-                    infoText.Show();
-                }
-            }
-        }
+            ProfileInfoText infoText = Pop();
+            infoText.Setting(infoData);
 
-        if (GetIsFindAll())
-        {
-            FillPostItColor();
+            if (DataManager.Inst.IsProfileInfoData(currentData.category, infoText.InfoData.key))
+            {
+                infoText.Show();
+            }
         }
     }
-
-    private void Hide()
+    public void SpriteSetting()
+    {
+        Define.SetSprite(categoryImage, currentData.categorySprite, categoryImageParent.sizeDelta);
+    }
+    public void Hide()
     {
         gameObject.SetActive(false);
         PushAll();
     }
-
-
     public bool GetIsFindAll()
     {
         foreach (var info in infoTextList)
@@ -176,20 +154,24 @@ public class ProfileInfoPanel : MonoBehaviour
         string answer = "";
         foreach (var infoText in infoTextList)
         {
-            if (key == infoText.textDataSO.key)
+            if (key == infoText.InfoData.key)
             {
-                answer = infoText.textDataSO.noticeText;
+                answer = infoText.InfoData.noticeText;
             }
         }
 
         return answer;
     }
-
-    private void FillPostItColor()
+    private void OnDestroy()
     {
-        DOTween.To(
-            () => currentImage.material.GetFloat("_Dissolve"),
-            (v) => currentImage.material.SetFloat("_Dissolve", v),
-            1f, 3f);
+        EventManager.StopListening(EProfileEvent.ShowInfoPanel, Show);
+        EventManager.StopListening(EProfileEvent.FindInfoText, ChangeValue);
     }
+    //private void FillPostItColor()
+    //{
+    //DOTween.To(
+    //    () => currentImage.material.GetFloat("_Dissolve"),
+    //    (v) => currentImage.material.SetFloat("_Dissolve", v),
+    //    1f, 3f);
+    //}
 }

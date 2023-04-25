@@ -15,6 +15,7 @@ public class ProfileCategoryDataSO : ScriptableObject
     [Header("Category")]
     public EProfileCategory category;
     public EProfileCategoryType categoryType;
+    public Sprite categorySprite;
     [Header("Information")]
     [SerializeField]
     public List<ProfileInfoTextDataSO> infoTextList;

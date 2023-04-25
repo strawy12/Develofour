@@ -7,7 +7,16 @@ using UnityEngine.EventSystems;
 
 public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public ProfileInfoTextDataSO textDataSO;
+
+    private ProfileInfoTextDataSO currentInfoData;
+
+    public ProfileInfoTextDataSO InfoData
+    {
+        get
+        {
+            return currentInfoData;
+        }
+    }
 
     [SerializeField]
     private TMP_Text infoText;
@@ -34,17 +43,19 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
         }
     }
 
-    //이전 텍스트로 변경, 이후 텍스트로 변경해주는 함수
-
     public void Init()
     {
         rectTransform ??= GetComponent<RectTransform>();
     }
 
+    public void Setting(ProfileInfoTextDataSO infoData)
+    {
+        currentInfoData = infoData;
+    }
 
     public void Show()
     {
-        infoText.text = textDataSO.infomationText;
+        infoText.text = currentInfoData.infomationText;
         isFind = true;
         
         OnFindText?.Invoke();
@@ -52,7 +63,7 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (infoText.text != textDataSO.infomationText)
+        if (infoText.text != currentInfoData.infomationText)
         {
             return;
         }
