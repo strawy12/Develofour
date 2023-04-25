@@ -198,7 +198,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         spectrumUI.StopSpectrum();
     }
 
-    public void SetEndMonolog(EMonologTextDataType monologType)
+    public void SetEndMonolog(int monologType)
     {
         MonologSystem.OnStopMonolog?.Invoke();
     }
