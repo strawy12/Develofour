@@ -45,10 +45,10 @@ public class GetNeedInfomationTrigger : InformationTrigger
                     foreach (ProfileInfoTextDataSO needData in needInformaitonList) // 리스트로 확인
                     {
                         if (!DataManager.Inst.IsProfileInfoData(needData.category, needData.key))
-                            // 안 찾은게 있다면
+                        // 안 찾은게 있다면
                         {
                             MonologSystem.OnStartMonolog?.Invoke(notFinderNeedStringMonoLog, delay, true);
-                            if(isGetInfomation)
+                            if (isGetInfomation)
                             {
                                 FindInfo();
                                 OnPointerEnter(eventData);
@@ -60,6 +60,7 @@ public class GetNeedInfomationTrigger : InformationTrigger
                     // return 안되면 찾은거임
                     MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
                     FindInfo();
+                    OnPointerEnter(eventData);
                 }
             }
         }
