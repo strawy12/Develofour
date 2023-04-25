@@ -11,7 +11,7 @@ public class ProfileInventoryElements : MonoBehaviour
     public void Init()
     {
         hlg = GetComponent<HorizontalLayoutGroup>();
-        
+  
     }
 
     public void SetElementSize(bool isMaximum)

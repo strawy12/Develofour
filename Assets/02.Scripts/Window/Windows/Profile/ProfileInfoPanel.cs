@@ -76,21 +76,13 @@ public class ProfileInfoPanel : MonoBehaviour
         //currentImage = GetComponent<Image>();
         //currentImage.material = Instantiate(currentImage.material);
         CreatePool();
-        EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
         EventManager.StartListening(EProfileEvent.ShowInfoPanel, Show);
+        Hide();
     }
 
 
-    public void ChangeValue(object[] ps)
+    public void ChangeValue(EProfileCategory category, string key)
     {
-        if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
-        {
-            return;
-        }
-        EProfileCategory category = (EProfileCategory)ps[0];
-        string key = ps[1] as string;
-
-
         if (category != currentData.category)
         {
             return;
@@ -114,7 +106,6 @@ public class ProfileInfoPanel : MonoBehaviour
 
         ProfileCategoryDataSO categoryData = ps[0] as ProfileCategoryDataSO;
         currentData = categoryData;
-
         titleText.SetText(Define.TranslateInfoCategory(currentData.category));
         SpriteSetting();
         foreach (var infoData in currentData.infoTextList)
@@ -165,7 +156,6 @@ public class ProfileInfoPanel : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.StopListening(EProfileEvent.ShowInfoPanel, Show);
-        EventManager.StopListening(EProfileEvent.FindInfoText, ChangeValue);
     }
     //private void FillPostItColor()
     //{

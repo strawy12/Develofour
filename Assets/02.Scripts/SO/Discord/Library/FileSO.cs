@@ -31,7 +31,6 @@ public struct WindowIconData
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
 public class FileSO : SOParent
 {
-
     public int id;
 
     public DirectorySO parent;
@@ -39,20 +38,33 @@ public class FileSO : SOParent
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
     public Sprite iconSprite;
     public WindowIconData fileData;
-    public bool isMultiple; // 윈도우를 여러번 킬 수 있냐
     public bool isFileLock;
     public string windowPin;
     public string windowPinHintGuide;
-    public bool isAlarm;
     
     public List<string> tags;
-    public TaskBarData taskBarData;
-    public bool isDummy;
     public bool isHide;
     [Header("Debug")]
     public string splitString;
 
     #region GetFileData
+
+#if UNITY_EDITOR
+    public string GetRealFileLocation()
+    {
+        string location = "";
+        if (parent == null)
+        {
+            location = this.name + '\\';
+
+            return location;
+        }
+
+        location = string.Format("{0}{1}\\", parent.GetRealFileLocation(), this.name);
+
+        return location;
+    }
+#endif
 
     public string GetFileLocation()
     {
@@ -161,7 +173,6 @@ public class FileSO : SOParent
         fileData.madeDate = str[6];
         fileData.lastFixDate = str[7];
         fileData.lastAccessDate = str[8];
-        isMultiple = ReturnBool(str[9]);
        // isWindowLockClear = ReturnBool(str[10]);
         windowPin = str[11];
         windowPinHintGuide = str[12];

@@ -38,7 +38,7 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
 
     protected void FindInfo()
     {
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { infomaitionData.category, infomaitionData.key, null });
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infomaitionData.category, infomaitionData.key});
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)

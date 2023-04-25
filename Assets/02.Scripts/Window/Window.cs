@@ -23,7 +23,8 @@ public enum EWindowType // 확장자
     Calculator,
     SiteShortCut,
     HarmonyShortCut,
-    End
+    Dummy,
+    End 
 }
 
 [RequireComponent(typeof(GraphicRaycaster))]
@@ -164,7 +165,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
         SetActive(false);
     }
 
-    public void WindowMaximum()
+    public virtual void WindowMaximum()
     {
         if (!windowAlteration.isMaximum)
         {

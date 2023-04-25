@@ -10,8 +10,8 @@ public class ProfileShowInfoTextPanel : MonoBehaviour
 
     public TMP_Text downText;
 
-    private RectTransform rectTransform; 
-
+    private RectTransform rectTransform;
+    private RectTransform parentRect;
     public RectTransform RectTrm
     {
         get
@@ -23,6 +23,8 @@ public class ProfileShowInfoTextPanel : MonoBehaviour
 
     public void SetDownText()
     {
+        parentRect ??= showPanelParent.GetComponent<RectTransform>();
         downText.text = text.text;
+        parentRect.sizeDelta = downText.rectTransform.sizeDelta;
     }
 }

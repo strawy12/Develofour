@@ -21,7 +21,8 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField]
     private TMP_Text infoText;
 
-    public ProfileShowInfoTextPanel showPanel;
+    [SerializeField]
+    private ProfileShowInfoTextPanel showPanel;
     private bool isFind;
 
     public bool IsFind
