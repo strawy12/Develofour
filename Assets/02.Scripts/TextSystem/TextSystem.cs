@@ -83,6 +83,24 @@ public abstract class TextSystem : MonoBehaviour
                     EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[] { cmdValue }); 
                 }
                 break;
+
+            case "CALL": //받을때
+                {
+                    string[] cmdValueArray = cmdValue.Split(',');
+                    CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(cmdValueArray[0]);
+                    int monologData = int.Parse(cmdValueArray[1]);
+                    CallSystem.Inst.OnAnswerCall(data.characterType, monologData);
+                }
+                break;
+
+            case "STACKCALL": //받을때
+                {
+                    string[] cmdValueArray = cmdValue.Split(',');
+                    CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(cmdValueArray[0]);
+                    int monologData = int.Parse(cmdValueArray[1]);
+                    CallSystem.Inst.StackMonolog(data.characterType, ResourceManager.Inst.GetMonologTextData(monologData));
+                }
+                break;
         }
     }
 

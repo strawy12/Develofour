@@ -26,8 +26,6 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         LoadHarmonyShortcutDataResourcesAssets(() => cnt--);
         yield return new WaitUntil(() => cnt <= 0);
 
-        EventManager.TriggerEvent(ECoreEvent.EndLoadResources);
-
         GameManager.Inst.OnStartCallback?.Invoke();
     }
 }

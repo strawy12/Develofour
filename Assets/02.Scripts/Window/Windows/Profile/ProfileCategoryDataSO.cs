@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public enum EProfileCategoryType
+{
+    Scene,
+    Character,
+}
+
 [CreateAssetMenu(menuName = "SO/Profile/ProfileInfo/Category")]
 public class ProfileCategoryDataSO : ScriptableObject
 {
     [Header("Category")]
     public EProfileCategory category;
-    public string categoryTitle;
+    public EProfileCategoryType categoryType;
+    public Sprite categorySprite;
     [Header("Information")]
     [SerializeField]
     public List<ProfileInfoTextDataSO> infoTextList;

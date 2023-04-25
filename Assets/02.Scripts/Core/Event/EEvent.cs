@@ -3,7 +3,6 @@
     None = -1,
     LeftButtonClick,
     ChangeBGM,
-    EndLoadResources,
     EndDataLoading,
     CursorChange,
     CoverPanelSetting,
@@ -148,8 +147,8 @@ public enum EProfileEvent
     ProfileSendMessage,
     AddGuideButton,
     ClickGuideToggleButton,
-    RemoveGuideButton,
     EndGuide,
+    ShowInfoPanel,
 }
 public enum EGuideEventType
 {

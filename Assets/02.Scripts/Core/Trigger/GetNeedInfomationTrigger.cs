@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +9,10 @@ public class GetNeedInfomationTrigger : InformationTrigger
 {
     [Header("MonoLogTexts")]
     [SerializeField]
-    private EMonologTextDataType notFinderNeedStringMonoLog;
+    protected int notFinderNeedStringMonoLog;
+
+    [SerializeField]
+    private bool isGetInfomation;
 
     protected override void OnEnable()
     {
@@ -23,35 +26,40 @@ public class GetNeedInfomationTrigger : InformationTrigger
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        if (category == EProfileCategory.None)
+        if (infomaitionData.category == EProfileCategory.None)
         {
             MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
         }
         else
         {
-            if (!DataManager.Inst.IsProfileInfoData(category, information))  // Ã£Àº Á¤º¸ÀÎÁö È®ÀÎ
+            if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))  // ì°¾ì€ ì •ë³´ì¸ì§€ í™•ì¸
             {
-                if (needInformaitonList.Count == 0) // Ã£´Â Á¶°ÇÀÌ ¾øÀ¸¸é
+                if (needInformaitonList.Count == 0) // ì°¾ëŠ” ì¡°ê±´ì´ ì—†ìœ¼ë©´
                 {
                     MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+                    FindInfo();
                     OnPointerEnter(eventData);
                 }
-                else // Ã£¾Æ¾ß ÇÏ´Â ´Ü¾î°¡ ÀÖÀ¸¸é
+                else // ì°¾ì•„ì•¼ í•˜ëŠ” ë‹¨ì–´ê°€ ìˆìœ¼ë©´
                 {
-                    foreach (ProfileInfoTextDataSO needData in needInformaitonList) // ¸®½ºÆ®·Î È®ÀÎ
+                    foreach (ProfileInfoTextDataSO needData in needInformaitonList) // ë¦¬ìŠ¤íŠ¸ë¡œ í™•ì¸
                     {
                         if (!DataManager.Inst.IsProfileInfoData(needData.category, needData.key))
-                            // ¾È Ã£Àº°Ô ÀÖ´Ù¸é
+                            // ì•ˆ ì°¾ì€ê²Œ ìˆë‹¤ë©´
                         {
                             MonologSystem.OnStartMonolog?.Invoke(notFinderNeedStringMonoLog, delay, true);
+                            if(isGetInfomation)
+                            {
+                                FindInfo();
+                                OnPointerEnter(eventData);
+                            }
                             return;
                         }
                     }
 
-                    // return ¾ÈµÇ¸é Ã£Àº°ÅÀÓ
+                    // return ì•ˆë˜ë©´ ì°¾ì€ê±°ì„
                     MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+                    FindInfo();
                 }
             }
         }
@@ -59,7 +67,21 @@ public class GetNeedInfomationTrigger : InformationTrigger
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        base.OnPointerEnter(eventData);
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
+
+        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
+        {
+            yellowColor.a = 0.4f;
+            backgroundImage.color = yellowColor;
+        }
+        else
+        {
+            redColor.a = 0.4f;
+            backgroundImage.color = redColor;
+        }
     }
 
     public override void OnPointerExit(PointerEventData eventData)
