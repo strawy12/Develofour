@@ -94,43 +94,13 @@ public class Debugger : MonoBehaviour
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             FileSO so = AssetDatabase.LoadAssetAtPath<FileSO>(path);
-            if(so.windowType == EWindowType.Notepad)
-            {
-                so.iconSprite = notepadSprite;
-            }
-            else if(so.windowType == EWindowType.Browser)
+            if(so.windowType == EWindowType.Browser)
             {
                 so.color = UnityEngine.Color.white;
-                so.iconSprite = BrowserSprite;
-            }
-            else if (so.windowType == EWindowType.Discord)
-            {
-                so.iconSprite = harmonySprite;
-            }
-            else if (so.windowType == EWindowType.Directory)
-            {
-                so.iconSprite = DirectorySprite;
-            }
-            else if (so.windowType == EWindowType.Installer)
-            {
-                so.iconSprite = InstallerSprite;
-            }
-            else if (so.windowType == EWindowType.ProfileWindow)
-            {
-                so.iconSprite = profileSprite;
-            }
-            else if (so.windowType == EWindowType.MediaPlayer)
-            {
-                so.iconSprite = mediaPlayerSprite;
             }
             else if (so.windowType == EWindowType.SiteShortCut)
             {
                 so.color = UnityEngine.Color.white;
-                so.iconSprite = siteShortcutSprite;
-            }
-            else if (so.windowType == EWindowType.HarmonyShortCut)
-            {
-                so.iconSprite = harmonyShortcutSprite;
             }
             else if(so.windowType == EWindowType.ImageViewer)
             {
