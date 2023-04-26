@@ -93,14 +93,15 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         iconImage.sprite = newFileData.iconSprite;
 
-        if (fileData.windowType == EWindowType.ImageViewer)
-        {
-            iconImage.color = Color.white;
-        }
-        else
-        {
-            iconImage.color = Color.black;
-        }
+        iconImage.color = newFileData.color;
+        //if (fileData.windowType == EWindowType.ImageViewer)
+        //{
+        //    iconImage.color = Color.white;
+        //}
+        //else
+        //{
+        //    iconImage.color = Color.black;
+        //}
         //if(fileData.windowType == EWindowType.Directory)
         //{
         //    iconImage.color = Color.black;

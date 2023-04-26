@@ -22,8 +22,8 @@ public class DownloadButton : MonoBehaviour
     }
     public void DownloadFile()
     {
-        FileManager.Inst.AddFile(downloadFile, "User\\C\\다운로드\\");
-        string str = "C\\다운로드 폴더에서 확인해주세요.";
+        FileManager.Inst.AddFile(downloadFile, "내 PC\\C\\다운로드\\");
+        string str = "내 PC\\C\\다운로드 폴더에서 확인해주세요.";
         NoticeSystem.OnNotice.Invoke(downloadFile.fileName + " 파일이 다운로드 되었습니다.", str, 0.1f, true, null, Color.white, ENoticeTag.None);
     }
 
