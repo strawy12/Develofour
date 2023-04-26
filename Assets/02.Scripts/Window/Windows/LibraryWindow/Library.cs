@@ -170,6 +170,7 @@ public class Library : Window
         {
             if (file.isHide) { continue; }
             WindowIcon icon = Pop();
+            icon.PointerStayImage.gameObject.SetActive(false);
             icon.SetFileData(file);
         }
         isSetLibrary = false;
