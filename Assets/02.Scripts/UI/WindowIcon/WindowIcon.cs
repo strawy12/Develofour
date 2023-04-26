@@ -24,9 +24,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Image iconImage;
     [SerializeField]
     private Image selectedImage;
+    
     [SerializeField]
     private Image pointerStayImage;
-
+    public Image PointerStayImage => pointerStayImage;
     [SerializeField]
     private TMP_Text iconNameText;
     [SerializeField]
@@ -93,14 +94,15 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         iconImage.sprite = newFileData.iconSprite;
 
-        if (fileData.windowType == EWindowType.ImageViewer)
-        {
-            iconImage.color = Color.white;
-        }
-        else
-        {
-            iconImage.color = Color.black;
-        }
+        iconImage.color = newFileData.color;
+        //if (fileData.windowType == EWindowType.ImageViewer)
+        //{
+        //    iconImage.color = Color.white;
+        //}
+        //else
+        //{
+        //    iconImage.color = Color.black;
+        //}
         //if(fileData.windowType == EWindowType.Directory)
         //{
         //    iconImage.color = Color.black;

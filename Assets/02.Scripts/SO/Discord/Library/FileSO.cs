@@ -47,6 +47,8 @@ public class FileSO : SOParent
     [Header("Debug")]
     public string splitString;
 
+    public Color color = Color.black;
+
     #region GetFileData
 
 #if UNITY_EDITOR
