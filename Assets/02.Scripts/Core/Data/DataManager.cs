@@ -44,7 +44,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         CreateGuideSaveData();
         CreateMonologData();
         CreateFileLockData();
-
+        CreateNoticeDataSave();
         SaveToJson();
 
         debug_Data = saveData;
