@@ -94,18 +94,33 @@ public class Debugger : MonoBehaviour
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             FileSO so = AssetDatabase.LoadAssetAtPath<FileSO>(path);
-            if(so.windowType == EWindowType.Browser)
-            {
-                so.color = UnityEngine.Color.white;
-            }
-            else if (so.windowType == EWindowType.SiteShortCut)
-            {
-                so.color = UnityEngine.Color.white;
-            }
-            else if(so.windowType == EWindowType.ImageViewer)
-            {
-                so.color = UnityEngine.Color.white;
-            }
+            //if(so.windowType == EWindowType.Browser)
+            //{
+            //    so.color = UnityEngine.Color.white;
+            //}
+            //else if (so.windowType == EWindowType.SiteShortCut)
+            //{
+            //    so.color = UnityEngine.Color.white;
+            //}
+            //else if (so.windowType == EWindowType.Notepad)
+            //{
+            //    so.iconSprite = notepadSprite;
+            //}
+            //else if(so.windowType == EWindowType.ImageViewer)
+            //{
+            //    so.color = UnityEngine.Color.white;
+            //}
+            //else if (so.windowType == EWindowType.Directory)
+            //{
+            //    so.iconSprite = DirectorySprite;
+            //}
+            //else if (so.windowType == EWindowType.MediaPlayer)
+            //{
+            //    so.iconSprite = mediaPlayerSprite;
+            //}
+            AssetDatabase.Refresh();
+            AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(so);
         }
     }
 
