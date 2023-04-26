@@ -36,9 +36,6 @@ public class NoticeSystem : MonoUI
     private ENoticeTag currentTag;
 
     [SerializeField]
-    private SaveNoticeDataSO saveNoticeData;
-
-    [SerializeField]
     private List<NoticeData> saveNoticeList = new List<NoticeData>();
 
     public int maxExtend = 3;
@@ -289,27 +286,22 @@ public class NoticeSystem : MonoUI
         data.tag = noticeTag;
         //so에 있는 노티스태그 데이타에도 넣어
 
-
-
         saveNoticeList.Add(data);
     }
 
     private void OnApplicationQuit()
     {
         SaveNoticeData();
-#if UNITY_EDITOR
-        saveNoticeData.noticeDataList.Clear();
-#endif
     }
 
     private void SaveNoticeData()
     {
-        saveNoticeData.noticeDataList = saveNoticeList;
+        DataManager.Inst.SetNoticeDataSave(saveNoticeList);
     }
 
     private void LoadSaveNotice()
     {
-        saveNoticeList = saveNoticeData.noticeDataList;
+        saveNoticeList = DataManager.Inst.SaveData.saveNoticeData;
         foreach (NoticeData data in saveNoticeList)
         {
             NoticePanel panel = GetPanel(data.canDeleted);

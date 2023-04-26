@@ -153,6 +153,7 @@ public class FileSOSettingWindow : EditorWindow
 
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
+
     }
 
     private void CreateFolder(string path)
