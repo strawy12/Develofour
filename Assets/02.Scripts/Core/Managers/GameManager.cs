@@ -8,6 +8,7 @@ public class GameManager : MonoSingleton<GameManager>
     public Action OnStartCallback;
     public Action<EGameState> OnChangeGameState;
 
+    [SerializeField]
     private EGameState gameState;
 
     public EGameState GameState => gameState;
