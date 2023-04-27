@@ -12,7 +12,6 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     public Action enlargementClick;
     public Action reductionClick;
 
-    public float defaultScale;
     private float imageScale;
 
     public float maxImageScale = 4f;
@@ -33,10 +32,10 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     private float[] enlargementArr = new float[] { 1f, 2f, 3f, 4f, 5f };
 
-    private readonly Vector2 MAXSIZE = new Vector2(1173.333f, 660f);
-
-    private const float RATIO = 1.636363636363636f;
-
+    private readonly Vector2 MAXSIZE = new Vector2(1280f, 670f);
+    private const float MINSIZEX = 704f;
+    private const float RATIOX = 1.63f;
+    private const float RATIOY = 1.636363636363636f;
     public bool isDiscord;
 
     [ContextMenu("SetDegbugSize")]
@@ -46,8 +45,8 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         Vector2 size = image.sprite.rect.size;
         Vector2 originSize = size;
 
-        size.x /= RATIO;
-        size.y /= RATIO;
+        size.x /= RATIOX;
+        size.y /= RATIOY;
 
         image.rectTransform.sizeDelta = size;
     }
@@ -63,6 +62,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         reductionClick += ReductionButtonClick;
 
         SetImageSizeReset();
+
         ReSetting();
     }
 
@@ -75,32 +75,37 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     public void SetImageSizeReset()
     {
         Vector2 size = currentImage.sprite.rect.size;
-        Vector2 originSize = size;
 
-        size.x /= RATIO;
-        size.y /= RATIO;
+        size.x /= RATIOX;
+        size.y /= RATIOY;
 
         currentImage.rectTransform.sizeDelta = size;
 
         float scale = 1f;
+
         if (size.y > MAXSIZE.y)
         {
-            scale = MAXSIZE.y / size.y;
+            scale = MAXSIZE.y / size.y; 
         }
-        else if (size.x > MAXSIZE.x)
+        else if(size.x > MAXSIZE.x)
         {
-            scale = MAXSIZE.x / size.x;
+            scale = MAXSIZE.x / size.x; 
         }
+        else
+        {
+            scale = MINSIZEX / size.x;
+        }
+
         transform.localScale = Vector3.one * scale;
 
-        imageScale = transform.localScale.x;
+        imageScale = transform.localScale.x; // 이 이미지의 최소사이즈, 이거 이상으로 줄을 수 없음 
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (isDiscord)
             return;
-         
+
         if ((Time.time - doubleClickedTime) < interval)
         {
             doubleClickedTime = -1.0f;
@@ -115,7 +120,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public void ReSetting()
     {
-        currentImage.transform.localScale = Vector3.one * defaultScale;
+        currentImage.transform.localScale = Vector3.one * imageScale;
         RenewalImageText();
     }
 
@@ -127,7 +132,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         Vector3 delta = Vector3.one * (eventData.scrollDelta.y * zoomSpeed);
         Vector3 enlarScale = currentImage.transform.localScale + delta;
 
-        if (enlarScale.x <= imageScale)
+        if (enlarScale.x <= imageScale -0.01f)
         {
             return;
         }
@@ -157,7 +162,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         }
         else if (!isEnlargement) // 축소중이면 확대
         {
-            currentImage.transform.localScale = Vector3.one * imageEnlargementScale;
+            currentImage.transform.localScale = Vector3.one * maxImageScale;
             currentImage.rectTransform.localPosition = imagePos;
 
             isEnlargement = true;
@@ -169,9 +174,9 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     public void EnlargementButtonClick()
     {
         int idx = SetArrIndex(true);
-        if(idx < 0 || idx > 5) { return; }
+        if (idx < 0 || idx > 5) { return; }
         float enlarImageScale = imageScale * enlargementArr[idx];
-        if (enlarImageScale > maxImageScale) return ;
+        if (enlarImageScale > maxImageScale) return;
         currentImage.transform.localScale = Vector3.one * enlarImageScale;
 
         RenewalImageText();
@@ -181,7 +186,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     {
         int idx = SetArrIndex(false);
         if (idx - 2 < 0 || idx - 2 > 5) { return; }
-        float enlarImageScale = imageScale * enlargementArr[idx-2];
+        float enlarImageScale = imageScale * enlargementArr[idx - 2];
         if (enlarImageScale < imageScale) return;
         currentImage.transform.localScale = Vector3.one * enlarImageScale;
 
@@ -204,7 +209,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         {
             if (num % 100 != 0)
             {
-                result += 1;       
+                result += 1;
             }
         }
         return result;
