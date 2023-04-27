@@ -22,16 +22,11 @@ public class ImageViewer : Window
     private ImageEnlargement imageEnlargement;
     private ImageViewerDataSO imageData;
 
-    private readonly Vector2 MAXSIZE = new Vector2(1173.333f, 660f);
-
-    private const float RATIO = 1.636363636363636f;
-
     protected override void Init()
     {
         base.Init();
 
         imageData = ResourceManager.Inst.GetImageViewerData(file.GetFileLocation());
-
         windowBar.SetNameText($"{imageData.imageName}.{imageData.extensionType.ToString().ToLower()}");
 
         if(imageData.imageBody != null)
