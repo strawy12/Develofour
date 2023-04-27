@@ -101,8 +101,21 @@ public class EmailSite : Site
 
         CreateLines();
         base.Init();
+        GetMailSaveData();
         ChangeEmailCategory();
         ShowMailLineAll();
+    }
+
+    private void GetMailSaveData()
+    {
+        for(int i = 0; i < mailDataList.Count; i++)
+        {
+            int type = DataManager.Inst.GetMailSaveData(mailDataList[i].mailDataSO.Type);
+            if (type != -1)
+            {
+                mailDataList[i].mailDataSO.mailCategory = type;
+            }
+        }
     }
 
     //private void RegisterMailData()
@@ -181,8 +194,13 @@ public class EmailSite : Site
         await Task.Delay((int)(delay * 1000));
         if (line.Category.ContainMask((int)EEmailCategory.Invisible))
         {
-            line.Category = line.Category.RemoveMask((int)EEmailCategory.Invisible);
+            int num = line.Category.RemoveMask((int)EEmailCategory.Invisible);
+            line.Category = num;
+            DataManager.Inst.SetMailSaveData(type, num);
         }
+
+        
+
         SetEmailCategory();
         SettingReceiveMailCount();
         
@@ -269,14 +287,7 @@ public class EmailSite : Site
     {   
         foreach(var mailLine in baseEmailLineList)
         {
-            mailLine.CurrentMail.DebugReset();
-        }
-    }
-
-    public void OnDisable()
-    {
-        foreach (var mailLine in baseEmailLineList)
-        {
+            Debug.Log("¸ÞÀÏ0");
             mailLine.CurrentMail.DebugReset();
         }
     }
