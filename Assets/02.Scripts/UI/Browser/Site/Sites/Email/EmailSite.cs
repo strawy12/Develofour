@@ -272,5 +272,13 @@ public class EmailSite : Site
             mailLine.CurrentMail.DebugReset();
         }
     }
+
+    public void OnDisable()
+    {
+        foreach (var mailLine in baseEmailLineList)
+        {
+            mailLine.CurrentMail.DebugReset();
+        }
+    }
 #endif
 }
