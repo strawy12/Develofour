@@ -17,6 +17,7 @@ public enum EMailType
     ReplyCCTVMail,
     RequestMail,
     BranchCertificationMail,
+    BranchPersonalInfoMail,
     End,
 }
 
