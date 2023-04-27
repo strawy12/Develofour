@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -35,11 +35,15 @@ public class BranchFindPasswordPanel : MonoBehaviour
         {
             Success();
         }
+        else
+        {
+            signText.SetText("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ì•„ì´ë””ì…ë‹ˆë‹¤.");
+        }
     }
 
     private void Success()
     {
-        signText.SetText("ºñ¹Ğ¹øÈ£ º¯°æ¸ŞÀÏÀ» Àü¼ÛÇß½À´Ï´Ù.");
+        signText.SetText("ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ë©”ì¼ì„ ì „ì†¡í–ˆìŠµë‹ˆë‹¤.");
         EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[2] { EMailType.BranchCertificationMail, 0.5f});
     }
 
