@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -98,7 +98,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
         transform.localScale = Vector3.one * scale;
 
-        imageScale = transform.localScale.x; // ÀÌ ÀÌ¹ÌÁöÀÇ ÃÖ¼Ò»çÀÌÁî, ÀÌ°Å ÀÌ»óÀ¸·Î ÁÙÀ» ¼ö ¾øÀ½ 
+        imageScale = transform.localScale.x; 
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -153,14 +153,14 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         imagePos.x = -(mousePos.x - 760);
         imagePos.y = -(mousePos.y - 540);
 
-        if (isEnlargement) // È®´ë¶ó¸é Ãà¼Ò
+        if (isEnlargement) // í™•ëŒ€ë¼ë©´ ì¶•ì†Œ
         {
             currentImage.transform.localScale = Vector3.one * imageScale;
             currentImage.rectTransform.localPosition = Vector3.zero;
 
             isEnlargement = false;
         }
-        else if (!isEnlargement) // Ãà¼ÒÁßÀÌ¸é È®´ë
+        else if (!isEnlargement) // ì¶•ì†Œì¤‘ì´ë©´ í™•ëŒ€
         {
             currentImage.transform.localScale = Vector3.one * maxImageScale;
             currentImage.rectTransform.localPosition = imagePos;
