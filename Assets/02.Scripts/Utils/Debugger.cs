@@ -26,9 +26,15 @@ public class Debugger : MonoBehaviour
 
     [SerializeField]
     private StartCutScene cutScene;
+    private bool isLoad = false;
+    private void Start()
+    {
+        GameManager.Inst.OnStartCallback += ActiveDebug;
+    }
 
     private void Update()
     {
+        if (!isLoad) return;
         if (Input.GetKeyDown(KeyCode.S))
         {
             SkipScene();
@@ -59,10 +65,11 @@ public class Debugger : MonoBehaviour
         {
             EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { EProfileCategory.InvisibleInformation, "BranchID", null });
         }
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[2] { EMailType.BranchCertificationMail, 0.5f });
-        }
+    }
+
+    private void ActiveDebug()
+    {
+        isLoad = true;
     }
 
     private void SkipScene()
