@@ -33,13 +33,17 @@ public class BranchLoginSite : Site
         {
             SuccessLogin();
         }
-        else if(branchIDField.text == "")
+        else if (branchIDField.text.Length <= 0)
         {
             wrongText.text = "아이디를 입력해주세요.";
         }
         else if (branchIDField.text != id)
         {
             wrongText.text = "등록되지 않은 아이디 입니다.";
+        }
+        else if(passwordField.InputField.text.Length <= 0)
+        {
+            wrongText.text = "비밀번호를 입력해주세요.";
         }
         else
         {
