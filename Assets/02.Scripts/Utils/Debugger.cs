@@ -28,25 +28,19 @@ public class Debugger : MonoBehaviour
     [SerializeField]
     private StartCutScene cutScene;
 
+    private bool isActiveSkipScene = false;
+
+    private void Awake()
+    {
+        GameManager.Inst.OnStartCallback += ActiveSkipScene;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            if (GameManager.Inst.GameState == EGameState.PlayTitle)
-                return;
-
-            if(cutScene != null)
-            {
-                if(!cutScene.isSkip)
-                {
-                    cutScene.isSkip = true;
-                    cutScene.DOKill(false);
-                    if(cutScene.isScreamSound)
-                        Sound.OnImmediatelyStop(Sound.EAudioType.StartCutSceneScream);
-                    cutScene.StartLoading();
-                }
-            }
- 
+            if (isActiveSkipScene)
+                SkipScene();
         }
 
         if (Input.GetKeyDown(KeyCode.D))
@@ -54,10 +48,10 @@ public class Debugger : MonoBehaviour
             MonologSystem.OnStopMonolog?.Invoke();
         }
 
-        if(Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             //디버그용 스킵 코드 이벤트까지 지워주기
-            if(GameManager.Inst.GameState == EGameState.Tutorial)
+            if (GameManager.Inst.GameState == EGameState.Tutorial)
                 EventManager.TriggerEvent(EDebugSkipEvent.TutorialSkip);
         }
 
@@ -70,10 +64,36 @@ public class Debugger : MonoBehaviour
         }
 
 
-        if(Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { EProfileCategory.InvisibleInformation, "BranchID" ,null});
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { EProfileCategory.InvisibleInformation, "BranchID", null });
         }
+    }
+
+    private void ActiveSkipScene()
+    {
+        isActiveSkipScene = true;
+    }
+
+    private void SkipScene()
+    {
+        if (GameManager.Inst.GameState == EGameState.PlayTitle)
+            return;
+
+        Debug.Log("Skip");
+
+        if (cutScene != null)
+        {
+            if (!cutScene.isSkip)
+            {
+                cutScene.isSkip = true;
+                cutScene.DOKill(false);
+                if (cutScene.isScreamSound)
+                    Sound.OnImmediatelyStop(Sound.EAudioType.StartCutSceneScream);
+                cutScene.StartLoading();
+            }
+        }
+
     }
 
     public Sprite notepadSprite;
