@@ -33,6 +33,8 @@ public partial class Browser : Window
 
     [SerializeField] private TMP_InputField addressInputField;
 
+    public TMP_InputField AddressInputField => addressInputField;
+
     private ESiteLink requestSite;
     private List<Site> usedSiteList;
 
