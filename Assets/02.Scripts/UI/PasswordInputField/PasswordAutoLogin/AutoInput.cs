@@ -38,6 +38,7 @@ public class AutoInput : MonoBehaviour
         isOpen = true;
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
+
     public void ShowPanel(TMP_InputField inputField, string answer)
     {
         autoInputPanelList[0].Setting(inputField, answer);

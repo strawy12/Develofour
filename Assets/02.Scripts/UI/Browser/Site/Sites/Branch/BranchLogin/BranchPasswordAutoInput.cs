@@ -7,7 +7,7 @@ public class BranchPasswordAutoInput : AutoAnswerInputFiled
 {
     public override void OnPointerClick(PointerEventData eventData)
     {
-        if(DataManager.Inst.SaveData.branchPassword == "")
+        if(DataManager.Inst.SaveData.branchPassword.Length <= 3)
         {
             return;
         }

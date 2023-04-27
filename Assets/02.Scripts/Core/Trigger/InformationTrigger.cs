@@ -105,6 +105,13 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
+        if(infomaitionData == null)
+        {
+            Debug.Log($"해당 {gameObject.name}에 data가 등록되지 않았습니다.");
+            return;
+        }
+
+
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
             return;

@@ -10,11 +10,9 @@ public class BranchFindPasswordButton : MonoBehaviour
 
     private Button button;
 
-    private string id;
     public void Init(string id)
     {
         Bind();
-        this.id = id;
         findPanel.Init(id);
         button.onClick?.AddListener(ShowFindPanel);
     }

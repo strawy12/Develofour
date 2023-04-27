@@ -59,6 +59,10 @@ public class Debugger : MonoBehaviour
         {
             EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { EProfileCategory.InvisibleInformation, "BranchID", null });
         }
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[2] { EMailType.BranchCertificationMail, 0.5f });
+        }
     }
 
     private void SkipScene()

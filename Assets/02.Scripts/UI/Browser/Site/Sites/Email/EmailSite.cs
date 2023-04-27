@@ -16,6 +16,7 @@ public enum EMailType
     OrderListMail,
     ReplyCCTVMail,
     RequestMail,
+    BranchCertificationMail,
     End,
 }
 
@@ -102,11 +103,6 @@ public class EmailSite : Site
         ChangeEmailCategory();
         ShowMailLineAll();
     }
-    
-    private void ClearPoliceMiniGame(object[] ps)
-    {
-        SettingReceiveMailCount();
-    }
 
     //private void RegisterMailData()
     //{
@@ -188,6 +184,7 @@ public class EmailSite : Site
         }
         SetEmailCategory();
         SettingReceiveMailCount();
+        
     }
 
     private void ChangeEmailCategory()
