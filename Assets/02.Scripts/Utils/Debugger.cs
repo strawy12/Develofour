@@ -28,19 +28,11 @@ public class Debugger : MonoBehaviour
     [SerializeField]
     private StartCutScene cutScene;
 
-    private bool isActiveSkipScene = false;
-
-    private void Awake()
-    {
-        GameManager.Inst.OnStartCallback += ActiveSkipScene;
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            if (isActiveSkipScene)
-                SkipScene();
+            SkipScene();
         }
 
         if (Input.GetKeyDown(KeyCode.D))
@@ -70,17 +62,13 @@ public class Debugger : MonoBehaviour
         }
     }
 
-    private void ActiveSkipScene()
-    {
-        isActiveSkipScene = true;
-    }
-
     private void SkipScene()
     {
-        if (GameManager.Inst.GameState == EGameState.PlayTitle)
+        if (GameManager.Inst.GameState == EGameState.DataLoading)
             return;
 
-        Debug.Log("Skip");
+        if (GameManager.Inst.GameState == EGameState.PlayTitle)
+            return;
 
         if (cutScene != null)
         {

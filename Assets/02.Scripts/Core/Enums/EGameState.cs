@@ -7,5 +7,6 @@ public enum EGameState
     CutScene,
     Tutorial,
     NotClick,
+    DataLoading,
 }
 

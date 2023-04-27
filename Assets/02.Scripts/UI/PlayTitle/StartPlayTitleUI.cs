@@ -22,7 +22,7 @@ public class StartPlayTitleUI : MonoBehaviour
     private void StartplayGame()
     {
         gameObject.SetActive(false);
-
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
         StartCutScene.OnPlayCutScene?.Invoke();
         
         this.gameObject.SetActive(false);

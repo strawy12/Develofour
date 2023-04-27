@@ -66,7 +66,7 @@ public class DiscordIdentification : MonoBehaviour
 
     private void Clear()
     {
-        DataManager.Inst.SetIsLogin(ELoginType.Zoogle, true);
+        DataManager.Inst.SetIsLogin(ELoginType.Harmony, true);
         InputManager.Inst.RemoveKeyInput(KeyCode.Tab, onKeyDown: OnInputTap);
         loginPanel.SetActive(false);
     }
