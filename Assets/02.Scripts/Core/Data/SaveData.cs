@@ -36,6 +36,13 @@ public class ProfileSaveData
 }
 
 [System.Serializable]
+public class MailSaveData
+{
+    public int mailCategory;
+    public EMailType type;
+}
+
+[System.Serializable]
 public class SaveData
 {
     public List<FileLockData> FileLockData;
@@ -47,6 +54,7 @@ public class SaveData
     public List<NoticeData> saveNoticeData;
     public List<string> branchPostLockData;
     public List<string> savePhoneNumber;
+    public List<MailSaveData> mailSaveData = new List<MailSaveData>();
 
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
