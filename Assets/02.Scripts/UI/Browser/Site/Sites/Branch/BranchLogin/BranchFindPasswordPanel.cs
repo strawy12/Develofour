@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -37,17 +37,17 @@ public class BranchFindPasswordPanel : MonoBehaviour
         }
         else if(branchIDField.text == "")
         {
-            signText.SetText("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+            signText.SetText("ì•„ì´ë””ë¥¼ ì…ë ¥í•´ ì£¼ì„¸ìš”.");
         }
         else
         {
-            signText.SetText("µî·ÏµÇÁö ¾ÊÀº ¾ÆÀÌµğÀÔ´Ï´Ù.");
+            signText.SetText("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ì•„ì´ë””ì…ë‹ˆë‹¤.");
         }
     }
 
     private void Success()
     {
-        signText.SetText("ºñ¹Ğ¹øÈ£ º¯°æ¸ŞÀÏÀ» Àü¼ÛÇß½À´Ï´Ù.");
+        signText.SetText("ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ë©”ì¼ì„ ì „ì†¡í–ˆìŠµë‹ˆë‹¤.");
         EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[2] { EMailType.BranchCertificationMail, 0.5f});
     }
 
