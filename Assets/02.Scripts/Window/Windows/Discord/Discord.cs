@@ -1,21 +1,25 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Discord : Window
 {
     public static Discord currentDiscord;
     [SerializeField]
-    private List<DiscordChatDataListSO> chatDataList; // ´ëÈ­ ÇÑ ³»¿ª
+    private List<DiscordChatDataListSO> chatDataList; // ëŒ€í™” í•œ ë‚´ì—­
     [SerializeField]
-    private List<DiscordTalkDataListSO> talkDataList; // ´ëÈ­ ÇÒ ³»¿ª
+    private List<DiscordTalkDataListSO> talkDataList; // ëŒ€í™” í•  ë‚´ì—­
 
     private DiscordChatDataListSO currentChatData;
     private DiscordTalkDataListSO currentTalkData;
 
-    private string currentUserName; // ÇöÀç ´ëÈ­ ÁßÀÎ »ó´ë ´Ğ³×ÀÓ
+    private string currentUserName; // í˜„ì¬ ëŒ€í™” ì¤‘ì¸ ìƒëŒ€ ë‹‰ë„¤ì„
+
+    [SerializeField]
+    private TMP_Text chatRoomNameText;
 
     [SerializeField]
     private DiscordChattingPanel chattingPanel;
@@ -65,7 +69,7 @@ public class Discord : Window
         }
         if (newChatData == null)
         {
-            Debug.LogWarning("userNameÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("userNameì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
         return newChatData;
     }
@@ -76,8 +80,9 @@ public class Discord : Window
 
         if (!(param[0] is string) || param[0] == null) return;
         string userName = param[0] as string;
-
+ 
         currentUserName = userName;
+        chatRoomNameText.text = "@ " + currentUserName;
         currentChatData = GetChatDataList(currentUserName);
         currentTalkData = GetTalkDataList(currentUserName);
         chattingPanel.PushAllPanel();
@@ -169,7 +174,7 @@ public class Discord : Window
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            object[] ps = new object[1] { "Å×½ºÆ®" };
+            object[] ps = new object[1] { "í…ŒìŠ¤íŠ¸" };
 
             StartTalkChat(ps);
 
