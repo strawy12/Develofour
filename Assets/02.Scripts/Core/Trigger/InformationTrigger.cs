@@ -63,6 +63,8 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
                     {
                         if (!DataManager.Inst.IsProfileInfoData(needData.category, needData.key))
                         {
+                            if (monoLogType == -1)
+                                return;
                             MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
                             return;
                         }
