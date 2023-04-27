@@ -11,8 +11,6 @@ public class StartCutScene : MonoBehaviour
 {
     public static Action OnPlayCutScene { get; private set; }
 
-    [Header("디버그용")]
-    public bool isSkip;
 
     public TMP_Text titleText;
 
@@ -30,9 +28,9 @@ public class StartCutScene : MonoBehaviour
     [SerializeField]
     private GameObject loadingText;
 
-
     [Header("디버그용")]
     public bool isScreamSound;
+    public bool isSkip;
 
     private void Awake()
     {
