@@ -12,8 +12,6 @@ public class BranchLoginSite : Site
     [SerializeField]
     private string id;
     [SerializeField]
-    private string password;
-    [SerializeField]
     private TMP_Text wrongText;
     [SerializeField]
     private Button loginBtn;
@@ -24,7 +22,7 @@ public class BranchLoginSite : Site
     {
         base.Init();
         passwordField.InputField.asteriskChar = '¡¤';
-        passwordField.SetPassword(password);
+        passwordField.SetPassword(DataManager.Inst.SaveData.branchPassword);
         findPasswordBtn.Init(id);
         loginBtn.onClick?.AddListener(LoginButtonClick);
     }
@@ -55,5 +53,9 @@ public class BranchLoginSite : Site
         EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Branch, Constant.LOADING_DELAY });
     }
 
-    
+    protected override void ResetSite()
+    {
+        base.ResetSite();
+        findPasswordBtn.Release();
+    }
 }

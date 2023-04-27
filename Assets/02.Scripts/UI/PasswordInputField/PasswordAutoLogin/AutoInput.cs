@@ -23,10 +23,10 @@ public class AutoInput : MonoBehaviour
         for(int i = 0;  i < answerDatas.Count; i++)
         {
             AutoAnswerData data = answerDatas[i];
-            Debug.Log(DataManager.Inst.IsProfileInfoData(data.infoData.category, data.infoData.key));
+
             if(DataManager.Inst.IsProfileInfoData(data.infoData.category, data.infoData.key))
             {
-                autoInputPanelList[i].Setting(inputField, answerDatas[i]);
+                autoInputPanelList[i].Setting(inputField, answerDatas[i].answer);
                 isCanShowPanel = true;
             }
         }
@@ -38,7 +38,13 @@ public class AutoInput : MonoBehaviour
         isOpen = true;
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
-
+    public void ShowPanel(TMP_InputField inputField, string answer)
+    {
+        autoInputPanelList[0].Setting(inputField, answer);
+        gameObject.SetActive(true);
+        isOpen = true;
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
+    }
     private void CheckClose(object[] hits)
     {
         if (!isOpen) return;

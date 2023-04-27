@@ -58,6 +58,7 @@ public class SaveData
     public List<bool> isClearTutorialList;
     public List<bool> loginData;
 
+    public string branchPassword;
     public bool isOnceOpenWindowProperty;
 }
 

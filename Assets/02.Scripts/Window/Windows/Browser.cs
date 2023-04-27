@@ -14,6 +14,7 @@ public enum ESiteLink
     Branch,
     BranchLogin,
     NullSite,
+    BranchPasswordSite,
     Map
 }
 /// <summary>

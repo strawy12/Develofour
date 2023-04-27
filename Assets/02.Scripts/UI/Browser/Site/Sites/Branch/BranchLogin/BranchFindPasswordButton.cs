@@ -28,4 +28,9 @@ public class BranchFindPasswordButton : MonoBehaviour
     {
         findPanel.Show();
     }
+
+    public void Release()
+    {
+        findPanel.Hide();
+    }
 }

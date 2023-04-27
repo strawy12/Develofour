@@ -22,9 +22,6 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     private TMP_Text imagePercentText;
 
     private int imageCurrentValue = 0;
-
-    private float imageEnlargementScale = 2f;
-
     private float interval = 0.25f;
     private float doubleClickedTime = -1.0f;
 
