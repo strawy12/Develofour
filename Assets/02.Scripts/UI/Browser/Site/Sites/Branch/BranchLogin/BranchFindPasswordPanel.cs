@@ -35,6 +35,10 @@ public class BranchFindPasswordPanel : MonoBehaviour
         {
             Success();
         }
+        else if(branchIDField.text == "")
+        {
+            signText.SetText("아이디를 입력해 주세요.");
+        }
         else
         {
             signText.SetText("존재하지 않는 아이디입니다.");
