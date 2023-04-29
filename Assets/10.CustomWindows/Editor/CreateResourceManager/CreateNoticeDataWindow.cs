@@ -17,7 +17,6 @@ public class CreateResourceManagerWindow : EditorWindow
     TextField keyInputField = null;
     TextField labelInputField = null;
     TextField typeInputField = null;
-    Button createButton = null;
 
     [MenuItem("Tools/CreateResourceManager")] 
     public static void ShowWindow()

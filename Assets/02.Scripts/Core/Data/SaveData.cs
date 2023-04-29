@@ -38,6 +38,7 @@ public class ProfileSaveData
 [System.Serializable]
 public class MailSaveData
 {
+    [BitMask(typeof(EEmailCategory))]
     public int mailCategory;
     public EMailType type;
 }

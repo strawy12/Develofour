@@ -16,15 +16,17 @@ public partial class DataManager : MonoSingleton<DataManager>
         }
     }
 
-    public int GetMailSaveData(EMailType mailType)
+    public MailSaveData GetMailSaveData(EMailType mailType)
     {
         MailSaveData data = saveData.mailSaveData.Find(x => x.type == mailType);
         if (data == null)
         {
-            return -1;
+            Debug.Log("없는 메일 데이터 입니다.");
         }
-        return data.mailCategory;
+        return data;
     }
+
+    //public bool Check
 
     public void SetMailSaveData(EMailType mailType, int value)
     {

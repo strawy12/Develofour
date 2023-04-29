@@ -9,8 +9,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Window/Mail/Data")]
 public class MailDataSO : SOParent
 {
-    [SerializeField]
-    private EMailType type;
+    public EMailType type;
 
     [SerializeField]
     private string nameText;
