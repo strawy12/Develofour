@@ -62,6 +62,9 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
             object[] value = GetProfilerWordSystem.OnGeneratedProfiler?.Invoke(word);
 
+            if (value == null)
+                return;
+
             category = (EProfileCategory)value[0];
             information = (string)value[1];
 

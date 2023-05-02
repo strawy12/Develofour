@@ -69,16 +69,48 @@ public class FileManager : MonoSingleton<FileManager>
         FileSO file = defaultFileDictionary[windowType];
         return file;
     }
-    public FileSO GetAdditionalFIle(int id)
+
+    public bool IsExist(string location)
     {
-        return additionFileList.Find(x => x.id == id);
+        List<FileSO> fileList = ALLFileAddList();
+
+        FileSO file = fileList.Find((x) => x.GetFileLocation() == location);
+
+        if (file != null)
+            return true;
+        return false;
     }
+
+    public FileSO GetAdditionalFile(string fileName)
+    {
+        FileSO folder = additionFileList.Find((x) => x.fileName == fileName);
+        return folder;
+    }
+
+    public FileSO GetAdditionalFile(int key)
+    {
+        foreach(var temp in additionFileList)
+        {
+            Debug.Log(temp.id);
+        }
+        FileSO folder = additionFileList.Find((x) => x.id == key);
+
+        return folder;
+    }
+
     public void AddFile(FileSO file, string location)
     {
         List<FileSO> fileList = ALLFileAddList();
         DirectorySO currentDir = rootDirectory;
 
         currentDir = fileList.Find((x) => x.GetFileLocation() == location) as DirectorySO;
+        
+        if (currentDir == null)
+        {
+            //디렉토리 생성
+
+        }
+
 
         if (!currentDir.children.Contains(file))
         {
