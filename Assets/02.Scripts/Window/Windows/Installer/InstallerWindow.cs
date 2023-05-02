@@ -70,8 +70,8 @@ public class InstallerWindow : Window
         EventManager.TriggerEvent(EProfileEvent.InstalledProfile);
 
         DataManager.Inst.SaveData.isProfilerInstall = true;
-        Debug.Log(FileManager.Inst.GetAdditionalFIle(22).fileName);
-        FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFIle(22), "내 PC\\C\\사용자\\바탕화면\\");
+        Debug.Log(FileManager.Inst.GetAdditionalFile(22).fileName);
+        FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(22), "내 PC\\C\\사용자\\바탕화면\\");
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.PROFILEINSTALLCOMPLETE, 0f, true);
@@ -81,7 +81,7 @@ public class InstallerWindow : Window
     {
         if (isWindowOpen)
         {
-            WindowManager.Inst.WindowOpen(EWindowType.ProfileWindow, FileManager.Inst.GetAdditionalFIle(22));
+            WindowManager.Inst.WindowOpen(EWindowType.ProfileWindow, FileManager.Inst.GetAdditionalFile(22));
         }
     }
 }

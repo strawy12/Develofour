@@ -19,5 +19,16 @@ public class MonologTextDataSO : TextDataSO
             return textDataType;
         }
     }
-
+    [ContextMenu("ToString")]
+    public void DebugToString()
+    {
+        string result = "";
+        foreach(var text in textDataList)
+        {
+            result += text.text;
+            result += "\n";
+            result += "\n";
+        }
+        Debug.Log(result);
+    }
 }

@@ -28,6 +28,11 @@ public class Debugger : MonoBehaviour
     [SerializeField]
     private StartCutScene cutScene;
 
+    [SerializeField]
+    private FileSO testFileso;
+    [SerializeField]
+    private DirectorySO testDire;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.S))
@@ -58,7 +63,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { EProfileCategory.InvisibleInformation, "BranchID", null });
+            FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(888), "내 PC\\CallLog\\조수\\");
         }
     }
 
