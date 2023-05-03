@@ -118,6 +118,7 @@ public enum ECutSceneEvent
     SkipCutScene,
     EndNewsCutScene,
     EndStartCutScene,
+    StartTest1CutScene,
 }
 
 public enum EDiscordEvent
