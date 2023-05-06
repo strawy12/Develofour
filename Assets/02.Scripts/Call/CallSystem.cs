@@ -132,9 +132,9 @@ public class CallSystem : MonoSingleton<CallSystem>
             instance.btnText.text = characterStackList[data.characterType][num].monologName;
             instance.btn.onClick.AddListener(() =>
             {
-                characterStackList[data.characterType].RemoveAt(num);
                 MonologSystem.OnEndMonologEvent += Hide;
                 StartMonolog(characterStackList[data.characterType][num].monologType);
+                characterStackList[data.characterType].RemoveAt(num);
             });
             instance.gameObject.SetActive(true);
         }
