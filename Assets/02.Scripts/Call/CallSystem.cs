@@ -12,10 +12,13 @@ class StackMonolog
 {
     public int priority;
     public int monologType;
+    public string monologName;
 }
 
 public class CallSystem : MonoSingleton<CallSystem>
 {
+
+    //Call Stack(전화 쌓이는거) 저장 해야함.
 
     [Header("CallUI")]
     public TMP_Text nameText;
@@ -24,9 +27,14 @@ public class CallSystem : MonoSingleton<CallSystem>
     public Button answerBtn;
     public AudioSpectrumUI spectrumUI;
 
-    public bool isRecieveCall;
 
+    public bool isRecieveCall;
     private Dictionary<ECharacterDataType, List<StackMonolog>> characterStackList = new Dictionary<ECharacterDataType, List<StackMonolog>>();
+
+    [SerializeField]
+    private GetCallMonologDataSO getCallData;
+
+    public CallSelectButton selectButton;
 
     public void Start()
     {
@@ -61,8 +69,31 @@ public class CallSystem : MonoSingleton<CallSystem>
         SetCallUI(data);
         if (characterStackList.ContainsKey(data.characterType) && characterStackList[data.characterType].Count != 0)
         {
-            StartCoroutine(StartRequestCall(characterStackList[data.characterType][0].monologType));
-            characterStackList[data.characterType].RemoveAt(0);
+            //캐릭터가 존재하며, 해당 캐릭터의 독백이 하나 이상 있다.
+
+            //해당 캐릭터의 독백은 SO로 가지고 있어
+            int result = -1;
+            foreach(var getMonologData in getCallData.GetCallMonologList)
+            {
+                if (data.characterType == getMonologData.charData)
+                {
+                    result = getMonologData.textData;
+                }
+            }
+
+            //만약 해당 캐릭터의 독백이 존재하면?
+            if(result != -1)
+            {
+                //끝나는 시점에 스택 리스트
+                MonologSystem.OnEndMonologEvent += () => SetStackMonolog(data);
+                StartCoroutine(StartRequestCall(result));
+            }
+            else
+            {
+                //존재 하지 않으면 일단 
+                //스택 모노로그 보이게 함.
+                SetStackMonolog(data);
+            }
         }
         else
         {
@@ -79,6 +110,36 @@ public class CallSystem : MonoSingleton<CallSystem>
         Show(false);
     }
 
+    public void SetStackMonolog(CharacterInfoDataSO data)
+    {
+        //자식 지우기
+        Transform[] childList = selectButton.transform.parent.GetComponentsInChildren<Transform>();
+
+        if(childList != null)
+        {
+            for(int i = 1; i < childList.Length; i++)
+            {
+                if (childList[i] != transform)
+                    Destroy(childList[i].gameObject);
+            }
+        }
+
+        //새로 세팅
+        for (int i = 0; i < characterStackList[data.characterType].Count; i++)
+        {
+            int num = i;
+            CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
+            instance.btnText.text = characterStackList[data.characterType][num].monologName;
+            instance.btn.onClick.AddListener(() =>
+            {
+                MonologSystem.OnEndMonologEvent += Hide;
+                StartMonolog(characterStackList[data.characterType][num].monologType);
+                characterStackList[data.characterType].RemoveAt(num);
+            });
+            instance.gameObject.SetActive(true);
+        }
+    }
+
     private void ButtonSetting(int data)
     {
         answerBtn.onClick.AddListener(() => StartMonolog(data));
@@ -86,7 +147,7 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     public void StackMonolog(ECharacterDataType data, MonologTextDataSO monologType)
     {
-        StackMonolog stackMonolog = new StackMonolog() { monologType = monologType.TextDataType, priority = monologType.CallPriority };
+        StackMonolog stackMonolog = new StackMonolog() { monologType = monologType.TextDataType, priority = monologType.CallPriority, monologName = monologType.monologName };
         if (!characterStackList.ContainsKey(data))
         {
             characterStackList.Add(data, new List<StackMonolog>());
@@ -105,7 +166,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         yield return PlayPhoneCallSound(delay);
         if(characterType != -1)
         {
-            MonologSystem.OnEndMonologEvent += Hide;
+            //MonologSystem.OnEndMonologEvent += Hide;
             MonologSystem.OnStartMonolog(characterType, 0, true);
         }
         else

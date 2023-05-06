@@ -32,6 +32,8 @@ public class Debugger : MonoBehaviour
     private FileSO testFileso;
     [SerializeField]
     private DirectorySO testDire;
+    [SerializeField]
+    private MonologTextDataSO testTextData;
 
     private void Update()
     {
@@ -64,6 +66,11 @@ public class Debugger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(888), "내 PC\\CallLog\\조수\\");
+        }
+
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            CallSystem.Inst.StackMonolog(ECharacterDataType.assistant, testTextData);
         }
     }
 

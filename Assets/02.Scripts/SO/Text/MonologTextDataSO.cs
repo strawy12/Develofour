@@ -12,6 +12,8 @@ public class MonologTextDataSO : TextDataSO
 
     public int CallPriority => callPriority;
 
+    public string monologName;
+
     public int TextDataType
     {
         get
