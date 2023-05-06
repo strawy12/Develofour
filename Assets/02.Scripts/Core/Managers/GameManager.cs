@@ -13,6 +13,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     public EGameState GameState => gameState;
 
+    [SerializeField]
+    private GameObject cutSceneCanvas;
+    public GameObject CutSceneCanvas => cutSceneCanvas;
 
     public bool IsTutorial => gameState == EGameState.Tutorial;
 

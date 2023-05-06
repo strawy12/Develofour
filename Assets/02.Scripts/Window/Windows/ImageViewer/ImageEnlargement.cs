@@ -19,6 +19,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     public float zoomSpeed = 0.1f;
 
     private Image currentImage;
+
     private TMP_Text imagePercentText;
 
     private int imageCurrentValue = 0;
@@ -61,7 +62,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         enlargementClick += EnlargementButtonClick;
         reductionClick += ReductionButtonClick;
 
-        SetImageSizeReset();
+        SetImageSizeReset(MAXSIZE, MINSIZEX);
 
         ReSetting();
     }
@@ -72,7 +73,17 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         isDiscord = _isDiscord;
     }
 
-    public void SetImageSizeReset()
+    public void ChangeImage(Sprite sprite)
+    {
+        //VideoPlayer
+        currentImage = GetComponent<Image>();
+        currentImage.sprite = sprite;
+
+        SetImageSizeReset(new Vector2(850, 850f), 500f);
+        currentImage.transform.localScale = Vector3.one * imageScale;
+
+    }
+    public void SetImageSizeReset(Vector2 MAXSIZE, float MINSIZEX)
     {
         Vector2 size = currentImage.sprite.rect.size;
 
@@ -83,19 +94,26 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
         float scale = 1f;
 
+        Debug.Log(size);
+
         if (size.y > MAXSIZE.y)
         {
+            Debug.Log("MaxY");
             scale = MAXSIZE.y / size.y; 
         }
         else if(size.x > MAXSIZE.x)
         {
+            Debug.Log("MaxX");
+
             scale = MAXSIZE.x / size.x; 
         }
-        else
+        else if(size.x < MINSIZEX)
         {
+            Debug.Log("MinX");
+
             scale = MINSIZEX / size.x;
         }
-
+        Debug.Log(scale);
         transform.localScale = Vector3.one * scale;
 
         imageScale = transform.localScale.x; 
