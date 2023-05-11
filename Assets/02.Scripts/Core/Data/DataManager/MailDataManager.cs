@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +21,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         MailSaveData data = saveData.mailSaveData.Find(x => x.type == mailType);
         if (data == null)
         {
-            Debug.Log("¾ø´Â ¸ŞÀÏ µ¥ÀÌÅÍ ÀÔ´Ï´Ù.");
+            Debug.Log("ì—†ëŠ” ë©”ì¼ ë°ì´í„° ì…ë‹ˆë‹¤.");
         }
         return data;
     }

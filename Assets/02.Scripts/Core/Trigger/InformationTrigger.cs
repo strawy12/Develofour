@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -109,7 +109,7 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     {
         if(infomaitionData == null)
         {
-            Debug.Log($"ÇØ´ç {gameObject.name}¿¡ data°¡ µî·ÏµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.Log($"í•´ë‹¹ {gameObject.name}ì— dataê°€ ë“±ë¡ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return;
         }
 
