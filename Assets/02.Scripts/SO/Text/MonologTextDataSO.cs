@@ -12,6 +12,8 @@ public class MonologTextDataSO : TextDataSO
 
     public int CallPriority => callPriority;
 
+    public string monologName;
+
     public int TextDataType
     {
         get
@@ -19,5 +21,16 @@ public class MonologTextDataSO : TextDataSO
             return textDataType;
         }
     }
-
+    [ContextMenu("ToString")]
+    public void DebugToString()
+    {
+        string result = "";
+        foreach(var text in textDataList)
+        {
+            result += text.text;
+            result += "\n";
+            result += "\n";
+        }
+        Debug.Log(result);
+    }
 }

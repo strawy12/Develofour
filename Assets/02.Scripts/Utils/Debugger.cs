@@ -32,6 +32,13 @@ public class Debugger : MonoBehaviour
         GameManager.Inst.OnStartCallback += ActiveDebug;
     }
 
+    [SerializeField]
+    private FileSO testFileso;
+    [SerializeField]
+    private DirectorySO testDire;
+    [SerializeField]
+    private MonologTextDataSO testTextData;
+
     private void Update()
     {
         if (!isLoad) return;
@@ -63,7 +70,12 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { EProfileCategory.InvisibleInformation, "BranchID", null });
+            FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(888), "내 PC\\CallLog\\조수\\");
+        }
+
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            CallSystem.Inst.StackMonolog(ECharacterDataType.assistant, testTextData);
         }
     }
 

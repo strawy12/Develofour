@@ -3,55 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CutScene : MonoBehaviour
+public class CutScene : MonoBehaviour
 {
     protected bool isPlaying;
 
-    void Start()
+    private EGameState saveState;
+
+    public virtual void ShowCutScene()
     {
-        EventManager.StartListening(ECutSceneEvent.ShowCutScene, CheckStart);
-    }
-
-    private void CheckStart(object[] param)
-    {
-        if (isPlaying) return;
-        if (param == null || !(param[0] is Type))
-        {
-            return;
-        }
-
-        if (GetType() != (Type)param[0])
-        {
-            return;
-        }
-
-        StartCutScene();
-        ShowCutScene();
-    }
-
-    protected virtual void StartCutScene()
-    {
-        EventManager.StartListening(ECutSceneEvent.SkipCutScene, SkipCutScene);
-
-        gameObject.SetActive(true);
+        saveState = GameManager.Inst.GameState;
         isPlaying = true;
-        GameManager.Inst.ChangeGameState(EGameState.CutScene);
+        InputManager.Inst.AddKeyInput(KeyCode.Escape, onKeyDown: StopCutScene);
     }
-
-    protected virtual void EndCutScene()
+    public virtual void StopCutScene()
     {
-        EventManager.StopListening(ECutSceneEvent.SkipCutScene, SkipCutScene);
+        GameManager.Inst.ChangeGameState(saveState);
         isPlaying = false;
-        GameManager.Inst.ChangeGameState(EGameState.Game);
-        gameObject.SetActive(false);
+        InputManager.Inst.RemoveKeyInput(KeyCode.Escape, onKeyDown: StopCutScene);
+        Destroy(this.gameObject);
     }
 
-    private void SkipCutScene(object[] o)
-    {
-        StopAllCoroutines();
-        EndCutScene();
-    }
-
-
-    protected abstract void ShowCutScene();
 }

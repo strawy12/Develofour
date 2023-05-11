@@ -78,7 +78,7 @@ public abstract class TextSystem : MonoBehaviour
                     }
                     break;
                 }
-            case "ADPN":
+            case "ADPN": //핸드폰 추가
                 {
                     EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[] { cmdValue }); 
                 }
@@ -93,12 +93,27 @@ public abstract class TextSystem : MonoBehaviour
                 }
                 break;
 
-            case "STACKCALL": //받을때
+            case "STACKCALL": // 걸때 추가
                 {
                     string[] cmdValueArray = cmdValue.Split(',');
                     CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(cmdValueArray[0]);
                     int monologData = int.Parse(cmdValueArray[1]);
                     CallSystem.Inst.StackMonolog(data.characterType, ResourceManager.Inst.GetMonologTextData(monologData));
+                }
+                break;
+
+            case "CallLog":
+                {
+                    //키값, 폴더
+                    string[] cmdValueArray = cmdValue.Split(',');
+                    string folder = Constant.CALLLOGLOCATION + cmdValueArray[1] + "\\";
+                    if(!FileManager.Inst.IsExist(folder))
+                    {
+                        DirectorySO file = FileManager.Inst.GetAdditionalFile(cmdValueArray[1]) as DirectorySO;
+                        FileManager.Inst.AddFile(file, Constant.CALLLOGLOCATION);
+                    }
+                    FileSO logFile = FileManager.Inst.GetAdditionalFile(int.Parse(cmdValueArray[0]));
+                    FileManager.Inst.AddFile(logFile, folder);
                 }
                 break;
         }

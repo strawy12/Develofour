@@ -24,6 +24,7 @@ public enum EWindowType // 확장자
     SiteShortCut,
     HarmonyShortCut,
     Dummy,
+    VideoPlayer,
     End 
 }
 

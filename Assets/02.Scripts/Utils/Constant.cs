@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,10 +25,11 @@ public static partial class Constant
     public const float LOADING_DELAY = 0.75f;
     public const float POLICE_REPLY_DELAY = 2f;
 
+    public const string CALLLOGLOCATION = "ë‚´ PC\\CallLog\\";
     #region File
     public const string USB_FILENAME = "BestUSB";
-    public const string ZOOGLEPASSWORDLOCATION = "User\\C\\³» ¹®¼­\\Zoogle\\Zoogleºñ¹Ð¹øÈ£\\";
-    public const string ZOOGLEPINLOCATION = "User\\C\\³» ¹®¼­\\Zoogle\\ZooglePIN¹øÈ£\\";
+    public const string ZOOGLEPASSWORDLOCATION = "User\\C\\ë‚´ ë¬¸ì„œ\\Zoogle\\Zoogleë¹„ë°€ë²ˆí˜¸\\";
+    public const string ZOOGLEPINLOCATION = "User\\C\\ë‚´ ë¬¸ì„œ\\Zoogle\\ZooglePINë²ˆí˜¸\\";
     #endregion
     #region ProfileInfoKey
     public static class ProfileInfoKey
