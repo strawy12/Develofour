@@ -14,7 +14,8 @@ public enum ESiteLink
     Branch,
     BranchLogin,
     NullSite,
-    Map
+    Map,
+    BranchPasswordSite,
 }
 /// <summary>
 ///  블로그 사이트 이름
@@ -32,6 +33,8 @@ public partial class Browser : Window
     [SerializeField] private LoadingIcon loadingBar;
 
     [SerializeField] private TMP_InputField addressInputField;
+
+    public TMP_InputField AddressInputField => addressInputField;
 
     private ESiteLink requestSite;
     private List<Site> usedSiteList;
@@ -102,7 +105,9 @@ public partial class Browser : Window
             case "test":
                 ChangeSite(ESiteLink.Email, Constant.LOADING_DELAY);
                 break;
-
+            case Constant.BranchNewPasswordSite:
+                ChangeSite(ESiteLink.BranchPasswordSite, Constant.LOADING_DELAY);
+                break;
             default:
                 ChangeSite(ESiteLink.NullSite, Constant.LOADING_DELAY);
                 break;

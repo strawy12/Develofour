@@ -36,6 +36,14 @@ public class ProfileSaveData
 }
 
 [System.Serializable]
+public class MailSaveData
+{
+    [BitMask(typeof(EEmailCategory))]
+    public int mailCategory;
+    public EMailType type;
+}
+
+[System.Serializable]
 public class SaveData
 {
     public List<FileLockData> FileLockData;
@@ -47,6 +55,7 @@ public class SaveData
     public List<NoticeData> saveNoticeData;
     public List<string> branchPostLockData;
     public List<string> savePhoneNumber;
+    public List<MailSaveData> mailSaveData = new List<MailSaveData>();
 
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
@@ -58,6 +67,7 @@ public class SaveData
     public List<bool> isClearTutorialList;
     public List<bool> loginData;
 
+    public string branchPassword;
     public bool isOnceOpenWindowProperty;
 }
 

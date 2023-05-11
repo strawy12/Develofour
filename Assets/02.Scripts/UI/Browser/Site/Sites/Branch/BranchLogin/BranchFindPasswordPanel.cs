@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -10,7 +10,8 @@ public class BranchFindPasswordPanel : MonoBehaviour
     private TMP_InputField branchIDField;
     [SerializeField]
     private Button checkBtn;
-
+    [SerializeField]
+    private TMP_Text signText;
     private string id;
     public void Init(string id)
     {
@@ -34,11 +35,20 @@ public class BranchFindPasswordPanel : MonoBehaviour
         {
             Success();
         }
+        else if(branchIDField.text == "")
+        {
+            signText.SetText("아이디를 입력해 주세요.");
+        }
+        else
+        {
+            signText.SetText("존재하지 않는 아이디입니다.");
+        }
     }
 
     private void Success()
     {
-        Hide();
+        signText.SetText("비밀번호 변경메일을 전송했습니다.");
+        EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[2] { EMailType.BranchCertificationMail, 0.5f});
     }
 
 }

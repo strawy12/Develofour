@@ -17,7 +17,6 @@ public class DebugEvent
 public class Debugger : MonoBehaviour
 {
 #if UNITY_EDITOR
-    private int testTextCnt = 0;
 
     [SerializeField]
     private List<DebugEvent> debugEventList;
@@ -27,6 +26,11 @@ public class Debugger : MonoBehaviour
 
     [SerializeField]
     private StartCutScene cutScene;
+    private bool isLoad = false;
+    private void Start()
+    {
+        GameManager.Inst.OnStartCallback += ActiveDebug;
+    }
 
     [SerializeField]
     private FileSO testFileso;
@@ -37,6 +41,7 @@ public class Debugger : MonoBehaviour
 
     private void Update()
     {
+        if (!isLoad) return;
         if (Input.GetKeyDown(KeyCode.S))
         {
             SkipScene();
@@ -72,6 +77,11 @@ public class Debugger : MonoBehaviour
         {
             CallSystem.Inst.StackMonolog(ECharacterDataType.assistant, testTextData);
         }
+    }
+
+    private void ActiveDebug()
+    {
+        isLoad = true;
     }
 
     private void SkipScene()

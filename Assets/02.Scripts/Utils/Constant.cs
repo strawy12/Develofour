@@ -39,6 +39,9 @@ public static partial class Constant
         public const string SUSPECTNAME = "SuspectName";
     }
     #endregion
+    #region SiteAddress
+    public const string BranchNewPasswordSite = "https://branch/Branch-ResetPassword-a1cfrqvk5u8";
+    #endregion
     #region MonologKey
     public static class MonologKey
     {

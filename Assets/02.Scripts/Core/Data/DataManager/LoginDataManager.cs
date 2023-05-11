@@ -23,4 +23,21 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.loginData[(int)loginType] = value;
     }
 
+    public void SetBranchPassword(string newPass)
+    {
+        saveData.branchPassword = newPass;
+    }
+
+    public bool CheckBranchPassword(string password)
+    {
+        if(saveData.branchPassword == "")
+        {
+            return false;
+        }
+        if (saveData.branchPassword == password)
+        {
+            return true;
+        }
+        return false;
+    }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,8 +12,6 @@ public class BranchLoginSite : Site
     [SerializeField]
     private string id;
     [SerializeField]
-    private string password;
-    [SerializeField]
     private TMP_Text wrongText;
     [SerializeField]
     private Button loginBtn;
@@ -23,8 +21,8 @@ public class BranchLoginSite : Site
     public override void Init()
     {
         base.Init();
-        passwordField.InputField.asteriskChar = '¡¤';
-        passwordField.SetPassword(password);
+        passwordField.InputField.asteriskChar = 'Â·';
+        passwordField.SetPassword(DataManager.Inst.SaveData.branchPassword);
         findPasswordBtn.Init(id);
         loginBtn.onClick?.AddListener(LoginButtonClick);
     }
@@ -35,17 +33,21 @@ public class BranchLoginSite : Site
         {
             SuccessLogin();
         }
-        else if(branchIDField.text == "")
+        else if (branchIDField.text.Length <= 0)
         {
-            wrongText.text = "¾ÆÀÌµð¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.";
+            wrongText.text = "ì•„ì´ë””ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.";
         }
         else if (branchIDField.text != id)
         {
-            wrongText.text = "µî·ÏµÇÁö ¾ÊÀº ¾ÆÀÌµð ÀÔ´Ï´Ù.";
+            wrongText.text = "ë“±ë¡ë˜ì§€ ì•Šì€ ì•„ì´ë”” ìž…ë‹ˆë‹¤.";
+        }
+        else if(passwordField.InputField.text.Length <= 0)
+        {
+            wrongText.text = "ë¹„ë°€ë²ˆí˜¸ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.";
         }
         else
         {
-            wrongText.text = "Àß¸øµÈ ºñ¹Ð¹øÈ£ ÀÔ´Ï´Ù.";
+            wrongText.text = "ìž˜ëª»ëœ ë¹„ë°€ë²ˆí˜¸ ìž…ë‹ˆë‹¤.";
         }
     }
 
@@ -55,5 +57,9 @@ public class BranchLoginSite : Site
         EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Branch, Constant.LOADING_DELAY });
     }
 
-    
+    protected override void ResetSite()
+    {
+        base.ResetSite();
+        findPasswordBtn.Release();
+    }
 }

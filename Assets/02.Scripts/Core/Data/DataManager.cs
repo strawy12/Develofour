@@ -37,7 +37,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.aiChattingList = new List<TextData>();
         saveData.branchPostLockData = new List<string>();
         saveData.savePhoneNumber = new List<string>();
-
+        saveData.branchPassword = "";
         CreateTutorialList();
         CreateLoginData();
         ProfileSaveData();
@@ -45,6 +45,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         CreateMonologData();
         CreateFileLockData();
         CreateNoticeDataSave();
+        CreateMailData();
         SaveToJson();
 
         debug_Data = saveData;

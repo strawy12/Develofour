@@ -11,22 +11,22 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     }
     private IEnumerator StartGetData()
     {
-        int cnt = 12;
+        int cnt = 13;
 
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);
         LoadAIChattingTextDataSOAssets(() => cnt--);
-        
         LoadMonologTextDataAssets(() => cnt--);
         LoadImageViewerDataAssets(() => cnt--);
+
         LoadNotepadDataAssets(() => cnt--);
-        
         LoadMediaPlayerDataAssets(() => cnt--);
         LoadProfileCategoryDataResourcesAssets(() => cnt--);
         LoadCharacterDataDataSOAssets(() => cnt--);
-        
         LoadBrowserShortcutDataResourcesAssets(() => cnt--);
+
         LoadHarmonyShortcutDataResourcesAssets(() => cnt--);
+        LoadMailDataAssets(() => cnt--);
         LoadVideoPlayercDataAssets(() => cnt--);
 
         yield return new WaitUntil(() => cnt <= 0);

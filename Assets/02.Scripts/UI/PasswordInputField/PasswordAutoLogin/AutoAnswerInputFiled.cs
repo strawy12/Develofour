@@ -16,15 +16,15 @@ public class AutoAnswerData
 public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
-    private TMP_InputField inputField; 
+    protected TMP_InputField inputField; 
 
     [SerializeField]
-    private List<AutoAnswerData> autoAnswerDatas;
+    protected List<AutoAnswerData> autoAnswerDatas;
 
     [SerializeField]
-    private AutoInput inputSystem;
+    protected AutoInput inputSystem;
 
-    public void OnPointerClick(PointerEventData eventData)
+    public virtual void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("ClickInputField");
         inputSystem.ShowPanel(inputField, autoAnswerDatas);

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,6 +63,8 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
                     {
                         if (!DataManager.Inst.IsProfileInfoData(needData.category, needData.key))
                         {
+                            if (monoLogType == -1)
+                                return;
                             MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
                             return;
                         }
@@ -105,6 +107,13 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
+        if(infomaitionData == null)
+        {
+            Debug.Log($"해당 {gameObject.name}에 data가 등록되지 않았습니다.");
+            return;
+        }
+
+
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
             return;

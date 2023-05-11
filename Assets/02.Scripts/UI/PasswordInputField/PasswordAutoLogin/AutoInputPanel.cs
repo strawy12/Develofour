@@ -13,10 +13,10 @@ public class AutoInputPanel : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private AutoInput inputSystem;
 
-    public void Setting(TMP_InputField inputFields, AutoAnswerData data)
+    public void Setting(TMP_InputField inputField, string answer)
     {
-        passwordInputField = inputFields;
-        passwordText.text = data.answer;
+        passwordInputField = inputField;
+        passwordText.text = answer;
 
         gameObject.SetActive(true);
     }
