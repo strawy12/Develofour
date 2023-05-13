@@ -66,6 +66,7 @@ public class FileSOSettingWindow : EditorWindow
 
             int id = int.Parse(columns[0]);
             string fileName = columns[1];
+            Debug.Log(id);
             EWindowType type = (EWindowType)Enum.Parse(typeof(EWindowType), columns[2]);
 
             bool isFileLock = columns[4] == "TRUE";
@@ -133,7 +134,6 @@ public class FileSOSettingWindow : EditorWindow
 
             if (!File.Exists(SO_PATH) && string.IsNullOrEmpty(columns[9]))
             {
-                Debug.Log(11);
                 string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());
                 AssetDatabase.MoveAsset(oldPath, SO_PATH);
             }
@@ -148,7 +148,6 @@ public class FileSOSettingWindow : EditorWindow
 
                 CreateFolder(SO_PATH);
 
-                Debug.Log(id);
                 AssetDatabase.CreateAsset(file, SO_PATH);
             }
         }
