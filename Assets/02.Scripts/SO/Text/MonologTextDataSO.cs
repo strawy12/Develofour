@@ -10,8 +10,13 @@ public class MonologTextDataSO : TextDataSO
     [SerializeField]
     private int callPriority;
 
+    // 필요 없을 거 같은 거
     public int CallPriority => callPriority;
 
+    /// <summary>
+    /// 해당 이름은 인 게임 내 보여지는 이름입니다.
+    /// 영어로 작성하지 말고 한글로 작성해주세요.
+    /// </summary>
     public string monologName;
 
     public int TextDataType
@@ -20,7 +25,14 @@ public class MonologTextDataSO : TextDataSO
         {
             return textDataType;
         }
+        set
+        {
+            textDataType = value;
+        }
     }
+
+#if UNITY_EDITOR
+
     [ContextMenu("ToString")]
     public void DebugToString()
     {
@@ -33,4 +45,6 @@ public class MonologTextDataSO : TextDataSO
         }
         Debug.Log(result);
     }
+
+#endif
 }
