@@ -12,7 +12,7 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     [SerializeField] protected List<ProfileInfoTextDataSO> linkInformaitonList;
     [SerializeField] protected Image backgroundImage;
 
-    protected Color yellowColor = new Color(255, 255, 0, 40);
+    protected Color yellowColor = new Color(255, 255, 0, 40);   
     protected Color redColor = new Color(255, 0, 0, 40);
     protected Color tempColor;
 
