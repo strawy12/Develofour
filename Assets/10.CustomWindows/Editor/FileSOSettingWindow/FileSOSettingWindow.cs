@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 public class FileSOSettingWindow : EditorWindow
 {
-    const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv&range=2:1000&gid=1984911729";
+    const string URL = "https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv&range=2:1000&gid=2075656520";
 
     private Button settingButton;
 
@@ -66,6 +66,7 @@ public class FileSOSettingWindow : EditorWindow
 
             int id = int.Parse(columns[0]);
             string fileName = columns[1];
+            Debug.Log(id);
             EWindowType type = (EWindowType)Enum.Parse(typeof(EWindowType), columns[2]);
 
             bool isFileLock = columns[4] == "TRUE";
@@ -99,6 +100,8 @@ public class FileSOSettingWindow : EditorWindow
                 {
                     file = CreateInstance<FileSO>();
                 }
+
+                file.name = columns[9];
                 isCreate = true;
             }
 
@@ -131,7 +134,6 @@ public class FileSOSettingWindow : EditorWindow
 
             if (!File.Exists(SO_PATH) && string.IsNullOrEmpty(columns[9]))
             {
-                Debug.Log(11);
                 string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());
                 AssetDatabase.MoveAsset(oldPath, SO_PATH);
             }
@@ -145,7 +147,6 @@ public class FileSOSettingWindow : EditorWindow
                 }
 
                 CreateFolder(SO_PATH);
-
 
                 AssetDatabase.CreateAsset(file, SO_PATH);
             }
