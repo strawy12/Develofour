@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,12 +10,12 @@ public class MonologTextDataSO : TextDataSO
     [SerializeField]
     private int callPriority;
 
-    // ÇÊ¿ä ¾øÀ» °Å °°Àº °Å
+    // í•„ìš” ì—†ì„ ê±° ê°™ì€ ê±°
     public int CallPriority => callPriority;
 
     /// <summary>
-    /// ÇØ´ç ÀÌ¸§Àº ÀÎ °ÔÀÓ ³» º¸¿©Áö´Â ÀÌ¸§ÀÔ´Ï´Ù.
-    /// ¿µ¾î·Î ÀÛ¼ºÇÏÁö ¸»°í ÇÑ±Û·Î ÀÛ¼ºÇØÁÖ¼¼¿ä.
+    /// í•´ë‹¹ ì´ë¦„ì€ ì¸ ê²Œìž„ ë‚´ ë³´ì—¬ì§€ëŠ” ì´ë¦„ìž…ë‹ˆë‹¤.
+    /// ì˜ì–´ë¡œ ìž‘ì„±í•˜ì§€ ë§ê³  í•œê¸€ë¡œ ìž‘ì„±í•´ì£¼ì„¸ìš”.
     /// </summary>
     public string monologName;
 
