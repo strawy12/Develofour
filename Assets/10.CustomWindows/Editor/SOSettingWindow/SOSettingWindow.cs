@@ -7,6 +7,9 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEditor.Compilation;
+using System.Linq;
+using DG.Tweening.Plugins.Core.PathCore;
 
 public class SOSettingWindow : EditorWindow
 {
@@ -98,8 +101,23 @@ public class SOSettingWindow : EditorWindow
 
     }
 
+    public void SetMonologKeyScript()
+    {
+        //using (StreamWriter writer = new StreamWriter(scriptPath))
+        //{
+        //    writer.Write(text);
+        //    writer.Flush();
+
+        //    AssetDatabase.Refresh();
+        //    CompilationPipeline.RequestScriptCompilation();
+        //}
+    }
+
     public void SettingMonologSO(string dataText)
     {
+
+        List<string> monologKeyList = new List<string>();
+
         string[] rows = dataText.Split('\n');
 
         string[] guids = AssetDatabase.FindAssets("t:MonologTextDataSO", null);
@@ -113,6 +131,8 @@ public class SOSettingWindow : EditorWindow
         for (int i = 0; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split('\t');
+
+            if (columns[0] == "") break;
 
             int id = int.Parse(columns[0]);
             string fileName = columns[1];
@@ -129,7 +149,6 @@ public class SOSettingWindow : EditorWindow
             }
 
             monologData.TextDataType = id;
-            monologData.name = fileName;
             monologData.monologName = monologName;
 
             string[] textDataList = columns[3].Split('#');
@@ -148,9 +167,14 @@ public class SOSettingWindow : EditorWindow
                 }
                 else
                 {
-                monologData[j] = data;
+                    monologData[j] = data;
                 }
             }
+
+            string variableName = fileName.ToUpper();
+            Debug.Log(id);
+            variableName = variableName.Remove(variableName.IndexOf("MONOLOG"), 7);
+            monologKeyList.Add($"        public const int {variableName} = {id};");
 
             string SO_PATH = $"Assets/07.ScriptableObjects/TextDataSO/CreateMonolog/{fileName}.asset";
             SO_PATH = SO_PATH.Replace("\\", "/");
@@ -161,8 +185,52 @@ public class SOSettingWindow : EditorWindow
                 CreateFolder(SO_PATH);
                 AssetDatabase.CreateAsset(monologData, SO_PATH);
             }
+
+            string path = AssetDatabase.GetAssetPath(monologData.GetInstanceID());
+            string[] pathSplits = path.Split('/');
+            pathSplits[pathSplits.Length - 1] = $"{fileName}.asset";
+            string newPath = string.Join('/', pathSplits);
+
+            if (path != newPath)
+            {
+                AssetDatabase.RenameAsset(path, newPath);
+                EditorUtility.SetDirty(monologData);
+            }
+        }
+        /*
+        const string scriptPath = "Assets/02.Scripts/Utils/Constant.cs";
+        string temp = "";
+
+        using (StreamReader sr = new StreamReader(scriptPath))
+        {
+            string line = "";
+            while (!line.Contains("public static class MonologKey"))
+            {
+                line = sr.ReadLine();
+                temp += line + '\n';
+            }
+
+            temp += sr.ReadLine() + '\n';
+
+            int idx = 0;
+            while (idx < monologKeyList.Count)
+            {
+                line = monologKeyList[idx];
+                temp += line + '\n';
+                idx++;
+            }
+
+            temp += "    }\n    #endregion\n}";
+
+            sr.Close();
         }
 
+        using (StreamWriter writer = new StreamWriter(scriptPath))
+        {
+            writer.Write(temp);
+            writer.Flush();
+        }
+        */
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
     }
@@ -278,7 +346,7 @@ public class SOSettingWindow : EditorWindow
     private void CreateFolder(string path)
     {
         string[] splitPath = path.Split('/');
-         string temp = "Assets";
+        string temp = "Assets";
         for (int i = 1; i < splitPath.Length - 1; i++)
         {
             temp += '/' + splitPath[i];
@@ -288,7 +356,7 @@ public class SOSettingWindow : EditorWindow
             }
         }
         AssetDatabase.Refresh();
-        
+
     }
 
 }
