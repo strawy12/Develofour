@@ -19,7 +19,6 @@ public class SOSettingWindow : EditorWindow
         Monolog
     }
 
-
     private Button settingButton;
     private Button fileSOBtn;
     private Button monologSOBtn;
@@ -185,6 +184,7 @@ public class SOSettingWindow : EditorWindow
 
             int id = int.Parse(columns[0]);
             string fileName = columns[1];
+
             EWindowType type = (EWindowType)Enum.Parse(typeof(EWindowType), columns[2]);
 
             bool isFileLock = columns[4] == "TRUE";
@@ -218,6 +218,8 @@ public class SOSettingWindow : EditorWindow
                 {
                     file = CreateInstance<FileSO>();
                 }
+
+                file.name = columns[9];
                 isCreate = true;
             }
 
@@ -264,7 +266,6 @@ public class SOSettingWindow : EditorWindow
 
                 CreateFolder(SO_PATH);
 
-
                 AssetDatabase.CreateAsset(file, SO_PATH);
             }
         }
@@ -283,7 +284,6 @@ public class SOSettingWindow : EditorWindow
             temp += '/' + splitPath[i];
             if (!Directory.Exists(temp))
             {
-                Debug.Log(temp);
                 Directory.CreateDirectory(temp);
             }
         }
