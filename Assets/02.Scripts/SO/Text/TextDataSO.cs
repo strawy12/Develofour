@@ -10,16 +10,19 @@ public class TextDataSO : ScriptableObject
     // 변수로 구분을 하게 만드는게 맞고
     // TextDataSO 고정 
 
-    [SerializeField]
     public List<TextData> textDataList;
 
 
     public TextData this[int index]
-    { 
+    {
         get
         {
             return textDataList[index];
-        } 
+        }
+        set 
+        { 
+            textDataList[index] = value; 
+        }
     }
 
     public int Count

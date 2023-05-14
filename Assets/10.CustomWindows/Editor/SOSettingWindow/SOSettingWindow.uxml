@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:GroupBox style="top: auto; align-items: flex-start; justify-content: flex-start; flex-direction: row; flex-wrap: nowrap;">
+        <ui:Button text="FileSO" display-tooltip-when-elided="true" name="FileSOBtn" view-data-key="FileSOBtn" />
+        <ui:Button text="Monolog" display-tooltip-when-elided="true" name="MonologBtn" view-data-key="MonologBtn" />
+    </ui:GroupBox>
+    <ui:GroupBox style="top: auto;">
+        <ui:TextField picking-mode="Ignore" label="Gid" text="filler text" name="GidField" view-data-key="GidField" />
+        <ui:TextField picking-mode="Ignore" label="SOType" text="filler text" name="SOTypeField" view-data-key="SOTypeField" />
+    </ui:GroupBox>
+    <ui:Button text="SO 세팅하기" display-tooltip-when-elided="true" name="SettingButton" class="SO_Settring" style="margin-top: 10px; scale: 1 1; position: absolute; height: 60px; width: 233px; top: 103px; left: 46px; font-size: 25px; flex-direction: column-reverse; justify-content: flex-end; align-items: center; flex-wrap: wrap-reverse; -unity-text-align: middle-center;" />
+</ui:UXML>
