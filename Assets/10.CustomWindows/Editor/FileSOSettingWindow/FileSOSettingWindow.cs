@@ -76,8 +76,11 @@ public class FileSOSettingWindow : EditorWindow
 
             List<int> childIdList = new List<int>();
             string tagString = columns[7];
-            List<string> tags = tagString.Split(',').ToList();
-
+            List<string> tags = new List<string>();
+            if (tagString != "")
+            {
+               tags = tagString.Split(',').ToList();
+            }
             string[] children = columns[8].Split(',');
             foreach (string child in children)
             {
