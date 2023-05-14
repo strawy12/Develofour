@@ -7,6 +7,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 public class FileSOSettingWindow : EditorWindow
 {
@@ -74,6 +75,8 @@ public class FileSOSettingWindow : EditorWindow
             string pinHint = columns[6];
 
             List<int> childIdList = new List<int>();
+            string tagString = columns[7];
+            List<string> tags = tagString.Split(',').ToList();
 
             string[] children = columns[8].Split(',');
             foreach (string child in children)
@@ -104,13 +107,14 @@ public class FileSOSettingWindow : EditorWindow
                 file.name = columns[9];
                 isCreate = true;
             }
-
+            
             file.id = id;
             file.fileName = fileName;
             file.windowType = type;
             file.isFileLock = isFileLock;
             file.windowPin = pin;
             file.windowPinHintGuide = pinHint;
+            file.tags = tags;
 
             if (file is DirectorySO)
             {
