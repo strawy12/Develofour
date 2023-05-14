@@ -16,7 +16,7 @@ public class Notepad : Window
     protected override void Init()
     {
         base.Init();
-        Debug.Log("메모장 데이터 불러오는 키 값을 주소 값으로 변경해주세요");
+ 
         currentData = ResourceManager.Inst.GetNotepadData(file.GetFileLocation());
 
         bool useDataBody = currentData.notepadBody != null;

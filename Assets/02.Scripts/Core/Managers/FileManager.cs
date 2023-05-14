@@ -89,7 +89,7 @@ public class FileManager : MonoSingleton<FileManager>
 
     public FileSO GetAdditionalFile(int key)
     {
-        foreach(var temp in additionFileList)
+        foreach (var temp in additionFileList)
         {
             Debug.Log(temp.id);
         }
@@ -104,13 +104,12 @@ public class FileManager : MonoSingleton<FileManager>
         DirectorySO currentDir = rootDirectory;
 
         currentDir = fileList.Find((x) => x.GetFileLocation() == location) as DirectorySO;
-        
+
         if (currentDir == null)
         {
             //디렉토리 생성
 
         }
-
 
         if (!currentDir.children.Contains(file))
         {
@@ -150,7 +149,7 @@ public class FileManager : MonoSingleton<FileManager>
             }
             foreach (FileSO file in directory.children)
             {
-                if(file == null)
+                if (file == null)
                 {
                     continue;
                 }
@@ -213,20 +212,25 @@ public class FileManager : MonoSingleton<FileManager>
             string[] fileNameWords = fileName.Split(" ");
             float fileNameWeight = 0;
             float tagWeight = 0;
+
             isSearchByFileName = false;
             isSearchTag = false;
 
             foreach (var word in words)
             {
                 fileNameWeight += SearchFileName(fileNameWords, word, fileName);
-
                 foreach (var tag in file.tags)
                 {
                     tagWeight += SearchTag(tag, word);
                 }
+
+                if (file.windowType == EWindowType.Notepad)
+                {
+                    tagWeight += SearchNotePad(word, file);
+                }
             }
 
-            if(isSearchByFileName || isSearchTag)
+            if (isSearchByFileName || isSearchTag)
             {
                 if (!isSearchByFileName)
                 {
@@ -271,6 +275,24 @@ public class FileManager : MonoSingleton<FileManager>
 
         return fileList;
     }
+
+    private float SearchNotePad(string word, FileSO file)
+    {
+        string infoString = ResourceManager.Inst.GetNotepadData(file.GetFileLocation()).scripts;
+        float weight = 0f;
+
+        string[] infoWords = infoString.Split(" ");
+
+        foreach(var infoWord in infoWords)
+        if (infoWord == word)
+        {
+            isSearchTag = true;
+            weight += GetWeight(word.Length, infoString.Length, findTagScore);
+        }
+
+        return weight;
+    }
+
     private void CalcDirectoryWeight(DirectorySO currentFile)
     {
         float totalweigt = 0;
@@ -326,7 +348,7 @@ public class FileManager : MonoSingleton<FileManager>
     }
     private float SearchTag(string fileTag, string word)
     {
-        float weigth = 0;
+        float weight = 0;
         string[] tagWords = fileTag.Split(" ");
 
         foreach (string tagWord in tagWords)
@@ -334,11 +356,10 @@ public class FileManager : MonoSingleton<FileManager>
             if (tagWord == word)
             {
                 isSearchTag = true;
-                weigth += GetWeight(word.Length, fileTag.Length, findTagScore);
+                weight += GetWeight(word.Length, fileTag.Length, findTagScore);
             }
-
         }
-        return weigth;
+        return weight;
     }
     private FileSO GetFile(string location)
     {
