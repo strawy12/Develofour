@@ -21,6 +21,8 @@ public class MonologLockData
 {
     public List<MonologLockDecision> decisions;
     public int monologID;
+    public int answerMonologID;
+    public float answerDelay;
 }
 
 

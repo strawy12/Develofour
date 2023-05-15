@@ -124,13 +124,14 @@ public class CallSystem : MonoSingleton<CallSystem>
             if (!Define.MonologLockDecisionFlag(data.monologLockList[i].decisions)) continue;
 
             int num = i;
+            MonologLockData lockData = data.monologLockList[i];
             CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
-            MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(data.monologLockList[i].monologID);
+            MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(lockData.monologID);
 
             instance.btnText.text = textData.monologName;
             instance.btn.onClick.AddListener(() =>
             {
-                StartMonolog(textData.TextDataType);
+                StartMonolog(textData.TextDataType, lockData.answerMonologID, lockData.answerDelay);
             });
             instance.gameObject.SetActive(true);
         }
@@ -208,9 +209,11 @@ public class CallSystem : MonoSingleton<CallSystem>
         profileIcon.sprite = data.profileIcon;
     }
 
-    public void StartMonolog(int monologType)
+    public void StartMonolog(int monologType, int afterMonologId = -1, float delay = 0f)
     {
         //저장쪽은 나중에 생각
+
+        // 딜레이 후 해당 독백이 실행되는 작업 해야함
         MonologSystem.OnEndMonologEvent += Hide;
         MonologSystem.OnStartMonolog.Invoke(monologType, 0, false);
     }
