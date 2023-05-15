@@ -160,14 +160,14 @@ public class CallSystem : MonoSingleton<CallSystem>
         var monolog = characterStackList[data].OrderBy(x => x.priority).First();
     }
 
-    private IEnumerator StartRequestCall(int characterType)
+    private IEnumerator StartRequestCall(int monologType)
     {
         float delay = 5f;
         yield return PlayPhoneCallSound(delay);
-        if(characterType != -1)
+        if(monologType != -1)
         {
             //MonologSystem.OnEndMonologEvent += Hide;
-            MonologSystem.OnStartMonolog(characterType, 0, true);
+            MonologSystem.OnStartMonolog?.Invoke(monologType, 0, true);
         }
         else
         {

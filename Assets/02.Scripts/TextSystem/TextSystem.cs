@@ -93,7 +93,8 @@ public abstract class TextSystem : MonoBehaviour
                 }
                 break;
 
-            case "STACKCALL": // 걸때 추가
+            // 해당 독백이 나온 이후 거는 통화 조건 해금됨
+            case "STACKCALL": 
                 {
                     string[] cmdValueArray = cmdValue.Split(',');
                     CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(cmdValueArray[0]);
