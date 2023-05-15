@@ -29,6 +29,8 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         LoadMailDataAssets(() => cnt--);
         LoadVideoPlayercDataAssets(() => cnt--);
 
+        LoadRequestCallDataAssets(() => cnt--);
+
         yield return new WaitUntil(() => cnt <= 0);
 
         GameManager.Inst.Init();
