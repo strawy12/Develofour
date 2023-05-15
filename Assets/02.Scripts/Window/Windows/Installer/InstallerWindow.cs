@@ -70,8 +70,8 @@ public class InstallerWindow : Window
         EventManager.TriggerEvent(EProfileEvent.InstalledProfile);
 
         DataManager.Inst.SaveData.isProfilerInstall = true;
-        Debug.Log(FileManager.Inst.GetAdditionalFile(22).fileName);
-        FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(22), "내 PC\\C\\사용자\\바탕화면\\");
+        Debug.Log(FileManager.Inst.GetAdditionalFile(49).fileName);
+        FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(49), "사용자\\바탕화면\\");
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.PROFILEINSTALLCOMPLETE, 0f, true);

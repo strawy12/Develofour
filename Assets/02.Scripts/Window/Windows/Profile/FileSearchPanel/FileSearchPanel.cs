@@ -67,6 +67,7 @@ public class FileSearchPanel : MonoBehaviour
     private void ShowFileIcon(List<FileSO> fileList)
     {
         HideAllFile();
+        Debug.Log("fileListCount: " + fileList.Count);
         if (fileList.Count <= 0)
         {
             return;
