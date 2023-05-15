@@ -79,7 +79,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         if (result != -1)
         {
             //끝나는 시점에 선택지 리스트
-            MonologSystem.OnEndMonologEvent += () => SetMonologSelector(data);
+            MonologSystem.OnEndMonologEvent += () => SetMonologSelector(data.characterType);
         }
 
         StartCoroutine(StartRequestCall(result));
@@ -91,11 +91,11 @@ public class CallSystem : MonoSingleton<CallSystem>
         ShowAnswerButton(false);
         ShowSpectrumUI(true);
 
-        Show(false);
+        Show(false); 
     }
 
     // 선택지 UI 생성해주는 코드
-    public void SetMonologSelector(CharacterInfoDataSO data)
+    public void SetMonologSelector(ECharacterDataType type)
     {
         // 기존에 존재하던 선택지UI들 지우기
         // TODO
@@ -111,20 +111,29 @@ public class CallSystem : MonoSingleton<CallSystem>
             }
         }
 
-        //새로 세팅
-        //for (int i = 0; i < characterStackList[data.characterType].Count; i++)
-        //{
-        //    int num = i;
-        //    CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
-        //    instance.btnText.text = characterStackList[data.characterType][num].monologName;
-        //    instance.btn.onClick.AddListener(() =>
-        //    {
-        //        MonologSystem.OnEndMonologEvent += Hide;
-        //        StartMonolog(characterStackList[data.characterType][num].monologType);
-        //        characterStackList[data.characterType].RemoveAt(num);
-        //    });
-        //    instance.gameObject.SetActive(true);
-        //}
+        RequestCallDataSO data = ResourceManager.Inst.GetRequestCallData(type);
+        if(data == null) 
+        {
+            Debug.LogError($"RequestCallDataSO is Null! {type}");   
+        }
+
+        if (!Define.MonologLockDecisionFlag(data.defaultDecisions)) return;
+
+        for (int i = 0; i < data.monologLockList.Count; i++)
+        {
+            if (!Define.MonologLockDecisionFlag(data.monologLockList[i].decisions)) continue;
+
+            int num = i;
+            CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
+            MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(data.monologLockList[i].monologID);
+
+            instance.btnText.text = textData.monologName;
+            instance.btn.onClick.AddListener(() =>
+            {
+                StartMonolog(textData.TextDataType);
+            });
+            instance.gameObject.SetActive(true);
+        }
     }
 
     private void ButtonSetting(int data)

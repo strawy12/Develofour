@@ -15,5 +15,5 @@ public enum ECharacterDataType
     /// <summary>
     /// °æºñ¿ø
     /// </summary>
-    Janitor,
+    Security,
 }

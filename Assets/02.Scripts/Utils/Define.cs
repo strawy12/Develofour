@@ -233,4 +233,25 @@ public static class Define
 
         image.rectTransform.sizeDelta = size * scale;
     }
+
+    public static bool MonologLockDecisionFlag(List<MonologLockDecision> list)
+    {
+        bool result = true;
+
+        foreach(MonologLockDecision decision in list)
+        {
+            switch (decision.decisionType)
+            {
+                case MonologLockDecision.EDecisionType.Infomation:
+                    // 해당 정보 id를 비교하여 정보를 획득했는지 확인
+                    break;
+
+                case MonologLockDecision.EDecisionType.Monolog:
+                    // 해당 독백 id를 비교하여 독백을 봤는지 확인
+                    break;
+            }
+        }
+
+        return result;
+    }
 }
