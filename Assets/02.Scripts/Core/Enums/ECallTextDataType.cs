@@ -1,19 +1,19 @@
-public enum ECharacterDataType
+ï»¿public enum ECharacterDataType
 {
     None = -1,
     /// <summary>
-    /// Á¶¼ö
+    /// ì¡°ìˆ˜
     /// </summary>
     Assistant,
     KimYujin,
     Police,
     /// <summary>
-    /// ¹ÚÁÖ¿µ¿¡°Ô ÀüÈ­¸¦ °É °æ¿ì ºÎ¸ğ´Ô²²¼­ ÀüÈ­¸¦ ¹Ş´Â´Ù
+    /// ë°•ì£¼ì˜ì—ê²Œ ì „í™”ë¥¼ ê±¸ ê²½ìš° ë¶€ëª¨ë‹˜ê»˜ì„œ ì „í™”ë¥¼ ë°›ëŠ”ë‹¤
     /// </summary>
     ParkJuyoung,
     HanTaewoong,
     /// <summary>
-    /// °æºñ¿ø
+    /// ê²½ë¹„ì›
     /// </summary>
     Security,
 }
