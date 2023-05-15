@@ -44,6 +44,7 @@ public class FileSO : SOParent
     
     public List<string> tags;
     public bool isHide;
+    public bool isCantFind;
     [Header("Debug")]
     public string splitString;
 

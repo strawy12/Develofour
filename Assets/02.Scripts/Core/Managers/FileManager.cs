@@ -208,6 +208,10 @@ public class FileManager : MonoSingleton<FileManager>
                 continue;
             }
 
+            if (file.isCantFind)
+            {
+                continue;
+            }
             string fileName = Regex.Replace(file.fileName, @"[^0-9a-zA-Z가-힣\s]", "");
             string[] fileNameWords = fileName.Split(" ");
             float fileNameWeight = 0;
@@ -230,20 +234,18 @@ public class FileManager : MonoSingleton<FileManager>
                 }
             }
 
-            if (isSearchByFileName || isSearchTag)
+            if (!isSearchByFileName)
             {
-                if (!isSearchByFileName)
-                {
-                    fileNameWeight = 0;
-                }
-                if (!isSearchTag)
-                {
-                    tagWeight = 0;
-                }
-                FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
-
-                foundFileWeights.Add(fileWeight);
+                fileNameWeight = 0;
             }
+            if (!isSearchTag)
+            {
+                tagWeight = 0;
+            }
+            FileWeight fileWeight = new FileWeight(file, fileNameWeight + tagWeight);
+
+            foundFileWeights.Add(fileWeight);
+
         }
 
         foreach (FileSO file in allFileList)
@@ -268,10 +270,15 @@ public class FileManager : MonoSingleton<FileManager>
                 result = true;
             if (x.file is DirectorySO)
                 result = true;
-            if (x.weight == 0)
+
+            if (x.weight <= 0)
                 result = false;
+
+
             return result;
         }).OrderByDescending((x) => x.weight).Select((x) => x.file).Take(5).ToList();
+
+        Debug.Log(fileList.Count);
 
         return fileList;
     }
@@ -283,12 +290,15 @@ public class FileManager : MonoSingleton<FileManager>
 
         string[] infoWords = infoString.Split(" ");
 
-        foreach(var infoWord in infoWords)
-        if (infoWord == word)
+        foreach (var infoWord in infoWords)
         {
-            isSearchTag = true;
-            weight += GetWeight(word.Length, infoString.Length, findTagScore);
+            if (infoWord == word)
+            {
+                isSearchTag = true;
+                weight += GetWeight(word.Length, infoString.Length, findTagScore);
+            }
         }
+
 
         return weight;
     }
@@ -319,7 +329,12 @@ public class FileManager : MonoSingleton<FileManager>
 
             totalweigt += childWeight.weight;
         }
-        totalweigt = totalweigt / cnt * 0.75f + currentFileWeight.weight / 2;
+
+        if(cnt != 0)
+        {
+            totalweigt = totalweigt / cnt * 0.75f + currentFileWeight.weight / 2;
+        }
+       
         currentFileWeight.isCompleteWeightDirectory = true;
         currentFileWeight.weight = totalweigt;
     }
