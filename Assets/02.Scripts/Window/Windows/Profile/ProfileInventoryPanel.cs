@@ -70,13 +70,13 @@ public class ProfileInventoryPanel : MonoBehaviour
         categorysQueue = new Queue<ProfileCategoryPrefab>();
         categoryParent.Init();
         sceneCategoryList = ResourceManager.Inst.GetProfileCategoryDataList()
-            .Where(x => x.Value.categoryType == EProfileCategoryType.Scene)
+            .Where(x => x.Value.categoryType == EProfileCategoryType.Info)
             .Select(x => x.Value).ToList();
         characterCategoryList = ResourceManager.Inst.GetProfileCategoryDataList()
             .Where(x => x.Value.categoryType == EProfileCategoryType.Character)
             .Select(x => x.Value).ToList();
 
-        categoryType = EProfileCategoryType.Scene;
+        categoryType = EProfileCategoryType.Info;
 
         CreatePool();
     }
@@ -85,7 +85,7 @@ public class ProfileInventoryPanel : MonoBehaviour
         //InputManager.Inst.AddKeyInput(KeyCode.RightArrow, RightMove);
         //InputManager.Inst.AddKeyInput(KeyCode.LeftArrow, LeftMove);
         gameObject.SetActive(true);
-        if (categoryType == EProfileCategoryType.Scene)
+        if (categoryType == EProfileCategoryType.Info)
         {
             ShowScenePanel();
         }
@@ -114,7 +114,7 @@ public class ProfileInventoryPanel : MonoBehaviour
                 }
             }
         }
-        else if(categoryType == EProfileCategoryType.Scene)
+        else if(categoryType == EProfileCategoryType.Info)
         {
             foreach (var data in sceneCategoryList)
             {
@@ -179,7 +179,7 @@ public class ProfileInventoryPanel : MonoBehaviour
     {
         PushAll();
         EventManager.TriggerEvent(EProfileEvent.HideInfoPanel);
-        categoryType = EProfileCategoryType.Scene;
+        categoryType = EProfileCategoryType.Info;
 
         foreach (var data in sceneCategoryList)
         {

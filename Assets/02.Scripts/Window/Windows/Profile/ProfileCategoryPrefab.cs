@@ -46,7 +46,7 @@ public class ProfileCategoryPrefab : MonoBehaviour, IPointerClickHandler
 
         gameObject.SetActive(true);
 
-        titleName.SetText(Define.TranslateInfoCategory(categoryData.category));
+        titleName.SetText(categoryData.categoryName);
         Define.SetSprite(categoryImage, categoryData.categorySprite, maxSize);
     }
 

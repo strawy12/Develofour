@@ -112,7 +112,7 @@ public class ProfileInfoPanel : MonoBehaviour
         gameObject.SetActive(true);
         ProfileCategoryDataSO categoryData = ps[0] as ProfileCategoryDataSO;
         currentData = categoryData;
-        titleText.SetText(Define.TranslateInfoCategory(currentData.category));
+        titleText.SetText(currentData.categoryName);
         SpriteSetting();
         foreach (var infoData in currentData.infoTextList)
         {

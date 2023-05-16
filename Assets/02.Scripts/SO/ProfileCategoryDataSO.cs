@@ -5,7 +5,7 @@ using System;
 
 public enum EProfileCategoryType
 {
-    Scene,
+    Info,
     Character,
 }
 
@@ -16,10 +16,10 @@ public class ProfileCategoryDataSO : ScriptableObject
     public EProfileCategory category;
     public EProfileCategoryType categoryType;
     public Sprite categorySprite;
+    public string categoryName;
     [Header("Information")]
     [SerializeField]
     public List<ProfileInfoTextDataSO> infoTextList;
-
     public ProfileInfoTextDataSO GetSaveData(string key)
     {
         ProfileInfoTextDataSO data = null;

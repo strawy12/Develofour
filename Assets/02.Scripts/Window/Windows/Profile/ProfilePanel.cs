@@ -9,11 +9,27 @@ public enum EProfileCategory
     ParkJuyoungProfile,
     KimYujinProfile,
     PetProfile,
-    IncidentProfile,
-    VictimRelationship,
-    Other,
+    TaeWoongProfile,
+    CriminalInfomation,
+    JuyoungMomProfile,
+    SecurityProfile,
+    AccompliceProfile,
+    IncidentReport,
+    LocationInformation,
+    Bat,
+    PetCam,
+    CounselingRecord,
+    BodyAutopsy,
+    CCTV,
+    LastCallRecord,
+    BackgroundMail,
+    ViolenceDiary,
+    PrescriptionDiary,
+    PetDeadDiary,
+    Glove,
+    Knife,
+    YohanYujinTalk,
     InvisibleInformation,
-    KangyohanDoubtful,
     Count,
 }
 
@@ -73,7 +89,7 @@ public class ProfilePanel : MonoBehaviour
 
     private void OnClickScenePanelBtn()
     {
-        if (typePanel.CheckCurrentType(EProfileCategoryType.Scene) == false)
+        if (typePanel.CheckCurrentType(EProfileCategoryType.Info) == false)
             typePanel.ShowScenePanel();
     }
     private void OnDestroy()

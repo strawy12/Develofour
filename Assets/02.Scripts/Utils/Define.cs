@@ -201,16 +201,6 @@ public static class Define
         }
     }
 
-    public static string TranslateInfoCategory(EProfileCategory category)
-    {
-        switch(category)
-        {
-            case EProfileCategory.InvisibleInformation:
-                return "보이지 않는 정보";
-        }
-
-        return null;
-    }
     public static void SetSprite(Image image, Sprite sprite, Vector2 maxSize)
     {
         if(sprite == null)
