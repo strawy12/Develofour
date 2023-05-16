@@ -30,6 +30,9 @@ public class MonologLockData
 public class RequestCallDataSO : ScriptableObject
 {
     public ECharacterDataType characterType;
+    public int defaultMonologID;
+    public int notExistMonoLogID;
+
     public List<MonologLockDecision> defaultDecisions;
     public List<MonologLockData> monologLockList;
 }
