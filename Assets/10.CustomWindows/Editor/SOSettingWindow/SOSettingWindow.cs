@@ -393,6 +393,8 @@ public class SOSettingWindow : EditorWindow
 
             int id = int.Parse(columns[0]);
 
+            if (columns[0] == string.Empty || columns[1] == string.Empty || columns[2] == string.Empty || columns[4] == string.Empty) continue;
+
             string key = columns[1];
             EProfileCategory category = Enum.Parse<EProfileCategory>(columns[2]);
             string infoText = columns[3];
