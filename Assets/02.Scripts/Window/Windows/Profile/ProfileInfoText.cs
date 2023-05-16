@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ProfileInfoText : MonoBehaviour
 {
 
     private ProfileInfoTextDataSO currentInfoData;
@@ -62,30 +62,8 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
         OnFindText?.Invoke();
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        //if (infoText.text != currentInfoData.infomationText)
-        //{
-        //    return;
-        //}
-
-        showPanel.text.text = infoText.text;
-        showPanel.transform.SetParent(gameObject.transform.parent);
-        showPanel.RectTrm.position = rectTransform.position;
-        showPanel.transform.SetParent(showPanel.showPanelParent.transform);
-        showPanel.RectTrm.anchoredPosition += new Vector2(20, 35);
-        showPanel.SetDownText();
-        showPanel.gameObject.SetActive(true);
-    }
-
     public void Hide()
     {
         gameObject.SetActive(false);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (showPanel == null) return;
-        showPanel.gameObject.SetActive(false);
     }
 }

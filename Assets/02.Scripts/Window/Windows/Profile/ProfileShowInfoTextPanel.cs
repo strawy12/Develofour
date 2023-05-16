@@ -25,6 +25,14 @@ public class ProfileShowInfoTextPanel : MonoBehaviour
     {
         parentRect ??= showPanelParent.GetComponent<RectTransform>();
         downText.text = text.text;
+        Debug.Log(parentRect.sizeDelta);
+        StartCoroutine(TextCor());
+        Debug.Log(parentRect.sizeDelta);
+    }
+
+    public IEnumerator TextCor()
+    {
+        yield return new WaitForSeconds(0.15f);
         parentRect.sizeDelta = downText.rectTransform.sizeDelta;
     }
 }

@@ -25,7 +25,7 @@ public partial class MonologSystem : TextSystem
 
         EventManager.StartListening(EMonologEvent.MonologException, ProfileFileException);
     }
-    
+        
     public void StartMonolog(int textDataType, float beforeDelay, bool isSave)
     {
         StartCoroutine(StartMonologCor(textDataType, beforeDelay, isSave));
@@ -33,12 +33,6 @@ public partial class MonologSystem : TextSystem
 
     public IEnumerator StartMonologCor(int textDataType, float beforeDelay, bool isSave)
     {
-        if (DataManager.Inst.IsMonologShow(textDataType))
-        {
-            OnEndMonologEvent = null;
-            yield break;
-        }
-
         beforeGameState = GameManager.Inst.GameState;
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
 
