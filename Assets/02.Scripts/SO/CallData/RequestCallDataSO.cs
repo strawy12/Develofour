@@ -12,8 +12,7 @@ public class MonologLockDecision
     }
 
     public EDecisionType decisionType;
-    [SerializeField]
-    private string key;
+    public int key;
 }
 
 [System.Serializable]

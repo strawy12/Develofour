@@ -41,4 +41,11 @@ public partial class DataManager : MonoSingleton<DataManager>
     {
         return GetProfileSaveData(category).infoData.Contains(str);
     }
+
+    public bool IsProfileInfoData(int id)
+    {
+        ProfileInfoTextDataSO data = ResourceManager.Inst.GetProfileInfoData(id);
+
+        return IsProfileInfoData(data.category, data.key);
+    }
 }
