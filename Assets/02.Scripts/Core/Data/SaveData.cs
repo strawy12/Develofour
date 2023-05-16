@@ -35,6 +35,8 @@ public class ProfileSaveData
     public List<string> infoData;
 }
 
+
+
 [System.Serializable]
 public class MailSaveData
 {
