@@ -67,13 +67,19 @@ public class Debugger : MonoBehaviour
             }
         }
 
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            DataManager.Inst.SetMonologShow(7, true);
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.KimYujinProfile, "이름" });
+        }
+
 
         //if (Input.GetKeyDown(KeyCode.A))
         //{
-            //FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(888), "");
+        //FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(888), "");
         //}
 
-      
+
     }
 
     private void ActiveDebug()
