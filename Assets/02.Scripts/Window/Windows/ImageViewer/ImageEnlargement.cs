@@ -31,7 +31,8 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     private float[] enlargementArr = new float[] { 1f, 2f, 3f, 4f, 5f };
 
     private readonly Vector2 MAXSIZE = new Vector2(1280f, 670f);
-    private const float MINSIZEX = 704f;
+    [SerializeField]
+    private float MINSIZEX = 704f;
     private const float RATIOX = 1.63f;
     private const float RATIOY = 1.636363636363636f;
     public bool isDiscord;
@@ -80,6 +81,9 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         currentImage.transform.localScale = Vector3.one * imageScale;
 
     }
+
+    
+
     public void SetImageSizeReset(Vector2 MAXSIZE, float MINSIZEX)
     {
         Vector2 size = currentImage.sprite.rect.size;
@@ -91,26 +95,19 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
         float scale = 1f;
 
-        Debug.Log(size);
-
         if (size.y > MAXSIZE.y)
         {
-            Debug.Log("MaxY");
             scale = MAXSIZE.y / size.y; 
         }
         else if(size.x > MAXSIZE.x)
         {
-            Debug.Log("MaxX");
-
             scale = MAXSIZE.x / size.x; 
         }
-        else if(size.x < MINSIZEX)
+        else if(size.x <= MINSIZEX)
         {
-            Debug.Log("MinX");
-
             scale = MINSIZEX / size.x;
         }
-        Debug.Log(scale);
+
         transform.localScale = Vector3.one * scale;
 
         imageScale = transform.localScale.x; 
@@ -229,6 +226,38 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         }
         return result;
     }
+#if UNITY_EDITOR
+    [ContextMenu("GetSize")]
+    public void GetSize()
+    {
+        currentImage = GetComponent<Image>();
 
+        Vector2 size = currentImage.sprite.rect.size;
 
+        size.x /= RATIOX;
+        size.y /= RATIOY;
+
+        currentImage.rectTransform.sizeDelta = size;
+
+        float scale = 1f;
+
+        if (size.y > MAXSIZE.y)
+        {
+            scale = MAXSIZE.y / size.y;
+        }
+        else if (size.x > MAXSIZE.x)
+        {
+            scale = MAXSIZE.x / size.x;
+        }
+        else if (size.x <= MINSIZEX)
+        {
+            scale = MINSIZEX / size.x;
+        }
+
+        transform.localScale = Vector3.one * scale;
+
+        imageScale = transform.localScale.x;
+    }
+
+#endif
 }
