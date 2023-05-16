@@ -51,27 +51,25 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
 
         else
         {
-            if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
+            if (needInformaitonList.Count == 0)
             {
-                if (needInformaitonList.Count == 0)
-                {
-                    GetInfo(eventData);
-                }
-                else
-                {
-                    foreach (ProfileInfoTextDataSO needData in needInformaitonList)
-                    {
-                        if (!DataManager.Inst.IsProfileInfoData(needData.category, needData.key))
-                        {
-                            if (monoLogType == -1)
-                                return;
-                            MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-                            return;
-                        }
-                    }
-                    GetInfo(eventData);
-                }
+                GetInfo(eventData);
             }
+            else
+            {
+                foreach (ProfileInfoTextDataSO needData in needInformaitonList)
+                {
+                    if (!DataManager.Inst.IsProfileInfoData(needData.category, needData.key))
+                    {
+                        if (monoLogType == -1)
+                            return;
+                        MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
+                        return;
+                    }
+                }
+                GetInfo(eventData);
+            }
+
         }
     }
 
@@ -107,12 +105,13 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        if(infomaitionData == null)
+        if (infomaitionData == null)
         {
-            Debug.Log($"해당 {gameObject.name}에 data가 등록되지 않았습니다.");
+            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { CursorChangeSystem.ECursorState.FindInfo });
+            yellowColor.a = 0.4f;
+            backgroundImage.color = yellowColor;
             return;
         }
-
 
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
