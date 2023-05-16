@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public partial class GuideManager : MonoBehaviour
@@ -97,21 +98,12 @@ public partial class GuideManager : MonoBehaviour
 
     private void SendAiChattingGuide(string str, bool isSave)
     {
-        TextData data = new TextData() { color = new Color(255, 255, 255, 100), text = str };
-
-        ProfileChattingSystem.OnPlayChat?.Invoke(data, isSave, false);
+        ProfileChattingSystem.OnPlayChat?.Invoke(str, isSave, false);
     }
 
     private void SendAiChattingGuide(string[] strList, float delay, bool isSave)
     {
-        List<TextData> textDataList = new List<TextData>();
-        foreach (string str in strList)
-        {
-            TextData data = new TextData() { color = new Color(255, 255, 255, 100), text = str };
-            textDataList.Add(data);
-        }
-
-        ProfileChattingSystem.OnPlayChatList?.Invoke(textDataList, delay, isSave);
+        ProfileChattingSystem.OnPlayChatList?.Invoke(strList.ToList(), delay, isSave);
     }
 
     private void OnApplicationQuit()

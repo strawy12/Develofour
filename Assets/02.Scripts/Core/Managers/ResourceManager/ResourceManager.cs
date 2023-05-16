@@ -11,7 +11,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     }
     private IEnumerator StartGetData()
     {
-        int cnt = 13;
+        int cnt = 14;
 
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);

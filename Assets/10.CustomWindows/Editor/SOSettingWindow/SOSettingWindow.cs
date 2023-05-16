@@ -130,7 +130,7 @@ public class SOSettingWindow : EditorWindow
         {
             string[] columns = rows[i].Split('\t');
 
-            if (columns[0] == "") break;
+            if (columns[0] == string.Empty || columns[1] == string.Empty || columns[3] == string.Empty) continue;
 
             int id = int.Parse(columns[0]);
             string fileName = columns[1];
@@ -153,12 +153,13 @@ public class SOSettingWindow : EditorWindow
 
             if (monologData.textDataList == null)
             {
-                monologData.textDataList = new List<TextData>();
+                monologData.textDataList = new List<string>();
             }
 
             for (int j = 0; j < textDataList.Length; j++)
             {
-                TextData data = new TextData { text = textDataList[j] };
+                string data = textDataList[j];
+
                 if (monologData.Count <= j)
                 {
                     monologData.textDataList.Add(data);
@@ -171,7 +172,13 @@ public class SOSettingWindow : EditorWindow
 
             string variableName = fileName.ToUpper();
             Debug.Log(id);
-            variableName = variableName.Remove(variableName.IndexOf("MONOLOG"), 7);
+            int monologIdx = variableName.IndexOf("MONOLOG");
+
+            if (monologIdx != -1)
+            {
+                variableName = variableName.Remove(monologIdx, 7);
+            }
+
             monologKeyList.Add($"        public const int {variableName} = {id};");
 
             string SO_PATH = $"Assets/07.ScriptableObjects/TextDataSO/CreateMonolog/{fileName}.asset";
@@ -262,7 +269,7 @@ public class SOSettingWindow : EditorWindow
             List<string> tags = new List<string>();
             if (tagString != "")
             {
-               tags = tagString.Split(',').ToList();
+                tags = tagString.Split(',').ToList();
             }
             string[] children = columns[8].Split(',');
             foreach (string child in children)
@@ -293,7 +300,7 @@ public class SOSettingWindow : EditorWindow
                 file.name = columns[9];
                 isCreate = true;
             }
-            
+
             file.id = id;
             file.fileName = fileName;
             file.windowType = type;

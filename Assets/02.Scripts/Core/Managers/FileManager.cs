@@ -259,8 +259,7 @@ public class FileManager : MonoSingleton<FileManager>
 
         if (foundFileWeights.Count > 5)
         {
-            TextData textData = new TextData() { color = Color.black, text = $"'{text}'와 관련된 정보가 너무 많습니다." };
-            ProfileChattingSystem.OnPlayChat?.Invoke(textData, false, false);
+            ProfileChattingSystem.OnPlayChat?.Invoke($"'{text}'와 관련된 정보가 너무 많습니다.", false, false);
         }
 
         List<FileSO> fileList = foundFileWeights.Where(x =>

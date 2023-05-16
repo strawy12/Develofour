@@ -27,8 +27,7 @@ public class TextBox : MonoUI
 
     private float currentDelay = 0f;
 
-    private TextData currentTextData;
-    private string currentString;
+    private string currentTextData;
 
     public bool isTextPrinting = false;
     private bool isActive = false;
@@ -46,11 +45,10 @@ public class TextBox : MonoUI
         triggerDictionary.Clear();
     }
 
-    public void Init(TextData data, string str, Dictionary<int, Action> triggerList)
+    public void Init(string data, Dictionary<int, Action> triggerList)
     {
         EndPrintText();
         currentTextData = data;
-        currentString = str;
         triggerDictionary = triggerList;
 
         messageText.SetText("");
@@ -84,18 +82,18 @@ public class TextBox : MonoUI
             GameManager.Inst.ChangeGameState(EGameState.Game);
             return true;
         }
-        return messageText.text.Length >= currentString.Length;
+        return messageText.text.Length >= currentTextData.Length;
     }
 
     private IEnumerator PrintMonologTextCoroutine()
     {
         bool isRich = false;
 
-        string msg = currentString;
+        string msg = currentTextData;
 
         msg = SliceLineText(msg);
 
-        SimpleTypePrint(currentTextData, msg);
+        SimpleTypePrint(msg);
 
         messageText.maxVisibleCharacters = 0;
         messageText.SetText(msg);
@@ -183,18 +181,17 @@ public class TextBox : MonoUI
         HideBox();
     }
 
-    public void SimpleTypePrint(TextData data, string str)
+    public void SimpleTypePrint(string data)
     {
         bgImage.color = Color.black;
         bgImage.ChangeImageAlpha(1f);
         bgImage.sprite = simpleTypeSprite;
 
-        messageText.SetText(str);
+        messageText.SetText(data);
         ShowBox();
         bgImage.rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + offsetSize;
         bgImage.enabled = false;
         messageText.SetText("");
-        messageText.color = data.color;
     }
 
 

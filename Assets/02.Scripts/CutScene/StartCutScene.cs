@@ -78,7 +78,7 @@ public class StartCutScene : MonoBehaviour
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.InterrogationRoom);
 
         MonologSystem.OnEndMonologEvent += FadeInterrogationRoomSprite;
-        MonologSystem.OnStartMonolog(Constant.MonologKey.STARTCUTSCENEMONOLOG1, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.STARTCUTSCENEMONOLOG1, 0, true);
     }
 
     private void FadeInterrogationRoomSprite()

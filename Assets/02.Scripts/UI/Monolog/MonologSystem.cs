@@ -39,13 +39,12 @@ public partial class MonologSystem : TextSystem
             yield break;
         }
 
-        yield return new WaitForSeconds(beforeDelay);
-
         beforeGameState = GameManager.Inst.GameState;
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
 
-        currentTextDataIdx = 0;
+        yield return new WaitForSeconds(beforeDelay);
 
+        currentTextDataIdx = 0;
         currentTextData = ResourceManager.Inst.GetMonologTextData(textDataType);
 
         PrintText();
@@ -96,14 +95,13 @@ public partial class MonologSystem : TextSystem
             EndMonolog();
             return;
         }
-        TextData data = currentTextData[currentTextDataIdx++];
-        string text = data.text;
+        string text = currentTextData[currentTextDataIdx++];
         text = RemoveCommandText(text, true);
 
         // TextBox 한테 일시키기
         // {}
 
-        textBox.Init(data, text, triggerDictionary);
+        textBox.Init(text, triggerDictionary);
     }   
 
     public override void SetDelay(float value)

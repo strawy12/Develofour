@@ -39,13 +39,12 @@ public class MonologTextDataSO : TextDataSO
         string result = "";
         foreach(var text in textDataList)
         {
-            result += text.text;
+            result += text;
             result += "\n";
             result += "\n";
         }
         Debug.Log(result);
     }
-
 
 #endif
 }
