@@ -158,6 +158,10 @@ public static partial class Constant
         public const int INSTALLCOMPLETE = 111;
         public const int ENDPROFILETUTORIALCHATLOG = 112;
         public const int WINDOWLOGINUIOPENLOG = 113;
+        public const int LIBRARYNOTOPENGUIDELOG = 114;
+        public const int HARMONYIDGET = 115;
+        public const int HARMONYPASSWORDGET = 116;
+        public const int BRANCHPASSWORDGET = 117;
     }
     #endregion
 }
