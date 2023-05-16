@@ -18,7 +18,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     {
         requestCallDataList = new Dictionary<ECharacterDataType, RequestCallDataSO>();
 
-        var handle = Addressables.LoadResourceLocationsAsync("filler text", typeof(RequestCallDataSO));
+        var handle = Addressables.LoadResourceLocationsAsync("RequestData", typeof(RequestCallDataSO));
         await handle.Task;
 
         for (int i = 0; i < handle.Result.Count; i++)

@@ -18,7 +18,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     {
         profileInfoDataList = new Dictionary<int, ProfileInfoTextDataSO>();
 
-        var handle = Addressables.LoadResourceLocationsAsync("filler text", typeof(ProfileInfoTextDataSO));
+        var handle = Addressables.LoadResourceLocationsAsync("ProfileInfoData", typeof(ProfileInfoTextDataSO));
         await handle.Task;
 
         for (int i = 0; i < handle.Result.Count; i++)
