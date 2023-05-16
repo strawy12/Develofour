@@ -36,18 +36,19 @@ public class ProfileInfoSystem : MonoBehaviour
         EProfileCategory category = (EProfileCategory)ps[0];
         string key = ps[1] as string;
 
-        if(DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) && !DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
-        {
-            if(key != Constant.ProfileInfoKey.SUSPECTNAME)
-            {
-                //MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIALNOTFINDNAME, 0.1f, false);
-                return;
-            }
-        }
+        //if(DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) && !DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        //{
+        //    if(key != Constant.ProfileInfoKey.SUSPECTNAME)
+        //    {
+        //        //MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIALNOTFINDNAME, 0.1f, false);
+        //        return;
+        //    }
+        //}
 
         if (!DataManager.Inst.IsProfileInfoData(category, key))
         {
             DataManager.Inst.AddProfileSaveData(category, key);
+
             if(!DataManager.Inst.IsCategoryShow(category))
             {
                 DataManager.Inst.SetCategoryData(category, true);

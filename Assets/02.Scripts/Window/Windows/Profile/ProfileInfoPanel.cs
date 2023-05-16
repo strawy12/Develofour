@@ -109,6 +109,9 @@ public class ProfileInfoPanel : MonoBehaviour
         {
             return;
         }
+
+        EventManager.TriggerEvent(EProfileEvent.HideInfoPanel);
+
         gameObject.SetActive(true);
         ProfileCategoryDataSO categoryData = ps[0] as ProfileCategoryDataSO;
         currentData = categoryData;
@@ -122,6 +125,7 @@ public class ProfileInfoPanel : MonoBehaviour
             if (DataManager.Inst.IsProfileInfoData(currentData.category, infoText.InfoData.key))
             {
                 infoText.Show();
+                infoText.gameObject.SetActive(true);
             }
         }
     }

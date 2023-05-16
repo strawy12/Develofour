@@ -6,8 +6,9 @@ using UnityEngine;
 public class ProfileInventoryPanel : MonoBehaviour
 {
     private EProfileCategoryType categoryType;
-
+    [SerializeField]
     private List<ProfileCategoryDataSO> sceneCategoryList;
+    [SerializeField]
     private List<ProfileCategoryDataSO> characterCategoryList;
 
     [Header("Pool")]
@@ -169,8 +170,10 @@ public class ProfileInventoryPanel : MonoBehaviour
 
         categoryType = EProfileCategoryType.Character;
         EventManager.TriggerEvent(EProfileEvent.HideInfoPanel);
+        Debug.Log("À¸¾Ç");
         foreach (var data in characterCategoryList)
         {
+            Debug.Log("À¸¾Ç1");
             ProfileCategoryPrefab categoryPrefab = Pop();
             categoryPrefab.Show(data);
         }
