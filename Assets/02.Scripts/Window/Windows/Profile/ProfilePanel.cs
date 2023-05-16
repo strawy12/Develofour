@@ -5,20 +5,30 @@ using UnityEngine.UI;
 public enum EProfileCategory
 {
     None,
-    WomanKidnapping,
-    AssaultBruised,
-    VictimStalkingInfo,
-    TalkingFightInfo,
-    PetCamVideo,
-    VictimBodyInspection,
-    CctvKidnappingVideo,
-    VictimLastCalling,
-    MentalDrugInfo,
-    SuspectAndAccompliceChat,
-    MurderWeaponInfo,
-    CorpseLocationGroveInfo,
-    DieToDogForDiaryInfo,
-    MonoLogInformation,
+    KangYohanProfile,
+    ParkJuyoungProfile,
+    KimYujinProfile,
+    PetProfile,
+    TaeWoongProfile,
+    CriminalInfomation,
+    JuyoungMomProfile,
+    SecurityProfile,
+    AccompliceProfile,
+    IncidentReport,
+    LocationInformation,
+    Bat,
+    PetCam,
+    CounselingRecord,
+    BodyAutopsy,
+    CCTV,
+    LastCallRecord,
+    BackgroundMail,
+    ViolenceDiary,
+    PrescriptionDiary,
+    PetDeadDiary,
+    Glove,
+    Knife,
+    YohanYujinTalk,
     InvisibleInformation,
     Count,
 }
@@ -79,7 +89,7 @@ public class ProfilePanel : MonoBehaviour
 
     private void OnClickScenePanelBtn()
     {
-        if (typePanel.CheckCurrentType(EProfileCategoryType.Scene) == false)
+        if (typePanel.CheckCurrentType(EProfileCategoryType.Info) == false)
             typePanel.ShowScenePanel();
     }
     private void OnDestroy()

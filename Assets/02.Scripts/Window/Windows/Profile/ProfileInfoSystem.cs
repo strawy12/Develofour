@@ -84,7 +84,7 @@ public class ProfileInfoSystem : MonoBehaviour
         string text;
         if (category != EProfileCategory.InvisibleInformation)
         {
-            text = Define.TranslateInfoCategory(categoryData.category) + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
+            text = categoryData.categoryName + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
             NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
         }
         else
@@ -100,7 +100,7 @@ public class ProfileInfoSystem : MonoBehaviour
         string body = "";
         if (category != EProfileCategory.InvisibleInformation)
         {
-            body = $"새 카테고리 {Define.TranslateInfoCategory(category)}가 추가되었습니다.";
+            body = $"새 카테고리 {infoList[category].categoryName}가 추가되었습니다.";
         }
 
         NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);

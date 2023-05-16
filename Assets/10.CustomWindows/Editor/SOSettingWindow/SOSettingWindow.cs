@@ -17,12 +17,16 @@ public class SOSettingWindow : EditorWindow
     {
         None,
         File,
+        ProfileInfo,
+        ProfileCategory,
         Monolog
     }
 
     private Button settingButton;
     private Button fileSOBtn;
     private Button monologSOBtn;
+    private Button ProfileInfoBtn;
+
 
     private TextField gidField;
     private TextField soTypeField;
@@ -46,9 +50,11 @@ public class SOSettingWindow : EditorWindow
         settingButton = rootVisualElement.Q<Button>("SettingButton");
         fileSOBtn = rootVisualElement.Q<Button>("FileSOBtn");
         monologSOBtn = rootVisualElement.Q<Button>("MonologBtn");
+        ProfileInfoBtn = rootVisualElement.Q<Button>("ProfileInfoBtn");
         gidField = rootVisualElement.Q<TextField>("GidField");
         soTypeField = rootVisualElement.Q<TextField>("SOTypeField");
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
+        ProfileInfoBtn.RegisterCallback<MouseUpEvent>(x => Autocomplete(ESOType.ProfileInfo));
         fileSOBtn.RegisterCallback<MouseUpEvent>(x => Autocomplete(ESOType.File));
         monologSOBtn.RegisterCallback<MouseUpEvent>(x => Autocomplete(ESOType.Monolog));
     }
@@ -68,6 +74,14 @@ public class SOSettingWindow : EditorWindow
             case ESOType.Monolog:
                 gidField.value = "441334984";
                 soTypeField.value = "MonologTextDataSO";
+                break;
+            case ESOType.ProfileInfo:
+                gidField.value = "1539170501";
+                soTypeField.value = "ProfileInfoTextDataSO";
+                break;
+            case ESOType.ProfileCategory:
+                gidField.value = "1328616179";
+                soTypeField.value = "ProfileCategoryDataSO";
                 break;
         }
     }
@@ -94,6 +108,12 @@ public class SOSettingWindow : EditorWindow
 
             case "MonologTextDataSO":
                 SettingMonologSO(add);
+                break;
+            case "ProfileCategoryDataSO":
+                SettingInfoCategorySO(add);
+                break;
+            case "ProfileInfoTextDataSO":
+                SettingInfoSO(add);
                 break;
         }
 
@@ -190,6 +210,8 @@ public class SOSettingWindow : EditorWindow
                 CreateFolder(SO_PATH);
                 AssetDatabase.CreateAsset(monologData, SO_PATH);
             }
+            EditorUtility.SetDirty(monologData);
+
 
             string path = AssetDatabase.GetAssetPath(monologData.GetInstanceID());
             string[] pathSplits = path.Split('/');
@@ -297,7 +319,6 @@ public class SOSettingWindow : EditorWindow
                     file = CreateInstance<FileSO>();
                 }
 
-                file.name = columns[9];
                 isCreate = true;
             }
 
@@ -307,6 +328,7 @@ public class SOSettingWindow : EditorWindow
             file.isFileLock = isFileLock;
             file.windowPin = pin;
             file.windowPinHintGuide = pinHint;
+            file.name = columns[9];
             file.tags = tags;
 
             if (file is DirectorySO)
@@ -354,6 +376,135 @@ public class SOSettingWindow : EditorWindow
 
     }
 
+    private void SettingInfoSO(string dataText)
+    {
+
+        string[] rows = dataText.Split('\n');
+        string[] guids = AssetDatabase.FindAssets("t:ProfileInfoTextDataSO", null);
+        List<ProfileInfoTextDataSO> infoSODatas = new List<ProfileInfoTextDataSO>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            infoSODatas.Add(AssetDatabase.LoadAssetAtPath<ProfileInfoTextDataSO>(path));
+        }
+        for (int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+
+            int id = int.Parse(columns[0]);
+
+            string key = columns[1];
+            EProfileCategory category = Enum.Parse<EProfileCategory>(columns[2]);
+            string infoText = columns[3];
+            string noticeText = columns[4];
+
+            ProfileInfoTextDataSO infoData = infoSODatas.Find(x => x.id == id);
+
+            bool isCreate = false;
+
+            if (infoData == null)
+            {
+                infoData = CreateInstance<ProfileInfoTextDataSO>();
+                isCreate = true;
+            }
+
+            infoData.id = id;
+            infoData.key = key;
+            infoData.category = category;
+            infoData.infomationText = infoText;
+            infoData.noticeText = noticeText;
+
+            string SO_PATH = $"Assets/07.ScriptableObjects/Profile/ProfileInfoData/InfoTextData/{category}/{columns[5].Trim()}.asset";
+
+            if (isCreate)
+            {
+                Debug.Log(SO_PATH);
+                CreateFolder(SO_PATH);
+                AssetDatabase.CreateAsset(infoData, SO_PATH);
+            }
+
+            EditorUtility.SetDirty(infoData);
+        }
+        AssetDatabase.Refresh();
+
+        Autocomplete(ESOType.ProfileCategory);
+        ReadSheet();
+
+
+    }
+
+    private void SettingInfoCategorySO(string dataText)
+    {
+        Debug.Log("start category");
+
+        string[] rows = dataText.Split('\n');
+        string[] guids = AssetDatabase.FindAssets("t:ProfileCategoryDataSO", null);
+        List<ProfileCategoryDataSO> categorySODatas = new List<ProfileCategoryDataSO>();
+
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            categorySODatas.Add(AssetDatabase.LoadAssetAtPath<ProfileCategoryDataSO>(path));
+        }
+        string[] infoDataGuids = AssetDatabase.FindAssets("t:ProfileInfoTextDataSO", null);
+        List<ProfileInfoTextDataSO> infoSODatas = new List<ProfileInfoTextDataSO>();
+        foreach (string guid in infoDataGuids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            infoSODatas.Add(AssetDatabase.LoadAssetAtPath<ProfileInfoTextDataSO>(path));
+        }
+
+        for (int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+
+            EProfileCategory category = Enum.Parse<EProfileCategory>(columns[0]);
+            EProfileCategoryType categoryType = Enum.Parse<EProfileCategoryType>(columns[1]);
+            string categoryName = columns[2];
+            List<ProfileInfoTextDataSO> infoTextDataList = new List<ProfileInfoTextDataSO>();
+
+            if (columns[3] != "")
+            {
+                int[] infoTextIDs = Array.ConvertAll(columns[3].Split(','), x => int.Parse(x));
+
+                foreach (int infoID in infoTextIDs)
+                {
+                    ProfileInfoTextDataSO infoData = infoSODatas.Find(x => x.id == infoID);
+                    if (infoData != null)
+                    {
+                        infoTextDataList.Add(infoData);
+                    }
+                }
+            }
+
+            bool isCreate = false;
+            ProfileCategoryDataSO categoryData = categorySODatas.Find(x => x.category == category);
+            if (categoryData == null)
+            {
+                categoryData = CreateInstance<ProfileCategoryDataSO>();
+                isCreate = true;
+            }
+
+            categoryData.category = category;
+            categoryData.categoryType = categoryType;
+            categoryData.categoryName = categoryName;
+            categoryData.infoTextList = infoTextDataList;
+
+            string SO_PATH = $"Assets/07.ScriptableObjects/Profile/ProfileInfoData/InfoCategoryData/{category}.asset";
+
+            if (isCreate)
+            {
+                CreateFolder(SO_PATH);
+                AssetDatabase.CreateAsset(categoryData, SO_PATH);
+            }
+
+            EditorUtility.SetDirty(categoryData);
+
+        }
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
+    }
+
     private void CreateFolder(string path)
     {
         string[] splitPath = path.Split('/');
@@ -369,6 +520,7 @@ public class SOSettingWindow : EditorWindow
         AssetDatabase.Refresh();
 
     }
+
 
 }
 
