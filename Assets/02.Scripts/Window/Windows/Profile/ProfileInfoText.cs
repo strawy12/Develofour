@@ -64,10 +64,10 @@ public class ProfileInfoText : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (infoText.text != currentInfoData.infomationText)
-        {
-            return;
-        }
+        //if (infoText.text != currentInfoData.infomationText)
+        //{
+        //    return;
+        //}
 
         showPanel.text.text = infoText.text;
         showPanel.transform.SetParent(gameObject.transform.parent);
