@@ -99,7 +99,7 @@ public abstract class TextSystem : MonoBehaviour
                     string[] cmdValueArray = cmdValue.Split(',');
                     CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(cmdValueArray[0]);
                     int monologData = int.Parse(cmdValueArray[1]);
-                    CallSystem.Inst.StackMonolog(data.characterType, ResourceManager.Inst.GetMonologTextData(monologData));
+                    //  CallSystem.Inst.StackMonolog(data.characterType, ResourceManager.Inst.GetMonologTextData(monologData));
                 }
                 break;
 

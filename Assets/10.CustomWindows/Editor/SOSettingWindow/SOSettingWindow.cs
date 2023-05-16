@@ -7,6 +7,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 public class SOSettingWindow : EditorWindow
 {
@@ -118,8 +119,23 @@ public class SOSettingWindow : EditorWindow
 
     }
 
+    public void SetMonologKeyScript()
+    {
+        //using (StreamWriter writer = new StreamWriter(scriptPath))
+        //{
+        //    writer.Write(text);
+        //    writer.Flush();
+
+        //    AssetDatabase.Refresh();
+        //    CompilationPipeline.RequestScriptCompilation();
+        //}
+    }
+
     public void SettingMonologSO(string dataText)
     {
+
+        List<string> monologKeyList = new List<string>();
+
         string[] rows = dataText.Split('\n');
 
         string[] guids = AssetDatabase.FindAssets("t:MonologTextDataSO", null);
@@ -133,6 +149,8 @@ public class SOSettingWindow : EditorWindow
         for (int i = 0; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split('\t');
+
+            if (columns[0] == "") break;
 
             int id = int.Parse(columns[0]);
             string fileName = columns[1];
@@ -149,7 +167,6 @@ public class SOSettingWindow : EditorWindow
             }
 
             monologData.TextDataType = id;
-            monologData.name = fileName;
             monologData.monologName = monologName;
 
             string[] textDataList = columns[3].Split('#');
@@ -172,6 +189,11 @@ public class SOSettingWindow : EditorWindow
                 }
             }
 
+            string variableName = fileName.ToUpper();
+            Debug.Log(id);
+            variableName = variableName.Remove(variableName.IndexOf("MONOLOG"), 7);
+            monologKeyList.Add($"        public const int {variableName} = {id};");
+
             string SO_PATH = $"Assets/07.ScriptableObjects/TextDataSO/CreateMonolog/{fileName}.asset";
             SO_PATH = SO_PATH.Replace("\\", "/");
 
@@ -182,8 +204,53 @@ public class SOSettingWindow : EditorWindow
                 AssetDatabase.CreateAsset(monologData, SO_PATH);
             }
             EditorUtility.SetDirty(monologData);
+
+
+            string path = AssetDatabase.GetAssetPath(monologData.GetInstanceID());
+            string[] pathSplits = path.Split('/');
+            pathSplits[pathSplits.Length - 1] = $"{fileName}.asset";
+            string newPath = string.Join('/', pathSplits);
+
+            if (path != newPath)
+            {
+                AssetDatabase.RenameAsset(path, newPath);
+                EditorUtility.SetDirty(monologData);
+            }
+        }
+        /*
+        const string scriptPath = "Assets/02.Scripts/Utils/Constant.cs";
+        string temp = "";
+
+        using (StreamReader sr = new StreamReader(scriptPath))
+        {
+            string line = "";
+            while (!line.Contains("public static class MonologKey"))
+            {
+                line = sr.ReadLine();
+                temp += line + '\n';
+            }
+
+            temp += sr.ReadLine() + '\n';
+
+            int idx = 0;
+            while (idx < monologKeyList.Count)
+            {
+                line = monologKeyList[idx];
+                temp += line + '\n';
+                idx++;
+            }
+
+            temp += "    }\n    #endregion\n}";
+
+            sr.Close();
         }
 
+        using (StreamWriter writer = new StreamWriter(scriptPath))
+        {
+            writer.Write(temp);
+            writer.Flush();
+        }
+        */
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
     }
@@ -213,7 +280,12 @@ public class SOSettingWindow : EditorWindow
             string pinHint = columns[6];
 
             List<int> childIdList = new List<int>();
-
+            string tagString = columns[7];
+            List<string> tags = new List<string>();
+            if (tagString != "")
+            {
+                tags = tagString.Split(',').ToList();
+            }
             string[] children = columns[8].Split(',');
             foreach (string child in children)
             {
@@ -250,6 +322,7 @@ public class SOSettingWindow : EditorWindow
             file.windowPin = pin;
             file.windowPinHintGuide = pinHint;
             file.name = columns[9];
+            file.tags = tags;
 
             if (file is DirectorySO)
             {
@@ -331,6 +404,7 @@ public class SOSettingWindow : EditorWindow
             infoData.id = id;
             infoData.key = key;
             infoData.category = category;
+            infoData.infomationText = infoText;
             infoData.noticeText = noticeText;
 
             string SO_PATH = $"Assets/07.ScriptableObjects/Profile/ProfileInfoData/InfoTextData/{category}/{columns[5].Trim()}.asset";

@@ -68,15 +68,12 @@ public class Debugger : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(888), "내 PC\\CallLog\\조수\\");
-        }
+        //if (Input.GetKeyDown(KeyCode.A))
+        //{
+            //FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(888), "");
+        //}
 
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            CallSystem.Inst.StackMonolog(ECharacterDataType.assistant, testTextData);
-        }
+      
     }
 
     private void ActiveDebug()

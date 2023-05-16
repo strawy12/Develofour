@@ -46,5 +46,6 @@ public class MonologTextDataSO : TextDataSO
         Debug.Log(result);
     }
 
+
 #endif
 }
