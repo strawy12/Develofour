@@ -11,15 +11,9 @@ public partial class GuideManager : MonoBehaviour
         {
             case EGuideTopicName.None:
                 break;
-            case EGuideTopicName.GuestLoginGuide:
-                {
-                    MonologSystem.OnStartMonolog.Invoke(Constant.MonologKey.NOTEBOOKLOGINGUIDE, 0.5f, true);
-                    DataManager.Inst.SetGuide(guideTopic, true);
-                    break;
-                }
             case EGuideTopicName.LibraryOpenGuide:
                 {
-                    MonologSystem.OnStartMonolog.Invoke(Constant.MonologKey.ONGUIDEMONOLOG1, 0.2f, true);
+                    //MonologSystem.OnStartMonolog.Invoke(Constant.MonologKey.ONGUIDEMONOLOG1, 0.2f, true);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }

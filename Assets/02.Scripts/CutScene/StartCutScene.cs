@@ -78,7 +78,7 @@ public class StartCutScene : MonoBehaviour
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.InterrogationRoom);
 
         MonologSystem.OnEndMonologEvent += FadeInterrogationRoomSprite;
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.STARTCUTSCENEMONOLOG1, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.STARTCUTSCENE1, 0, true);
     }
 
     private void FadeInterrogationRoomSprite()
@@ -104,7 +104,7 @@ public class StartCutScene : MonoBehaviour
     {
         backgroundImagePanel.DOFade(1, 1.5f);
         MonologSystem.OnEndMonologEvent += StartLoading;
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.STARTCUTSCENEMONOLOG2, 1.5f, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.STARTCUTSCENE2, 1.5f, true);
     }
 
     public void StartLoading()
