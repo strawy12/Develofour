@@ -51,7 +51,7 @@ public class SaveData
     public List<AdditionFileData> additionFileData;
     public List<GuideSaveData> guideSaveData;
     public List<ProfileSaveData> profileSaveData;
-    public List<TextData> aiChattingList;
+    public List<string> aiChattingList;
     public List<NoticeData> saveNoticeData;
     public List<string> branchPostLockData;
     public List<string> savePhoneNumber;

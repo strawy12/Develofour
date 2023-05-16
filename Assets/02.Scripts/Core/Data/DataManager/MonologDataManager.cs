@@ -9,9 +9,9 @@ public partial class DataManager : MonoSingleton<DataManager>
     {
         saveData.monologData = new List<MonologSaveData>();
 
-        for (int i = 0; i < ResourceManager.Inst.MonologDataListCount; i++)
+        foreach (var element in ResourceManager.Inst.MonologTextDataSOList)
         {
-            int type = ResourceManager.Inst.MonologTextDataSOList[i].TextDataType;
+            int type = element.Value.TextDataType;
             saveData.monologData.Add(new MonologSaveData() { monologType = type, isShow = false });
         }
 

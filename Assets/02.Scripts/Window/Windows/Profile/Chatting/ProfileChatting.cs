@@ -133,22 +133,22 @@ public class ProfileChatting : MonoBehaviour
 
     private void PrintText(object[] ps)
     {
-        if (ps[0] == null || !(ps[0] is TextData))
+        if (ps[0] == null || !(ps[0] is string))
         {
             return;
         }
 
-        string msg = (ps[0] as TextData).text;
+        string msg = (ps[0] as string);
         CreateTextUI(msg);
     }
 
     private void AddSaveTexts()
     {
-        List<TextData> list = DataManager.Inst.SaveData.aiChattingList;
+        List<string> list = DataManager.Inst.SaveData.aiChattingList;
 
-        foreach (TextData data in list)
+        foreach (string data in list)
         {
-            CreateTextUI(data.text);
+            CreateTextUI(data);
         }
     }
 

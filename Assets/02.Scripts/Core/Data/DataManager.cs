@@ -34,7 +34,7 @@ public partial class DataManager : MonoSingleton<DataManager>
     {
         saveData = new SaveData();
         saveData.additionFileData = new List<AdditionFileData>();
-        saveData.aiChattingList = new List<TextData>();
+        saveData.aiChattingList = new List<string>();
         saveData.branchPostLockData = new List<string>();
         saveData.savePhoneNumber = new List<string>();
         saveData.branchPassword = "";
@@ -51,7 +51,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         debug_Data = saveData;
     }
 
-    public void AddAiChattingList(TextData data)
+    public void AddAiChattingList(string data)
     {
         saveData.aiChattingList.Add(data);
     }

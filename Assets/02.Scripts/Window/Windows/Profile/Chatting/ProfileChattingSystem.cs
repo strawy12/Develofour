@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class ProfileChattingSystem : TextSystem
 {
-    public static Action<TextData, bool, bool> OnPlayChat;
-    public static Action<List<TextData>, float, bool> OnPlayChatList;
+    public static Action<string, bool, bool> OnPlayChat;
+    public static Action<List<string>, float, bool> OnPlayChatList;
 
     public static Action OnChatEnd;
 
@@ -15,8 +15,8 @@ public class ProfileChattingSystem : TextSystem
 
     public Sprite aiChattingSprite;
 
-    private List<TextData> textDataList;
-    private TextData currentTextData;
+    private List<string> textDataList;
+    private string currentTextData;
 
     private float currentDelay = 0f;
 
@@ -30,7 +30,7 @@ public class ProfileChattingSystem : TextSystem
         OnImmediatelyEndChat += ImmediateEndChat;
     }
 
-    public void StartChatting(TextData data, bool isSave, bool isEnd)
+    public void StartChatting(string data, bool isSave, bool isEnd)
     {
         currentTextData = data;
 
@@ -43,7 +43,7 @@ public class ProfileChattingSystem : TextSystem
     }
 
     // delay = 채팅 간격 시간
-    public void StartChatting(List<TextData> list, float delay, bool isSave)
+    public void StartChatting(List<string> list, float delay, bool isSave)
     {
         textDataList = list;
 
@@ -57,7 +57,7 @@ public class ProfileChattingSystem : TextSystem
 
     private IEnumerator ChattingCoroutine(float delay, bool isSave)
     {
-        foreach (TextData data in textDataList)
+        foreach (string data in textDataList)
         {
             currentTextData = data;
             PrintText(isSave);
@@ -87,7 +87,7 @@ public class ProfileChattingSystem : TextSystem
     {
         // 이벤트매니저로 쏴주고 
         // 데이터 저장
-        currentTextData.text = RemoveCommandText(currentTextData.text, true);
+        currentTextData = RemoveCommandText(currentTextData, true);
 
         foreach (Action trigger in triggerDictionary.Values)
         {
@@ -101,7 +101,7 @@ public class ProfileChattingSystem : TextSystem
             DataManager.Inst.AddAiChattingList(currentTextData);
         }
 
-        SendNotice(currentTextData.text);
+        SendNotice(currentTextData);
     }
 
     public void SendNotice(string body)

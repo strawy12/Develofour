@@ -6,10 +6,11 @@ using UnityEngine;
 [System.Serializable]
 public class TextList
 {
-    public List<TextData> data;
+    [TextArea(5,30)]
+    public List<string> data;
 }
 
-[CreateAssetMenu(fileName = "TextData_", menuName = "SO/TextDataSO/TutorialTextSO")]
+[CreateAssetMenu(menuName = "SO/TextDataSO/TutorialTextSO")]
 public class TutorialTextSO : ScriptableObject
 {
     public List<TextList> tutorialTexts;
