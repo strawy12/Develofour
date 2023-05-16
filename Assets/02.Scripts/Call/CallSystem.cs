@@ -27,11 +27,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     public Button answerBtn;
     public AudioSpectrumUI spectrumUI;
 
-
     public bool isRecieveCall;
-
-    [SerializeField]
-    private GetCallMonologDataSO getCallData;
 
     public CallSelectButton selectButton;
 
@@ -68,34 +64,25 @@ public class CallSystem : MonoSingleton<CallSystem>
         SetCallUI(data);
         // 해당 캐릭터가 받는 독백이 존재한지 체크
 
-        GetCallMonolog monolog = getCallData.GetCallMonologList.Find(x => x.charData == data.characterType);
-        int result = -1;
-        if (monolog != null)
-        {
-            result = monolog.textData;
-        }
+        RequestCallDataSO callData = ResourceManager.Inst.GetRequestCallData(data.characterType);
 
-        //만약 해당 캐릭터의 독백이 존재하면?
-        if (result != -1)
+        int result = -1;
+        if (callData!=null && Define.MonologLockDecisionFlag(callData.defaultDecisions))
         {
-            //끝나는 시점에 선택지 리스트
-            MonologSystem.OnEndMonologEvent += () => SetMonologSelector(data.characterType);
+            MonologSystem.OnEndMonologEvent += () => SetMonologSelector(callData);
+            result = callData.defaultMonologID;
         }
 
         StartCoroutine(StartRequestCall(result));
 
-        // 여기서 Monolog 판단을 해줘야함
-        // 몇초 뒤 받을 건지, switch Coroutine을 추천함
-        // ECharacterType 으로 하고 다 SO 만들어주기
-
         ShowAnswerButton(false);
         ShowSpectrumUI(true);
 
-        Show(false); 
+        Show(false);
     }
 
     // 선택지 UI 생성해주는 코드
-    public void SetMonologSelector(ECharacterDataType type)
+    public void SetMonologSelector(RequestCallDataSO callData)
     {
         // 기존에 존재하던 선택지UI들 지우기
         // TODO
@@ -111,20 +98,13 @@ public class CallSystem : MonoSingleton<CallSystem>
             }
         }
 
-        RequestCallDataSO data = ResourceManager.Inst.GetRequestCallData(type);
-        if(data == null) 
+        int spawnCnt = 0;
+        for (int i = 0; i < callData.monologLockList.Count; i++)
         {
-            Debug.LogError($"RequestCallDataSO is Null! {type}");   
-        }
-
-        if (!Define.MonologLockDecisionFlag(data.defaultDecisions)) return;
-
-        for (int i = 0; i < data.monologLockList.Count; i++)
-        {
-            if (!Define.MonologLockDecisionFlag(data.monologLockList[i].decisions)) continue;
+            if (!Define.MonologLockDecisionFlag(callData.monologLockList[i].decisions)) continue;
 
             int num = i;
-            MonologLockData lockData = data.monologLockList[i];
+            MonologLockData lockData = callData.monologLockList[i];
             CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
             MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(lockData.monologID);
 
@@ -134,6 +114,13 @@ public class CallSystem : MonoSingleton<CallSystem>
                 StartMonolog(textData.TextDataType, lockData.answerMonologID, lockData.answerDelay);
             });
             instance.gameObject.SetActive(true);
+
+            spawnCnt++;
+        }
+
+        if (spawnCnt <= 0)
+        {
+            StartMonolog(callData.notExistMonoLogID);
         }
     }
 
