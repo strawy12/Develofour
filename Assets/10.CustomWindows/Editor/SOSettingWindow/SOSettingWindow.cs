@@ -202,7 +202,7 @@ public class SOSettingWindow : EditorWindow
                 EditorUtility.SetDirty(monologData);
             }
         }
-        /*
+
         const string scriptPath = "Assets/02.Scripts/Utils/Constant.cs";
         string temp = "";
 
@@ -235,7 +235,7 @@ public class SOSettingWindow : EditorWindow
             writer.Write(temp);
             writer.Flush();
         }
-        */
+
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
     }
