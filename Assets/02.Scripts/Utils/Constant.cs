@@ -60,7 +60,6 @@ public static partial class Constant
         public const int OTHERDEPARTMENT = 13;
         public const int PETHOSPITALINFO = 14;
         public const int PETNAMEGET = 15;
-        public const int THREEMONTHAFTERDATE = 16;
         public const int DATEHITTESTIMONYDIARY = 17;
         public const int VICTIMINVESTIGATIONACQ = 18;
         public const int VICTIMANDOTHERGIRLSQCQ = 19;
@@ -162,6 +161,11 @@ public static partial class Constant
         public const int HARMONYIDGET = 115;
         public const int HARMONYPASSWORDGET = 116;
         public const int BRANCHPASSWORDGET = 117;
+        public const int JUYOUNGARGUESTART = 118;
+        public const int YOHANWORRYBREAKUP = 119;
+        public const int CONFESSED = 120;
+        public const int HITBYGIRLFRIEND = 121;
+        public const int INCIDENTREPORTREPORTTIME = 122;
     }
     #endregion
 }
