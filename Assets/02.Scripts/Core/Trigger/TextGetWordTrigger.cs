@@ -26,7 +26,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
     private int wordStartIndex;
 
     private EProfileCategory category;
-    private string information;
+    private int infoID;
 
     private void Start()
     {
@@ -39,7 +39,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
         if (word != null)
         {
-            CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, category, information);
+            CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, category, infoID);
             GetSize(isListFinder);
         }
     }
@@ -65,16 +65,16 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
             if (value == null)
                 return;
 
-            category = (EProfileCategory)value[0];
-            information = (string)value[1];
+            category = (EProfileCategory)value[1];
+            infoID = (int)value[0];
 
-            if (!DataManager.Inst.IsProfileInfoData(category, information))
+            if (!DataManager.Inst.IsProfileInfoData(infoID))
             {
                 if (needInformaitonList.Count == 0)
                 {
                     if (category != EProfileCategory.None)
                     {
-                        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+                        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, infoID, null });
                     }
                     else
                     {
@@ -91,7 +91,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
                         return;
                     }
 
-                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, infoID, null });
                     GetSize(GetProfilerWordSystem.OnFindWord.Invoke(word));
                 }
             }

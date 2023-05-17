@@ -38,7 +38,7 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
 
     protected void FindInfo()
     {
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infomaitionData.category, infomaitionData.key});
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infomaitionData.category, infomaitionData.id});
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)
@@ -59,7 +59,7 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
             {
                 foreach (ProfileInfoTextDataSO needData in needInformaitonList)
                 {
-                    if (!DataManager.Inst.IsProfileInfoData(needData.category, needData.key))
+                    if (!DataManager.Inst.IsProfileInfoData(needData.id))
                     {
                         if (monoLogType == -1)
                             return;
@@ -87,13 +87,13 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     {
         if(infomaitionData == null) { return; }
 
-        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
+        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.id))
         {
             if (linkInformaitonList.Count != 0)
             {
                 foreach (ProfileInfoTextDataSO linkData in linkInformaitonList)
                 {
-                    if (!DataManager.Inst.IsProfileInfoData(linkData.category, linkData.key))
+                    if (!DataManager.Inst.IsProfileInfoData(linkData.id))
                     {
                         return;
                     }
@@ -118,13 +118,13 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
             return;
         }
 
-        CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, infomaitionData.category, infomaitionData.key);
+        CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, infomaitionData.category, infomaitionData.id);
         if (isListFinder == CursorChangeSystem.ECursorState.Default)
         {
             return;
         }
 
-        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
+        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.id))
         {
             yellowColor.a = 0.4f;
             backgroundImage.color = yellowColor;

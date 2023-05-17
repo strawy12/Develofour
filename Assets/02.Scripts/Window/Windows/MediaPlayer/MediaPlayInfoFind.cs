@@ -7,10 +7,10 @@ using UnityEngine;
 public class MediaPlayInfoFind : MonoBehaviour
 {
     private EProfileCategory category;
-    private string information;
+    private int infoID;
     private void GetInfo()
     {
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, information, null });
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, infoID, null });
     }
 
     public void Init(MediaPlayer mediaPlayer)
@@ -21,7 +21,7 @@ public class MediaPlayInfoFind : MonoBehaviour
         if (mediaPlayer.mediaPlayerData.category != EProfileCategory.None)
         {
             category = mediaPlayer.mediaPlayerData.category;
-            information = mediaPlayer.mediaPlayerData.information;
+            infoID = mediaPlayer.mediaPlayerData.infoID;
             mediaPlayer.OnEnd -= GetInfo;
             mediaPlayer.OnEnd += GetInfo;
         }

@@ -20,13 +20,13 @@ public class ProfileCategoryDataSO : ScriptableObject
     [Header("Information")]
     [SerializeField]
     public List<ProfileInfoTextDataSO> infoTextList;
-    public ProfileInfoTextDataSO GetSaveData(string key)
+    public ProfileInfoTextDataSO GetSaveData(int id)
     {
         ProfileInfoTextDataSO data = null;
 
         foreach(ProfileInfoTextDataSO saveData in infoTextList)
         {
-            if (saveData.key == key)
+            if (saveData.id == id)
             {
                 data = saveData;
             }
@@ -34,7 +34,7 @@ public class ProfileCategoryDataSO : ScriptableObject
 
         if (data == null)
         {
-            Debug.LogError($"해당 키: {key}에 대한 정보가 있지 않습니다. SO를 확인해보세요");
+            Debug.LogError($"해당 키: {id}에 대한 정보가 있지 않습니다. SO를 확인해보세요");
         }
         return data;
     }
