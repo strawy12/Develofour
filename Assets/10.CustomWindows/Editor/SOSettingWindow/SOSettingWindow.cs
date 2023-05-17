@@ -395,7 +395,6 @@ public class SOSettingWindow : EditorWindow
 
             if (columns[0] == string.Empty || columns[1] == string.Empty || columns[2] == string.Empty || columns[4] == string.Empty) continue;
 
-            string key = columns[1];
             EProfileCategory category = Enum.Parse<EProfileCategory>(columns[2]);
             string infoText = columns[3];
             string noticeText = columns[4];
@@ -411,7 +410,6 @@ public class SOSettingWindow : EditorWindow
             }
 
             infoData.id = id;
-            infoData.key = key;
             infoData.category = category;
             infoData.infomationText = infoText;
             infoData.noticeText = noticeText;

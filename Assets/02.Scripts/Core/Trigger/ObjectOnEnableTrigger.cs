@@ -22,7 +22,7 @@ public class ObjectOnEnableTrigger : MonoBehaviour
             return;
         }
 
-        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
+        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.id))
         {
             if (needInformaitonList.Count == 0)
             {
@@ -33,7 +33,7 @@ public class ObjectOnEnableTrigger : MonoBehaviour
             {
                 foreach (ProfileInfoTextDataSO needData in needInformaitonList)
                 {
-                    if (!DataManager.Inst.IsProfileInfoData(needData.category, needData.key))
+                    if (!DataManager.Inst.IsProfileInfoData(needData.id))
                     {
                         if (monoLogType == -1)
                             return;
@@ -50,7 +50,7 @@ public class ObjectOnEnableTrigger : MonoBehaviour
     public void GetInfo()
     {
         MonologSystem.OnStartMonolog?.Invoke(monoLogType, 0, true);
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infomaitionData.category, infomaitionData.key });
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infomaitionData.category, infomaitionData.id });
         TriggerList.CheckLinkInfos();
     }
 }

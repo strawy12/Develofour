@@ -14,5 +14,5 @@ public class MediaPlayerDataSO : ScriptableObject
     public string fileName;
 
     public float endlineDelay;
-    public string information;
+    public int infoID;
 }

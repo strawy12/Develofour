@@ -10,7 +10,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
         for (int i = ((int)EProfileCategory.None) + 1; i < (int)EProfileCategory.Count; i++)
         {
-            saveData.profileSaveData.Add(new ProfileSaveData() { category = (EProfileCategory)i, isShowCategory = false, infoData = new List<string>() }); ;
+            saveData.profileSaveData.Add(new ProfileSaveData() { category = (EProfileCategory)i, isShowCategory = false, infoData = new List<int>() }); ;
         }
     }
 
@@ -20,13 +20,13 @@ public partial class DataManager : MonoSingleton<DataManager>
         return data;
     }
 
-    public void AddProfileSaveData(EProfileCategory category, string key)
+    public void AddProfileSaveData(EProfileCategory category, int id)
     {
-        if (GetProfileSaveData(category).infoData.Contains(key))
+        if (GetProfileSaveData(category).infoData.Contains(id))
         {
             return;
         }
-        saveData.profileSaveData.Find(x => x.category == category).infoData.Add(key);
+        saveData.profileSaveData.Find(x => x.category == category).infoData.Add(id);
     }
 
     public void SetCategoryData(EProfileCategory category, bool value)
@@ -37,15 +37,15 @@ public partial class DataManager : MonoSingleton<DataManager>
     {
         return saveData.profileSaveData.Find(x => x.category == category).isShowCategory;
     }
-    public bool IsProfileInfoData(EProfileCategory category, string str)
-    {
-        return GetProfileSaveData(category).infoData.Contains(str);
-    }
-
     public bool IsProfileInfoData(int id)
     {
-        ProfileInfoTextDataSO data = ResourceManager.Inst.GetProfileInfoData(id);
-
-        return IsProfileInfoData(data.category, data.key);
+        foreach(var categoryData in saveData.profileSaveData)
+        {
+            if(categoryData.infoData.Contains(id))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

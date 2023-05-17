@@ -4,20 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using ECursorState = CursorChangeSystem.ECursorState;
 
-
 public class GetProfilerWordSystem : MonoBehaviour 
 {
+    [Serializable]
+    private class InfoTextData
+    {
+        public int id;
+        public string word;
+    }
+
     public static Func<string, object[]> OnGeneratedProfiler; 
     public static Func<string, CursorChangeSystem.ECursorState> OnFindWord;
 
     [SerializeField]
-    private List<ProfileInfoTextDataSO> willGetWordList;
+    private List<InfoTextData> willGetWordList;
 
-    private Dictionary<string, ProfileInfoTextDataSO> wordListDictionary;
+    private Dictionary<string, InfoTextData> wordListDictionary;
 
     private void Start()
     {
-        wordListDictionary = new Dictionary<string, ProfileInfoTextDataSO>();
+        wordListDictionary = new Dictionary<string, InfoTextData>();
 
         Init();
     }
@@ -32,9 +38,9 @@ public class GetProfilerWordSystem : MonoBehaviour
 
     private void DictionaryInit()
     {
-        foreach (ProfileInfoTextDataSO profiler in willGetWordList)
+        foreach (InfoTextData info in willGetWordList)
         {
-            wordListDictionary.Add(profiler.key, profiler);
+            wordListDictionary.Add(info.word, info);
         }
     }
 
@@ -50,10 +56,9 @@ public class GetProfilerWordSystem : MonoBehaviour
             return null;
         }
         
-        EProfileCategory category = wordListDictionary[word].category;
-        string information = wordListDictionary[word].key;
-
-        object[] value = new object[] { category, information };
+        int infoID = wordListDictionary[word].id;
+        var infoData = ResourceManager.Inst.GetProfileInfoData(infoID);
+        object[] value = new object[] { infoID, infoData.category};
         return value;
     }
 
@@ -72,9 +77,9 @@ public class GetProfilerWordSystem : MonoBehaviour
             return state;
         }
 
-        ProfileInfoTextDataSO data = willGetWordList.Find(x => x.key == word);
+        InfoTextData data = willGetWordList.Find(x => x.word == word);
 
-        if (!DataManager.Inst.IsProfileInfoData(data.category, data.key))
+        if (!DataManager.Inst.IsProfileInfoData(data.id))
         {
             state = ECursorState.FindInfo;
         }

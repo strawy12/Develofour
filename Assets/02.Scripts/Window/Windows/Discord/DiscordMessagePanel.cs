@@ -140,7 +140,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
         if(currentChatData.infoData != null)
         {
-            CursorChangeSystem.ECursorState state = Define.ChangeInfoCursor(currentChatData.needInformaitonList, currentChatData.infoData.category, currentChatData.infoData.key);
+            CursorChangeSystem.ECursorState state = Define.ChangeInfoCursor(currentChatData.needInformaitonList, currentChatData.infoData.category, currentChatData.infoData.id);
             if(state == CursorChangeSystem.ECursorState.FindInfo)
             {
                 messageText.SetColor(Color.yellow);
@@ -171,7 +171,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
             }
             if (currentChatData.infoData != null)
             {
-                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { currentChatData.infoData.category, currentChatData.infoData.key, null });
+                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { currentChatData.infoData.category, currentChatData.infoData.id, null });
             }
         }
 

@@ -32,7 +32,7 @@ public class ProfileSaveData
 {
     public EProfileCategory category;
     public bool isShowCategory;
-    public List<string> infoData;
+    public List<int> infoData;
 }
 
 
