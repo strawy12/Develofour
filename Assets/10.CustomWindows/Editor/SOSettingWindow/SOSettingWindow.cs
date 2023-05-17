@@ -119,18 +119,6 @@ public class SOSettingWindow : EditorWindow
 
     }
 
-    public void SetMonologKeyScript()
-    {
-        //using (StreamWriter writer = new StreamWriter(scriptPath))
-        //{
-        //    writer.Write(text);
-        //    writer.Flush();
-
-        //    AssetDatabase.Refresh();
-        //    CompilationPipeline.RequestScriptCompilation();
-        //}
-    }
-
     public void SettingMonologSO(string dataText)
     {
 
@@ -210,8 +198,6 @@ public class SOSettingWindow : EditorWindow
                 CreateFolder(SO_PATH);
                 AssetDatabase.CreateAsset(monologData, SO_PATH);
             }
-            EditorUtility.SetDirty(monologData);
-
 
             string path = AssetDatabase.GetAssetPath(monologData.GetInstanceID());
             string[] pathSplits = path.Split('/');
@@ -221,9 +207,12 @@ public class SOSettingWindow : EditorWindow
             if (path != newPath)
             {
                 AssetDatabase.RenameAsset(path, newPath);
-                EditorUtility.SetDirty(monologData);
             }
+
+            EditorUtility.SetDirty(monologData);
+            monologSOList.Remove(monologData);
         }
+        monologSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
 
         const string scriptPath = "Assets/02.Scripts/Utils/Constant.cs";
         string temp = "";
@@ -347,16 +336,6 @@ public class SOSettingWindow : EditorWindow
 
             string path = file.GetRealFileLocation();
             string SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}.asset";
-            SO_PATH = SO_PATH.Replace("\\", "/");
-
-            CreateFolder(SO_PATH);
-
-            if (!File.Exists(SO_PATH) && string.IsNullOrEmpty(columns[9]))
-            {
-                string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());
-                AssetDatabase.MoveAsset(oldPath, SO_PATH);
-            }
-            EditorUtility.SetDirty(file);
 
             if (isCreate)
             {
@@ -366,10 +345,27 @@ public class SOSettingWindow : EditorWindow
                 }
 
                 CreateFolder(SO_PATH);
-
                 AssetDatabase.CreateAsset(file, SO_PATH);
             }
+
+            else
+            {
+                SO_PATH = SO_PATH.Replace("\\", "/");
+
+                CreateFolder(SO_PATH);
+
+                if (!File.Exists(SO_PATH) && string.IsNullOrEmpty(columns[9]))
+                {
+                    string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());
+                    AssetDatabase.MoveAsset(oldPath, SO_PATH);
+                }
+            }
+
+            EditorUtility.SetDirty(file);
+            fileSOList.Remove(file);
         }
+
+        fileSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
 
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
@@ -426,7 +422,10 @@ public class SOSettingWindow : EditorWindow
             }
 
             EditorUtility.SetDirty(infoData);
+            infoSODatas.Remove(infoData);
         }
+
+        infoSODatas.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
         AssetDatabase.Refresh();
 
         Autocomplete(ESOType.ProfileCategory);
@@ -501,8 +500,10 @@ public class SOSettingWindow : EditorWindow
             }
 
             EditorUtility.SetDirty(categoryData);
-
+            categorySODatas.Remove(categoryData);
         }
+        categorySODatas.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
     }
