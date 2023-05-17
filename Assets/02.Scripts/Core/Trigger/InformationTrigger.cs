@@ -34,7 +34,6 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     protected virtual void Start()
     {
         tempColor = backgroundImage.color;
-        infomaitionData = ResourceManager.Inst.GetProfileInfoData(infomaitionDataId);
 
         if (!TriggerList.infoList.Contains(this))
         {
@@ -44,7 +43,7 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     protected void Bind()
     {
         infomaitionData ??= ResourceManager.Inst.GetProfileInfoData(infomaitionDataId);
-        if(needInfoIDList.Count != 0 && needInformaitonList == null)
+        if(needInfoIDList.Count != 0 || needInformaitonList == null)
         {
             needInformaitonList = new List<ProfileInfoTextDataSO>();
             foreach(var id in needInfoIDList)
@@ -52,7 +51,7 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
                 needInformaitonList.Add(ResourceManager.Inst.GetProfileInfoData(id));
             }
         }
-        if (linkInfoIDList.Count != 0 && linkInformaitonList == null)
+        if (linkInfoIDList.Count != 0 || linkInformaitonList == null)
         {
             linkInformaitonList = new List<ProfileInfoTextDataSO>();
             foreach (var id in linkInfoIDList)
