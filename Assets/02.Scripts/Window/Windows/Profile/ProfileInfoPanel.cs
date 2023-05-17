@@ -111,8 +111,7 @@ public class ProfileInfoPanel : MonoBehaviour
         }
 
         EventManager.TriggerEvent(EProfileEvent.HideInfoPanel);
-
-        gameObject.SetActive(true);
+        this.gameObject.SetActive(true);
         ProfileCategoryDataSO categoryData = ps[0] as ProfileCategoryDataSO;
         currentData = categoryData;
         titleText.SetText(currentData.categoryName);

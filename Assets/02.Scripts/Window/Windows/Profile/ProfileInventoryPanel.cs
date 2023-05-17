@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -170,10 +170,8 @@ public class ProfileInventoryPanel : MonoBehaviour
 
         categoryType = EProfileCategoryType.Character;
         EventManager.TriggerEvent(EProfileEvent.HideInfoPanel);
-        Debug.Log("À¸¾Ç");
         foreach (var data in characterCategoryList)
         {
-            Debug.Log("À¸¾Ç1");
             ProfileCategoryPrefab categoryPrefab = Pop();
             categoryPrefab.Show(data);
         }

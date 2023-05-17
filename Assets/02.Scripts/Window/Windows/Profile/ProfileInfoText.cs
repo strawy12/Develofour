@@ -56,9 +56,10 @@ public class ProfileInfoText : MonoBehaviour
 
     public void Show()
     {
+        
         infoText.text = currentInfoData.infomationText;
         isFind = true;
-        
+        this.gameObject.SetActive(true);
         OnFindText?.Invoke();
     }
 
