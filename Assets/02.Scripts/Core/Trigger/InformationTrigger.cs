@@ -9,14 +9,14 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
 {
     [SerializeField] protected List<int> needInfoIDList;
     [SerializeField] protected List<int> linkInfoIDList;
-    [SerializeField] protected int infomaitionDataId;
+    [SerializeField] protected List<int> infoDataIDList;
     [SerializeField] protected Image backgroundImage;
 
-    protected ProfileInfoTextDataSO infomaitionData;
+    protected List<ProfileInfoTextDataSO> infomaitionDataList;
     protected List<ProfileInfoTextDataSO> needInformaitonList;
     protected List<ProfileInfoTextDataSO> linkInformaitonList;
 
-    protected Color yellowColor = new Color(255, 255, 0, 40);   
+    protected Color yellowColor = new Color(255, 255, 0, 40);
     protected Color redColor = new Color(255, 0, 0, 40);
     protected Color tempColor;
 
@@ -42,11 +42,19 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     }
     protected void Bind()
     {
-        infomaitionData ??= ResourceManager.Inst.GetProfileInfoData(infomaitionDataId);
-        if(needInfoIDList.Count != 0 || needInformaitonList == null)
+        if (infoDataIDList.Count != 0 || infomaitionDataList == null)
+        {
+            infomaitionDataList = new List<ProfileInfoTextDataSO>();
+            foreach (var id in infoDataIDList)
+            {
+                infomaitionDataList.Add(ResourceManager.Inst.GetProfileInfoData(id));
+            }
+        }
+
+        if (needInfoIDList.Count != 0 || needInformaitonList == null)
         {
             needInformaitonList = new List<ProfileInfoTextDataSO>();
-            foreach(var id in needInfoIDList)
+            foreach (var id in needInfoIDList)
             {
                 needInformaitonList.Add(ResourceManager.Inst.GetProfileInfoData(id));
             }
@@ -63,19 +71,21 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     protected void FindInfo()
     {
         Bind();
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infomaitionData.category, infomaitionData.id});
+
+        foreach (var infoData in infomaitionDataList)
+        {
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infoData.category, infoData.id });
+        }
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
         Bind();
-
-        if (infomaitionData == null || infomaitionData.category == EProfileCategory.None)
+        if (infomaitionDataList == null || infomaitionDataList.Count == 0)
         {
             MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
             return;
         }
-
         else
         {
             if (needInformaitonList.Count == 0)
@@ -96,14 +106,13 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
                 }
                 GetInfo(eventData);
             }
-
         }
     }
 
     private void GetInfo(PointerEventData eventData)
     {
         MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-       
+
         FindInfo();
         TriggerList.CheckLinkInfos();
 
@@ -112,27 +121,24 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
 
     public void CheckLinkInfo()
     {
-        if(infomaitionData == null) { return; }
+        if (infomaitionDataList == null || infoDataIDList.Count == 0) { return; }
 
-        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.id))
+        if (linkInformaitonList.Count != 0)
         {
-            if (linkInformaitonList.Count != 0)
+            foreach (ProfileInfoTextDataSO linkData in linkInformaitonList)
             {
-                foreach (ProfileInfoTextDataSO linkData in linkInformaitonList)
+                if (!DataManager.Inst.IsProfileInfoData(linkData.id))
                 {
-                    if (!DataManager.Inst.IsProfileInfoData(linkData.id))
-                    {
-                        return;
-                    }
+                    return;
                 }
-                FindInfo();
             }
+            FindInfo();
         }
     }
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        if (infomaitionData == null)
+        if (infomaitionDataList == null || infoDataIDList.Count == 0)
         {
             EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { CursorChangeSystem.ECursorState.FindInfo });
             yellowColor.a = 0.4f;
@@ -145,13 +151,14 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
             return;
         }
 
-        CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, infomaitionData.category, infomaitionData.id);
+        CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, infoDataIDList);
+
         if (isListFinder == CursorChangeSystem.ECursorState.Default)
         {
             return;
         }
 
-        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.id))
+        if (isListFinder == CursorChangeSystem.ECursorState.FindInfo)
         {
             yellowColor.a = 0.4f;
             backgroundImage.color = yellowColor;
@@ -169,6 +176,17 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
         backgroundImage.color = tempColor;
     }
 
+    protected bool CheckAllInfoFound()
+    { 
+        foreach (var infoID in infoDataIDList)
+        {
+            if (!DataManager.Inst.IsProfileInfoData(infoID))  // 찾은 정보인지 확인
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     //[ContextMenu("SetInfoID")]
     //public void SetInfoID()
     //{
