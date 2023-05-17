@@ -31,6 +31,9 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     public CallSelectButton selectButton;
 
+    public int requestLogID;
+    public float requestDelay;
+
     public void Start()
     {
         answerBtn.gameObject.SetActive(false);
@@ -42,7 +45,6 @@ public class CallSystem : MonoSingleton<CallSystem>
     private void Init()
     {
         spectrumUI.Init();
-
     }
 
     // 얘는 결국에는 받는 전용
@@ -111,7 +113,7 @@ public class CallSystem : MonoSingleton<CallSystem>
             instance.btnText.text = textData.monologName;
             instance.btn.onClick.AddListener(() =>
             {
-                StartMonolog(textData.TextDataType, lockData.answerMonologID, lockData.answerDelay);
+                StartMonolog(textData.TextDataType, callData.characterType,lockData.answerMonologID, lockData.answerDelay);
             });
             instance.gameObject.SetActive(true);
 
@@ -196,12 +198,17 @@ public class CallSystem : MonoSingleton<CallSystem>
         profileIcon.sprite = data.profileIcon;
     }
 
-    public void StartMonolog(int monologType, int afterMonologId = -1, float delay = 0f)
+    public void StartMonolog(int monologType, ECharacterDataType type = ECharacterDataType.None, int afterMonologId = -1, float delay = 0f)
     {
         //저장쪽은 나중에 생각
-
         // 딜레이 후 해당 독백이 실행되는 작업 해야함
+
+        requestLogID = afterMonologId;
+        requestDelay = delay;
+        
         MonologSystem.OnEndMonologEvent += Hide;
+        MonologSystem.OnEndMonologEvent += () => DelayAnswerCall(type, afterMonologId, afterMonologId, delay);
+
         MonologSystem.OnStartMonolog.Invoke(monologType, 0, false);
     }
 
@@ -227,10 +234,20 @@ public class CallSystem : MonoSingleton<CallSystem>
         isRecieveCall = false;
     }
 
+    public void DelayAnswerCall(ECharacterDataType type, int monologID, float delay)
+    {
+        StartCoroutine(DelayAnswerCallCo(type, monologID, delay));
+    }
+
+    private IEnumerator DelayAnswerCallCo(ECharacterDataType type, int monologID, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        OnAnswerCall(type, monologID);
+    }
+
     // 전화를 받았을 때 시작 
     public void Hide()
     {
-        MonologSystem.OnEndMonologEvent -= Hide;
         transform.DOKill(true);
         Sound.OnImmediatelyStop(Sound.EAudioType.PhoneCall);
         EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { false });
