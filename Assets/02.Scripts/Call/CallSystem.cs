@@ -207,7 +207,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         requestDelay = delay;
         
         MonologSystem.OnEndMonologEvent += Hide;
-        MonologSystem.OnEndMonologEvent += () => DelayAnswerCall(type, afterMonologId, afterMonologId, delay);
+        MonologSystem.OnEndMonologEvent += () => DelayAnswerCall(type, afterMonologId, delay);
 
         MonologSystem.OnStartMonolog.Invoke(monologType, 0, false);
     }
