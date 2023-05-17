@@ -6,12 +6,13 @@ using ECursorState = CursorChangeSystem.ECursorState;
 
 public class GetProfilerWordSystem : MonoBehaviour 
 {
-    [SerializeField]
+    [Serializable]
     private class InfoTextData
     {
         public int id;
         public string word;
     }
+
     public static Func<string, object[]> OnGeneratedProfiler; 
     public static Func<string, CursorChangeSystem.ECursorState> OnFindWord;
 
