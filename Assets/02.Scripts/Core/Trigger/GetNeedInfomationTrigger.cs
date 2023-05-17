@@ -32,7 +32,7 @@ public class GetNeedInfomationTrigger : InformationTrigger
         }
         else
         {
-            if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))  // 찾은 정보인지 확인
+            if (!DataManager.Inst.IsProfileInfoData(infomaitionData.id))  // 찾은 정보인지 확인
             {
                 if (needInformaitonList.Count == 0) // 찾는 조건이 없으면
                 {
@@ -44,7 +44,7 @@ public class GetNeedInfomationTrigger : InformationTrigger
                 {
                     foreach (ProfileInfoTextDataSO needData in needInformaitonList) // 리스트로 확인
                     {
-                        if (!DataManager.Inst.IsProfileInfoData(needData.category, needData.key))
+                        if (!DataManager.Inst.IsProfileInfoData(needData.id))
                         // 안 찾은게 있다면
                         {
                             MonologSystem.OnStartMonolog?.Invoke(notFinderNeedStringMonoLog, delay, true);
@@ -73,7 +73,7 @@ public class GetNeedInfomationTrigger : InformationTrigger
             return;
         }
 
-        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.category, infomaitionData.key))
+        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.id))
         {
             yellowColor.a = 0.4f;
             backgroundImage.color = yellowColor;

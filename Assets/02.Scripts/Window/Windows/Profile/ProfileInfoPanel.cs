@@ -83,7 +83,7 @@ public class ProfileInfoPanel : MonoBehaviour
     }
 
 
-    public void ChangeValue(EProfileCategory category, string key)
+    public void ChangeValue(EProfileCategory category, int id)
     {
         if(currentData == null)
         {
@@ -96,7 +96,7 @@ public class ProfileInfoPanel : MonoBehaviour
 
         foreach (var infoText in infoTextList)
         {
-            if (infoText.InfoData.key == key)
+            if (infoText.InfoData.id == id)
             {
                 infoText.Show();
             }
@@ -121,7 +121,7 @@ public class ProfileInfoPanel : MonoBehaviour
             ProfileInfoText infoText = Pop();
             infoText.Setting(infoData);
 
-            if (DataManager.Inst.IsProfileInfoData(currentData.category, infoText.InfoData.key))
+            if (DataManager.Inst.IsProfileInfoData(infoText.InfoData.id))
             {
                 infoText.Show();
                 infoText.gameObject.SetActive(true);
@@ -149,12 +149,12 @@ public class ProfileInfoPanel : MonoBehaviour
         return true;
     }
 
-    public string SetInfoText(string key)
+    public string SetInfoText(int id)
     {
         string answer = "";
         foreach (var infoText in infoTextList)
         {
-            if (key == infoText.InfoData.key)
+            if (id == infoText.InfoData.id)
             {
                 answer = infoText.InfoData.noticeText;
             }

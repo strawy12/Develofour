@@ -70,7 +70,7 @@ public class Debugger : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.G))
         {
             DataManager.Inst.SetMonologShow(7, true);
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.KimYujinProfile, "이름" });
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.KimYujinProfile, 11});
         }
 
 

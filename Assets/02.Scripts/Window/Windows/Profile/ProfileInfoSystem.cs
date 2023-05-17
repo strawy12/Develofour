@@ -16,26 +16,25 @@ public class ProfileInfoSystem : MonoBehaviour
     }
 
     private void StartCallback()
-    {
-        Debug.Log(11);
+    { 
         infoList = ResourceManager.Inst.GetProfileCategoryDataList();
         EventManager.StartListening(EProfileEvent.FindInfoText, ChangeValue);
     }
 
-    private void ChangeValue(object[] ps) // string 값으로 들고옴
+    private void ChangeValue(object[] ps) 
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
             return;
         }
 
-        if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
+        if (!(ps[0] is EProfileCategory) || !(ps[1] is int))
         {
             return;
         }
 
         EProfileCategory category = (EProfileCategory)ps[0];
-        string key = ps[1] as string;
+        int id = (int)ps[1];
 
         //if(DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) && !DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
         //{
@@ -46,9 +45,9 @@ public class ProfileInfoSystem : MonoBehaviour
         //    }
         //}
 
-        if (!DataManager.Inst.IsProfileInfoData(category, key))
+        if (!DataManager.Inst.IsProfileInfoData(id))
         {
-            DataManager.Inst.AddProfileSaveData(category, key);
+            DataManager.Inst.AddProfileSaveData(category, id);
 
             if(!DataManager.Inst.IsCategoryShow(category))
             {
@@ -56,14 +55,14 @@ public class ProfileInfoSystem : MonoBehaviour
                 SendCategoryNotice(category);
             }
             EventManager.TriggerEvent(EProfileEvent.FindInfoInProfile, ps);
-            SendAlarm(category, key);
+            SendAlarm(category, id);
         }
         else
         {
             return;
         }
 
-        if (key == "SuspectName" && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
+        if (id == 1 && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
         {
             EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
         }
@@ -71,13 +70,13 @@ public class ProfileInfoSystem : MonoBehaviour
 
     }
 
-    public void SendAlarm(EProfileCategory category, string key)
+    public void SendAlarm(EProfileCategory category, int id)
     {
         string temp = "nullError";
         ProfileCategoryDataSO categoryData = infoList[category];
         foreach (var infoText in categoryData.infoTextList)
         {
-            if (key == infoText.key)
+            if (id == infoText.id)
             {
                 temp = infoText.noticeText; 
             }

@@ -59,15 +59,15 @@ public class ProfilePanel : MonoBehaviour
     }
     public void ChangeValue(object[] ps)
     {
-        if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
+        if (!(ps[0] is EProfileCategory) || !(ps[1] is int))
         {
             return;
         }
         EProfileCategory category = (EProfileCategory)ps[0];
-        string key = ps[1] as string;
+        int id = (int)ps[1];
 
         typePanel.AddProfileCategoryPrefab(category);
-        infoPanel.ChangeValue(category, key);
+        infoPanel.ChangeValue(category, id);
     }
     public void Show()
     {

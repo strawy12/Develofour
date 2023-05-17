@@ -7,7 +7,7 @@ public class ProfileInfoTextDataSO : ScriptableObject
 {
     public int id;
 
-    public string key;
+    //public string key;
     public string infomationText;
     public string noticeText;
     public EProfileCategory category;
