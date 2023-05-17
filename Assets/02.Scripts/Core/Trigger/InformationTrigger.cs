@@ -7,7 +7,9 @@ using UnityEngine.UI;
 
 public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] protected ProfileInfoTextDataSO infomaitionData;
+    [SerializeField] protected int infomaitionDataId;
+    protected ProfileInfoTextDataSO infomaitionData;
+
     [SerializeField] protected List<ProfileInfoTextDataSO> needInformaitonList;
     [SerializeField] protected List<ProfileInfoTextDataSO> linkInformaitonList;
     [SerializeField] protected Image backgroundImage;
@@ -30,7 +32,9 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
     protected virtual void Start()
     {
         tempColor = backgroundImage.color;
-        if(!TriggerList.infoList.Contains(this))
+        infomaitionData = ResourceManager.Inst.GetProfileInfoData(infomaitionDataId);
+
+        if (!TriggerList.infoList.Contains(this))
         {
             TriggerList.infoList.Add(this);
         }
