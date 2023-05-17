@@ -17,7 +17,7 @@ using System.Runtime.InteropServices;
 
 public class CallSystem : MonoSingleton<CallSystem>
 {
-
+    private List<CallSelectButton> buttonList = new List<CallSelectButton>();
     //Call Stack(전화 쌓이는거) 저장 해야함.
 
     [Header("CallUI")]
@@ -29,6 +29,7 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     public bool isRecieveCall;
 
+    public Transform selectButtonParent;
     public CallSelectButton selectButton;
 
     public int requestLogID;
@@ -89,17 +90,6 @@ public class CallSystem : MonoSingleton<CallSystem>
         // 기존에 존재하던 선택지UI들 지우기
         // TODO
         // 추후 풀링으로 변경할 예정 
-        Transform[] childList = selectButton.transform.parent.GetComponentsInChildren<Transform>();
-
-        if (childList != null)
-        {
-            for (int i = 1; i < childList.Length; i++)
-            {
-                if (childList[i] != transform)
-                    Destroy(childList[i].gameObject);
-            }
-        }
-
         int spawnCnt = 0;
         for (int i = 0; i < callData.monologLockList.Count; i++)
         {
@@ -109,6 +99,7 @@ public class CallSystem : MonoSingleton<CallSystem>
             MonologLockData lockData = callData.monologLockList[i];
             CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
             MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(lockData.monologID);
+            buttonList.Add(instance);
 
             instance.btnText.text = textData.monologName;
             instance.btn.onClick.AddListener(() =>
@@ -255,6 +246,9 @@ public class CallSystem : MonoSingleton<CallSystem>
         StopAllCoroutines();
         transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
         spectrumUI.StopSpectrum();
+
+        buttonList.ForEach(x => Destroy(x.gameObject));
+        buttonList.Clear();
     }
 
     public void SetEndMonolog(int monologType)
