@@ -54,8 +54,8 @@ public class CallSystem : MonoSingleton<CallSystem>
 
         foreach(ReturnMonologData data in list) 
         {
-            // 아직 딜레이 타임이 존재하는 경우 무시한다
-            //if (data.EndDelayTime > Time.deltaTime) continue;
+            if (data.EndDelayTime < DataManager.Inst.GetCurrentTime())
+                continue;
 
             if(Define.MonologLockDecisionFlag(data.decisions))
             {

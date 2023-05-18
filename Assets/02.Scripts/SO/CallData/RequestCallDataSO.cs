@@ -53,6 +53,7 @@ public class ReturnMonologData
     public void SetEndDelayTime()
     {
         // DataManager 기준으로 딜레이가 끝나느 시간을 저장시켜줄겁니다.
+        endDelayTime = DataManager.Inst.GetCurrentTime() + returnDelay;
     }
 }
 
