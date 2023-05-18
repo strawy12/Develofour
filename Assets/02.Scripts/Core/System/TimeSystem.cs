@@ -13,7 +13,8 @@ public class TimeSystem : MonoBehaviour
 
     void Awake()
     {
-        GameManager.Inst.OnStartCallback += () => { playTime = DataManager.Inst.GetCurrentTime(); isLoadingEnd = true; };
+        EventManager.StartListening(ECutSceneEvent.EndStartCutScene, OnLoadingEnd);
+        GameManager.Inst.OnStartCallback += () => {  };
 
     }
 
@@ -31,6 +32,14 @@ public class TimeSystem : MonoBehaviour
             
         }
 
+    }
+
+    private void OnLoadingEnd(object[] ps)
+    {
+        EventManager.StopListening(ECutSceneEvent.EndStartCutScene, OnLoadingEnd);
+
+        playTime = DataManager.Inst.GetCurrentTime(); 
+        isLoadingEnd = true;
     }
 
     private void TimeCount()

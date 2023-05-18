@@ -32,7 +32,26 @@ public class CallSystem : MonoSingleton<CallSystem>
     public Transform selectButtonParent;
     public CallSelectButton selectButton;
 
+    [SerializeField]
+    private float deflaultDelayTime = 10f;
+
     public void Start()
+    {
+       GameManager.Inst.OnStartCallback += Init;
+    }
+
+    private IEnumerator RepeatCheckReturnCall()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(deflaultDelayTime);
+
+            Debug.Log("checkDelayEnd");
+            DecisionCheck();
+        }
+    }
+
+    private void Init()
     {
         answerBtn.gameObject.SetActive(false);
         spectrumUI.gameObject.SetActive(false);
@@ -40,12 +59,9 @@ public class CallSystem : MonoSingleton<CallSystem>
         EventManager.StartListening(EMonologEvent.MonologEnd, DecisionCheck);
         EventManager.StartListening(EProfileEvent.FindInfoInProfile, DecisionCheck);
 
-        Init();
-    }
-
-    private void Init()
-    {
         spectrumUI.Init();
+
+        StartCoroutine(RepeatCheckReturnCall());
     }
 
     public void DecisionCheck(object[] ps = null)
@@ -54,12 +70,14 @@ public class CallSystem : MonoSingleton<CallSystem>
 
         foreach(ReturnMonologData data in list) 
         {
+            Debug.Log($"{data.EndDelayTime}_{DataManager.Inst.GetCurrentTime()}");
+
             if (data.EndDelayTime < DataManager.Inst.GetCurrentTime())
                 continue;
 
             if(Define.MonologLockDecisionFlag(data.decisions))
             {
-                OnAnswerCall(data.CharacterType, data.MonologID);
+                OnAnswerCall(data.characterType, data.MonologID);
             }
         }
     }
@@ -67,7 +85,8 @@ public class CallSystem : MonoSingleton<CallSystem>
     // 얘는 결국에는 받는 전용
     public void OnAnswerCall(ECharacterDataType characterType, int monologType)
     {
-        CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
+        if (characterType == ECharacterDataType.None) return;
+         CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
         SetCallUI(charSO);
 
         ShowSpectrumUI(false);
@@ -113,6 +132,8 @@ public class CallSystem : MonoSingleton<CallSystem>
 
             int num = i;
             MonologLockData lockData = callData.monologLockList[i];
+            lockData.returnMonologData.characterType = callData.characterType;
+
             CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
             MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(lockData.monologID);
             buttonList.Add(instance);
@@ -120,10 +141,11 @@ public class CallSystem : MonoSingleton<CallSystem>
             instance.btnText.text = textData.monologName;
             instance.btn.onClick.AddListener(() =>
             {
+                HideSelectBtns();
                 StartMonolog(textData.TextDataType, lockData);
             });
 
-
+            instance.gameObject.SetActive(true);
             spawnCnt++;
         }
 
@@ -144,7 +166,6 @@ public class CallSystem : MonoSingleton<CallSystem>
         yield return PlayPhoneCallSound(delay);
         if (monologType != -1)
         {
-            //MonologSystem.OnEndMonologEvent += Hide;
             MonologSystem.OnStartMonolog?.Invoke(monologType, 0, true);
         }
         else
@@ -210,6 +231,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         //저장쪽은 나중에 생각
         // 딜레이 후 해당 독백이 실행되는 작업 해야함
 
+        Debug.Log("Hide");
         MonologSystem.OnEndMonologEvent += Hide;
         MonologSystem.OnEndMonologEvent += () => SaveReturnMonolog(data);
 
@@ -218,9 +240,10 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     public void SaveReturnMonolog(MonologLockData data)
     {
-        if (data == null)
+        if (data == null) 
             return;
 
+        if (data.returnMonologData.characterType == ECharacterDataType.None || data.returnMonologData.MonologID == 0) return;
         DataManager.Inst.AddReturnData(data.returnMonologData);
     }
 
@@ -230,7 +253,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         {
             StartCoroutine(PhoneSoundCor());
         }
-        EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { true });
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
         transform.DOLocalMoveX(770, 0.5f).SetEase(Ease.Linear);
     }
 
@@ -246,28 +269,23 @@ public class CallSystem : MonoSingleton<CallSystem>
         isRecieveCall = false;
     }
 
-    public void DelayAnswerCall(ECharacterDataType type, int monologID, float delay)
-    {
-        StartCoroutine(DelayAnswerCallCo(type, monologID, delay));
-    }
 
-    private IEnumerator DelayAnswerCallCo(ECharacterDataType type, int monologID, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        OnAnswerCall(type, monologID);
-    }
-
-    // 전화를 받았을 때 시작 
     public void Hide()
     {
+        Debug.Log("Hid2e");
         transform.DOKill(true);
         Sound.OnImmediatelyStop(Sound.EAudioType.PhoneCall);
-        EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { false });
+        GameManager.Inst.ChangeGameState(EGameState.Game);
 
         StopAllCoroutines();
         transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
         spectrumUI.StopSpectrum();
 
+        HideSelectBtns();
+    }
+
+    private void HideSelectBtns()
+    {
         buttonList.ForEach(x => Destroy(x.gameObject));
         buttonList.Clear();
     }

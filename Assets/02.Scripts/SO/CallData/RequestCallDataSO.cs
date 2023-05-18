@@ -22,26 +22,29 @@ public class MonologLockData
     public List<MonologLockDecision> decisions;
     public int monologID;
     public ReturnMonologData returnMonologData;
+
 }
 
 [System.Serializable]
 public class ReturnMonologData
 {
     [SerializeField]
-    private int returnMonologID;
+    private int returnMonologID = 0;
     [SerializeField]
-    private int returnDelay;
+    private int returnDelay = 0;
 
-    public List<MonologLockDecision> decisions;
+    public List<MonologLockDecision> decisions= null;
 
-    private int endDelayTime;
-    private ECharacterDataType characterType;
+    private int endDelayTime = 0;
+    public ECharacterDataType characterType = ECharacterDataType.None;
 
     public int MonologID => returnMonologID;
     public int Delay => returnDelay;
 
     public int EndDelayTime => endDelayTime;
-    public ECharacterDataType CharacterType => characterType;
+  
+    
+    public ReturnMonologData() { }
 
     public ReturnMonologData(ECharacterDataType type, int returnMonologID, int returnDelay, List<MonologLockDecision> decisions)
     {
