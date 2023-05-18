@@ -39,7 +39,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
         if (word != null)
         {
-            CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, category, infoID);
+            ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, infoID);
             GetSize(isListFinder);
         }
     }

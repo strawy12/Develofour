@@ -140,7 +140,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
         if(currentChatData.infoData != null)
         {
-            CursorChangeSystem.ECursorState state = Define.ChangeInfoCursor(currentChatData.needInformaitonList, currentChatData.infoData.category, currentChatData.infoData.id);
+            CursorChangeSystem.ECursorState state = Define.ChangeInfoCursor(currentChatData.needInformaitonList,currentChatData.infoData.id);
             if(state == CursorChangeSystem.ECursorState.FindInfo)
             {
                 messageText.SetColor(Color.yellow);
