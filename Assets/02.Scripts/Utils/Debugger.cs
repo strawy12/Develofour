@@ -65,7 +65,7 @@ public class Debugger : MonoBehaviour
             {
                 e.debugEvent?.Invoke();
             }
-        }e
+        }
 
         if(Input.GetKeyDown(KeyCode.G))
         {

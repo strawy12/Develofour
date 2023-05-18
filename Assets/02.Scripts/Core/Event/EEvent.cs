@@ -204,4 +204,8 @@ public enum ECallEvent
     AddAutoCompleteCallBtn,
     CallInit,
 }
-
+public enum ETimeEvent
+{
+    None = -1,
+    ChangeTime,
+}

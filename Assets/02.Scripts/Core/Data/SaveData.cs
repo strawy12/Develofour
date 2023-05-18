@@ -72,6 +72,8 @@ public class SaveData
 
     public string branchPassword;
     public bool isOnceOpenWindowProperty;
+
+    public int CurrentTimeData;
 }
 
 
