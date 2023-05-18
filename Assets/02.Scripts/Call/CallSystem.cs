@@ -37,12 +37,13 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     public void Start()
     {
-       GameManager.Inst.OnStartCallback += Init;
+        GameManager.Inst.OnStartCallback += Init;
     }
 
     private IEnumerator RepeatCheckReturnCall()
     {
-        while(true)
+        yield break;
+        while (true)
         {
             yield return new WaitForSeconds(deflaultDelayTime);
 
@@ -68,14 +69,14 @@ public class CallSystem : MonoSingleton<CallSystem>
     {
         List<ReturnMonologData> list = DataManager.Inst.GetReturnDataList();
 
-        foreach(ReturnMonologData data in list) 
+        foreach (ReturnMonologData data in list)
         {
             Debug.Log($"{data.EndDelayTime}_{DataManager.Inst.GetCurrentTime()}");
 
             if (data.EndDelayTime < DataManager.Inst.GetCurrentTime())
                 continue;
 
-            if(Define.MonologLockDecisionFlag(data.decisions))
+            if (Define.MonologLockDecisionFlag(data.decisions))
             {
                 OnAnswerCall(data.characterType, data.MonologID);
             }
@@ -86,7 +87,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     public void OnAnswerCall(ECharacterDataType characterType, int monologType)
     {
         if (characterType == ECharacterDataType.None) return;
-         CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
+        CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
         SetCallUI(charSO);
 
         ShowSpectrumUI(false);
@@ -105,9 +106,9 @@ public class CallSystem : MonoSingleton<CallSystem>
         RequestCallDataSO callData = ResourceManager.Inst.GetRequestCallData(data.characterType);
 
         int result = -1;
-        if (callData!=null && Define.MonologLockDecisionFlag(callData.defaultDecisions))
+        if (callData != null && Define.MonologLockDecisionFlag(callData.defaultDecisions))
         {
-            MonologSystem.OnEndMonologEvent += () => SetMonologSelector(callData);
+            MonologSystem.OnEndMonologEvent = () => SetMonologSelector(callData);
             result = callData.defaultMonologID;
         }
 
@@ -226,21 +227,28 @@ public class CallSystem : MonoSingleton<CallSystem>
         profileIcon.sprite = data.profileIcon;
     }
 
+    private int cnt = 100;
+
     public void StartMonolog(int monologType, MonologLockData data = null)
     {
+        if (cnt-- < 0)
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+            return;
+        }
         //저장쪽은 나중에 생각
         // 딜레이 후 해당 독백이 실행되는 작업 해야함
 
         Debug.Log("Hide");
-        MonologSystem.OnEndMonologEvent += Hide;
-        MonologSystem.OnEndMonologEvent += () => SaveReturnMonolog(data);
+        MonologSystem.OnEndMonologEvent = Hide;
+        //MonologSystem.OnEndMonologEvent += () => SaveReturnMonolog(data);
 
-        MonologSystem.OnStartMonolog.Invoke(monologType, 0, false);
+        MonologSystem.OnStartMonolog?.Invoke(monologType, 0, false);
     }
 
     public void SaveReturnMonolog(MonologLockData data)
     {
-        if (data == null) 
+        if (data == null)
             return;
 
         if (data.returnMonologData.characterType == ECharacterDataType.None || data.returnMonologData.MonologID == 0) return;

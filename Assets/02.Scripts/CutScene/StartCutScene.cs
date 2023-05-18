@@ -45,7 +45,6 @@ public class StartCutScene : MonoBehaviour
             EndRequestCutScene();
             GameManager.Inst.ChangeGameState(EGameState.Game);
             OnPlayCutScene = null;
-            MonologSystem.OnEndMonologEvent -= FadeInterrogationRoomSprite;
             Destroy(this.gameObject);
         }
         else
@@ -77,7 +76,7 @@ public class StartCutScene : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.InterrogationRoom);
 
-        MonologSystem.OnEndMonologEvent += FadeInterrogationRoomSprite;
+        MonologSystem.OnEndMonologEvent = FadeInterrogationRoomSprite;
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.STARTCUTSCENE1, 0, true);
     }
 
@@ -103,7 +102,7 @@ public class StartCutScene : MonoBehaviour
     private void StartRequest()
     {
         backgroundImagePanel.DOFade(1, 1.5f);
-        MonologSystem.OnEndMonologEvent += StartLoading;
+        MonologSystem.OnEndMonologEvent = StartLoading;
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.STARTCUTSCENE2, 1.5f, true);
     }
 
@@ -137,7 +136,6 @@ public class StartCutScene : MonoBehaviour
 
     private void SetActiveThisObject()
     {
-        MonologSystem.OnEndMonologEvent -= FadeInterrogationRoomSprite;
         Destroy(gameObject);
     }
 }

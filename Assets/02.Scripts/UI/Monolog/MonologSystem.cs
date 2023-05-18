@@ -8,8 +8,34 @@ public partial class MonologSystem : TextSystem
     public static Action<int, float, bool> OnStartMonolog { get; private set; }
     public static Action OnStopMonolog { get; private set; }
 
-    public static List<Action> OnEndMonologEventList;
-    private static Action OnEndMonologEvent;
+    private static Queue<Action> onEndMonologEventLQueue;
+
+    public static bool isEndMonolog { get; private set; }
+
+    private static Action onEndMonologEvent;
+    public static Action OnEndMonologEvent
+    {
+        set
+        {
+            if (isEndMonolog)
+            {
+                if (onEndMonologEventLQueue == null)
+                    onEndMonologEventLQueue = new Queue<Action>();
+
+                onEndMonologEventLQueue.Enqueue(value);
+            }
+
+            else
+            {
+                onEndMonologEvent += value;
+            }
+        }
+    }
+
+    public static void RemoveEndMonologEvent(Action action)
+    {
+        onEndMonologEvent -= action;
+    }
 
     [SerializeField]
     private TextBox textBox;
@@ -21,7 +47,7 @@ public partial class MonologSystem : TextSystem
 
     private void Awake()
     {
-        OnEndMonologEventList = new List<Action>();
+        onEndMonologEventLQueue = new Queue<Action>();
 
         OnStartMonolog += StartMonolog;
         OnStopMonolog += StopMonolog;
@@ -36,6 +62,8 @@ public partial class MonologSystem : TextSystem
 
     public IEnumerator StartMonologCor(int textDataType, float beforeDelay, bool isSave)
     {
+        yield return new WaitUntil(() => !isEndMonolog);
+
         beforeGameState = GameManager.Inst.GameState;
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
 
@@ -64,16 +92,20 @@ public partial class MonologSystem : TextSystem
 
         textBox.DictionaryClear();
 
-        AddEndMonologEvent();
-        OnEndMonologEvent?.Invoke();
-        OnEndMonologEvent = null;
+        isEndMonolog = true;
+         onEndMonologEvent?.Invoke();
+        onEndMonologEvent = null;
+        isEndMonolog = false;
 
+        AddEndMonologEvent();
     }
 
     private void AddEndMonologEvent()
     {
-        OnEndMonologEvent += OnEndMonologEventList[0];
-        OnEndMonologEventList.RemoveAt(0);
+        while (onEndMonologEventLQueue.Count > 0)
+        {
+            onEndMonologEvent += onEndMonologEventLQueue.Dequeue();
+        }
     }
 
     private void StopMonolog()
@@ -87,8 +119,8 @@ public partial class MonologSystem : TextSystem
         InputManager.Inst.RemoveAnyKeyInput(onKeyDown: null);
         GameManager.Inst.ChangeGameState(beforeGameState);
         textBox.DictionaryClear();
-        OnEndMonologEvent?.Invoke();
-        OnEndMonologEvent = null;
+        onEndMonologEvent?.Invoke();
+        onEndMonologEvent = null;
         AddEndMonologEvent();
     }
 
