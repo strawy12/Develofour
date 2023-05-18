@@ -30,7 +30,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<ImageViewerDataSO>(handle.Result[i]).Task;
             await task;
 
-            imageVierwerDictionary.Add(task.Result.id, task.Result);
+            imageVierwerDictionary.Add(task.Result.fileId, task.Result);
         }
 
         Addressables.Release(handle);
