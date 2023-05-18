@@ -8,7 +8,8 @@ public partial class MonologSystem : TextSystem
     public static Action<int, float, bool> OnStartMonolog { get; private set; }
     public static Action OnStopMonolog { get; private set; }
 
-    public static Action OnEndMonologEvent;
+    public static List<Action> OnEndMonologEventList;
+    private static Action OnEndMonologEvent;
 
     [SerializeField]
     private TextBox textBox;
@@ -20,12 +21,14 @@ public partial class MonologSystem : TextSystem
 
     private void Awake()
     {
+        OnEndMonologEventList = new List<Action>();
+
         OnStartMonolog += StartMonolog;
         OnStopMonolog += StopMonolog;
 
         EventManager.StartListening(EMonologEvent.MonologException, ProfileFileException);
     }
-        
+
     public void StartMonolog(int textDataType, float beforeDelay, bool isSave)
     {
         StartCoroutine(StartMonologCor(textDataType, beforeDelay, isSave));
@@ -61,14 +64,22 @@ public partial class MonologSystem : TextSystem
 
         textBox.DictionaryClear();
 
+        AddEndMonologEvent();
         OnEndMonologEvent?.Invoke();
         OnEndMonologEvent = null;
+
+    }
+
+    private void AddEndMonologEvent()
+    {
+        OnEndMonologEvent += OnEndMonologEventList[0];
+        OnEndMonologEventList.RemoveAt(0);
     }
 
     private void StopMonolog()
     {
         textBox.HideBox();
-        if(currentTextData == null)
+        if (currentTextData == null)
         {
             return;
         }
@@ -78,6 +89,7 @@ public partial class MonologSystem : TextSystem
         textBox.DictionaryClear();
         OnEndMonologEvent?.Invoke();
         OnEndMonologEvent = null;
+        AddEndMonologEvent();
     }
 
     private void PrintText()
@@ -99,7 +111,7 @@ public partial class MonologSystem : TextSystem
         // {}
 
         textBox.Init(text, triggerDictionary);
-    }   
+    }
 
     public override void SetDelay(float value)
     {
