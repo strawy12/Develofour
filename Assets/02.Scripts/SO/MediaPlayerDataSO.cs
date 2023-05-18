@@ -9,10 +9,14 @@ public class MediaPlayerDataSO : ScriptableObject
     public float textPlaySpeed = 0.05f;
     public AudioClip mediaAudioClip;
     public EProfileCategory category;
+
+    public MediaPlayerBody body;
+
     [TextArea(10, 20)]
     public string textData;
     public int fileId;
 
     public float endlineDelay;
-    public int infoID;
+    public List<int> infoID;
+
 }

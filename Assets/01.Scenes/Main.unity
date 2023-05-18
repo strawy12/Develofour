@@ -2422,7 +2422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "10\uC6D4 24\uC77C \uC77C\uC694\uC77C"
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dabf4aaadb484fdb8b650c0568a06c59, type: 2}
   m_sharedMaterial: {fileID: -2560004193487277870, guid: dabf4aaadb484fdb8b650c0568a06c59, type: 2}
@@ -2913,6 +2913,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 579122045}
+  - component: {fileID: 579122046}
   m_Layer: 0
   m_Name: TimePanel
   m_TagString: Untagged
@@ -2942,6 +2943,22 @@ RectTransform:
   m_AnchoredPosition: {x: 75, y: 130}
   m_SizeDelta: {x: 450, y: 230}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &579122046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579122044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21df0d7f6873b0d4f8b115061008f11f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeText: {fileID: 783897552}
+  dateText: {fileID: 510426077}
+  hourText: 
+  minuteText: 
 --- !u!1 &600837575
 GameObject:
   m_ObjectHideFlags: 0
@@ -4384,7 +4401,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 15:47
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dabf4aaadb484fdb8b650c0568a06c59, type: 2}
   m_sharedMaterial: {fileID: -2560004193487277870, guid: dabf4aaadb484fdb8b650c0568a06c59, type: 2}
@@ -8183,9 +8200,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5cb840a31904d474a842a80207bcf91b, type: 2}
   - {fileID: 11400000, guid: 4296dada66a32e54280946a4445c5882, type: 2}
   defaultFileList:
-  - {fileID: 11400000, guid: 3516e63345ae24340b9d15131029967b, type: 2}
-  - {fileID: 11400000, guid: e85c1f11a87e34843b5db7405eec6f62, type: 2}
-  - {fileID: 11400000, guid: 185f8e404fdc5bc43abeb0df1acc3482, type: 2}
+  - {fileID: 11400000, guid: 665af57e574b3084c849bbd73aa114da, type: 2}
+  - {fileID: 11400000, guid: 51287549609f65640b909aa9e9de7909, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 690bae947b65d3843bd8a37f4958f59f, type: 2}
   - {fileID: 11400000, guid: 4296dada66a32e54280946a4445c5882, type: 2}
 --- !u!1 &1247746393
@@ -13405,7 +13422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1389dcd3b9b14021b1ff0fccb4283367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  willGetWordList: []
 --- !u!114 &2114393464
 MonoBehaviour:
   m_ObjectHideFlags: 0
