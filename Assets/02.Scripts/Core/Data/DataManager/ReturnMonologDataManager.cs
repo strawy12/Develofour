@@ -1,4 +1,4 @@
-using Coffee.UIEffects;
+ï»¿using Coffee.UIEffects;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         return saveData.returnMonologData[index];
     }
 
-    // Character Å¸ÀÔÀ» ¹Ş±ä ÇÏÁö¸¸ ÇöÀç´Â Á¶¼ö¸¸ ¸®ÅÏ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏ¹Ç·Î ±×³É ¹Ù·Î ¸®ÅÏ ¹ÚÀ½
+    // Character íƒ€ì…ì„ ë°›ê¸´ í•˜ì§€ë§Œ í˜„ì¬ëŠ” ì¡°ìˆ˜ë§Œ ë¦¬í„´ ë°ì´í„°ê°€ ì¡´ì¬í•˜ë¯€ë¡œ ê·¸ëƒ¥ ë°”ë¡œ ë¦¬í„´ ë°•ìŒ
     public List<ReturnMonologData> GetReturnDataList(ECharacterDataType type = ECharacterDataType.Assistant)
     {
         return saveData.returnMonologData;
