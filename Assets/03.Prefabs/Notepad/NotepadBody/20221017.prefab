@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 953135243752723342}
   - component: {fileID: 6414635615849610493}
   m_Layer: 5
-  m_Name: InfoTrigger (3)
+  m_Name: Info_51
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 9.999939, y: -76}
-  m_SizeDelta: {x: 836.1937, y: 35}
+  m_SizeDelta: {x: 607.715, y: 35}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6722286618401574007
 CanvasRenderer:
@@ -60,14 +60,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.16509432, b: 0.16509432, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,11 +89,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infomaitionData: {fileID: 0}
-  needInformaitonList: []
-  linkInformaitonList: []
+  needInfoIDList: 
+  linkInfoIDList: 
+  infoDataIDList: 
   backgroundImage: {fileID: 0}
-  monoLogType: 52
+  monoLogType: 51
   delay: 0
   isFakeInfo: 0
 --- !u!1 &6049470450981775193
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 3552826034522904845}
   - component: {fileID: 3128886706946500857}
   m_Layer: 5
-  m_Name: InfoTrigger (4)
+  m_Name: Info12_52
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,8 +132,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 9.999939, y: -145}
-  m_SizeDelta: {x: 392.6435, y: 35}
+  m_AnchoredPosition: {x: 9.999939, y: -39.5}
+  m_SizeDelta: {x: 374.3652, y: 35}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4089125450117857999
 CanvasRenderer:
@@ -156,14 +156,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.16509432, b: 0.16509432, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -185,11 +185,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6977226f87611df49bfd172043bb4da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infomaitionData: {fileID: 0}
-  needInformaitonList: []
-  linkInformaitonList: []
+  needInfoIDList: 
+  linkInfoIDList: 
+  infoDataIDList: 0c000000
   backgroundImage: {fileID: 0}
-  monoLogType: 51
+  monoLogType: 52
   delay: 0
   isFakeInfo: 0
 --- !u!1 &6760515456448002866
@@ -424,11 +424,11 @@ MonoBehaviour:
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: "\uC624\uB298\uC740 \uB0B4\uAC00 \uC88B\uC544\uD558\uB294 \uB274\uC138\uB77C\uD54C\uC758
-    \uCEF4\uBC31\uC77C\uC774\uB2E4. \r\n\n\uC720\uC9C4 \uC120\uBC30\uB791 \uAC19\uC774
+    \uCEF4\uBC31\uC77C\uC774\uB2E4. \r\n\uC720\uC9C4 \uC120\uBC30\uB791 \uAC19\uC774
     \uC774\uBC88 \uD32C\uC2F8\uC778\uD68C\uB294 \uAF2D \uAC00\uAE30 \uC704\uD574
-    \uC568\uBC94\uC744 \uB9CE\uC774 \uAD6C\uB9E4 \uD588\uB2E4. \r\n\r\n\uD569\uCCD0\uC11C
+    \uC568\uBC94\uC744 \uB9CE\uC774 \uAD6C\uB9E4 \uD588\uB2E4. \r\n\uD569\uCCD0\uC11C
     \uAC70\uC758 200\uC7A5 \uB118\uAC8C \uC0C0\uB294\uB370.. \uB108\uBB34 \uB9CE\uC774
-    \uC0C0\uB098?..\r\n\r\n\uADF8\uB798\uB3C4.. \uC774 \uC815\uB3C4\uB85C \uC0AC\uC11C
+    \uC0C0\uB098?..\r\n\uADF8\uB798\uB3C4.. \uC774 \uC815\uB3C4\uB85C \uC0AC\uC11C
     \uD32C\uC2F8\uC778\uD68C \uAC00\uB294\uAC70\uBA74 \uB9CC\uC871\uC2A4\uB7FD\uB2E4."
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
@@ -508,11 +508,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uC624\uB298\uC740 \uB0B4\uAC00 \uC88B\uC544\uD558\uB294 \uB274\uC138\uB77C\uD54C\uC758
-    \uCEF4\uBC31\uC77C\uC774\uB2E4. \r\n\n\uC720\uC9C4 \uC120\uBC30\uB791 \uAC19\uC774
+    \uCEF4\uBC31\uC77C\uC774\uB2E4. \r\n\uC720\uC9C4 \uC120\uBC30\uB791 \uAC19\uC774
     \uC774\uBC88 \uD32C\uC2F8\uC778\uD68C\uB294 \uAF2D \uAC00\uAE30 \uC704\uD574
-    \uC568\uBC94\uC744 \uB9CE\uC774 \uAD6C\uB9E4 \uD588\uB2E4. \r\n\r\n\uD569\uCCD0\uC11C
+    \uC568\uBC94\uC744 \uB9CE\uC774 \uAD6C\uB9E4 \uD588\uB2E4. \r\n\uD569\uCCD0\uC11C
     \uAC70\uC758 200\uC7A5 \uB118\uAC8C \uC0C0\uB294\uB370.. \uB108\uBB34 \uB9CE\uC774
-    \uC0C0\uB098?..\r\n\r\n\uADF8\uB798\uB3C4.. \uC774 \uC815\uB3C4\uB85C \uC0AC\uC11C
+    \uC0C0\uB098?..\r\n\uADF8\uB798\uB3C4.. \uC774 \uC815\uB3C4\uB85C \uC0AC\uC11C
     \uD32C\uC2F8\uC778\uD68C \uAC00\uB294\uAC70\uBA74 \uB9CC\uC871\uC2A4\uB7FD\uB2E4.\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dabf4aaadb484fdb8b650c0568a06c59, type: 2}

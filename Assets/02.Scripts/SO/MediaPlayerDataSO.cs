@@ -11,7 +11,7 @@ public class MediaPlayerDataSO : ScriptableObject
     public EProfileCategory category;
     [TextArea(10, 20)]
     public string textData;
-    public string fileName;
+    public int fileId;
 
     public float endlineDelay;
     public int infoID;

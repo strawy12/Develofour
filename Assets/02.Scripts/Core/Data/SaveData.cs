@@ -6,9 +6,10 @@ using UnityEngine.Rendering;
 [System.Serializable]
 public class FileLockData
 {
-    public string fileLocation;
+    public int id;
     public bool isLock = true;
 }
+
 [System.Serializable]
 public class MonologSaveData
 {

@@ -135,23 +135,14 @@ public static class Define
         return FileManager.Inst.SearchFile("Profile") != null;
     }
 
-    public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<ProfileInfoTextDataSO> needInfoList, EProfileCategory category, int infoID)
+    public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<ProfileInfoTextDataSO> needInfoList, int infoID)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
             return CursorChangeSystem.ECursorState.Default;
         }
 
-
         CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
-
-        if(category == EProfileCategory.None)
-        {
-            state = CursorChangeSystem.ECursorState.FindInfo;
-            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
-
-            return state;
-        }
 
         if (needInfoList.Count > 0)
         {
@@ -177,7 +168,42 @@ public static class Define
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
         return state;
     }
+    public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<ProfileInfoTextDataSO> needInfoList, List<int> infoIDList)
+    {
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return CursorChangeSystem.ECursorState.Default;
+        }
 
+
+        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
+        if (needInfoList.Count > 0)
+        {
+            foreach (ProfileInfoTextDataSO needData in needInfoList)
+            {
+                if (!DataManager.Inst.IsProfileInfoData(needData.id))
+                {
+                    EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
+                    return CursorChangeSystem.ECursorState.Default;
+                }
+            }
+        }
+        foreach (var infoID in infoIDList)
+        {
+            if (DataManager.Inst.IsProfileInfoData(infoID))
+            {
+                state = CursorChangeSystem.ECursorState.FoundInfo;
+            }
+            else
+            {
+                state = CursorChangeSystem.ECursorState.FindInfo;
+                break;
+            }
+
+        }
+        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
+        return state;
+    }
     public static bool CheckTodayDate(int day)
     {
         if(Constant.NOWDAY == day)
