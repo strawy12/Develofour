@@ -71,7 +71,7 @@ public class WindowPinInput : Window
     {
         if (pinInputField.text == file.windowPin)
         {
-            DataManager.Inst.SetFileLock(file.GetFileLocation(), false);
+            DataManager.Inst.SetFileLock(file.id, false);
 
             StartCoroutine(PinAnswerTextChange());
         }
@@ -96,7 +96,7 @@ public class WindowPinInput : Window
         ExceptionFile();
 
         WindowManager.Inst.WindowOpen(file.windowType, file);
-        DataManager.Inst.SetFileLock(file.GetFileLocation(), false);
+        DataManager.Inst.SetFileLock(file.id, false);
 
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file});
 

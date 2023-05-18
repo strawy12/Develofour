@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Window/Notepad/Data")]
-public class NotepadDataSO : SOParent
+public class NotepadDataSO : ScriptableObject
 {
-    public string fileName;
+    public int fileId;
     public bool readOnly = true;
 
     public NotepadBody notepadBody;
@@ -21,15 +21,4 @@ public class NotepadDataSO : SOParent
             scripts = notepadBody.GetComponent<TMPro.TMP_InputField>().text;
         }
     }
-
-    public override void Setting(string[] ps)
-    {
-        fileName = ps[1];
-        string temp = ps[2];
-        temp = temp.Replace("\\n", "\n");
-        scripts = temp;
-    }
-
-
-
 }

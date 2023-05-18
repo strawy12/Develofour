@@ -4,21 +4,6 @@ using UnityEditor;
 using System.Collections.Generic;
 
 [System.Serializable]
-public struct DateTime
-{
-    // 추후 변수 추가 예정
-    public int year;
-    public int month;
-    public int day; 
-    public DateTime(int _year, int _month, int _day)
-    {
-        year = _year;
-        month = _month;
-        day = _day;
-    }
-}
-
-[System.Serializable]
 public struct WindowIconData
 {
     public float bytes;
@@ -29,7 +14,7 @@ public struct WindowIconData
 }
 
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
-public class FileSO : SOParent
+public class FileSO : ScriptableObject
 {
     public int id;
 
@@ -151,35 +136,6 @@ public class FileSO : SOParent
     public void FixFile()
     {
         // FixDate 시간을 변경해줄 예정
-    }
-
-
-
-    public override void Setting(string[] str)
-    {
-#if UNITY_EDITOR
-        DirectorySO directory = SOEditorCodeUtill.GetAssetFileLoadPath(str[0]) as DirectorySO;
-        try
-        {
-            windowType = (EWindowType)Enum.Parse(typeof(EWindowType), str[3]);
-        }
-        catch
-        {
-            string path = "D:/unityproject/Develofour/Assets\02.Scripts/UI/Window/Window.cs";
-
-            SOEditorCodeUtill.AddEnum(path, str[3]);
-            windowType = (EWindowType)Enum.Parse(typeof(EWindowType), str[3]);
-
-        }
-        fileName = str[4];
-        fileData.bytes = int.Parse(str[5]);
-        fileData.madeDate = str[6];
-        fileData.lastFixDate = str[7];
-        fileData.lastAccessDate = str[8];
-       // isWindowLockClear = ReturnBool(str[10]);
-        windowPin = str[11];
-        windowPinHintGuide = str[12];
-#endif
     }
 
     private bool ReturnBool(string str)

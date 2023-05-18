@@ -5,6 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Shortcut/HarmonyShortcut")]
 public class HarmonyShortcutDataSO : ScriptableObject
 {
-    public string fileName;
+    public int fileId;
     public string chattingName;
 }

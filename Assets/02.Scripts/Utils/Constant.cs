@@ -26,10 +26,16 @@ public static partial class Constant
     public const float POLICE_REPLY_DELAY = 2f;
 
     public const string CALLLOGLOCATION = "내 PC\\CallLog\\";
+    public static readonly System.DateTime DEFAULTDATE = new System.DateTime(2023, 10, 22, 7, 3, 0);
     #region File
-    public const string USB_FILENAME = "BestUSB";
-    public const string ZOOGLEPASSWORDLOCATION = "User\\C\\내 문서\\Zoogle\\Zoogle비밀번호\\";
-    public const string ZOOGLEPINLOCATION = "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\";
+    public static class FileID
+    {
+        public const int USB = 6;
+        public const int ZOOGLEPIN = 23;
+        public const int ZOOGLEPASSWORD = 24;
+    }
+
+
     #endregion
     #region ProfileInfoKey
     public static class ProfileInfoKey
@@ -71,7 +77,6 @@ public static partial class Constant
         public const int CHATTINGWITHFRIENDS = 25;
         public const int PETPRESCRIPTIONTITLE = 26;
         public const int SUSPECTHOMENAME = 27;
-        public const int PETNAMECLICK = 28;
         public const int PETGUARDIANSUSPECT = 29;
         public const int COUPLETOFIGHTVIDEO = 30;
         public const int VICTIMDIETIMECLICK = 31;
@@ -87,14 +92,14 @@ public static partial class Constant
         public const int CCTVENDVIEWVIDEO = 41;
         public const int VICTIMLASTCALLING = 42;
         public const int FANSIGNINGEVENTTOGETHER = 43;
-        public const int LIKEGIRLGROUPNEWSERAPHIM = 44;
+        public const int LIKEGIRLGROUPNEWSSERAFIM = 44;
         public const int CURFEWTIMEACQ = 45;
         public const int ALUMINUMBATBUYMAIL = 46;
         public const int ETERNALLANDPHOTOOPEN = 47;
-        public const int PETGRASSFIELDWALKDIARY = 48;
+        public const int PETGRASSFIELDWALKDIARY = 46;
         public const int ZOOGLEPASSWORDGET = 49;
         public const int GIRLFRIENDCALLTOMARCH19 = 50;
-        public const int NEWSERAFIMEALBUMBUYPHOTO = 51;
+        public const int NEWSSERAFIMALBUMBUYPHOTO = 51;
         public const int ALBUMPHOTOTODIARY = 52;
         public const int MENTALDRUGPRESCRIPTION = 53;
         public const int DRUGTYPEPHOTO = 54;
@@ -109,7 +114,7 @@ public static partial class Constant
         public const int CONVERSATIONSFEMALECHAT = 63;
         public const int PETHOSPITALHARMONYCHAT = 64;
         public const int MURDERBODYLOCATIONGLOVES = 65;
-        public const int PETDIETOGIRLFRIENDDIARY = 66;
+        public const int JUYOUNGRESENTMENT = 66;
         public const int CONFESSIONTOCOUPLE = 67;
         public const int HITFORGIRLFRIEND = 68;
         public const int YUJINPROPOSAL = 69;
@@ -166,6 +171,13 @@ public static partial class Constant
         public const int CONFESSED = 120;
         public const int HITBYGIRLFRIEND = 121;
         public const int INCIDENTREPORTREPORTTIME = 122;
+        public const int LOVEFORDOG = 123;
+        public const int NEWSSERAFIMFANMEETING = 124;
+        public const int AZIDEAD = 125;
+        public const int OFFERYUJIN = 127;
+        public const int DEADJUYOUNG = 128;
+        public const int WHOISYUJIN = 129;
     }
     #endregion
+    //Test
 }

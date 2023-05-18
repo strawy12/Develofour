@@ -7,9 +7,12 @@ using UnityEngine.UI;
 
 public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    /// <summary>
+    /// 정보들 id들 넣는 곳입니다.
+    /// </summary>
+    [SerializeField] protected List<int> infoDataIDList;
     [SerializeField] protected List<int> needInfoIDList;
     [SerializeField] protected List<int> linkInfoIDList;
-    [SerializeField] protected List<int> infoDataIDList;
     [SerializeField] protected Image backgroundImage;
 
     protected List<ProfileInfoTextDataSO> infomaitionDataList;

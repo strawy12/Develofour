@@ -236,7 +236,18 @@ public class SOSettingWindow : EditorWindow
                 idx++;
             }
 
-            temp += "    }\n    #endregion\n}";
+            while(!line.Contains('}'))
+            {
+                line = sr.ReadLine();
+            }
+
+            temp += line + '\n';
+
+            while (!sr.EndOfStream)
+            {
+                line = sr.ReadLine();
+                temp += line + '\n';
+            }
 
             sr.Close();
         }

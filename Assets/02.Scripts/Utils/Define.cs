@@ -252,6 +252,8 @@ public static class Define
 
     public static bool MonologLockDecisionFlag(List<MonologLockDecision> list)
     {
+        if (list == null) return true;
+
         foreach(MonologLockDecision decision in list)
         {
             switch (decision.decisionType)

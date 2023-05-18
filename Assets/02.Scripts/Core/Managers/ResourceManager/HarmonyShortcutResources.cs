@@ -6,9 +6,9 @@ using UnityEngine.AddressableAssets;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-    private Dictionary<string, HarmonyShortcutDataSO> harmonyShortcutDataResourcesList;
+    private Dictionary<int, HarmonyShortcutDataSO> harmonyShortcutDataResourcesList;
 
-    public HarmonyShortcutDataSO GetHarmonyShortcutData(string key)
+    public HarmonyShortcutDataSO GetHarmonyShortcutData(int key)
     {
         if(harmonyShortcutDataResourcesList.ContainsKey(key))
         {
@@ -16,13 +16,13 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         }
         return null;
     }
-    public Dictionary<string, HarmonyShortcutDataSO> GetHarmonyShortcutDataList()
+    public Dictionary<int, HarmonyShortcutDataSO> GetHarmonyShortcutDataList()
     {
         return harmonyShortcutDataResourcesList;
     }
     private async void LoadHarmonyShortcutDataResourcesAssets(Action callBack)
     {
-        harmonyShortcutDataResourcesList = new Dictionary<string, HarmonyShortcutDataSO>();
+        harmonyShortcutDataResourcesList = new Dictionary<int, HarmonyShortcutDataSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("HarmonyShortcutData", typeof(HarmonyShortcutDataSO));
         await handle.Task;
@@ -31,7 +31,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<HarmonyShortcutDataSO>(handle.Result[i]).Task;
             await task;
 
-            harmonyShortcutDataResourcesList.Add(task.Result.fileName, task.Result);
+            harmonyShortcutDataResourcesList.Add(task.Result.fileId, task.Result);
         }
 
         Addressables.Release(handle);

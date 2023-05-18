@@ -64,7 +64,7 @@ public partial class MediaPlayer : Window
     {
         base.Init();
 
-        mediaPlayerData = ResourceManager.Inst.GetMediaPlayerData(file.GetFileLocation());
+        mediaPlayerData = ResourceManager.Inst.GetMediaPlayerData(file.id);
 
         if(mediaPlayerData.body != null)
         {
@@ -82,7 +82,8 @@ public partial class MediaPlayer : Window
         cdPlayMedia.Init();
         ButtonActionInit();
         audioSource = GetComponent<AudioSource>();
-        
+
+        //mediaPlayerData = ResourceManager.Inst.GetMediaPlayerData(file.id);
         //infoFind = GetComponent<MediaPlayInfoFind>();
         //infoFind.Init(this);
 

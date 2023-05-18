@@ -21,6 +21,7 @@ public class GameScreenCoverPanel : MonoBehaviour
 
         bool value = (bool)ps[0];
 
+        Debug.Log(112);
         gameObject.SetActive(value);
     }
 }

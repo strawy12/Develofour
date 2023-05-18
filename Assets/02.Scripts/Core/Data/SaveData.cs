@@ -6,9 +6,10 @@ using UnityEngine.Rendering;
 [System.Serializable]
 public class FileLockData
 {
-    public string fileLocation;
+    public int id;
     public bool isLock = true;
 }
+
 [System.Serializable]
 public class MonologSaveData
 {
@@ -58,6 +59,7 @@ public class SaveData
     public List<string> branchPostLockData;
     public List<string> savePhoneNumber;
     public List<MailSaveData> mailSaveData = new List<MailSaveData>();
+    public List<ReturnMonologData> returnMonologData;
 
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
@@ -71,6 +73,8 @@ public class SaveData
 
     public string branchPassword;
     public bool isOnceOpenWindowProperty;
+
+    public int CurrentTimeData;
 }
 
 

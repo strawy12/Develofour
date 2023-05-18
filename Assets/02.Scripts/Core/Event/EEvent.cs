@@ -196,10 +196,16 @@ public enum EMonologEvent
 {
     None = -1,
     MonologException,
+    MonologEnd,
 }
 public enum ECallEvent
 {
     None = -1,
     AddAutoCompleteCallBtn,
     CallInit,
+}
+public enum ETimeEvent
+{
+    None = -1,
+    ChangeTime,
 }
