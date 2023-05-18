@@ -40,15 +40,11 @@ public class ProfileWindow : Window
     [SerializeField]
     private ProfileInventoryElements elements;
 
-
-
     private bool isPanelOpen;
     private bool isMoving;
 
     //DataManager
-
     private ProfilePanelButton beforeClickButton;
-
 
     protected override void Init()
     {
@@ -79,8 +75,6 @@ public class ProfileWindow : Window
 
         ButtonBlackSetting();
     }
-
-
 
     private void ProfilerSelected()
     {
