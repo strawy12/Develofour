@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,13 +11,15 @@ public partial class MediaPlayer : Window
 {
     [Header("MediaUI")]
     [SerializeField]
-    private TMP_Text mediaDetailText;
-    [SerializeField]
     private MediaPlayerSlider mediaPlaySlider;
     [SerializeField]
     private TMP_Text mediaPlayTimeText;
-    [SerializeField]
-    private ScrollRect scroll;
+
+    public MediaPlayerBody body;
+    //[SerializeField]
+    private TMP_Text mediaDetailText; //ㅁㄴㅇㄹ
+    //[SerializeField]
+    private ScrollRect scroll; //ㅁㄴㅇㄹ
 
     [Header("MediaAdditionalScripts")]
     [SerializeField]
@@ -38,7 +40,8 @@ public partial class MediaPlayer : Window
 
     public Action OnEnd;
 
-    private MediaPlayInfoFind infoFind;
+    //private MediaPlayInfoFind infoFind;
+
 
     private float MediaLength
     {
@@ -61,15 +64,27 @@ public partial class MediaPlayer : Window
     {
         base.Init();
 
+        mediaPlayerData = ResourceManager.Inst.GetMediaPlayerData(file.GetFileLocation());
+
+        if(mediaPlayerData.body != null)
+        {
+            Transform parent = body.transform.parent;
+            Destroy(body.gameObject);
+            body = Instantiate(mediaPlayerData.body, parent);
+        }
+
+        mediaDetailText = body.mediaDetailText;
+        scroll = body.scroll;
+
         gameObject.SetActive(true);
 
         mediaPlayerDownBar.Init();
         cdPlayMedia.Init();
         ButtonActionInit();
         audioSource = GetComponent<AudioSource>();
-        mediaPlayerData = ResourceManager.Inst.GetMediaPlayerData(file.GetFileLocation());
-        infoFind = GetComponent<MediaPlayInfoFind>();
-        infoFind.Init(this);
+        
+        //infoFind = GetComponent<MediaPlayInfoFind>();
+        //infoFind.Init(this);
 
         mediaPlayerDownBar.mediaPlayFileName.SetText(mediaPlayerData.name);
 
@@ -102,7 +117,7 @@ public partial class MediaPlayer : Window
         mediaPlayerDownBar.StopButtonClick += cdPlayMedia.StopCdAnimation;
     }
 
-    private void PlayMediaPlayer() // �÷��� 
+    private void PlayMediaPlayer() // 플레이 
     {
         isPlaying = true;
         cdPlayMedia.PlayCdAnimation();
@@ -191,7 +206,7 @@ public partial class MediaPlayer : Window
 
     private void SetSliderMediaText(float t)
     {
-        float time = (t* MediaLength); // ��
+        float time = (t* MediaLength); // 초
 
 
         //mediaDetailText.text = notCommandString.Substring(0, TimeToIndex(time));

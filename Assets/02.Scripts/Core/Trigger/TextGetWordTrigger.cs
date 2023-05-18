@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,32 +6,30 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using ECursorState = CursorChangeSystem.ECursorState;
 
-
 public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerClickHandler, IPointerExitHandler
 {
-    [SerializeField]
-    private int monoLogType;
-    [SerializeField]
-    private float delay;
+    [System.Serializable]
+    public class InfoClass
+    {
+        public int infoId;
+        public string text;
+        public int monologId;
+        
+        public List<int> needInformaitonList = new List<int>();
+    }
 
+    [SerializeField] 
+    private List<InfoClass> infoDataList;
+
+
+    [SerializeField]
     private TMP_Text textMeshPro;
 
     [SerializeField]
     private Image infoImage;
 
-    [SerializeField]
-    private List<ProfileInfoTextDataSO> needInformaitonList;
-
     private string word;
     private int wordStartIndex;
-
-    private EProfileCategory category;
-    private int infoID;
-
-    private void Start()
-    {
-        textMeshPro = GetComponent<TMP_Text>();
-    }
 
     public void OnPointerMove(PointerEventData eventData)
     {
@@ -39,8 +37,20 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
         if (word != null)
         {
-            ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, infoID);
-            GetSize(isListFinder);
+            //있는 단어인지 확인
+            foreach(var info in infoDataList)
+            {
+                if(info.text == word) //있다면
+                {
+                    //해당 정보 하이라이트
+                    ECursorState isListFinder = Define.ChangeInfoCursor(info.needInformaitonList, info.infoId);
+                    GetSize(isListFinder);
+                }
+            }
+        }
+        else
+        {
+            infoImage.gameObject.SetActive(false);
         }
     }
 
@@ -58,41 +68,26 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
                 return;
             }
 
-            Debug.Log(word);
-
-            object[] value = GetProfilerWordSystem.OnGeneratedProfiler?.Invoke(word);
-
-            if (value == null)
-                return;
-
-            category = (EProfileCategory)value[1];
-            infoID = (int)value[0];
-
-            if (!DataManager.Inst.IsProfileInfoData(infoID))
+            foreach (var info in infoDataList)
             {
-                if (needInformaitonList.Count == 0)
+                if (info.text == word) //있다면
                 {
-                    if (category != EProfileCategory.None)
+                    if(info.needInformaitonList.Count != 0)
                     {
-                        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, infoID, null });
-                    }
-                    else
-                    {
-                        MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-                    }
-                 
-                    GetSize(GetProfilerWordSystem.OnFindWord.Invoke(word));
-                }
-                else
-                {
-                    foreach (ProfileInfoTextDataSO needData in needInformaitonList)
-                    {
-                        MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-                        return;
+                        foreach (int needData in info.needInformaitonList)
+                        {
+                            if (!DataManager.Inst.IsProfileInfoData(needData))
+                            {
+                                return;
+                            }
+                        }
                     }
 
-                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, infoID, null });
-                    GetSize(GetProfilerWordSystem.OnFindWord.Invoke(word));
+                    var data = ResourceManager.Inst.GetProfileInfoData(info.infoId);
+                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { data.category, info.infoId });
+                    MonologSystem.OnStartMonolog(info.monologId, 0, false);
+                    ECursorState isListFinder = Define.ChangeInfoCursor(info.needInformaitonList, info.infoId);
+                    GetSize(isListFinder);
                 }
             }
         }
@@ -184,6 +179,7 @@ public class TextGetWordTrigger : MonoBehaviour, IPointerMoveHandler, IPointerCl
 
         int startIndex = wordStartIndex;
         int endIndex = startIndex + word.Length - 1;
+        if (startIndex == -1) startIndex = 0;
         TMP_CharacterInfo startInfo = textMeshPro.textInfo.characterInfo[startIndex];
         TMP_CharacterInfo endInfo = textMeshPro.textInfo.characterInfo[endIndex];
 
