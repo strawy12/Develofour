@@ -7,16 +7,16 @@ using UnityEngine.AddressableAssets;
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
 
-    private Dictionary<string, VideoPlayerDataSO> videoPlayerDictionary;
+    private Dictionary<int, VideoPlayerDataSO> videoPlayerDictionary;
 
-    public VideoPlayerDataSO GetVideoPlayerData(string fileName)
+    public VideoPlayerDataSO GetVideoPlayerData(int key)
     {
-        return videoPlayerDictionary[fileName];
+        return videoPlayerDictionary[key];
     }
 
     private async void LoadVideoPlayercDataAssets(Action callBack)
     {
-        videoPlayerDictionary = new Dictionary<string, VideoPlayerDataSO>();
+        videoPlayerDictionary = new Dictionary<int, VideoPlayerDataSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("VideoPlayerData");
         // ImageViewerData 이 Label을 들고있는 데이터들의 경로를 리스트로 묶어서 불러오는 거
@@ -30,7 +30,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<VideoPlayerDataSO>(handle.Result[i]).Task;
             await task;
 
-            videoPlayerDictionary.Add(task.Result.fileName, task.Result);
+            videoPlayerDictionary.Add(task.Result.fileId, task.Result);
         }
 
         Addressables.Release(handle);

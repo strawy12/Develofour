@@ -284,7 +284,7 @@ public class FileManager : MonoSingleton<FileManager>
 
     private float SearchNotePad(string word, FileSO file)
     {
-        string infoString = ResourceManager.Inst.GetNotepadData(file.GetFileLocation()).scripts;
+        string infoString = ResourceManager.Inst.GetNotepadData(file.id).scripts;
         float weight = 0f;
 
         string[] infoWords = infoString.Split(" ");
