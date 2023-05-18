@@ -75,6 +75,10 @@ public class SaveData
     public bool isOnceOpenWindowProperty;
 
     public int CurrentTimeData;
+
+    public bool isTutorialLibrary;
+    public bool isTutorialUSB;
+    public bool isTutorialReport;
 }
 
 

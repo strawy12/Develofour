@@ -13,6 +13,12 @@ public class ProfileTutorial : MonoBehaviour
     private float findNameGuideDelay = 60f;
     [SerializeField]
     private FileSO profiler;
+    [SerializeField]
+    private RectTransform libraryRect;
+    [SerializeField]
+    private RectTransform USBRect;
+    [SerializeField]
+    private RectTransform reportRect;
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, CreatePopUp);
@@ -55,6 +61,9 @@ public class ProfileTutorial : MonoBehaviour
     private void StartDelay()
     {
         ProfileChattingSystem.OnChatEnd -= StartDelay;
+
+        GuideUISystem.OnGuide(libraryRect);
+
         StartCoroutine(FindNameCoroutine());
     }
 
@@ -68,6 +77,7 @@ public class ProfileTutorial : MonoBehaviour
     {
         ProfileChattingSystem.OnChatEnd += () =>
         {
+            Debug.Log("으악!");
             EventManager.TriggerEvent(ETutorialEvent.SearchBtnGuide);
             EventManager.StartListening(ETutorialEvent.ClickSearchBtn, StartSearchName);
         };

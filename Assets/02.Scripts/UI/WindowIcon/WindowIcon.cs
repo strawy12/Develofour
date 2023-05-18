@@ -54,6 +54,28 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
+
+        if(fileData.id == 11 && GameManager.Inst.GameState == EGameState.Tutorial) //유저 (라이브러리)
+        {
+            EventManager.StartListening(ETutorialEvent.LibraryTutorial, (ps) =>
+            GuideUISystem.EndAllGuide?.Invoke();
+            EventManager.TriggerEvent()
+            //이벤트 끝내고 //가이드 ui 해주고//
+            //);
+        }
+
+        if (fileData.id == 6 && GameManager.Inst.GameState == EGameState.Tutorial) //유저 (라이브러리)
+        {
+            EventManager.StartListening(ETutorialEvent)
+        }
+
+        if (fileData.id == 5 && GameManager.Inst.GameState == EGameState.Tutorial) //유저 (라이브러리)
+        {
+            EventSystem.
+        }
+        //데이터 매니저로 확인하고
+        //gamestate가 튜토리얼이라면
+        //library, usb, report에 각각 이벤트 넣어줘~
     }
 
     public void SetFileData(FileSO newFileData)
