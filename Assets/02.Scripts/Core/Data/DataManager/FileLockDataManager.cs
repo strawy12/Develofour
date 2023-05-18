@@ -14,7 +14,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         {
             if (file.isFileLock == true)
             {
-                saveData.FileLockData.Add(new FileLockData() { fileLocation = file.GetFileLocation(), isLock = true });
+                saveData.FileLockData.Add(new FileLockData() { id = file.id, isLock = true });
             }
         }
 
@@ -22,9 +22,9 @@ public partial class DataManager : MonoSingleton<DataManager>
         //saveData.FileLockData.OrderBy(x => Animator.StringToHash(x.fileLocation));
     }
 
-    public bool IsFileLock(string fileLocation)
+    public bool IsFileLock(int id)
     {
-        FileLockData data = saveData.FileLockData.Find(x => x.fileLocation == fileLocation);
+        FileLockData data = saveData.FileLockData.Find(x => x.id == id);
 
         if (data == null)
         {
@@ -34,9 +34,9 @@ public partial class DataManager : MonoSingleton<DataManager>
         return data.isLock;
     }
 
-    public void SetFileLock(string fileLocation, bool value)
+    public void SetFileLock(int id, bool value)
     {
-        FileLockData data = saveData.FileLockData.Find(x => x.fileLocation == fileLocation);
+        FileLockData data = saveData.FileLockData.Find(x => x.id == id);
 
         if (data != null)
         {

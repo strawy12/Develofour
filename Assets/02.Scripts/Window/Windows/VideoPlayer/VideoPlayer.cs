@@ -20,7 +20,7 @@ public class VideoPlayer : Window
     {
         base.Init();
 
-        data = ResourceManager.Inst.GetVideoPlayerData(file.GetFileLocation());
+        data = ResourceManager.Inst.GetVideoPlayerData(file.id);
 
         if(data == null)
         {

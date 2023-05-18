@@ -14,7 +14,7 @@ public enum EImageExtensionType
 [CreateAssetMenu(menuName = "SO/Window/ImageViewer/Data")]  
 public class ImageViewerDataSO : ScriptableObject
 {
-    public string fileName;
+    public int id;
     public string imageName;
     public ImageViewerBody imageBody;
     public Sprite sprite;
@@ -23,7 +23,7 @@ public class ImageViewerDataSO : ScriptableObject
     [ContextMenu("SetSprite")]
     public void SetSprite()
     {
-        if(imageBody !=null)
+        if(imageBody != null)
         {
             sprite = imageBody.GetComponent<UnityEngine.UI.Image>().sprite;
         }

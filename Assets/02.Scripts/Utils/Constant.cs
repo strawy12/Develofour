@@ -27,9 +27,14 @@ public static partial class Constant
 
     public const string CALLLOGLOCATION = "내 PC\\CallLog\\";
     #region File
-    public const string USB_FILENAME = "BestUSB";
-    public const string ZOOGLEPASSWORDLOCATION = "User\\C\\내 문서\\Zoogle\\Zoogle비밀번호\\";
-    public const string ZOOGLEPINLOCATION = "User\\C\\내 문서\\Zoogle\\ZooglePIN번호\\";
+    public static class FileID
+    {
+        public const int USB = 6;
+        public const int ZOOGLEPIN = 23;
+        public const int ZOOGLEPASSWORD = 24;
+    }
+
+
     #endregion
     #region ProfileInfoKey
     public static class ProfileInfoKey
