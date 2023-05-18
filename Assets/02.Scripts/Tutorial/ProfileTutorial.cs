@@ -114,7 +114,7 @@ public class ProfileTutorial : MonoBehaviour
 
         GameManager.Inst.ChangeGameState(EGameState.Game);
 
-        MonologSystem.OnEndMonologEvent += () => EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[] { "01012345678" }); 
+        MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[] { "01012345678" }); 
         CallSystem.Inst.OnAnswerCall(ECharacterDataType.Assistant, Constant.MonologKey.ENDPROFILETUTORIALCHATLOG);
     }
 }

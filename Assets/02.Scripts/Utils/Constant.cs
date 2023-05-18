@@ -173,4 +173,6 @@ public static partial class Constant
         public const int INCIDENTREPORTREPORTTIME = 122;
     }
     #endregion
+
+    public static readonly System.DateTime DEFAULTDATE = new System.DateTime(2023, 10, 22, 7, 3, 0);
 }

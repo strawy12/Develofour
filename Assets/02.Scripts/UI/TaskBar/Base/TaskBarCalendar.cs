@@ -1,50 +1,89 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-
-public class TaskBarCalendar : MonoBehaviour/*, IPointerEnterHandler, IPointerExitHandler*/
+public enum EMeridiems
 {
-    //public enum EMeridiems
-    //{
-    //    AM,
-    //    PM
-    //}
-    //[SerializeField]
-    //private TMP_Text timeText;
-    //[SerializeField]
-    //private TMP_Text dayText;
-    //[SerializeField]
-    //private Image highlightImage;
-    //private DateTime dateTime;
-    //private string meridiemText;
+    AM,
+    PM
+}
 
-    //public void SetDateTime(int year, int month, int day, int hour, int minute, int second, EMeridiems meridiem = EMeridiems.PM)
-    //{
-    //    if (hour > 12)
-    //    {
-    //        hour = hour - 12;
-    //        meridiem = EMeridiems.PM;
-    //    }
-    //    dateTime = new DateTime(year, month, day, hour, minute, second);
-    //    meridiemText = meridiem == EMeridiems.AM ? "¿ÀÀü" : "¿ÀÈÄ";
-    //    SetText();
-    //}
-    //public void SetText()
-    //{
-    //    timeText.text = $"{meridiemText}  {dateTime.Hour}:{dateTime.Minute}";
-    //    dayText.text = $"{dateTime.Year}-{dateTime.Month}-{dateTime.Date}";
-    //}
+public class TaskBarCalendar : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
+    [SerializeField]
+    private TMP_Text timeText;
+    [SerializeField]
+    private TMP_Text dayText;
+    [SerializeField]
+    private Image highlightImage;
+    private System.DateTime dateTime;
+    private string meridiemText;
+    private EMeridiems meridiem;
+    private int hour;
+    string hourText;
+    string minuteText;
 
-    //public void OnPointerExit(PointerEventData eventData)
-    //{
-    //    highlightImage.gameObject.SetActive(false);
-    //}
+    void Start()
+    {
+        EventManager.StartListening(ETimeEvent.ChangeTime, SetDateTime);
+    }
 
-    //public void OnPointerEnter(PointerEventData eventData)
-    //{
-    //    highlightImage.gameObject.SetActive(true);
-    //}
+    public void SetDateTime(object[] ps)
+    {
+        if(!(ps[0] is System.DateTime))
+        {
+            return;
+        }
+
+        dateTime = (System.DateTime)ps[0];
+
+        if (dateTime.Hour > 12)
+        {
+            hour = dateTime.Hour - 12;
+            meridiem = EMeridiems.PM;
+        }
+        else
+        {
+            hour = dateTime.Hour;
+            meridiem = EMeridiems.AM;
+        }
+
+        meridiemText = meridiem == EMeridiems.AM ? "ì˜¤ì „" : "ì˜¤í›„";
+
+        if (hour < 10)
+        {
+            hourText = "0" + hour.ToString();
+        }
+        else
+        {
+            hourText = hour.ToString();
+        }
+
+        if (dateTime.Minute < 10)
+        {
+            minuteText = "0" + dateTime.Minute.ToString();
+        }
+        else
+        {
+            minuteText = dateTime.Minute.ToString();
+        }
+        SetText();
+    }
+    public void SetText()
+    {
+        timeText.text = $"{meridiemText}  {hourText}:{minuteText}";
+        dayText.text = $"{dateTime.Year}-{dateTime.Month}-{dateTime.Day}";
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        highlightImage.gameObject.SetActive(false);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        highlightImage.gameObject.SetActive(true);
+    }
 }

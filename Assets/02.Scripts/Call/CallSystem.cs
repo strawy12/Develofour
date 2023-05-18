@@ -32,25 +32,61 @@ public class CallSystem : MonoSingleton<CallSystem>
     public Transform selectButtonParent;
     public CallSelectButton selectButton;
 
-    public int requestLogID;
-    public float requestDelay;
+    [SerializeField]
+    private float deflaultDelayTime = 10f;
 
     public void Start()
     {
-        answerBtn.gameObject.SetActive(false);
-        spectrumUI.gameObject.SetActive(false);
+        GameManager.Inst.OnStartCallback += Init;
+    }
 
-        Init();
+    private IEnumerator RepeatCheckReturnCall()
+    {
+        yield break;
+        while (true)
+        {
+            yield return new WaitForSeconds(deflaultDelayTime);
+
+            Debug.Log("checkDelayEnd");
+            DecisionCheck();
+        }
     }
 
     private void Init()
     {
+        answerBtn.gameObject.SetActive(false);
+        spectrumUI.gameObject.SetActive(false);
+
+        EventManager.StartListening(EMonologEvent.MonologEnd, DecisionCheck);
+        EventManager.StartListening(EProfileEvent.FindInfoInProfile, DecisionCheck);
+
         spectrumUI.Init();
+
+        StartCoroutine(RepeatCheckReturnCall());
+    }
+
+    public void DecisionCheck(object[] ps = null)
+    {
+        List<ReturnMonologData> list = DataManager.Inst.GetReturnDataList();
+
+        foreach (ReturnMonologData data in list)
+        {
+            Debug.Log($"{data.EndDelayTime}_{DataManager.Inst.GetCurrentTime()}");
+
+            if (data.EndDelayTime < DataManager.Inst.GetCurrentTime())
+                continue;
+
+            if (Define.MonologLockDecisionFlag(data.decisions))
+            {
+                OnAnswerCall(data.characterType, data.MonologID);
+            }
+        }
     }
 
     // 얘는 결국에는 받는 전용
     public void OnAnswerCall(ECharacterDataType characterType, int monologType)
     {
+        if (characterType == ECharacterDataType.None) return;
         CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
         SetCallUI(charSO);
 
@@ -70,9 +106,9 @@ public class CallSystem : MonoSingleton<CallSystem>
         RequestCallDataSO callData = ResourceManager.Inst.GetRequestCallData(data.characterType);
 
         int result = -1;
-        if (callData!=null && Define.MonologLockDecisionFlag(callData.defaultDecisions))
+        if (callData != null && Define.MonologLockDecisionFlag(callData.defaultDecisions))
         {
-            MonologSystem.OnEndMonologEvent += () => SetMonologSelector(callData);
+            MonologSystem.OnEndMonologEvent = () => SetMonologSelector(callData);
             result = callData.defaultMonologID;
         }
 
@@ -97,6 +133,8 @@ public class CallSystem : MonoSingleton<CallSystem>
 
             int num = i;
             MonologLockData lockData = callData.monologLockList[i];
+            lockData.returnMonologData.characterType = callData.characterType;
+
             CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
             MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(lockData.monologID);
             buttonList.Add(instance);
@@ -104,10 +142,11 @@ public class CallSystem : MonoSingleton<CallSystem>
             instance.btnText.text = textData.monologName;
             instance.btn.onClick.AddListener(() =>
             {
-                StartMonolog(textData.TextDataType, callData.characterType,lockData.answerMonologID, lockData.answerDelay);
+                HideSelectBtns();
+                StartMonolog(textData.TextDataType, lockData);
             });
-            instance.gameObject.SetActive(true);
 
+            instance.gameObject.SetActive(true);
             spawnCnt++;
         }
 
@@ -128,7 +167,6 @@ public class CallSystem : MonoSingleton<CallSystem>
         yield return PlayPhoneCallSound(delay);
         if (monologType != -1)
         {
-            //MonologSystem.OnEndMonologEvent += Hide;
             MonologSystem.OnStartMonolog?.Invoke(monologType, 0, true);
         }
         else
@@ -189,18 +227,32 @@ public class CallSystem : MonoSingleton<CallSystem>
         profileIcon.sprite = data.profileIcon;
     }
 
-    public void StartMonolog(int monologType, ECharacterDataType type = ECharacterDataType.None, int afterMonologId = -1, float delay = 0f)
+    private int cnt = 100;
+
+    public void StartMonolog(int monologType, MonologLockData data = null)
     {
+        if (cnt-- < 0)
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+            return;
+        }
         //저장쪽은 나중에 생각
         // 딜레이 후 해당 독백이 실행되는 작업 해야함
 
-        requestLogID = afterMonologId;
-        requestDelay = delay;
-        
-        MonologSystem.OnEndMonologEvent += Hide;
-        MonologSystem.OnEndMonologEvent += () => DelayAnswerCall(type, afterMonologId, delay);
+        Debug.Log("Hide");
+        MonologSystem.OnEndMonologEvent = Hide;
+        //MonologSystem.OnEndMonologEvent += () => SaveReturnMonolog(data);
 
-        MonologSystem.OnStartMonolog.Invoke(monologType, 0, false);
+        MonologSystem.OnStartMonolog?.Invoke(monologType, 0, false);
+    }
+
+    public void SaveReturnMonolog(MonologLockData data)
+    {
+        if (data == null)
+            return;
+
+        if (data.returnMonologData.characterType == ECharacterDataType.None || data.returnMonologData.MonologID == 0) return;
+        DataManager.Inst.AddReturnData(data.returnMonologData);
     }
 
     public void Show(bool isShake)
@@ -209,7 +261,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         {
             StartCoroutine(PhoneSoundCor());
         }
-        EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { true });
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
         transform.DOLocalMoveX(770, 0.5f).SetEase(Ease.Linear);
     }
 
@@ -225,28 +277,23 @@ public class CallSystem : MonoSingleton<CallSystem>
         isRecieveCall = false;
     }
 
-    public void DelayAnswerCall(ECharacterDataType type, int monologID, float delay)
-    {
-        StartCoroutine(DelayAnswerCallCo(type, monologID, delay));
-    }
 
-    private IEnumerator DelayAnswerCallCo(ECharacterDataType type, int monologID, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        OnAnswerCall(type, monologID);
-    }
-
-    // 전화를 받았을 때 시작 
     public void Hide()
     {
+        Debug.Log("Hid2e");
         transform.DOKill(true);
         Sound.OnImmediatelyStop(Sound.EAudioType.PhoneCall);
-        EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { false });
+        GameManager.Inst.ChangeGameState(EGameState.Game);
 
         StopAllCoroutines();
         transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
         spectrumUI.StopSpectrum();
 
+        HideSelectBtns();
+    }
+
+    private void HideSelectBtns()
+    {
         buttonList.ForEach(x => Destroy(x.gameObject));
         buttonList.Clear();
     }

@@ -4,21 +4,6 @@ using UnityEditor;
 using System.Collections.Generic;
 
 [System.Serializable]
-public struct DateTime
-{
-    // 추후 변수 추가 예정
-    public int year;
-    public int month;
-    public int day; 
-    public DateTime(int _year, int _month, int _day)
-    {
-        year = _year;
-        month = _month;
-        day = _day;
-    }
-}
-
-[System.Serializable]
 public struct WindowIconData
 {
     public float bytes;
