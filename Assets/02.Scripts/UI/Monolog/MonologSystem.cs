@@ -53,8 +53,11 @@ public partial class MonologSystem : TextSystem
     private void EndMonolog()
     {
         textBox.HideBox();
+
         InputManager.Inst.RemoveAnyKeyInput(onKeyDown: PrintText);
         GameManager.Inst.ChangeGameState(beforeGameState);
+
+        EventManager.TriggerEvent(EMonologEvent.MonologEnd);
 
         textBox.DictionaryClear();
 

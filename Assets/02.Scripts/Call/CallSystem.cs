@@ -32,13 +32,13 @@ public class CallSystem : MonoSingleton<CallSystem>
     public Transform selectButtonParent;
     public CallSelectButton selectButton;
 
-    public int requestLogID;
-    public float requestDelay;
-
     public void Start()
     {
         answerBtn.gameObject.SetActive(false);
         spectrumUI.gameObject.SetActive(false);
+
+        EventManager.StartListening(EMonologEvent.MonologEnd, DecisionCheck);
+        EventManager.StartListening(EProfileEvent.FindInfoInProfile, DecisionCheck);
 
         Init();
     }
@@ -46,6 +46,22 @@ public class CallSystem : MonoSingleton<CallSystem>
     private void Init()
     {
         spectrumUI.Init();
+    }
+
+    public void DecisionCheck(object[] ps = null)
+    {
+        List<ReturnMonologData> list = DataManager.Inst.GetReturnDataList();
+
+        foreach(ReturnMonologData data in list) 
+        {
+            // 아직 딜레이 타임이 존재하는 경우 무시한다
+            //if (data.EndDelayTime > Time.deltaTime) continue;
+
+            if(Define.MonologLockDecisionFlag(data.decisions))
+            {
+                OnAnswerCall(data.CharacterType, data.MonologID);
+            }
+        }
     }
 
     // 얘는 결국에는 받는 전용
@@ -104,9 +120,9 @@ public class CallSystem : MonoSingleton<CallSystem>
             instance.btnText.text = textData.monologName;
             instance.btn.onClick.AddListener(() =>
             {
-                StartMonolog(textData.TextDataType, callData.characterType,lockData.answerMonologID, lockData.answerDelay);
+                StartMonolog(textData.TextDataType, lockData);
             });
-            instance.gameObject.SetActive(true);
+
 
             spawnCnt++;
         }
@@ -189,18 +205,23 @@ public class CallSystem : MonoSingleton<CallSystem>
         profileIcon.sprite = data.profileIcon;
     }
 
-    public void StartMonolog(int monologType, ECharacterDataType type = ECharacterDataType.None, int afterMonologId = -1, float delay = 0f)
+    public void StartMonolog(int monologType, MonologLockData data = null)
     {
         //저장쪽은 나중에 생각
         // 딜레이 후 해당 독백이 실행되는 작업 해야함
 
-        requestLogID = afterMonologId;
-        requestDelay = delay;
-        
         MonologSystem.OnEndMonologEvent += Hide;
-        MonologSystem.OnEndMonologEvent += () => DelayAnswerCall(type, afterMonologId, delay);
+        MonologSystem.OnEndMonologEvent += () => SaveReturnMonolog(data);
 
         MonologSystem.OnStartMonolog.Invoke(monologType, 0, false);
+    }
+
+    public void SaveReturnMonolog(MonologLockData data)
+    {
+        if (data == null)
+            return;
+
+        DataManager.Inst.AddReturnData(data.returnMonologData);
     }
 
     public void Show(bool isShake)
