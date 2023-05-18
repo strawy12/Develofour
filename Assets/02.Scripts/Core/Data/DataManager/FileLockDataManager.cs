@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,7 +18,7 @@ public partial class DataManager : MonoSingleton<DataManager>
             }
         }
 
-        // ÇØ½¬·Î Á¤·ÄÀ» ÇØµÖ¼­ Ã£´Â ¼Óµµ¸¦ ´õ¿í Áõ°¡ ½ÃÅ´
+        // í•´ì‰¬ë¡œ ì •ë ¬ì„ í•´ë‘¬ì„œ ì°¾ëŠ” ì†ë„ë¥¼ ë”ìš± ì¦ê°€ ì‹œí‚´
         //saveData.FileLockData.OrderBy(x => Animator.StringToHash(x.fileLocation));
     }
 
