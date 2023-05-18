@@ -236,18 +236,7 @@ public class SOSettingWindow : EditorWindow
                 idx++;
             }
 
-            while (!line.Contains('}'))
-            {
-                line = sr.ReadLine();
-            }
-
-            temp += line + '\n';
-
-            while (!sr.EndOfStream)
-            {
-                line = sr.ReadLine();
-                temp += line + '\n';
-            }
+            temp += "    }\n    #endregion\n}";
 
             sr.Close();
         }
@@ -268,14 +257,11 @@ public class SOSettingWindow : EditorWindow
 
         string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
         List<FileSO> fileSOList = new List<FileSO>();
-
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             fileSOList.Add(AssetDatabase.LoadAssetAtPath<FileSO>(path));
         }
-        List<FileSO> temp = fileSOList.ToList();
-
         for (int i = 0; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split('\t');
@@ -342,6 +328,7 @@ public class SOSettingWindow : EditorWindow
                 {
                     FileSO child = fileSOList.Find(x => x.id == childID);
                     if (child == null) continue;
+                    //Debug.Log($"{child}_{childID}");
                     child.parent = directory;
                     directory.children.Add(child);
                 }
@@ -360,13 +347,13 @@ public class SOSettingWindow : EditorWindow
                 CreateFolder(SO_PATH);
                 AssetDatabase.CreateAsset(file, SO_PATH);
             }
-
             else
             {
                 SO_PATH = SO_PATH.Replace("\\", "/");
+
                 CreateFolder(SO_PATH);
 
-                if (!File.Exists(SO_PATH) && columns[10] != ("추가 파일임"))
+                if (!File.Exists(SO_PATH) && string.IsNullOrEmpty(columns[9]))
                 {
                     string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());
                     AssetDatabase.MoveAsset(oldPath, SO_PATH);
@@ -374,10 +361,10 @@ public class SOSettingWindow : EditorWindow
             }
 
             EditorUtility.SetDirty(file);
-            temp.Remove(file);
-         }
+            fileSOList.Remove(file);
+        }
 
-        temp.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+        fileSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
 
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
