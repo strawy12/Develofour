@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +6,17 @@ using UnityEngine;
 [RequireComponent(typeof(MediaPlayer))]
 public class MediaPlayInfoFind : MonoBehaviour
 {
+    //이건 다 봤을때 정보 트리거 있어야할때
+    //다시 손봐야할듯
     private EProfileCategory category;
-    private int infoID;
+    private List<int> infoID = new List<int>();
     private void GetInfo()
     {
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, infoID, null });
+        foreach(var id in infoID)
+        {
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { category, id, null });
+        }
+
     }
 
     public void Init(MediaPlayer mediaPlayer)

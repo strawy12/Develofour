@@ -10,12 +10,15 @@ public class WindowLoginTimePanel : MonoBehaviour
     public TMP_Text dateText;
     private DateTime dateTime;
 
+    [SerializeField]
     string hourText;
+    [SerializeField]
     string minuteText;
 
     void Start()
     {
         EventManager.StartListening(ETimeEvent.ChangeTime, SetDateTime);
+        SetDateTime(new object[] { Constant.DEFAULTDATE });
     }
 
     public void SetDateTime(object[] ps)
@@ -42,7 +45,7 @@ public class WindowLoginTimePanel : MonoBehaviour
         }
         else
         {
-            minuteText = "0".ToString();
+            minuteText = dateTime.Minute.ToString();
         }
 
         SetText();

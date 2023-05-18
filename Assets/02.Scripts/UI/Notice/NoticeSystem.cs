@@ -296,6 +296,7 @@ public class NoticeSystem : MonoUI
 
     private void SaveNoticeData()
     {
+        if (!DataLoadingScreen.completedDataLoad) return;
         DataManager.Inst.SetNoticeDataSave(saveNoticeList);
     }
 
