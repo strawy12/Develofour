@@ -21,8 +21,7 @@ public class Library : Window
 
     [Header("Directory")]
     #endregion
-    [SerializeField]
-    public DirectorySO currentDirectory;
+    private DirectorySO currentDirectory;
 
     #region Redo & Undo
     [Header("Redo & Undo")]
