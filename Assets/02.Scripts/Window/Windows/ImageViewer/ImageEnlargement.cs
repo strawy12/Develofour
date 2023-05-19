@@ -45,7 +45,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         Vector2 originSize = size;
 
         size.x /= RATIOX;
-        size.y /= RATIOY;
+        size.y /= RATIOY; 
 
         image.rectTransform.sizeDelta = size;
     }
