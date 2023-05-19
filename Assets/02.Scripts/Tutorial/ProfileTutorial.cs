@@ -15,12 +15,6 @@ public class ProfileTutorial : MonoBehaviour
     private FileSO profiler;
     [SerializeField]
     private RectTransform libraryRect;
-    [SerializeField]
-    private RectTransform USBRect;
-    [SerializeField]
-    private RectTransform reportRect;
-    [SerializeField]
-    private Library library;
 
     [SerializeField]
     private int targetID = 76;
@@ -28,15 +22,10 @@ public class ProfileTutorial : MonoBehaviour
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, CreatePopUp);
-        //EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, delegate { StartCoroutine(NoticeProfileChattingTutorial()); });
-        //EventManager.StartListening(ETutorialEvent.EndClickInfoTutorial, StartCompleteProfileTutorial);
-
-        // 만약 USB 화면 들어가면
     }
 
     private void CreatePopUp(object[] ps)
     {
-        Debug.Log("OpenPop");
 #if UNITY_EDITOR
         WindowManager.Inst.PopupOpen(profiler, profileTutorialTextData.popText, () => StartTutorial(null), () => StartCompleteProfileTutorial());
 #else
@@ -52,17 +41,6 @@ public class ProfileTutorial : MonoBehaviour
     public void StartChatting(int textListIndex)
     {
         ProfileChattingSystem.OnPlayChatList?.Invoke(profileTutorialTextData.tutorialTexts[textListIndex].data, 1.5f, true);
-    }
-
-    private void LibraryClose()
-    {
-        Debug.Log("으악 챗 엔드");
-        if(WindowManager.Inst.IsExistWindow(EWindowType.Directory))
-        {
-            Library library = WindowManager.Inst.GetWindow(EWindowType.Directory, 11) as Library;
-            library.WindowClose();
-        }
-        
     }
 
     private IEnumerator StartProfileTutorial()
@@ -97,11 +75,7 @@ public class ProfileTutorial : MonoBehaviour
 
     private void StartDelay()
     {
-        //LibraryClose();
-        Debug.Log("왜안됨");
         GuideUISystem.OnGuide(libraryRect);
-
-        //StartCoroutine(FindNameCoroutine());
     }
 
     private void TutorialEnd()
@@ -109,41 +83,6 @@ public class ProfileTutorial : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Game);
         DataManager.Inst.SetProfilerTutorial(false);
     }
-
-    //public IEnumerator FindNameCoroutine()
-    //{
-    //    yield return new WaitForSeconds(findNameGuideDelay);
-    //    SearchGuideStart();
-    //}
-
-    //private void SearchGuideStart()
-    //{
-    //    ProfileChattingSystem.OnChatEnd += () =>
-    //    {
-    //        Debug.Log("으악!");
-    //        EventManager.TriggerEvent(ETutorialEvent.SearchBtnGuide);
-    //        EventManager.StartListening(ETutorialEvent.ClickSearchBtn, StartSearchName);
-    //    };
-    //    StartChatting(1);
-    //}
-
-    //private void StartSearchName(object[] ps)
-    //{
-    //    EventManager.StopListening(ETutorialEvent.ClickSearchBtn, StartSearchName);
-
-    //    GuideUISystem.EndAllGuide?.Invoke();
-
-    //    ProfileChattingSystem.OnChatEnd += () =>  EventManager.StartListening(ETutorialEvent.SearchNameText, SearchName);
-    //    StartChatting(2);
-    //}
-
-    //private void SearchName(object[] ps)
-    //{
-    //    Debug.Log("1");
-    //    EventManager.StopListening(ETutorialEvent.SearchNameText, SearchName);
-    //    ProfileChattingSystem.OnChatEnd += () => StartCompleteProfileTutorial();
-    //    StartChatting(3);
-    //}
 
     public void StartCompleteProfileTutorial(object[] ps = null)
     {
@@ -155,19 +94,5 @@ public class ProfileTutorial : MonoBehaviour
         StopAllCoroutines();
 
         EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, StartCompleteProfileTutorial);
-
-        //ProfileChattingSystem.OnChatEnd += StartProfileEnd;
-        //StartChatting(4);
     }
-
-    //public void StartProfileEnd()
-    //{
-    //    DataManager.Inst.SetIsClearTutorial(ETutorialType.Profiler, true);
-    //    EventManager.StopListening(ETutorialEvent.TutorialStart, StartTutorial);
-
-    //    GameManager.Inst.ChangeGameState(EGameState.Game);
-
-    //    MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[] { "01012345678" });
-    //    CallSystem.Inst.OnAnswerCall(ECharacterDataType.Assistant, Constant.MonologKey.ENDPROFILETUTORIALCHATLOG);
-    //}
 }

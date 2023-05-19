@@ -175,8 +175,6 @@ public class Library : Window
         EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
 
-        Debug.Log(currentDirectory.id);
-
         if (DataManager.Inst.IsProfilerTutorial())
         {
             TutorialEvent();
