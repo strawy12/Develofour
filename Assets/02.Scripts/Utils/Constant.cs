@@ -177,7 +177,7 @@ public static partial class Constant
         public const int OFFERYUJIN = 127;
         public const int DEADJUYOUNG = 128;
         public const int WHOISYUJIN = 129;
+        public const int PCPASSWORD = 130;
     }
     #endregion
-    //Test
 }
