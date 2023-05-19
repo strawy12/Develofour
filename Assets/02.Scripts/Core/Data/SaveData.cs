@@ -76,9 +76,7 @@ public class SaveData
 
     public int CurrentTimeData;
 
-    public bool isTutorialLibrary;
-    public bool isTutorialUSB;
-    public bool isTutorialReport;
+    public bool isProfilerTutorial; //
 }
 
 

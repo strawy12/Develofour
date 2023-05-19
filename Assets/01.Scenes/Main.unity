@@ -8200,9 +8200,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 60f3b4aac8fb95248a1d932a112c238e, type: 2}
   - {fileID: 11400000, guid: 6488b9ee2d9366b42a22a9847ac401ae, type: 2}
   defaultFileList:
-  - {fileID: 11400000, guid: 665af57e574b3084c849bbd73aa114da, type: 2}
-  - {fileID: 11400000, guid: 51287549609f65640b909aa9e9de7909, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 3516e63345ae24340b9d15131029967b, type: 2}
+  - {fileID: 11400000, guid: e85c1f11a87e34843b5db7405eec6f62, type: 2}
+  - {fileID: 11400000, guid: 185f8e404fdc5bc43abeb0df1acc3482, type: 2}
   - {fileID: 11400000, guid: 690bae947b65d3843bd8a37f4958f59f, type: 2}
   - {fileID: 11400000, guid: 6488b9ee2d9366b42a22a9847ac401ae, type: 2}
 --- !u!1 &1247746393
@@ -8658,6 +8658,9 @@ MonoBehaviour:
     branchPassword: 
     isOnceOpenWindowProperty: 0
     CurrentTimeData: 0
+    isTutorialLibrary: 0
+    isTutorialUSB: 0
+    isTutorialReport: 0
 --- !u!1 &1378105538
 GameObject:
   m_ObjectHideFlags: 0
@@ -13499,14 +13502,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114871266}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cf7b9b2a3c24abd8d6d38fe2d6d67b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profileTutorialTextData: {fileID: 0}
+  profileTutorialTextData: {fileID: 11400000, guid: f726933fc969a0d46af8360f4e0ef9e7, type: 2}
   findNameGuideDelay: 60
-  profiler: {fileID: 0}
+  profiler: {fileID: 11400000, guid: 6488b9ee2d9366b42a22a9847ac401ae, type: 2}
+  libraryRect: {fileID: 7144530945418212448}
+  USBRect: {fileID: 0}
+  reportRect: {fileID: 0}
 --- !u!1 &2134430739
 GameObject:
   m_ObjectHideFlags: 0
