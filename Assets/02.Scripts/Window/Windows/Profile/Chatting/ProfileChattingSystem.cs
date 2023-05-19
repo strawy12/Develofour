@@ -78,6 +78,7 @@ public class ProfileChattingSystem : TextSystem
 
     private void EndChatting()
     {
+        Debug.Log("인보크");
         OnChatEnd?.Invoke();
 
         OnChatEnd = null;

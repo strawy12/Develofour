@@ -106,6 +106,15 @@ public class Library : Window
     private Queue<WindowIcon> poolQueue = new Queue<WindowIcon>();
     private List<WindowIcon> iconList = new List<WindowIcon>();
 
+    public override void WindowOpen()
+    {
+        base.WindowOpen();
+        if (DataManager.Inst.IsProfilerTutorial())
+        {
+            TutorialEvent();
+        }
+    }
+
     protected override void Init()
     {
         base.Init();
@@ -137,6 +146,11 @@ public class Library : Window
         EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.LibraryOpenGuide });
     }
 
+    private void SetLibraryEvent(object[] obj)
+    {
+        SetLibrary();
+    }
+
     private void SearchFunction(string text)
     {
         if (text.Length < 2) return;
@@ -150,7 +164,7 @@ public class Library : Window
 
         List<FileSO> fileList = FileManager.Inst.SearchFile(searchInputField.text, currentDirectory);
         ShowFoundFile(fileList);
-    }   
+    }
 
     public void SetLibrary()
     {
@@ -160,6 +174,26 @@ public class Library : Window
         CreateChildren();
         EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
+
+        Debug.Log(currentDirectory.id);
+
+        if (DataManager.Inst.IsProfilerTutorial())
+        {
+            TutorialEvent();
+        }
+    }
+
+    public void TutorialEvent()
+    {
+        if (currentDirectory.id == 11 && DataManager.Inst.IsProfilerTutorial())
+        {
+            EventManager.TriggerEvent(ETutorialEvent.USBTutorial);
+        }
+
+        if (currentDirectory.id == 6 && DataManager.Inst.IsProfilerTutorial())
+        {
+            EventManager.TriggerEvent(ETutorialEvent.ReportTutorial);
+        }
     }
 
     private void CreateChildren()
@@ -170,7 +204,7 @@ public class Library : Window
             if (file.isHide) { continue; }
             WindowIcon icon = Pop();
             icon.PointerStayImage.gameObject.SetActive(false);
-            icon.SetFileData(file);
+            icon.SetFileData(file); // icon마다의 startTrigger를 이 함수에 넣어야함
         }
         isSetLibrary = false;
     }
@@ -208,7 +242,6 @@ public class Library : Window
     }
 
     public void RedoFile(object[] emptyParam) => RedoFile();
-
     public void RedoFile()
     {
         //count가 0이면 알파값 내리는게 맞을듯
@@ -250,7 +283,6 @@ public class Library : Window
 
     private void OnFileOpen(object[] ps)
     {
-
         if (ps[0] is DirectorySO)
         {
             SetHighlightImage();
@@ -292,12 +324,7 @@ public class Library : Window
         selectIcon = null;
     }
 
-   
-
-    public override void WindowOpen()
-    {
-        base.WindowOpen();
-    }
+    //여기에 라이브러리 위치를 확인해서 튜토리얼에서 어떤 이벤트가 실행될지 관리해주는 함수가 있음   
 
     protected override void OnDestroyWindow()
     {

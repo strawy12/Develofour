@@ -167,6 +167,9 @@ public enum ETutorialEvent
     ClickSearchBtn,
     SearchNameText,
     EndClickInfoTutorial,
+    LibraryTutorial,
+    USBTutorial,
+    ReportTutorial,
 }
 
 
