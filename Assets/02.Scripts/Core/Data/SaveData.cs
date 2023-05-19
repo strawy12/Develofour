@@ -75,6 +75,8 @@ public class SaveData
     public bool isOnceOpenWindowProperty;
 
     public int CurrentTimeData;
+
+    public bool isProfilerTutorial; //
 }
 
 

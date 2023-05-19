@@ -4,6 +4,17 @@ using UnityEngine;
 
 public partial class DataManager : MonoSingleton<DataManager>
 {
+
+    public bool IsProfilerTutorial()
+    {
+        return saveData.isProfilerTutorial;
+    }
+
+    public void SetProfilerTutorial(bool flag)
+    {
+        saveData.isProfilerTutorial = flag;
+    }
+
     private List<bool> InitTutoList()
     {
         List<bool> list = new List<bool>();

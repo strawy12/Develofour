@@ -95,19 +95,34 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         iconImage.sprite = newFileData.iconSprite;
 
         iconImage.color = newFileData.color;
-        //if (fileData.windowType == EWindowType.ImageViewer)
-        //{
-        //    iconImage.color = Color.white;
-        //}
-        //else
-        //{
-        //    iconImage.color = Color.black;
-        //}
-        //if(fileData.windowType == EWindowType.Directory)
-        //{
-        //    iconImage.color = Color.black;
-        //    iconImage.rectTransform.sizeDelta = new Vector2(100, 100);
-        //}
+        if (fileData.id == 11) //유저 (라이브러리)
+        {
+            EventManager.StopListening(ETutorialEvent.LibraryTutorial, YellowUI);
+            EventManager.StartListening(ETutorialEvent.LibraryTutorial, YellowUI);
+            //이벤트 끝내고 //가이드 ui 해주고//
+            //);
+        }
+
+        if (fileData.id == 6 ) //usb
+        {
+            EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);
+            EventManager.StartListening(ETutorialEvent.USBTutorial, YellowUI);
+        }
+
+        if (fileData.id == 5 ) //사건보고서
+        {
+            EventManager.StopListening(ETutorialEvent.ReportTutorial, YellowUI);
+            EventManager.StartListening(ETutorialEvent.ReportTutorial, YellowUI);
+        }
+        //데이터 매니저로 확인하고
+        //gamestate가 튜토리얼이라면
+        //library, usb, report에 각각 이벤트 넣어줘~
+    }
+
+    private void YellowUI(object[] obj)
+    {
+        GuideUISystem.EndAllGuide?.Invoke();
+        GuideUISystem.OnGuide(this.rectTranstform);
     }
 
     public void OnPointerClick(PointerEventData eventData)
