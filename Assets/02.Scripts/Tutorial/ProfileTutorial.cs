@@ -22,6 +22,9 @@ public class ProfileTutorial : MonoBehaviour
     [SerializeField]
     private Library library;
 
+    [SerializeField]
+    private int targetID = 76;
+
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, CreatePopUp);
@@ -84,7 +87,7 @@ public class ProfileTutorial : MonoBehaviour
     {
         int id = (int)ps[1];
         Debug.Log(id);
-        if(id == 7)
+        if(id == targetID)
         {
             EventManager.StopListening(EProfileEvent.FindInfoText, GetVictimName);
             ProfileChattingSystem.OnChatEnd += TutorialEnd;
