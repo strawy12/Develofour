@@ -20,7 +20,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
         else
         {
-            lockImage = Instantiate(lockImagePrefab);
+            lockImage = Instantiate(lockImagePrefab, poolParent);
         }
 
         lockImage.SetActive(true);
@@ -31,6 +31,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     public void PushLockImage(GameObject lockImage)
     {
         lockImage.gameObject.SetActive(false);
+        lockImage.transform.SetParent(poolParent);
         lockImagePool.Push(lockImage);
     }
 
@@ -41,6 +42,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         var task = Addressables.LoadAssetAsync<GameObject>("LockImage");
         await task.Task;
         lockImagePrefab = task.Result;
+        lockImagePrefab.SetActive(false);
 
         callBack?.Invoke();
     }

@@ -11,8 +11,8 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     [SerializeField]
     protected Image backgroundImage;
 
-    protected Color yellowColor = new Color(255, 255, 0, 40);
-    protected Color redColor = new Color(255, 0, 0, 40);
+    protected Color yellowColor = new Color(1f, 1f, 0f, 0.4f);
+    protected Color redColor = new Color(1f, 0f, 0f, 0.4f);
     protected Color tempColor;
     private GameObject lockImage;
 
@@ -54,8 +54,6 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
                 ActiveLockImage(false);
                 break;
         }
-
-        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
     }
 
     public virtual void OnPointerEnter(PointerEventData eventData)
@@ -90,6 +88,15 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
         lockImage.gameObject.SetActive(isActive);
     }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Inst.isApplicationQuit) return;
+
+        if (lockImage != null)
+            ResourceManager.Inst.PushLockImage(lockImage);
+    }
+
 #if UNITY_EDITOR
     private void Reset()
     {

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
+    [SerializeField]
+    private Transform poolParent;
     public void Start()
     {
         StartCoroutine(StartGetData());

@@ -118,7 +118,5 @@ public class InformationTrigger : MonoBehaviour
         }
         return true;
     }
-
-
 }
 
