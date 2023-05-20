@@ -15,11 +15,11 @@ public partial class MediaPlayer : Window
     [SerializeField]
     private TMP_Text mediaPlayTimeText;
 
-    public MediaPlayerBody body;
-    //[SerializeField]
-    private TMP_Text mediaDetailText; //ㅁㄴㅇㄹ
-    //[SerializeField]
-    private ScrollRect scroll; //ㅁㄴㅇㄹ
+    [SerializeField]
+    private MediaPlayerBody body;
+    private TMP_Text mediaDetailText => body.mediaDetailText;
+    private ScrollRect scroll => body.scroll;
+    private RectTransform coverRectTrm => body.coverRectTrm;
 
     [Header("MediaAdditionalScripts")]
     [SerializeField]
@@ -73,9 +73,7 @@ public partial class MediaPlayer : Window
             body = Instantiate(mediaPlayerData.body, parent);
         }
 
-        mediaDetailText = body.mediaDetailText;
-        scroll = body.scroll;
-
+        body.Init();
         gameObject.SetActive(true);
 
         mediaPlayerDownBar.Init();
@@ -86,6 +84,8 @@ public partial class MediaPlayer : Window
         //mediaPlayerData = ResourceManager.Inst.GetMediaPlayerData(file.id);
         //infoFind = GetComponent<MediaPlayInfoFind>();
         //infoFind.Init(this);
+
+        windowBar.OnMaximum.AddListener(body.SetPosition);
 
         mediaPlayerDownBar.mediaPlayFileName.SetText(mediaPlayerData.name);
 
@@ -105,6 +105,7 @@ public partial class MediaPlayer : Window
 
         isRePlaying = false;
 
+        body.SetPosition();
         audioSource.Play();
         mediaPlayerDownBar.PlayButtonClick?.Invoke();
     }
@@ -156,7 +157,6 @@ public partial class MediaPlayer : Window
         {
             mediaDetailText.maxVisibleCharacters++;
 
-
             TMP_CharacterInfo charInfo = mediaDetailText.textInfo.characterInfo[i];
 
             float height = (charInfo.bottomRight.y * -1f) - mediaDetailText.rectTransform.anchoredPosition.y;
@@ -167,6 +167,9 @@ public partial class MediaPlayer : Window
                 pos.y += Mathf.Abs(parentHeight - height);
                 mediaDetailText.rectTransform.anchoredPosition = pos;
             }
+            
+            body.SetPositionCoverImage(charInfo);
+
             yield return new WaitForSeconds(delayList[i]);
         }
 
@@ -212,6 +215,7 @@ public partial class MediaPlayer : Window
 
         //mediaDetailText.text = notCommandString.Substring(0, TimeToIndex(time));
         mediaDetailText.maxVisibleCharacters = TimeToIndex(time);
+        body.SetPosition();
 
         minuteTimer = (int)(time / 60f);
         secondTimer = (int)(time % 60f);

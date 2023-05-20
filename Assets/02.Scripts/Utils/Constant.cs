@@ -27,6 +27,8 @@ public static partial class Constant
 
     public const string CALLLOGLOCATION = "내 PC\\CallLog\\";
     public static readonly System.DateTime DEFAULTDATE = new System.DateTime(2023, 10, 22, 7, 3, 0);
+
+    public const int NEED_INFO_MONOLOG_ID = 131;
     #region File
     public static class FileID
     {
@@ -96,7 +98,7 @@ public static partial class Constant
         public const int CURFEWTIMEACQ = 45;
         public const int ALUMINUMBATBUYMAIL = 46;
         public const int ETERNALLANDPHOTOOPEN = 47;
-        public const int PETGRASSFIELDWALKDIARY = 46;
+        public const int PETGRASSFIELDWALKDIARY = 48;
         public const int ZOOGLEPASSWORDGET = 49;
         public const int GIRLFRIENDCALLTOMARCH19 = 50;
         public const int NEWSSERAFIMALBUMBUYPHOTO = 51;
@@ -178,6 +180,9 @@ public static partial class Constant
         public const int DEADJUYOUNG = 128;
         public const int WHOISYUJIN = 129;
         public const int PCPASSWORD = 130;
+        public const int NEEDINFO = 131;
+        public const int KANGYOHANUNIVERSITY = 132;
+        public const int PARKJUYOUNGUNIVERSITY = 133;
     }
     #endregion
 }

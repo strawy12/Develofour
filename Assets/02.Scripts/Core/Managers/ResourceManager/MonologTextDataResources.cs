@@ -27,8 +27,6 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
             var task = Addressables.LoadAssetAsync<MonologTextDataSO>(handle.Result[i]).Task;
             await task;
-            if(task.Result.TextDataType == 43)
-            Debug.Log(task.Result.name);
 
             if (task.Result.TextDataType == 0) continue;
             monologTextDataSOList.Add(task.Result.TextDataType, task.Result);

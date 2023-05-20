@@ -44,6 +44,8 @@ public partial class MediaPlayer : Window
 
             allDelay += delayList[i];
         }
+
+        allDelay += 1f;
     }
 
     protected string EncordingCommandText(string message)

@@ -227,15 +227,8 @@ public class CallSystem : MonoSingleton<CallSystem>
         profileIcon.sprite = data.profileIcon;
     }
 
-    private int cnt = 100;
-
     public void StartMonolog(int monologType, MonologLockData data = null)
     {
-        if (cnt-- < 0)
-        {
-            UnityEditor.EditorApplication.isPlaying = false;
-            return;
-        }
         //저장쪽은 나중에 생각
         // 딜레이 후 해당 독백이 실행되는 작업 해야함
 

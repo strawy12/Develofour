@@ -20,6 +20,7 @@ public class CursorChangeSystem : MonoBehaviour
     public enum ECursorState
     {
         Default,
+        NeedInfo,
         FindInfo,
         FoundInfo,
     }
@@ -42,6 +43,7 @@ public class CursorChangeSystem : MonoBehaviour
                     break;
                 }
 
+            case ECursorState.NeedInfo:
             case ECursorState.FindInfo:
                 {
                     Cursor.SetCursor(provisoCursor, new Vector2(provisoCursor.width / 2, provisoCursor.height / 2), CursorMode.Auto);

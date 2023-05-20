@@ -19,7 +19,6 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         mailDataSOList = new Dictionary<EMailType, MailDataSO>();
         var handle = Addressables.LoadResourceLocationsAsync("MailData", typeof(MailDataSO));
         await handle.Task;
-        Debug.Log(handle.Result.Count);
         for (int i = 0; i < handle.Result.Count; i++)
         {
             var task = Addressables.LoadAssetAsync<MailDataSO>(handle.Result[i]).Task;
