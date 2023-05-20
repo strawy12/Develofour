@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
-public class MediaPlayerTrigger
+public class TextTriggerData
 {
     [Header("¸Þ¸ð¿ë")]
     [SerializeField]
@@ -23,7 +23,7 @@ public class MediaPlayerBody : MonoBehaviour
     [SerializeField] private ScrollRect _scroll;
     [SerializeField] private RectTransform _coverRectTrm;
 
-    [SerializeField] private List<MediaPlayerTrigger> mediaPlayerTriggerList;
+    [SerializeField] private List<TextTriggerData> mediaPlayerTriggerList;
 
     public TMP_Text mediaDetailText => _mediaDetailText;
     public ScrollRect scroll => _scroll;
@@ -47,7 +47,7 @@ public class MediaPlayerBody : MonoBehaviour
 
         if(mediaPlayerTriggerList != null && mediaPlayerTriggerList.Count > 0)
         {
-            foreach (MediaPlayerTrigger trigger in mediaPlayerTriggerList)
+            foreach (TextTriggerData trigger in mediaPlayerTriggerList)
             {
                 charInfo = mediaDetailText.textInfo.characterInfo[trigger.id];
                 (trigger.trigger.transform as RectTransform).anchoredPosition = charInfo.topLeft;
