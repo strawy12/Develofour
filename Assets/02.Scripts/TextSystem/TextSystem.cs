@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class TextSystem : MonoBehaviour 
+public abstract class TextSystem : MonoBehaviour
 {
     protected Dictionary<int, Action> triggerDictionary;
 
-    
+
     public virtual void Init()
     {
 
@@ -80,7 +80,7 @@ public abstract class TextSystem : MonoBehaviour
                 }
             case "ADPN": //핸드폰 추가
                 {
-                    EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[] { cmdValue }); 
+                    EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[] { cmdValue });
                 }
                 break;
 
@@ -94,7 +94,7 @@ public abstract class TextSystem : MonoBehaviour
                 break;
 
             // 해당 독백이 나온 이후 거는 통화 조건 해금됨
-            case "STACKCALL": 
+            case "STACKCALL":
                 {
                     string[] cmdValueArray = cmdValue.Split(',');
                     CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(cmdValueArray[0]);
@@ -103,18 +103,13 @@ public abstract class TextSystem : MonoBehaviour
                 }
                 break;
 
-            case "CallLog":
+            case "ADDFILE":
                 {
-                    //키값, 폴더
+                    //키 값, 폴더 키 값
                     string[] cmdValueArray = cmdValue.Split(',');
-                    string folder = Constant.CALLLOGLOCATION + cmdValueArray[1] + "\\";
-                    if(!FileManager.Inst.IsExist(folder))
-                    {
-                        DirectorySO file = FileManager.Inst.GetAdditionalFile(cmdValueArray[1]) as DirectorySO;
-                        FileManager.Inst.AddFile(file, Constant.CALLLOGLOCATION);
-                    }
-                    FileSO logFile = FileManager.Inst.GetAdditionalFile(int.Parse(cmdValueArray[0]));
-                    FileManager.Inst.AddFile(logFile, folder);
+
+                    FileSO file = FileManager.Inst.GetAdditionalFile(int.Parse(cmdValueArray[0]));
+                    FileManager.Inst.AddFile(file, int.Parse(cmdValueArray[1]));
                 }
                 break;
         }
@@ -163,10 +158,10 @@ public abstract class TextSystem : MonoBehaviour
             {
                 string signText = EncordingCommandText(removeText.Substring(i)); // {} 문자열
                 removeText = removeText.Remove(i, signText.Length + 2); // {} 이 문자열을 제외시킨 문자열
-                if(i >= removeText.Length)
+                if (i >= removeText.Length)
                 {
-                    i-= 1;
-                } 
+                    i -= 1;
+                }
                 if (registerCmd)
                 {
                     if (triggerDictionary.ContainsKey(i))

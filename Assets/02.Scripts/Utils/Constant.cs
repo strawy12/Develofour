@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static partial class Constant
@@ -25,16 +23,19 @@ public static partial class Constant
     public const float LOADING_DELAY = 0.75f;
     public const float POLICE_REPLY_DELAY = 2f;
 
-    public const string CALLLOGLOCATION = "내 PC\\CallLog\\";
     public static readonly System.DateTime DEFAULTDATE = new System.DateTime(2023, 10, 22, 7, 3, 0);
 
     public const int NEED_INFO_MONOLOG_ID = 131;
     #region File
     public static class FileID
     {
+        public const int BACKGROUND = 1;
         public const int USB = 6;
+        public const int DOWNLOAD = 10;
+        public const int PROFILER = 49;
         public const int ZOOGLEPIN = 23;
         public const int ZOOGLEPASSWORD = 24;
+        public const int CALLRECORDING = 89;
     }
 
 

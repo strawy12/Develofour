@@ -122,7 +122,7 @@ public class Library : Window
 
         undoStack = new Stack<DirectorySO>();
         redoStack = new Stack<DirectorySO>();
-        FileManager.Inst.ALLFileAddList(currentDirectory);
+        FileManager.Inst.GetALLFileList(currentDirectory);
 
         fileAddressPanel.Init();
         SetHighlightImage();

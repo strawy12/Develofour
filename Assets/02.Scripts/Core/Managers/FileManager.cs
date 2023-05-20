@@ -54,8 +54,8 @@ public class FileManager : MonoSingleton<FileManager>
         {
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
-                string location = DataManager.Inst.GetAdditionalFileLocation(fileData);
-                AddFile(fileData, location);
+                int directoryID = DataManager.Inst.GetAdditionFileData(fileData.id).directoryID;
+                AddFile(fileData, directoryID);
             }
         }
     }
@@ -70,62 +70,32 @@ public class FileManager : MonoSingleton<FileManager>
         return file;
     }
 
-    public bool IsExist(string location)
-    {
-        List<FileSO> fileList = ALLFileAddList();
-
-        FileSO file = fileList.Find((x) => x.GetFileLocation() == location);
-
-        if (file != null)
-            return true;
-        return false;
-    }
-
-    public FileSO GetAdditionalFile(string fileName)
-    {
-        FileSO folder = additionFileList.Find((x) => x.fileName == fileName);
-        return folder;
-    }
-
     public FileSO GetAdditionalFile(int key)
     {
-        foreach (var temp in additionFileList)
-        {
-            Debug.Log(temp.id);
-        }
-        FileSO folder = additionFileList.Find((x) => x.id == key);
-
-        return folder;
+        FileSO file = additionFileList.Find((x) => x.id == key);
+        return file;
     }
 
-    public void AddFile(FileSO file, string location)
+    public void AddFile(FileSO file, int directoryID)
     {
-        List<FileSO> fileList = ALLFileAddList();
-        DirectorySO currentDir = rootDirectory;
+        List<FileSO> fileList = GetALLFileList();
+        DirectorySO directory = fileList.Find(x=>x.id == directoryID) as DirectorySO;
 
-        currentDir = fileList.Find((x) => x.GetFileLocation() == location) as DirectorySO;
-
-        if (currentDir == null)
+        if (!directory.children.Contains(file))
         {
-            //디렉토리 생성
-
-        }
-
-        if (!currentDir.children.Contains(file))
-        {
-            currentDir.children.Add(file);
-            file.parent = currentDir;
+            directory.children.Add(file);
+            file.parent = directory;
             debugAdditionFileList.Add(file);
         }
 
         if (!DataManager.Inst.AdditionalFileContain(file))
         {
-            DataManager.Inst.AddNewFileData(file, location + file.fileName + "\\");
+            DataManager.Inst.AddNewFileData(file, directory);
         }
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
     }
 
-    public List<FileSO> ALLFileAddList(DirectorySO currentDirectory = null, bool isAdditional = false)
+    public List<FileSO> GetALLFileList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
         //fileList.Clear();
         if (currentDirectory == null)
@@ -171,7 +141,7 @@ public class FileManager : MonoSingleton<FileManager>
 
     public List<FileSO> SearchFile(string text, DirectorySO currentDirectory = null)
     {
-        List<FileSO> allFileList = ALLFileAddList(currentDirectory);
+        List<FileSO> allFileList = GetALLFileList(currentDirectory);
 
         List<FileSO> searchFileList = new List<FileSO>();
 
@@ -192,7 +162,7 @@ public class FileManager : MonoSingleton<FileManager>
 
     public List<FileSO> ProfileSearchFile(string text, DirectorySO currentDirectory = null)
     {
-        List<FileSO> allFileList = ALLFileAddList(currentDirectory);
+        List<FileSO> allFileList = GetALLFileList(currentDirectory);
 
         text = Regex.Replace(text, @"[^0-9a-zA-Z가-힣_\s]", "");
 
@@ -378,7 +348,7 @@ public class FileManager : MonoSingleton<FileManager>
     private FileSO GetFile(string location)
     {
         FileSO resultFile = null;
-        resultFile = ALLFileAddList().Find((x) => x.GetFileLocation() == location);
+        resultFile = GetALLFileList().Find((x) => x.GetFileLocation() == location);
         return resultFile;
     }
 

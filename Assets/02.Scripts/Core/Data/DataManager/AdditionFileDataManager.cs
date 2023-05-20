@@ -4,14 +4,19 @@ using UnityEngine;
 
 public partial class DataManager : MonoSingleton<DataManager>
 {
-    public void AddNewFileData(FileSO file, string location)
+    public void AddNewFileData(FileSO file, DirectorySO directory)
     {
-        saveData.additionFileData.Add(new AdditionFileData() { fileName = file.fileName, fileLocation = location });
+        saveData.additionFileData.Add(new AdditionFileData() { fileID = file.id, directoryID = directory.id });
+    }
+
+    public AdditionFileData GetAdditionFileData(int fileID)
+    {
+       return saveData.additionFileData.Find(x=>x.fileID == fileID);
     }
 
     public bool AdditionalFileContain(FileSO file)
     {
-        AdditionFileData fileData = saveData.additionFileData.Find(x => x.fileName == file.fileName);
+        AdditionFileData fileData = saveData.additionFileData.Find(x => x.fileID == file.id);
 
         if (fileData != null)
         {
@@ -20,15 +25,4 @@ public partial class DataManager : MonoSingleton<DataManager>
         return false;
     }
 
-    public string GetAdditionalFileLocation(FileSO file)
-    {
-        foreach (AdditionFileData data in saveData.additionFileData)
-        {
-            if (data.fileName.Contains(file.fileName))
-            {
-                return data.fileLocation;
-            }
-        }
-        return null;
-    }
 }
