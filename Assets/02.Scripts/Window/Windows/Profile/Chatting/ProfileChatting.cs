@@ -70,7 +70,6 @@ public class ProfileChatting : MonoBehaviour
     {
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
-        ConnectEvent();
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
         AddSaveTexts();
@@ -80,12 +79,6 @@ public class ProfileChatting : MonoBehaviour
         ShowPanel();
 
         defaultOffsetMinY = scrollrectTransform.offsetMax.y;
-        EventManager.StartListening(EProfileEvent.ClickGuideToggleButton, SetChattingHeight);
-    }
-
-    protected virtual void ConnectEvent()
-    {
-        EventManager.StartListening(EProfileEvent.ProfileSendMessage, PrintText);
     }
 
     private void SetChattingHeight(object[] ps)

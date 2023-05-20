@@ -13,8 +13,8 @@ public class ProfileTutorial : MonoBehaviour
     private float findNameGuideDelay = 60f;
     [SerializeField]
     private FileSO profiler;
-    [SerializeField]
-    private RectTransform libraryRect;
+
+    public static EGuideObject guideObjectName;
 
     [SerializeField]
     private int targetID = 76;
@@ -49,33 +49,52 @@ public class ProfileTutorial : MonoBehaviour
         DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
         DataManager.Inst.SetProfilerTutorial(true);
-        ProfileChattingSystem.OnChatEnd += StartDelay;
+        ProfileChattingSystem.OnChatEnd += FileExploreGuide;
 
-        GetVictimNameEvent();
+        GetInfoEvent();
 
         StartChatting(0);
     }
 
-    private void GetVictimNameEvent()
+    private void OpenLibrary()
     {
-        EventManager.StartListening(EProfileEvent.FindInfoText, GetVictimName);
+
     }
 
-    public void GetVictimName(object[] ps)
+    private void GetInfoEvent()
+    {
+        EventManager.StartListening(EProfileEvent.FindInfoText, GetInfo);
+    }
+
+    public void GetInfo(object[] ps)
     {
         int id = (int)ps[1];
-        Debug.Log(id);
         if(id == targetID)
         {
-            EventManager.StopListening(EProfileEvent.FindInfoText, GetVictimName);
+            EventManager.StopListening(EProfileEvent.FindInfoText, GetInfo);
             ProfileChattingSystem.OnChatEnd += TutorialEnd;
             StartChatting(1);
         }
     }
 
-    private void StartDelay()
+    private void FileExploreGuide()
     {
-        GuideUISystem.OnGuide(libraryRect);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
+        guideObjectName = EGuideObject.Explore;
+        EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.Explore });
+    }
+
+    private void IncidentTabGuide()
+    {
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookIncidentTab, 2f);
+        guideObjectName = EGuideObject.IncidentTab;
+        EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.IncidentTab });
+    }
+    private void CharacterTabGuide()
+    {
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookCharacterTab, 2f);
+        guideObjectName = EGuideObject.CharacterTab;
+        EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.CharacterTab });
     }
 
     private void TutorialEnd()
@@ -93,6 +112,5 @@ public class ProfileTutorial : MonoBehaviour
 
         StopAllCoroutines();
 
-        EventManager.StopListening(ETutorialEvent.EndClickInfoTutorial, StartCompleteProfileTutorial);
     }
 }

@@ -146,12 +146,11 @@ public enum EProfileEvent
     FindInfoText,
     InstalledProfile,
     ProfileSendMessage,
-    AddGuideButton,
-    ClickGuideToggleButton,
-    EndGuide,
     ShowInfoPanel,
     HideInfoPanel,
     FindInfoInProfile,
+    ClickIncidentTab,
+    ClickCharacterTab,
 }
 public enum EGuideEventType
 {
@@ -163,13 +162,9 @@ public enum ETutorialEvent
 {
     None = -1,
     TutorialStart, // 튜토리얼 시작 이벤트
-    SearchBtnGuide,
-    ClickSearchBtn,
-    SearchNameText,
-    EndClickInfoTutorial,
-    LibraryTutorial,
     USBTutorial,
     ReportTutorial,
+    GuideObject,
 }
 
 

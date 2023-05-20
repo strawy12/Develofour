@@ -61,13 +61,6 @@ public class ProfileInfoSystem : MonoBehaviour
         {
             return;
         }
-
-        if (id == 1 && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
-        {
-            EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
-        }
-
-
     }
 
     public void SendAlarm(EProfileCategory category, int id)

@@ -144,7 +144,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         Vector3 delta = Vector3.one * (eventData.scrollDelta.y * zoomSpeed);
         Vector3 enlarScale = currentImage.transform.localScale + delta;
 
-        if (enlarScale.x <= imageScale -0.01f)
+        if (enlarScale.x <= Mathf.Min(imageScale, 1f))
         {
             return;
         }

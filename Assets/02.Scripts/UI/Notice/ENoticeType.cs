@@ -6,6 +6,7 @@ public enum ENoticeType
     FindLaptopOwner,
 	ProfileInstallingFinish,
 	LookBackground,
-	GetNotePadWordsForProfiler,
+    LookIncidentTab,
+    LookCharacterTab,
     End
 }
