@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6713080470253935698}
   - component: {fileID: 5845557811995995435}
   - component: {fileID: 8252484725747207852}
-  - component: {fileID: 6733776681619746311}
+  - component: {fileID: 8539814198779438783}
   m_Layer: 5
   m_Name: Info71_118
   m_TagString: Untagged
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6733776681619746311
+--- !u!114 &8539814198779438783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,16 +86,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 190039337137838856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 47000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 0}
+  needInfoList: []
   monoLogType: 118
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 8252484725747207852}
 --- !u!1 &1813979691788382910
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 2292637119681074177}
   - component: {fileID: 4630136446240326244}
   - component: {fileID: 7805428471055824193}
-  - component: {fileID: 1118886129788131213}
+  - component: {fileID: 7662297056962614103}
   m_Layer: 5
   m_Name: Info73_24
   m_TagString: Untagged
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1118886129788131213
+--- !u!114 &7662297056962614103
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,16 +182,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1813979691788382910}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 49000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 0}
+  needInfoList: []
   monoLogType: 24
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 7805428471055824193}
 --- !u!1 &3016413205750770004
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 4931757839580909246}
   - component: {fileID: 7565867016554043253}
   - component: {fileID: 1138509909673042370}
-  - component: {fileID: 7266116125901452867}
+  - component: {fileID: 7688100687755965980}
   m_Layer: 5
   m_Name: Info72_23
   m_TagString: Untagged
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7266116125901452867
+--- !u!114 &7688100687755965980
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -278,16 +278,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3016413205750770004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 48000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 0}
+  needInfoList: []
   monoLogType: 23
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 1138509909673042370}
 --- !u!1 &6760515456448002866
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,6 +431,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71711637839431083953e6402488298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textTriggerList:
+  - text: "\uC624\uB298"
+    id: 17
+    trigger: {fileID: 8539814198779438783}
+  - text: "\uC544\uB2C8,"
+    id: 126
+    trigger: {fileID: 7688100687755965980}
+  - text: "\uC544\uC9C1\uB3C4"
+    id: 260
+    trigger: {fileID: 7662297056962614103}
+  - text: "\uB0B4\uC77C"
+    id: 557
+    trigger: {fileID: 952615604759089460}
 --- !u!114 &6760515456667878587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,7 +746,7 @@ GameObject:
   - component: {fileID: 3302772236348625225}
   - component: {fileID: 7502993282129063514}
   - component: {fileID: 3947781279237215969}
-  - component: {fileID: 2896394404917622591}
+  - component: {fileID: 952615604759089460}
   m_Layer: 5
   m_Name: Info74_119
   m_TagString: Untagged
@@ -799,7 +812,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2896394404917622591
+--- !u!114 &952615604759089460
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -808,13 +821,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7535695228021345350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 4a000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 0}
+  needInfoList: []
   monoLogType: 119
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 3947781279237215969}

@@ -10,7 +10,7 @@ public class TextTriggerData
 {
     [Header("메모용")]
     [SerializeField]
-    private string text;
+    public string text;
 
     [Header("사용 변수")]
     public int id;

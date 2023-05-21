@@ -41,6 +41,12 @@ public class Notepad : Window
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
 
         SetText();
+    }
+
+    public override void WindowOpen()
+    {
+        base.WindowOpen();
+        notepadBody.inputField.textComponent.ForceMeshUpdate();
         notepadBody.SetTriggerPosition();
     }
 

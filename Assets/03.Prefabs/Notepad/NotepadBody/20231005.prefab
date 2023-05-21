@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6697517101372807891}
   - component: {fileID: 4776762784139386191}
   - component: {fileID: 5958766257986726480}
-  - component: {fileID: 798698507573265191}
+  - component: {fileID: 5858921617105970695}
   m_Layer: 5
   m_Name: Info20_125
   m_TagString: Untagged
@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 5.458191, y: -5.003296}
+  m_AnchoredPosition: {x: 10, y: -85}
   m_SizeDelta: {x: 295.5861, y: 38.1403}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4776762784139386191
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &798698507573265191
+--- !u!114 &5858921617105970695
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,16 +86,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4756662812351926001}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 14000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 0}
+  needInfoList: []
   monoLogType: 125
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 5958766257986726480}
 --- !u!1 &6760515456448002866
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +240,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71711637839431083953e6402488298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textTriggerList:
+  - text: "\uC6B0\uB9AC \uAC15\uC544\uC9C0\uAC00"
+    id: 0
+    trigger: {fileID: 5858921617105970695}
 --- !u!114 &6760515456667878587
 MonoBehaviour:
   m_ObjectHideFlags: 0
