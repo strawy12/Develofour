@@ -1,56 +1,15 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectOnEnableTrigger : MonoBehaviour
+public class ObjectOnEnableTrigger : InformationTrigger
 {
-    [SerializeField] protected ProfileInfoTextDataSO infomaitionData; //«ÿ±›µ«¥¬ ¡§∫∏
-    [SerializeField] protected List<ProfileInfoTextDataSO> needInformaitonList;
-    [SerializeField] protected List<ProfileInfoTextDataSO> linkInformaitonList;
-    public int monoLogType;
 
 
-    //µπˆ±◊ æ»«ÿ∫ª ƒ⁄µÂ. ø¿∑˘ ∞°¥…º∫ ¿÷¿Ω.
+    //ÎîîÎ≤ÑÍ∑∏ ÏïàÌï¥Î≥∏ ÏΩîÎìú. Ïò§Î•ò Í∞ÄÎä•ÏÑ± ÏûàÏùå.
 
     private void OnEnable()
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall) { return; }
-
-        if (infomaitionData == null || infomaitionData.category == EProfileCategory.None)
-        {
-            MonologSystem.OnStartMonolog?.Invoke(monoLogType, 0, true);
-            return;
-        }
-
-        if (!DataManager.Inst.IsProfileInfoData(infomaitionData.id))
-        {
-            if (needInformaitonList.Count == 0)
-            {
-                GetInfo();
-                return;
-            }
-            else
-            {
-                foreach (ProfileInfoTextDataSO needData in needInformaitonList)
-                {
-                    if (!DataManager.Inst.IsProfileInfoData(needData.id))
-                    {
-                        if (monoLogType == -1)
-                            return;
-                        MonologSystem.OnStartMonolog?.Invoke(monoLogType, 0, true);
-                        return;
-                    }
-                }
-                GetInfo();
-                return;
-            }
-        }
-    }
-
-    public void GetInfo()
-    {
-        MonologSystem.OnStartMonolog?.Invoke(monoLogType, 0, true);
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infomaitionData.category, infomaitionData.id });
-        TriggerList.CheckLinkInfos();
+        GetInfo();
     }
 }

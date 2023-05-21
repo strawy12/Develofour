@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEngine.Networking;
@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class SOSettingWindow : EditorWindow
 {
@@ -257,6 +258,7 @@ public class SOSettingWindow : EditorWindow
 
         string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
         List<FileSO> fileSOList = new List<FileSO>();
+        List<FileSO> temp = fileSOList.ToList();
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
@@ -352,8 +354,10 @@ public class SOSettingWindow : EditorWindow
                 SO_PATH = SO_PATH.Replace("\\", "/");
 
                 CreateFolder(SO_PATH);
-
-                if (!File.Exists(SO_PATH) && string.IsNullOrEmpty(columns[9]))
+                bool flag1 = !File.Exists(SO_PATH);
+                bool flag2 = !(columns[10] == "추가 파일" || columns[10] == "디폴트 파일");
+                
+                if (flag1 && flag2)
                 {
                     string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());
                     AssetDatabase.MoveAsset(oldPath, SO_PATH);
@@ -361,10 +365,10 @@ public class SOSettingWindow : EditorWindow
             }
 
             EditorUtility.SetDirty(file);
-            fileSOList.Remove(file);
+            temp.Remove(file); 
         }
 
-        fileSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+        temp.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
 
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
@@ -426,9 +430,7 @@ public class SOSettingWindow : EditorWindow
         AssetDatabase.Refresh();
 
         Autocomplete(ESOType.ProfileCategory);
-        ReadSheet();
-
-
+        Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(ReadSheet(), new object[0]);
     }
 
     private void SettingInfoCategorySO(string dataText)
@@ -446,6 +448,7 @@ public class SOSettingWindow : EditorWindow
         }
         string[] infoDataGuids = AssetDatabase.FindAssets("t:ProfileInfoTextDataSO", null);
         List<ProfileInfoTextDataSO> infoSODatas = new List<ProfileInfoTextDataSO>();
+
         foreach (string guid in infoDataGuids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
@@ -477,6 +480,7 @@ public class SOSettingWindow : EditorWindow
 
             bool isCreate = false;
             ProfileCategoryDataSO categoryData = categorySODatas.Find(x => x.category == category);
+
             if (categoryData == null)
             {
                 categoryData = CreateInstance<ProfileCategoryDataSO>();

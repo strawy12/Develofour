@@ -135,40 +135,7 @@ public static class Define
         return FileManager.Inst.SearchFile("Profile") != null;
     }
 
-    public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<int> needInfoList, int infoID)
-    {
-        if (!DataManager.Inst.SaveData.isProfilerInstall)
-        {
-            return CursorChangeSystem.ECursorState.Default;
-        }
-
-        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
-
-        if (needInfoList.Count > 0)
-        {
-            foreach(int needData in needInfoList)
-            {
-                if (!DataManager.Inst.IsProfileInfoData(needData))
-                {
-                    EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
-                    return CursorChangeSystem.ECursorState.Default;
-                }
-            }
-        }
-
-        if (DataManager.Inst.IsProfileInfoData(infoID))
-        {
-            state = CursorChangeSystem.ECursorState.FoundInfo;
-        }
-        else
-        {
-            state = CursorChangeSystem.ECursorState.FindInfo;
-        }
-        
-        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
-        return state;
-    }
-    public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<ProfileInfoTextDataSO> needInfoList, List<int> infoIDList)
+    public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<NeedInfoData> needInfoList, List<int> infoIDList)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
@@ -176,15 +143,15 @@ public static class Define
         }
 
 
-        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.Default;
+        CursorChangeSystem.ECursorState state = CursorChangeSystem.ECursorState.NeedInfo;
         if (needInfoList.Count > 0)
         {
-            foreach (ProfileInfoTextDataSO needData in needInfoList)
+            foreach (NeedInfoData needData in needInfoList)
             {
-                if (!DataManager.Inst.IsProfileInfoData(needData.id))
+                if (!DataManager.Inst.IsProfileInfoData(needData.needInfoID))
                 {
                     EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
-                    return CursorChangeSystem.ECursorState.Default;
+                    return CursorChangeSystem.ECursorState.NeedInfo;
                 }
             }
         }

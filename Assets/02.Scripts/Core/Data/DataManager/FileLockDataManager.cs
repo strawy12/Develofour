@@ -8,7 +8,7 @@ public partial class DataManager : MonoSingleton<DataManager>
     private void CreateFileLockData()
     {
         saveData.FileLockData = new List<FileLockData>();
-        List<FileSO> fileList = FileManager.Inst.ALLFileAddList();
+        List<FileSO> fileList = FileManager.Inst.GetALLFileList();
 
         foreach (FileSO file in fileList)
         {

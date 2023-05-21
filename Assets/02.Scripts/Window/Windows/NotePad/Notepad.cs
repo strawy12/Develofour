@@ -34,11 +34,14 @@ public class Notepad : Window
         OnSelected += notepadBody.inputField.ActivateInputField;
         OnUnSelected += () => notepadBody.inputField.DeactivateInputField();
 
+        windowBar.OnMaximum.AddListener(notepadBody.SetTriggerPosition);
+
         notepadBody.inputField.scrollSensitivity = scrollValue;
 
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
 
         SetText();
+        notepadBody.SetTriggerPosition();
     }
 
     public void SetText()

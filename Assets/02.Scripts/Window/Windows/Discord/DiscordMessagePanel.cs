@@ -138,18 +138,18 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
             return;
         }
 
-        if(currentChatData.infoData != null)
-        {
-            CursorChangeSystem.ECursorState state = Define.ChangeInfoCursor(currentChatData.needInformaitonList,currentChatData.infoData.id);
-            if(state == CursorChangeSystem.ECursorState.FindInfo)
-            {
-                messageText.SetColor(Color.yellow);
-            }
-            else if (state == CursorChangeSystem.ECursorState.FoundInfo)
-            {
-                messageText.SetColor(Color.red);
-            }
-        }
+        //if(currentChatData.infoData != null)
+        //{
+        //    CursorChangeSystem.ECursorState state = Define.ChangeInfoCursor(currentChatData.needInformaitonList,currentChatData.infoData.id);
+        //    if(state == CursorChangeSystem.ECursorState.FindInfo)
+        //    {
+        //        messageText.SetColor(Color.yellow);
+        //    }
+        //    else if (state == CursorChangeSystem.ECursorState.FoundInfo)
+        //    {
+        //        messageText.SetColor(Color.red);
+        //    }
+        //}
             
     }
 

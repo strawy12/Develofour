@@ -15,8 +15,11 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public SaveData debug_Data;
 
+    private bool isInit;
+
     public void Init()
     {
+        isInit = true;
         SAVE_PATH = Application.dataPath + "/Save/";
         CheckDirectory();
         LoadFromJson();
@@ -24,6 +27,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     private void CheckDirectory()
     {
+        if (isInit == false) return;
         if (!Directory.Exists(SAVE_PATH))
         {
             Directory.CreateDirectory(SAVE_PATH);

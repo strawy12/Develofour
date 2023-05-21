@@ -25,6 +25,7 @@ public enum EWindowType // 확장자
     HarmonyShortCut,
     Dummy,
     VideoPlayer,
+    SoundPlayer,
     End 
 }
 

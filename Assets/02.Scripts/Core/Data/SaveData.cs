@@ -19,8 +19,8 @@ public class MonologSaveData
 [System.Serializable]
 public class AdditionFileData
 {
-    public string fileName;
-    public string fileLocation;
+    public int fileID;
+    public int directoryID;
 }
 [System.Serializable]
 public class GuideSaveData

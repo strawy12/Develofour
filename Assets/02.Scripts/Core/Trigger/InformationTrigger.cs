@@ -2,48 +2,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+[System.Serializable]
+public class NeedInfoData
+{
+    public int needInfoID;
+    public int monologID;
+    // needInfoID를 충족하지 않더라도 즉시 정보를 획득
+    public bool getInfo;
+}
+
+public class InformationTrigger : MonoBehaviour
 {
     /// <summary>
     /// 정보들 id들 넣는 곳입니다.
     /// </summary>
-    [SerializeField] protected List<int> infoDataIDList;
-    [SerializeField] protected List<int> needInfoIDList;
-    [SerializeField] protected List<int> linkInfoIDList;
-    [SerializeField] protected Image backgroundImage;
+    [SerializeField]
+    protected List<int> infoDataIDList;
+
+    [SerializeField]
+    protected List<NeedInfoData> needInfoList;
 
     protected List<ProfileInfoTextDataSO> infomaitionDataList;
-    protected List<ProfileInfoTextDataSO> needInformaitonList;
-    protected List<ProfileInfoTextDataSO> linkInformaitonList;
 
-    protected Color yellowColor = new Color(255, 255, 0, 40);
-    protected Color redColor = new Color(255, 0, 0, 40);
-    protected Color tempColor;
-
-    public int monoLogType;
-    public float delay;
-
+    [SerializeField] protected int monoLogType;
+    [SerializeField] protected int completeMonologType = 0;
+    [SerializeField] protected float delay;
     [SerializeField] protected bool isFakeInfo;
 
-    protected virtual void OnEnable()
-    {
-        if (backgroundImage == null)
-            backgroundImage = GetComponent<Image>();
-    }
+    protected int playMonologType = 0;
 
     protected virtual void Start()
     {
-        tempColor = backgroundImage.color;
-
-        if (!TriggerList.infoList.Contains(this))
-        {
-            TriggerList.infoList.Add(this);
-        }
+        Bind();
     }
-    protected void Bind()
+
+    protected virtual void Bind()
     {
         if (infoDataIDList.Count != 0 || infomaitionDataList == null)
         {
@@ -53,134 +47,68 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
                 infomaitionDataList.Add(ResourceManager.Inst.GetProfileInfoData(id));
             }
         }
-
-        if (needInfoIDList.Count != 0 || needInformaitonList == null)
-        {
-            needInformaitonList = new List<ProfileInfoTextDataSO>();
-            foreach (var id in needInfoIDList)
-            {
-                needInformaitonList.Add(ResourceManager.Inst.GetProfileInfoData(id));
-            }
-        }
-        if (linkInfoIDList.Count != 0 || linkInformaitonList == null)
-        {
-            linkInformaitonList = new List<ProfileInfoTextDataSO>();
-            foreach (var id in linkInfoIDList)
-            {
-                linkInformaitonList.Add(ResourceManager.Inst.GetProfileInfoData(id));
-            }
-        }
     }
+
     protected void FindInfo()
     {
         Bind();
 
-        foreach (var infoData in infomaitionDataList)
+        if (!CheckAllInfoFound())
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infoData.category, infoData.id });
+            foreach (var infoData in infomaitionDataList)
+            {
+                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infoData.category, infoData.id });
+            }
         }
+
+        else
+        {
+            if (completeMonologType != 0)
+            {
+                playMonologType = completeMonologType;
+            }
+        }
+
+        MonologSystem.OnStartMonolog?.Invoke(playMonologType, delay, true);
+
+
     }
 
-    public virtual void OnPointerClick(PointerEventData eventData)
+    protected void GetInfo()
     {
-        Bind();
+        if (!DataManager.Inst.SaveData.isProfilerInstall) return;
+
         if (infomaitionDataList == null || infomaitionDataList.Count == 0)
         {
             MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
             return;
         }
-        else
+
+        playMonologType = monoLogType;
+
+        foreach (NeedInfoData needData in needInfoList)
         {
-            if (needInformaitonList.Count == 0)
+            if (!DataManager.Inst.IsProfileInfoData(needData.needInfoID))
             {
-                GetInfo(eventData);
-            }
-            else
-            {
-                foreach (ProfileInfoTextDataSO needData in needInformaitonList)
+                // 이것이 -1이라면 즉시 정보 획득을 하라는 의미
+                if (needData.getInfo)
                 {
-                    if (!DataManager.Inst.IsProfileInfoData(needData.id))
-                    {
-                        if (monoLogType == -1)
-                            return;
-                        MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-                        return;
-                    }
+                    playMonologType = needData.monologID;
+                    break;
                 }
-                GetInfo(eventData);
+
+                int id = needData.monologID == 0 ? Constant.NEED_INFO_MONOLOG_ID : needData.monologID;
+                MonologSystem.OnStartMonolog?.Invoke(id, delay, true);
+                return;
             }
         }
-    }
-
-    private void GetInfo(PointerEventData eventData)
-    {
-        MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
 
         FindInfo();
-        TriggerList.CheckLinkInfos();
-
-        OnPointerEnter(eventData);
     }
 
-    public void CheckLinkInfo()
-    {
-        if (infomaitionDataList == null || infoDataIDList.Count == 0) { return; }
-
-        if (linkInformaitonList.Count != 0)
-        {
-            foreach (ProfileInfoTextDataSO linkData in linkInformaitonList)
-            {
-                if (!DataManager.Inst.IsProfileInfoData(linkData.id))
-                {
-                    return;
-                }
-            }
-            FindInfo();
-        }
-    }
-
-    public virtual void OnPointerEnter(PointerEventData eventData)
-    {
-        if (infomaitionDataList == null || infoDataIDList.Count == 0)
-        {
-            EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { CursorChangeSystem.ECursorState.FindInfo });
-            yellowColor.a = 0.4f;
-            backgroundImage.color = yellowColor;
-            return;
-        }
-
-        if (!DataManager.Inst.SaveData.isProfilerInstall)
-        {
-            return;
-        }
-
-        CursorChangeSystem.ECursorState isListFinder = Define.ChangeInfoCursor(needInformaitonList, infoDataIDList);
-
-        if (isListFinder == CursorChangeSystem.ECursorState.Default)
-        {
-            return;
-        }
-
-        if (isListFinder == CursorChangeSystem.ECursorState.FindInfo)
-        {
-            yellowColor.a = 0.4f;
-            backgroundImage.color = yellowColor;
-        }
-        else
-        {
-            redColor.a = 0.4f;
-            backgroundImage.color = redColor;
-        }
-    }
-
-    public virtual void OnPointerExit(PointerEventData eventData)
-    {
-        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { CursorChangeSystem.ECursorState.Default });
-        backgroundImage.color = tempColor;
-    }
 
     protected bool CheckAllInfoFound()
-    { 
+    {
         foreach (var infoID in infoDataIDList)
         {
             if (!DataManager.Inst.IsProfileInfoData(infoID))  // 찾은 정보인지 확인
@@ -190,21 +118,5 @@ public class InformationTrigger : MonoBehaviour, IPointerClickHandler, IPointerE
         }
         return true;
     }
-    //[ContextMenu("SetInfoID")]
-    //public void SetInfoID()
-    //{
-    //    if(infomaitionData != null)
-    //     getInfoID = infomaitionData.id;
-
-    //    foreach(var infoID in needInformaitonList)
-    //    {
-    //        needInfoIDList.Add(infoID.id);
-    //    }
-
-    //    foreach (var infoID in linkInformaitonList)
-    //    {
-    //        linkInfoIDList.Add(infoID.id);
-    //    }
-    //}
 }
 

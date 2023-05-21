@@ -19,6 +19,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     public bool IsTutorial => gameState == EGameState.Tutorial;
 
+    public bool isApplicationQuit { get; private set; }
+
     public void Init()
     {
         DataManager.Inst.Init();
@@ -57,4 +59,9 @@ public class GameManager : MonoSingleton<GameManager>
         ChangeGameState(state);
     }
 
+
+    private void OnApplicationQuit()
+    {
+        isApplicationQuit = true;
+    }
 }
