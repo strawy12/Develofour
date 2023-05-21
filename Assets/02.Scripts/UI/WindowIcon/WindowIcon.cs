@@ -95,6 +95,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         iconImage.sprite = newFileData.iconSprite;
 
         iconImage.color = newFileData.color;
+
         if (fileData.id == 6 ) //usb
         {
             EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);

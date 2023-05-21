@@ -68,6 +68,7 @@ public class ProfileChatting : MonoBehaviour
 
     public void Init()
     {
+        EventManager.StartListening(EProfileEvent.ProfileSendMessage, PrintText);
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
         OpenCloseButton.onClick.AddListener(HidePanel);

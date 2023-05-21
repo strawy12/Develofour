@@ -31,6 +31,10 @@ public class GuideObject : MonoBehaviour
         if (ps == null || (EGuideObject)ps[0] != objectName) return;
 
         GuideUISystem.OnGuide?.Invoke(transform as RectTransform);
+        if(objectName == EGuideObject.CharacterTab || objectName == EGuideObject.IncidentTab)
+        {
+            GuideUISystem.FullSizeGuide?.Invoke(transform as RectTransform);
+        }
         EventManager.StopListening(ETutorialEvent.GuideObject, OnGuide);
     }
 }

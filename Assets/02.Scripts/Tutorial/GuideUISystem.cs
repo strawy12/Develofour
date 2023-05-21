@@ -13,8 +13,10 @@ public class GuideUISystem : MonoBehaviour
     public static Action<RectTransform> OnGuide;
     public static Action EndAllGuide;
     public static Action<RectTransform> EndGuide;
+    public static Action<RectTransform> FullSizeGuide;
 
     private RectTransform currentRectTransform;
+
 
     private void Start()
     {
@@ -23,6 +25,13 @@ public class GuideUISystem : MonoBehaviour
         OnGuide += StartGuide;
         EndAllGuide += StopGuideUICor;
         EndGuide += EndGuideThis;
+        FullSizeGuide += ChangeFullSize;
+    }
+
+    private void ChangeFullSize(RectTransform obj)
+    {
+        guideUI.rectTransform.anchorMin = Vector2.zero;
+        guideUI.rectTransform.anchorMax = Vector2.one;
     }
 
     private void StartGuide(RectTransform rect)

@@ -165,6 +165,9 @@ public enum ETutorialEvent
     USBTutorial,
     ReportTutorial,
     GuideObject,
+    SelectLibrary,
+    LibraryEventTrigger,
+
 }
 
 
