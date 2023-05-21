@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 [Serializable]
 public class TextTriggerData
@@ -44,8 +45,8 @@ public class MediaPlayerBody : MonoBehaviour
     {
         int idx = mediaDetailText.maxVisibleCharacters;
         TMP_CharacterInfo charInfo;
-
-        if(mediaPlayerTriggerList != null && mediaPlayerTriggerList.Count > 0)
+        mediaDetailText.ForceMeshUpdate();
+        if (mediaPlayerTriggerList != null && mediaPlayerTriggerList.Count > 0)
         {
             foreach (TextTriggerData trigger in mediaPlayerTriggerList)
             {
