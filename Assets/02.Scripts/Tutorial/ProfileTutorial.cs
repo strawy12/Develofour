@@ -160,7 +160,6 @@ public class ProfileTutorial : MonoBehaviour
         }
 
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
-        DataManager.Inst.SetProfilerTutorial(false);
     }
 
     public void StartCompleteProfileTutorial(object[] ps = null)
