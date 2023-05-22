@@ -113,8 +113,24 @@ public class Library : Window
         {
             TutorialEvent();
         }
+
+        if(!DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        {
+            OnSelected -= TutorialLibraryClick;
+            OnSelected += TutorialLibraryClick;
+        }
     }
 
+    private void TutorialLibraryClick()
+    {
+        EventManager.TriggerEvent(ETutorialEvent.SelectLibrary, new object[] { this });
+    }
+
+    public void TutorialLibraryClickRemoveEvent()
+    {
+        Debug.Log("라이브러리 이벤트 해제");
+        OnSelected -= TutorialLibraryClick;
+    }
     protected override void Init()
     {
         base.Init();
@@ -135,6 +151,7 @@ public class Library : Window
         EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
         EventManager.StartListening(ELibraryEvent.AddUndoStack, UndoStackPush);
         EventManager.StartListening(ELibraryEvent.ResetRedoStack, RedoStackReset);
+        EventManager.StartListening(ETutorialEvent.LibraryEventTrigger, SetLibraryEvent);
         
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
         
@@ -148,7 +165,11 @@ public class Library : Window
 
     private void SetLibraryEvent(object[] obj)
     {
-        SetLibrary();
+        if (DataManager.Inst.IsProfilerTutorial())
+        {
+            Debug.Log("Asdf");
+            TutorialEvent();
+        }
     }
 
     private void SearchFunction(string text)
@@ -183,7 +204,7 @@ public class Library : Window
 
     public void TutorialEvent()
     {
-        if (currentDirectory.id == 11 && DataManager.Inst.IsProfilerTutorial())
+        if (currentDirectory.id == 7 && DataManager.Inst.IsProfilerTutorial())
         {
             EventManager.TriggerEvent(ETutorialEvent.USBTutorial);
         }
