@@ -78,12 +78,15 @@ public class InformationTrigger : MonoBehaviour
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall) return;
 
-        if (infomaitionDataList == null || infomaitionDataList.Count == 0)
+        if(!isFakeInfo)
         {
-            MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-            return;
+            if (infomaitionDataList == null || infomaitionDataList.Count == 0)
+            {
+                MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
+                return;
+            }
         }
-
+        
         playMonologType = monoLogType;
 
         foreach (NeedInfoData needData in needInfoList)
@@ -103,7 +106,10 @@ public class InformationTrigger : MonoBehaviour
             }
         }
 
-        FindInfo();
+        if(!isFakeInfo)
+        {
+            FindInfo();
+        }
     }
 
 
