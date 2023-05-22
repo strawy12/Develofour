@@ -49,13 +49,13 @@ public class ProfileTutorial : MonoBehaviour
 
     public void StartChatting(int textListIndex)
     {
+        ProfileChattingSystem.OnChatEnd += () => DataManager.Inst.SetProfilerTutorialIdx();
         ProfileChattingSystem.OnPlayChatList?.Invoke(profileTutorialTextData.tutorialTexts[textListIndex].data, 1.5f, true);
     }
 
     private IEnumerator StartProfileTutorial()
     {
         yield return new WaitForSeconds(0.5f);
-        DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
         GameManager.Inst.ChangeGameState(EGameState.Tutorial);
         ProfileChattingSystem.OnChatEnd += StartTutorialSetting;
 
@@ -67,7 +67,6 @@ public class ProfileTutorial : MonoBehaviour
     private void StartTutorialSetting()
     {
         LibraryRect();
-        DataManager.Inst.SetProfilerTutorial(true);
     }
     private void OpenLibrary(object[] ps)
     {
@@ -147,7 +146,6 @@ public class ProfileTutorial : MonoBehaviour
     {
 
         GuideUISystem.EndAllGuide?.Invoke();
-
         TutorialEnd();
         StartChatting(4);
     }
@@ -172,10 +170,10 @@ public class ProfileTutorial : MonoBehaviour
 
         GuideUISystem.EndAllGuide?.Invoke();
 
+        DataManager.Inst.SetProfilerTutorialIdx(5);
         StopAllCoroutines();
 
     }
-
 
     private void LibraryRect()
     {

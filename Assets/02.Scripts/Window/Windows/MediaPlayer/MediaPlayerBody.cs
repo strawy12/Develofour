@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 [Serializable]
-public class MediaPlayerTrigger
+public class TextTriggerData
 {
     [Header("메모용")]
     [SerializeField]
-    private string text;
+    public string text;
 
     [Header("사용 변수")]
     public int id;
@@ -23,7 +24,7 @@ public class MediaPlayerBody : MonoBehaviour
     [SerializeField] private ScrollRect _scroll;
     [SerializeField] private RectTransform _coverRectTrm;
 
-    [SerializeField] private List<MediaPlayerTrigger> mediaPlayerTriggerList;
+    [SerializeField] private List<TextTriggerData> mediaPlayerTriggerList;
 
     public TMP_Text mediaDetailText => _mediaDetailText;
     public ScrollRect scroll => _scroll;
@@ -44,10 +45,10 @@ public class MediaPlayerBody : MonoBehaviour
     {
         int idx = mediaDetailText.maxVisibleCharacters;
         TMP_CharacterInfo charInfo;
-
-        if(mediaPlayerTriggerList != null && mediaPlayerTriggerList.Count > 0)
+        mediaDetailText.ForceMeshUpdate();
+        if (mediaPlayerTriggerList != null && mediaPlayerTriggerList.Count > 0)
         {
-            foreach (MediaPlayerTrigger trigger in mediaPlayerTriggerList)
+            foreach (TextTriggerData trigger in mediaPlayerTriggerList)
             {
                 charInfo = mediaDetailText.textInfo.characterInfo[trigger.id];
                 (trigger.trigger.transform as RectTransform).anchoredPosition = charInfo.topLeft;

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8487508723090794972}
   - component: {fileID: 5141952290955078036}
   - component: {fileID: 3608079186760905392}
-  - component: {fileID: 8761379935546796492}
+  - component: {fileID: 4056342778290988572}
   m_Layer: 5
   m_Name: Info59_127
   m_TagString: Untagged
@@ -34,10 +34,10 @@ RectTransform:
   m_Father: {fileID: 6760515456667878588}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 212, y: -390}
-  m_SizeDelta: {x: 202.0794, y: 35}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -748, y: 130}
+  m_SizeDelta: {x: 202.07935, y: 35}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &5141952290955078036
 CanvasRenderer:
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.16509432, b: 0.16509432, a: 0.34901962}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8761379935546796492
+--- !u!114 &4056342778290988572
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,16 +86,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1872274743647575829}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  needInfoIDList: 
-  linkInfoIDList: 
   infoDataIDList: 3b000000
-  backgroundImage: {fileID: 0}
+  needInfoList: []
   monoLogType: 127
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 3608079186760905392}
 --- !u!1 &6715892275068512868
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 4793340669927101689}
   - component: {fileID: 3359726460526712400}
   - component: {fileID: 2787271533932281665}
-  - component: {fileID: 2706163474503579476}
+  - component: {fileID: 2974564147119269685}
   m_Layer: 5
   m_Name: Info60_66
   m_TagString: Untagged
@@ -130,10 +130,10 @@ RectTransform:
   m_Father: {fileID: 6760515456667878588}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: -282}
-  m_SizeDelta: {x: 625.9405, y: 38.5224}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -950, y: 238}
+  m_SizeDelta: {x: 625.9404, y: 38.5224}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &3359726460526712400
 CanvasRenderer:
@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.16509432, b: 0.16509432, a: 0.48235294}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2706163474503579476
+--- !u!114 &2974564147119269685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,16 +182,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6715892275068512868}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  needInfoIDList: 
-  linkInfoIDList: 
   infoDataIDList: 3c000000
-  backgroundImage: {fileID: 0}
+  needInfoList: []
   monoLogType: 66
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 2787271533932281665}
 --- !u!1 &6760515456448002866
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,6 +337,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71711637839431083953e6402488298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textTriggerList:
+  - text: "\uAC15\uC544\uC9C0\uAC00 \uC8FD\uC740 \uC6D0\uC778"
+    id: 147
+    trigger: {fileID: 2974564147119269685}
+  - text: "\uC720\uC9C4\uC120\uBC30\uC758 \uC81C\uC548"
+    id: 223
+    trigger: {fileID: 4056342778290988572}
 --- !u!114 &6760515456667878587
 MonoBehaviour:
   m_ObjectHideFlags: 0

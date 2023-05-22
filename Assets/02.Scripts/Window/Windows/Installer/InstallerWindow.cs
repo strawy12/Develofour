@@ -73,7 +73,7 @@ public class InstallerWindow : Window
         FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(Constant.FileID.PROFILER), Constant.FileID.BACKGROUND);
 
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.ProfileInstallingFinish, 0);
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.INSTALLCOMPLETE, 0f, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.INSTALL_COMPLETE, 0f, true);
     }
 
     public void CheckOpenWindow(bool isWindowOpen)

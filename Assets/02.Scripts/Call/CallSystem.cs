@@ -42,12 +42,9 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     private IEnumerator RepeatCheckReturnCall()
     {
-        yield break;
         while (true)
         {
             yield return new WaitForSeconds(deflaultDelayTime);
-
-            Debug.Log("checkDelayEnd");
             DecisionCheck();
         }
     }
