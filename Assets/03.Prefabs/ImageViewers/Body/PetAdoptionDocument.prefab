@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8530326333680677032}
   - component: {fileID: 6423414220817989676}
   m_Layer: 5
-  m_Name: Info1_38
+  m_Name: Info1_153_154
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,10 +91,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infoDataIDList: 01000000
   needInfoList: []
-  monoLogType: 38
-  completeMonologType: 0
+  monoLogType: 153
+  completeMonologType: 154
   delay: 0
-  isFakeInfo: 0
+  isFakeInfo: 1
   backgroundImage: {fileID: 8530326333680677032}
 --- !u!1 &2657647842557664394
 GameObject:
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 8166666513653731511}
   - component: {fileID: 3513964931324060919}
   m_Layer: 5
-  m_Name: Info7_39
+  m_Name: Info8_144
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,9 +185,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoDataIDList: 07000000
-  needInfoList: []
-  monoLogType: 39
+  infoDataIDList: 08000000
+  needInfoList:
+  - needInfoID: 7
+    monologID: 0
+    getInfo: 0
+  - needInfoID: 4
+    monologID: 0
+    getInfo: 0
+  monoLogType: 144
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
@@ -282,7 +288,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 04000000
-  needInfoList: []
+  needInfoList:
+  - needInfoID: 1
+    monologID: 0
+    getInfo: 0
   monoLogType: 27
   completeMonologType: 0
   delay: 0
@@ -301,7 +310,7 @@ GameObject:
   - component: {fileID: 5328895276918163002}
   - component: {fileID: 4271449832747388647}
   m_Layer: 5
-  m_Name: Info1_38
+  m_Name: Info1_153_154
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -379,10 +388,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infoDataIDList: 01000000
   needInfoList: []
-  monoLogType: 38
-  completeMonologType: 0
+  monoLogType: 153
+  completeMonologType: 154
   delay: 0
-  isFakeInfo: 0
+  isFakeInfo: 1
   backgroundImage: {fileID: 5328895276918163002}
 --- !u!1 &7969038130583203241
 GameObject:
@@ -493,6 +502,7 @@ GameObject:
   - component: {fileID: 8454321266748870900}
   - component: {fileID: 5891423301709456168}
   - component: {fileID: 8051523755304602131}
+  - component: {fileID: 3426546072142589073}
   m_Layer: 5
   m_Name: PetAdoptionDocument
   m_TagString: Untagged
@@ -591,3 +601,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73291e00daf54a5d823d70076d4eeb52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3426546072142589073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454321266748870906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6459ee3e20a742b69b730787a96fa9f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infoDataIDList: 
+  needInfoList: []
+  monoLogType: 149
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
