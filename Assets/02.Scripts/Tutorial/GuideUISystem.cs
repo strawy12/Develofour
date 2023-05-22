@@ -30,6 +30,7 @@ public class GuideUISystem : MonoBehaviour
 
     private void ChangeFullSize(RectTransform obj)
     {
+        guideUI.rectTransform.anchoredPosition = Vector2.zero;
         guideUI.rectTransform.anchorMin = Vector2.zero;
         guideUI.rectTransform.anchorMax = Vector2.one;
     }

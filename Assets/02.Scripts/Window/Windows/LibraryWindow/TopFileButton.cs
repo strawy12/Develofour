@@ -15,9 +15,12 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     private Image fileImage;
     [SerializeField]
     private GameObject highlightedImage;
+    public DirectorySO CurrentDirectory => currentDirectory;
     private DirectorySO currentDirectory;
 
     private RectTransform rectTransform;
+
+    public GameObject tutorialSelectImage;
     public void Init()
     {
         Bind();

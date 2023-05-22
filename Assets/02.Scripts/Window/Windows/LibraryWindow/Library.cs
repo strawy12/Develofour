@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -128,7 +129,6 @@ public class Library : Window
 
     public void TutorialLibraryClickRemoveEvent()
     {
-        Debug.Log("라이브러리 이벤트 해제");
         OnSelected -= TutorialLibraryClick;
     }
     protected override void Init()
@@ -204,15 +204,24 @@ public class Library : Window
 
     public void TutorialEvent()
     {
+        Debug.Log(currentDirectory.id);
         if (currentDirectory.id == 7 && DataManager.Inst.IsProfilerTutorial())
         {
             EventManager.TriggerEvent(ETutorialEvent.USBTutorial);
         }
-
-        if (currentDirectory.id == 6 && DataManager.Inst.IsProfilerTutorial())
+        else if (currentDirectory.id == 6 && DataManager.Inst.IsProfilerTutorial())
         {
             EventManager.TriggerEvent(ETutorialEvent.ReportTutorial);
         }
+        else if (DataManager.Inst.IsProfilerTutorial() )
+        {
+            TopFileButton button = fileAddressPanel.TopFileButtons.Find((x) => x.CurrentDirectory.id == 7);
+
+            GuideUISystem.EndAllGuide?.Invoke();
+            GuideUISystem.OnGuide(button.tutorialSelectImage.transform as RectTransform);
+            GuideUISystem.FullSizeGuide?.Invoke(button.tutorialSelectImage.transform as RectTransform);
+        }
+
     }
 
     private void CreateChildren()
@@ -347,9 +356,11 @@ public class Library : Window
 
     protected override void OnDestroyWindow()
     {
+
         base.OnDestroyWindow();
         isFirstOpen = false;
         GuideUISystem.EndAllGuide?.Invoke();
+        OnSelected -= TutorialLibraryClick;
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);

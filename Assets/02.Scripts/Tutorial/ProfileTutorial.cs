@@ -26,6 +26,8 @@ public class ProfileTutorial : MonoBehaviour
     [SerializeField]
     private int targetCharID2 = 11;
 
+    private Library library;
+
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, CreatePopUp);
@@ -69,20 +71,14 @@ public class ProfileTutorial : MonoBehaviour
     }
     private void OpenLibrary(object[] ps)
     {
-        if(ps[0] is Library)
+        if (ps[0] is Library)
         {
-            (ps[0] as Library).TutorialLibraryClickRemoveEvent();
+            library = ps[0] as Library;
+            library.SetLibrary();
         }
-        EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
+
         //EventManager.TriggerEvent(ETutorialEvent.LibraryEventTrigger);
         //라이브러리가 오픈될 때 가 아니라 select가 될때
-    }
-
-    private void OpenIncidentTab()
-    {
-        // 사건 탭이 클릭 됐을 때
-
-        // 여기서는 다음 진행 조건이 사건의 피해자 이름 or 신고자 이름 획득 시
     }
 
     private void GetCharacterInfoEvent()
@@ -109,7 +105,7 @@ public class ProfileTutorial : MonoBehaviour
     public void GetIncidentInfo(object[] ps)
     {
         int id = (int)ps[1];
-        if(id == targetIncidentID)
+        if (id == targetIncidentID)
         {
             EventManager.StopListening(EProfileEvent.FindInfoText, GetIncidentInfo);
             ProfileChattingSystem.OnChatEnd += IncidentTabGuide;
@@ -117,13 +113,6 @@ public class ProfileTutorial : MonoBehaviour
         }
     }
 
-    //private void FileExploreGuide()
-    //{
-    //    NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookBackground, 2f);
-    //    guideObjectName = EGuideObject.Explore;
-    //    EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.Explore });
-    //    // 라이브러리가 Select가 되는지 이벤트 듣고
-    //}
 
     private void IncidentTabGuide()
     {
@@ -150,22 +139,29 @@ public class ProfileTutorial : MonoBehaviour
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookCharacterTab, 2f);
         guideObjectName = EGuideObject.CharacterTab;
         EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.CharacterTab });
-
+        
         // 인물 탭이 클릭되는 이벤트 듣고
     }
 
     private void ClickedCharacterTab(object[] obj)
     {
-        EventManager.StopListening(EProfileEvent.ClickCharacterTab, ClickedCharacterTab);
+
         GuideUISystem.EndAllGuide?.Invoke();
-        GameManager.Inst.ChangeGameState(EGameState.Game);
-        DataManager.Inst.SetProfilerTutorial(false);
+
+        TutorialEnd();
         StartChatting(4);
     }
 
     private void TutorialEnd()
     {
+        EventManager.StopListening(EProfileEvent.ClickCharacterTab, ClickedCharacterTab);
         GameManager.Inst.ChangeGameState(EGameState.Game);
+        if(library != null)
+        {
+            library.TutorialLibraryClickRemoveEvent();
+        }
+
+        EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
         DataManager.Inst.SetProfilerTutorial(false);
     }
 
@@ -186,3 +182,5 @@ public class ProfileTutorial : MonoBehaviour
         GuideUISystem.OnGuide(libraryRect);
     }
 }
+
+
