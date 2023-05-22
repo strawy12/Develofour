@@ -52,10 +52,6 @@ public class ProfileInfoSystem : MonoBehaviour
                 MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIAL_NOT_FIND_INFO, 0.1f, false);
                 return;
             }
-            else
-            {
-                EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial, null);
-            }
         }
 
         if (!DataManager.Inst.IsProfileInfoData(id))

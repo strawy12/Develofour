@@ -54,6 +54,13 @@ public static partial class Constant
     #region MonologKey
     public static class MonologKey
     {
+        public const int STARTCUTSCENE_1 = 108;
+        public const int STARTCUTSCENE_2 = 109;
+
+        public const int WINDOWS_LOGIN_UI_OPEN = 109;
+        public const int WINDOWS_LOGIN_COMPLETE = 110;
+        public const int INSTALL_COMPLETE = 110;
+
         public const int TUTORIAL_NOT_FIND_INFO = 134;
     }
     #endregion

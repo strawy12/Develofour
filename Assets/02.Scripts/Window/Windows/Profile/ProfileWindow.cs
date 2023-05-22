@@ -76,7 +76,7 @@ public class ProfileWindow : Window
 
     private void ProfilerSelected()
     {
-        if (DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        if (DataManager.Inst.GetIsClearTutorial())
         {
             EventManager.TriggerEvent(EGuideButtonTutorialEvent.TutorialStart);
             OnSelected -= ProfilerSelected;

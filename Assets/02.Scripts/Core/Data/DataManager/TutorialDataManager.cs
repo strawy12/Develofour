@@ -15,10 +15,10 @@ public partial class DataManager : MonoSingleton<DataManager>
         return saveData.tutorialDataIdx;
     }
 
-    public void SetProfilerTutorialIdx()
+    public void SetProfilerTutorialIdx(int value = 1)
     {
         if (saveData.tutorialDataIdx > 4) return;
-        saveData.tutorialDataIdx++;
+        saveData.tutorialDataIdx+= value;
     }
 
     public bool GetIsClearTutorial()

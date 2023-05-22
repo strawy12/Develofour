@@ -114,7 +114,7 @@ public class Library : Window
             TutorialEvent();
         }
 
-        if(!DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        if(!DataManager.Inst.GetIsClearTutorial())
         {
             OnSelected -= TutorialLibraryClick;
             OnSelected += TutorialLibraryClick;
