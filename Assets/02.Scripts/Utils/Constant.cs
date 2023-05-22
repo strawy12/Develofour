@@ -56,7 +56,7 @@ public static partial class Constant
     {
         public const int YEONGOKIDNAPPINGTITLE = 1;
         public const int KIDNAPPINGREPORTTIME = 2;
-        public const int VICTIMNAME = 3;
+        public const int VICTIMNAMENOTFOUND = 3;
         public const int VICTIMUNIVERSITYSTATE = 4;
         public const int REPORTERNAME = 5;
         public const int CASETESTIMONY = 6;
@@ -172,7 +172,6 @@ public static partial class Constant
         public const int JUYOUNGARGUESTART = 118;
         public const int YOHANWORRYBREAKUP = 119;
         public const int CONFESSED = 120;
-        public const int HITBYGIRLFRIEND = 121;
         public const int INCIDENTREPORTREPORTTIME = 122;
         public const int LOVEFORDOG = 123;
         public const int NEWSSERAFIMFANMEETING = 124;
@@ -184,6 +183,28 @@ public static partial class Constant
         public const int NEEDINFO = 131;
         public const int KANGYOHANUNIVERSITY = 132;
         public const int PARKJUYOUNGUNIVERSITY = 133;
+        public const int TUTORIALNOTFINDINFO = 134;
+        public const int GUESSDATEDDATE = 135;
+        public const int YOHANNAMENOTFOUND = 136;
+        public const int GRILFIRENDFIND = 137;
+        public const int GIRLFRIENDTORMENT = 138;
+        public const int GIRLFRIENDTORMENTNOT = 139;
+        public const int COUNSELPROMISE = 140;
+        public const int YUJINDEPARTMENT = 141;
+        public const int COUNSELPROMISECOMPLETE = 142;
+        public const int GIRLFRIENDLIVINGNOT = 143;
+        public const int GIRLFRIENDLIVING = 144;
+        public const int PETNAMENOTFOUND = 145;
+        public const int STARTEDDATINGWITHGRILFRIEND = 146;
+        public const int LIVEWITHGIRLFRIEND_FALSE = 147;
+        public const int LIVEWITHGIRLFRIEND_TRUE = 148;
+        public const int PETADOPTIONCLICKON = 149;
+        public const int ZOOGLEPINHINTOPEN = 150;
+        public const int ZOOGLEPASSWORDOPEN = 151;
+        public const int PSYCHIATRICDIARYOPEN = 152;
+        public const int YOHANNAMEFAKE = 153;
+        public const int GETINFOCOMPLETE = 154;
+        public const int CURFEWTIMEACQNOTFOUNDGIRLFRIEND = 155;
     }
     #endregion
 }

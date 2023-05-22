@@ -25,7 +25,6 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         {
             var task = Addressables.LoadAssetAsync<NotepadDataSO>(handle.Result[i]).Task;
             await task;
-            Debug.Log(task.Result.name);
             notepadDataList.Add(task.Result.fileId, task.Result);
         }
 

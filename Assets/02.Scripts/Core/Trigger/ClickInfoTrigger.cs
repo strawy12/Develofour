@@ -89,6 +89,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
             lockImage.transform.SetParent(transform);
         }
 
+        lockImage.transform.localScale = Vector3.one;
         lockImage.gameObject.SetActive(isActive);
     }
 
