@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Constant.ProfileInfoKey;
 
 public class ProfileInfoSystem : MonoBehaviour
 {
@@ -36,14 +37,26 @@ public class ProfileInfoSystem : MonoBehaviour
         EProfileCategory category = (EProfileCategory)ps[0];
         int id = (int)ps[1];
 
-        //if(DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) && !DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
-        //{
-        //    if(key != Constant.ProfileInfoKey.SUSPECTNAME)
-        //    {
-        //        //MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIALNOTFINDNAME, 0.1f, false);
-        //        return;
-        //    }
-        //}
+        if (!DataManager.Inst.GetIsClearTutorial())
+        {
+            int idx = DataManager.Inst.GetProfileTutorialIdx();
+            bool playMonolog = 
+               (idx == 0 &&
+               id == INCIDENTREPORT_TITLE) 
+               ||
+               (idx == 3 &&
+               (id == KIMYUJIN_NAME || id == PARKJUYOUNG_NAME));
+
+            if (playMonolog)
+            {
+                MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIAL_NOT_FIND_INFO, 0.1f, false);
+                return;
+            }
+            else
+            {
+                EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial, null);
+            }
+        }
 
         if (!DataManager.Inst.IsProfileInfoData(id))
         {
@@ -61,13 +74,6 @@ public class ProfileInfoSystem : MonoBehaviour
         {
             return;
         }
-
-        if (id == 1 && DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler))
-        {
-            EventManager.TriggerEvent(ETutorialEvent.EndClickInfoTutorial);
-        }
-
-
     }
 
     public void SendAlarm(EProfileCategory category, int id)
