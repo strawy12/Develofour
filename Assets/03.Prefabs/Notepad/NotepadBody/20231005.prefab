@@ -26,18 +26,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4756662812351926001}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6760515456667878588}
-  m_RootOrder: 1
+  m_Father: {fileID: 6760515457785497151}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -147.79303, y: 19.07019}
-  m_SizeDelta: {x: 295.58606, y: 38.14029}
+  m_AnchoredPosition: {x: -963, y: 513.5}
+  m_SizeDelta: {x: 469.3138, y: 69.5184}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4776762784139386191
 CanvasRenderer:
@@ -90,7 +90,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 14000000
-  needInfoList: []
+  needInfoList:
+  - needInfoID: 18
+    monologID: 145
+    getInfo: 0
   monoLogType: 125
   completeMonologType: 0
   delay: 0
@@ -181,7 +184,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6760515456448002865}
-  - {fileID: 6697517101372807891}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -330,7 +332,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: "\uC6B0\uB9AC \uAC15\uC544\uC9C0\uAC00 \uC8FD\uC5C8\uB2E8\uB2E4.\r\n\uBC15\uC8FC\uC601\uC774
+  m_Text: "\uC6B0\uB9AC \uAC15\uC544\uC9C0\uAC00 \uC8FD\uC5C8\uB2E8\uB2E4.\r\n\uC5EC\uCE5C\uC774
     \uD3ED\uD589\uD558\uBA74\uC11C \uC785\uC6D0\uC2DC\uD0A8 \uBCD1\uC6D0\uC5D0\uC11C.\r\n\uC9C4\uC9DC
     \uB9D0\uC774 \uB418\uB294 \uC77C\uC778\uAC00?\r\n\uB2E8\uC21C\uD55C \uD3ED\uD589\uC774\uB77C
     \uB2E4\uC2DC \uC0B4\uC544 \uB3CC\uC544 \uC62C \uC904 \uC54C\uC558\uB2E4.\r\n\uC6B0\uB9AC
@@ -380,7 +382,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6697517101372807891}
   m_Father: {fileID: 6760515456448002865}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -417,7 +420,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC6B0\uB9AC \uAC15\uC544\uC9C0\uAC00 \uC8FD\uC5C8\uB2E8\uB2E4.\r\n\uBC15\uC8FC\uC601\uC774
+  m_text: "\uC6B0\uB9AC \uAC15\uC544\uC9C0\uAC00 \uC8FD\uC5C8\uB2E8\uB2E4.\r\n\uC5EC\uCE5C\uC774
     \uD3ED\uD589\uD558\uBA74\uC11C \uC785\uC6D0\uC2DC\uD0A8 \uBCD1\uC6D0\uC5D0\uC11C.\r\n\uC9C4\uC9DC
     \uB9D0\uC774 \uB418\uB294 \uC77C\uC778\uAC00?\r\n\uB2E8\uC21C\uD55C \uD3ED\uD589\uC774\uB77C
     \uB2E4\uC2DC \uC0B4\uC544 \uB3CC\uC544 \uC62C \uC904 \uC54C\uC558\uB2E4.\r\n\uC6B0\uB9AC
