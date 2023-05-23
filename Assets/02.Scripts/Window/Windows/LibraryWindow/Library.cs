@@ -204,7 +204,6 @@ public class Library : Window
 
     public void TutorialEvent()
     {
-        Debug.Log(currentDirectory.id);
         if (currentDirectory.id == 7 && DataManager.Inst.IsProfilerTutorial())
         {
             EventManager.TriggerEvent(ETutorialEvent.USBTutorial);

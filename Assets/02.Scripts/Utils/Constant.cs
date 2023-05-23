@@ -25,7 +25,7 @@ public static partial class Constant
 
     public static readonly System.DateTime DEFAULTDATE = new System.DateTime(2023, 10, 22, 7, 3, 0);
 
-    public const int NEED_INFO_MONOLOG_ID = 131;
+    //public const int NEED_INFO_MONOLOG_ID = 131;
     #region File
     public static class FileID
     {
@@ -54,15 +54,6 @@ public static partial class Constant
     #region MonologKey
     public static class MonologKey
     {
-        public const int STARTCUTSCENE_1 = 108;
-        public const int STARTCUTSCENE_2 = 109;
-
-        public const int WINDOWS_LOGIN_UI_OPEN = 109;
-        public const int WINDOWS_LOGIN_COMPLETE = 110;
-        public const int INSTALL_COMPLETE = 110;
-
-        public const int TUTORIAL_NOT_FIND_INFO = 134;
-
         public const int YEONGOKIDNAPPINGTITLE = 1;
         public const int KIDNAPPINGREPORTTIME = 2;
         public const int VICTIMNAMENOTFOUND = 3;
@@ -214,7 +205,6 @@ public static partial class Constant
         public const int YOHANNAMEFAKE = 153;
         public const int GETINFOCOMPLETE = 154;
         public const int CURFEWTIMEACQNOTFOUNDGIRLFRIEND = 155;
->>>>>>> main
     }
     #endregion
 }

@@ -154,7 +154,8 @@ public class ProfileTutorial : MonoBehaviour
     {
         EventManager.StopListening(EProfileEvent.ClickCharacterTab, ClickedCharacterTab);
         GameManager.Inst.ChangeGameState(EGameState.Game);
-        if(library != null)
+        GuideUISystem.EndAllGuide?.Invoke();
+        if (library != null)
         {
             library.TutorialLibraryClickRemoveEvent();
         }
@@ -169,7 +170,7 @@ public class ProfileTutorial : MonoBehaviour
 
         GuideUISystem.EndAllGuide?.Invoke();
 
-        DataManager.Inst.SetProfilerTutorialIdx(5);
+        DataManager.Inst.SetProfilerTutorialIdx(4);
         StopAllCoroutines();
 
     }

@@ -7,7 +7,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public bool IsProfilerTutorial()
     {
-        return 0 <= saveData.tutorialDataIdx && saveData.tutorialDataIdx <= 4;
+        return 0 <= saveData.tutorialDataIdx && saveData.tutorialDataIdx <= 3;
     }
     
     public int GetProfileTutorialIdx()
@@ -17,12 +17,12 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public void SetProfilerTutorialIdx(int value = 1)
     {
-        if (saveData.tutorialDataIdx > 4) return;
+        if (saveData.tutorialDataIdx > 3) return;
         saveData.tutorialDataIdx+= value;
     }
 
     public bool GetIsClearTutorial()
     {
-        return saveData.tutorialDataIdx > 4;
+        return saveData.tutorialDataIdx > 3;
     }
 }

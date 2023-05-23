@@ -44,12 +44,14 @@ public class ProfileInfoSystem : MonoBehaviour
                (idx == 0 &&
                id == INCIDENTREPORT_TITLE) 
                ||
-               (idx == 3 &&
+               (idx ==2 &&
                (id == KIMYUJIN_NAME || id == PARKJUYOUNG_NAME));
 
-            if (playMonolog)
+            Debug.Log(idx.ToString() +  playMonolog.ToString());
+            if (!playMonolog)
             {
-                MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIAL_NOT_FIND_INFO, 0.1f, false);
+                MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { false });
+                MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIALNOTFINDINFO, 0.1f, false);
                 return;
             }
         }
