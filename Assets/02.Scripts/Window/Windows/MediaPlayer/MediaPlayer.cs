@@ -105,9 +105,14 @@ public partial class MediaPlayer : Window
 
         isRePlaying = false;
 
-        body.SetPosition();
         audioSource.Play();
         mediaPlayerDownBar.PlayButtonClick?.Invoke();
+    }
+
+    public override void WindowOpen()
+    {
+        base.WindowOpen();
+        body.SetPosition();
     }
 
     private void ButtonActionInit()

@@ -52,10 +52,11 @@ public class MediaPlayerBody : MonoBehaviour
             {
                 charInfo = mediaDetailText.textInfo.characterInfo[trigger.id];
                 (trigger.trigger.transform as RectTransform).anchoredPosition = charInfo.topLeft;
+                Debug.Log(charInfo.topLeft);
             }
         }
         
-        charInfo = mediaDetailText.textInfo.characterInfo[idx];
+        charInfo = mediaDetailText.textInfo.characterInfo[Mathf.Min(idx, mediaDetailText.textInfo.characterInfo.Length - 1)];
         SetPositionCoverImage(charInfo);
     }
 
