@@ -54,6 +54,8 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
                 ActiveLockImage(false);
                 break;
         }
+
+        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
     }
 
     public virtual void OnPointerEnter(PointerEventData eventData)
@@ -79,6 +81,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     }
     private void ActiveLockImage(bool isActive)
     {
+        if (infoDataIDList == null || infoDataIDList.Count == 0) return;
         if (needInfoList == null || needInfoList.Count <= 0) return;
         if (lockImage == null)
         {
@@ -86,6 +89,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
             lockImage.transform.SetParent(transform);
         }
 
+        lockImage.transform.localScale = Vector3.one;
         lockImage.gameObject.SetActive(isActive);
     }
 

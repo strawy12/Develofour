@@ -91,10 +91,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infoDataIDList: 
   needInfoList: []
-  monoLogType: 29
-  completeMonologType: 0
+  monoLogType: 153
+  completeMonologType: 154
   delay: 0
-  isFakeInfo: 0
+  isFakeInfo: 1
   backgroundImage: {fileID: 3432090478379391259}
 --- !u!1 &2517343197253594503
 GameObject:
@@ -488,7 +488,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 
-  needInfoList: []
+  needInfoList:
+  - needInfoID: 1
+    monologID: 0
+    getInfo: 0
   monoLogType: 27
   completeMonologType: 0
   delay: 0

@@ -10,6 +10,8 @@ public class ObjectOnEnableTrigger : InformationTrigger
 
     private void OnEnable()
     {
+        if (DataManager.Inst.IsMonologShow(monoLogType) && completeMonologType == 0) return;
+
         GetInfo();
     }
 }
