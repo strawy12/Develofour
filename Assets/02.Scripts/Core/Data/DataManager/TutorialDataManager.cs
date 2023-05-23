@@ -17,7 +17,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public void SetProfilerTutorialIdx(int value = 1)
     {
-        if (saveData.tutorialDataIdx > 3) return;
+        if (saveData.tutorialDataIdx > 5) return;
         saveData.tutorialDataIdx+= value;
     }
 
