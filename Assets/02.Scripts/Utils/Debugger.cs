@@ -69,7 +69,11 @@ public class Debugger : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.G))
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.IncidentReport, 76});
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.KangYohanProfile, 2});
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.KangYohanProfile, 3});
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.ParkJuyoungProfile, 9});
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.KangYohanProfile, 4});
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.ParkJuyoungProfile, 8});
         }
 
         if (Input.GetKeyDown(KeyCode.H))

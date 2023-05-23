@@ -36,6 +36,7 @@ public class ReturnMonologData
     public List<MonologLockDecision> decisions= null;
 
     private int endDelayTime = 0;
+    [HideInInspector]
     public ECharacterDataType characterType = ECharacterDataType.None;
 
     public int MonologID => returnMonologID;

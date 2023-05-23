@@ -65,6 +65,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     public void DecisionCheck(object[] ps = null)
     {
         List<ReturnMonologData> list = DataManager.Inst.GetReturnDataList();
+        List<ReturnMonologData> temp = new List<ReturnMonologData>();
 
         foreach (ReturnMonologData data in list)
         {
@@ -76,8 +77,11 @@ public class CallSystem : MonoSingleton<CallSystem>
             if (Define.MonologLockDecisionFlag(data.decisions))
             {
                 OnAnswerCall(data.characterType, data.MonologID);
+                temp.Add(data);
             }
         }
+
+        temp.ForEach(x=> DataManager.Inst.RemoveReturnData(x));
     }
 
     // 얘는 결국에는 받는 전용
@@ -98,15 +102,17 @@ public class CallSystem : MonoSingleton<CallSystem>
     public void OnRequestCall(CharacterInfoDataSO data)
     {
         SetCallUI(data);
-        // 해당 캐릭터가 받는 독백이 존재한지 체크
-
-        RequestCallDataSO callData = ResourceManager.Inst.GetRequestCallData(data.characterType);
-
         int result = -1;
-        if (callData != null && Define.MonologLockDecisionFlag(callData.defaultDecisions))
+
+        if (!DataManager.Inst.IsExistReturnData(data.characterType))
         {
-            MonologSystem.OnEndMonologEvent = () => SetMonologSelector(callData);
-            result = callData.defaultMonologID;
+            RequestCallDataSO callData = ResourceManager.Inst.GetRequestCallData(data.characterType);
+
+            if (callData != null && Define.MonologLockDecisionFlag(callData.defaultDecisions))
+            {
+                MonologSystem.OnEndMonologEvent = () => SetMonologSelector(callData);
+                result = callData.defaultMonologID;
+            }
         }
 
         StartCoroutine(StartRequestCall(result));
@@ -231,7 +237,7 @@ public class CallSystem : MonoSingleton<CallSystem>
 
         Debug.Log("Hide");
         MonologSystem.OnEndMonologEvent = Hide;
-        //MonologSystem.OnEndMonologEvent += () => SaveReturnMonolog(data);
+        MonologSystem.OnEndMonologEvent = () => SaveReturnMonolog(data);
 
         MonologSystem.OnStartMonolog?.Invoke(monologType, 0, false);
     }
