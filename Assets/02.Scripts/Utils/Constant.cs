@@ -205,6 +205,9 @@ public static partial class Constant
         public const int YOHANNAMEFAKE = 153;
         public const int GETINFOCOMPLETE = 154;
         public const int CURFEWTIMEACQNOTFOUNDGIRLFRIEND = 155;
+        public const int MISSINGKIMYUJINPHONENUMBER = 156;
+        public const int FINDKIMYUJINPHONENUMBER = 157;
+        public const int COMPLETEDPHONENUMBER = 158;
     }
     #endregion
 }
