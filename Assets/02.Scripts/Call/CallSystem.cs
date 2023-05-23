@@ -45,7 +45,6 @@ public class CallSystem : MonoSingleton<CallSystem>
         while (true)
         {
             yield return new WaitForSeconds(deflaultDelayTime);
-
             DecisionCheck();
         }
     }

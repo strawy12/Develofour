@@ -5,6 +5,7 @@ using System;
 
 public enum EProfileCategoryType
 {
+    None = 0,
     Info,
     Character,
 }

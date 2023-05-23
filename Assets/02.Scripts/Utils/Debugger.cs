@@ -76,7 +76,10 @@ public class Debugger : MonoBehaviour
             EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.ParkJuyoungProfile, 8});
         }
 
-
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.ParkJuyoungProfile, 1 });
+        }
         //if (Input.GetKeyDown(KeyCode.A))
         //{
         //FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(888), "");

@@ -58,11 +58,6 @@ public partial class GuideManager : MonoBehaviour
         StartGudie(guideTopicName);
     }
 
-    private void EndProfileGuide()
-    {
-        EventManager.TriggerEvent(EProfileEvent.EndGuide);
-    }
-
     private void ThisClearGuideTopic(object[] ps)
     {
         if (ps[0] == null)

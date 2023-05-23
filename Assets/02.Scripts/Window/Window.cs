@@ -277,7 +277,6 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
     protected virtual void OnDestroyWindow()
     {
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
-        Debug.Log($"{file.windowType} is Destroy");
     }
     protected virtual void OnEnable()
     {

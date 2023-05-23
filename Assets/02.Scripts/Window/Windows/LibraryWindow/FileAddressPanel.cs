@@ -14,6 +14,7 @@ public class FileAddressPanel : MonoBehaviour
     private TopFileButton fileBtn;
 
     private List<TopFileButton> topFileButtons = new List<TopFileButton>();
+    public List<TopFileButton> TopFileButtons => topFileButtons;
     private Queue<TopFileButton> buttonPool = new Queue<TopFileButton>();
 
     private FileSO currentFileSO;

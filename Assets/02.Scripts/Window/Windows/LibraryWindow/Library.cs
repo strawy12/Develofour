@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -113,8 +114,23 @@ public class Library : Window
         {
             TutorialEvent();
         }
+
+        if(!DataManager.Inst.GetIsClearTutorial())
+        {
+            OnSelected -= TutorialLibraryClick;
+            OnSelected += TutorialLibraryClick;
+        }
     }
 
+    private void TutorialLibraryClick()
+    {
+        EventManager.TriggerEvent(ETutorialEvent.SelectLibrary, new object[] { this });
+    }
+
+    public void TutorialLibraryClickRemoveEvent()
+    {
+        OnSelected -= TutorialLibraryClick;
+    }
     protected override void Init()
     {
         base.Init();
@@ -135,6 +151,7 @@ public class Library : Window
         EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
         EventManager.StartListening(ELibraryEvent.AddUndoStack, UndoStackPush);
         EventManager.StartListening(ELibraryEvent.ResetRedoStack, RedoStackReset);
+        EventManager.StartListening(ETutorialEvent.LibraryEventTrigger, SetLibraryEvent);
         
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
         
@@ -148,7 +165,11 @@ public class Library : Window
 
     private void SetLibraryEvent(object[] obj)
     {
-        SetLibrary();
+        if (DataManager.Inst.IsProfilerTutorial())
+        {
+            Debug.Log("Asdf");
+            TutorialEvent();
+        }
     }
 
     private void SearchFunction(string text)
@@ -183,15 +204,23 @@ public class Library : Window
 
     public void TutorialEvent()
     {
-        if (currentDirectory.id == 11 && DataManager.Inst.IsProfilerTutorial())
+        if (currentDirectory.id == 7 && DataManager.Inst.IsProfilerTutorial())
         {
             EventManager.TriggerEvent(ETutorialEvent.USBTutorial);
         }
-
-        if (currentDirectory.id == 6 && DataManager.Inst.IsProfilerTutorial())
+        else if (currentDirectory.id == 6 && DataManager.Inst.IsProfilerTutorial())
         {
             EventManager.TriggerEvent(ETutorialEvent.ReportTutorial);
         }
+        else if (DataManager.Inst.IsProfilerTutorial() )
+        {
+            TopFileButton button = fileAddressPanel.TopFileButtons.Find((x) => x.CurrentDirectory.id == 7);
+
+            GuideUISystem.EndAllGuide?.Invoke();
+            GuideUISystem.OnGuide(button.tutorialSelectImage.transform as RectTransform);
+            GuideUISystem.FullSizeGuide?.Invoke(button.tutorialSelectImage.transform as RectTransform);
+        }
+
     }
 
     private void CreateChildren()
@@ -326,9 +355,11 @@ public class Library : Window
 
     protected override void OnDestroyWindow()
     {
+
         base.OnDestroyWindow();
         isFirstOpen = false;
         GuideUISystem.EndAllGuide?.Invoke();
+        OnSelected -= TutorialLibraryClick;
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);

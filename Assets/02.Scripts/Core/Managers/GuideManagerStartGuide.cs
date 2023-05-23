@@ -6,7 +6,6 @@ public partial class GuideManager : MonoBehaviour
 {
     private void StartGudie(EGuideTopicName guideTopic)
     {
-        Debug.Log(guideTopic);
         switch (guideTopic)
         {
             case EGuideTopicName.None:
@@ -38,7 +37,5 @@ public partial class GuideManager : MonoBehaviour
                     break;
                 }
         }
-
-        EndProfileGuide();
     }
 }
