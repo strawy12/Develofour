@@ -137,25 +137,37 @@ public class Debugger : MonoBehaviour
             {
                 so.color = UnityEngine.Color.white;
             }
-            else if (so.windowType == EWindowType.SiteShortCut)
+            //else if (so.windowType == EWindowType.SiteShortCut)
+            //{
+            //    so.color = UnityEngine.Color.white;
+            //}
+            //else if (so.windowType == EWindowType.Notepad)
+            //{
+            //    so.iconSprite = notepadSprite;
+            //}
+            //else if (so.windowType == EWindowType.ImageViewer)
+            //{
+            //    so.color = UnityEngine.Color.white;
+            //}
+            //else if (so.windowType == EWindowType.Directory)
+            //{
+            //    so.iconSprite = DirectorySprite;
+            //}
+            //else if (so.windowType == EWindowType.MediaPlayer)
+            //{
+            //    so.iconSprite = mediaPlayerSprite;
+            //}
+            //else if(so.windowType == EWindowType.Discord)
+            //{
+            //    so.iconSprite = harmonySprite;
+            //}
+            //else if(so.windowType == EWindowType.ProfileWindow)
+            //{
+            //    so.iconSprite = InstallerSprite;
+            //}
+            else if(so.windowType == EWindowType.ImageViewer)
             {
-                so.color = UnityEngine.Color.white;
-            }
-            else if (so.windowType == EWindowType.Notepad)
-            {
-                so.iconSprite = notepadSprite;
-            }
-            else if (so.windowType == EWindowType.ImageViewer)
-            {
-                so.color = UnityEngine.Color.white;
-            }
-            else if (so.windowType == EWindowType.Directory)
-            {
-                so.iconSprite = DirectorySprite;
-            }
-            else if (so.windowType == EWindowType.MediaPlayer)
-            {
-                so.iconSprite = mediaPlayerSprite;
+                Debug.Log(so.GetFileLocation());
             }
             AssetDatabase.Refresh();
             AssetDatabase.SaveAssets();

@@ -87,6 +87,8 @@ public class ProfileInfoSystem : MonoBehaviour
         }
 
         string text;
+        if (temp == "nullError") return;
+
         if (category != EProfileCategory.InvisibleInformation)
         {
             text = categoryData.categoryName + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";

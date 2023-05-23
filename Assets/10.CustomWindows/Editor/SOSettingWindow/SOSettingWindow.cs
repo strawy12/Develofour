@@ -330,7 +330,7 @@ public class SOSettingWindow : EditorWindow
                 {
                     FileSO child = fileSOList.Find(x => x.id == childID);
                     if (child == null) continue;
-                    //Debug.Log($"{child}_{childID}");
+                    Debug.Log($"{child}_{childID}");
                     child.parent = directory;
                     directory.children.Add(child);
                 }
@@ -463,6 +463,7 @@ public class SOSettingWindow : EditorWindow
             EProfileCategoryType categoryType = Enum.Parse<EProfileCategoryType>(columns[1]);
             string categoryName = columns[2];
             List<ProfileInfoTextDataSO> infoTextDataList = new List<ProfileInfoTextDataSO>();
+            ProfileInfoTextDataSO defaultText = null;
 
             if (columns[3] != "")
             {
@@ -478,6 +479,12 @@ public class SOSettingWindow : EditorWindow
                 }
             }
 
+            if (columns[4] != "")
+            {
+                ProfileInfoTextDataSO infoData = infoSODatas.Find(x => x.id == int.Parse(columns[4]));
+                defaultText = infoData;
+            }
+
             bool isCreate = false;
             ProfileCategoryDataSO categoryData = categorySODatas.Find(x => x.category == category);
 
@@ -491,6 +498,7 @@ public class SOSettingWindow : EditorWindow
             categoryData.categoryType = categoryType;
             categoryData.categoryName = categoryName;
             categoryData.infoTextList = infoTextDataList;
+            categoryData.defaultInfoText = defaultText;
 
             string SO_PATH = $"Assets/07.ScriptableObjects/Profile/ProfileInfoData/InfoCategoryData/{category}.asset";
 
