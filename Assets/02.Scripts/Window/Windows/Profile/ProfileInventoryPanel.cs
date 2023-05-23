@@ -77,7 +77,7 @@ public class ProfileInventoryPanel : MonoBehaviour
             .Where(x => x.Value.categoryType == EProfileCategoryType.Character)
             .Select(x => x.Value).ToList();
 
-        categoryType = EProfileCategoryType.Info;
+        categoryType = EProfileCategoryType.None;
 
         CreatePool();
     }
@@ -86,6 +86,9 @@ public class ProfileInventoryPanel : MonoBehaviour
         //InputManager.Inst.AddKeyInput(KeyCode.RightArrow, RightMove);
         //InputManager.Inst.AddKeyInput(KeyCode.LeftArrow, LeftMove);
         gameObject.SetActive(true);
+        if (categoryType == EProfileCategoryType.None)
+            return;
+
         if (categoryType == EProfileCategoryType.Info)
         {
             ShowScenePanel();

@@ -12,8 +12,8 @@ public class ProfileWindow : Window
     [Header("ProfilerPanel")]
     [SerializeField]
     private ProfilePanel profilePanel;
-    [SerializeField]
-    private FileSearchPanel fileSearchPanel;
+    //[SerializeField]
+    //private FileSearchPanel fileSearchPanel;
     [SerializeField]
     private ProfileUsingDocument profilerUsingDocuments;
 
@@ -56,17 +56,17 @@ public class ProfileWindow : Window
         profileChatting.Init();
         profilePanel.Init();
         profilerUsingDocuments.Init();
-        fileSearchPanel.Init();
+        //fileSearchPanel.Init();
 
         OnSelected += ProfilerSelected;
 
         infoPanelBtn.button.onClick?.AddListener(OnClickShowProfiling);
-        searchPanelBtn.button.onClick?.AddListener(OnClickShowFileSearch);
+        //searchPanelBtn.button.onClick?.AddListener(OnClickShowFileSearch);
 
         moveDownPanelBtn.onClick.AddListener(MoveButtonClick);
         movePopUpPanelBtn.onClick.AddListener(MoveButtonClick);
 
-        EventManager.StartListening(ETutorialEvent.SearchBtnGuide, GuideSearchButton);
+        //EventManager.StartListening(ETutorialEvent.SearchBtnGuide, GuideSearchButton);
         EventManager.StartListening(EProfileEvent.FindInfoText, CheckProfilerOnOff);
 
         beforeClickButton = infoPanelBtn;
@@ -76,7 +76,7 @@ public class ProfileWindow : Window
 
     private void ProfilerSelected()
     {
-        if (DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
+        if (DataManager.Inst.GetIsClearTutorial())
         {
             EventManager.TriggerEvent(EGuideButtonTutorialEvent.TutorialStart);
             OnSelected -= ProfilerSelected;
@@ -154,7 +154,7 @@ public class ProfileWindow : Window
         area.DOAnchorPosY(-1000, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
         {
             profilePanel.Hide();
-            fileSearchPanel.gameObject.SetActive(false);
+            //fileSearchPanel.gameObject.SetActive(false);
         });
 
         yield return new WaitForSeconds(moveDelay + 0.05f);
@@ -194,8 +194,8 @@ public class ProfileWindow : Window
     private void ShowFileSearchPanel()
     {
         ShowPanel();
-        fileSearchPanel.gameObject.SetActive(true);
-        EventManager.TriggerEvent(ETutorialEvent.ClickSearchBtn);
+        //fileSearchPanel.gameObject.SetActive(true);
+        //EventManager.TriggerEvent(ETutorialEvent.ClickSearchBtn);
     }
 
     private void ShowPanel()

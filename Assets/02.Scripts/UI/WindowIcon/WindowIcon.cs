@@ -95,13 +95,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         iconImage.sprite = newFileData.iconSprite;
 
         iconImage.color = newFileData.color;
-        if (fileData.id == 11) //유저 (라이브러리)
-        {
-            EventManager.StopListening(ETutorialEvent.LibraryTutorial, YellowUI);
-            EventManager.StartListening(ETutorialEvent.LibraryTutorial, YellowUI);
-            //이벤트 끝내고 //가이드 ui 해주고//
-            //);
-        }
 
         if (fileData.id == 6 ) //usb
         {
@@ -276,6 +269,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private void OnDestroy()
     {
         StopAllCoroutines();
+
+        if (GameManager.Inst.isApplicationQuit) return;
         GuideUISystem.EndGuide?.Invoke(rectTranstform);
     }
 }

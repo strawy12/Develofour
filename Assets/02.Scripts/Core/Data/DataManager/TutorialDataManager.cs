@@ -7,48 +7,22 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public bool IsProfilerTutorial()
     {
-        return saveData.isProfilerTutorial;
+        return 0 <= saveData.tutorialDataIdx && saveData.tutorialDataIdx <= 3;
+    }
+    
+    public int GetProfileTutorialIdx()
+    {
+        return saveData.tutorialDataIdx;
     }
 
-    public void SetProfilerTutorial(bool flag)
+    public void SetProfilerTutorialIdx(int value = 1)
     {
-        saveData.isProfilerTutorial = flag;
+        if (saveData.tutorialDataIdx > 3) return;
+        saveData.tutorialDataIdx+= value;
     }
 
-    private List<bool> InitTutoList()
+    public bool GetIsClearTutorial()
     {
-        List<bool> list = new List<bool>();
-
-        for(int i =0; i < (int)ETutorialType.Count; i++)
-        {
-            list.Add(false);
-        }
-        return list;
-    }
-
-    private void CreateTutorialList()
-    {
-        saveData.isStartTutorialList = InitTutoList();
-        saveData.isClearTutorialList = InitTutoList();
-    }
-
-    public bool GetIsStartTutorial(ETutorialType type)
-    {
-        return saveData.isStartTutorialList[(int)type];
-    }
-
-    public bool GetIsClearTutorial(ETutorialType type)
-    {
-        return saveData.isClearTutorialList[(int)type];
-    }
-
-    public void SetIsStartTutorial(ETutorialType type, bool value)
-    {
-        saveData.isStartTutorialList[(int)type] = value;
-    }
-
-    public void SetIsClearTutorial(ETutorialType type, bool value)
-    {
-        saveData.isClearTutorialList[(int)type] = value;
+        return saveData.tutorialDataIdx > 3;
     }
 }

@@ -67,8 +67,6 @@ public class SaveData
     public bool isProfilerInstall;
     // ENUM으로 타입을 나눠서 튜토리얼 타입
     // List<bool> (int)type
-    public List<bool> isStartTutorialList;
-    public List<bool> isClearTutorialList;
     public List<bool> loginData;
 
     public string branchPassword;
@@ -76,7 +74,8 @@ public class SaveData
 
     public int CurrentTimeData;
 
-    public bool isProfilerTutorial; //
+    // 튜토리얼 중인지
+    public int tutorialDataIdx = -1;
 }
 
 
