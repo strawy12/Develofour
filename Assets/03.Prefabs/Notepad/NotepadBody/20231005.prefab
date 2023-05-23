@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6697517101372807891}
   - component: {fileID: 4776762784139386191}
   - component: {fileID: 5958766257986726480}
-  - component: {fileID: 798698507573265191}
+  - component: {fileID: 5858921617105970695}
   m_Layer: 5
   m_Name: Info20_125
   m_TagString: Untagged
@@ -26,18 +26,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4756662812351926001}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6760515456667878588}
-  m_RootOrder: 1
+  m_Father: {fileID: 6760515457785497151}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 5.458191, y: -5.003296}
-  m_SizeDelta: {x: 295.5861, y: 38.1403}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -963, y: 513.5}
+  m_SizeDelta: {x: 469.3138, y: 69.5184}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4776762784139386191
 CanvasRenderer:
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &798698507573265191
+--- !u!114 &5858921617105970695
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,16 +86,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4756662812351926001}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 14000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 0}
+  needInfoList:
+  - needInfoID: 18
+    monologID: 145
+    getInfo: 0
   monoLogType: 125
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 5958766257986726480}
 --- !u!1 &6760515456448002866
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,7 +184,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6760515456448002865}
-  - {fileID: 6697517101372807891}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -240,6 +242,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71711637839431083953e6402488298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textTriggerList:
+  - text: "\uC6B0\uB9AC \uAC15\uC544\uC9C0\uAC00"
+    id: 0
+    trigger: {fileID: 5858921617105970695}
 --- !u!114 &6760515456667878587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,7 +332,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: "\uC6B0\uB9AC \uAC15\uC544\uC9C0\uAC00 \uC8FD\uC5C8\uB2E8\uB2E4.\r\n\uBC15\uC8FC\uC601\uC774
+  m_Text: "\uC6B0\uB9AC \uAC15\uC544\uC9C0\uAC00 \uC8FD\uC5C8\uB2E8\uB2E4.\r\n\uC5EC\uCE5C\uC774
     \uD3ED\uD589\uD558\uBA74\uC11C \uC785\uC6D0\uC2DC\uD0A8 \uBCD1\uC6D0\uC5D0\uC11C.\r\n\uC9C4\uC9DC
     \uB9D0\uC774 \uB418\uB294 \uC77C\uC778\uAC00?\r\n\uB2E8\uC21C\uD55C \uD3ED\uD589\uC774\uB77C
     \uB2E4\uC2DC \uC0B4\uC544 \uB3CC\uC544 \uC62C \uC904 \uC54C\uC558\uB2E4.\r\n\uC6B0\uB9AC
@@ -376,7 +382,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6697517101372807891}
   m_Father: {fileID: 6760515456448002865}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -413,7 +420,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC6B0\uB9AC \uAC15\uC544\uC9C0\uAC00 \uC8FD\uC5C8\uB2E8\uB2E4.\r\n\uBC15\uC8FC\uC601\uC774
+  m_text: "\uC6B0\uB9AC \uAC15\uC544\uC9C0\uAC00 \uC8FD\uC5C8\uB2E8\uB2E4.\r\n\uC5EC\uCE5C\uC774
     \uD3ED\uD589\uD558\uBA74\uC11C \uC785\uC6D0\uC2DC\uD0A8 \uBCD1\uC6D0\uC5D0\uC11C.\r\n\uC9C4\uC9DC
     \uB9D0\uC774 \uB418\uB294 \uC77C\uC778\uAC00?\r\n\uB2E8\uC21C\uD55C \uD3ED\uD589\uC774\uB77C
     \uB2E4\uC2DC \uC0B4\uC544 \uB3CC\uC544 \uC62C \uC904 \uC54C\uC558\uB2E4.\r\n\uC6B0\uB9AC

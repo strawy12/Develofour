@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6218522526907089730}
   - component: {fileID: 8914785025596064600}
   - component: {fileID: 4095361505233105948}
-  - component: {fileID: 3196583430850005892}
+  - component: {fileID: 2034090702004476273}
   m_Layer: 5
   m_Name: Info56_53
   m_TagString: Untagged
@@ -34,10 +34,10 @@ RectTransform:
   m_Father: {fileID: 6760515456667878588}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: -4.5999756}
-  m_SizeDelta: {x: 159.0905, y: 37.3}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -950, y: 515.4}
+  m_SizeDelta: {x: 159.09045, y: 37.299988}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8914785025596064600
 CanvasRenderer:
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.4198113, b: 0.4198113, a: 0}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3196583430850005892
+--- !u!114 &2034090702004476273
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,16 +86,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 3695645248271543879}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 38000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 0}
+  needInfoList:
+  - needInfoID: 1
+    monologID: 136
+    getInfo: 0
   monoLogType: 53
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 4095361505233105948}
 --- !u!1 &4886920052038162782
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +110,7 @@ GameObject:
   - component: {fileID: 1666416643478363480}
   - component: {fileID: 9209929463308002689}
   - component: {fileID: 7439214667390160561}
-  - component: {fileID: 3996093467981745684}
+  - component: {fileID: 2967062055799848171}
   m_Layer: 5
   m_Name: Info56_53
   m_TagString: Untagged
@@ -130,10 +133,10 @@ RectTransform:
   m_Father: {fileID: 6760515456667878588}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 71.2, y: -41.5}
-  m_SizeDelta: {x: 115.9031, y: 37.3}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -888.8, y: 478.5}
+  m_SizeDelta: {x: 115.903076, y: 37.299988}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &9209929463308002689
 CanvasRenderer:
@@ -156,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.4198113, b: 0.4198113, a: 0}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -173,7 +176,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3996093467981745684
+--- !u!114 &2967062055799848171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,16 +185,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4886920052038162782}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 38000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 0}
+  needInfoList:
+  - needInfoID: 1
+    monologID: 136
+    getInfo: 0
   monoLogType: 53
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 7439214667390160561}
 --- !u!1 &6760515456448002866
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,6 +343,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71711637839431083953e6402488298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textTriggerList:
+  - text: "\uC815\uC2E0\uACFC \uC0C1\uB2F4"
+    id: 0
+    trigger: {fileID: 2034090702004476273}
+  - text: "\uC815\uC2E0 \uC0C1\uB2F4"
+    id: 26
+    trigger: {fileID: 2967062055799848171}
 --- !u!114 &6760515456667878587
 MonoBehaviour:
   m_ObjectHideFlags: 0

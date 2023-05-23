@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4146707269597132956}
   - component: {fileID: 5533089661942908843}
   - component: {fileID: 4298973842480567071}
-  - component: {fileID: 5535976721670535249}
+  - component: {fileID: 5711022467893428790}
   m_Layer: 5
-  m_Name: SuspectEmailTrigger (1)
+  m_Name: Info2_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,10 +34,10 @@ RectTransform:
   m_Father: {fileID: 8454321266748870907}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 58.93}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 52.2, y: -137.5}
-  m_SizeDelta: {x: 33.6149, y: 8.0528}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -116.8, y: 32.5}
+  m_SizeDelta: {x: 33.6149, y: 8.052795}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &5533089661942908843
 CanvasRenderer:
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5535976721670535249
+--- !u!114 &5711022467893428790
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,16 +86,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 845286448674931749}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 02000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 4298973842480567071}
+  needInfoList:
+  - needInfoID: 1
+    monologID: 0
+    getInfo: 0
   monoLogType: 10
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 4298973842480567071}
 --- !u!1 &4932732911454955570
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,9 +110,9 @@ GameObject:
   - component: {fileID: 5229688074393130897}
   - component: {fileID: 1795627749034296827}
   - component: {fileID: 5110879099405048357}
-  - component: {fileID: 1758528870189661082}
+  - component: {fileID: 6885899375242014101}
   m_Layer: 5
-  m_Name: SuspectEmailTrigger (5)
+  m_Name: Info10_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,10 +133,10 @@ RectTransform:
   m_Father: {fileID: 8454321266748870907}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 239.29, y: -200.5}
-  m_SizeDelta: {x: 30.665, y: 9.7309}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 70.28999, y: -30.5}
+  m_SizeDelta: {x: 30.665009, y: 9.730896}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1795627749034296827
 CanvasRenderer:
@@ -173,7 +176,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1758528870189661082
+--- !u!114 &6885899375242014101
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,16 +185,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 4932732911454955570}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 0a000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 5110879099405048357}
+  needInfoList:
+  - needInfoID: 7
+    monologID: 0
+    getInfo: 0
+  - needInfoID: 9
+    monologID: 0
+    getInfo: 0
   monoLogType: 12
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 5110879099405048357}
 --- !u!1 &5559508989830533006
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,9 +212,9 @@ GameObject:
   - component: {fileID: 9025896325252697354}
   - component: {fileID: 135069108727660521}
   - component: {fileID: 7754203283877834281}
-  - component: {fileID: 7273668784616177720}
+  - component: {fileID: 3210828932891332313}
   m_Layer: 5
-  m_Name: SuspectEmailTrigger (6)
+  m_Name: Info7_39
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,10 +235,10 @@ RectTransform:
   m_Father: {fileID: 8454321266748870907}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 219.80673, y: -153.6}
-  m_SizeDelta: {x: 51.5445, y: 18.837}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 50.806732, y: 16.399994}
+  m_SizeDelta: {x: 51.544495, y: 18.837006}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &135069108727660521
 CanvasRenderer:
@@ -269,7 +278,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7273668784616177720
+--- !u!114 &3210828932891332313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -278,16 +287,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5559508989830533006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 07000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 7754203283877834281}
-  monoLogType: 39
+  needInfoList: []
+  monoLogType: 3
+  completeMonologType: 154
   delay: 0
-  isFakeInfo: 0
+  isFakeInfo: 1
+  backgroundImage: {fileID: 7754203283877834281}
 --- !u!1 &5886079868260460841
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,9 +308,9 @@ GameObject:
   - component: {fileID: 723842539196645535}
   - component: {fileID: 7193369014792806707}
   - component: {fileID: 1660737397873492827}
-  - component: {fileID: 3855981262493340285}
+  - component: {fileID: 270984933831486318}
   m_Layer: 5
-  m_Name: SuspectEmailTrigger (4)
+  m_Name: Info9_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,10 +331,10 @@ RectTransform:
   m_Father: {fileID: 8454321266748870907}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 239.28598, y: -183.10376}
-  m_SizeDelta: {x: 30.6688, y: 10.6774}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 70.28598, y: -13.10376}
+  m_SizeDelta: {x: 30.668793, y: 10.677399}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &7193369014792806707
 CanvasRenderer:
@@ -365,7 +374,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3855981262493340285
+--- !u!114 &270984933831486318
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -374,16 +383,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 5886079868260460841}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 09000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 1660737397873492827}
+  needInfoList:
+  - needInfoID: 7
+    monologID: 0
+    getInfo: 0
   monoLogType: 10
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 1660737397873492827}
 --- !u!1 &7128116250216511566
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,9 +407,9 @@ GameObject:
   - component: {fileID: 1035861399857115013}
   - component: {fileID: 8382858089549638024}
   - component: {fileID: 2918491446332062611}
-  - component: {fileID: 2992040549099204695}
+  - component: {fileID: 6733056163895755863}
   m_Layer: 5
-  m_Name: SuspectName
+  m_Name: Info1_38
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -418,10 +430,10 @@ RectTransform:
   m_Father: {fileID: 8454321266748870907}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 58.93}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 19.8, y: -137}
-  m_SizeDelta: {x: 48.9078, y: 16.5984}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -149.2, y: 33}
+  m_SizeDelta: {x: 48.907806, y: 16.598404}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8382858089549638024
 CanvasRenderer:
@@ -461,7 +473,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2992040549099204695
+--- !u!114 &6733056163895755863
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -470,16 +482,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7128116250216511566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 01000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 2918491446332062611}
-  monoLogType: 38
+  needInfoList: []
+  monoLogType: 153
+  completeMonologType: 154
   delay: 0
-  isFakeInfo: 0
+  isFakeInfo: 1
+  backgroundImage: {fileID: 2918491446332062611}
 --- !u!1 &8454321266748870906
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,9 +615,9 @@ GameObject:
   - component: {fileID: 4144468500369307187}
   - component: {fileID: 8272819073669089142}
   - component: {fileID: 6404970025599409164}
-  - component: {fileID: 2415041627595486241}
+  - component: {fileID: 1578169932048067616}
   m_Layer: 5
-  m_Name: SuspectEmailTrigger (2)
+  m_Name: Info3_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -626,10 +638,10 @@ RectTransform:
   m_Father: {fileID: 8454321266748870907}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 58.93}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 66.9, y: -144.7}
-  m_SizeDelta: {x: 33.413, y: 8.4984}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -102.1, y: 25.300003}
+  m_SizeDelta: {x: 33.412994, y: 8.498398}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8272819073669089142
 CanvasRenderer:
@@ -669,7 +681,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2415041627595486241
+--- !u!114 &1578169932048067616
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -678,13 +690,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 8727988361963618028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 03000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 6404970025599409164}
+  needInfoList:
+  - needInfoID: 1
+    monologID: 0
+    getInfo: 0
+  - needInfoID: 2
+    monologID: 0
+    getInfo: 0
   monoLogType: 11
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 6404970025599409164}

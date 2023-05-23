@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7864434875793426816}
   - component: {fileID: 6329164562844419133}
   - component: {fileID: 4040385861537925955}
-  - component: {fileID: 4249232334195380677}
+  - component: {fileID: 5851828598123774084}
   m_Layer: 5
-  m_Name: PetAdmisstionTrigger
+  m_Name: Info19_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,10 +34,10 @@ RectTransform:
   m_Father: {fileID: 8454321266748870907}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 76.862366, y: -181.9054}
-  m_SizeDelta: {x: 158.3743, y: 108.4329}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -90.137634, y: -14.9053955}
+  m_SizeDelta: {x: 158.3743, y: 108.43289}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6329164562844419133
 CanvasRenderer:
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.72156864}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4249232334195380677
+--- !u!114 &5851828598123774084
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,16 +86,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1736889459404536316}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 13000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 0}
+  needInfoList: []
   monoLogType: 14
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 4040385861537925955}
 --- !u!1 &7969038130583203241
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,9 +107,9 @@ GameObject:
   - component: {fileID: 5466862493306471427}
   - component: {fileID: 5087769353586198298}
   - component: {fileID: 7018996266200689560}
-  - component: {fileID: 7105372021779887594}
+  - component: {fileID: 6810899848502416606}
   m_Layer: 5
-  m_Name: PetNameTrigger
+  m_Name: Info18_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,10 +130,10 @@ RectTransform:
   m_Father: {fileID: 8454321266748870907}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 93.2177, y: -36.90001}
-  m_SizeDelta: {x: 133.1479, y: 22.96}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -73.7823, y: 130.09999}
+  m_SizeDelta: {x: 133.14789, y: 22.959991}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &5087769353586198298
 CanvasRenderer:
@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.5882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7105372021779887594
+--- !u!114 &6810899848502416606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,16 +182,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7969038130583203241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 12000000
-  needInfoIDList: 
-  linkInfoIDList: 
-  backgroundImage: {fileID: 0}
+  needInfoList: []
   monoLogType: 15
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 7018996266200689560}
 --- !u!1 &8454321266748870906
 GameObject:
   m_ObjectHideFlags: 0

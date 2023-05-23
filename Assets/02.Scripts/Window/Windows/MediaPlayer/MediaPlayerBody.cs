@@ -1,18 +1,19 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 [Serializable]
 public class TextTriggerData
 {
-    [Header("¸Þ¸ð¿ë")]
+    [Header("ë©”ëª¨ìš©")]
     [SerializeField]
-    private string text;
+    public string text;
 
-    [Header("»ç¿ë º¯¼ö")]
+    [Header("ì‚¬ìš© ë³€ìˆ˜")]
     public int id;
     public InformationTrigger trigger;
 }
@@ -44,8 +45,8 @@ public class MediaPlayerBody : MonoBehaviour
     {
         int idx = mediaDetailText.maxVisibleCharacters;
         TMP_CharacterInfo charInfo;
-
-        if(mediaPlayerTriggerList != null && mediaPlayerTriggerList.Count > 0)
+        mediaDetailText.ForceMeshUpdate();
+        if (mediaPlayerTriggerList != null && mediaPlayerTriggerList.Count > 0)
         {
             foreach (TextTriggerData trigger in mediaPlayerTriggerList)
             {
