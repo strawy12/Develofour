@@ -461,7 +461,7 @@ public class SOSettingWindow : EditorWindow
 
             EProfileCategory category = Enum.Parse<EProfileCategory>(columns[0]);
             EProfileCategoryType categoryType = Enum.Parse<EProfileCategoryType>(columns[1]);
-            string categoryName = columns[2];
+            string categoryName = columns[0];
             List<ProfileInfoTextDataSO> infoTextDataList = new List<ProfileInfoTextDataSO>();
 
             if (columns[3] != "")
