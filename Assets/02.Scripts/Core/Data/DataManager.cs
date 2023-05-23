@@ -44,7 +44,6 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.branchPassword = "";
         saveData.returnMonologData = new List<ReturnMonologData>();
 
-        CreateTutorialList();
         CreateLoginData();
         ProfileSaveData();
         CreateGuideSaveData();

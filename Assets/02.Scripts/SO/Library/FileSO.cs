@@ -2,6 +2,7 @@
 using System;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Linq;
 
 [System.Serializable]
 public struct WindowIconData
@@ -73,6 +74,18 @@ public class FileSO : ScriptableObject
     [ContextMenu("GetFileLocation")]
     public string DebugGetFileLocation()
     {
+        string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
+        List<FileSO> fileSOList = new List<FileSO>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            if(AssetDatabase.LoadAssetAtPath<FileSO>(path).id == 46)
+            {
+                Debug.Log(AssetDatabase.LoadAssetAtPath<FileSO>(path).name);
+            }
+        }
+
+
         string location = "";
         if (parent == null)
         {

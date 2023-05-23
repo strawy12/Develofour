@@ -15,7 +15,7 @@ public class ProfileUsingDocument : MonoBehaviour
 
     public void Init()
     {
-        if (DataManager.Inst.GetIsStartTutorial(ETutorialType.Profiler) == true)
+        if (DataManager.Inst.GetProfileTutorialIdx() != -1)
         {
             return;
         }
@@ -40,6 +40,5 @@ public class ProfileUsingDocument : MonoBehaviour
         usingDocuments.SetActive(false);
 
         EventManager.TriggerEvent(ETutorialEvent.TutorialStart);
-        DataManager.Inst.SetIsStartTutorial(ETutorialType.Profiler, true);
     }
 }

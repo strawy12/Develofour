@@ -69,12 +69,17 @@ public class Debugger : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.G))
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.KangYohanProfile, 3});
             EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.KangYohanProfile, 2});
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.KangYohanProfile, 3});
             EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.ParkJuyoungProfile, 9});
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.KangYohanProfile, 4});
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.ParkJuyoungProfile, 8});
         }
 
-
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.ParkJuyoungProfile, 1 });
+        }
         //if (Input.GetKeyDown(KeyCode.A))
         //{
         //FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(888), "");
@@ -132,25 +137,37 @@ public class Debugger : MonoBehaviour
             {
                 so.color = UnityEngine.Color.white;
             }
-            else if (so.windowType == EWindowType.SiteShortCut)
+            //else if (so.windowType == EWindowType.SiteShortCut)
+            //{
+            //    so.color = UnityEngine.Color.white;
+            //}
+            //else if (so.windowType == EWindowType.Notepad)
+            //{
+            //    so.iconSprite = notepadSprite;
+            //}
+            //else if (so.windowType == EWindowType.ImageViewer)
+            //{
+            //    so.color = UnityEngine.Color.white;
+            //}
+            //else if (so.windowType == EWindowType.Directory)
+            //{
+            //    so.iconSprite = DirectorySprite;
+            //}
+            //else if (so.windowType == EWindowType.MediaPlayer)
+            //{
+            //    so.iconSprite = mediaPlayerSprite;
+            //}
+            //else if(so.windowType == EWindowType.Discord)
+            //{
+            //    so.iconSprite = harmonySprite;
+            //}
+            //else if(so.windowType == EWindowType.ProfileWindow)
+            //{
+            //    so.iconSprite = InstallerSprite;
+            //}
+            else if(so.windowType == EWindowType.ImageViewer)
             {
-                so.color = UnityEngine.Color.white;
-            }
-            else if (so.windowType == EWindowType.Notepad)
-            {
-                so.iconSprite = notepadSprite;
-            }
-            else if (so.windowType == EWindowType.ImageViewer)
-            {
-                so.color = UnityEngine.Color.white;
-            }
-            else if (so.windowType == EWindowType.Directory)
-            {
-                so.iconSprite = DirectorySprite;
-            }
-            else if (so.windowType == EWindowType.MediaPlayer)
-            {
-                so.iconSprite = mediaPlayerSprite;
+                Debug.Log(so.GetFileLocation());
             }
             AssetDatabase.Refresh();
             AssetDatabase.SaveAssets();

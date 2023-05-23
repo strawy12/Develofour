@@ -87,8 +87,9 @@ public class ProfileChattingSystem : TextSystem
     {
         // 이벤트매니저로 쏴주고 
         // 데이터 저장
-        currentTextData = RemoveCommandText(currentTextData, true);
 
+        currentTextData = RemoveCommandText(currentTextData, true);
+        Debug.Log(currentTextData);
         foreach (Action trigger in triggerDictionary.Values)
         {
             trigger?.Invoke();

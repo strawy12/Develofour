@@ -25,7 +25,7 @@ public static partial class Constant
 
     public static readonly System.DateTime DEFAULTDATE = new System.DateTime(2023, 10, 22, 7, 3, 0);
 
-    public const int NEED_INFO_MONOLOG_ID = 131;
+    //public const int NEED_INFO_MONOLOG_ID = 131;
     #region File
     public static class FileID
     {
@@ -43,9 +43,9 @@ public static partial class Constant
     #region ProfileInfoKey
     public static class ProfileInfoKey
     {
-        public const string SUSPECTRESIDENCE = "SuspectResidence";
-        public const string VICTIMUNIVERSITY = "VictimUniversity";
-        public const string SUSPECTNAME = "SuspectName";
+        public const int PARKJUYOUNG_NAME = 7;
+        public const int KIMYUJIN_NAME = 11;
+        public const int INCIDENTREPORT_TITLE = 76;
     }
     #endregion
     #region SiteAddress

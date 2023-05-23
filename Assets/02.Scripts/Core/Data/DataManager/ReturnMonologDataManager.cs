@@ -14,6 +14,16 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.returnMonologData.Add(data);
     }
 
+    public bool IsExistReturnData(ECharacterDataType type)
+    {
+        return saveData.returnMonologData.Find(x => x.characterType == type) != null;
+    }
+
+    public void RemoveReturnData(ReturnMonologData data)
+    {
+        saveData.returnMonologData.Remove(data);
+    }
+
     public ReturnMonologData GetReturnData(int index)
     {
         return saveData.returnMonologData[index];

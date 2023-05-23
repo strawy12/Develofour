@@ -25,6 +25,8 @@ public partial class Sound : MonoBehaviour
         StartCutScenePoint,
         StartCutSceneLightPull,
         PhoneAlarm,
+        LockInfoTrigger,
+        FindInfoTrigger,
         End
     }
 

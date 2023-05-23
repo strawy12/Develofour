@@ -2,37 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public enum EProfileCategory
-{
-    None,
-    KangYohanProfile,
-    ParkJuyoungProfile,
-    KimYujinProfile,
-    PetProfile,
-    TaeWoongProfile,
-    CriminalInfomation,
-    JuyoungMomProfile,
-    SecurityProfile,
-    AccompliceProfile,
-    IncidentReport,
-    LocationInformation,
-    Bat,
-    PetCam,
-    CounselingRecord,
-    BodyAutopsy,
-    CCTV,
-    LastCallRecord,
-    BackgroundMail,
-    ViolenceDiary,
-    PrescriptionDiary,
-    PetDeadDiary,
-    Glove,
-    Knife,
-    YohanYujinTalk,
-    InvisibleInformation,
-    ConflictDiary,
-    Count,
-}
+
 
 public class ProfilePanel : MonoBehaviour
 {
@@ -52,7 +22,7 @@ public class ProfilePanel : MonoBehaviour
         infoPanel.Init();
         typePanel.Init();
         characterBtn.onClick.AddListener(OnClickCharacterPanelBtn);
-        sceneBtn.onClick.AddListener(OnClickScenePanelBtn);
+        sceneBtn.onClick.AddListener(OnClickIncidentPanelBtn);
         EventManager.StartListening(EProfileEvent.FindInfoInProfile, ChangeValue);
 
         Show();
@@ -86,12 +56,16 @@ public class ProfilePanel : MonoBehaviour
     {
         if (typePanel.CheckCurrentType(EProfileCategoryType.Character) == false)
             typePanel.ShowCharacterPanel();
+
+        EventManager.TriggerEvent(EProfileEvent.ClickCharacterTab);
     }
 
-    private void OnClickScenePanelBtn()
+    private void OnClickIncidentPanelBtn()
     {
         if (typePanel.CheckCurrentType(EProfileCategoryType.Info) == false)
             typePanel.ShowScenePanel();
+
+        EventManager.TriggerEvent(EProfileEvent.ClickIncidentTab);
     }
     private void OnDestroy()
     {
