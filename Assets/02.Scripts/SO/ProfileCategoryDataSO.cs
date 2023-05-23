@@ -21,6 +21,8 @@ public class ProfileCategoryDataSO : ScriptableObject
     [Header("Information")]
     [SerializeField]
     public List<ProfileInfoTextDataSO> infoTextList;
+    public ProfileInfoTextDataSO defaultInfoText;
+
     public ProfileInfoTextDataSO GetSaveData(int id)
     {
         ProfileInfoTextDataSO data = null;

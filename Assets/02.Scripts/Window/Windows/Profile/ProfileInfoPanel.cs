@@ -116,6 +116,15 @@ public class ProfileInfoPanel : MonoBehaviour
         currentData = categoryData;
         titleText.SetText(currentData.categoryName);
         SpriteSetting();
+
+        if(currentData.defaultInfoText != null)
+        {
+            ProfileInfoText infoText = Pop();
+            infoText.Setting(currentData.defaultInfoText);
+            infoText.Show();
+            infoText.gameObject.SetActive(true);
+        }
+
         foreach (var infoData in currentData.infoTextList)
         {
             ProfileInfoText infoText = Pop();
