@@ -69,6 +69,7 @@ public class InformationTrigger : MonoBehaviour
             }
         }
 
+        Sound.OnPlaySound?.Invoke(Sound.EAudioType.FindInfoTrigger);
         MonologSystem.OnStartMonolog?.Invoke(playMonologType, delay, true);
 
 
@@ -102,6 +103,7 @@ public class InformationTrigger : MonoBehaviour
 
                 int id = needData.monologID == 0 ? Constant.NEED_INFO_MONOLOG_ID : needData.monologID;
                 MonologSystem.OnStartMonolog?.Invoke(id, delay, true);
+                Sound.OnPlaySound?.Invoke(Sound.EAudioType.LockInfoTrigger);
                 return;
             }
         }
