@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,11 +9,11 @@ using static System.Net.Mime.MediaTypeNames;
 [Serializable]
 public class TextTriggerData
 {
-    [Header("¸Þ¸ð¿ë")]
+    [Header("ë©”ëª¨ìš©")]
     [SerializeField]
     public string text;
 
-    [Header("»ç¿ë º¯¼ö")]
+    [Header("ì‚¬ìš© ë³€ìˆ˜")]
     public int id;
     public InformationTrigger trigger;
 }
