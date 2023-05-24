@@ -39,7 +39,7 @@ public class ImageViewer : Window
         imageViewerBody.Init();
 
         imageEnlargement = imageViewerBody.imageEnlargement;
-        imageEnlargement.Init(imagePercentText);
+        imageEnlargement.Init(imagePercentText, imageData.sprite);
 
         enlargementButton.onClick?.AddListener(EnlargementButtonClick);
         reductionButton.onClick?.AddListener(ReductionButton);
