@@ -15,7 +15,7 @@ public enum EMailType
     StarbookSecurityCode,
     OrderListMail,
     ReplyCCTVMail,
-    RequestMail,
+    BackInvestigationMail,
     BranchCertificationMail,
     BranchPersonalInfoMail,
     End,
