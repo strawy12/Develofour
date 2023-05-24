@@ -107,6 +107,11 @@ public class ProfileInventoryPanel : MonoBehaviour
     }
     public void AddProfileCategoryPrefab(EProfileCategory category)
     {
+        if(category == EProfileCategory.InvisibleInformation)
+        {
+            return;
+        }
+
         if (categoryType == EProfileCategoryType.Character)
         {
             foreach (var data in characterCategoryList)
