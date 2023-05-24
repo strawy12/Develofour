@@ -50,10 +50,11 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         image.rectTransform.sizeDelta = size;
     }
 
-    public void Init(TMP_Text imagePercentText)
+    public void Init(TMP_Text imagePercentText, Sprite sprite)
     {
         this.imagePercentText = imagePercentText;
         currentImage = GetComponent<Image>();
+        currentImage.sprite = sprite;
 
         transform.parent.GetComponent<ScrollRect>().content = transform as RectTransform;
 
