@@ -59,13 +59,13 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
         profileImage.sprite = null;
     }
 
-    public void SettingChatData(DiscordChatData data, DiscordProfileDataSO profileData, bool showProfile)
+    public void SettingChatData(DiscordChatData data, DiscordProfileDataSO profileData, bool showProfile, DiscordSendTime sendTime)
     {
         currentChatData = data;
         currentProfileData = profileData;
         isProfileShow = showProfile;
         messageText.SettingMessage(data.message);
-        timeText.SettingText(data.sendTime);
+        timeText.SettingText(sendTime);
 
         if (data.msgSpritePrefab != null)
         {
@@ -169,9 +169,18 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
             {
                 EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSpritePrefab }); ;
             }
-            if (currentChatData.infoData != null)
+            if (currentChatData.infoIDs.Count != 0)
             {
-                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { currentChatData.infoData.category, currentChatData.infoData.id, null });
+                foreach(var infoID in  currentChatData.infoIDs)
+                {
+                    var infoData = ResourceManager.Inst.GetProfileInfoData(infoID);
+                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { infoData.category, infoData.id, null });
+                }
+              
+            }
+            if(currentChatData.monologID != 0)
+            {
+                MonologSystem.OnStartMonolog?.Invoke(currentChatData.monologID, 0f, true);
             }
         }
 

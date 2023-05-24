@@ -80,7 +80,7 @@ public class Discord : Window
 
         if (!(param[0] is string) || param[0] == null) return;
         string userName = param[0] as string;
- 
+
         currentUserName = userName;
         chatRoomNameText.text = "@ " + currentUserName;
         currentChatData = GetChatDataList(currentUserName);
@@ -89,18 +89,12 @@ public class Discord : Window
         chattingPanel.playerProfileData = currentChatData.myProfileData;
         if (currentChatData != null)
         {
-            foreach (DiscordChatData chatData in currentChatData.chatDataList)
+            foreach (DiscordChatDataSO chatDataSO in currentChatData.chatDataSOList)
             {
-                
-                chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData);
-            }
-        }
-        if (currentTalkData != null)
-        {
-            foreach (DiscordChatData talkData in currentTalkData.chatDataList)
-            {
-                if (talkData.isTalked)
-                    chattingPanel.CreatePanel(talkData, currentChatData.opponentProfileData);
+                foreach(DiscordChatData chatData in chatDataSO.chatDatas)
+                {
+                    chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData, chatDataSO.chatDay);
+                }
             }
         }
     }
@@ -163,22 +157,15 @@ public class Discord : Window
         EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
     }
 #if UNITY_EDITOR
-    private void OnApplicationQuit()
-    {
-        foreach (DiscordTalkDataListSO talkList in talkDataList)
-        {
-            talkList.Reset();
-        }
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            object[] ps = new object[1] { "테스트" };
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.J))
+    //    {
+    //        object[] ps = new object[1] { "테스트" };
 
-            StartTalkChat(ps);
+    //        StartTalkChat(ps);
 
-        }
-    }
+    //    }
+    //}
 #endif
 }
