@@ -392,7 +392,7 @@ public class SOSettingWindow : EditorWindow
 
             int id = int.Parse(columns[0]);
 
-            if (columns[0] == string.Empty || columns[1] == string.Empty || columns[2] == string.Empty || columns[4] == string.Empty) continue;
+            if (columns[0] == string.Empty || columns[1] == string.Empty || columns[2] == string.Empty) continue;
 
             EProfileCategory category = Enum.Parse<EProfileCategory>(columns[2]);
             string infoText = columns[3];
@@ -479,6 +479,7 @@ public class SOSettingWindow : EditorWindow
                 }
             }
 
+            columns[4] = Regex.Replace(columns[4], "[^0-9]", "");
             if (columns[4] != "")
             {
                 ProfileInfoTextDataSO infoData = infoSODatas.Find(x => x.id == int.Parse(columns[4]));

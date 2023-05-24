@@ -89,7 +89,6 @@ public class ProfileChattingSystem : TextSystem
         // 데이터 저장
 
         currentTextData = RemoveCommandText(currentTextData, true);
-        Debug.Log(currentTextData);
         foreach (Action trigger in triggerDictionary.Values)
         {
             trigger?.Invoke();

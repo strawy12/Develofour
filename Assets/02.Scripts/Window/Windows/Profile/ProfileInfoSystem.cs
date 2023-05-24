@@ -37,24 +37,24 @@ public class ProfileInfoSystem : MonoBehaviour
         EProfileCategory category = (EProfileCategory)ps[0];
         int id = (int)ps[1];
 
-        if (!DataManager.Inst.GetIsClearTutorial())
-        {
-            int idx = DataManager.Inst.GetProfileTutorialIdx();
-            bool playMonolog = 
-               (idx == 0 &&
-               id == INCIDENTREPORT_TITLE) 
-               ||
-               (idx ==2 &&
-               (id == KIMYUJIN_NAME || id == PARKJUYOUNG_NAME));
+        //if (!DataManager.Inst.GetIsClearTutorial())
+        //{
+        //    int idx = DataManager.Inst.GetProfileTutorialIdx();
+        //    bool playMonolog = 
+        //       (idx == 0 &&
+        //       id == INCIDENTREPORT_TITLE) 
+        //       ||
+        //       (idx ==2 &&
+        //       (id == KIMYUJIN_NAME || id == PARKJUYOUNG_NAME));
 
-            Debug.Log(idx.ToString() +  playMonolog.ToString());
-            if (!playMonolog)
-            {
-                MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { false });
-                MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIALNOTFINDINFO, 0.1f, false);
-                return;
-            }
-        }
+        //    Debug.Log(idx.ToString() +  playMonolog.ToString());
+        //    if (!playMonolog)
+        //    {
+        //        MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { false });
+        //        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIALNOTFINDINFO, 0.1f, false);
+        //        return;
+        //    }
+        //}
 
         if (!DataManager.Inst.IsProfileInfoData(id))
         {

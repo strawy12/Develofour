@@ -34,9 +34,9 @@ public class ReturnMonologData
     private int returnDelay = 0;
 
     public List<MonologLockDecision> decisions= null;
+    public List<int> additionFiles;
 
     private int endDelayTime = 0;
-    [HideInInspector]
     public ECharacterDataType characterType = ECharacterDataType.None;
 
     public int MonologID => returnMonologID;

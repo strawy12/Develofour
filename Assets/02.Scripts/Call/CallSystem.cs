@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
-using System.Linq;
-using System.Runtime.InteropServices;
 
 //class StackMonolog
 //{
@@ -34,6 +32,8 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     [SerializeField]
     private float deflaultDelayTime = 10f;
+
+    private bool isCalling = false;
 
     public void Start()
     {
@@ -64,6 +64,7 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     public void DecisionCheck(object[] ps = null)
     {
+        if (isCalling) return;
         List<ReturnMonologData> list = DataManager.Inst.GetReturnDataList();
         List<ReturnMonologData> temp = new List<ReturnMonologData>();
 
@@ -71,17 +72,23 @@ public class CallSystem : MonoSingleton<CallSystem>
         {
             Debug.Log($"{data.EndDelayTime}_{DataManager.Inst.GetCurrentTime()}");
 
-            if (data.EndDelayTime < DataManager.Inst.GetCurrentTime())
+            if (data.EndDelayTime > DataManager.Inst.GetCurrentTime())
                 continue;
 
             if (Define.MonologLockDecisionFlag(data.decisions))
             {
+                Debug.Log(data.characterType);
                 OnAnswerCall(data.characterType, data.MonologID);
+                if (data.additionFiles != null && data.additionFiles.Count > 0)
+                {
+                    Debug.LogError("임시방편임");
+                    MonologSystem.OnEndMonologEvent = () => data.additionFiles.ForEach(x => FileManager.Inst.AddFile(x, Constant.FileID.USB));
+                }
                 temp.Add(data);
             }
         }
 
-        temp.ForEach(x=> DataManager.Inst.RemoveReturnData(x));
+        temp.ForEach(x => DataManager.Inst.RemoveReturnData(x));
     }
 
     // 얘는 결국에는 받는 전용
@@ -91,11 +98,18 @@ public class CallSystem : MonoSingleton<CallSystem>
         CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
         SetCallUI(charSO);
 
+        StartCoroutine(PhoneSoundCor());
+
         ShowSpectrumUI(false);
         ShowAnswerButton(true);
         ButtonSetting(monologType);
 
-        Show(true);
+        if(DataManager.Inst.IsSavePhoneNumber(charSO.phoneNum) == false)
+        {
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.InvisibleInformation, charSO.profileInfoID });
+            EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { charSO.phoneNum });
+        }
+        Show();
     }
 
     // 얘는 결국에는 거는 전용
@@ -120,7 +134,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         ShowAnswerButton(false);
         ShowSpectrumUI(true);
 
-        Show(false);
+        Show();
     }
 
     // 선택지 UI 생성해주는 코드
@@ -136,7 +150,11 @@ public class CallSystem : MonoSingleton<CallSystem>
 
             int num = i;
             MonologLockData lockData = callData.monologLockList[i];
-            lockData.returnMonologData.characterType = callData.characterType;
+
+            if (lockData.returnMonologData.characterType == ECharacterDataType.None)
+            {
+                lockData.returnMonologData.characterType = callData.characterType;
+            }
 
             CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
             MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(lockData.monologID);
@@ -166,6 +184,12 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     private IEnumerator StartRequestCall(int monologType)
     {
+        if (isCalling)
+        {
+            yield return new WaitUntil(() => !isCalling);
+            yield return new WaitForSeconds(5f);
+        }
+
         float delay = 5f;
         yield return PlayPhoneCallSound(delay);
         if (monologType != -1)
@@ -205,7 +229,7 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     private void ShowSpectrumUI(bool isShow)
     {
-        spectrumUI.gameObject.SetActive(true);
+        spectrumUI.gameObject.SetActive(isShow);
 
         if (isShow)
         {
@@ -251,18 +275,20 @@ public class CallSystem : MonoSingleton<CallSystem>
         DataManager.Inst.AddReturnData(data.returnMonologData);
     }
 
-    public void Show(bool isShake)
+    public void Show()
     {
-        if (isShake)
-        {
-            StartCoroutine(PhoneSoundCor());
-        }
+        isCalling = true;
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
         transform.DOLocalMoveX(770, 0.5f).SetEase(Ease.Linear);
     }
 
     private IEnumerator PhoneSoundCor()
     {
+        if (isCalling)
+        {
+            yield return new WaitUntil(() => !isCalling);
+            yield return new WaitForSeconds(5f);
+        }
         yield return new WaitForSeconds(0.8f);
         while (!isRecieveCall)
         {
@@ -270,18 +296,21 @@ public class CallSystem : MonoSingleton<CallSystem>
             Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
             yield return new WaitForSeconds(4f);
         }
+        transform.DOKill(true);
+        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.PhoneAlarm);
         isRecieveCall = false;
     }
 
 
     public void Hide()
     {
-        Debug.Log("Hid2e");
+        isCalling = false;
         transform.DOKill(true);
         Sound.OnImmediatelyStop(Sound.EAudioType.PhoneCall);
         GameManager.Inst.ChangeGameState(EGameState.Game);
 
         StopAllCoroutines();
+        StartCoroutine(RepeatCheckReturnCall());
         transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
         spectrumUI.StopSpectrum();
 

@@ -27,10 +27,10 @@ public class CallTopPanel : MonoBehaviour
         nextBtn.onClick.AddListener(OnClickNextBtn);
         beforeBtn.onClick.AddListener(OnClickBeforeBtn);
         autoCompleteBtn.onClick.AddListener(OnClickAutoBtn);
-        List<CharacterInfoDataSO> characterDataList = ResourceManager.Inst.GetCharacterDataSOList();
+        characterDataList = ResourceManager.Inst.GetCharacterDataSOList();
         EventManager.StartListening(ECallEvent.AddAutoCompleteCallBtn, AddNewAutoPhoneNumber);
-        this.characterDataList = characterDataList;
         currentIdx = 0;
+
         foreach (var data in characterDataList)
         {
             if (DataManager.Inst.IsSavePhoneNumber(data.phoneNum))
@@ -41,9 +41,10 @@ public class CallTopPanel : MonoBehaviour
 
         if(phoneNumberList.Count != 0 )
         {
-            nameText.text = ResourceManager.Inst.GetCharacterDataSO(phoneNumberList[currentIdx]).characterName;
+            nameText.text = characterDataList[currentIdx].characterName;
 
-        }else
+        }
+        else
         {
             gameObject.SetActive(false);
         }
@@ -51,7 +52,6 @@ public class CallTopPanel : MonoBehaviour
 
     private void AddNewAutoPhoneNumber(object[] ps)
     {
-        Debug.Log("addnewautophonenumber");
         if (!(ps[0] is string))
         {
             return;
@@ -63,13 +63,10 @@ public class CallTopPanel : MonoBehaviour
         if (!phoneNumberList.Contains(number))
         {
             phoneNumberList.Add(number);
-            NoticeSystem.OnNotice?.Invoke("전화번호가 추가되었습니다.",
-                ResourceManager.Inst.GetCharacterDataSO(phoneNumberList[currentIdx]).characterName + "의 전화번호가 전화 앱에 추가되었습니다.",
-                0.1f, true, null, Color.white, ENoticeTag.None);
         }
         gameObject.SetActive(true);
 
-        nameText.text = ResourceManager.Inst.GetCharacterDataSO(phoneNumberList[currentIdx]).characterName;
+        nameText.text = characterDataList[currentIdx].characterName;
     }
 
 
@@ -83,7 +80,7 @@ public class CallTopPanel : MonoBehaviour
         if (currentIdx + 1 < phoneNumberList.Count)
         {
             currentIdx += 1;
-            nameText.text = ResourceManager.Inst.GetCharacterDataSO(phoneNumberList[currentIdx]).characterName;
+            nameText.text = characterDataList[currentIdx].characterName;
         }
     }
 
@@ -97,7 +94,7 @@ public class CallTopPanel : MonoBehaviour
         if (currentIdx - 1 >= 0)
         {
             currentIdx -= 1;
-            nameText.text = ResourceManager.Inst.GetCharacterDataSO(phoneNumberList[currentIdx]).characterName;
+            nameText.text = characterDataList[currentIdx].characterName;
         }
     }
 

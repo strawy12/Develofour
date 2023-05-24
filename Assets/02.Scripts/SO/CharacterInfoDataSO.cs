@@ -10,4 +10,8 @@ public class CharacterInfoDataSO : ScriptableObject
     public string phoneNum;
     public Sprite profileIcon;
     public ECharacterDataType characterType;
+    /// <summary>
+    /// 전화번호 등록 ID
+    /// </summary>
+    public int profileInfoID;
 }

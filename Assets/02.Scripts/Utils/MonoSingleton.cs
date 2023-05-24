@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    private static T _inst;
+    private static T _inst = null;
     private static bool shuttingDown = false;
     private static object locker = new object();
     public static T Inst
@@ -13,7 +14,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             if (shuttingDown)
             {
-                Debug.LogWarning("[Singleton] Instance " + typeof(T) + " already destroyed. Returning null.");
+                Debug.LogWarning("[Singleton] Instance " + typeof(T) + " already destroyed. Returning null.");  
             }
 
             lock (locker)
@@ -30,7 +31,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
                 return _inst;
             }
         }
-    }
+    } 
     private void OnDestroy()
     {
         shuttingDown = true;

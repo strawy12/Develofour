@@ -74,7 +74,6 @@ public class PhoneCallUI : MonoBehaviour
 
         currentNumber += data;
 
-        Debug.Log(currentNumber);
         phoneNumberText.SetText(currentNumber);
     }
 

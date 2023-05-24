@@ -76,6 +76,10 @@ public class FileManager : MonoSingleton<FileManager>
         return file;
     }
 
+    public void AddFile(int file, int directoryID)
+    {
+        AddFile(GetAdditionalFile(file),directoryID);
+    }
     public void AddFile(FileSO file, int directoryID)
     {
         List<FileSO> fileList = GetALLFileList();
@@ -93,6 +97,7 @@ public class FileManager : MonoSingleton<FileManager>
             DataManager.Inst.AddNewFileData(file, directory);
         }
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
+        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AddFile, 0.5f);
     }
 
     public List<FileSO> GetALLFileList(DirectorySO currentDirectory = null, bool isAdditional = false)

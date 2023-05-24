@@ -11,7 +11,7 @@ public class TimeSystem : MonoBehaviour
     private float timeCount;
     private bool isLoadingEnd;
 
-    void Awake()
+    void Start()
     {
         EventManager.StartListening(ECutSceneEvent.EndStartCutScene, OnLoadingEnd);
         GameManager.Inst.OnStartCallback += () => {  };

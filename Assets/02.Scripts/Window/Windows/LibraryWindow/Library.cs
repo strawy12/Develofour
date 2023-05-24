@@ -109,6 +109,7 @@ public class Library : Window
 
     public override void WindowOpen()
     {
+
         base.WindowOpen();
         if (DataManager.Inst.IsProfilerTutorial())
         {
@@ -144,7 +145,6 @@ public class Library : Window
         SetHighlightImage();
         SetLibrary();
 
-        
         EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StartListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StartListening(ELibraryEvent.SelectIcon, SelectIcon);
@@ -152,7 +152,8 @@ public class Library : Window
         EventManager.StartListening(ELibraryEvent.AddUndoStack, UndoStackPush);
         EventManager.StartListening(ELibraryEvent.ResetRedoStack, RedoStackReset);
         EventManager.StartListening(ETutorialEvent.LibraryEventTrigger, SetLibraryEvent);
-        
+        EventManager.StartListening(ELibraryEvent.AddFile, Refresh);
+
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
         
         searchInputField.onSubmit.AddListener(SearchFunction);
@@ -161,6 +162,11 @@ public class Library : Window
         redoBtn.onClick.AddListener(RedoFile);
 
         EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.LibraryOpenGuide });
+    }
+
+    private void Refresh(object[] ps = null)
+    {
+        CreateChildren();
     }
 
     private void SetLibraryEvent(object[] obj)
@@ -193,7 +199,7 @@ public class Library : Window
         windowBar.SetNameText(currentDirectory.fileName);
         fileAddressPanel.SetButtons(currentDirectory);
         CreateChildren();
-        EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
+        //EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
 
         if (DataManager.Inst.IsProfilerTutorial())
@@ -355,7 +361,6 @@ public class Library : Window
 
     protected override void OnDestroyWindow()
     {
-
         base.OnDestroyWindow();
         isFirstOpen = false;
         GuideUISystem.EndAllGuide?.Invoke();
@@ -366,5 +371,6 @@ public class Library : Window
         EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
         EventManager.StopListening(ELibraryEvent.AddUndoStack, UndoStackPush);
         EventManager.StopListening(ELibraryEvent.ResetRedoStack, RedoStackReset);
+        EventManager.StopListening(ELibraryEvent.AddFile, Refresh);
     }
 }

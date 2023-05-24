@@ -5,6 +5,9 @@ using UnityEngine;
 
 public partial class MonologSystem : TextSystem
 {
+    /// <summary>
+    /// int textDataType, float beforeDelay, bool isSave
+    /// </summary>
     public static Action<int, float, bool> OnStartMonolog { get; private set; }
     public static Action OnStopMonolog { get; private set; }
 

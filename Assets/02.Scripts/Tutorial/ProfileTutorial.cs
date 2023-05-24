@@ -160,6 +160,7 @@ public class ProfileTutorial : MonoBehaviour
             library.TutorialLibraryClickRemoveEvent();
         }
 
+        CallSystem.Inst.OnAnswerCall(ECharacterDataType.Assistant, Constant.MonologKey.END_PROFILE_TUTORIAL);
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
     }
 
@@ -170,7 +171,7 @@ public class ProfileTutorial : MonoBehaviour
 
         GuideUISystem.EndAllGuide?.Invoke();
 
-        DataManager.Inst.SetProfilerTutorialIdx(4);
+        DataManager.Inst.SetProfilerTutorialIdx(5);
         StopAllCoroutines();
 
     }
