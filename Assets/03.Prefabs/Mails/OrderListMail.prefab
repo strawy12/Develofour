@@ -1014,9 +1014,9 @@ GameObject:
   - component: {fileID: 6379765225556304249}
   - component: {fileID: 3412548211133424875}
   - component: {fileID: 7804691503847622347}
-  - component: {fileID: 412509193440504347}
+  - component: {fileID: 8952227843254481073}
   m_Layer: 5
-  m_Name: SuspectNameTrigger (3)
+  m_Name: Info1_153
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1080,7 +1080,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &412509193440504347
+--- !u!114 &8952227843254481073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1089,16 +1089,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 648112311804687600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infomaitionData: {fileID: 11400000, guid: 636d8c28fd623f24986b3a8ba0a5cbbb, type: 2}
-  needInformaitonList: []
-  linkInformaitonList: []
-  backgroundImage: {fileID: 0}
-  monoLogType: 1
+  infoDataIDList: 01000000
+  needInfoList: []
+  monoLogType: 153
+  completeMonologType: 154
   delay: 0
-  isFakeInfo: 0
+  isFakeInfo: 1
+  backgroundImage: {fileID: 7804691503847622347}
 --- !u!1 &1031586411134806365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1110,9 +1110,9 @@ GameObject:
   - component: {fileID: 3950760783471291352}
   - component: {fileID: 3058896587248591791}
   - component: {fileID: 7962703546693469651}
-  - component: {fileID: 2293923300061235415}
+  - component: {fileID: 688404960238682757}
   m_Layer: 5
-  m_Name: SuspectSpotTrigger (3)
+  m_Name: Info4_ 27
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1176,7 +1176,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2293923300061235415
+--- !u!114 &688404960238682757
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1185,16 +1185,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1031586411134806365}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infomaitionData: {fileID: 11400000, guid: b85ff34ce8ea0be41aacefaa439c972b, type: 2}
-  needInformaitonList: []
-  linkInformaitonList: []
-  backgroundImage: {fileID: 0}
-  monoLogType: 20
+  infoDataIDList: 04000000
+  needInfoList:
+  - needInfoID: 1
+    monologID: 0
+    getInfo: 0
+  monoLogType: 27
+  completeMonologType: 154
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 7962703546693469651}
 --- !u!1 &1238219664381400003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,8 +1476,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "VanJour \uD06C\uB86C \uD3EC\uC2A4 \uCE7C\n[ \uC0B0\uB3C4\uCFE0 \uC2DD\uB3C4
-    ]"
+  m_text: "\uC54C\uB8E8\uBBF8\uB284 \uBC30\uD2B8\n[\uC54C\uB8E8\uBBF8\uB284 \uC57C\uAD6C
+    \uBC29\uB9DD\uC774]"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
   m_sharedMaterial: {fileID: -2560004193487277870, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
@@ -2230,9 +2233,9 @@ GameObject:
   - component: {fileID: 8244999888411720362}
   - component: {fileID: 1178053758703348242}
   - component: {fileID: 8597521983880397787}
-  - component: {fileID: 7271905817358373250}
+  - component: {fileID: 1611979269867158398}
   m_Layer: 5
-  m_Name: SuspectNameTrigger (2)
+  m_Name: Info1_153
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2296,7 +2299,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7271905817358373250
+--- !u!114 &1611979269867158398
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2305,16 +2308,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2389176432179713569}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infomaitionData: {fileID: 11400000, guid: 636d8c28fd623f24986b3a8ba0a5cbbb, type: 2}
-  needInformaitonList: []
-  linkInformaitonList: []
-  backgroundImage: {fileID: 0}
-  monoLogType: 1
+  infoDataIDList: 01000000
+  needInfoList: []
+  monoLogType: 153
+  completeMonologType: 154
   delay: 0
-  isFakeInfo: 0
+  isFakeInfo: 1
+  backgroundImage: {fileID: 8597521983880397787}
 --- !u!1 &2502312714092071607
 GameObject:
   m_ObjectHideFlags: 0
@@ -2677,9 +2680,9 @@ GameObject:
   - component: {fileID: 5839161523323836132}
   - component: {fileID: 6177919390402176787}
   - component: {fileID: 902964576716534205}
-  - component: {fileID: 2537118166775594830}
+  - component: {fileID: 6564408363506310723}
   m_Layer: 5
-  m_Name: SuspectNameTrigger (1)
+  m_Name: Info1_153
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2743,7 +2746,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2537118166775594830
+--- !u!114 &6564408363506310723
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2752,16 +2755,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2627220810019841236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infomaitionData: {fileID: 11400000, guid: 636d8c28fd623f24986b3a8ba0a5cbbb, type: 2}
-  needInformaitonList: []
-  linkInformaitonList: []
-  backgroundImage: {fileID: 0}
-  monoLogType: 1
+  infoDataIDList: 01000000
+  needInfoList: []
+  monoLogType: 153
+  completeMonologType: 154
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 902964576716534205}
 --- !u!1 &2650708875915959304
 GameObject:
   m_ObjectHideFlags: 0
@@ -3355,9 +3358,9 @@ GameObject:
   - component: {fileID: 5593269609840700039}
   - component: {fileID: 8635282741072864943}
   - component: {fileID: 816761199319296708}
-  - component: {fileID: 838436156813842778}
+  - component: {fileID: 1843490159519874133}
   m_Layer: 5
-  m_Name: SuspectPhonNumberTrigger
+  m_Name: Info66_163
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3421,7 +3424,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &838436156813842778
+--- !u!114 &1843490159519874133
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3430,16 +3433,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 3784160109195976588}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infomaitionData: {fileID: 11400000, guid: 58668f8d9f1ba1d469b5f81367a16b25, type: 2}
-  needInformaitonList: []
-  linkInformaitonList: []
-  backgroundImage: {fileID: 0}
-  monoLogType: 25
+  infoDataIDList: 42000000
+  needInfoList:
+  - needInfoID: 1
+    monologID: 0
+    getInfo: 0
+  monoLogType: 163
+  completeMonologType: 0
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 816761199319296708}
 --- !u!1 &3880468333578578800
 GameObject:
   m_ObjectHideFlags: 0
@@ -4391,9 +4397,9 @@ GameObject:
   - component: {fileID: 5276393747079847019}
   - component: {fileID: 1240039159524816572}
   - component: {fileID: 3319503882873996444}
-  - component: {fileID: 3078888389453172270}
+  - component: {fileID: 8880705704837178410}
   m_Layer: 5
-  m_Name: KnifeInfoTrigger
+  m_Name: Info104_162
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4457,7 +4463,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3078888389453172270
+--- !u!114 &8880705704837178410
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4466,16 +4472,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 5819103913260146423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infomaitionData: {fileID: 11400000, guid: 55c6fdf0c96db6041a440d54188a2994, type: 2}
-  needInformaitonList: []
-  linkInformaitonList: []
-  backgroundImage: {fileID: 0}
-  monoLogType: 24
+  infoDataIDList: 68000000
+  needInfoList:
+  - needInfoID: 96
+    monologID: 161
+    getInfo: 1
+  monoLogType: 162
+  completeMonologType: 154
   delay: 0
   isFakeInfo: 0
+  backgroundImage: {fileID: 3319503882873996444}
 --- !u!1 &5870789226403920731
 GameObject:
   m_ObjectHideFlags: 0
@@ -7249,9 +7258,9 @@ GameObject:
   - component: {fileID: 5662584846336484452}
   - component: {fileID: 2568401012481188351}
   - component: {fileID: 545469340568840107}
-  - component: {fileID: 1384722059220187526}
+  - component: {fileID: 8710552366692143072}
   m_Layer: 5
-  m_Name: SuspectNameTrigger
+  m_Name: Info1_153
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7315,7 +7324,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1384722059220187526
+--- !u!114 &8710552366692143072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7324,16 +7333,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 9109429293133118970}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infomaitionData: {fileID: 11400000, guid: 636d8c28fd623f24986b3a8ba0a5cbbb, type: 2}
-  needInformaitonList: []
-  linkInformaitonList: []
-  backgroundImage: {fileID: 0}
-  monoLogType: 1
+  infoDataIDList: 01000000
+  needInfoList: []
+  monoLogType: 153
+  completeMonologType: 154
   delay: 0
-  isFakeInfo: 0
+  isFakeInfo: 1
+  backgroundImage: {fileID: 545469340568840107}
 --- !u!1001 &681491292448221469
 PrefabInstance:
   m_ObjectHideFlags: 0
