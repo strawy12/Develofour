@@ -32,7 +32,8 @@ public class DiscordChatData
     }
 
     [Header("정보 찾기")]
-    public ProfileInfoTextDataSO infoData;
+    public int infoID;
+    public int monologID;
     public List<int> needInformaitonList;
 
 }

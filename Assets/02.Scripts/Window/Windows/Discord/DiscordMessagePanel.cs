@@ -169,9 +169,14 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
             {
                 EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSpritePrefab }); ;
             }
-            if (currentChatData.infoData != null)
+            if (currentChatData.infoID != 0)
             {
-                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { currentChatData.infoData.category, currentChatData.infoData.id, null });
+                var infoData = ResourceManager.Inst.GetProfileInfoData(currentChatData.infoID);
+                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { infoData.category, infoData.id, null });
+            }
+            if(currentChatData.monologID != 0)
+            {
+                MonologSystem.OnStartMonolog?.Invoke(currentChatData.monologID, 0f, true);
             }
         }
 
