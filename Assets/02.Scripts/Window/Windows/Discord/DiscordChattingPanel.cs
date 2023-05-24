@@ -89,13 +89,13 @@ public class DiscordChattingPanel : MonoBehaviour
     }
     #endregion
     #region 채팅 생성
-    public void CreatePanel(DiscordChatData data, DiscordProfileDataSO opponentProfile)
+    public void CreatePanel(DiscordChatData data, DiscordProfileDataSO opponentProfile, DiscordSendTime sendTime)
     {
         DiscordMessagePanel messagePanel = Pop();
         opponentProfileData = opponentProfile;
         if (data.isMine)
         {
-            messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data));
+            messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data), sendTime);
         }
         else
         {
@@ -103,7 +103,7 @@ public class DiscordChattingPanel : MonoBehaviour
             {
                 Debug.Log("opponentProfileData is null");
             }
-            messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data));
+            messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data), sendTime);
         }
         messagePanel.gameObject.SetActive(true);
     }
@@ -118,12 +118,11 @@ public class DiscordChattingPanel : MonoBehaviour
     {
         foreach (DiscordChatData chatData in talkList.chatDataList)
         {
-            if (chatData.isTalked) continue;
-
+          
             isInputed = true;
             WaitingTyping(chatData);
-            yield return new WaitForSeconds(chatData.typingDelay);
-            TalkChat(chatData);
+            yield return new WaitForSeconds(1f);
+            //TalkChat(chatData);
             yield return new WaitUntil(() => isInputed == false);
         }
         talkList.isCoimpleteTalk = true;
@@ -136,35 +135,34 @@ public class DiscordChattingPanel : MonoBehaviour
         stateText.text = "";
         isInputed = false;
     }
-    private void TalkChat(DiscordChatData data)
-    {
+    //private void TalkChat(DiscordChatData data)
+    //{
 
-        if (friendList.CurrentFriendLine == null || friendList.CurrentFriendLine.myData != opponentProfileData)
-        {
-            friendList.NewMessage(opponentProfileData);
+    //    if (friendList.CurrentFriendLine == null || friendList.CurrentFriendLine.myData != opponentProfileData)
+    //    {
+    //        friendList.NewMessage(opponentProfileData);
 
-            NoticeSystem.OnNotice.Invoke(opponentProfileData.userName, data.message, 0, true, opponentProfileData.userSprite, Color.white, ENoticeTag.Discord);
-        }
-        else
-        {
-            DiscordMessagePanel messagePanel = Pop();
-            if (data.isMine)
-            {
-                messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data));
-            }
-            else
-            {
-                messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data));
-            }
-            messagePanel.gameObject.SetActive(true);
-        }
-        //end
-        data.isTalked = true;
-        isInputed = false;
-        inputChatingText.text = "#채팅에 메세지 보내기";
+    //        NoticeSystem.OnNotice.Invoke(opponentProfileData.userName, data.message, 0, true, opponentProfileData.userSprite, Color.white, ENoticeTag.Discord);
+    //    }
+    //    else
+    //    {
+    //        DiscordMessagePanel messagePanel = Pop();
+    //        if (data.isMine)
+    //        {
+    //            messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data), );
+    //        }
+    //        else
+    //        {
+    //            messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data));
+    //        }
+    //        messagePanel.gameObject.SetActive(true);
+    //    }
+    //    //end
+    //    isInputed = false;
+    //    inputChatingText.text = "#채팅에 메세지 보내기";
 
-        stateText.text = "";
-    }
+    //    stateText.text = "";
+    //}
     public void WaitingTyping(DiscordChatData data)
     {
         if (friendList.CurrentFriendLine == null) return;
