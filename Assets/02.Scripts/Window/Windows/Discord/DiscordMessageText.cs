@@ -49,6 +49,8 @@ public class DiscordMessageText : MonoBehaviour
 
     public void SetColor(Color color)
     {
+        Debug.Log("color: " + color);
         messageText.color = color;
+        Debug.Log(messageText.color);
     }
 }
