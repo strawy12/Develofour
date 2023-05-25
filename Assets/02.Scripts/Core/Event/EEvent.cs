@@ -151,11 +151,21 @@ public enum EProfileEvent
     FindInfoInProfile,
     ClickIncidentTab,
     ClickCharacterTab,
+    AddGuideButton,
+    RemoveGuideButton,
+    EndGuide,
+    ClickGuideToggleButton,
 }
 public enum EGuideEventType
 {
     ClearGuideType,
     GuideConditionCheck,
+}
+
+public enum ETutorialType
+{
+    None = -1,
+    Profiler
 }
 
 public enum ETutorialEvent
