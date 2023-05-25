@@ -12,6 +12,8 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
     public MonologTextDataSO GetMonologTextData(int textType)
     {
+        if (textType == 0)
+            return null;
         return monologTextDataSOList[textType];
     }
 

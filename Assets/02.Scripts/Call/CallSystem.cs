@@ -113,11 +113,10 @@ public class CallSystem : MonoSingleton<CallSystem>
     {
         SetCallUI(data);
         int result = -1;
-
         if (!DataManager.Inst.IsExistReturnData(data.characterType))
         {
             RequestCallDataSO callData = ResourceManager.Inst.GetRequestCallData(data.characterType);
-
+            Debug.Log($"{callData.characterType}, {callData.defaultMonologID}");
             if (callData != null && Define.MonologLockDecisionFlag(callData.defaultDecisions))
             {
                 MonologSystem.OnEndMonologEvent = () => SetMonologSelector(callData);
