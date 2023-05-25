@@ -98,7 +98,7 @@ public class Discord : Window
             }
         }
     }
-
+    #region Talk
     public void StartTalkChat(object[] param)
     {
         if (!(param[0] is string) || param[0] == null) return;
@@ -129,7 +129,7 @@ public class Discord : Window
     {
         chattingPanel.StopTalk();
     }
-
+    #endregion
     public void OpenChattingRoom(string name)
     {
         friendList.friendLineDic[name].OnLeftClickPanel?.Invoke(friendList.friendLineDic[name]);

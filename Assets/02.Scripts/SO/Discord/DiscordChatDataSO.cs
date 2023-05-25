@@ -22,7 +22,7 @@ public class DiscordChatData
     [Header("정보 찾기")]
     public List<int> infoIDs;
     public int monologID;
-    public List<int> needInformaitonList;
+    public List<NeedInfoData> needInformaitonList;
 }
 [CreateAssetMenu(menuName = "SO/Discord/ChatData")]
 public class DiscordChatDataSO : ScriptableObject
