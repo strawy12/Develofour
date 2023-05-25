@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,5 +38,10 @@ public partial class DataManager : MonoSingleton<DataManager>
             return;
         }
         data.mailCategory = value;
+    }
+
+    internal bool GetIsClearTutorial(object profiler)
+    {
+        throw new NotImplementedException();
     }
 }
