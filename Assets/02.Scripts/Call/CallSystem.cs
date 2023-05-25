@@ -70,18 +70,14 @@ public class CallSystem : MonoSingleton<CallSystem>
 
         foreach (ReturnMonologData data in list)
         {
-            Debug.Log($"{data.EndDelayTime}_{DataManager.Inst.GetCurrentTime()}");
-
             if (data.EndDelayTime > DataManager.Inst.GetCurrentTime())
                 continue;
 
             if (Define.MonologLockDecisionFlag(data.decisions))
             {
-                Debug.Log(data.characterType);
                 OnAnswerCall(data.characterType, data.MonologID);
                 if (data.additionFiles != null && data.additionFiles.Count > 0)
                 {
-                    Debug.LogError("임시방편임");
                     MonologSystem.OnEndMonologEvent = () => data.additionFiles.ForEach(x => FileManager.Inst.AddFile(x, Constant.FileID.USB));
                 }
                 temp.Add(data);
@@ -104,7 +100,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         ShowAnswerButton(true);
         ButtonSetting(monologType);
 
-        if(DataManager.Inst.IsSavePhoneNumber(charSO.phoneNum) == false)
+        if (DataManager.Inst.IsSavePhoneNumber(charSO.phoneNum) == false)
         {
             EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.InvisibleInformation, charSO.profileInfoID });
             EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { charSO.phoneNum });
@@ -144,6 +140,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         // TODO
         // 추후 풀링으로 변경할 예정 
         int spawnCnt = 0;
+
         for (int i = 0; i < callData.monologLockList.Count; i++)
         {
             if (!Define.MonologLockDecisionFlag(callData.monologLockList[i].decisions)) continue;
@@ -156,27 +153,32 @@ public class CallSystem : MonoSingleton<CallSystem>
                 lockData.returnMonologData.characterType = callData.characterType;
             }
 
-            CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
-            MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(lockData.monologID);
-            buttonList.Add(instance);
-
-            instance.btnText.text = textData.monologName;
-            instance.btn.onClick.AddListener(() =>
-            {
-                HideSelectBtns();
-                StartMonolog(textData.TextDataType, lockData);
-            });
-
-            instance.gameObject.SetActive(true);
+            MakeCallTextDataBtn(lockData.monologID, lockData);
             spawnCnt++;
         }
 
         if (spawnCnt <= 0)
         {
             StartMonolog(callData.notExistMonoLogID);
+            return;
         }
-    }
+        MakeCallTextDataBtn(callData.notExistMonoLogID);
 
+    }
+    private void MakeCallTextDataBtn(int monologID, MonologLockData lockData = null)
+    {
+        CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
+        MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(monologID);
+        buttonList.Add(instance);
+
+        instance.btnText.text = textData.monologName;
+        instance.btn.onClick.AddListener(() =>
+        {
+            HideSelectBtns();
+            StartMonolog(textData.TextDataType);
+        });
+        instance.gameObject.SetActive(true);
+    }
     private void ButtonSetting(int data)
     {
         answerBtn.onClick.AddListener(() => StartMonolog(data));
@@ -259,7 +261,6 @@ public class CallSystem : MonoSingleton<CallSystem>
         //저장쪽은 나중에 생각
         // 딜레이 후 해당 독백이 실행되는 작업 해야함
 
-        Debug.Log("Hide");
         MonologSystem.OnEndMonologEvent = Hide;
         MonologSystem.OnEndMonologEvent = () => SaveReturnMonolog(data);
 
