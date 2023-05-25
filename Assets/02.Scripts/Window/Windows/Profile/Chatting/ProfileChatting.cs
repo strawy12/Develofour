@@ -60,6 +60,8 @@ public class ProfileChatting : MonoBehaviour
     protected RectTransform scrollrectTransform;
     [SerializeField]
     protected ContentSizeFitter contentSizeFitter;
+    [SerializeField]
+    private ProfileGuidePanel profileGuidePanel;
 
     protected float currentDelay;
 
@@ -73,6 +75,7 @@ public class ProfileChatting : MonoBehaviour
         //스크롤뷰 가장 밑으로 내리기;
         OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
+        profileGuidePanel.Init();
         AddSaveTexts();
 
         SetScrollView();
