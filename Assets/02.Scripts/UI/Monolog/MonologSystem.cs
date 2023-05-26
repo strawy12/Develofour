@@ -129,6 +129,11 @@ public partial class MonologSystem : TextSystem
 
     private void PrintText()
     {
+        if(currentTextData == null)
+        {
+            EndMonolog();
+            return;
+        }
         if (textBox.isTextPrinting)
         {
             return;
