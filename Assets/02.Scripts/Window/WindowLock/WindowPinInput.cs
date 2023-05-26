@@ -125,6 +125,8 @@ public class WindowPinInput : Window
 
     private void CloseWindowPinLock()
     {
+        openInt--;
+
         pinInputField.text = "";
 
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
