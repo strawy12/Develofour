@@ -50,6 +50,9 @@ public static partial class Constant
     #endregion
     #region SiteAddress
     public const string BranchNewPasswordSite = "https://branch/Branch-ResetPassword-a1cfrqvk5u8";
+    public const string ZMailSite = "https://mail.zoogle.com/mail/";
+    public const string BranchSite = "https://branch.com/";
+    public const string LoginSite = "https://accounts.zoogle.com/v3/signin";
     #endregion
     #region MonologKey
     public static class MonologKey
