@@ -102,11 +102,17 @@ public partial class Browser : Window
     { 
         switch(address)
         {
-            case "test":
+            case Constant.BranchSite:
+                ChangeSite(ESiteLink.Branch, Constant.LOADING_DELAY);
+                break;
+            case Constant.ZMailSite:
                 ChangeSite(ESiteLink.Email, Constant.LOADING_DELAY);
                 break;
             case Constant.BranchNewPasswordSite:
                 ChangeSite(ESiteLink.BranchPasswordSite, Constant.LOADING_DELAY);
+                break;
+            case Constant.LoginSite:
+                ChangeSite(ESiteLink.Chrome, Constant.LOADING_DELAY);
                 break;
             default:
                 ChangeSite(ESiteLink.NullSite, Constant.LOADING_DELAY);

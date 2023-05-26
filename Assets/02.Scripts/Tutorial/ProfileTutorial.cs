@@ -164,8 +164,9 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
     }
 
-    public void StartCompleteProfileTutorial(object[] ps = null)
+    public void StartCompleteProfileTutorial(object[] ps = null) // For Debug
     {
+        EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { "01023459876" });
         ProfileChattingSystem.OnImmediatelyEndChat?.Invoke();
         ProfileChattingSystem.OnChatEnd = null;
 
