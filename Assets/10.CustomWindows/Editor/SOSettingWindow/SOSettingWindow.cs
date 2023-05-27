@@ -276,7 +276,10 @@ public class SOSettingWindow : EditorWindow
             bool isFileLock = columns[4] == "TRUE";
             string pin = columns[5];
             string pinHint = columns[6];
-
+            float bytes = float.Parse(columns[10]);
+            string madeDate = columns[11];
+            string lastFixDate = columns[12];
+            string lastAccessDate = columns[13];
             List<int> childIdList = new List<int>();
             string tagString = columns[7];
             List<string> tags = new List<string>();
@@ -321,6 +324,10 @@ public class SOSettingWindow : EditorWindow
             file.windowPinHintGuide = pinHint;
             file.name = columns[9];
             file.tags = tags;
+            file.propertyData.bytes = bytes;
+            file.propertyData.madeDate = madeDate;
+            file.propertyData.lastAccessDate = lastAccessDate;
+            file.propertyData.lastFixDate = lastFixDate;
 
             if (file is DirectorySO)
             {

@@ -23,7 +23,7 @@ public class FileSO : ScriptableObject
     public string fileName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
     public Sprite iconSprite;
-    public WindowIconData fileData;
+    public WindowIconData propertyData;
     public bool isFileLock;
     public string windowPin;
     public string windowPinHintGuide;
@@ -121,24 +121,24 @@ public class FileSO : ScriptableObject
 
     public virtual float GetFileBytes()
     {
-        return fileData.bytes;
+        return propertyData.bytes;
     }
 
 
     // DateTime To String 함수는 Define 클래스에 만들기!
     public string GetFixDate()
     {
-        return fileData.lastFixDate;
+        return propertyData.lastFixDate;
     }
 
     public string GetAccessDate()
     {
-        return fileData.lastAccessDate;
+        return propertyData.lastAccessDate;
     }
 
     public string GetMadeDate()
     {
-        return fileData.madeDate;
+        return propertyData.madeDate;
     }
     #endregion
     public void OpenFile()

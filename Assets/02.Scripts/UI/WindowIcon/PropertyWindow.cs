@@ -15,13 +15,13 @@ public class PropertyWindow : Window
     protected override void Init()
     {
         base.Init();
-        if(file.fileData.propertyBody != null)
+        if(file.propertyData.propertyBody != null)
         {
             Debug.Log("propertyBody Have");
 
             body.gameObject.SetActive(false);
             Destroy(body);
-            IconPropertyBody newBody = Instantiate(File.fileData.propertyBody, transform);
+            IconPropertyBody newBody = Instantiate(File.propertyData.propertyBody, transform);
             body = newBody;
         }
 
