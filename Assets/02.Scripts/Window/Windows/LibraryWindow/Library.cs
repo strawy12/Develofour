@@ -107,6 +107,8 @@ public class Library : Window
     private Queue<WindowIcon> poolQueue = new Queue<WindowIcon>();
     private List<WindowIcon> iconList = new List<WindowIcon>();
 
+    [SerializeField]
+    private Sprite lockLibrary;
     public override void WindowOpen()
     {
 
@@ -238,6 +240,13 @@ public class Library : Window
             WindowIcon icon = Pop();
             icon.PointerStayImage.gameObject.SetActive(false);
             icon.SetFileData(file); // icon마다의 startTrigger를 이 함수에 넣어야함
+            if(file.windowType == EWindowType.Directory)
+            {
+                if(DataManager.Inst.IsFileLock(file.id))
+                {
+                    icon.ChangeIcon(lockLibrary, file.color);
+                }
+            }
         }
         isSetLibrary = false;
     }

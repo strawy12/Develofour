@@ -112,6 +112,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //library, usb, report에 각각 이벤트 넣어줘~
     }
 
+    public void ChangeIcon(Sprite icon, Color color)
+    {
+        iconImage.sprite = icon;
+
+        iconImage.color = color;
+    }
+
     private void YellowUI(object[] obj)
     {
         GuideUISystem.EndAllGuide?.Invoke();

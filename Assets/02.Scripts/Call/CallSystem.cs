@@ -18,6 +18,8 @@ public class CallSystem : MonoSingleton<CallSystem>
     private List<CallSelectButton> buttonList = new List<CallSelectButton>();
     //Call Stack(전화 쌓이는거) 저장 해야함.
 
+    private List<IncomingCallDataSO> incomingCallDataList = new List<IncomingCallDataSO>();
+
     [Header("CallUI")]
     public TMP_Text nameText;
     public Image profileIcon;
@@ -54,13 +56,21 @@ public class CallSystem : MonoSingleton<CallSystem>
         answerBtn.gameObject.SetActive(false);
         spectrumUI.gameObject.SetActive(false);
 
+        EventManager.StartListening(EMonologEvent.MonologEnd, IncomingCheck);
+        EventManager.StartListening(EProfileEvent.FindInfoInProfile, IncomingCheck);
+
         EventManager.StartListening(EMonologEvent.MonologEnd, DecisionCheck);
         EventManager.StartListening(EProfileEvent.FindInfoInProfile, DecisionCheck);
+
+
+        GetIncomingData();
+
 
         spectrumUI.Init();
 
         StartCoroutine(RepeatCheckReturnCall());
     }
+
 
     public void DecisionCheck(object[] ps = null)
     {
@@ -84,7 +94,7 @@ public class CallSystem : MonoSingleton<CallSystem>
             }
         }
 
-        temp.ForEach(x => DataManager.Inst.RemoveReturnData(x));
+        temp.ForEach(x => DataManager.Inst.RemoveReturnData(x)); //데이터 매니저의 있는 데이타를 지움
     }
 
     // 얘는 결국에는 받는 전용
@@ -261,6 +271,8 @@ public class CallSystem : MonoSingleton<CallSystem>
         // 딜레이 후 해당 독백이 실행되는 작업 해야함
 
         MonologSystem.OnEndMonologEvent = Hide;
+
+        MonologSystem.OnEndMonologEvent = () => DataManager.Inst.SetMonologShow(monologType, true);
         MonologSystem.OnEndMonologEvent = () => SaveReturnMonolog(data);
 
         MonologSystem.OnStartMonolog?.Invoke(monologType, 0, false);
@@ -268,12 +280,48 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     public void SaveReturnMonolog(MonologLockData data)
     {
+
         if (data == null)
             return;
 
         if (data.returnMonologData.characterType == ECharacterDataType.None || data.returnMonologData.MonologID == 0) return;
         DataManager.Inst.AddReturnData(data.returnMonologData);
     }
+
+
+    private void GetIncomingData()
+    {
+        foreach (var incomingData in ResourceManager.Inst.IncomingCallDataList)
+        {
+            incomingCallDataList.Add(incomingData.Value);
+        }
+    }
+
+    private void IncomingCheck(object[] ps)
+    {
+        if (isCalling) return;
+
+        foreach(var incomingCallData in incomingCallDataList) //캐릭마다
+        {
+            foreach (ReturnMonologData data in incomingCallData.incomingMonologList) //한 캐릭의 리턴 독백마다
+            {
+                if(DataManager.Inst.IsMonologShow(data.MonologID))//이미 본 독백이면
+                {
+                    continue;//넘어가
+                }
+
+                if (Define.MonologLockDecisionFlag(data.decisions))// 조건 확인
+                {
+                    OnAnswerCall(data.characterType, data.MonologID);// 전화걸리기
+                    if (data.additionFiles != null && data.additionFiles.Count > 0)//추가 파일 있으면 추가
+                    {
+                        MonologSystem.OnEndMonologEvent = () => data.additionFiles.ForEach(x => FileManager.Inst.AddFile(x, Constant.FileID.USB));
+                    }
+                }
+            }
+        }
+    }
+
 
     public void Show()
     {
