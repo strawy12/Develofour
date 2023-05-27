@@ -20,7 +20,6 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public bool IsMonologShow(int type)
     {
-        Debug.Log("자신의 타입 : " + type);
         MonologSaveData data = saveData.monologData.Find(x => x.monologType == type); ;
         if (data == null)
         {

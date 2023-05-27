@@ -28,7 +28,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
         if (data == null)
         {
-            return true;
+            return false;
         }
 
         return data.isLock;

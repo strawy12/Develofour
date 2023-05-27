@@ -13,7 +13,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     }
     private IEnumerator StartGetData()
     {
-        int cnt = 16;
+        int cnt = 17;
 
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);
@@ -31,6 +31,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         LoadMailDataAssets(() => cnt--);
         LoadVideoPlayercDataAssets(() => cnt--);
         LoadRequestCallDataAssets(() => cnt--);
+        LoadIncomingCallDataAssets(() => cnt--);
         LoadProfileInfoDataAssets(() => cnt--);
 
         LoadLockImage(() => cnt--);

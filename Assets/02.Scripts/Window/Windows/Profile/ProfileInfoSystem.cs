@@ -44,6 +44,7 @@ public class ProfileInfoSystem : MonoBehaviour
             if(!DataManager.Inst.IsCategoryShow(category))
             {
                 DataManager.Inst.SetCategoryData(category, true);
+                EventManager.TriggerEvent(ECallEvent.GetMonologSettingIncomingData, new object[] { id } );
                 SendCategoryNotice(category);
             }
             EventManager.TriggerEvent(EProfileEvent.FindInfoInProfile, ps);
