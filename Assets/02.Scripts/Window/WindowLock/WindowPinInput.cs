@@ -69,17 +69,19 @@ public class WindowPinInput : Window
 
     private void CheckPinPassword()
     {
-        if (pinInputField.text == file.windowPin)
-        {
-            DataManager.Inst.SetFileLock(file.id, false);
+        string inputText = pinInputField.text.Trim();
 
-            StartCoroutine(PinAnswerTextChange());
-        }
-        else
+        foreach (string answerText in file.windowPin)
         {
-            PinWrongAnswer();
+            if (inputText == answerText)
+            {
+                DataManager.Inst.SetFileLock(file.id, false);
+                StartCoroutine(PinAnswerTextChange());
+                pinInputField.text = "";
+                return;
+            }
         }
-
+        PinWrongAnswer();
         pinInputField.text = "";
     }
 
@@ -98,7 +100,7 @@ public class WindowPinInput : Window
         WindowManager.Inst.WindowOpen(file.windowType, file);
         DataManager.Inst.SetFileLock(file.id, false);
 
-        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file});
+        EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
 
 
         CloseWindowPinLock();

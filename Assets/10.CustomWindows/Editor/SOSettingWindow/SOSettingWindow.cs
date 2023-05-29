@@ -274,7 +274,7 @@ public class SOSettingWindow : EditorWindow
             EWindowType type = (EWindowType)Enum.Parse(typeof(EWindowType), columns[2]);
 
             bool isFileLock = columns[4] == "TRUE";
-            string pin = columns[5];
+            string pinString = columns[5];
             string pinHint = columns[6];
             float bytes = float.Parse(columns[10]);
             string madeDate = columns[11];
@@ -316,12 +316,20 @@ public class SOSettingWindow : EditorWindow
                 isCreate = true;
             }
 
+            string[] pins = pinString.Split(',');
+            List<string> pinList = new List<string>();
+            foreach(string pin in pins)
+            {
+                if (string.IsNullOrEmpty(pin)) continue;
+                pinList.Add(pin);
+            }
+
             file.id = id;
             file.fileName = fileName;
             file.windowType = type;
             file.isFileLock = isFileLock;
-            file.windowPin = pin;
             file.windowPinHintGuide = pinHint;
+            file.windowPin = pinList;
             file.name = columns[9];
             file.tags = tags;
             file.propertyData.bytes = bytes;
