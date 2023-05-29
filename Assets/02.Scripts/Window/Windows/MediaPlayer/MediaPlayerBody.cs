@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 [Serializable]
 public class TextTriggerData
 {
+#if UNITY_EDITOR
     [Header("메모용")]
     [SerializeField]
     public string text;
+#endif
 
     [Header("사용 변수")]
     public int id;
@@ -31,6 +32,17 @@ public class MediaPlayerBody : MonoBehaviour
 
     public RectTransform coverRectTrm => _coverRectTrm;
 
+#if UNITY_EDITOR
+    [ContextMenu("DebugTool")]
+    public void DebugTool()
+    {
+        Init();
+        foreach (TextTriggerData data in mediaPlayerTriggerList)
+        {
+            Debug.Log($"{data.text}의 위치는 {_mediaDetailText.text.IndexOf(data.text)}입니다");
+        }
+    }
+#endif
 
     public void Init()
     {
@@ -44,19 +56,10 @@ public class MediaPlayerBody : MonoBehaviour
     public void SetPosition()
     {
         int idx = mediaDetailText.maxVisibleCharacters;
-        TMP_CharacterInfo charInfo;
-        mediaDetailText.ForceMeshUpdate();
-        if (mediaPlayerTriggerList != null && mediaPlayerTriggerList.Count > 0)
-        {
-            foreach (TextTriggerData trigger in mediaPlayerTriggerList)
-            {
-                charInfo = mediaDetailText.textInfo.characterInfo[trigger.id];
-                (trigger.trigger.transform as RectTransform).anchoredPosition = charInfo.topLeft;
-                Debug.Log(charInfo.topLeft);
-            }
-        }
-        
-        charInfo = mediaDetailText.textInfo.characterInfo[Mathf.Min(idx, mediaDetailText.textInfo.characterInfo.Length - 1)];
+
+        Define.SetTriggerPosition(mediaDetailText, mediaPlayerTriggerList);
+
+         TMP_CharacterInfo charInfo = mediaDetailText.textInfo.characterInfo[Mathf.Min(idx, mediaDetailText.textInfo.characterInfo.Length - 1)];
         SetPositionCoverImage(charInfo);
     }
 

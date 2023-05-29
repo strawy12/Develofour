@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -101,7 +102,7 @@ public static class Define
 
         List<RaycastResult> rayList = hits as List<RaycastResult>;
 
-        if(rayList.Count == 0)
+        if (rayList.Count == 0)
         {
             return false;
         }
@@ -173,7 +174,7 @@ public static class Define
     }
     public static bool CheckTodayDate(int day)
     {
-        if(Constant.NOWDAY == day)
+        if (Constant.NOWDAY == day)
         {
             return true;
         }
@@ -184,7 +185,7 @@ public static class Define
     }
     public static bool CheckYesterDayDate(int day)
     {
-        if (Constant.NOWDAY -1 == day)
+        if (Constant.NOWDAY - 1 == day)
         {
             return true;
         }
@@ -196,7 +197,7 @@ public static class Define
 
     public static void SetSprite(Image image, Sprite sprite, Vector2 maxSize)
     {
-        if(sprite == null)
+        if (sprite == null)
         {
             return;
         }
@@ -221,20 +222,20 @@ public static class Define
     {
         if (list == null) return true;
 
-        foreach(MonologLockDecision decision in list)
+        foreach (MonologLockDecision decision in list)
         {
             switch (decision.decisionType)
             {
                 case MonologLockDecision.EDecisionType.Infomation:
                     // 해당 정보 id를 비교하여 정보를 획득했는지 확인
-                    if(!DataManager.Inst.IsProfileInfoData(decision.key))
+                    if (!DataManager.Inst.IsProfileInfoData(decision.key))
                     {
                         return false;
                     }
                     break;
 
                 case MonologLockDecision.EDecisionType.Monolog:
-                    if(!DataManager.Inst.IsMonologShow(decision.key))
+                    if (!DataManager.Inst.IsMonologShow(decision.key))
                     {
                         return false;
                     }
@@ -243,5 +244,29 @@ public static class Define
         }
 
         return true;
+    }
+
+    public static void SetTriggerPosition(TMP_Text text, List<TextTriggerData> triggerList)
+    {
+        text.ForceMeshUpdate();
+        if (triggerList != null && triggerList.Count > 0)
+        {
+            foreach (TextTriggerData trigger in triggerList)
+            {
+                Vector2 pos = text.textInfo.characterInfo[trigger.id].topLeft;
+
+                for (int i = trigger.id + 1; i < text.text.Length; i++)
+                {
+                    if (text.text[i] == ' ') break;
+                    Vector2 temp = text.textInfo.characterInfo[i].topLeft;
+                    if (pos.y < temp.y)
+                    {
+                        pos.y = temp.y;
+                    }
+                }
+
+                (trigger.trigger.transform as RectTransform).anchoredPosition = pos;
+            }
+        }
     }
 }
