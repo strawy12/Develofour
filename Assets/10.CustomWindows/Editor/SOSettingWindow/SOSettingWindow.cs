@@ -404,6 +404,16 @@ public class SOSettingWindow : EditorWindow
             EProfileCategory category = Enum.Parse<EProfileCategory>(columns[2]);
             string infoText = columns[3];
             string noticeText = columns[4];
+            int orderValue = 0;
+            if (columns[6] != string.Empty)
+            {
+                int.TryParse(columns[6], out orderValue);
+            }
+            if(orderValue == 0)
+            {
+                orderValue = 99;
+            }
+
 
             ProfileInfoTextDataSO infoData = infoSODatas.Find(x => x.id == id);
 
@@ -419,6 +429,7 @@ public class SOSettingWindow : EditorWindow
             infoData.category = category;
             infoData.infomationText = infoText;
             infoData.noticeText = noticeText;
+            infoData.order = orderValue;
 
             string SO_PATH = $"Assets/07.ScriptableObjects/Profile/ProfileInfoData/InfoTextData/{category}/{columns[5].Trim()}.asset";
 
@@ -485,6 +496,8 @@ public class SOSettingWindow : EditorWindow
                     }
                 }
             }
+
+            infoTextDataList = infoTextDataList.OrderBy(x => x.order).ToList();
 
             columns[4] = Regex.Replace(columns[4], "[^0-9]", "");
             if (columns[4] != "")

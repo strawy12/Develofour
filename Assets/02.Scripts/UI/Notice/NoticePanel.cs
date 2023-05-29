@@ -129,6 +129,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         Vector2 pos = new Vector2(rectTransform.rect.width, NOTICE_POS.y);
         rectTransform.anchoredPosition = pos;
+        rectTransform.localScale = Vector3.one;
 
         SetActive(true);
 
