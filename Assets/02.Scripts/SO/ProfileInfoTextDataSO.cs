@@ -13,5 +13,4 @@ public class ProfileInfoTextDataSO : ScriptableObject
     public EProfileCategory category;
     public EGuideTopicName guideTopicName;
     public string infoName;
-    public int order;
 }
