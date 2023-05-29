@@ -23,7 +23,6 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
             backgroundImage = GetComponent<Image>();
             tempColor = backgroundImage.color;
         }
-
         base.Bind();
     }
 
@@ -87,8 +86,9 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
         {
             lockImage = ResourceManager.Inst.GetLockImage();
             lockImage.transform.SetParent(transform);
+            lockImage.transform.rotation = transform.rotation;
         }
-
+        
         lockImage.transform.localScale = Vector3.one;
         lockImage.gameObject.SetActive(isActive);
     }
