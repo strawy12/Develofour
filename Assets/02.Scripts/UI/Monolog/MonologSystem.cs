@@ -144,13 +144,13 @@ public partial class MonologSystem : TextSystem
             EndMonolog();
             return;
         }
-        string text = currentTextData[currentTextDataIdx++];
-        text = RemoveCommandText(text, true);
+
+        TextData textData = currentTextData[currentTextDataIdx++];
+        string text = RemoveCommandText(textData.text, true);
 
         // TextBox 한테 일시키기
         // {}
-
-        textBox.Init(text, triggerDictionary);
+        textBox.Init(text, triggerDictionary, textData.textColor);
     }
 
     public override void SetDelay(float value)
