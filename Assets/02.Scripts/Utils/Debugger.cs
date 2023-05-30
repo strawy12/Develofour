@@ -135,17 +135,13 @@ public class Debugger : MonoBehaviour
             if (so.windowType == EWindowType.MediaPlayer)
             {
                 Debug.Log(so.fileName);
-                if(ResourceManager.Inst.GetMediaPlayerData(so.id) != null)
+                if (ResourceManager.Inst.GetMediaPlayerData(so.id) != null)
                 {
 
                     Debug.Log(ResourceManager.Inst.GetMediaPlayerData(so.id).textData.Length * 4 + UnityEngine.Random.Range(30, 60));
 
 
                     //Debug.Log(ResourceManager.Inst.GetNotepadData(so.id).notepadBody.inputField.text.Length);
-                }
-                else
-                {
-                    Debug.Log("알빠노");
                 }
 
                 //so.color = UnityEngine.Color.white;
