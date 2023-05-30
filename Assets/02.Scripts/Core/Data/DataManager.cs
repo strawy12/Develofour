@@ -43,7 +43,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.savePhoneNumber = new List<string>();
         saveData.branchPassword = "";
         saveData.returnMonologData = new List<ReturnMonologData>();
-
+        saveData.lastAccessDateData = new List<LastAccessDateData>();
 
         CreateLoginData();
         ProfileSaveData();
@@ -52,6 +52,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         CreateFileLockData();
         CreateNoticeDataSave();
         CreateMailData();
+
         SaveToJson();
 
         debug_Data = saveData;

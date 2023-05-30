@@ -6,7 +6,7 @@ using UnityEngine;
 public class TimeSystem : MonoBehaviour
 {
     [SerializeField]
-    private int playTime; //초 단위로 올라감
+    private static int playTime; //초 단위로 올라감
 
     private float timeCount;
     private bool isLoadingEnd;
@@ -42,10 +42,12 @@ public class TimeSystem : MonoBehaviour
         isLoadingEnd = true;
     }
 
-    private void TimeCount()
+    public static DateTime TimeCount()
     {
         DateTime newDateTime = Constant.DEFAULTDATE.AddSeconds(playTime);
 
         EventManager.TriggerEvent(ETimeEvent.ChangeTime, new object[] { newDateTime });
+
+        return newDateTime;
     }
 }

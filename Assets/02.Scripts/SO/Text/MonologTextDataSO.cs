@@ -39,7 +39,7 @@ public class MonologTextDataSO : TextDataSO
         string result = "";
         foreach(var text in textDataList)
         {
-            result += text;
+            result += text.text;
             result += "\n";
             result += "\n";
         }
