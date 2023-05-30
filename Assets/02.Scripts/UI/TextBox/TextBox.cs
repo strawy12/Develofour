@@ -31,6 +31,7 @@ public class TextBox : MonoUI
     private Color currentColor;
     public bool isTextPrinting = false;
     private bool isActive = false;
+    private bool isSkip;
 
     private Dictionary<int, Action> triggerDictionary;
 
@@ -55,7 +56,29 @@ public class TextBox : MonoUI
         messageText.color = color;
         currentColor = color;
         //ShowBox();
+        InputManager.Inst.AddMouseInput(EMouseType.LeftClick, onKeyDown: ImmediatelyComplete);
         PrintText();
+    }
+
+    private void ImmediatelyComplete()
+    {
+        if(!isSkip)
+        {
+            isSkip = true;
+            return;
+        }
+        StopCoroutine(PrintMonologTextCoroutine());
+        for(int i = 0; i < currentText.Length; i++)
+        {
+            if (triggerDictionary.ContainsKey(i))
+            {
+                triggerDictionary[i]?.Invoke();
+                triggerDictionary[i] = null;
+            }
+        }
+        messageText.maxVisibleCharacters = currentText.Length;
+        messageText.SetText(currentText);
+        EndSetting();
     }
 
     public void PrintText()
@@ -157,6 +180,8 @@ public class TextBox : MonoUI
     {
         isTextPrinting = false;
         Sound.OnImmediatelyStop?.Invoke(EAudioType.MonologueTyping);
+        isSkip = false;
+        InputManager.Inst.RemoveMouseInput(EMouseType.LeftClick, onKeyDown: ImmediatelyComplete);
     }
 
     public void ShowBox()
