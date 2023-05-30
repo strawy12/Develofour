@@ -207,6 +207,8 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
 
         rectTransform.sizeDelta = windowAlteration.size;
 
+        DataManager.Inst.AddLastAccessDateData(file.id, TimeSystem.TimeCount());
+
         SetActive(true);
 
     }

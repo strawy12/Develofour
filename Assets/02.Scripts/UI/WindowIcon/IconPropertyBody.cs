@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class IconPropertyBody : MonoBehaviour
-{ 
+{
     [SerializeField]
     private Image iconImage;
     [SerializeField]
@@ -26,7 +26,7 @@ public class IconPropertyBody : MonoBehaviour
     {
         iconImage.sprite = file.iconSprite;
         iconName.text = file.name;
-        if(file.windowType != EWindowType.ImageViewer)
+        if (file.windowType != EWindowType.ImageViewer)
         {
             iconImage.color = Color.black;
         }
@@ -37,7 +37,15 @@ public class IconPropertyBody : MonoBehaviour
         iconByte.text = file.GetFileBytes().ToString() + "KB";
         iconMadeData.text = file.GetMadeDate();
         iconFixData.text = file.GetFixDate();
-        iconAccessData.text = file.GetAccessDate();
+        string accessDate = DataManager.Inst.GetLastAcccestDate(file.id);
+        if (accessDate == "")
+        {
+            iconAccessData.text = file.GetAccessDate();
+        }
+        else
+        {
+            iconAccessData.text = accessDate;
+        }
     }
 
 }
