@@ -283,7 +283,8 @@ public class SOSettingWindow : EditorWindow
             bool isFileLock = columns[4] == "TRUE";
             string pinString = columns[5];
             string pinHint = columns[6];
-            float bytes = float.Parse(columns[10]);
+            float bytes = 0;
+            float.TryParse(columns[10], out bytes);
             string madeDate = columns[11];
             string lastFixDate = columns[12];
             string lastAccessDate = columns[13];
