@@ -11,7 +11,9 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
     public NotepadDataSO GetNotepadData(int key)
     {
-        return notepadDataList[key];
+        if(notepadDataList.ContainsKey(key))
+            return notepadDataList[key];
+        return null;
     }
 
     private async void LoadNotepadDataAssets(Action callBack)

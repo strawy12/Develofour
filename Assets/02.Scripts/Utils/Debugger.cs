@@ -132,38 +132,52 @@ public class Debugger : MonoBehaviour
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             FileSO so = AssetDatabase.LoadAssetAtPath<FileSO>(path);
-            if (so.windowType == EWindowType.Browser)
+            if (so.windowType == EWindowType.MediaPlayer)
             {
-                so.color = UnityEngine.Color.white;
+                Debug.Log(so.fileName);
+                if(ResourceManager.Inst.GetMediaPlayerData(so.id) != null)
+                {
+
+                    Debug.Log(ResourceManager.Inst.GetMediaPlayerData(so.id).textData.Length * 4 + UnityEngine.Random.Range(30, 60));
+
+
+                    //Debug.Log(ResourceManager.Inst.GetNotepadData(so.id).notepadBody.inputField.text.Length);
+                }
+                else
+                {
+                    Debug.Log("알빠노");
+                }
+
+                //so.color = UnityEngine.Color.white;
             }
-            else if (so.windowType == EWindowType.SiteShortCut)
-            {
-                so.color = UnityEngine.Color.white;
-            }
-            else if (so.windowType == EWindowType.Notepad)
-            {
-                so.iconSprite = notepadSprite;
-            }
-            else if (so.windowType == EWindowType.ImageViewer)
-            {
-                so.color = UnityEngine.Color.white;
-            }
-            else if (so.windowType == EWindowType.Directory)
-            {
-                so.iconSprite = DirectorySprite;
-            }
-            else if (so.windowType == EWindowType.MediaPlayer)
-            {
-                so.iconSprite = mediaPlayerSprite;
-            }
-            else if (so.windowType == EWindowType.Discord)
-            {
-                so.iconSprite = harmonySprite;
-            }
-            else if (so.windowType == EWindowType.ProfileWindow)
-            {
-                so.iconSprite = InstallerSprite;
-            }
+            //else if (so.windowType == EWindowType.SiteShortCut)
+            //{
+            //    so.color = UnityEngine.Color.white;
+            //}
+            //else if (so.windowType == EWindowType.Notepad)
+            //{
+            //    so.iconSprite = notepadSprite;
+            //}
+            //else if (so.windowType == EWindowType.ImageViewer)
+            //{
+            //    so.color = UnityEngine.Color.white;
+            //}
+            //else if (so.windowType == EWindowType.Directory)
+            //{
+            //    so.iconSprite = DirectorySprite;
+            //}
+            //else if (so.windowType == EWindowType.MediaPlayer)
+            //{
+            //    so.iconSprite = mediaPlayerSprite;
+            //}
+            //else if (so.windowType == EWindowType.Discord)
+            //{
+            //    so.iconSprite = harmonySprite;
+            //}
+            //else if (so.windowType == EWindowType.ProfileWindow)
+            //{
+            //    so.iconSprite = InstallerSprite;
+            //}
             AssetDatabase.Refresh();
             AssetDatabase.SaveAssets();
             EditorUtility.SetDirty(so);

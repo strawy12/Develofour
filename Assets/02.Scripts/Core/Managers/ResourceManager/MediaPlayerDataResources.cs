@@ -11,7 +11,9 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
     public MediaPlayerDataSO GetMediaPlayerData(int key)
     {
-        return mediaPlayerDataList[key];
+        if(mediaPlayerDataList.ContainsKey(key))
+            return mediaPlayerDataList[key];
+        return null;
     }
 
     private async void LoadMediaPlayerDataAssets(Action callBack)
