@@ -24,9 +24,9 @@ public class ProfileInfoText : MonoBehaviour
 
     [SerializeField]
     private ProfileShowInfoTextPanel showPanel;
+    [SerializeField]
+    private RectTransform lineRect;
     private bool isFind;
-
-    private ContentSizeFitter fitter;
 
     public bool IsFind
     {
@@ -37,7 +37,6 @@ public class ProfileInfoText : MonoBehaviour
     public Action OnFindText;
 
     private RectTransform rectTransform;
-
     public RectTransform RectTrm
     {
         get
@@ -50,7 +49,6 @@ public class ProfileInfoText : MonoBehaviour
     public void Init()
     {
         rectTransform ??= GetComponent<RectTransform>();
-        fitter ??= GetComponent<ContentSizeFitter>();
     }
 
     public void Setting(ProfileInfoTextDataSO infoData)
@@ -62,57 +60,28 @@ public class ProfileInfoText : MonoBehaviour
     {
         infoText.text = currentInfoData.infomationText;
         isFind = true;
-        Debug.Log("show");
-        EventManager.StartListening(EProfileEvent.Maximum, RefreshSize);
-        EventManager.StartListening(EProfileEvent.Minimum, RefreshSize);
+        
         this.gameObject.SetActive(true);
         OnFindText?.Invoke();
     }
 
-    private void RefreshSize(object[] ps)
+    public void RefreshSize()
     {
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(infoText.rectTransform);
+        StartCoroutine(RefreshSizeCoroutine());
+    }
+
+    private IEnumerator RefreshSizeCoroutine()
+    {
+        yield return new WaitForSeconds(0.01f);
+        float sizeY = lineRect.sizeDelta.y + infoText.rectTransform.sizeDelta.y;
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, sizeY + 7f);
+        lineRect.localPosition = new Vector2(infoText.rectTransform.localPosition.x, infoText.rectTransform.localPosition.y - 7f);
     }
 
     public void Hide()
     {
-        EventManager.StopListening(EProfileEvent.Maximum, RefreshSize);
-        EventManager.StopListening(EProfileEvent.Minimum, RefreshSize);
         gameObject.SetActive(false);
     }
 
-    void OnDestroy()
-    {
-        EventManager.StopListening(EProfileEvent.Maximum, RefreshSize);
-        EventManager.StopListening(EProfileEvent.Minimum, RefreshSize);
-    }
 }
