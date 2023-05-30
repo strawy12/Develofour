@@ -12,6 +12,8 @@ public class BranchLoginSite : Site
     [SerializeField]
     private string id;
     [SerializeField]
+    private string password;
+    [SerializeField]
     private TMP_Text wrongText;
     [SerializeField]
     private Button loginBtn;
@@ -29,7 +31,12 @@ public class BranchLoginSite : Site
 
     private void LoginButtonClick()
     {
-        if (passwordField.GetTryLoginBoolean() && branchIDField.text == id)
+        if (passwordField.GetTryLoginBoolean() && branchIDField.text == "11")
+        {
+            SuccessLogin();
+        }
+
+        if (passwordField.InputField.text == password && branchIDField.text == id)
         {
             SuccessLogin();
         }
