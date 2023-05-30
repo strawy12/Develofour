@@ -56,9 +56,17 @@ public partial class Sound : MonoBehaviour
         {
             soundPlayer = Instantiate(soundPlayerPrefab, transform);
         }
-
+        if (audioAssetData.SoundPlayerType == ESoundPlayerType.BGM)
+        {
+            var list = soundPlayerList.FindAll(x => x.AudioData.SoundPlayerType == ESoundPlayerType.BGM);
+            foreach (var player in list)
+            {
+                player.ImmediatelyStop();
+                soundPlayerList.Remove(player);
+            }
+        }
         soundPlayerList.Add(soundPlayer);
-
+  
         AudioMixerGroup mixerGroup = (audioAssetData.SoundPlayerType == ESoundPlayerType.BGM) ? bgmMixerGroup : effectMixerGroup;
 
         soundPlayer.Init(audioAssetData, mixerGroup);
