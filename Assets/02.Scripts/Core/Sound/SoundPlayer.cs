@@ -28,10 +28,18 @@ public class SoundPlayer : MonoBehaviour
 
     private float basePitch;
 
+    public AudioAssetSO AudioData
+    {
+        get
+        {
+            return audioData;
+        }
+    }
+
     public virtual void Init(AudioAssetSO data, AudioMixerGroup mixerGroup)
     {
         audioData = data;
-        gameObject.name = $"{PlayerType.ToString()}_{data.AudioType.ToString()}";
+        gameObject.name = $"{PlayerType}_{data.AudioType}";
 
         if (audioData == null)
         {
