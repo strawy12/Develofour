@@ -183,6 +183,7 @@ public class ProfileWindow : Window
     public override void WindowMaximum()
     {
         base.WindowMaximum();
+        EventManager.TriggerEvent(EProfileEvent.Maximum);
         elements.SetElementSize(windowAlteration.isMaximum);
     }
     private void ShowProfileCategoryPanel()
@@ -215,6 +216,7 @@ public class ProfileWindow : Window
     public override void WindowMinimum()
     {
         base.WindowMinimum();
+        EventManager.TriggerEvent(EProfileEvent.Minimum);
     }
 
     private void OnDestroy()

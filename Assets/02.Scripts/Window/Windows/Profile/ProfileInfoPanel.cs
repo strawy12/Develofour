@@ -16,6 +16,8 @@ public class ProfileInfoPanel : MonoBehaviour
     [SerializeField]
     private ProfileInfoText infoTextPrefab;
     [SerializeField]
+    private Transform poolParent;
+    [SerializeField]
     private Transform infoTextParent;
     private Queue<ProfileInfoText> infoTextQueue;
 
@@ -26,7 +28,7 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         for (int i = 0; i < 20; i++)
         {
-            ProfileInfoText infoText = Instantiate(infoTextPrefab, infoTextParent);
+            ProfileInfoText infoText = Instantiate(infoTextPrefab, poolParent);
             infoText.Init();
             infoText.Hide();
             infoTextQueue.Enqueue(infoText);
@@ -41,6 +43,7 @@ public class ProfileInfoPanel : MonoBehaviour
         }
 
         ProfileInfoText infoText = infoTextQueue.Dequeue();
+        infoText.transform.SetParent(infoTextParent);
         infoTextList.Add(infoText);
         return infoText;
     }
@@ -50,6 +53,7 @@ public class ProfileInfoPanel : MonoBehaviour
         if (infoTextList.Contains(infoText))
         {
             infoText.Hide();
+            infoText.transform.SetParent(poolParent);
             infoTextList.Remove(infoText);
             infoTextQueue.Enqueue(infoText);
         }
@@ -59,6 +63,7 @@ public class ProfileInfoPanel : MonoBehaviour
         foreach (var infoText in infoTextList)
         {
             infoTextQueue.Enqueue(infoText);
+            infoText.transform.SetParent(poolParent);
             infoText.Hide();
         }
         infoTextList.Clear();
@@ -111,6 +116,9 @@ public class ProfileInfoPanel : MonoBehaviour
         }
 
         EventManager.TriggerEvent(EProfileEvent.HideInfoPanel);
+        EventManager.StartListening(EProfileEvent.Maximum, RefreshSize);
+        EventManager.StartListening(EProfileEvent.Minimum, RefreshSize);
+
         this.gameObject.SetActive(true);
         ProfileCategoryDataSO categoryData = ps[0] as ProfileCategoryDataSO;
         currentData = categoryData;
@@ -136,6 +144,21 @@ public class ProfileInfoPanel : MonoBehaviour
                 infoText.gameObject.SetActive(true);
             }
         }
+        StartCoroutine(RefreshSizeCoroutine());
+
+    }
+    private void RefreshSize(object[] ps)
+    {
+        StartCoroutine(RefreshSizeCoroutine());
+    }
+    private IEnumerator RefreshSizeCoroutine()
+    {
+        foreach (var infoText in infoTextList)
+        {
+            infoText.RefreshSize();
+        }
+        yield return new WaitForSeconds(0.02f);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)infoTextParent);
     }
     public void SpriteSetting()
     {
@@ -145,6 +168,8 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         gameObject.SetActive(false);
         PushAll();
+        EventManager.StopListening(EProfileEvent.Maximum, RefreshSize);
+        EventManager.StopListening(EProfileEvent.Minimum, RefreshSize);
     }
     public bool GetIsFindAll()
     {
@@ -175,6 +200,8 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         EventManager.StopListening(EProfileEvent.ShowInfoPanel, Show);
         EventManager.StopListening(EProfileEvent.HideInfoPanel, Hide);
+        EventManager.StopListening(EProfileEvent.Maximum, RefreshSize);
+        EventManager.StopListening(EProfileEvent.Minimum, RefreshSize);
 
     }
     //private void FillPostItColor()
