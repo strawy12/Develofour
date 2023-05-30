@@ -19,6 +19,7 @@ public class NotepadBody : MonoBehaviour
 
     }
 
+#if UNITY_EDITOR
     [ContextMenu("DebugTool")]
     public void DebugTool()
     {
@@ -27,19 +28,11 @@ public class NotepadBody : MonoBehaviour
         {
             Debug.Log($"{data.text}의 위치는 {text.text.IndexOf(data.text)}입니다");
         }
-    }
+    } 
+#endif
 
     public void SetTriggerPosition()
     {
-        TMP_CharacterInfo charInfo;
-        text.ForceMeshUpdate();
-        if (textTriggerList != null && textTriggerList.Count > 0)
-        { 
-            foreach (TextTriggerData trigger in textTriggerList)
-            {
-                charInfo = text.textInfo.characterInfo[trigger.id];
-                (trigger.trigger.transform as RectTransform).anchoredPosition = charInfo.topLeft;
-            }
-        }
+        Define.SetTriggerPosition(text, textTriggerList);
     }
 }
