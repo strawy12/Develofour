@@ -138,7 +138,6 @@ public class PhoneCallUI : MonoBehaviour
         ResetButtonAction();
         KeyboardEventRemove();
         KeyboardEventRemove();
-        Debug.Log("close");
         gameObject.SetActive(false);
 
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);

@@ -77,7 +77,9 @@ public class TextBox : MonoUI
             }
         }
         messageText.maxVisibleCharacters = currentText.Length;
-        messageText.SetText(currentText);
+        string msg = currentText;
+        msg = SliceLineText(msg);
+        messageText.SetText(msg);
         EndSetting();
     }
 

@@ -155,6 +155,8 @@ public enum EProfileEvent
     RemoveGuideButton,
     EndGuide,
     ClickGuideToggleButton,
+    Maximum,
+    Minimum,
 }
 public enum EGuideEventType
 {

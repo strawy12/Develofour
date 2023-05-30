@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ProfileInfoText : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class ProfileInfoText : MonoBehaviour
     [SerializeField]
     private ProfileShowInfoTextPanel showPanel;
     private bool isFind;
+
+    private ContentSizeFitter fitter;
 
     public bool IsFind
     {
@@ -47,6 +50,7 @@ public class ProfileInfoText : MonoBehaviour
     public void Init()
     {
         rectTransform ??= GetComponent<RectTransform>();
+        fitter ??= GetComponent<ContentSizeFitter>();
     }
 
     public void Setting(ProfileInfoTextDataSO infoData)
@@ -56,15 +60,59 @@ public class ProfileInfoText : MonoBehaviour
 
     public void Show()
     {
-        
         infoText.text = currentInfoData.infomationText;
         isFind = true;
+        Debug.Log("show");
+        EventManager.StartListening(EProfileEvent.Maximum, RefreshSize);
+        EventManager.StartListening(EProfileEvent.Minimum, RefreshSize);
         this.gameObject.SetActive(true);
         OnFindText?.Invoke();
     }
 
+    private void RefreshSize(object[] ps)
+    {
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)fitter.transform);
+    }
+
     public void Hide()
     {
+        EventManager.StopListening(EProfileEvent.Maximum, RefreshSize);
+        EventManager.StopListening(EProfileEvent.Minimum, RefreshSize);
         gameObject.SetActive(false);
+    }
+
+    void OnDestroy()
+    {
+        EventManager.StopListening(EProfileEvent.Maximum, RefreshSize);
+        EventManager.StopListening(EProfileEvent.Minimum, RefreshSize);
     }
 }

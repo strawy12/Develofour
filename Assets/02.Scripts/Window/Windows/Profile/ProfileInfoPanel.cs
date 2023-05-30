@@ -16,6 +16,8 @@ public class ProfileInfoPanel : MonoBehaviour
     [SerializeField]
     private ProfileInfoText infoTextPrefab;
     [SerializeField]
+    private Transform poolParent;
+    [SerializeField]
     private Transform infoTextParent;
     private Queue<ProfileInfoText> infoTextQueue;
 
@@ -26,7 +28,7 @@ public class ProfileInfoPanel : MonoBehaviour
     {
         for (int i = 0; i < 20; i++)
         {
-            ProfileInfoText infoText = Instantiate(infoTextPrefab, infoTextParent);
+            ProfileInfoText infoText = Instantiate(infoTextPrefab, poolParent);
             infoText.Init();
             infoText.Hide();
             infoTextQueue.Enqueue(infoText);
@@ -41,6 +43,7 @@ public class ProfileInfoPanel : MonoBehaviour
         }
 
         ProfileInfoText infoText = infoTextQueue.Dequeue();
+        infoText.transform.parent = infoTextParent;
         infoTextList.Add(infoText);
         return infoText;
     }
@@ -50,6 +53,7 @@ public class ProfileInfoPanel : MonoBehaviour
         if (infoTextList.Contains(infoText))
         {
             infoText.Hide();
+            infoText.transform.parent = poolParent;
             infoTextList.Remove(infoText);
             infoTextQueue.Enqueue(infoText);
         }
@@ -59,6 +63,7 @@ public class ProfileInfoPanel : MonoBehaviour
         foreach (var infoText in infoTextList)
         {
             infoTextQueue.Enqueue(infoText);
+            infoText.transform.parent = poolParent;
             infoText.Hide();
         }
         infoTextList.Clear();
