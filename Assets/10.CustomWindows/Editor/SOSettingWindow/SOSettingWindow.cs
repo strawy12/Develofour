@@ -144,8 +144,10 @@ public class SOSettingWindow : EditorWindow
             int id = int.Parse(columns[0]);
             string fileName = columns[1];
             string monologName = columns[2];
+            Color characterColor = Color.white;
 
-
+            UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[4], out characterColor);
+            Debug.Log(characterColor);
             MonologTextDataSO monologData = monologSOList.Find(x => x.TextDataType == id);
             bool isCreate = false;
 
@@ -162,12 +164,17 @@ public class SOSettingWindow : EditorWindow
 
             if (monologData.textDataList == null)
             {
-                monologData.textDataList = new List<string>();
+                monologData.textDataList = new List<TextData>();
             }
 
             for (int j = 0; j < textDataList.Length; j++)
             {
-                string data = textDataList[j];
+                TextData data = new TextData() { text = textDataList[j] };
+
+                if (textDataList[j].Contains("-"))
+                {
+                    data.textColor = characterColor;
+                }
 
                 if (monologData.Count <= j)
                 {
@@ -274,7 +281,7 @@ public class SOSettingWindow : EditorWindow
             EWindowType type = (EWindowType)Enum.Parse(typeof(EWindowType), columns[2]);
 
             bool isFileLock = columns[4] == "TRUE";
-            string pin = columns[5];
+            string pinString = columns[5];
             string pinHint = columns[6];
             float bytes = float.Parse(columns[10]);
             string madeDate = columns[11];
@@ -316,12 +323,20 @@ public class SOSettingWindow : EditorWindow
                 isCreate = true;
             }
 
+            string[] pins = pinString.Split(',');
+            List<string> pinList = new List<string>();
+            foreach (string pin in pins)
+            {
+                if (string.IsNullOrEmpty(pin)) continue;
+                pinList.Add(pin);
+            }
+
             file.id = id;
             file.fileName = fileName;
             file.windowType = type;
             file.isFileLock = isFileLock;
-            file.windowPin = pin;
             file.windowPinHintGuide = pinHint;
+            file.windowPin = pinList;
             file.name = columns[9];
             file.tags = tags;
             file.propertyData.bytes = bytes;
@@ -363,7 +378,7 @@ public class SOSettingWindow : EditorWindow
                 CreateFolder(SO_PATH);
                 bool flag1 = !File.Exists(SO_PATH);
                 bool flag2 = !(columns[10] == "추가 파일" || columns[10] == "디폴트 파일");
-                
+
                 if (flag1 && flag2)
                 {
                     string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());
@@ -372,7 +387,7 @@ public class SOSettingWindow : EditorWindow
             }
 
             EditorUtility.SetDirty(file);
-            temp.Remove(file); 
+            temp.Remove(file);
         }
 
         temp.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
@@ -405,6 +420,7 @@ public class SOSettingWindow : EditorWindow
             string infoText = columns[3];
             string noticeText = columns[4];
 
+
             ProfileInfoTextDataSO infoData = infoSODatas.Find(x => x.id == id);
 
             bool isCreate = false;
@@ -419,6 +435,7 @@ public class SOSettingWindow : EditorWindow
             infoData.category = category;
             infoData.infomationText = infoText;
             infoData.noticeText = noticeText;
+
 
             string SO_PATH = $"Assets/07.ScriptableObjects/Profile/ProfileInfoData/InfoTextData/{category}/{columns[5].Trim()}.asset";
 

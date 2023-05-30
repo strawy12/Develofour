@@ -27,10 +27,11 @@ public class TextBox : MonoUI
 
     private float currentDelay = 0f;
 
-    private string currentTextData;
-
+    private string currentText;
+    private Color currentColor;
     public bool isTextPrinting = false;
     private bool isActive = false;
+    private bool isSkip;
 
     private Dictionary<int, Action> triggerDictionary;
 
@@ -45,16 +46,39 @@ public class TextBox : MonoUI
         triggerDictionary.Clear();
     }
 
-    public void Init(string data, Dictionary<int, Action> triggerList)
+    public void Init(string data, Dictionary<int, Action> triggerList, Color color)
     {
         EndPrintText();
-        currentTextData = data;
+        currentText = data;
         triggerDictionary = triggerList;
 
         messageText.SetText("");
-
+        messageText.color = color;
+        currentColor = color;
         //ShowBox();
+        InputManager.Inst.AddMouseInput(EMouseType.LeftClick, onKeyDown: ImmediatelyComplete);
         PrintText();
+    }
+
+    private void ImmediatelyComplete()
+    {
+        if(!isSkip)
+        {
+            isSkip = true;
+            return;
+        }
+        StopCoroutine(PrintMonologTextCoroutine());
+        for(int i = 0; i < currentText.Length; i++)
+        {
+            if (triggerDictionary.ContainsKey(i))
+            {
+                triggerDictionary[i]?.Invoke();
+                triggerDictionary[i] = null;
+            }
+        }
+        messageText.maxVisibleCharacters = currentText.Length;
+        messageText.SetText(currentText);
+        EndSetting();
     }
 
     public void PrintText()
@@ -77,19 +101,19 @@ public class TextBox : MonoUI
 
     public bool CheckDataEnd()
     {
-        if (currentTextData == null)
+        if (currentText == null)
         {
             GameManager.Inst.ChangeGameState(EGameState.Game);
             return true;
         }
-        return messageText.text.Length >= currentTextData.Length;
+        return messageText.text.Length >= currentText.Length;
     }
 
     private IEnumerator PrintMonologTextCoroutine()
     {
         bool isRich = false;
 
-        string msg = currentTextData;
+        string msg = currentText;
 
         msg = SliceLineText(msg);
 
@@ -156,6 +180,8 @@ public class TextBox : MonoUI
     {
         isTextPrinting = false;
         Sound.OnImmediatelyStop?.Invoke(EAudioType.MonologueTyping);
+        isSkip = false;
+        InputManager.Inst.RemoveMouseInput(EMouseType.LeftClick, onKeyDown: ImmediatelyComplete);
     }
 
     public void ShowBox()
@@ -170,6 +196,8 @@ public class TextBox : MonoUI
     {
         messageText.SetText("");
         isTextPrinting = false;
+        messageText.color = Color.white;
+        currentColor = Color.white;
         isActive = false;
         SetActive(false);
     }
@@ -188,6 +216,7 @@ public class TextBox : MonoUI
         bgImage.sprite = simpleTypeSprite;
 
         messageText.SetText(data);
+        messageText.color = currentColor;
         ShowBox();
         bgImage.rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + offsetSize;
         bgImage.enabled = false;

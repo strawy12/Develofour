@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -50,7 +50,7 @@ public class InputManager : MonoSingleton<InputManager>
         #endregion
 
         #region Mouse
-        // ¸¶¿ì½º
+        // ë§ˆìš°ìŠ¤
         for (int i = 0; i < (int)EMouseType.Cnt; i++)
         {
             if (!mouseEvents.ContainsKey((EMouseType)i)) continue;
@@ -74,7 +74,7 @@ public class InputManager : MonoSingleton<InputManager>
         #endregion
 
         #region Keyboard
-        // Å°º¸µå
+        // í‚¤ë³´ë“œ
         foreach (var info in keyCodes)
         {
             if (info.Value.OnKeyDown != null && Input.GetKeyDown(info.Key))
@@ -109,7 +109,7 @@ public class InputManager : MonoSingleton<InputManager>
     {
         if (mouseEvents.ContainsKey(type) == false)
         {
-            Debug.LogError($"InputManagerÀÇ KeyInfo Dictionary¿¡ ÇØ´ç Å°°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. : {type}");
+            Debug.LogError($"InputManagerì˜ KeyInfo Dictionaryì— í•´ë‹¹ í‚¤ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. : {type}");
             return;
         }
 
@@ -132,7 +132,7 @@ public class InputManager : MonoSingleton<InputManager>
     {
         if (anyKeyEvent == null)
         {
-            Debug.LogError($"InputManagerÀÇ AnyKeyEvent°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+            Debug.LogError($"InputManagerì˜ AnyKeyEventê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -155,7 +155,7 @@ public class InputManager : MonoSingleton<InputManager>
     {
         if (keyCodes.ContainsKey(keyCode) == false)
         {
-            Debug.LogError($"InputManagerÀÇ KeyInfo Dictionary¿¡ ÇØ´ç Å°°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. : {keyCode}");
+            //Debug.LogError($"InputManagerì˜ KeyInfo Dictionaryì— í•´ë‹¹ í‚¤ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. : {keyCode}");
             return;
         }
 

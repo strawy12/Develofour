@@ -24,9 +24,22 @@ public class PhoneCallUI : MonoBehaviour
 
     public Func<bool> OnCloseIngnoreFlag;
 
+    private Dictionary<int, Action> actionDictionary = new Dictionary<int, Action>();
+
+
     void Start()
     {
+        DictionaryAdd();
         this.gameObject.SetActive(false);
+    }
+
+    private void DictionaryAdd()
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            int idx = i;
+            actionDictionary.Add(idx, new Action(() => KeyboardEventAdd(idx)));
+        }
     }
 
     public void Open()
@@ -34,7 +47,39 @@ public class PhoneCallUI : MonoBehaviour
         AllEraseText();
         GetButtonAction();
         gameObject.SetActive(true);
+        Debug.Log("open");
+        KeyboardEventAdd();
     }
+
+    private void KeyboardEventAdd()
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            int idx = i;
+            string str = "Keypad" + idx.ToString();
+
+            InputManager.Inst.AddKeyInput((KeyCode)Enum.Parse(typeof(KeyCode), str), onKeyDown: actionDictionary[idx]) ;
+        }
+        InputManager.Inst.AddKeyInput(KeyCode.Backspace, onKeyDown: EraseButton );
+    }
+
+    private void KeyboardEventAdd(int value)
+    {
+        currentNumber += value.ToString();
+        phoneNumberText.SetText(currentNumber);
+    }
+
+    private void KeyboardEventRemove()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            int idx = i;
+            string str = "Keypad" + idx.ToString();
+            InputManager.Inst.RemoveKeyInput((KeyCode)Enum.Parse(typeof(KeyCode), str), onKeyDown: actionDictionary[idx]);
+        }
+        InputManager.Inst.RemoveKeyInput(KeyCode.Backspace, onKeyDown: EraseButton);
+    }
+
 
     public void Init()
     {
@@ -42,7 +87,6 @@ public class PhoneCallUI : MonoBehaviour
         callButton.onClick?.AddListener(CallButton);
         callTopPanel.Init();
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
-
     }
 
     private void GetButtonAction()
@@ -92,7 +136,9 @@ public class PhoneCallUI : MonoBehaviour
     {
         AllEraseText();
         ResetButtonAction();
-
+        KeyboardEventRemove();
+        KeyboardEventRemove();
+        Debug.Log("close");
         gameObject.SetActive(false);
 
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);

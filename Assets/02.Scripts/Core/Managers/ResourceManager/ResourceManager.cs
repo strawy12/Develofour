@@ -13,7 +13,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     }
     private IEnumerator StartGetData()
     {
-        int cnt = 17;
+        int cnt = 18;
 
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);
@@ -32,10 +32,10 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         LoadVideoPlayercDataAssets(() => cnt--);
         LoadRequestCallDataAssets(() => cnt--);
         LoadIncomingCallDataAssets(() => cnt--);
+
         LoadProfileInfoDataAssets(() => cnt--);
-
         LoadLockImage(() => cnt--);
-
+        LoadBackgroundBGMWindowDataResourcesAssets(() => cnt--);
         yield return new WaitUntil(() => cnt <= 0);
 
         GameManager.Inst.Init();
