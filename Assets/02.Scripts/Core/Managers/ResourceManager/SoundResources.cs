@@ -10,6 +10,11 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
     public AudioAssetSO GetAudioResource(Sound.EAudioType audioType)
     {
+        if(audioType == Sound.EAudioType.None)
+        {
+            Debug.LogWarning("audioType is None");
+            return null;
+        }
         return audioResourceList[audioType];
     }
 
