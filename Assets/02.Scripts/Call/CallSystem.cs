@@ -75,9 +75,8 @@ public class CallSystem : MonoSingleton<CallSystem>
     public void DecisionCheck(object[] ps = null)
     {
         if (isCalling) return;
-        List<ReturnMonologData> list = DataManager.Inst.GetReturnDataList();
+        List<ReturnMonologData> list = DataManager.Inst.GetReturnDataList(ECharacterDataType.Police);
         List<ReturnMonologData> temp = new List<ReturnMonologData>();
-
         foreach (ReturnMonologData data in list)
         {
             if (data.EndDelayTime > DataManager.Inst.GetCurrentTime())
@@ -184,7 +183,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         instance.btn.onClick.AddListener(() =>
         {
             HideSelectBtns();
-            StartMonolog(textData.TextDataType);
+            StartMonolog(textData.TextDataType, lockData);
         });
         instance.gameObject.SetActive(true);
     }
