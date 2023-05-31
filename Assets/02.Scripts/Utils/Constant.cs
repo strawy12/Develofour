@@ -65,6 +65,10 @@ public static partial class Constant
         public const int WINDOWS_LOGIN_SCREEN_OPEN = 113;
         public const int NEEDINFO = 131;
         public const int TUTORIAL_NOT_FIND_INFO = 134;
+        public const int PetCamMonolog_1 = 174;
+        public const int PetCamMonolog_2 = 175;
+        public const int PetCamMonolog_3 = 176;
+        public const int PetCamMonolog_4 = 177;
     }
     #endregion
 }
