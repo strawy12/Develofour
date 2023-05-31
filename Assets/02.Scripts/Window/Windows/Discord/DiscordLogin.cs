@@ -119,10 +119,19 @@ public class DiscordLogin : MonoBehaviour
 
     public void SuccessLogin()
     {
-        Debug.Log("성공");
         //성공을 알리는 이벤트
+        if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfileInfoData(66)) //id
+        {
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.InvisibleInformation, 66 });
+        }
+
+        if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfileInfoData(69)) //password
+        {
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.InvisibleInformation, 69 });
+        }
 
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: OnClickLogin);
+
         isLogin = true;
         identificationPanel.gameObject.SetActive(true);
         loginPanel.SetActive(false);
