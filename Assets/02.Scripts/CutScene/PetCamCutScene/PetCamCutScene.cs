@@ -57,12 +57,14 @@ public class PetCamCutScene : CutScene
 
     private void ByTheCollarMonologStart()
     {
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.PetCam, 41 });
         MonologSystem.OnEndMonologEvent = PetKickImageFadeIn;
         StartMonolog(Constant.MonologKey.PETCAM_CUTSCENE_2);
     }
 
     private void PetKickImageFadeIn()
     {
+
         Sequence sequence = DOTween.Sequence();
         sequence.Append(petKickImage.DOFade(1, petKickImageFadeInDelay));
         sequence.AppendCallback(() => StartCoroutine(PetKickSoundCoroutine()));
@@ -86,6 +88,8 @@ public class PetCamCutScene : CutScene
 
     private void FallenPetImageFadeIn()
     {
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.PetCam, 110 });
+
         Sequence sequence = DOTween.Sequence();
         sequence.Append(fallenPetImage.DOFade(1, fallenPetImageFadeInDelay));
         sequence.AppendCallback(() => FallenPetMonologStart());
@@ -101,6 +105,8 @@ public class PetCamCutScene : CutScene
     {
         float soundLength = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.ExitDoor);
         yield return new WaitForSeconds(soundLength + exitSoundAfterDelay);
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.PetCam, 111 });
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.PetCam, 112 });
         StopCutScene();
     }
 
