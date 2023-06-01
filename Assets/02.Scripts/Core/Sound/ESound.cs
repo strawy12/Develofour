@@ -27,6 +27,15 @@ public partial class Sound : MonoBehaviour
         PhoneAlarm,
         LockInfoTrigger,
         FindInfoTrigger,
+        DoorLock,
+        ThrowObject,
+        DogBark,
+        Kick,
+        ExitDoor,
+        DogWhine,
+        WomanSigh,
+        WomanBreath,
+        FallenDownObject,
         End
     }
 

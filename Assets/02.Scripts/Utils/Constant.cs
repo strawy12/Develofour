@@ -70,6 +70,10 @@ public static partial class Constant
         public const int WINDOWS_LOGIN_SCREEN_OPEN = 113;
         public const int NEEDINFO = 131;
         public const int TUTORIAL_NOT_FIND_INFO = 134;
+        public const int PETCAM_CUTSCENE_1 = 174;
+        public const int PETCAM_CUTSCENE_2 = 175;
+        public const int PETCAM_CUTSCENE_3 = 176;
+        public const int PETCAM_CUTSCENE_4 = 177;
         public const int CCTV_CUTSCENE_00 = 181;
         public const int CCTV_CUTSCENE_01 = 182;
         public const int CCTV_CUTSCENE_02 = 183;
