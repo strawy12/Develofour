@@ -119,6 +119,7 @@ public class CCTVCutScene : CutScene
 
     private IEnumerator DelayStartCor()
     {
+        sprite.DOFade(0, 1);
         yield return new WaitForSeconds(3f);
         EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.Bat, Constant.ProfileInfoKey.BAT_DETAIL });
         EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.CriminalInfomation, Constant.ProfileInfoKey.CRIMINAL_ACTION });
