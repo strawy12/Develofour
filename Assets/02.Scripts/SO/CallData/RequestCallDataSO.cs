@@ -21,6 +21,7 @@ public class MonologLockData
 {
     public List<MonologLockDecision> decisions;
     public int monologID;
+    public List<Vector2> additionFiles;
     public ReturnMonologData returnMonologData;
 
 }
@@ -34,7 +35,7 @@ public class ReturnMonologData
     private int returnDelay = 0;
 
     public List<MonologLockDecision> decisions= null;
-    public List<int> additionFiles;
+    public List<Vector2> additionFiles; // x -> file id || y -> download Folder id
 
     private int endDelayTime = 0;
     public ECharacterDataType characterType = ECharacterDataType.None;
