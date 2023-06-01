@@ -156,9 +156,12 @@ public class CallSystem : MonoSingleton<CallSystem>
             int num = i;
             MonologLockData lockData = callData.monologLockList[i];
 
-            if (lockData.returnMonologData.characterType == ECharacterDataType.None)
+            foreach (ReturnMonologData data in lockData.returnMonologDataList)
             {
-                lockData.returnMonologData.characterType = callData.characterType;
+                if (data.characterType == ECharacterDataType.None)
+                {
+                    data.characterType = callData.characterType;
+                }
             }
 
             MakeCallTextDataBtn(lockData.monologID, lockData);
@@ -289,9 +292,12 @@ public class CallSystem : MonoSingleton<CallSystem>
 
         if (data == null)
             return;
+        foreach (ReturnMonologData returnData in data.returnMonologDataList)
+        {
+            if (returnData.characterType == ECharacterDataType.None || returnData.MonologID == 0) continue;
+                DataManager.Inst.AddReturnData(returnData);
+        }
 
-        if (data.returnMonologData.characterType == ECharacterDataType.None || data.returnMonologData.MonologID == 0) return;
-        DataManager.Inst.AddReturnData(data.returnMonologData);
     }
 
 
@@ -307,11 +313,11 @@ public class CallSystem : MonoSingleton<CallSystem>
     {
         if (isCalling) return;
 
-        foreach(var incomingCallData in incomingCallDataList) //캐릭마다
+        foreach (var incomingCallData in incomingCallDataList) //캐릭마다
         {
             foreach (ReturnMonologData data in incomingCallData.incomingMonologList) //한 캐릭의 리턴 독백마다
             {
-                if(DataManager.Inst.IsMonologShow(data.MonologID))//이미 본 독백이면
+                if (DataManager.Inst.IsMonologShow(data.MonologID))//이미 본 독백이면
                 {
                     continue;//넘어가
                 }
