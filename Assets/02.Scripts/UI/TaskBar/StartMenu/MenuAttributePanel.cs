@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using System;
 using DG.Tweening;
 
-public class MenuAttributePanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class MenuAttributePanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public static readonly float DURATION = 0.15f;
 
@@ -45,5 +45,10 @@ public class MenuAttributePanel : MonoBehaviour, IPointerEnterHandler, IPointerE
         backgroundImage.DOKill(true);
         float alpha = isSelected ? 1f : 0f;
         backgroundImage.DOFade(alpha, DURATION);
+    }
+
+    public virtual void OnPointerClick(PointerEventData eventData)
+    {
+        //EventManager.TriggerEvent(EWindowEvent.ExpendMenu);
     }
 }

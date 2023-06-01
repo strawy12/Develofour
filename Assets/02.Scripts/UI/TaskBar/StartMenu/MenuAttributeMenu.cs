@@ -5,9 +5,4 @@ using UnityEngine.EventSystems;
 
 public class MenuAttributeMenu : MenuAttributePanel, IPointerClickHandler
 {
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        EventManager.TriggerEvent(EWindowEvent.ExpendMenu);
-    }
-
 }

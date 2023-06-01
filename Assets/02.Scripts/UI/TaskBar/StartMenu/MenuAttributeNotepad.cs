@@ -13,7 +13,7 @@ public class MenuAttributeNotepad : MenuAttributePanel, IPointerClickHandler
         base.Init();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public override void OnPointerClick(PointerEventData eventData)
     {
         isClick = true;
         SelectedPanel(false);
