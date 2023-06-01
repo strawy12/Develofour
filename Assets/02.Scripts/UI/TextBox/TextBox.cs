@@ -80,6 +80,7 @@ public class TextBox : MonoUI
         string msg = currentText;
         msg = SliceLineText(msg);
         messageText.SetText(msg);
+        currentDelay = 0;
         EndSetting();
     }
 

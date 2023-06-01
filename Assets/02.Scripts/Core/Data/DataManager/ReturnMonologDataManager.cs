@@ -30,9 +30,12 @@ public partial class DataManager : MonoSingleton<DataManager>
     }
 
     // Character 타입을 받긴 하지만 현재는 조수만 리턴 데이터가 존재하므로 그냥 바로 리턴 박음
-    public List<ReturnMonologData> GetReturnDataList(ECharacterDataType type = ECharacterDataType.Assistant)
+    public List<ReturnMonologData> GetReturnDataList(ECharacterDataType type)
     {
+        List<ReturnMonologData> list = new List<ReturnMonologData>();
+        list = saveData.returnMonologData.Where(x => x.characterType == type).ToList();
         return saveData.returnMonologData;
-        //saveData.returnMonologData.Where(x =>x.CharacterType== type).ToList();
+
+
     }
 }

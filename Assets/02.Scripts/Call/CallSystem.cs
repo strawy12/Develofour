@@ -75,9 +75,8 @@ public class CallSystem : MonoSingleton<CallSystem>
     public void DecisionCheck(object[] ps = null)
     {
         if (isCalling) return;
-        List<ReturnMonologData> list = DataManager.Inst.GetReturnDataList();
+        List<ReturnMonologData> list = DataManager.Inst.GetReturnDataList(ECharacterDataType.Police);
         List<ReturnMonologData> temp = new List<ReturnMonologData>();
-
         foreach (ReturnMonologData data in list)
         {
             if (data.EndDelayTime > DataManager.Inst.GetCurrentTime())
@@ -88,7 +87,7 @@ public class CallSystem : MonoSingleton<CallSystem>
                 OnAnswerCall(data.characterType, data.MonologID);
                 if (data.additionFiles != null && data.additionFiles.Count > 0)
                 {
-                    MonologSystem.OnEndMonologEvent = () => data.additionFiles.ForEach(x => FileManager.Inst.AddFile(x, Constant.FileID.USB));
+                    MonologSystem.OnEndMonologEvent = () => data.additionFiles.ForEach(x => FileManager.Inst.AddFile((int)x.x, (int)x.y));
                 }
                 temp.Add(data);
             }
@@ -184,7 +183,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         instance.btn.onClick.AddListener(() =>
         {
             HideSelectBtns();
-            StartMonolog(textData.TextDataType);
+            StartMonolog(textData.TextDataType, lockData);
         });
         instance.gameObject.SetActive(true);
     }
@@ -274,6 +273,13 @@ public class CallSystem : MonoSingleton<CallSystem>
 
         MonologSystem.OnEndMonologEvent = () => DataManager.Inst.SetMonologShow(monologType, true);
         MonologSystem.OnEndMonologEvent = () => SaveReturnMonolog(data);
+        MonologSystem.OnEndMonologEvent = () =>
+        {
+            if (data.additionFiles.Count != 0)
+            {
+                data.additionFiles.ForEach(x => data.additionFiles.ForEach(x => FileManager.Inst.AddFile((int)x.x, (int)x.y)));
+            }
+        };
 
         MonologSystem.OnStartMonolog?.Invoke(monologType, 0, false);
     }
@@ -315,7 +321,7 @@ public class CallSystem : MonoSingleton<CallSystem>
                     OnAnswerCall(data.characterType, data.MonologID);// 전화걸리기
                     if (data.additionFiles != null && data.additionFiles.Count > 0)//추가 파일 있으면 추가
                     {
-                        MonologSystem.OnEndMonologEvent = () => data.additionFiles.ForEach(x => FileManager.Inst.AddFile(x, Constant.FileID.USB));
+                        MonologSystem.OnEndMonologEvent = () => data.additionFiles.ForEach(x => FileManager.Inst.AddFile((int)x.x, (int)x.y));
                     }
                 }
             }

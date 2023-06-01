@@ -46,6 +46,11 @@ public static partial class Constant
         public const int PARKJUYOUNG_NAME = 7;
         public const int KIMYUJIN_NAME = 11;
         public const int INCIDENTREPORT_TITLE = 76;
+        public const int CCTV_TIME = 47;
+        public const int CCTV_DETAIL = 48;
+        public const int BAT_DETAIL = 40;
+        public const int CRIMINAL_ACTION = 23;
+        public const int CCTV_UYOUNGWHEREABOUTS = 107;
     }
     #endregion
     #region SiteAddress
@@ -69,6 +74,11 @@ public static partial class Constant
         public const int PetCamMonolog_2 = 175;
         public const int PetCamMonolog_3 = 176;
         public const int PetCamMonolog_4 = 177;
+        public const int CCTV_CUTSCENE_00 = 181;
+        public const int CCTV_CUTSCENE_01 = 182;
+        public const int CCTV_CUTSCENE_02 = 183;
+        public const int CCTV_CUTSCENE_03 = 184;
+        public const int CCTV_CUTSCENE_04 = 185;
     }
     #endregion
 }
