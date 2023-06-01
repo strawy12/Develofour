@@ -81,6 +81,7 @@ public class ProfileInfoText : MonoBehaviour
 
     public void Hide()
     {
+        StopCoroutine(RefreshSizeCoroutine());
         gameObject.SetActive(false);
     }
 

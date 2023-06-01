@@ -47,7 +47,6 @@ public class PhoneCallUI : MonoBehaviour
         AllEraseText();
         GetButtonAction();
         gameObject.SetActive(true);
-        Debug.Log("open");
         KeyboardEventAdd();
     }
 
