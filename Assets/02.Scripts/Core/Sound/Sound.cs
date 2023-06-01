@@ -10,6 +10,8 @@ public partial class Sound : MonoBehaviour
 {
     public static Func<EAudioType, float> OnPlaySound { get; private set; }
     public static Action<EAudioType> OnImmediatelyStop { get; private set; }
+    public static Action<bool> OnStopBGM { get; private set; }
+    public static Action OnPlayLastBGM { get; private set; }
 
     [SerializeField]
     private SoundPlayer soundPlayerPrefab;
@@ -22,6 +24,7 @@ public partial class Sound : MonoBehaviour
     private List<SoundPlayer> soundPlayerList;
     private Queue<SoundPlayer> soundPlayerPool;
 
+    private EAudioType lastBGMAudioType = EAudioType.StartMainBGM;
 
     private void Awake()
     {
@@ -38,6 +41,8 @@ public partial class Sound : MonoBehaviour
     {
         OnPlaySound += CreateSoundPlayer;
         OnImmediatelyStop += ImmediatelyStop;
+        OnStopBGM += BGMStop;
+        OnPlayLastBGM += LastBGMStart;
     }
 
     private float CreateSoundPlayer(EAudioType audioType)
@@ -47,7 +52,7 @@ public partial class Sound : MonoBehaviour
 
         SoundPlayer soundPlayer = null;
 
-        if(soundPlayerPool.Count != 0)
+        if (soundPlayerPool.Count != 0)
         {
             soundPlayer = soundPlayerPool.Dequeue();
         }
@@ -58,15 +63,10 @@ public partial class Sound : MonoBehaviour
         }
         if (audioAssetData.SoundPlayerType == ESoundPlayerType.BGM)
         {
-            var list = soundPlayerList.FindAll(x => x.AudioData.SoundPlayerType == ESoundPlayerType.BGM);
-            foreach (var player in list)
-            {
-                player.ImmediatelyStop();
-                soundPlayerList.Remove(player);
-            }
+            BGMStop(false);
         }
         soundPlayerList.Add(soundPlayer);
-  
+
         AudioMixerGroup mixerGroup = (audioAssetData.SoundPlayerType == ESoundPlayerType.BGM) ? bgmMixerGroup : effectMixerGroup;
 
         soundPlayer.Init(audioAssetData, mixerGroup);
@@ -86,6 +86,26 @@ public partial class Sound : MonoBehaviour
         soundPlayerList.Remove(player);
     }
 
+    private void BGMStop(bool isAddLastList)
+    {
+        var list = soundPlayerList.FindAll(x => x.AudioData.SoundPlayerType == ESoundPlayerType.BGM);
+        foreach (var player in list)
+        {
+            if (player.isPlaying)
+            {
+                if (isAddLastList)
+                    lastBGMAudioType = player.AudioType;
+                player.ImmediatelyStop();
+                soundPlayerList.Remove(player);
+            }
+        }
+    }
+
+    private void LastBGMStart()
+    {
+        CreateSoundPlayer(lastBGMAudioType);
+    }
+
     private void ImmediatelyStop(EAudioType type)
     {
         var list = soundPlayerList.FindAll(x => x.AudioType == type);
@@ -101,5 +121,7 @@ public partial class Sound : MonoBehaviour
     {
         OnPlaySound -= CreateSoundPlayer;
         OnImmediatelyStop -= ImmediatelyStop;
+        OnStopBGM -= BGMStop;
+        OnPlayLastBGM -= LastBGMStart;
     }
 }

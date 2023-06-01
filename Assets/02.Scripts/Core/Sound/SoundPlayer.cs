@@ -24,6 +24,8 @@ public class SoundPlayer : MonoBehaviour
     public ESoundPlayerType PlayerType => audioData.SoundPlayerType;
     public Sound.EAudioType AudioType => audioData.AudioType;
 
+    public bool isPlaying => audioSource.isPlaying;
+
     public List<AudioMixerGroup> audioMixerGroups = new List<AudioMixerGroup>();
 
     private float basePitch;
@@ -55,7 +57,7 @@ public class SoundPlayer : MonoBehaviour
         audioSource.clip = audioData.Clip;
         audioSource.volume = audioData.Volume;
         audioSource.outputAudioMixerGroup = mixerGroup;
-
+        
         audioSource.loop = PlayerType == ESoundPlayerType.BGM;
         basePitch = audioSource.pitch;
     }
@@ -96,7 +98,6 @@ public class SoundPlayer : MonoBehaviour
             StartCoroutine(DelayCoroutine(delay));
         }
     }
-
     private IEnumerator DelayCoroutine(float delay)
     {
         yield return new WaitForSeconds(delay + 0.3f);

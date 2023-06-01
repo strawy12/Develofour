@@ -7,14 +7,13 @@ using UnityEngine.UI;
 public class PetCamCutScene : CutScene
 {
     #region Delay
-    [Header("Delay")]
-    [SerializeField] private float unlockSoundBeforeDelay = 3f;
-    [SerializeField] private float unlockSoundAfterDelay = 1.5f;
-    [SerializeField] private float quarreImageFadeInDelay = 1.5f;
-    [SerializeField] private float byTheCollarImageFadeInDelay = 1.5f;
-    [SerializeField] private float petKickImageFadeInDelay = 1.5f;
-    [SerializeField] private float fallenPetImageFadeInDelay = 1.5f;
-    [SerializeField] private float exitSoundAfterDelay = 1.5f;
+    private float unlockSoundBeforeDelay = 2f;
+    private float unlockSoundAfterDelay = 1f;
+    private float quarreImageFadeInDelay = 1f;
+    private float byTheCollarImageFadeInDelay = 1f;
+    private float petKickImageFadeInDelay = 1f;
+    private float fallenPetImageFadeInDelay = 1f;
+    private float exitSoundAfterDelay = 1f;
     #endregion
 
     #region GameObject
@@ -28,14 +27,15 @@ public class PetCamCutScene : CutScene
     public override void ShowCutScene()
     {
         base.ShowCutScene();
-        StartCoroutine(UnlockDoar());
+        StartCoroutine(UnlockDoor());
     }
-    private IEnumerator UnlockDoar()
+    private IEnumerator UnlockDoor()
     {
         blackImagePanel.SetActive(true);
+
         yield return new WaitForSeconds(unlockSoundBeforeDelay);
-        //sound play doarlock unlock sound
-        yield return new WaitForSeconds(unlockSoundAfterDelay);
+        float soundLength = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.DoorLock);
+        yield return new WaitForSeconds(soundLength + unlockSoundAfterDelay);
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(quarrelImage.DOFade(1, quarreImageFadeInDelay));
@@ -44,7 +44,7 @@ public class PetCamCutScene : CutScene
 
     private void QurrelMonologStart()
     {
-        MonologSystem.OnEndMonologEvent = () =>ByTheCollarImageFadeIn();
+        MonologSystem.OnEndMonologEvent = ByTheCollarImageFadeIn;
         StartMonolog(Constant.MonologKey.PetCamMonolog_1);
     }
 
@@ -57,7 +57,7 @@ public class PetCamCutScene : CutScene
 
     private void ByTheCollarMonologStart()
     {
-        MonologSystem.OnEndMonologEvent = () => PetKickImageFadeIn();
+        MonologSystem.OnEndMonologEvent = PetKickImageFadeIn;
         StartMonolog(Constant.MonologKey.PetCamMonolog_2);
     }
 
@@ -65,12 +65,22 @@ public class PetCamCutScene : CutScene
     {
         Sequence sequence = DOTween.Sequence();
         sequence.Append(petKickImage.DOFade(1, petKickImageFadeInDelay));
-        sequence.AppendCallback(() => PetKickMonologStart());
+        sequence.AppendCallback(() => StartCoroutine(PetKickSoundCoroutine()));
+    }
+
+    private IEnumerator PetKickSoundCoroutine()
+    {
+        float kickDelay = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.Kick);
+        float whineDelay = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.DogWhine);
+
+        yield return new WaitForSeconds(Mathf.Max(kickDelay, whineDelay));
+
+        PetKickMonologStart();
     }
 
     private void PetKickMonologStart()
     {
-        MonologSystem.OnEndMonologEvent = () => FallenPetImageFadeIn();
+        MonologSystem.OnEndMonologEvent = FallenPetImageFadeIn;
         StartMonolog(Constant.MonologKey.PetCamMonolog_3);
     }
 
@@ -86,18 +96,17 @@ public class PetCamCutScene : CutScene
         MonologSystem.OnEndMonologEvent = () => StartCoroutine(ExitSoundCoroutine());
         StartMonolog(Constant.MonologKey.PetCamMonolog_4);
     }
-    
+
     private IEnumerator ExitSoundCoroutine()
     {
-        //sound Play exitSound
-        yield return new WaitForSeconds(exitSoundAfterDelay);
+        float soundLength = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.ExitDoor);
+        yield return new WaitForSeconds(soundLength + exitSoundAfterDelay);
         StopCutScene();
     }
 
     public override void StopCutScene()
     {
         DOTween.KillAll();
-        MonologSystem.OnStopMonolog?.Invoke();
         base.StopCutScene();
     }
 }

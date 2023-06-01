@@ -13,6 +13,7 @@ public class CutScene : MonoBehaviour
     {
         if (isPlaying) return;
         saveState = GameManager.Inst.GameState;
+        Sound.OnStopBGM?.Invoke(true);
         isPlaying = true;
         InputManager.Inst.AddKeyInput(KeyCode.Escape, onKeyDown: StopCutScene);
     }
@@ -23,6 +24,8 @@ public class CutScene : MonoBehaviour
         isPlaying = false;
         InputManager.Inst.RemoveKeyInput(KeyCode.Escape, onKeyDown: StopCutScene);
         StopAllCoroutines();
+        Sound.OnPlayLastBGM?.Invoke();
+        MonologSystem.OnStopMonolog?.Invoke();
         Destroy(this.gameObject);
     }
     protected void StartMonolog(int monoID, float delay = 0f)
