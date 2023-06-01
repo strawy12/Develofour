@@ -5,8 +5,9 @@ using UnityEngine.EventSystems;
 
 public class MenuAttributeSetting : MenuAttributePanel, IPointerClickHandler
 {
-    public void OnPointerClick(PointerEventData eventData)
+    public override void OnPointerClick(PointerEventData eventData)
     {
+        base.OnPointerClick(eventData);
        // EventManager.TriggerEvent(EEvent.ClickSettingBtn);
     }
 

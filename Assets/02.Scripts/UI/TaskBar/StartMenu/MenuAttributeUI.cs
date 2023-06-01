@@ -10,7 +10,7 @@ using TMPro;
 public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
-    private float expandDelayTime = 2f;
+    private float expandDelayTime = 0.8f;
 
     private RectTransform rectTransform;
 
