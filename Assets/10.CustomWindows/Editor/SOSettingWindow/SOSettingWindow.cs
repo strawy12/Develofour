@@ -145,8 +145,9 @@ public class SOSettingWindow : EditorWindow
             string fileName = columns[1];
             string monologName = columns[2];
             Color characterColor = Color.white;
-
+            Color character2Color = Color.white;
             UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[4], out characterColor);
+            UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[5], out character2Color);
             Debug.Log(characterColor);
             MonologTextDataSO monologData = monologSOList.Find(x => x.TextDataType == id);
             bool isCreate = false;
@@ -174,8 +175,11 @@ public class SOSettingWindow : EditorWindow
                 if (textDataList[j].Contains("-"))
                 {
                     data.textColor = characterColor;
+                    data.text.Replace("-","");
+                }else
+                {
+                    data.textColor = character2Color;
                 }
-
                 if (monologData.Count <= j)
                 {
                     monologData.textDataList.Add(data);
