@@ -112,15 +112,11 @@ public class InformationTrigger : MonoBehaviour
         if (!DataManager.Inst.SaveData.isProfilerInstall) return;
 
 
-        if (!isFakeInfo)
+        if (infomaitionDataList == null || infomaitionDataList.Count == 0)
         {
-            if (infomaitionDataList == null || infomaitionDataList.Count == 0)
-            {
-                MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
-                return;
-            }
+            MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
+            return;
         }
-
         playMonologType = monoLogType;
 
         foreach (NeedInfoData needData in needInfoList)

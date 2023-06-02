@@ -128,11 +128,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6760515456667878588}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -908.4276, y: 23}
+  m_AnchoredPosition: {x: -917.86, y: 57.9}
   m_SizeDelta: {x: 647.8196, y: 35}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8304502227693061839
@@ -203,7 +203,6 @@ GameObject:
   - component: {fileID: 751496750003491115}
   - component: {fileID: 6259699655005179059}
   - component: {fileID: 2730291460698436800}
-  - component: {fileID: 3621189960490543724}
   - component: {fileID: 7761324063257414369}
   m_Layer: 5
   m_Name: Info44_37
@@ -225,12 +224,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6760515456667878588}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -952, y: -46}
-  m_SizeDelta: {x: 454.3733, y: 35}
+  m_AnchoredPosition: {x: -876.5, y: -12.6}
+  m_SizeDelta: {x: 382.1131, y: 35}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6259699655005179059
 CanvasRenderer:
@@ -270,24 +269,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3621189960490543724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3480405754720248927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1b109c6f8486d91cba9d19d38721f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infoDataIDList: 2c000000
-  needInfoList: []
-  monoLogType: 37
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
 --- !u!114 &7761324063257414369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,7 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infoDataIDList: 2c000000
   needInfoList: []
-  monoLogType: 37
+  monoLogType: 34
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
@@ -395,7 +376,6 @@ RectTransform:
   - {fileID: 1631084564777452675}
   - {fileID: 8487508723090794972}
   - {fileID: 6334885050025012382}
-  - {fileID: 4370556279944412298}
   - {fileID: 5937433904954703565}
   - {fileID: 751496750003491115}
   m_Father: {fileID: 0}
@@ -466,15 +446,12 @@ MonoBehaviour:
   - text: "\uD6C4\uB450\uBD80\uC5D0 \uB454\uAE30\uB85C \uAC15\uD558\uAC8C \uAC00\uACA9"
     id: 97
     trigger: {fileID: 570107899517855280}
-  - text: "\uBAA9\uC5D0 \uB0A0\uBD99\uC774\uB85C \uAE4A\uAC8C \uCC14\uB9B0 \uD754\uC801"
-    id: 130
-    trigger: {fileID: 840402314882751379}
   - text: "\uD6C4\uB450\uBD80\uC5D0 \uAC00\uACA9\uB2F9\uD55C \uC2DC\uC810"
-    id: 167
+    id: 164
     trigger: {fileID: 8199019173510926257}
   - text: "\uC0AC\uC778 : \uB0A0\uBD99\uC774"
-    id: 201
-    trigger: {fileID: 3621189960490543724}
+    id: 198
+    trigger: {fileID: 7761324063257414369}
 --- !u!114 &6760515456667878587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,14 +540,14 @@ MonoBehaviour:
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: "\uBCC0\uC0AC\uC790 : \uBC15\uC8FC\uC601 (\uC5EC\uC790, 25\uC138)\r\n\r\n\uBD80\uAC80
     \uC7A5\uC18C : \uC0AC\uB9BD\uACFC\uD559\uC218\uC0AC\uC5F0\uAD6C\uC18C \uBD80\uAC80\uC2E4\r\n\r\n\uC0AC\uB9DD
-    \uCD94\uC815 \uC2DC\uAC04 : 2023\uB144 10\uC6D4 20\uC77C 03:00\n\r\n\uC8FC\uC694
-    \uBD80\uAC80 \uC18C\uC9C4\r\n\r\n 1) \uD6C4\uB450\uBD80\uC5D0 \uB454\uAE30\uB85C
-    \uAC15\uD558\uAC8C \uAC00\uACA9 \uB2F9\uD55C \uD754\uC801\uC774 \uC788\uC74C.\r\n\r\n2)
+    \uCD94\uC815 \uC2DC\uAC04 : 2023\uB144 10\uC6D4 20\uC77C 03:00\r\n\r\n\uC8FC\uC694
+    \uBD80\uAC80 \uC18C\uC9C4\r\n\r\n1. \uD6C4\uB450\uBD80\uC5D0 \uB454\uAE30\uB85C
+    \uAC15\uD558\uAC8C \uAC00\uACA9 \uB2F9\uD55C \uD754\uC801\uC774 \uC788\uC74C.\r\n2.
     \uBAA9\uC5D0 \uB0A0\uBD99\uC774\uB85C \uAE4A\uAC8C \uCC14\uB9B0 \uD754\uC801\uC774
-    \uC788\uC74C.\r\n\r\n\uD2B9\uC774\uC0AC\uD56D\r\n\r\n 1) \uD6C4\uB450\uBD80\uC5D0
+    \uC788\uC74C.\r\n\r\n\uD2B9\uC774\uC0AC\uD56D\r\n\r\n1. \uD6C4\uB450\uBD80\uC5D0
     \uAC00\uACA9\uB2F9\uD55C \uC2DC\uC810\uACFC \uBAA9\uC744 \uCC14\uB9B0 \uC2DC\uC810\uC758
     \uCC28\uC774\uAC00 \uAE40.\r\n\r\n\uC0AC\uC778 : \uB0A0\uBD99\uC774\uC5D0 \uC758\uD574
-    \uBAA9\uC744 \uCC14\uB824 \uC0AC\uB9DD\uD568\r\n"
+    \uBAA9\uC744 \uCC14\uB824 \uC0AC\uB9DD\uD568\r"
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 1
@@ -650,14 +627,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uBCC0\uC0AC\uC790 : \uBC15\uC8FC\uC601 (\uC5EC\uC790, 25\uC138)\r\n\r\n\uBD80\uAC80
     \uC7A5\uC18C : \uC0AC\uB9BD\uACFC\uD559\uC218\uC0AC\uC5F0\uAD6C\uC18C \uBD80\uAC80\uC2E4\r\n\r\n\uC0AC\uB9DD
-    \uCD94\uC815 \uC2DC\uAC04 : 2023\uB144 10\uC6D4 20\uC77C 03:00\n\r\n\uC8FC\uC694
-    \uBD80\uAC80 \uC18C\uC9C4\r\n\r\n 1) \uD6C4\uB450\uBD80\uC5D0 \uB454\uAE30\uB85C
-    \uAC15\uD558\uAC8C \uAC00\uACA9 \uB2F9\uD55C \uD754\uC801\uC774 \uC788\uC74C.\r\n\r\n2)
+    \uCD94\uC815 \uC2DC\uAC04 : 2023\uB144 10\uC6D4 20\uC77C 03:00\r\n\r\n\uC8FC\uC694
+    \uBD80\uAC80 \uC18C\uC9C4\r\n\r\n1. \uD6C4\uB450\uBD80\uC5D0 \uB454\uAE30\uB85C
+    \uAC15\uD558\uAC8C \uAC00\uACA9 \uB2F9\uD55C \uD754\uC801\uC774 \uC788\uC74C.\r\n2.
     \uBAA9\uC5D0 \uB0A0\uBD99\uC774\uB85C \uAE4A\uAC8C \uCC14\uB9B0 \uD754\uC801\uC774
-    \uC788\uC74C.\r\n\r\n\uD2B9\uC774\uC0AC\uD56D\r\n\r\n 1) \uD6C4\uB450\uBD80\uC5D0
+    \uC788\uC74C.\r\n\r\n\uD2B9\uC774\uC0AC\uD56D\r\n\r\n1. \uD6C4\uB450\uBD80\uC5D0
     \uAC00\uACA9\uB2F9\uD55C \uC2DC\uC810\uACFC \uBAA9\uC744 \uCC14\uB9B0 \uC2DC\uC810\uC758
     \uCC28\uC774\uAC00 \uAE40.\r\n\r\n\uC0AC\uC778 : \uB0A0\uBD99\uC774\uC5D0 \uC758\uD574
-    \uBAA9\uC744 \uCC14\uB824 \uC0AC\uB9DD\uD568\r\n\u200B"
+    \uBAA9\uC744 \uCC14\uB824 \uC0AC\uB9DD\uD568\r\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
   m_sharedMaterial: {fileID: -2560004193487277870, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
@@ -762,8 +739,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -908.4276, y: 234}
-  m_SizeDelta: {x: 557.5762, y: 35}
+  m_AnchoredPosition: {x: -918.4193, y: 234}
+  m_SizeDelta: {x: 567.5693, y: 35}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &439338799321918618
 CanvasRenderer:
@@ -816,7 +793,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 2b000000
-  needInfoList: []
+  needInfoList:
+  - needInfoID: 40
+    monologID: 33
+    getInfo: 0
   monoLogType: 32
   completeMonologType: 0
   delay: 0
@@ -858,8 +838,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -854, y: 513}
-  m_SizeDelta: {x: 262.94922, y: 35}
+  m_AnchoredPosition: {x: -849.25854, y: 513}
+  m_SizeDelta: {x: 241.9668, y: 35}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &800680911639848176
 CanvasRenderer:
@@ -911,106 +891,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoDataIDList: 
+  infoDataIDList: 07000000
   needInfoList: []
-  monoLogType: 128
-  completeMonologType: 0
+  monoLogType: 39
+  completeMonologType: 128
   delay: 0
   isFakeInfo: 0
   backgroundImage: {fileID: 301422644694091926}
---- !u!1 &8513236225728133780
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4370556279944412298}
-  - component: {fileID: 1599374136088445317}
-  - component: {fileID: 752299740299763016}
-  - component: {fileID: 840402314882751379}
-  m_Layer: 5
-  m_Name: Info_ 34/35
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4370556279944412298
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8513236225728133780}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6760515456667878588}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -917, y: 164}
-  m_SizeDelta: {x: 454.3733, y: 35}
-  m_Pivot: {x: 0, y: 1}
---- !u!222 &1599374136088445317
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8513236225728133780}
-  m_CullTransparentMesh: 1
---- !u!114 &752299740299763016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8513236225728133780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &840402314882751379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8513236225728133780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infoDataIDList: 
-  needInfoList: []
-  monoLogType: 34
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
-  backgroundImage: {fileID: 0}
