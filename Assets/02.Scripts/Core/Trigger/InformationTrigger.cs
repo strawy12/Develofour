@@ -63,6 +63,7 @@ public class InformationTrigger : MonoBehaviour
         if (!CheckAllInfoFound())
         {
             bool playMonolog = false;
+
             foreach (var infoData in infomaitionDataList)
             {
                 if (!DataManager.Inst.GetIsClearTutorial())
@@ -82,7 +83,10 @@ public class InformationTrigger : MonoBehaviour
                     continue;
                 }
                 playMonolog = true;
-                EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infoData.category, infoData.id });
+                if(!isFakeInfo)
+                {
+                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infoData.category, infoData.id });
+                }
             }
 
             if (!playMonolog)
@@ -92,7 +96,6 @@ public class InformationTrigger : MonoBehaviour
                 return;
             }
         }
-
         else
         {
             if (completeMonologType != 0)
@@ -100,7 +103,6 @@ public class InformationTrigger : MonoBehaviour
                 playMonologType = completeMonologType;
             }
         }
-
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.FindInfoTrigger);
         MonologSystem.OnStartMonolog?.Invoke(playMonologType, delay, true);
 
@@ -139,10 +141,9 @@ public class InformationTrigger : MonoBehaviour
 
         }
 
-        if (!isFakeInfo)
-        {
+  
             FindInfo();
-        }
+     
     }
 
 
