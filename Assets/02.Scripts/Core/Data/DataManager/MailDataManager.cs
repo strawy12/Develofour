@@ -39,9 +39,4 @@ public partial class DataManager : MonoSingleton<DataManager>
         }
         data.mailCategory = value;
     }
-
-    internal bool GetIsClearTutorial(object profiler)
-    {
-        throw new NotImplementedException();
-    }
 }
