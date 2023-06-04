@@ -86,9 +86,18 @@ public class ProfileGuideButtonParent : MonoBehaviour
 
     private void AddGuideButton(object[] ps = null)
     {
-        foreach(var data in guideDataList)
+        if(ps == null)
         {
-            AddButton(data);
+            foreach (var data in guideDataList)
+            {
+                AddButton(data);
+            }
+        }
+        else
+        {
+            if (!(ps[0] is string)) return;
+            string name = ps[0] as string;
+            AddButton(guideDataList.Find(x => x.guideName == name));
         }
     }
 

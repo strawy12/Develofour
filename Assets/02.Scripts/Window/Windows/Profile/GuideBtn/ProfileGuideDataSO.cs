@@ -6,6 +6,7 @@ using UnityEngine;
 public class ProfileGuideDataSO : ScriptableObject
 {
     public string guideName;
-    [TextArea(5,15)]
+    [TextArea(5, 15)]
     public List<string> guideTextList;
+    public bool isAddTutorial;
 }

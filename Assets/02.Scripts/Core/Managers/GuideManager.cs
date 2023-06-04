@@ -73,15 +73,10 @@ public partial class GuideManager : MonoBehaviour
             return;
         }
         FileSO file = (FileSO)ps[0];
-        bool isZooglePinHintNoteOpen = DataManager.Inst.SaveData.isZooglePinHintNoteOpen;
 
-        if (file.id == Constant.FileID.ZOOGLEPASSWORD)
+        if (file.id == Constant.FileID.ZOOGLEPIN)
         {
-            if(DataManager.Inst.IsFileLock(Constant.FileID.ZOOGLEPASSWORD))
-            {
-                Debug.Log("비번 가이드 조건 충족");
-                OnPlayGuide?.Invoke(EGuideTopicName.ClearPinNotePadQuiz, 30f);
-            }
+            EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[1] { Constant.ZOOGLEPASSWORDGUIDE });
         }
     }
 

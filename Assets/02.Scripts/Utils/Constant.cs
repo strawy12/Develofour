@@ -25,6 +25,8 @@ public static partial class Constant
 
     public static readonly System.DateTime DEFAULTDATE = new System.DateTime(2023, 10, 22, 7, 3, 0);
 
+    public const string ZOOGLEPASSWORDGUIDE = "ZooglePasswordGuide";
+
     //public const int NEED_INFO_MONOLOG_ID = 131;
     #region File
     public static class FileID
