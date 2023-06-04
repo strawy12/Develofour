@@ -18,12 +18,11 @@ public class ProfileGuideButtonParent : MonoBehaviour
 
     private Queue<ProfileGuideButton> poolQueue;
 
-    private Dictionary<EProfileCategory, ProfileCategoryDataSO> infoCategoryDataList;
+    private List<ProfileGuideDataSO> guideDataList; 
     [SerializeField]
     private Button nextBtn;
     [SerializeField]
     private Button prevBtn;
-
 
     private int currentIndex = 0;
 
@@ -36,14 +35,13 @@ public class ProfileGuideButtonParent : MonoBehaviour
 
     }
 
-    public void Init()
+    public void Init(List<ProfileGuideDataSO> guideDataSOs)
     {
         guideButtonList = new List<ProfileGuideButton>();
         poolQueue = new Queue<ProfileGuideButton>();
+        guideDataList = guideDataSOs;
         CreatePool();
-        infoCategoryDataList = ResourceManager.Inst.GetProfileCategoryDataList();
-        EventManager.StartListening(EProfileEvent.AddGuideButton, AddButtonOnActiveNewCategory);
-        EventManager.StartListening(EProfileEvent.RemoveGuideButton, CheckRemoveBtn);
+        EventManager.StartListening(EProfileEvent.AddGuideButton, AddGuideButton);
         prevBtn.onClick.AddListener(ClickPrev);
         nextBtn.onClick.AddListener(ClickNext);
         SaveSetting();
@@ -80,78 +78,34 @@ public class ProfileGuideButtonParent : MonoBehaviour
     #region ButtonSetting
     private void SaveSetting()
     {
-        foreach (var categoryData in infoCategoryDataList)
+        if(DataManager.Inst.GetIsClearTutorial())
         {
-            if (!DataManager.Inst.IsCategoryShow(categoryData.Key))
-            {
-                continue;
-            }
-
-            foreach (var infoTextData in categoryData.Value.infoTextList)
-            {
-                AddButton(infoTextData);
-            }
+            AddGuideButton();
         }
     }
 
-    private void AddButtonOnActiveNewCategory(object[] ps)
+    private void AddGuideButton(object[] ps = null)
     {
-        if (!(ps[0] is EProfileCategory))
+        foreach(var data in guideDataList)
         {
-            return;
-        }
-
-        EProfileCategory category = (EProfileCategory)ps[0];
-        foreach (var infoText in infoCategoryDataList[category].infoTextList)
-        {
-            AddButton(infoText);
+            AddButton(data);
         }
     }
 
-    public void AddButton(ProfileInfoTextDataSO data)
+    public void AddButton(ProfileGuideDataSO data)
     {
-        ProfileGuideButton guideButton = guideButtonList.Find(x => x.InfoData == data);
-        if (guideButton != null)
+        ProfileGuideButton button = guideButtonList.Find(x => x.GuideData == data);
+        if (button != null)
         {
             return;
         }
-        if (data.guideTopicName == EGuideTopicName.None || DataManager.Inst.IsProfileInfoData(data.id) 
-            || data.infoName == "" || data.infoName == "?")
-        {
-            return;
-        }
-        ProfileGuideButton button = PopButton();
-        if (button == null)
-        {
-            return;
-        }
+        button = PopButton();
 
         button.transform.SetParent(transform);
         button.Init(data);
         button.OnClick.AddListener(delegate { OnClickGuideButton?.Invoke(); });
         guideButtonList.Add(button);
 
-        UpdateButton();
-    }
-
-    private void CheckRemoveBtn(object[] ps)
-    {
-        if (!(ps[0] is EProfileCategory) || !(ps[1] is string))
-        {
-            return;
-        }
-
-        int id = (int)ps[1];
-
-        EProfileCategory category = (EProfileCategory)ps[0];
-        ProfileGuideButton button = guideButtonList.Find((x) => x.InfoData.id == id);
-
-        if (button == null)
-        {
-            return;
-        }
-
-        PushButton(button);
         UpdateButton();
     }
     #endregion
@@ -247,7 +201,6 @@ public class ProfileGuideButtonParent : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.StopListening(EProfileEvent.AddGuideButton, AddButtonOnActiveNewCategory);
-        EventManager.StopListening(EProfileEvent.RemoveGuideButton, CheckRemoveBtn);
+        EventManager.StopListening(EProfileEvent.AddGuideButton, AddGuideButton);
     }
 }

@@ -31,16 +31,18 @@ public class ProfileGuidePanel : MonoBehaviour
     [Header("가이드 관련")]
     [SerializeField]
     private ProfileGuideButtonParent guideParent;
-
+    [SerializeField]
+    private List<ProfileGuideDataSO> guideDataList;
     public void Init()
     {
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
         moveButton.onClick.AddListener(ShowPanel);
         movePanelRect = GetComponent<RectTransform>();
-        guideParent.Init();
-        guideParent.OnClickGuideButton += HidePanel;
+        guideParent.Init(guideDataList);
+        guideParent.OnClickGuideButton += ShowPanel;
         EventManager.StartListening(EGuideButtonTutorialEvent.GuideMoveBtn, GuideMoveButton);
+        SetGuideParentWeight(true);
 
     }
     #region 이동관련
@@ -84,7 +86,7 @@ public class ProfileGuidePanel : MonoBehaviour
             hideImage.SetActive(true);
             isMoving = false;
             loadingPanel.SetActive(false);
-            EventManager.TriggerEvent(EGuideButtonTutorialEvent.ClickMoveBtn);
+            guideParent.UpdateButton();
         });
     }
 
@@ -96,23 +98,13 @@ public class ProfileGuidePanel : MonoBehaviour
 
     private void GuideMoveButton(object[] ps)
     {
-        if (!DataManager.Inst.GetIsClearTutorial(ETutorialType.Profiler))
-        {
-            return;
-        }
-        
         GuideUISystem.EndAllGuide?.Invoke();
 
         if (currentValue == hideValue)
         {
             GuideUISystem.OnGuide?.Invoke((RectTransform)moveButton.transform);
         }
-        else
-        {
-            EventManager.TriggerEvent(EGuideButtonTutorialEvent.ClickMoveBtn);
-        }
     }
-
     #endregion
 
 }

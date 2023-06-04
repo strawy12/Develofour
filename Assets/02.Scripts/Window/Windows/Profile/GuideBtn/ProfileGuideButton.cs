@@ -7,11 +7,13 @@ using UnityEngine.UI;
 
 public class ProfileGuideButton : MonoBehaviour
 {
-    private ProfileInfoTextDataSO infoData;
-
-    public ProfileInfoTextDataSO InfoData
+    private ProfileGuideDataSO guideData;
+    public ProfileGuideDataSO GuideData
     {
-        get => infoData;
+        get
+        {
+            return guideData;
+        }
     }
     [SerializeField]
     private Button guideBtn;
@@ -23,11 +25,11 @@ public class ProfileGuideButton : MonoBehaviour
     }
     private bool isGuide = false;
     
-    public void Init(ProfileInfoTextDataSO data)
+    public void Init(ProfileGuideDataSO data)
     {
-        infoData = data;
+        guideData = data;
         guideBtn.onClick.AddListener(PlayGuide);
-        infoNameText.text = data.infoName;
+        infoNameText.text = data.guideName;
         EventManager.StartListening(EProfileEvent.EndGuide, EndGuide);
     }
 
@@ -38,9 +40,13 @@ public class ProfileGuideButton : MonoBehaviour
             return;
         }
         isGuide = true;
-        GuideManager.OnPlayInfoGuide?.Invoke(infoData);
-
+        StartAiChatting();
     }
+
+    private void StartAiChatting()
+    {
+        ProfileChattingSystem.OnPlayChatList?.Invoke(guideData.guideTextList, 1.5f, false);
+    } 
 
     private void EndGuide(object[] ps)
     {
@@ -50,9 +56,8 @@ public class ProfileGuideButton : MonoBehaviour
 
     public void Releasse()
     {
-        infoData = null;
+        guideData = null;
         infoNameText.text = "";
         EventManager.StopListening(EProfileEvent.EndGuide, EndGuide);
     }
-
 }
