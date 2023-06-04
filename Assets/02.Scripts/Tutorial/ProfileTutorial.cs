@@ -171,6 +171,8 @@ public class ProfileTutorial : MonoBehaviour
         ProfileChattingSystem.OnChatEnd = null;
         EventManager.TriggerEvent(EProfileEvent.AddGuideButton);
         GuideUISystem.EndAllGuide?.Invoke();
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.AssistantProfile, 115 });
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.PoliceProfile, 116 });
 
         DataManager.Inst.SetProfilerTutorialIdx(5);
         StopAllCoroutines();

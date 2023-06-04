@@ -185,7 +185,7 @@ public class SOSettingWindow : EditorWindow
                 if (textDataList[j].Contains("-"))
                 {
                     data.textColor = characterColor;
-                    data.text.Replace("-", "");
+                    data.text =  data.text.Replace("-", "");
                 }
                 else
                 {
@@ -574,7 +574,8 @@ public class SOSettingWindow : EditorWindow
             string[] columns = rows[i].Split('\t');
             string guideName = columns[0];
             string fileName = columns[1];
-            List<string> textList = columns[2].Split('#').ToList();
+            bool addTutorial = columns[2] == "TURE";
+            List<string> textList = columns[3].Split('#').ToList();
 
 
             ProfileGuideDataSO guideData = guideSODatas.Find(x => x.name == fileName);
@@ -589,7 +590,7 @@ public class SOSettingWindow : EditorWindow
 
             guideData.guideName = guideName;
             guideData.guideTextList = textList;
-
+            guideData.isAddTutorial = addTutorial;
             string SO_PATH = $"Assets/07.ScriptableObjects/Profile/ProfileGuideData/{columns[1]}.asset";
 
             if(isCreate)
