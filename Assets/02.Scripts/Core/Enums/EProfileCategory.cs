@@ -27,5 +27,7 @@ public enum EProfileCategory
     YohanYujinTalk,
     InvisibleInformation,
     ConflictDiary,
+    AssistantProfile,
+    PoliceProfile,
     Count,
 }

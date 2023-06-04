@@ -20,14 +20,15 @@ public class SOSettingWindow : EditorWindow
         File,
         ProfileInfo,
         ProfileCategory,
-        Monolog
+        Monolog,
+        ProfileGuide,
     }
 
     private Button settingButton;
     private Button fileSOBtn;
     private Button monologSOBtn;
-    private Button ProfileInfoBtn;
-
+    private Button profileInfoBtn;
+    private Button profileGuideBtn;
 
     private TextField gidField;
     private TextField soTypeField;
@@ -51,18 +52,20 @@ public class SOSettingWindow : EditorWindow
         settingButton = rootVisualElement.Q<Button>("SettingButton");
         fileSOBtn = rootVisualElement.Q<Button>("FileSOBtn");
         monologSOBtn = rootVisualElement.Q<Button>("MonologBtn");
-        ProfileInfoBtn = rootVisualElement.Q<Button>("ProfileInfoBtn");
+        profileInfoBtn = rootVisualElement.Q<Button>("ProfileInfoBtn");
+        profileGuideBtn = rootVisualElement.Q<Button>("ProfileGuideBtn");
         gidField = rootVisualElement.Q<TextField>("GidField");
         soTypeField = rootVisualElement.Q<TextField>("SOTypeField");
+        profileGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfileGuide));
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
-        ProfileInfoBtn.RegisterCallback<MouseUpEvent>(x => Autocomplete(ESOType.ProfileInfo));
-        fileSOBtn.RegisterCallback<MouseUpEvent>(x => Autocomplete(ESOType.File));
-        monologSOBtn.RegisterCallback<MouseUpEvent>(x => Autocomplete(ESOType.Monolog));
+        profileInfoBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfileInfo));
+        fileSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.File));
+        monologSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Monolog));
     }
 
 
 
-    private void Autocomplete(ESOType type)
+    private void AutoComplete(ESOType type)
     {
 
         switch (type)
@@ -83,6 +86,10 @@ public class SOSettingWindow : EditorWindow
             case ESOType.ProfileCategory:
                 gidField.value = "1328616179";
                 soTypeField.value = "ProfileCategoryDataSO";
+                break;
+            case ESOType.ProfileGuide:
+                gidField.value = "77751767";
+                soTypeField.value = "ProfileGuideDataSO";
                 break;
         }
     }
@@ -115,6 +122,9 @@ public class SOSettingWindow : EditorWindow
                 break;
             case "ProfileInfoTextDataSO":
                 SettingInfoSO(add);
+                break;
+            case "ProfileGuideDataSO":
+                SettingProfileGuideSO(add);
                 break;
         }
 
@@ -175,8 +185,9 @@ public class SOSettingWindow : EditorWindow
                 if (textDataList[j].Contains("-"))
                 {
                     data.textColor = characterColor;
-                    data.text.Replace("-","");
-                }else
+                    data.text =  data.text.Replace("-", "");
+                }
+                else
                 {
                     data.textColor = character2Color;
                 }
@@ -458,7 +469,7 @@ public class SOSettingWindow : EditorWindow
         infoSODatas.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
         AssetDatabase.Refresh();
 
-        Autocomplete(ESOType.ProfileCategory);
+        AutoComplete(ESOType.ProfileCategory);
         Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(ReadSheet(), new object[0]);
     }
 
@@ -546,6 +557,58 @@ public class SOSettingWindow : EditorWindow
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
     }
+
+    private void SettingProfileGuideSO(string dataText)
+    {
+        string[] rows = dataText.Split('\n');
+        string[] guids = AssetDatabase.FindAssets("t:ProfileGuideDataSO", null);
+
+        List<ProfileGuideDataSO> guideSODatas = new List<ProfileGuideDataSO>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            guideSODatas.Add(AssetDatabase.LoadAssetAtPath<ProfileGuideDataSO>(path));
+        }
+        for (int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+            string guideName = columns[0];
+            string fileName = columns[1];
+            bool addTutorial = columns[2] == "TURE";
+            List<string> textList = columns[3].Split('#').ToList();
+
+
+            ProfileGuideDataSO guideData = guideSODatas.Find(x => x.name == fileName);
+            bool isCreate = false;
+
+            if (guideData == null)
+            {
+                Debug.Log("isCreate");
+                guideData = CreateInstance<ProfileGuideDataSO>();
+                isCreate = true;
+            }
+
+            guideData.guideName = guideName;
+            guideData.guideTextList = textList;
+            guideData.isAddTutorial = addTutorial;
+            string SO_PATH = $"Assets/07.ScriptableObjects/Profile/ProfileGuideData/{columns[1]}.asset";
+
+            if(isCreate)
+            {
+                CreateFolder(SO_PATH);
+                AssetDatabase.CreateAsset(guideData, SO_PATH);
+            }
+
+            EditorUtility.SetDirty(guideData);
+            guideSODatas.Remove(guideData);
+
+        }
+        guideSODatas.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
+    }
+
 
     private void CreateFolder(string path)
     {

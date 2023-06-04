@@ -169,8 +169,10 @@ public class ProfileTutorial : MonoBehaviour
         EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { "01023459876" });
         ProfileChattingSystem.OnImmediatelyEndChat?.Invoke();
         ProfileChattingSystem.OnChatEnd = null;
-
+        EventManager.TriggerEvent(EProfileEvent.AddGuideButton);
         GuideUISystem.EndAllGuide?.Invoke();
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.AssistantProfile, 115 });
+        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.PoliceProfile, 116 });
 
         DataManager.Inst.SetProfilerTutorialIdx(5);
         StopAllCoroutines();

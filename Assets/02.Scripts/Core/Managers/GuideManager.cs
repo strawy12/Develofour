@@ -7,12 +7,9 @@ using UnityEngine;
 public partial class GuideManager : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
-    public static Action<ProfileInfoTextDataSO> OnPlayInfoGuide;
+    public static Action<ProfileGuideDataSO> OnPlayInfoGuide;
     [SerializeField]
     private GuideDataListSO guideListData;
-
-    private ProfileInfoTextDataSO currentInfoTextData;
-
 
     private Dictionary<EGuideTopicName, GuideData> guideTopicDictionary;
 
@@ -37,7 +34,6 @@ public partial class GuideManager : MonoBehaviour
 
     private void StartPlayGuide(EGuideTopicName guideTopicName, float timer)
     {
-
         if (DataManager.Inst.IsGuideUse(guideTopicName))
         {
             return;
@@ -77,20 +73,15 @@ public partial class GuideManager : MonoBehaviour
             return;
         }
         FileSO file = (FileSO)ps[0];
-        bool isZooglePinHintNoteOpen = DataManager.Inst.SaveData.isZooglePinHintNoteOpen;
 
-        if (file.id == Constant.FileID.ZOOGLEPASSWORD)
+        if (file.id == Constant.FileID.ZOOGLEPIN)
         {
-            if(DataManager.Inst.IsFileLock(Constant.FileID.ZOOGLEPASSWORD))
-            {
-                Debug.Log("비번 가이드 조건 충족");
-                OnPlayGuide?.Invoke(EGuideTopicName.ClearPinNotePadQuiz, 30f);
-            }
+            EventManager.TriggerEvent(EProfileEvent.AddGuideButton, new object[1] { Constant.ZOOGLEPASSWORDGUIDE });
         }
     }
 
     private void SendAiChattingGuide(string str, bool isSave)
-    {
+    {   
         ProfileChattingSystem.OnPlayChat?.Invoke(str, isSave, false);
     }
 
