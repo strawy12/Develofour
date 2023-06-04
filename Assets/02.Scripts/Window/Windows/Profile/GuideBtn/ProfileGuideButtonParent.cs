@@ -112,7 +112,6 @@ public class ProfileGuideButtonParent : MonoBehaviour
     #region Page
     public void UpdateButton()
     {
-        Debug.Log(guideButtonList.Count);
         if (guideButtonList.Count == 0)
         {
             return;

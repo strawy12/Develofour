@@ -83,6 +83,7 @@ public class ProfileChatting : MonoBehaviour
         ShowPanel();
 
         defaultOffsetMinY = scrollrectTransform.offsetMax.y;
+        EventManager.StartListening(EProfileEvent.ClickGuideToggleButton, SetChattingHeight);
     }
 
     private void SetChattingHeight(object[] ps)
@@ -239,5 +240,7 @@ public class ProfileChatting : MonoBehaviour
     protected void OnDestroy()
     {
         EventManager.StopListening(EProfileEvent.ProfileSendMessage, PrintText);
+        EventManager.StopListening(EProfileEvent.ClickGuideToggleButton, SetChattingHeight);
+
     }
 }
