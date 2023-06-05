@@ -13,6 +13,8 @@ public class BranchFindPasswordPanel : MonoBehaviour
     [SerializeField]
     private TMP_Text signText;
     private string id;
+
+    public BranchSentMailPanel sentPanel;
     public void Init(string id)
     {
         this.id = id;
@@ -47,9 +49,8 @@ public class BranchFindPasswordPanel : MonoBehaviour
 
     private void Success()
     {
-        signText.SetText("비밀번호 변경메일을 전송했습니다.");
-
-        EventManager.TriggerEvent(EMailSiteEvent.VisiableMail, new object[2] { Constant.MailKey.BRANCH_CERTIFICATION, 0.5f});
+        //signText.SetText("비밀번호 변경메일을 전송했습니다.");
+        sentPanel.gameObject.SetActive(true);
     }
 
 }

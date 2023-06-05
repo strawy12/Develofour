@@ -19,6 +19,10 @@ public class BranchLoginSite : Site
     private Button loginBtn;
     [SerializeField]
     private BranchFindPasswordButton findPasswordBtn;
+    [SerializeField]
+    private BranchSentMailPanel sentPanel;
+    [SerializeField]
+    private BranchChangeMailPanel changePanel;
 
     public override void Init()
     {
@@ -26,6 +30,8 @@ public class BranchLoginSite : Site
         passwordField.InputField.asteriskChar = '·';
         passwordField.SetPassword(DataManager.Inst.SaveData.branchPassword);
         findPasswordBtn.Init(id);
+        sentPanel.Init();
+        changePanel.Init();
         loginBtn.onClick?.AddListener(LoginButtonClick);
     }
 
