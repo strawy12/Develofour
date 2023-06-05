@@ -43,6 +43,7 @@ public class MediaPlayerBody : MonoBehaviour
     public void DebugTool()
     {
         Init(null);
+        _mediaDetailText.text = _mediaDetailText.text.Replace("\r", "");
         foreach (TextTriggerData data in mediaPlayerTriggerList)
         {
             Debug.Log($"{data.text}의 위치는 {_mediaDetailText.text.IndexOf(data.text)}입니다");

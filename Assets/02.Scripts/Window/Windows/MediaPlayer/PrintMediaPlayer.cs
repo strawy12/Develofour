@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public partial class MediaPlayer : Window
@@ -6,11 +7,11 @@ public partial class MediaPlayer : Window
     private List<float> delayList;
 
     private float allDelay;
-   
+
     private int TimeToIndex(float time)
     {
         float temp = 0f;
-        for(int i = 0; i < delayList.Count; i++)
+        for (int i = 0; i < delayList.Count; i++)
         {
             temp += delayList[i];
             if (temp >= time)
@@ -26,13 +27,14 @@ public partial class MediaPlayer : Window
         delayList = new List<float>();
         Dictionary<int, float> delayDictionary;
         notCommandString = RemoveCommandText(mediaPlayerData.textData, out delayDictionary);
-        for(int i = 0; i < notCommandString.Length; i++)
+
+        for (int i = 0; i < notCommandString.Length; i++)
         {
-            char c = mediaPlayerData.textData[i];
+            char c = notCommandString[i];
 
             delayList.Add(mediaPlayerData.textPlaySpeed);
 
-            if(delayDictionary.ContainsKey(i))
+            if (delayDictionary.ContainsKey(i))
             {
                 delayList[i] += delayDictionary[i];
             }
