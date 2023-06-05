@@ -138,7 +138,7 @@ public partial class MediaPlayer : Window
     {
         SetSliderMediaText(value);
         audioSource.time = minuteTimer * 60f + secondTimer;
-        if (isPlaying)
+        if (isPlaying || isRePlaying)
         {
             PlayMediaPlayer();
         }
@@ -198,7 +198,7 @@ public partial class MediaPlayer : Window
             yield return new WaitForSeconds(1f);
         }
 
-        isRePlaying = true;
+        isRePlaying = true; 
         OnEnd?.Invoke();
         mediaPlayerDownBar.StopButtonClick?.Invoke();
 
