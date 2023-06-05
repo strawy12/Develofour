@@ -74,7 +74,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.ParkJuyoungProfile, 1 });
+            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.ParkJuyoungProfile, 66 });
         }
         //if (Input.GetKeyDown(KeyCode.A))
         //{
