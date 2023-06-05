@@ -7,19 +7,6 @@ using UnityEngine.UI;
 using System.Threading.Tasks;
 using ExtenstionMethod;
 using TMPro;
-using Unity.VisualScripting;
-
-public enum EMailType
-{
-    Default = 0,
-    StarbookSecurityCode,
-    OrderListMail,
-    ReplyCCTVMail,
-    BackInvestigationMail,
-    BranchCertificationMail,
-    BranchPersonalInfoMail,
-    End,
-}
 
 public enum EEmailCategory
 {
@@ -31,12 +18,6 @@ public enum EEmailCategory
     Invisible = 0x10, // 00010000
 }
 
-[Serializable]
-public class MailData
-{
-    public MailDataSO mailDataSO;
-    public Mail mail;
-}
 
 public class EmailSite : Site
 {
@@ -48,18 +29,18 @@ public class EmailSite : Site
         foreach(Transform child in parent)
         {
             Mail mail = child.GetComponent<Mail>();
-            if(mailDataList.Find(x => x.mail == mail) != null)
+            if(mailDataList.Find(x => x == mail) != null)
             {
                 continue;
             }
-            mailDataList.Add(new MailData() { mail = mail, mailDataSO = mail.MailData });
+            mailDataList.Add(mail);
         }
     }
 
     private EEmailCategory currentCategory = EEmailCategory.Receive;
 
     [SerializeField]
-    private List<MailData> mailDataList;
+    private List<Mail> mailDataList;
     [SerializeField]
     private EmailLine emailLinePrefab;
     [SerializeField]
@@ -79,8 +60,6 @@ public class EmailSite : Site
 
     private List<EmailLine> baseEmailLineList = new List<EmailLine>();
     private List<EmailLine> currentMailLineList = new List<EmailLine>();
-
-    private int newMailNumber = 0;
 
     [SerializeField]
     private TextMeshProUGUI receiveMailCntText;
@@ -108,9 +87,10 @@ public class EmailSite : Site
 
     private void GetMailSaveData()
     {
+        return;
         for(int i = 0; i < mailDataList.Count; i++)
         {
-            int type = DataManager.Inst.GetMailSaveData(mailDataList[i].mailDataSO.Type).mailCategory;
+          //  int type = DataManager.Inst.GetMailSaveData(mailDataList[i].MailData.Type).mailCategory;
         }
     }
 
@@ -126,21 +106,21 @@ public class EmailSite : Site
 
     private void CreateLines()
     {
-        foreach (MailData data in mailDataList)
+        foreach (Mail mail in mailDataList)
         {
             EmailLine emailLine = Instantiate(emailLinePrefab, emailLineParent);
-            emailLine.Init(data.mailDataSO, data.mail);
+            emailLine.Init(mail);
             emailLine.gameObject.SetActive(false);
-            data.mail.Init();
+            mail.Init();
 
-            data.mail.OnChangeRemoveCatagory += emailLine.ChangeRemoveCategory;
-            data.mail.OnChangeRemoveCatagory += (() => ChangeAlignCategory(EEmailCategory.Remove));
+            mail.OnChangeRemoveCatagory += emailLine.ChangeRemoveCategory;
+            mail.OnChangeRemoveCatagory += (() => ChangeAlignCategory(EEmailCategory.Remove));
             
             baseEmailLineList.Add(emailLine);
 
-            if (CheckCategoryData(data, (int)EEmailCategory.Invisible))
+            if (CheckCategoryData(mail, (int)EEmailCategory.Invisible))
             {
-                data.mail.gameObject.SetActive(false);
+                mail.gameObject.SetActive(false);
             }
         }
         SettingReceiveMailCount();
@@ -149,11 +129,11 @@ public class EmailSite : Site
     private void SettingReceiveMailCount()
     {
         receiveMailCnt = 0;
-        foreach(MailData data in mailDataList)
+        foreach(Mail mail in mailDataList)
         {
-            if (CheckCategoryData(data,(int)EEmailCategory.Remove)
-                &&!CheckCategoryData(data,(int)EEmailCategory.Invisible)
-                &&!!CheckCategoryData(data, (int)EEmailCategory.Send))
+            if (CheckCategoryData(mail, (int)EEmailCategory.Remove)
+                &&!CheckCategoryData(mail, (int)EEmailCategory.Invisible)
+                &&!!CheckCategoryData(mail, (int)EEmailCategory.Send))
             {
                 receiveMailCnt++;
             }
@@ -161,14 +141,16 @@ public class EmailSite : Site
         receiveMailCntText.text = receiveMailCnt.ToString();
     }
     
-    private bool CheckCategoryData(EMailType type, int category)
+    private bool CheckCategoryData(int mailCategory, int checkCategory)
     {
-        return DataManager.Inst.GetMailSaveData(type).mailCategory.ContainMask(category);
+        return mailCategory.ContainMask(checkCategory);
     }
-    private bool CheckCategoryData(MailData data, int category)
+
+    private bool CheckCategoryData(Mail mail, int checkCategory)
     {
-        return CheckCategoryData(data.mailDataSO.type, category);
+        return mail.MailData.mailCategory.ContainMask(checkCategory);
     }
+
     private void ChangeAlignCategory(EEmailCategory category)
     {
         currentCategory = category;
@@ -182,14 +164,13 @@ public class EmailSite : Site
 
     private async void VisiableMail(object[] ps)
     {
-        if (ps == null || !(ps[0] is EMailType))
+        if (ps == null || !(ps[0] is int))
         {
             return;
         }
-        EMailType type = (EMailType)ps[0];
+        int type = (int)ps[0];
 
-        EmailLine line = baseEmailLineList.Find(x => x.MailData.Type == type);
-        line.mailNumber = newMailNumber++;
+        EmailLine line = baseEmailLineList.Find(x => x.MailData.type == type);
         float delay = 0f;
         if(ps.Length == 2)
         {
@@ -221,8 +202,10 @@ public class EmailSite : Site
 
     private void SetEmailCategory()
     {
-        
-        currentMailLineList = baseEmailLineList.OrderByDescending((x) => x.MailData.Month).ThenByDescending((x) => x.MailData.Day).ThenByDescending((x)=>x.mailNumber).Where(n =>
+        currentMailLineList = 
+
+
+        currentMailLineList = baseEmailLineList.OrderByDescending((x) => x.MailData.GetCompareFlagValue()).Where(n =>
         {
             int category = n.Category;
             bool flag1 = category.ContainMask((int)currentCategory);

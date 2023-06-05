@@ -73,7 +73,7 @@ public partial class MediaPlayer : Window
             body = Instantiate(mediaPlayerData.body, parent);
         }
 
-        body.Init();
+        body.Init(this);
         gameObject.SetActive(true);
 
         mediaPlayerDownBar.Init();

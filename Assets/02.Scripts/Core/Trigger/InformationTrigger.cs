@@ -33,6 +33,8 @@ public class InformationTrigger : MonoBehaviour
 
     protected int playMonologType = 0;
 
+    public int MonologID => monoLogType;
+
     protected virtual void Start()
     {
         if (!DataLoadingScreen.completedDataLoad)
@@ -57,7 +59,7 @@ public class InformationTrigger : MonoBehaviour
         }
     }
 
-    protected void FindInfo()
+    public void FindInfo()
     {
         Bind();
         if (!CheckAllInfoFound())
@@ -109,7 +111,7 @@ public class InformationTrigger : MonoBehaviour
 
     }
 
-    protected void GetInfo()
+    public void GetInfo()
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall) return;
 

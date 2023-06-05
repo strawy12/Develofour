@@ -3,32 +3,45 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.NetworkInformation;
+using UnityEditor.AddressableAssets.HostingServices;
 using UnityEngine;
+using UnityEngine.Playables;
 
 [CreateAssetMenu(menuName = "SO/Window/Mail/Data")]
 public class MailDataSO : ScriptableObject
 {
-    public EMailType type;
+    public int type;
+
+    public string receiveName;
+    public string sendName;
+    public string titleText;
+    public string informationText;
+
+    public Sprite userProfile;
+
 
     [SerializeField]
-    private string nameText;
+    private Vector3Int dateData; //x: year, y: month, z: date
     [SerializeField]
-    private string informationText;
-    [SerializeField]
-    private int month;
-    [SerializeField]
-    private int day;
-    [SerializeField]
-    private string timeText;
+    private Vector2Int timeData; // x: hour, y: minute
+
     [BitMask(typeof(EEmailCategory))]
     public int mailCategory;
 
-    public EMailType Type => type;
-    public string Name => nameText;
-    public string Info => informationText;
-    public string Time => $"{month}¿ù{day}ÀÏ";
-    public int Day => day;
-    public int Month => month;
+    public int Year => dateData.x;
+    public int Month => dateData.y;
+    public int Date => dateData.z;
+
+    public int Hour => timeData.x;
+    public int Minute => timeData.y;
+
+    public string TimeText => $"{Year}. {Month}. {Date}. {Hour}:{Minute}";
+
     public bool isFavorited { get { return mailCategory.ContainMask((int)EEmailCategory.Favorite); } }
+
+    public long GetCompareFlagValue()
+    {
+        string str = $"{Year.ToString()}{Month.ToString()}{Date.ToString()}{Hour.ToString()}{Minute.ToString()}";
+        return long.Parse(str);
+    }
 }

@@ -6,17 +6,17 @@ using UnityEngine.AddressableAssets;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-    private Dictionary<EMailType, MailDataSO> mailDataSOList;
-    public Dictionary<EMailType, MailDataSO> MailDataSOList => mailDataSOList;
+    private Dictionary<int, MailDataSO> mailDataSOList;
+    public Dictionary<int, MailDataSO> MailDataSOList => mailDataSOList;
 
-    public MailDataSO GetMailTextData(EMailType type)
+    public MailDataSO GetMailTextData(int type)
     {
         return mailDataSOList[type];
     }
 
     private async void LoadMailDataAssets(Action callBack)
     {
-        mailDataSOList = new Dictionary<EMailType, MailDataSO>();
+        mailDataSOList = new Dictionary<int, MailDataSO>();
         var handle = Addressables.LoadResourceLocationsAsync("MailData", typeof(MailDataSO));
         await handle.Task;
         for (int i = 0; i < handle.Result.Count; i++)
@@ -24,7 +24,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<MailDataSO>(handle.Result[i]).Task;
             await task;
 
-            mailDataSOList.Add(task.Result.Type, task.Result);
+            mailDataSOList.Add(task.Result.type, task.Result);
         }
 
         Addressables.Release(handle);

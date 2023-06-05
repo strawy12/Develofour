@@ -11,13 +11,13 @@ public partial class DataManager : MonoSingleton<DataManager>
         {
             foreach(var mail in ResourceManager.Inst.MailDataSOList)
             {
-                saveData.mailSaveData.Add(new MailSaveData() { mailCategory = mail.Value.mailCategory, type = mail.Value.Type });
+                //saveData.mailSaveData.Add(new MailSaveData() { mailCategory = mail.Value.mailCategory, type = mail.Value.Type });
             }
 
         }
     }
 
-    public MailSaveData GetMailSaveData(EMailType mailType)
+    public MailSaveData GetMailSaveData(int mailType)
     {
         MailSaveData data = saveData.mailSaveData.Find(x => x.type == mailType);
         if (data == null)
@@ -29,7 +29,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     //public bool Check
 
-    public void SetMailSaveData(EMailType mailType, int value)
+    public void SetMailSaveData(int mailType, int value)
     {
         MailSaveData data = saveData.mailSaveData.Find(x => x.type == mailType);
         if (data == null)

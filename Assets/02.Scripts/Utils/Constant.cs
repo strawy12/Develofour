@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static partial class Constant
@@ -70,6 +71,7 @@ public static partial class Constant
         public const int PROFILE_INSTALL_COMPLETE = 111;
         public const int END_PROFILE_TUTORIAL = 112;
         public const int WINDOWS_LOGIN_SCREEN_OPEN = 113;
+        public const int LIBRARY_NOT_OPEN = 113;
         public const int NEEDINFO = 131;
         public const int TUTORIAL_NOT_FIND_INFO = 134;
         public const int PETCAM_CUTSCENE_1 = 174;
@@ -83,4 +85,15 @@ public static partial class Constant
         public const int CCTV_CUTSCENE_04 = 185;
     }
     #endregion
+    #region MailKey
+
+    public static class MailKey
+    {
+        public const int BACKGROUND = 1;
+        public const int BRANCH_CERTIFICATION = 2;
+        public const int ORDERLIST = 3;
+    }
+
+    #endregion
+
 }

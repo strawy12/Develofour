@@ -4,11 +4,15 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
+using ExtenstionMethod;
 
 public class EmailLine : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text nameText;
+
+    [SerializeField]
+    private TMP_Text titleText;
 
     [SerializeField]
     private TMP_Text informationText;
@@ -21,8 +25,6 @@ public class EmailLine : MonoBehaviour
 
     [SerializeField]
     private Button mailButton;
-
-    public int mailNumber;
 
     public int Category
     {
@@ -45,20 +47,45 @@ public class EmailLine : MonoBehaviour
     public MailDataSO MailData => mail.MailData;
     public bool IsFavorited { get { return mail.MailData.isFavorited; } }
 
-    public void Init(MailDataSO mailData, Mail mail)
+    public void Init(Mail mail)
     {
         this.mail = mail;
-        ChangeText(mailData.Name, mailData.Info, mailData.Time);
+        ChangeText();
         mailButton.onClick.AddListener(ShowMail);
-        favoriteButton.Init(mailData.isFavorited);
+        favoriteButton.Init(MailData.isFavorited);
         favoriteButton.OnChangeFavorited += ChangeFavorite;
     }
 
-    public void ChangeText(string name, string info, string time)
+    
+
+
+    public void ChangeText()
     {
-        nameText.text = name;
-        informationText.text = info;
-        timeText.text = time;
+        if(MailData.mailCategory.ContainMask((int)EEmailCategory.Receive))
+        {
+            nameText.text = MailData.sendName;
+        }
+        else
+        {
+            nameText.text = $"받는 사람: {MailData.receiveName}";
+        }
+
+        titleText.text = MailData.titleText;
+        informationText.text = $" - {MailData.informationText}";
+        timeText.text = GetMailTimeData();
+    }
+
+    public string GetMailTimeData()
+    {
+        if (MailData.Year == 2023)
+        {
+            return $"{MailData.Month}월 {MailData.Date}일";
+        }
+
+        else
+        {
+            return $"{MailData.Year.ToString().Substring(2,4)}. {MailData.Month}. {MailData.Date}.";
+        }
     }
 
     public void ShowMail()

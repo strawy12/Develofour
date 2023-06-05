@@ -32,11 +32,17 @@ public class MediaPlayerBody : MonoBehaviour
 
     public RectTransform coverRectTrm => _coverRectTrm;
 
+    [SerializeField]
+    private InformationTrigger endMediaInfoTrigger;
+
+    private MediaPlayer ownerPlayer; 
+
+
 #if UNITY_EDITOR
     [ContextMenu("DebugTool")]
     public void DebugTool()
     {
-        Init();
+        Init(null);
         foreach (TextTriggerData data in mediaPlayerTriggerList)
         {
             Debug.Log($"{data.text}의 위치는 {_mediaDetailText.text.IndexOf(data.text)}입니다");
@@ -44,13 +50,22 @@ public class MediaPlayerBody : MonoBehaviour
     }
 #endif
 
-    public void Init()
+    public void Init(MediaPlayer player)
     {
         _mediaDetailText ??= transform.Find("Viewport/MediaDetailText").GetComponent<TMP_Text>();
         _scroll ??= GetComponent<ScrollRect>();
 
         if (_coverRectTrm == null)
             _coverRectTrm = (mediaDetailText.transform.Find("CoverImage") as RectTransform);
+
+        ownerPlayer = player;
+        if (ownerPlayer != null)
+        {
+            if (EndMediaInfoFlag())
+            {
+                ownerPlayer.OnEnd += EndMediaTrigger;
+            }
+        }
     }
 
     public void SetPosition()
@@ -59,7 +74,7 @@ public class MediaPlayerBody : MonoBehaviour
 
         Define.SetTriggerPosition(mediaDetailText, mediaPlayerTriggerList);
 
-         TMP_CharacterInfo charInfo = mediaDetailText.textInfo.characterInfo[Mathf.Min(idx, mediaDetailText.textInfo.characterInfo.Length - 1)];
+        TMP_CharacterInfo charInfo = mediaDetailText.textInfo.characterInfo[Mathf.Min(idx, mediaDetailText.textInfo.characterInfo.Length - 1)];
         SetPositionCoverImage(charInfo);
     }
 
@@ -70,9 +85,24 @@ public class MediaPlayerBody : MonoBehaviour
         coverRectTrm.sizeDelta = coverSize;
     }
 
+    public void EndMediaTrigger()
+    {
+        if (EndMediaInfoFlag())
+        {
+            endMediaInfoTrigger.GetInfo();
+
+            if(ownerPlayer != null)
+                ownerPlayer.OnEnd -= EndMediaTrigger;
+        }
+    }
+
+    public bool EndMediaInfoFlag()
+    {
+        return (endMediaInfoTrigger != null) && (!DataManager.Inst.IsMonologShow(endMediaInfoTrigger.MonologID));
+    }
 
     private void Reset()
     {
-        Init();
+        Init(null);
     }
 }

@@ -43,7 +43,7 @@ public class MailSaveData
 {
     [BitMask(typeof(EEmailCategory))]
     public int mailCategory;
-    public EMailType type;
+    public int type;
 }
 [System.Serializable]
 public class LastAccessDateData

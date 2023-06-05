@@ -2,6 +2,7 @@ using ExtenstionMethod;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,20 @@ public abstract class Mail : MonoBehaviour
 
     public Action OnChangeRemoveCatagory;
 
+    [SerializeField]
+    private Image userProfileImage;
+
+    [SerializeField]
+    private TMP_Text titleText;
+
+    [SerializeField]
+    private TMP_Text receiveText;
+
+    [SerializeField]
+    private TMP_Text sendText;
+
+    [SerializeField]
+    private TMP_Text timeText;
 
     private int originMask;
 
@@ -47,12 +62,17 @@ public abstract class Mail : MonoBehaviour
 
     public virtual void ShowMail()
     {
+        userProfileImage.sprite = mailData.userProfile;
+        titleText.text = mailData.titleText;
+        receiveText.text = mailData.receiveName + "¿¡°Ô";
+        sendText.text = mailData.sendName;
+        timeText.text = mailData.TimeText;
+
         gameObject.SetActive(true);
     }
 
     public virtual void HideMail()
     {
-        Debug.Log(11);
         gameObject.SetActive(false);
     }
 
