@@ -42,8 +42,11 @@ public class ProfileSaveData
 public class MailSaveData
 {
     [BitMask(typeof(EEmailCategory))]
-    public int mailCategory;
-    public int type;
+    public int id;
+    public int month;
+    public int day;
+    public int hour;
+    public int minute;
 }
 [System.Serializable]
 public class LastAccessDateData

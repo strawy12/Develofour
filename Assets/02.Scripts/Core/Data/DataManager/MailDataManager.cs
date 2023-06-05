@@ -5,38 +5,29 @@ using UnityEngine;
 
 public partial class DataManager : MonoSingleton<DataManager>
 {
-    public void CreateMailData()
-    {
-        if(saveData.mailSaveData.Count == 0)
-        {
-            foreach(var mail in ResourceManager.Inst.MailDataSOList)
-            {
-                //saveData.mailSaveData.Add(new MailSaveData() { mailCategory = mail.Value.mailCategory, type = mail.Value.Type });
-            }
 
-        }
-    }
-
-    public MailSaveData GetMailSaveData(int mailType)
+    public MailSaveData GetMailSaveData(int mailID)
     {
-        MailSaveData data = saveData.mailSaveData.Find(x => x.type == mailType);
+        MailSaveData data = saveData.mailSaveData.Find(x => x.id == mailID);
         if (data == null)
         {
-            Debug.Log("없는 메일 데이터 입니다.");
+            return null;
         }
         return data;
     }
 
-    //public bool Check
-
-    public void SetMailSaveData(int mailType, int value)
+    public void SetMailSaveData(int mailID)
     {
-        MailSaveData data = saveData.mailSaveData.Find(x => x.type == mailType);
+        MailSaveData data = saveData.mailSaveData.Find(x => x.id == mailID);
         if (data == null)
         {
-            saveData.mailSaveData.Add(new MailSaveData() { mailCategory = value, type = mailType });
+            saveData.mailSaveData.Add(new MailSaveData() { id = mailID });
             return;
         }
-        data.mailCategory = value;
+        DateTime dateTime = TimeSystem.TimeCount();
+        data.month = dateTime.Month;
+        data.day = dateTime.Day;
+        data.hour = dateTime.Hour;
+        data.minute = dateTime.Minute;
     }
 }

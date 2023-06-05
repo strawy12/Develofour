@@ -1,13 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:GroupBox style="top: auto; align-items: flex-start; justify-content: flex-start; flex-direction: row; flex-wrap: nowrap;">
+    <ui:GroupBox style="top: auto; align-items: stretch; justify-content: space-between; flex-direction: row; flex-wrap: nowrap;">
         <ui:Button text="FileSO" display-tooltip-when-elided="true" name="FileSOBtn" view-data-key="FileSOBtn" />
         <ui:Button text="Monolog" display-tooltip-when-elided="true" name="MonologBtn" view-data-key="MonologBtn" />
         <ui:Button text="ProfileInfo" display-tooltip-when-elided="true" name="ProfileInfoBtn" view-data-key="ProfileInfoBtn" />
         <ui:Button text="ProfileGuide" display-tooltip-when-elided="true" name="ProfileGuideBtn" view-data-key="ProfileGuideBtn" />
+        <ui:Button text="Maiil" display-tooltip-when-elided="true" name="MailBtn" view-data-key="MailBtn" />
     </ui:GroupBox>
-    <ui:GroupBox style="top: auto;">
+    <ui:GroupBox style="top: auto; flex-direction: column-reverse;">
         <ui:TextField picking-mode="Ignore" label="Gid" text="filler text" name="GidField" view-data-key="GidField" />
         <ui:TextField picking-mode="Ignore" label="SOType" text="filler text" name="SOTypeField" view-data-key="SOTypeField" />
     </ui:GroupBox>
-    <ui:Button text="SO 세팅하기" display-tooltip-when-elided="true" name="SettingButton" class="SO_Settring" style="margin-top: 10px; scale: 1 1; position: absolute; height: 60px; width: 233px; top: 103px; left: 46px; font-size: 25px; flex-direction: column-reverse; justify-content: flex-end; align-items: center; flex-wrap: wrap-reverse; -unity-text-align: middle-center;" />
+    <ui:Button text="SO 세팅하기" display-tooltip-when-elided="true" name="SettingButton" class="SO_Settring" style="margin-top: 10px; scale: 1 1; position: absolute; height: 60px; width: 233px; top: 104px; left: 58px; font-size: 25px; flex-direction: column-reverse; justify-content: flex-end; align-items: center; flex-wrap: wrap-reverse; -unity-text-align: middle-center;" />
 </ui:UXML>

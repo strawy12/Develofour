@@ -77,6 +77,12 @@ public class EmailLine : MonoBehaviour
 
     public string GetMailTimeData()
     {
+        MailSaveData saveData = DataManager.Inst.GetMailSaveData(MailData.mailID);
+
+        if(saveData != null)
+        {
+            return $"{saveData.month}월 {saveData.day}일";
+        }
         if (MailData.Year == 2023)
         {
             return $"{MailData.Month}월 {MailData.Date}일";

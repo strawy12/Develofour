@@ -43,7 +43,6 @@ public abstract class Mail : MonoBehaviour
 
     private int originMask;
 
-
     [ContextMenu("BindBtns")]
     public void BindBtns()
     {
@@ -66,8 +65,15 @@ public abstract class Mail : MonoBehaviour
         titleText.text = mailData.titleText;
         receiveText.text = mailData.receiveName + "¿¡°Ô";
         sendText.text = mailData.sendName;
-        timeText.text = mailData.TimeText;
-
+        MailSaveData saveData = DataManager.Inst.GetMailSaveData(mailData.mailID);
+        if (saveData != null)
+        {
+            timeText.text = $"{mailData.Year}. {saveData.month}. {saveData.day}. {saveData.hour}:{saveData.minute}";
+        }
+        else
+        {
+            timeText.text = mailData.TimeText;
+        }
         gameObject.SetActive(true);
     }
 

@@ -24,7 +24,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<MailDataSO>(handle.Result[i]).Task;
             await task;
 
-            mailDataSOList.Add(task.Result.type, task.Result);
+            mailDataSOList.Add(task.Result.mailID, task.Result);
         }
 
         Addressables.Release(handle);
