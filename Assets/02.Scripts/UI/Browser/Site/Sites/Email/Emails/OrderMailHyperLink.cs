@@ -8,10 +8,11 @@ public class OrderMailHyperLink : MonoBehaviour, IPointerClickHandler, IPointerE
 {
     public TMP_Text text;
     public int fileId;
+    public int directoryId;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        FileManager.Inst.AddFile(fileId, 10);
+        FileManager.Inst.AddFile(fileId, directoryId);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
