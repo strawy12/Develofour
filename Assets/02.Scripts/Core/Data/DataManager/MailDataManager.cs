@@ -8,7 +8,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public MailSaveData GetMailSaveData(int mailID)
     {
-        MailSaveData data = saveData.mailSaveData.Find(x => x.type == mailID);
+        MailSaveData data = saveData.mailSaveData.Find(x => x.id == mailID);
         if (data == null)
         {
             return null;
@@ -16,12 +16,12 @@ public partial class DataManager : MonoSingleton<DataManager>
         return data;
     }
 
-    public void SetMailSaveData(int mailID, int value)
+    public void SetMailSaveData(int mailID)
     {
-        MailSaveData data = saveData.mailSaveData.Find(x => x.type == mailID);
+        MailSaveData data = saveData.mailSaveData.Find(x => x.id == mailID);
         if (data == null)
         {
-            saveData.mailSaveData.Add(new MailSaveData() { mailCategory = value, type = mailID });
+            saveData.mailSaveData.Add(new MailSaveData() { id = mailID });
             return;
         }
         DateTime dateTime = TimeSystem.TimeCount();
@@ -29,6 +29,5 @@ public partial class DataManager : MonoSingleton<DataManager>
         data.day = dateTime.Day;
         data.hour = dateTime.Hour;
         data.minute = dateTime.Minute;
-        data.mailCategory = value;
     }
 }

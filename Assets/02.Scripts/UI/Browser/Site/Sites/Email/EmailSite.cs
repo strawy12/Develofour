@@ -128,9 +128,15 @@ public class EmailSite : Site
         foreach(Mail mail in mailDataList)
         {
             if (CheckCategoryData(mail, (int)EEmailCategory.Remove)
-                &&!CheckCategoryData(mail, (int)EEmailCategory.Invisible)
                 &&!!CheckCategoryData(mail, (int)EEmailCategory.Send))
             {
+                if(CheckCategoryData(mail, (int)EEmailCategory.Invisible))
+                {
+                    if(DataManager.Inst.GetMailSaveData(mail.MailData.mailID) == null)
+                    {
+                        continue;
+                    }
+                }
                 receiveMailCnt++;
             }
         }
@@ -177,7 +183,7 @@ public class EmailSite : Site
         {
             int num = line.Category.RemoveMask((int)EEmailCategory.Invisible);
             line.Category = num;
-            DataManager.Inst.SetMailSaveData(type, num);
+            DataManager.Inst.SetMailSaveData(type);
         }
 
         
@@ -206,6 +212,10 @@ public class EmailSite : Site
             int category = n.Category;
             bool flag1 = category.ContainMask((int)currentCategory);
             bool flag2 = category.ContainMask((int)EEmailCategory.Invisible) == false;
+            if(flag2 == false)
+            {
+                flag2 = DataManager.Inst.GetMailSaveData(n.MailData.mailID) != null; 
+            }
             bool flag3 = (currentCategory != EEmailCategory.Remove && category.ContainMask((int)EEmailCategory.Remove)) == false;
 
             return flag1 && flag2 && flag3;
