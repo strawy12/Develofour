@@ -39,6 +39,8 @@ public class MailDataSO : ScriptableObject
     public long GetCompareFlagValue()
     {
         string str = TimeText;
-        return long.Parse(str);
+        long num;
+        long.TryParse(str, out num);
+        return num;
     }
 }

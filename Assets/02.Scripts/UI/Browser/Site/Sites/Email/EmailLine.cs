@@ -39,7 +39,7 @@ public class EmailLine : MonoBehaviour
         }
     }
 
-    private Mail mail;
+    public Mail mail;
 
     public Mail CurrentMail => mail;
 
