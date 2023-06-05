@@ -19,4 +19,13 @@ public class MediaPlayerDataSO : ScriptableObject
     public float endlineDelay;
     public List<int> infoID;
 
+    [ContextMenu("SetScripts")]
+    public void SetScripts()
+    {
+        if (body != null)
+        {
+            textData = body.GetComponentInChildren<TMPro.TMP_Text>().text;
+        }
+    }
+
 }

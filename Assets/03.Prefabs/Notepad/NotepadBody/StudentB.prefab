@@ -1,5 +1,104 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &601385997186735440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7493592059310985879}
+  - component: {fileID: 4473448990736136104}
+  - component: {fileID: 5654206648829368910}
+  - component: {fileID: 9168354089433949263}
+  m_Layer: 5
+  m_Name: Info_198(2_0)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7493592059310985879
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601385997186735440}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6760515456667878588}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -906, y: 200}
+  m_SizeDelta: {x: 374.1471, y: 35}
+  m_Pivot: {x: 0, y: 1}
+--- !u!222 &4473448990736136104
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601385997186735440}
+  m_CullTransparentMesh: 1
+--- !u!114 &5654206648829368910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601385997186735440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.3915094, b: 0.3915094, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9168354089433949263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601385997186735440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infoDataIDList: 
+  needInfoList:
+  - needInfoID: 2
+    monologID: 0
+    getInfo: 0
+  monoLogType: 198
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
+  backgroundImage: {fileID: 5654206648829368910}
 --- !u!1 &1348985843709695445
 GameObject:
   m_ObjectHideFlags: 0
@@ -13,7 +112,7 @@ GameObject:
   - component: {fileID: 8348151805245276146}
   - component: {fileID: 711144359935190617}
   m_Layer: 5
-  m_Name: Info_47 (1)
+  m_Name: Info75_195(114_0,2_0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,8 +135,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -830, y: 339}
-  m_SizeDelta: {x: 1025.4893, y: 35}
+  m_AnchoredPosition: {x: -913, y: 376}
+  m_SizeDelta: {x: 501.1251, y: 35}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6642509003976568467
 CanvasRenderer:
@@ -60,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.16509432, b: 0.16509432, a: 0.42745098}
+  m_Color: {r: 1, g: 0.3915094, b: 0.3915094, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -89,18 +188,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoDataIDList: 
+  infoDataIDList: 4b000000
   needInfoList:
-  - needInfoID: 7
-    monologID: 188
+  - needInfoID: 114
+    monologID: 0
     getInfo: 0
-  - needInfoID: 11
-    monologID: 188
+  - needInfoID: 2
+    monologID: 0
     getInfo: 0
-  - needInfoID: 21
-    monologID: 188
-    getInfo: 0
-  monoLogType: 189
+  monoLogType: 195
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
@@ -118,7 +214,7 @@ GameObject:
   - component: {fileID: 3608079186760905392}
   - component: {fileID: 2808718518584628922}
   m_Layer: 5
-  m_Name: Info_47
+  m_Name: Info114_196(2_0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,8 +237,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -637.1, y: 373.6}
-  m_SizeDelta: {x: 201.0526, y: 35}
+  m_AnchoredPosition: {x: -913, y: 480}
+  m_SizeDelta: {x: 465.2869, y: 35}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &5141952290955078036
 CanvasRenderer:
@@ -165,7 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.16509432, b: 0.16509432, a: 0.42745098}
+  m_Color: {r: 1, g: 0.3915094, b: 0.3915094, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -194,15 +290,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoDataIDList: 
+  infoDataIDList: 72000000
   needInfoList:
-  - needInfoID: 7
+  - needInfoID: 1
     monologID: 0
     getInfo: 0
-  - needInfoID: 9
+  - needInfoID: 2
     monologID: 0
     getInfo: 0
-  monoLogType: 186
+  monoLogType: 196
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
@@ -273,7 +369,7 @@ GameObject:
   - component: {fileID: 1541208587050286390}
   - component: {fileID: 6760515456667878587}
   m_Layer: 5
-  m_Name: ReturnUniversityFoloder
+  m_Name: StudentB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,6 +391,7 @@ RectTransform:
   - {fileID: 8487508723090794972}
   - {fileID: 1879909116218663900}
   - {fileID: 5882761107519739148}
+  - {fileID: 7493592059310985879}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -354,15 +451,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textTriggerList:
-  - text: "\uC791\uB144 \uCD1D"
-    id: 93
+  - text: "\uC544 \uAC19\uC740 \uB3D9\uC544\uB9AC\uC600\uC5B4\uC694. \uC0AC\uC9C4\uCD2C\uC601\uB3D9\uC544\uB9AC. "
+    id: 26
     trigger: {fileID: 2808718518584628922}
-  - text: "\uC720\uC9C4 \uC120\uBC30\uB791"
-    id: 168
+  - text: "\uC8FC\uC601 \uC120\uBC30\uB294 \uC800\uD76C \uB3D9\uC544\uB9AC \uAE30\uC7A5\uC774\uC600\uC5B4\uC694."
+    id: 116
     trigger: {fileID: 711144359935190617}
-  - text: "\uD770 \uAC00\uB514\uAC74"
-    id: 301
+  - text: "\uBE0C\uB79C\uCE58? \uB77C\uB294 \uBE14\uB85C\uADF8 \uC0AC\uC774\uD2B8\uB3C4 "
+    id: 156
     trigger: {fileID: 1636565705162961237}
+  - text: "\uC8FC\uC601 \uC120\uBC30\uAC00 \uC5C4\uCCAD \uCC59\uAE30\uB354\uB77C\uACE0\uC694"
+    id: 350
+    trigger: {fileID: 9168354089433949263}
 --- !u!114 &6760515456667878587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,21 +550,24 @@ MonoBehaviour:
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: "Q: \uAC15\uC694\uD55C\uC5D0 \uB300\uD574 \uC544\uC2DC\uB294 \uAC8C \uC788\uB098\uC694?\r\nA:
-    \uAC15\uC694\uD55C\uC774\uC694? \uADF8\uAC8C \uB204\uAD6C\uC8E0? \uC798 \uBAA8\uB974\uACA0\uC2B5\uB2C8\uB2E4.\r\n\nQ:
+    \uC544 \uAC19\uC740 \uB3D9\uC544\uB9AC\uC600\uC5B4\uC694. \uC0AC\uC9C4\uCD2C\uC601\uB3D9\uC544\uB9AC. 
+    \uC694\uD55C\uC774\uAC00 \uBA3C\uC800 \uC800\uB791 \uAC19\uC740 \uB3D9\uC544\uB9AC
+    \uB4E4\uC5B4\uAC00\uC790\uACE0 \uD574\uC11C \uAC19\uC774 \uAC00\uC785\uD588\uC5B4\uC694.\r\n\nQ:
     \uBC15\uC8FC\uC601\uC5D0 \uB300\uD574 \uC544\uC2DC\uB294 \uAC8C \uC788\uB098\uC694?\r\nA:
-    \uC544 \uC8FC\uC601 \uC120\uBC30\uB294 \uC54C\uC544\uC694. \uC791\uB144 \uCD1D
-    \uD559\uC0DD\uD68C\uC7A5\uC774\uC600\uC5B4\uC694. \uADF8 \uC120\uBC30 \uC88B\uC544\uD558\uB358
-    \uC0AC\uB78C \uC5C4\uCCAD \uB9CE\uC558\uC5C8\uB294\uB370. \uC81C \uAE30\uC5B5\uC73C\uB85C\uB294
-    \uB0A8\uCE5C\uC774 \uC788\uB2E4\uACE0 \uB4E4\uC5C8\uC5B4\uC694. \uC5F0\uD558\uB77C\uACE0\uD588\uB098?\r\n\uC544
-    \uADF8\uB9AC\uACE0 \uC720\uC9C4 \uC120\uBC30\uB791 \uD0DC\uC6C5 \uC120\uBC30\uB791
-    \uC8FC\uC601 \uC120\uBC30\uB791 10\uC6D4 20\uC77C\uC5D0 \uAC19\uC774 \uC220\uC744
-    \uB9C8\uC2DC\uB7EC \uB9CC\uB09C \uC801\uC774 \uC788\uC5B4\uC694. \uADF8 \uB54C\uAC00
-    \uC8FC\uC601 \uC120\uBC30\uB97C \uB9C8\uC9C0\uB9C9\uC73C\uB85C \uBCF8 \uB0A0\uC774\uC5D0\uC694.\r\n\nQ:
-    \uC220\uC744 \uB9C8\uC2DC\uB358 \uB0A0 \uB2F9\uC2DC \uBC15\uC8FC\uC601\uC758
-    \uC778\uC0C1\uCC29\uC758\uB97C \uC544\uC2DC\uB098\uC694?\r\nA: \uBB50 \uD2B9\uBCC4\uD55C
-    \uAC74 \uC5C6\uC5C8\uC5B4\uC694. \uADF8 \uB54C \uD770 \uAC00\uB514\uAC74\uC5D0
-    \uCCAD\uBC14\uC9C0\uB97C \uC785\uACE0 \uBA85\uD488\uBC31\uC744 \uB9E4\uACE0\uC788\uC5C8\uC5B4\uC694.
-    \uC774\uC815\uB3C4 \uAE30\uC5B5\uB098\uB124\uC694."
+    \uC544 \uC8FC\uC601 \uC120\uBC30\uB294 \uC800\uD76C \uB3D9\uC544\uB9AC \uAE30\uC7A5\uC774\uC600\uC5B4\uC694.
+    \uC0AC\uC9C4 \uCD2C\uC601\uC744 \uC5C4\uCCAD \uC798\uD558\uB354\uB77C\uACE0\uC694.
+    \uBE0C\uB79C\uCE58? \uB77C\uB294 \uBE14\uB85C\uADF8 \uC0AC\uC774\uD2B8\uB3C4
+    \uC6B4\uC601\uD558\uC2DC\uB294 \uAC70 \uAC19\uACE0\uC694. \uD314\uB85C\uC6B0
+    \uC218\uB3C4 \uC5C4\uCCAD \uB9CE\uB354\uB77C\uACE0\uC694. \uC9C4\uC9DC \uC874\uACBD\uD558\uB294
+    \uC120\uBC30\uB2D8\uC774\uC5D0\uC694.\r\n\nQ: \uAC15\uC694\uD55C\uACFC \uBC15\uC8FC\uC601\uC5D0
+    \uB300\uD55C \uAD00\uACC4\uC5D0 \uB300\uD574 \uC544\uC2DC\uB294 \uAC8C \uC788\uB098\uC694?\r\nA:
+    \uC544 \uB458 \uC0AC\uC774\uAC00 \uC5C4\uCCAD \uAC00\uAE4C\uC6CC \uBCF4\uC600\uC5B4\uC694.
+    \uD2F0\uD0A4\uD0C0\uCE74\uB3C4 \uC88B\uACE0, \uB9C8\uCE58 \uCEE4\uD50C\uAC19\uB2E4\uACE0
+    \uD574\uC57C\uD558\uB098? \uADFC\uB370 \uCEE4\uD50C\uC774\uB77C\uACE0 \uACF5\uC2DD\uC801\uC73C\uB85C
+    \uBC1D\uD788\uC9C4 \uC54A\uC558\uC5B4\uC694. \uADFC\uB370 \uC81C\uAC00 \uBD24\uC744
+    \uB550 \uCEE4\uD50C\uC774 \uB9DE\uC544\uC694. \uC8FC\uC601 \uC120\uBC30\uAC00
+    \uC5C4\uCCAD \uCC59\uAE30\uB354\uB77C\uACE0\uC694. \uC694\uD55C\uC774\uB97C,
+    \uCD5C\uC18C \uC9DD\uC0AC\uB791\uC774\uC5D0\uC694."
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 1
@@ -543,21 +646,24 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Q: \uAC15\uC694\uD55C\uC5D0 \uB300\uD574 \uC544\uC2DC\uB294 \uAC8C \uC788\uB098\uC694?\r\nA:
-    \uAC15\uC694\uD55C\uC774\uC694? \uADF8\uAC8C \uB204\uAD6C\uC8E0? \uC798 \uBAA8\uB974\uACA0\uC2B5\uB2C8\uB2E4.\r\n\nQ:
+    \uC544 \uAC19\uC740 \uB3D9\uC544\uB9AC\uC600\uC5B4\uC694. \uC0AC\uC9C4\uCD2C\uC601\uB3D9\uC544\uB9AC. 
+    \uC694\uD55C\uC774\uAC00 \uBA3C\uC800 \uC800\uB791 \uAC19\uC740 \uB3D9\uC544\uB9AC
+    \uB4E4\uC5B4\uAC00\uC790\uACE0 \uD574\uC11C \uAC19\uC774 \uAC00\uC785\uD588\uC5B4\uC694.\r\n\nQ:
     \uBC15\uC8FC\uC601\uC5D0 \uB300\uD574 \uC544\uC2DC\uB294 \uAC8C \uC788\uB098\uC694?\r\nA:
-    \uC544 \uC8FC\uC601 \uC120\uBC30\uB294 \uC54C\uC544\uC694. \uC791\uB144 \uCD1D
-    \uD559\uC0DD\uD68C\uC7A5\uC774\uC600\uC5B4\uC694. \uADF8 \uC120\uBC30 \uC88B\uC544\uD558\uB358
-    \uC0AC\uB78C \uC5C4\uCCAD \uB9CE\uC558\uC5C8\uB294\uB370. \uC81C \uAE30\uC5B5\uC73C\uB85C\uB294
-    \uB0A8\uCE5C\uC774 \uC788\uB2E4\uACE0 \uB4E4\uC5C8\uC5B4\uC694. \uC5F0\uD558\uB77C\uACE0\uD588\uB098?\r\n\uC544
-    \uADF8\uB9AC\uACE0 \uC720\uC9C4 \uC120\uBC30\uB791 \uD0DC\uC6C5 \uC120\uBC30\uB791
-    \uC8FC\uC601 \uC120\uBC30\uB791 10\uC6D4 20\uC77C\uC5D0 \uAC19\uC774 \uC220\uC744
-    \uB9C8\uC2DC\uB7EC \uB9CC\uB09C \uC801\uC774 \uC788\uC5B4\uC694. \uADF8 \uB54C\uAC00
-    \uC8FC\uC601 \uC120\uBC30\uB97C \uB9C8\uC9C0\uB9C9\uC73C\uB85C \uBCF8 \uB0A0\uC774\uC5D0\uC694.\r\n\nQ:
-    \uC220\uC744 \uB9C8\uC2DC\uB358 \uB0A0 \uB2F9\uC2DC \uBC15\uC8FC\uC601\uC758
-    \uC778\uC0C1\uCC29\uC758\uB97C \uC544\uC2DC\uB098\uC694?\r\nA: \uBB50 \uD2B9\uBCC4\uD55C
-    \uAC74 \uC5C6\uC5C8\uC5B4\uC694. \uADF8 \uB54C \uD770 \uAC00\uB514\uAC74\uC5D0
-    \uCCAD\uBC14\uC9C0\uB97C \uC785\uACE0 \uBA85\uD488\uBC31\uC744 \uB9E4\uACE0\uC788\uC5C8\uC5B4\uC694.
-    \uC774\uC815\uB3C4 \uAE30\uC5B5\uB098\uB124\uC694.\u200B"
+    \uC544 \uC8FC\uC601 \uC120\uBC30\uB294 \uC800\uD76C \uB3D9\uC544\uB9AC \uAE30\uC7A5\uC774\uC600\uC5B4\uC694.
+    \uC0AC\uC9C4 \uCD2C\uC601\uC744 \uC5C4\uCCAD \uC798\uD558\uB354\uB77C\uACE0\uC694.
+    \uBE0C\uB79C\uCE58? \uB77C\uB294 \uBE14\uB85C\uADF8 \uC0AC\uC774\uD2B8\uB3C4
+    \uC6B4\uC601\uD558\uC2DC\uB294 \uAC70 \uAC19\uACE0\uC694. \uD314\uB85C\uC6B0
+    \uC218\uB3C4 \uC5C4\uCCAD \uB9CE\uB354\uB77C\uACE0\uC694. \uC9C4\uC9DC \uC874\uACBD\uD558\uB294
+    \uC120\uBC30\uB2D8\uC774\uC5D0\uC694.\r\n\nQ: \uAC15\uC694\uD55C\uACFC \uBC15\uC8FC\uC601\uC5D0
+    \uB300\uD55C \uAD00\uACC4\uC5D0 \uB300\uD574 \uC544\uC2DC\uB294 \uAC8C \uC788\uB098\uC694?\r\nA:
+    \uC544 \uB458 \uC0AC\uC774\uAC00 \uC5C4\uCCAD \uAC00\uAE4C\uC6CC \uBCF4\uC600\uC5B4\uC694.
+    \uD2F0\uD0A4\uD0C0\uCE74\uB3C4 \uC88B\uACE0, \uB9C8\uCE58 \uCEE4\uD50C\uAC19\uB2E4\uACE0
+    \uD574\uC57C\uD558\uB098? \uADFC\uB370 \uCEE4\uD50C\uC774\uB77C\uACE0 \uACF5\uC2DD\uC801\uC73C\uB85C
+    \uBC1D\uD788\uC9C4 \uC54A\uC558\uC5B4\uC694. \uADFC\uB370 \uC81C\uAC00 \uBD24\uC744
+    \uB550 \uCEE4\uD50C\uC774 \uB9DE\uC544\uC694. \uC8FC\uC601 \uC120\uBC30\uAC00
+    \uC5C4\uCCAD \uCC59\uAE30\uB354\uB77C\uACE0\uC694. \uC694\uD55C\uC774\uB97C,
+    \uCD5C\uC18C \uC9DD\uC0AC\uB791\uC774\uC5D0\uC694.\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
   m_sharedMaterial: {fileID: -2560004193487277870, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
@@ -639,7 +745,7 @@ GameObject:
   - component: {fileID: 6313352337653235082}
   - component: {fileID: 1636565705162961237}
   m_Layer: 5
-  m_Name: Info_47 (2)
+  m_Name: Info_197(2_0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -662,8 +768,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -571.1, y: 234.1}
-  m_SizeDelta: {x: 842.2036, y: 35}
+  m_AnchoredPosition: {x: -26, y: 376}
+  m_SizeDelta: {x: 616.9734, y: 35}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8142681937577878585
 CanvasRenderer:
@@ -686,7 +792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.16509432, b: 0.16509432, a: 0.42745098}
+  m_Color: {r: 1, g: 0.3915094, b: 0.3915094, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -715,12 +821,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoDataIDList: 6c000000
+  infoDataIDList: 
   needInfoList:
-  - needInfoID: 7
+  - needInfoID: 2
     monologID: 0
     getInfo: 0
-  monoLogType: 190
+  monoLogType: 197
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
