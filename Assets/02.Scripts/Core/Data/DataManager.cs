@@ -51,7 +51,6 @@ public partial class DataManager : MonoSingleton<DataManager>
         CreateMonologData();
         CreateFileLockData();
         CreateNoticeDataSave();
-        CreateMailData();
 
         SaveToJson();
 

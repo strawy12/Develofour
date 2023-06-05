@@ -88,10 +88,6 @@ public class EmailSite : Site
     private void GetMailSaveData()
     {
         return;
-        for(int i = 0; i < mailDataList.Count; i++)
-        {
-          //  int type = DataManager.Inst.GetMailSaveData(mailDataList[i].MailData.Type).mailCategory;
-        }
     }
 
     //private void RegisterMailData()
@@ -170,7 +166,7 @@ public class EmailSite : Site
         }
         int type = (int)ps[0];
 
-        EmailLine line = baseEmailLineList.Find(x => x.MailData.type == type);
+        EmailLine line = baseEmailLineList.Find(x => x.MailData.mailID == type);
         float delay = 0f;
         if(ps.Length == 2)
         {

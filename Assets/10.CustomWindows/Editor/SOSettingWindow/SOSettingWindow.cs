@@ -22,6 +22,7 @@ public class SOSettingWindow : EditorWindow
         ProfileCategory,
         Monolog,
         ProfileGuide,
+        Mail
     }
 
     private Button settingButton;
@@ -29,7 +30,7 @@ public class SOSettingWindow : EditorWindow
     private Button monologSOBtn;
     private Button profileInfoBtn;
     private Button profileGuideBtn;
-
+    private Button mailBtn;
     private TextField gidField;
     private TextField soTypeField;
 
@@ -55,11 +56,15 @@ public class SOSettingWindow : EditorWindow
         profileInfoBtn = rootVisualElement.Q<Button>("ProfileInfoBtn");
         profileGuideBtn = rootVisualElement.Q<Button>("ProfileGuideBtn");
         gidField = rootVisualElement.Q<TextField>("GidField");
+        mailBtn = rootVisualElement.Q<Button>("MailBtn");
         soTypeField = rootVisualElement.Q<TextField>("SOTypeField");
+
         profileGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfileGuide));
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
         profileInfoBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfileInfo));
         fileSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.File));
+        mailBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Mail));
+
         monologSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Monolog));
     }
 
@@ -90,6 +95,10 @@ public class SOSettingWindow : EditorWindow
             case ESOType.ProfileGuide:
                 gidField.value = "77751767";
                 soTypeField.value = "ProfileGuideDataSO";
+                break;
+            case ESOType.Mail:
+                gidField.value = "2109502413";
+                soTypeField.value = "MailDataSO";
                 break;
         }
     }
@@ -125,6 +134,9 @@ public class SOSettingWindow : EditorWindow
                 break;
             case "ProfileGuideDataSO":
                 SettingProfileGuideSO(add);
+                break;
+            case "MailDataSO":
+                SettingMailSO(add);
                 break;
         }
 
@@ -609,7 +621,87 @@ public class SOSettingWindow : EditorWindow
         AssetDatabase.SaveAssets();
     }
 
+    private void SettingMailSO(string dataText)
+    {
+        string[] rows = dataText.Split('\n');
+        string[] guids = AssetDatabase.FindAssets("t:MailDataSO", null);
 
+        List<MailDataSO> mailSODatas = new List<MailDataSO>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            mailSODatas.Add(AssetDatabase.LoadAssetAtPath<MailDataSO>(path));
+        }
+
+        for(int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+            int mailID = int.Parse(columns[0]);
+            int categoryInt = 0;
+            string mailTitle = columns[1];
+            switch(columns[2])
+            {
+                default: case "Receive":
+                    categoryInt = 0x01;
+                    break;
+                case "Send":
+                    categoryInt = 0x04;
+                    break;
+            }
+            string sendName = columns[3];
+            string[] sendDate = columns[4].Trim().Split(',');
+
+            int year = int.Parse(sendDate[0]);
+            int month = int.Parse(sendDate[1]);
+            int day = int.Parse(sendDate[2]);
+            int hour = int.Parse(sendDate[3]);
+            int minute = int.Parse(sendDate[4]);
+
+            string receiveName = columns[5];
+            string informationText = columns[6];
+            if(columns[7] == "TRUE")
+            {
+                categoryInt += 0x02;
+            }
+            if(columns[8] == "TRUE")
+            {
+                categoryInt += 0x08;
+            }
+            if(columns[9] == "FALSE")
+            {
+                categoryInt += 0x10;
+            }
+
+            MailDataSO mailData = mailSODatas.Find(x => x.mailID == mailID);
+            bool isCreate = false;
+            if (mailData == null)
+            {
+                mailData = CreateInstance<MailDataSO>();
+                isCreate = true;
+            }
+            mailData.mailID = mailID;
+            mailData.mailCategory = categoryInt;
+            mailData.titleText = mailTitle;
+            mailData.sendName = sendName;
+            mailData.receiveName = receiveName;
+            mailData.dateData = new Vector3Int(year, month, day);
+            mailData.timeData = new Vector2Int(hour, minute);
+            mailData.informationText = informationText;
+
+            string SO_PATH = $"Assets/07.ScriptableObjects/MailData/{columns[10]}.asset";
+            if(isCreate)
+            {
+                CreateFolder(SO_PATH);
+                AssetDatabase.CreateAsset(mailData, SO_PATH);
+            }
+            EditorUtility.SetDirty(mailData);
+            mailSODatas.Remove(mailData);
+        }
+        mailSODatas.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
+    }
     private void CreateFolder(string path)
     {
         string[] splitPath = path.Split('/');

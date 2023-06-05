@@ -10,7 +10,7 @@ using UnityEngine.Playables;
 [CreateAssetMenu(menuName = "SO/Window/Mail/Data")]
 public class MailDataSO : ScriptableObject
 {
-    public int type;
+    public int mailID;
 
     public string receiveName;
     public string sendName;
@@ -19,11 +19,8 @@ public class MailDataSO : ScriptableObject
 
     public Sprite userProfile;
 
-
-    [SerializeField]
-    private Vector3Int dateData; //x: year, y: month, z: date
-    [SerializeField]
-    private Vector2Int timeData; // x: hour, y: minute
+    public Vector3Int dateData; //x: year, y: month, z: date
+    public Vector2Int timeData; // x: hour, y: minute
 
     [BitMask(typeof(EEmailCategory))]
     public int mailCategory;
@@ -41,7 +38,7 @@ public class MailDataSO : ScriptableObject
 
     public long GetCompareFlagValue()
     {
-        string str = $"{Year.ToString()}{Month.ToString()}{Date.ToString()}{Hour.ToString()}{Minute.ToString()}";
+        string str = TimeText;
         return long.Parse(str);
     }
 }
