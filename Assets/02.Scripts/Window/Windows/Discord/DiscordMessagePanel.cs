@@ -85,12 +85,14 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
             profileImage.gameObject.SetActive(true);
             userNameText.gameObject.SetActive(true);
             userTimeText.gameObject.SetActive(true);
+            userNameText.transform.parent.gameObject.SetActive(true);
             userTimeText.text = timeText.TimeText;
         }
         else
         {
             profileImage.gameObject.SetActive(false);
             userNameText.gameObject.SetActive(false);
+            userNameText.transform.parent.gameObject.SetActive(false);
             userTimeText.gameObject.SetActive(false);
         }
         AutoSettingMessagePanelSize();

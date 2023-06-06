@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+﻿using Unity.VisualScripting;
 using UnityEngine;
 
 public static partial class Constant
@@ -26,7 +26,7 @@ public static partial class Constant
 
     public static readonly System.DateTime DEFAULTDATE = new System.DateTime(2023, 10, 22, 7, 3, 0);
 
-    public const string ZOOGLEPASSWORDGUIDE = "ZooglePasswordGuide";
+    public const string ZOOGLEPASSWORDGUIDE = "주글비밀번호가이드";
 
     //public const int NEED_INFO_MONOLOG_ID = 131;
     #region File

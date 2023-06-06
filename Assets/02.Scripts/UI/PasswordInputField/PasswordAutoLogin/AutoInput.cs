@@ -19,12 +19,17 @@ public class AutoInput : MonoBehaviour
 
     public void ShowPanel(TMP_InputField inputField, List<AutoAnswerData> answerDatas)
     {
+        if(answerDatas == null)
+        {
+            return;
+        }
+
         isCanShowPanel = false;
         for(int i = 0;  i < answerDatas.Count; i++)
         {
             AutoAnswerData data = answerDatas[i];
 
-            if(DataManager.Inst.IsProfilerInfoData(data.infoData.id))
+            if(Define.MonologLockDecisionFlag(data.infoData))
             {
                 autoInputPanelList[i].Setting(inputField, answerDatas[i].answer);
                 isCanShowPanel = true;
