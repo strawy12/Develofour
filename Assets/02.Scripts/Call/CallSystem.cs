@@ -292,7 +292,7 @@ public class CallSystem : MonoSingleton<CallSystem>
             }
         };
 
-        MonologSystem.OnStartMonolog?.Invoke(monologType, 0, false);
+        MonologSystem.OnStartMonolog?.Invoke(monologType, 0, true);
     }
 
     public void SaveReturnMonolog(MonologLockData data)
