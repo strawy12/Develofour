@@ -19,6 +19,11 @@ public class AutoInput : MonoBehaviour
 
     public void ShowPanel(TMP_InputField inputField, List<AutoAnswerData> answerDatas)
     {
+        if(answerDatas == null)
+        {
+            return;
+        }
+
         isCanShowPanel = false;
         for(int i = 0;  i < answerDatas.Count; i++)
         {
