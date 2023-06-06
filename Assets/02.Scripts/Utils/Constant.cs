@@ -34,6 +34,7 @@ public static partial class Constant
     {
         public const int BACKGROUND = 1;
         public const int USB = 6;
+        public const int MYPC = 7;
         public const int DOWNLOAD = 10;
         public const int PROFILER = 49;
         public const int ZOOGLEPIN = 23;

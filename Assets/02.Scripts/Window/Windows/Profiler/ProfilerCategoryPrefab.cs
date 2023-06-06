@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using Unity.VisualScripting;
 
 public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
 {
@@ -47,7 +48,41 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         gameObject.SetActive(true);
 
         titleName.SetText(categoryData.categoryName);
-        Define.SetSprite(categoryImage, categoryData.categorySprite, maxSize);
+
+        categoryImage.sprite = currentData.categorySprite;
+        SetSize();
+    }
+
+    private void SetSize()
+    {
+        float x1, y1, x2, y2;
+        float maxSize = (categoryImage.transform.parent as RectTransform).rect.width - 5;
+
+        if (currentData.categorySprite == null)
+        {
+            return;
+        }
+        if (currentData.categorySprite.rect.width != currentData.categorySprite.rect.height)
+        {
+            x1 = currentData.categorySprite.rect.width;
+            y1 = currentData.categorySprite.rect.height;
+            if (x1 > y1)
+            {
+                x2 = maxSize;
+                y2 = y1 * x2 / x1;
+            }
+            else
+            {
+                y2 = maxSize;
+                x2 = x1 * y2 / y1;
+            }
+        }
+        else
+        {
+            x2 = y2 = maxSize;
+        }
+
+        categoryImage.rectTransform.sizeDelta = new Vector2(x2, y2);
     }
 
     public void Hide()

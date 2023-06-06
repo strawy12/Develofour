@@ -285,6 +285,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         MonologSystem.OnEndMonologEvent = () => SaveReturnMonolog(data);
         MonologSystem.OnEndMonologEvent = () =>
         {
+            if (data == null) return;
             if (data.additionFiles.Count != 0)
             {
                 data.additionFiles.ForEach(x => data.additionFiles.ForEach(x => FileManager.Inst.AddFile((int)x.x, (int)x.y)));
