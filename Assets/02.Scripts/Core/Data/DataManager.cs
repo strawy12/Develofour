@@ -20,7 +20,7 @@ public partial class DataManager : MonoSingleton<DataManager>
     public void Init()
     {
         isInit = true;
-        SAVE_PATH = Application.dataPath + "/Save/";
+        SAVE_PATH = Application.persistentDataPath + "/Save/";
         CheckDirectory();
         LoadFromJson();
     }

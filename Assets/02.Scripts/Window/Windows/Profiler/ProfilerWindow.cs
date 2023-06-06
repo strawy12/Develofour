@@ -67,6 +67,7 @@ public class ProfilerWindow : Window
         //EventManager.StartListening(ETutorialEvent.SearchBtnGuide, GuideSearchButton);
         EventManager.StartListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
 
+
         beforeClickButton = infoPanelBtn;
 
         ButtonBlackSetting();

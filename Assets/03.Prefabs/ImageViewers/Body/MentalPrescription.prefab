@@ -26,18 +26,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5599655560899681031}
-  m_LocalRotation: {x: 0, y: 0, z: -0.062442105, w: 0.9980486}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8454321266748870907}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -7.16}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.9542, y: -8.7714}
-  m_SizeDelta: {x: 451.8406, y: 235.183}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6476212960762951224
 CanvasRenderer:
@@ -90,7 +90,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoDataIDList: 39000000
-  needInfoList: []
+  needInfoList:
+  - needInfoID: 1
+    monologID: 0
+    getInfo: 0
+  - needInfoID: 56
+    monologID: 0
+    getInfo: 0
   monoLogType: 54
   completeMonologType: 0
   delay: 0
@@ -135,7 +141,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 490.79755, y: 366.66666}
+  m_SizeDelta: {x: 330, y: 440}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8454321266748870901
 CanvasRenderer:
@@ -165,7 +171,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: df8f167ff20e4da1a8c7d2255d890d2d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6e0a63119c01c0a41a998505cfada2b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -189,7 +195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxImageScale: 4
   zoomSpeed: 0.1
-  MINSIZEX: 704
   isDiscord: 0
 --- !u!114 &8051523755304602131
 MonoBehaviour:

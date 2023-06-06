@@ -34,6 +34,8 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         isSelected = false;
         OnClick = null;
         OnClick += clickAction;
+        EventManager.StartListening(EProfilerEvent.Maximum, SetSize);
+        EventManager.StartListening(EProfilerEvent.Minimum, SetSize);
     }
     #region Show/Hide
     public void Show(ProfilerCategoryDataSO categoryData)
@@ -53,7 +55,7 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         SetSize();
     }
 
-    private void SetSize()
+    private void SetSize(object[] ps = null)
     {
         float x1, y1, x2, y2;
         float maxSize = (categoryImage.transform.parent as RectTransform).rect.width - 5;
@@ -87,6 +89,8 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
 
     public void Hide()
     {
+        EventManager.StopListening(EProfilerEvent.Maximum, SetSize);
+        EventManager.StopListening(EProfilerEvent.Minimum, SetSize);
         gameObject.SetActive(false);
         UnSelect();
         categoryImage.rectTransform.sizeDelta = maxSize;
