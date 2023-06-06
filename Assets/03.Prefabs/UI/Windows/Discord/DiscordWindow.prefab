@@ -2932,7 +2932,6 @@ GameObject:
   - component: {fileID: 7176267945459919405}
   - component: {fileID: 7346002158696898566}
   - component: {fileID: 5306802760476229943}
-  - component: {fileID: 1391598383736738762}
   - component: {fileID: 4946230285714073130}
   - component: {fileID: 2079341062960013269}
   m_Layer: 5
@@ -3001,19 +3000,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1391598383736738762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732903767080202818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d20390a20da42be9f081a78012e4dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 4946230285714073130}
 --- !u!114 &4946230285714073130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3127,7 +3113,9 @@ MonoBehaviour:
   inputField: {fileID: 4946230285714073130}
   autoAnswerDatas:
   - answer: 01020220502
-    infoData: {fileID: 11400000, guid: 58668f8d9f1ba1d469b5f81367a16b25, type: 2}
+    infoData:
+    - decisionType: 1
+      key: 212
   inputSystem: {fileID: 2521141251170335869}
 --- !u!1 &854796316785872019
 GameObject:
@@ -8004,7 +7992,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBE44\uBC00\uBC88\uD638"
+  m_text: yohanGospel0618
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
   m_sharedMaterial: {fileID: -2560004193487277870, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
@@ -10915,8 +10903,8 @@ MonoBehaviour:
   answerID: 01020220502
   answerPassword: yohanGospel0618
   identificationAnswerText: "\uBBF8\uC5F0\uACE0\uB4F1\uD559\uAD50"
-  IDInputField: {fileID: 1391598383736738762}
-  passwordInputField: {fileID: 2332249252590423231}
+  IDInputField: {fileID: 4946230285714073130}
+  passwordInputField: {fileID: 8514176141140816595}
   loginButton: {fileID: 1242830103470978820}
   wrongIDInputFieldText: {fileID: 4191863918615669741}
   wrongPasswordInputFieldText: {fileID: 4415241908377907726}
@@ -10925,6 +10913,8 @@ MonoBehaviour:
   background: {fileID: 2089931397694994437}
   identificationPanel: {fileID: 1177138887139206378}
   loginPanel: {fileID: 3790249461629057308}
+  IDAccountPanel: {fileID: 7661044175427434829}
+  pwAccountPanel: {fileID: 8724003795668140922}
 --- !u!1 &5795797861024885108
 GameObject:
   m_ObjectHideFlags: 0
@@ -11058,7 +11048,6 @@ GameObject:
   - component: {fileID: 520252649997997683}
   - component: {fileID: 1448613631656096478}
   - component: {fileID: 8207667775955789064}
-  - component: {fileID: 2332249252590423231}
   - component: {fileID: 8514176141140816595}
   - component: {fileID: 2416541232879038718}
   m_Layer: 5
@@ -11127,19 +11116,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2332249252590423231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5831567057731009368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d20390a20da42be9f081a78012e4dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 8514176141140816595}
 --- !u!114 &8514176141140816595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11253,7 +11229,9 @@ MonoBehaviour:
   inputField: {fileID: 8514176141140816595}
   autoAnswerDatas:
   - answer: yohanGospel0618
-    infoData: {fileID: 11400000, guid: e97116b8a62feac4a98b91ff181f5570, type: 2}
+    infoData:
+    - decisionType: 0
+      key: 66
   inputSystem: {fileID: 6581677896619851836}
 --- !u!1 &5898328610387185681
 GameObject:
@@ -11743,7 +11721,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBE44\uBC00\uBC88\uD638"
+  m_text: 01020220502
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
   m_sharedMaterial: {fileID: -2560004193487277870, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
