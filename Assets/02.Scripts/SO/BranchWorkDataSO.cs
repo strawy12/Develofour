@@ -5,10 +5,12 @@ using UnityEngine;
 public enum EBranchWorkCategory
 {
     None,
-    HardLifeToday,
-    WantSay,
-    OneLight,
+    MyDiary,
+    HardHealth,
+    Date,
+    MyStory,
 }
+
 [CreateAssetMenu(menuName = "SO/Site/Branch/Work")]
 public class BranchWorkDataSO : ScriptableObject
 {

@@ -29,6 +29,7 @@ public class BranchLoginSite : Site
         base.Init();
         passwordField.InputField.asteriskChar = '·';
         passwordField.SetPassword(DataManager.Inst.SaveData.branchPassword);
+        password = DataManager.Inst.SaveData.branchPassword;
         findPasswordBtn.Init(id);
         sentPanel.Init();
         changePanel.Init();
