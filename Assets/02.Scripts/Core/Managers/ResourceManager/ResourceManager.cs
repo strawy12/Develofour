@@ -23,7 +23,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
         LoadNotepadDataAssets(() => cnt--);
         LoadMediaPlayerDataAssets(() => cnt--);
-        LoadProfileCategoryDataResourcesAssets(() => cnt--);
+        LoadProfilerCategoryResourcesAssets(() => cnt--);
         LoadCharacterDataDataSOAssets(() => cnt--);
         LoadBrowserShortcutDataResourcesAssets(() => cnt--);
 
@@ -33,7 +33,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         LoadRequestCallDataAssets(() => cnt--);
         LoadIncomingCallDataAssets(() => cnt--);
 
-        LoadProfileInfoDataAssets(() => cnt--);
+        LoadProfilerInfoDataAssets(() => cnt--);
         LoadLockImage(() => cnt--);
         LoadBackgroundBGMWindowDataResourcesAssets(() => cnt--);
         yield return new WaitUntil(() => cnt <= 0);

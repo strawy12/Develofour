@@ -66,9 +66,9 @@ public class BranchLoginSite : Site
 
     private void SuccessLogin()
     {
-        if(!DataManager.Inst.IsProfileInfoData(67))
+        if(!DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.BRANCHID))
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.InvisibleInformation, 67 });
+            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.InvisibleInformation, Constant.ProfilerInfoKey.BRANCHID });
         }
         DataManager.Inst.SetIsLogin(ELoginType.Branch,true);
         EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Branch, Constant.LOADING_DELAY });

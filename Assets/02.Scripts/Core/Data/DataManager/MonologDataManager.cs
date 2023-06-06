@@ -20,7 +20,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public bool IsMonologShow(int type)
     {
-        MonologSaveData data = saveData.monologData.Find(x => x.monologType == type); ;
+        MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);
         if (data == null)
         {
             Debug.Log("Json에 존재하지않는 텍스트 데이터 입니다.");

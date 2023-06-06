@@ -29,9 +29,9 @@ public class GuideSaveData
     public bool isUse;
 }
 [System.Serializable]
-public class ProfileSaveData
+public class ProfilerSaveData
 {
-    public EProfileCategory category;
+    public EProfilerCategory category;
     public bool isShowCategory;
     public List<int> infoData;
 }
@@ -61,7 +61,7 @@ public class SaveData
     public List<MonologSaveData> monologData;
     public List<AdditionFileData> additionFileData;
     public List<GuideSaveData> guideSaveData;
-    public List<ProfileSaveData> profileSaveData;
+    public List<ProfilerSaveData> profilerSaveData;
     public List<string> aiChattingList;
     public List<NoticeData> saveNoticeData;
     public List<string> branchPostLockData;

@@ -27,7 +27,7 @@ public class CursorChangeSystem : MonoBehaviour
 
     private void CursorChange(object[] ps)
     {
-        if (ps[0] == null || !Define.CheckIntallProfile())
+        if (ps[0] == null || !Define.CheckIntallProfiler())
         {
             return;
         }

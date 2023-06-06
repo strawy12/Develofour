@@ -20,14 +20,14 @@ public class CallPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         CallButton.onClick?.AddListener(OnPhoneCallUI);
         phoneCallUI.OnCloseIngnoreFlag += () => isEnter;
 
-        EventManager.StartListening(EProfileEvent.InstalledProfile, OnCallButton);
+        EventManager.StartListening(EProfilerEvent.InstalledProfiler, OnCallButton);
     }
 
     private void OnCallButton(object[] ps)
     {
         gameObject.SetActive(true);
         phoneCallUI.Init();
-        EventManager.StopListening(EProfileEvent.InstalledProfile, OnCallButton);
+        EventManager.StopListening(EProfilerEvent.InstalledProfiler, OnCallButton);
     }
 
     private void OnPhoneCallUI()

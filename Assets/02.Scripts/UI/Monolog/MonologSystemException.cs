@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class MonologSystem : TextSystem
 {
-    private void ProfileFileException(object[] ps)
+    private void ProfilerFileException(object[] ps)
     {
         if(ps[0] is DirectorySO) {
             DirectorySO directory = ps[0] as DirectorySO;

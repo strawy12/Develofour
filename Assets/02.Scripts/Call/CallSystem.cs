@@ -57,10 +57,10 @@ public class CallSystem : MonoSingleton<CallSystem>
         spectrumUI.gameObject.SetActive(false);
 
         EventManager.StartListening(EMonologEvent.MonologEnd, IncomingCheck);
-        EventManager.StartListening(EProfileEvent.FindInfoInProfile, IncomingCheck);
+        EventManager.StartListening(EProfilerEvent.FindInfoInProfiler, IncomingCheck);
 
         EventManager.StartListening(EMonologEvent.MonologEnd, DecisionCheck);
-        EventManager.StartListening(EProfileEvent.FindInfoInProfile, DecisionCheck);
+        EventManager.StartListening(EProfilerEvent.FindInfoInProfiler, DecisionCheck);
 
 
         GetIncomingData();
@@ -111,7 +111,7 @@ public class CallSystem : MonoSingleton<CallSystem>
 
         if (DataManager.Inst.IsSavePhoneNumber(charSO.phoneNum) == false)
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { EProfileCategory.InvisibleInformation, charSO.profileInfoID });
+            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.InvisibleInformation, charSO.phoneNumberInfoID });
             EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { charSO.phoneNum });
         }
         Show();
@@ -231,13 +231,20 @@ public class CallSystem : MonoSingleton<CallSystem>
         if (isShow)
         {
             answerBtn.onClick.RemoveAllListeners();
-            //answerBtn.onClick.AddListener(Hide);
-            answerBtn.onClick.AddListener(() => ShowSpectrumUI(true));
-            answerBtn.onClick.AddListener(() => ShowAnswerButton(false));
-            answerBtn.onClick.AddListener(() => isRecieveCall = true);
+            answerBtn.onClick.AddListener(ClickAnswerBtn);
         }
 
         answerBtn.gameObject.SetActive(isShow);
+    }
+
+    private void ClickAnswerBtn()
+    {
+        ShowSpectrumUI(true);
+        ShowAnswerButton(false);
+        isRecieveCall = true;
+
+        transform.DOKill(true);
+        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.PhoneAlarm);
     }
 
     private void ShowSpectrumUI(bool isShow)
@@ -317,6 +324,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         {
             foreach (ReturnMonologData data in incomingCallData.incomingMonologList) //한 캐릭의 리턴 독백마다
             {
+                    Debug.Log(data.MonologID);
                 if (DataManager.Inst.IsMonologShow(data.MonologID))//이미 본 독백이면
                 {
                     continue;//넘어가
@@ -356,8 +364,7 @@ public class CallSystem : MonoSingleton<CallSystem>
             Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
             yield return new WaitForSeconds(4f);
         }
-        transform.DOKill(true);
-        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.PhoneAlarm);
+
         isRecieveCall = false;
     }
 

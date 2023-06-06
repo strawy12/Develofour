@@ -67,19 +67,19 @@ public class InstallerWindow : Window
 
     public void EndInstall()
     {
-        EventManager.TriggerEvent(EProfileEvent.InstalledProfile);
+        EventManager.TriggerEvent(EProfilerEvent.InstalledProfiler);
 
         DataManager.Inst.SaveData.isProfilerInstall = true;
         FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(Constant.FileID.PROFILER), Constant.FileID.BACKGROUND);
 
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.PROFILE_INSTALL_COMPLETE, 0f, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.PROFILER_INSTALL_COMPLETE, 0f, true);
     }
 
     public void CheckOpenWindow(bool isWindowOpen)
     {
         if (isWindowOpen)
         {
-            WindowManager.Inst.WindowOpen(EWindowType.ProfileWindow, FileManager.Inst.GetAdditionalFile(22));
+            WindowManager.Inst.WindowOpen(EWindowType.ProfilerWindow, FileManager.Inst.GetAdditionalFile(Constant.FileID.PROFILER));
         }
     }
 }

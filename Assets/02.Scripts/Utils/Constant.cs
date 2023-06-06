@@ -43,16 +43,20 @@ public static partial class Constant
 
 
     #endregion
-    #region ProfileInfoKey
-    public static class ProfileInfoKey
+    #region ProfilerInfoKey
+    public static class ProfilerInfoKey
     {
         public const int PARKJUYOUNG_NAME = 7;
         public const int KIMYUJIN_NAME = 11;
-        public const int INCIDENTREPORT_TITLE = 76;
+        public const int CRIMINAL_ACTION = 23;
+        public const int BAT_DETAIL = 40;
         public const int CCTV_TIME = 47;
         public const int CCTV_DETAIL = 48;
-        public const int BAT_DETAIL = 40;
-        public const int CRIMINAL_ACTION = 23;
+        public const int KANGYOHAN_PHONENUMBER = 66;
+        public const int BRANCHID = 67;
+        public const int ZOOGLEPASSWORD = 68;
+        public const int HARMONY_PASSWORD = 69;
+        public const int INCIDENTREPORT_TITLE = 76;
         public const int CCTV_UYOUNGWHEREABOUTS = 107;
     }
     #endregion
@@ -68,8 +72,8 @@ public static partial class Constant
         public const int STARTCUTSCENE_1 = 108;
         public const int STARTCUTSCENE_2 = 109;
         public const int WINDOWS_LOGIN_COMPLETE = 110;
-        public const int PROFILE_INSTALL_COMPLETE = 111;
-        public const int END_PROFILE_TUTORIAL = 112;
+        public const int PROFILER_INSTALL_COMPLETE = 111;
+        public const int END_PROFILER_TUTORIAL = 112;
         public const int WINDOWS_LOGIN_SCREEN_OPEN = 113;
         public const int LIBRARY_NOT_OPEN = 113;
         public const int NEEDINFO = 131;

@@ -19,7 +19,7 @@ public class GuideObject : MonoBehaviour
         EventManager.StartListening(ETutorialEvent.GuideObject, OnGuide);
 
         if (DataLoadingScreen.completedDataLoad == false) return;
-        if (DataManager.Inst.IsProfilerTutorial() && ProfileTutorial.guideObjectName == objectName)
+        if (DataManager.Inst.IsProfilerTutorial() && ProfilerTutorial.guideObjectName == objectName)
         {
             OnGuide(null);
         }

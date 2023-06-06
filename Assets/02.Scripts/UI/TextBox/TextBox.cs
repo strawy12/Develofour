@@ -33,6 +33,8 @@ public class TextBox : MonoUI
     private bool isActive = false;
     private bool isSkip;
 
+    public Action OnEnd;
+
     private Dictionary<int, Action> triggerDictionary;
 
     private void Start()
@@ -56,19 +58,20 @@ public class TextBox : MonoUI
         messageText.color = color;
         currentColor = color;
         //ShowBox();
-        InputManager.Inst.AddMouseInput(EMouseType.LeftClick, onKeyDown: ImmediatelyComplete);
         PrintText();
     }
 
-    private void ImmediatelyComplete()
+    public void ImmediatelyComplete()
     {
-        if(!isSkip)
+        if (currentDelay != 0f) return;
+
+        if (!isSkip)
         {
             isSkip = true;
             return;
         }
-        StopCoroutine(PrintMonologTextCoroutine());
-        for(int i = 0; i < currentText.Length; i++)
+
+        for (int i = 0; i < currentText.Length; i++)
         {
             if (triggerDictionary.ContainsKey(i))
             {
@@ -76,11 +79,10 @@ public class TextBox : MonoUI
                 triggerDictionary[i] = null;
             }
         }
+
+
         messageText.maxVisibleCharacters = currentText.Length;
-        string msg = currentText;
-        msg = SliceLineText(msg);
-        messageText.SetText(msg);
-        currentDelay = 0;
+        if (currentDelay != 0f) return;
         EndSetting();
     }
 
@@ -88,13 +90,6 @@ public class TextBox : MonoUI
     {
         if (isTextPrinting)
         {
-            //if (CheckDataEnd())
-            //{
-            //    EndPrintText();
-            //    return;
-            //}
-            Debug.Log("리턴");
-
             return;
         }
 
@@ -181,10 +176,12 @@ public class TextBox : MonoUI
 
     private void EndSetting()
     {
+        StopAllCoroutines();
         isTextPrinting = false;
         Sound.OnImmediatelyStop?.Invoke(EAudioType.MonologueTyping);
         isSkip = false;
-        InputManager.Inst.RemoveMouseInput(EMouseType.LeftClick, onKeyDown: ImmediatelyComplete);
+        OnEnd?.Invoke();
+        OnEnd = null;
     }
 
     public void ShowBox()

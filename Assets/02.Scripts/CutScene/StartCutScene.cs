@@ -39,28 +39,28 @@ public class StartCutScene : MonoBehaviour
 
     private void CutSceneStart()
     {
-        this.gameObject.SetActive(true);
+        OnPlayCutScene -= CutSceneStart;
+
         if (DataManager.Inst.SaveData.isWatchStartCutScene)
         {
             EndRequestCutScene();
             GameManager.Inst.ChangeGameState(EGameState.Game);
-            OnPlayCutScene = null;
             Destroy(this.gameObject);
         }
         else
         {
-            OnPlayCutScene += CutSceneStart;
+            this.gameObject.SetActive(true);
+            StartCoroutine(PlayCutSceneCoroutine());
         }
-        StartCoroutine(PlayCutSceneCoroutine());
     }
 
     private IEnumerator PlayCutSceneCoroutine()
     {
         GameManager.Inst.OnChangeGameState?.Invoke(EGameState.CutScene);
         EventManager.TriggerEvent(ECoreEvent.OpenVolume, new object[] { true });
-        Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutSceneScream);
+        float? delay = Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutSceneScream);
         isScreamSound = true;
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(delay == null ? 5f : (float)delay);
         isScreamSound = false;
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutScenePoint);
         titleText.gameObject.SetActive(true);

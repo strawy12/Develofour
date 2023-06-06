@@ -53,7 +53,7 @@ public class CCTVCutScene : CutScene
         yield return new WaitForSeconds(1f);
         MonologSystem.OnEndMonologEvent = CutScene2_Start;
         MonologSystem.OnEndMonologEvent =
-            () => EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.CCTV, Constant.ProfileInfoKey.CCTV_TIME });
+            () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.CCTV, Constant.ProfilerInfoKey.CCTV_TIME });
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_CUTSCENE_01, 0, true);
     }
 
@@ -89,7 +89,7 @@ public class CCTVCutScene : CutScene
         yield return new WaitForSeconds(1f);
         MonologSystem.OnEndMonologEvent = CutScene4_Start;
         MonologSystem.OnEndMonologEvent =
-    () => EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.CCTV, Constant.ProfileInfoKey.CCTV_DETAIL }) ;
+    () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.CCTV, Constant.ProfilerInfoKey.CCTV_DETAIL }) ;
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_CUTSCENE_03, 0, true);
     }
 
@@ -108,7 +108,7 @@ public class CCTVCutScene : CutScene
         yield return new WaitForSeconds(1f);
         MonologSystem.OnEndMonologEvent = DelayStart;
         MonologSystem.OnEndMonologEvent =
-    () => EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.CCTV, Constant.ProfileInfoKey.CCTV_UYOUNGWHEREABOUTS });
+    () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.CCTV, Constant.ProfilerInfoKey.CCTV_UYOUNGWHEREABOUTS });
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_CUTSCENE_04, 0, true);
     }
 
@@ -121,8 +121,8 @@ public class CCTVCutScene : CutScene
     {
         sprite.DOFade(0, 1);
         yield return new WaitForSeconds(3f);
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.Bat, Constant.ProfileInfoKey.BAT_DETAIL });
-        EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.CriminalInfomation, Constant.ProfileInfoKey.CRIMINAL_ACTION });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.Bat, Constant.ProfilerInfoKey.BAT_DETAIL });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.CriminalInfomation, Constant.ProfilerInfoKey.CRIMINAL_ACTION });
         StopCutScene();
     }
 

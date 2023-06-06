@@ -120,14 +120,14 @@ public class DiscordLogin : MonoBehaviour
     public void SuccessLogin()
     {
         //성공을 알리는 이벤트
-        if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfileInfoData(66)) //id
+        if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.KANGYOHAN_PHONENUMBER)) //id
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.InvisibleInformation, 66 });
+            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.InvisibleInformation, Constant.ProfilerInfoKey.KANGYOHAN_PHONENUMBER });
         }
 
-        if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfileInfoData(69)) //password
+        if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.HARMONY_PASSWORD)) //password
         {
-            EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[] { EProfileCategory.InvisibleInformation, 69 });
+            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.InvisibleInformation, Constant.ProfilerInfoKey.HARMONY_PASSWORD });
         }
 
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: OnClickLogin);
@@ -141,6 +141,5 @@ public class DiscordLogin : MonoBehaviour
     {
         if(InputManager.Inst != null)
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: OnClickLogin);
-        Debug.Log("온클릭 끝");
     }
 }

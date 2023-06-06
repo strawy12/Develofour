@@ -46,7 +46,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.lastAccessDateData = new List<LastAccessDateData>();
 
         CreateLoginData();
-        ProfileSaveData();
+        ProfilerSaveData();
         CreateGuideSaveData();
         CreateMonologData();
         CreateFileLockData();

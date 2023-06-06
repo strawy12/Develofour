@@ -24,7 +24,7 @@ public class AutoInput : MonoBehaviour
         {
             AutoAnswerData data = answerDatas[i];
 
-            if(DataManager.Inst.IsProfileInfoData(data.infoData.id))
+            if(DataManager.Inst.IsProfilerInfoData(data.infoData.id))
             {
                 autoInputPanelList[i].Setting(inputField, answerDatas[i].answer);
                 isCanShowPanel = true;

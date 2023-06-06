@@ -10,7 +10,7 @@ public class AutoAnswerData
 {
     public string answer;
 
-    public ProfileInfoTextDataSO infoData;
+    public ProfilerInfoTextDataSO infoData;
 }
 
 public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
@@ -26,7 +26,6 @@ public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("ClickInputField");
         inputSystem.ShowPanel(inputField, autoAnswerDatas);
     }
 }

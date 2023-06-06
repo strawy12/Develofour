@@ -55,7 +55,7 @@ public partial class MonologSystem : TextSystem
         OnStartMonolog += StartMonolog;
         OnStopMonolog += StopMonolog;
 
-        EventManager.StartListening(EMonologEvent.MonologException, ProfileFileException);
+        //EventManager.StartListening(EMonologEvent.MonologException, ProfilerFileException);
     }
 
     public void StartMonolog(int textDataType, float beforeDelay, bool isSave)
@@ -136,20 +136,22 @@ public partial class MonologSystem : TextSystem
         }
         if (textBox.isTextPrinting)
         {
+            textBox.ImmediatelyComplete();
             return;
         }
         //triggerDictionary = new Dictionary<int, Action>();
-        if (currentTextData.Count == currentTextDataIdx)
+        if (currentTextData.Count <= currentTextDataIdx)
         {
             EndMonolog();
             return;
         }
 
-        TextData textData = currentTextData[currentTextDataIdx++];
+        TextData textData = currentTextData[currentTextDataIdx];
         string text = RemoveCommandText(textData.text, true);
 
         // TextBox 한테 일시키기
         // {}
+        textBox.OnEnd += () => currentTextDataIdx++;
         textBox.Init(text, triggerDictionary, textData.textColor);
     }
 

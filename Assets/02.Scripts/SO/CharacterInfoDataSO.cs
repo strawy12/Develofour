@@ -13,5 +13,5 @@ public class CharacterInfoDataSO : ScriptableObject
     /// <summary>
     /// 전화번호 등록 ID
     /// </summary>
-    public int profileInfoID;
+    public int phoneNumberInfoID;
 }

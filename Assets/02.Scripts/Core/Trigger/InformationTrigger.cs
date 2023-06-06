@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Constant.ProfileInfoKey;
+using static Constant.ProfilerInfoKey;
 
 [System.Serializable]
 public class NeedInfoData
@@ -24,7 +24,7 @@ public class InformationTrigger : MonoBehaviour
     [SerializeField]
     protected List<NeedInfoData> needInfoList;
 
-    protected List<ProfileInfoTextDataSO> infomaitionDataList;
+    protected List<ProfilerInfoTextDataSO> infomaitionDataList;
 
     [SerializeField] protected int monoLogType;
     [SerializeField] protected int completeMonologType = 0;
@@ -51,10 +51,10 @@ public class InformationTrigger : MonoBehaviour
     {
         if (infoDataIDList.Count != 0 || infomaitionDataList == null)
         {
-            infomaitionDataList = new List<ProfileInfoTextDataSO>();
+            infomaitionDataList = new List<ProfilerInfoTextDataSO>();
             foreach (var id in infoDataIDList)
             {
-                infomaitionDataList.Add(ResourceManager.Inst.GetProfileInfoData(id));
+                infomaitionDataList.Add(ResourceManager.Inst.GetProfilerInfoData(id));
             }
         }
     }
@@ -70,7 +70,7 @@ public class InformationTrigger : MonoBehaviour
             {
                 if (!DataManager.Inst.GetIsClearTutorial())
                 {
-                    int idx = DataManager.Inst.GetProfileTutorialIdx();
+                    int idx = DataManager.Inst.GetProfilerTutorialIdx();
                     if (
                         (idx == 0 &&
                         infoData.id == INCIDENTREPORT_TITLE)
@@ -87,7 +87,7 @@ public class InformationTrigger : MonoBehaviour
                 playMonolog = true;
                 if(!isFakeInfo)
                 {
-                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[2] { infoData.category, infoData.id });
+                    EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { infoData.category, infoData.id });
                 }
             }
 
@@ -132,7 +132,7 @@ public class InformationTrigger : MonoBehaviour
                 break;
             }
 
-            if (!DataManager.Inst.IsProfileInfoData(needData.needInfoID))
+            if (!DataManager.Inst.IsProfilerInfoData(needData.needInfoID))
             {
                 int id = needData.monologID == 0 ? Constant.MonologKey.NEEDINFO : needData.monologID;
                 Debug.Log(id);
@@ -153,7 +153,7 @@ public class InformationTrigger : MonoBehaviour
     {
         foreach (var infoID in infoDataIDList)
         {
-            if (!DataManager.Inst.IsProfileInfoData(infoID))  // 찾은 정보인지 확인
+            if (!DataManager.Inst.IsProfilerInfoData(infoID))  // 찾은 정보인지 확인
             {
                 return false;
             }

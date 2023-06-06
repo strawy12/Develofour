@@ -179,7 +179,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
             {
                 foreach (var needInfo in currentChatData.needInformaitonList)
                 {
-                    if (!DataManager.Inst.IsProfileInfoData(needInfo.needInfoID))
+                    if (!DataManager.Inst.IsProfilerInfoData(needInfo.needInfoID))
                     {
                         MonologSystem.OnStartMonolog?.Invoke(needInfo.monologID, 0f, true);
                         return;
@@ -190,8 +190,8 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
             {
                 foreach (var infoID in currentChatData.infoIDs)
                 {
-                    var infoData = ResourceManager.Inst.GetProfileInfoData(infoID);
-                    EventManager.TriggerEvent(EProfileEvent.FindInfoText, new object[3] { infoData.category, infoData.id, null });
+                    var infoData = ResourceManager.Inst.GetProfilerInfoData(infoID);
+                    EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[3] { infoData.category, infoData.id, null });
                 }
 
             }

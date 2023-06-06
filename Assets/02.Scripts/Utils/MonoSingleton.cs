@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
@@ -28,8 +27,8 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
                     }
                 }
-                return _inst;
             }
+            return _inst;
         }
     } 
     private void OnDestroy()

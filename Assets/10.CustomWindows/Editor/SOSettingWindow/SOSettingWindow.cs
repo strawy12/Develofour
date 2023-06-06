@@ -18,18 +18,18 @@ public class SOSettingWindow : EditorWindow
     {
         None,
         File,
-        ProfileInfo,
-        ProfileCategory,
+        ProfilerInfo,
+        ProfilerCategory,
         Monolog,
-        ProfileGuide,
+        ProfilerGuide,
         Mail
     }
 
     private Button settingButton;
     private Button fileSOBtn;
     private Button monologSOBtn;
-    private Button profileInfoBtn;
-    private Button profileGuideBtn;
+    private Button profilerInfoBtn;
+    private Button profilerGuideBtn;
     private Button mailBtn;
     private TextField gidField;
     private TextField soTypeField;
@@ -53,15 +53,15 @@ public class SOSettingWindow : EditorWindow
         settingButton = rootVisualElement.Q<Button>("SettingButton");
         fileSOBtn = rootVisualElement.Q<Button>("FileSOBtn");
         monologSOBtn = rootVisualElement.Q<Button>("MonologBtn");
-        profileInfoBtn = rootVisualElement.Q<Button>("ProfileInfoBtn");
-        profileGuideBtn = rootVisualElement.Q<Button>("ProfileGuideBtn");
+        profilerInfoBtn = rootVisualElement.Q<Button>("ProfilerInfoBtn");
+        profilerGuideBtn = rootVisualElement.Q<Button>("ProfilerGuideBtn");
         gidField = rootVisualElement.Q<TextField>("GidField");
         mailBtn = rootVisualElement.Q<Button>("MailBtn");
         soTypeField = rootVisualElement.Q<TextField>("SOTypeField");
 
-        profileGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfileGuide));
+        profilerGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerGuide));
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
-        profileInfoBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfileInfo));
+        profilerInfoBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerInfo));
         fileSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.File));
         mailBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Mail));
 
@@ -84,17 +84,17 @@ public class SOSettingWindow : EditorWindow
                 gidField.value = "441334984";
                 soTypeField.value = "MonologTextDataSO";
                 break;
-            case ESOType.ProfileInfo:
+            case ESOType.ProfilerInfo:
                 gidField.value = "1539170501";
-                soTypeField.value = "ProfileInfoTextDataSO";
+                soTypeField.value = "ProfilerInfoTextDataSO";
                 break;
-            case ESOType.ProfileCategory:
+            case ESOType.ProfilerCategory:
                 gidField.value = "1328616179";
-                soTypeField.value = "ProfileCategoryDataSO";
+                soTypeField.value = "ProfilerCategoryDataSO";
                 break;
-            case ESOType.ProfileGuide:
+            case ESOType.ProfilerGuide:
                 gidField.value = "77751767";
-                soTypeField.value = "ProfileGuideDataSO";
+                soTypeField.value = "ProfilerGuideDataSO";
                 break;
             case ESOType.Mail:
                 gidField.value = "2109502413";
@@ -126,14 +126,14 @@ public class SOSettingWindow : EditorWindow
             case "MonologTextDataSO":
                 SettingMonologSO(add);
                 break;
-            case "ProfileCategoryDataSO":
+            case "ProfilerCategoryDataSO":
                 SettingInfoCategorySO(add);
                 break;
-            case "ProfileInfoTextDataSO":
+            case "ProfilerInfoTextDataSO":
                 SettingInfoSO(add);
                 break;
-            case "ProfileGuideDataSO":
-                SettingProfileGuideSO(add);
+            case "ProfilerGuideDataSO":
+                SettingProfilerGuideSO(add);
                 break;
             case "MailDataSO":
                 SettingMailSO(add);
@@ -144,9 +144,6 @@ public class SOSettingWindow : EditorWindow
 
     public void SettingMonologSO(string dataText)
     {
-
-        List<string> monologKeyList = new List<string>();
-
         string[] rows = dataText.Split('\n');
 
         string[] guids = AssetDatabase.FindAssets("t:MonologTextDataSO", null);
@@ -185,10 +182,7 @@ public class SOSettingWindow : EditorWindow
 
             string[] textDataList = columns[3].Split('#');
 
-            if (monologData.textDataList == null)
-            {
-                monologData.textDataList = new List<TextData>();
-            }
+            monologData.textDataList = new List<TextData>();
 
             for (int j = 0; j < textDataList.Length; j++)
             {
@@ -197,7 +191,7 @@ public class SOSettingWindow : EditorWindow
                 if (textDataList[j].Contains("-"))
                 {
                     data.textColor = characterColor;
-                    data.text =  data.text.Replace("-", "");
+                    data.text = data.text.Replace("-", "");
                 }
                 else
                 {
@@ -212,17 +206,6 @@ public class SOSettingWindow : EditorWindow
                     monologData[j] = data;
                 }
             }
-
-            string variableName = fileName.ToUpper();
-            Debug.Log(id);
-            int monologIdx = variableName.IndexOf("MONOLOG");
-
-            if (monologIdx != -1)
-            {
-                variableName = variableName.Remove(monologIdx, 7);
-            }
-
-            monologKeyList.Add($"        public const int {variableName} = {id};");
 
             string SO_PATH = $"Assets/07.ScriptableObjects/TextDataSO/CreateMonolog/{fileName}.asset";
             SO_PATH = SO_PATH.Replace("\\", "/");
@@ -429,12 +412,12 @@ public class SOSettingWindow : EditorWindow
     {
 
         string[] rows = dataText.Split('\n');
-        string[] guids = AssetDatabase.FindAssets("t:ProfileInfoTextDataSO", null);
-        List<ProfileInfoTextDataSO> infoSODatas = new List<ProfileInfoTextDataSO>();
+        string[] guids = AssetDatabase.FindAssets("t:ProfilerInfoTextDataSO", null);
+        List<ProfilerInfoTextDataSO> infoSODatas = new List<ProfilerInfoTextDataSO>();
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            infoSODatas.Add(AssetDatabase.LoadAssetAtPath<ProfileInfoTextDataSO>(path));
+            infoSODatas.Add(AssetDatabase.LoadAssetAtPath<ProfilerInfoTextDataSO>(path));
         }
         for (int i = 0; i < rows.Length; i++)
         {
@@ -444,18 +427,18 @@ public class SOSettingWindow : EditorWindow
 
             if (columns[0] == string.Empty || columns[1] == string.Empty || columns[2] == string.Empty) continue;
 
-            EProfileCategory category = Enum.Parse<EProfileCategory>(columns[2]);
+            EProfilerCategory category = Enum.Parse<EProfilerCategory>(columns[2]);
             string infoText = columns[3];
             string noticeText = columns[4];
 
 
-            ProfileInfoTextDataSO infoData = infoSODatas.Find(x => x.id == id);
+            ProfilerInfoTextDataSO infoData = infoSODatas.Find(x => x.id == id);
 
             bool isCreate = false;
 
             if (infoData == null)
             {
-                infoData = CreateInstance<ProfileInfoTextDataSO>();
+                infoData = CreateInstance<ProfilerInfoTextDataSO>();
                 isCreate = true;
             }
 
@@ -465,7 +448,7 @@ public class SOSettingWindow : EditorWindow
             infoData.noticeText = noticeText;
 
 
-            string SO_PATH = $"Assets/07.ScriptableObjects/Profile/ProfileInfoData/InfoTextData/{category}/{columns[5].Trim()}.asset";
+            string SO_PATH = $"Assets/07.ScriptableObjects/Profiler/ProfilerInfoData/InfoTextData/{category}/{columns[5].Trim()}.asset";
 
             if (isCreate)
             {
@@ -481,7 +464,7 @@ public class SOSettingWindow : EditorWindow
         infoSODatas.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
         AssetDatabase.Refresh();
 
-        AutoComplete(ESOType.ProfileCategory);
+        AutoComplete(ESOType.ProfilerCategory);
         Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(ReadSheet(), new object[0]);
     }
 
@@ -490,32 +473,32 @@ public class SOSettingWindow : EditorWindow
         Debug.Log("start category");
 
         string[] rows = dataText.Split('\n');
-        string[] guids = AssetDatabase.FindAssets("t:ProfileCategoryDataSO", null);
-        List<ProfileCategoryDataSO> categorySODatas = new List<ProfileCategoryDataSO>();
+        string[] guids = AssetDatabase.FindAssets("t:ProfilerCategoryDataSO", null);
+        List<ProfilerCategoryDataSO> categorySODatas = new List<ProfilerCategoryDataSO>();
 
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            categorySODatas.Add(AssetDatabase.LoadAssetAtPath<ProfileCategoryDataSO>(path));
+            categorySODatas.Add(AssetDatabase.LoadAssetAtPath<ProfilerCategoryDataSO>(path));
         }
-        string[] infoDataGuids = AssetDatabase.FindAssets("t:ProfileInfoTextDataSO", null);
-        List<ProfileInfoTextDataSO> infoSODatas = new List<ProfileInfoTextDataSO>();
+        string[] infoDataGuids = AssetDatabase.FindAssets("t:ProfilerInfoTextDataSO", null);
+        List<ProfilerInfoTextDataSO> infoSODatas = new List<ProfilerInfoTextDataSO>();
 
         foreach (string guid in infoDataGuids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            infoSODatas.Add(AssetDatabase.LoadAssetAtPath<ProfileInfoTextDataSO>(path));
+            infoSODatas.Add(AssetDatabase.LoadAssetAtPath<ProfilerInfoTextDataSO>(path));
         }
 
         for (int i = 0; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split('\t');
 
-            EProfileCategory category = Enum.Parse<EProfileCategory>(columns[0]);
-            EProfileCategoryType categoryType = Enum.Parse<EProfileCategoryType>(columns[1]);
+            EProfilerCategory category = Enum.Parse<EProfilerCategory>(columns[0]);
+            EProfilerCategoryType categoryType = Enum.Parse<EProfilerCategoryType>(columns[1]);
             string categoryName = columns[2];
-            List<ProfileInfoTextDataSO> infoTextDataList = new List<ProfileInfoTextDataSO>();
-            ProfileInfoTextDataSO defaultText = null;
+            List<ProfilerInfoTextDataSO> infoTextDataList = new List<ProfilerInfoTextDataSO>();
+            ProfilerInfoTextDataSO defaultText = null;
 
             if (columns[3] != "")
             {
@@ -523,7 +506,7 @@ public class SOSettingWindow : EditorWindow
 
                 foreach (int infoID in infoTextIDs)
                 {
-                    ProfileInfoTextDataSO infoData = infoSODatas.Find(x => x.id == infoID);
+                    ProfilerInfoTextDataSO infoData = infoSODatas.Find(x => x.id == infoID);
                     if (infoData != null)
                     {
                         infoTextDataList.Add(infoData);
@@ -534,16 +517,16 @@ public class SOSettingWindow : EditorWindow
             columns[4] = Regex.Replace(columns[4], "[^0-9]", "");
             if (columns[4] != "")
             {
-                ProfileInfoTextDataSO infoData = infoSODatas.Find(x => x.id == int.Parse(columns[4]));
+                ProfilerInfoTextDataSO infoData = infoSODatas.Find(x => x.id == int.Parse(columns[4]));
                 defaultText = infoData;
             }
 
             bool isCreate = false;
-            ProfileCategoryDataSO categoryData = categorySODatas.Find(x => x.category == category);
+            ProfilerCategoryDataSO categoryData = categorySODatas.Find(x => x.category == category);
 
             if (categoryData == null)
             {
-                categoryData = CreateInstance<ProfileCategoryDataSO>();
+                categoryData = CreateInstance<ProfilerCategoryDataSO>();
                 isCreate = true;
             }
 
@@ -553,7 +536,7 @@ public class SOSettingWindow : EditorWindow
             categoryData.infoTextList = infoTextDataList;
             categoryData.defaultInfoText = defaultText;
 
-            string SO_PATH = $"Assets/07.ScriptableObjects/Profile/ProfileInfoData/InfoCategoryData/{category}.asset";
+            string SO_PATH = $"Assets/07.ScriptableObjects/Profiler/ProfilerInfoData/InfoCategoryData/{category}.asset";
 
             if (isCreate)
             {
@@ -570,16 +553,16 @@ public class SOSettingWindow : EditorWindow
         AssetDatabase.SaveAssets();
     }
 
-    private void SettingProfileGuideSO(string dataText)
+    private void SettingProfilerGuideSO(string dataText)
     {
         string[] rows = dataText.Split('\n');
-        string[] guids = AssetDatabase.FindAssets("t:ProfileGuideDataSO", null);
+        string[] guids = AssetDatabase.FindAssets("t:ProfilerGuideDataSO", null);
 
-        List<ProfileGuideDataSO> guideSODatas = new List<ProfileGuideDataSO>();
+        List<ProfilerGuideDataSO> guideSODatas = new List<ProfilerGuideDataSO>();
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            guideSODatas.Add(AssetDatabase.LoadAssetAtPath<ProfileGuideDataSO>(path));
+            guideSODatas.Add(AssetDatabase.LoadAssetAtPath<ProfilerGuideDataSO>(path));
         }
         for (int i = 0; i < rows.Length; i++)
         {
@@ -590,22 +573,22 @@ public class SOSettingWindow : EditorWindow
             List<string> textList = columns[3].Split('#').ToList();
 
 
-            ProfileGuideDataSO guideData = guideSODatas.Find(x => x.name == fileName);
+            ProfilerGuideDataSO guideData = guideSODatas.Find(x => x.name == fileName);
             bool isCreate = false;
 
             if (guideData == null)
             {
                 Debug.Log("isCreate");
-                guideData = CreateInstance<ProfileGuideDataSO>();
+                guideData = CreateInstance<ProfilerGuideDataSO>();
                 isCreate = true;
             }
 
             guideData.guideName = guideName;
             guideData.guideTextList = textList;
             guideData.isAddTutorial = addTutorial;
-            string SO_PATH = $"Assets/07.ScriptableObjects/Profile/ProfileGuideData/{columns[1]}.asset";
+            string SO_PATH = $"Assets/07.ScriptableObjects/Profiler/ProfilerGuideData/{columns[1]}.asset";
 
-            if(isCreate)
+            if (isCreate)
             {
                 CreateFolder(SO_PATH);
                 AssetDatabase.CreateAsset(guideData, SO_PATH);
@@ -633,15 +616,16 @@ public class SOSettingWindow : EditorWindow
             mailSODatas.Add(AssetDatabase.LoadAssetAtPath<MailDataSO>(path));
         }
 
-        for(int i = 0; i < rows.Length; i++)
+        for (int i = 0; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split('\t');
             int mailID = int.Parse(columns[0]);
             int categoryInt = 0;
             string mailTitle = columns[1];
-            switch(columns[2])
+            switch (columns[2])
             {
-                default: case "Receive":
+                default:
+                case "Receive":
                     categoryInt = 0x01;
                     break;
                 case "Send":
@@ -659,15 +643,15 @@ public class SOSettingWindow : EditorWindow
 
             string receiveName = columns[5];
             string informationText = columns[6];
-            if(columns[7] == "TRUE")
+            if (columns[7] == "TRUE")
             {
                 categoryInt += 0x02;
             }
-            if(columns[8] == "TRUE")
+            if (columns[8] == "TRUE")
             {
                 categoryInt += 0x08;
             }
-            if(columns[9] == "FALSE")
+            if (columns[9] == "FALSE")
             {
                 categoryInt += 0x10;
             }
@@ -689,7 +673,7 @@ public class SOSettingWindow : EditorWindow
             mailData.informationText = informationText;
 
             string SO_PATH = $"Assets/07.ScriptableObjects/MailData/{columns[10]}.asset";
-            if(isCreate)
+            if (isCreate)
             {
                 CreateFolder(SO_PATH);
                 AssetDatabase.CreateAsset(mailData, SO_PATH);

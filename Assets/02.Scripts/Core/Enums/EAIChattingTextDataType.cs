@@ -2,7 +2,7 @@ public enum EAIChattingTextDataType
 {
     None,
     StartAIChatting,
-    CompleteProfileAIChatting,
+    CompleteProfilerAIChatting,
     StartNextAiChatting,
     SuspectInfoComplete,
     SuspectResidenceFailed,

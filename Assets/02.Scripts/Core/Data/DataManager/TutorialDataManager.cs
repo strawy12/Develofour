@@ -10,7 +10,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         return 0 <= saveData.tutorialDataIdx && saveData.tutorialDataIdx <= 3;
     }
     
-    public int GetProfileTutorialIdx()
+    public int GetProfilerTutorialIdx()
     {
         return saveData.tutorialDataIdx;
     }

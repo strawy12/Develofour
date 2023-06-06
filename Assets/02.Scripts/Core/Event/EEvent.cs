@@ -55,7 +55,7 @@ public enum ENoticeEvent
     GeneratedNotice,
     OpenNoticeSystem,
     ClickNoticeBtn,
-    GeneratedProfileFindNotice,
+    GeneratedProfilerFindNotice,
 }
 
 public enum ELibraryEvent
@@ -140,15 +140,15 @@ public enum EAiChatData
     ChattingEnd,
 }
 
-public enum EProfileEvent 
+public enum EProfilerEvent 
 {
     None = -1,
     FindInfoText,
-    InstalledProfile,
-    ProfileSendMessage,
+    InstalledProfiler,
+    ProfilerSendMessage,
     ShowInfoPanel,
     HideInfoPanel,
-    FindInfoInProfile,
+    FindInfoInProfiler,
     ClickIncidentTab,
     ClickCharacterTab,
     AddGuideButton,

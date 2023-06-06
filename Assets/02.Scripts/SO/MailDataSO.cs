@@ -1,11 +1,5 @@
 using ExtenstionMethod;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using UnityEditor.AddressableAssets.HostingServices;
 using UnityEngine;
-using UnityEngine.Playables;
 
 [CreateAssetMenu(menuName = "SO/Window/Mail/Data")]
 public class MailDataSO : ScriptableObject

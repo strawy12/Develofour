@@ -131,9 +131,9 @@ public static class Define
     }
 
 
-    public static bool CheckIntallProfile()
+    public static bool CheckIntallProfiler()
     {
-        return FileManager.Inst.SearchFile("Profile") != null;
+        return FileManager.Inst.IsExistFile(Constant.FileID.PROFILER);
     }
 
     public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<NeedInfoData> needInfoList, List<int> infoIDList)
@@ -149,7 +149,7 @@ public static class Define
         {
             foreach (NeedInfoData needData in needInfoList)
             {
-                if (!DataManager.Inst.IsProfileInfoData(needData.needInfoID))
+                if (!DataManager.Inst.IsProfilerInfoData(needData.needInfoID))
                 {
                     EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
                     return CursorChangeSystem.ECursorState.NeedInfo;
@@ -158,7 +158,7 @@ public static class Define
         }
         foreach (var infoID in infoIDList)
         {
-            if (DataManager.Inst.IsProfileInfoData(infoID))
+            if (DataManager.Inst.IsProfilerInfoData(infoID))
             {
                 state = CursorChangeSystem.ECursorState.FoundInfo;
             }
@@ -228,7 +228,7 @@ public static class Define
             {
                 case MonologLockDecision.EDecisionType.Infomation:
                     // 해당 정보 id를 비교하여 정보를 획득했는지 확인
-                    if (!DataManager.Inst.IsProfileInfoData(decision.key))
+                    if (!DataManager.Inst.IsProfilerInfoData(decision.key))
                     {
                         return false;
                     }
