@@ -9,8 +9,9 @@ using System;
 public class AutoAnswerData
 {
     public string answer;
-
-    public ProfilerInfoTextDataSO infoData;
+    
+    //public ProfilerInfoTextDataSO infoData;
+    public List<MonologLockDecision> infoData;
 }
 
 public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
