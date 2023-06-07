@@ -33,6 +33,9 @@ public class CallSystem : MonoSingleton<CallSystem>
     public CallSelectButton selectButton;
 
     [SerializeField]
+    private GameObject callCoverPanel;
+
+    [SerializeField]
     private float deflaultDelayTime = 10f;
 
     private bool isCalling = false;
@@ -253,10 +256,12 @@ public class CallSystem : MonoSingleton<CallSystem>
 
         if (isShow)
         {
+            callCoverPanel.gameObject.SetActive(true);
             spectrumUI.StartSpectrum();
         }
         else
         {
+            callCoverPanel.gameObject.SetActive(false);
             spectrumUI.StopSpectrum();
         }
     }

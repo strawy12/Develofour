@@ -93,7 +93,6 @@ public class InformationTrigger : MonoBehaviour
 
             if (!playMonolog)
             {
-                MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[] { false });
                 MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIAL_NOT_FIND_INFO, 0.1f, false);
                 return;
             }

@@ -96,7 +96,7 @@ public partial class MonologSystem : TextSystem
         textBox.DictionaryClear();
 
         isEndMonolog = true;
-         onEndMonologEvent?.Invoke();
+        onEndMonologEvent?.Invoke();
         onEndMonologEvent = null;
         isEndMonolog = false;
 
