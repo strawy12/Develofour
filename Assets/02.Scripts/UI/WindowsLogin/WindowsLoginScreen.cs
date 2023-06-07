@@ -131,7 +131,6 @@ public class WindowsLoginScreen : MonoBehaviour
             EndLogin();
 
             windowLoginCanvas.SetActive(false);
-            EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { false });
         }));
     }
 

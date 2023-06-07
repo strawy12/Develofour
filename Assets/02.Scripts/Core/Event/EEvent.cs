@@ -5,7 +5,6 @@
     ChangeBGM,
     EndDataLoading,
     CursorChange,
-    CoverPanelSetting,
     SendCallNumber,
     OpenVolume,
     MainSceneStart,
