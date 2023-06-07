@@ -29,7 +29,7 @@ public class AutoInput : MonoBehaviour
         {
             AutoAnswerData data = answerDatas[i];
 
-            if(DataManager.Inst.IsProfilerInfoData(data.infoData.id))
+            if(Define.MonologLockDecisionFlag(data.infoData))
             {
                 autoInputPanelList[i].Setting(inputField, answerDatas[i].answer);
                 isCanShowPanel = true;

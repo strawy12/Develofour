@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +24,9 @@ public class PopupWindow : Window
     {
         base.Init();
 
+        AgreeAction = null;
+        DegreeAction = null;
+
         degreeBtn.onClick.AddListener(Close);
         agreeBtn.onClick.AddListener(Agree);
     }
@@ -35,6 +39,9 @@ public class PopupWindow : Window
         if(degreeAction == null)
         {
             degreeBtn.gameObject.SetActive(false);
+            windowBar.CloseBtn.gameObject.SetActive(false);
+            canNotClosed = true;
+            AgreeAction += () => canNotClosed = false;
         }
         else
         {

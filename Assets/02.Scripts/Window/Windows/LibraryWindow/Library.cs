@@ -175,7 +175,6 @@ public class Library : Window
     {
         if (DataManager.Inst.IsProfilerTutorial())
         {
-            Debug.Log("Asdf");
             TutorialEvent();
         }
     }
@@ -212,17 +211,21 @@ public class Library : Window
 
     public void TutorialEvent()
     {
-        if (currentDirectory.id == 7 && DataManager.Inst.IsProfilerTutorial())
+        if (DataManager.Inst.IsProfilerTutorial() == false) return;
+        int idx = DataManager.Inst.GetProfilerTutorialIdx();
+        if (idx != 0 && idx != 2) return;
+
+        if (currentDirectory.id == Constant.FileID.MYPC)
         {
             EventManager.TriggerEvent(ETutorialEvent.USBTutorial);
         }
-        else if (currentDirectory.id == 6 && DataManager.Inst.IsProfilerTutorial())
+        else if (currentDirectory.id == Constant.FileID.USB)
         {
             EventManager.TriggerEvent(ETutorialEvent.ReportTutorial);
         }
-        else if (DataManager.Inst.IsProfilerTutorial() )
+        else
         {
-            TopFileButton button = fileAddressPanel.TopFileButtons.Find((x) => x.CurrentDirectory.id == 7);
+            TopFileButton button = fileAddressPanel.TopFileButtons.Find((x) => x.CurrentDirectory.id == Constant.FileID.MYPC);
 
             GuideUISystem.EndAllGuide?.Invoke();
             GuideUISystem.OnGuide(button.tutorialSelectImage.transform as RectTransform);
