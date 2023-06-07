@@ -14,7 +14,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     private float imageScale;
 
-    public float maxImageScale = 4f;
+    public float maxImageScale = 50f;
 
     public float zoomSpeed = 0.1f;
 
@@ -28,26 +28,38 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     private bool isEnlargement = false;
 
-    private float[] enlargementArr = new float[] { 1f, 2f, 3f, 4f, 5f };
-
     private readonly Vector2 MAXSIZE = new Vector2(1280f, 670f);
-    [SerializeField]
-    private float MINSIZEX = 704f;
-    private const float RATIOX = 1.63f;
-    private const float RATIOY = 1.636363636363636f;
+
     public bool isDiscord;
 
+#if UNITY_EDITOR
     [ContextMenu("SetDegbugSize")]
-    public void SetDegbugSize()
+    public void SetImageSizeDelta()
     {
-        Image image = GetComponent<Image>();
-        Vector2 size = image.sprite.rect.size;
-        Vector2 originSize = size;
+        currentImage  = GetComponent<Image>();
+#else
+    public void SetImageSizeDelta()
+    {
+#endif
+        Vector2 size = currentImage.sprite.rect.size;
 
-        size.x /= RATIOX;
-        size.y /= RATIOY; 
+        if (size.x > MAXSIZE.x || size.y > MAXSIZE.y)
+        {
+            float x1 = size.x;
+            float y1 = size.y;
+            if (x1 > y1)
+            {
+                size.x = MAXSIZE.x;
+                size.y = y1 * size.x / x1;
+            }
+            else
+            {
+                size.y = MAXSIZE.y;
+                size.x = x1 * size.y / y1;
+            }
+        }
 
-        image.rectTransform.sizeDelta = size;
+        currentImage.rectTransform.sizeDelta = size;
     }
 
     public void Init(TMP_Text imagePercentText, Sprite sprite)
@@ -61,7 +73,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         enlargementClick += EnlargementButtonClick;
         reductionClick += ReductionButtonClick;
 
-        SetImageSizeReset(MAXSIZE, MINSIZEX);
+        SetImageSizeReset(MAXSIZE);
 
         ReSetting();
     }
@@ -78,40 +90,36 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         currentImage = GetComponent<Image>();
         currentImage.sprite = sprite;
 
-        SetImageSizeReset(new Vector2(850, 850f), 500f);
+        SetImageSizeReset(new Vector2(850, 850f));
         currentImage.transform.localScale = Vector3.one * imageScale;
 
     }
 
-    
 
-    public void SetImageSizeReset(Vector2 MAXSIZE, float MINSIZEX)
+
+    public void SetImageSizeReset(Vector2 maxSize)
     {
         Vector2 size = currentImage.sprite.rect.size;
 
-        size.x /= RATIOX;
-        size.y /= RATIOY;
-
-        currentImage.rectTransform.sizeDelta = size;
+        SetImageSizeDelta();
 
         float scale = 1f;
 
-        if (size.y > MAXSIZE.y)
+        if (size.x > MAXSIZE.x || size.y > MAXSIZE.y)
         {
-            scale = MAXSIZE.y / size.y; 
-        }
-        else if(size.x > MAXSIZE.x)
-        {
-            scale = MAXSIZE.x / size.x; 
-        }
-        else if(size.x <= MINSIZEX)
-        {
-            scale = MINSIZEX / size.x;
+            if (size.y >= size.x)
+            {
+                scale = MAXSIZE.y / size.y;
+            }
+            else
+            {
+                scale = MAXSIZE.x / size.x;
+            }
         }
 
         transform.localScale = Vector3.one * scale;
 
-        imageScale = transform.localScale.x; 
+        imageScale = transform.localScale.x;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -186,9 +194,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public void EnlargementButtonClick()
     {
-        int idx = SetArrIndex(true);
-        if (idx < 0 || idx > 5) { return; }
-        float enlarImageScale = imageScale * enlargementArr[idx];
+        float enlarImageScale = currentImage.transform.localScale.x * 1.1f;
         if (enlarImageScale > maxImageScale) return;
         currentImage.transform.localScale = Vector3.one * enlarImageScale;
 
@@ -197,9 +203,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public void ReductionButtonClick()
     {
-        int idx = SetArrIndex(false);
-        if (idx - 2 < 0 || idx - 2 > 5) { return; }
-        float enlarImageScale = imageScale * enlargementArr[idx - 2];
+        float enlarImageScale = currentImage.transform.localScale.x / 1.1f;
         if (enlarImageScale < imageScale) return;
         currentImage.transform.localScale = Vector3.one * enlarImageScale;
 
@@ -209,56 +213,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     private void RenewalImageText()
     {
         imageCurrentValue = (int)Mathf.Round(currentImage.transform.localScale.x * 100);
-
         imagePercentText.SetText(imageCurrentValue + "%");
     }
 
-    private int SetArrIndex(bool isEnlar)
-    {
-        int num = imageCurrentValue;
-        int result = num / 100;
-
-        if (!isEnlar)
-        {
-            if (num % 100 != 0)
-            {
-                result += 1;
-            }
-        }
-        return result;
-    }
-#if UNITY_EDITOR
-    [ContextMenu("GetSize")]
-    public void GetSize()
-    {
-        currentImage = GetComponent<Image>();
-
-        Vector2 size = currentImage.sprite.rect.size;
-
-        size.x /= RATIOX;
-        size.y /= RATIOY;
-
-        currentImage.rectTransform.sizeDelta = size;
-
-        float scale = 1f;
-
-        if (size.y > MAXSIZE.y)
-        {
-            scale = MAXSIZE.y / size.y;
-        }
-        else if (size.x > MAXSIZE.x)
-        {
-            scale = MAXSIZE.x / size.x;
-        }
-        else if (size.x <= MINSIZEX)
-        {
-            scale = MINSIZEX / size.x;
-        }
-
-        transform.localScale = Vector3.one * scale;
-
-        imageScale = transform.localScale.x;
-    }
-
-#endif
 }

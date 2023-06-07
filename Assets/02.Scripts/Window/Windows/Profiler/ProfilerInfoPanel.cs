@@ -162,7 +162,35 @@ public class ProfilerInfoPanel : MonoBehaviour
     }
     public void SpriteSetting()
     {
-        Define.SetSprite(categoryImage, currentData.categorySprite, categoryImageParent.sizeDelta);
+        float x1, y1, x2, y2;
+        float iconDefaultSize = categoryImageParent.rect.height - 5;
+        if (currentData.categorySprite == null)
+        {
+            return;
+        }
+        if (currentData.categorySprite.rect.width != currentData.categorySprite.rect.height)
+        {
+            x1 = currentData.categorySprite.rect.width;
+            y1 = currentData.categorySprite.rect.height;
+            if (x1 > y1)
+            {
+                x2 = iconDefaultSize;
+                y2 = y1 * x2 / x1;
+            }
+            else
+            {
+                y2 = iconDefaultSize;
+                x2 = x1 * y2 / y1;
+            }
+        }
+        else
+        {
+            x2 = y2 = iconDefaultSize;
+        }
+
+        categoryImage.sprite = currentData.categorySprite;
+        categoryImage.rectTransform.sizeDelta = new Vector2(x2, y2);
+
     }
     public void Hide(object[] ps = null)
     {

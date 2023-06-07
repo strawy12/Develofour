@@ -125,6 +125,7 @@ public class Debugger : MonoBehaviour
     public Sprite mediaPlayerSprite;
     public Sprite siteShortcutSprite;
     public Sprite harmonyShortcutSprite;
+    public Sprite backgroundBGMSprite;
 
     [ContextMenu("SetSOSprite")]
     public void SS()
@@ -133,49 +134,40 @@ public class Debugger : MonoBehaviour
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            FileSO so = AssetDatabase.LoadAssetAtPath<FileSO>(path);
-            if (so.windowType == EWindowType.MediaPlayer)
+            FileSO so = AssetDatabase.LoadAssetAtPath<FileSO>(path); 
+
+             if (so.windowType == EWindowType.SiteShortCut)
             {
-                Debug.Log(so.fileName);
-                if (ResourceManager.Inst.GetMediaPlayerData(so.id) != null)
-                {
-
-                    Debug.Log(ResourceManager.Inst.GetMediaPlayerData(so.id).textData.Length * 4 + UnityEngine.Random.Range(30, 60));
-
-
-                    //Debug.Log(ResourceManager.Inst.GetNotepadData(so.id).notepadBody.inputField.text.Length);
-                }
-
-                //so.color = UnityEngine.Color.white;
+                so.color = UnityEngine.Color.white;
             }
-            //else if (so.windowType == EWindowType.SiteShortCut)
-            //{
-            //    so.color = UnityEngine.Color.white;
-            //}
-            //else if (so.windowType == EWindowType.Notepad)
-            //{
-            //    so.iconSprite = notepadSprite;
-            //}
-            //else if (so.windowType == EWindowType.ImageViewer)
-            //{
-            //    so.color = UnityEngine.Color.white;
-            //}
-            //else if (so.windowType == EWindowType.Directory)
-            //{
-            //    so.iconSprite = DirectorySprite;
-            //}
-            //else if (so.windowType == EWindowType.MediaPlayer)
-            //{
-            //    so.iconSprite = mediaPlayerSprite;
-            //}
-            //else if (so.windowType == EWindowType.Discord)
-            //{
-            //    so.iconSprite = harmonySprite;
-            //}
-            //else if (so.windowType == EWindowType.ProfileWindow)
-            //{
-            //    so.iconSprite = InstallerSprite;
-            //}
+            else if (so.windowType == EWindowType.Notepad)
+            {
+                so.iconSprite = notepadSprite;
+            }
+            else if (so.windowType == EWindowType.ImageViewer)
+            {
+                so.color = UnityEngine.Color.white;
+            }
+            else if (so.windowType == EWindowType.Directory)
+            {
+                so.iconSprite = DirectorySprite;
+            }
+            else if (so.windowType == EWindowType.MediaPlayer)
+            {
+                so.iconSprite = mediaPlayerSprite;
+            }
+            else if (so.windowType == EWindowType.Discord)
+            {
+                so.iconSprite = harmonySprite;
+            }
+            else if (so.windowType == EWindowType.ProfilerWindow)
+            {
+                so.iconSprite = InstallerSprite;
+            }
+            else if (so.windowType == EWindowType.BackgroundBGM)
+            {
+                so.iconSprite = backgroundBGMSprite;
+            }
             AssetDatabase.Refresh();
             AssetDatabase.SaveAssets();
             EditorUtility.SetDirty(so);

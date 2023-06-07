@@ -60,10 +60,15 @@ public partial class MonologSystem : TextSystem
 
     public void StartMonolog(int textDataType, float beforeDelay, bool isSave)
     {
-        StartCoroutine(StartMonologCor(textDataType, beforeDelay, isSave));
+        if(isSave)
+        {
+            if (DataManager.Inst.IsMonologShow(textDataType)) return;
+        }
+
+        StartCoroutine(StartMonologCor(textDataType, beforeDelay));
     }
 
-    public IEnumerator StartMonologCor(int textDataType, float beforeDelay, bool isSave)
+    public IEnumerator StartMonologCor(int textDataType, float beforeDelay)
     {
         yield return new WaitUntil(() => !isEndMonolog);
 
@@ -78,10 +83,7 @@ public partial class MonologSystem : TextSystem
         PrintText();
         InputManager.Inst.AddAnyKeyInput(onKeyDown: PrintText);
 
-        if (isSave)
-        {
-            DataManager.Inst.SetMonologShow(textDataType, true);
-        }
+        DataManager.Inst.SetMonologShow(textDataType, true);
     }
 
     private void EndMonolog()
@@ -129,7 +131,7 @@ public partial class MonologSystem : TextSystem
 
     private void PrintText()
     {
-        if(currentTextData == null)
+        if (currentTextData == null)
         {
             EndMonolog();
             return;

@@ -105,7 +105,7 @@ public class InformationTrigger : MonoBehaviour
             }
         }
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.FindInfoTrigger);
-        MonologSystem.OnStartMonolog?.Invoke(playMonologType, delay, true);
+        MonologSystem.OnStartMonolog?.Invoke(playMonologType, delay, false);
 
 
     }
@@ -117,7 +117,7 @@ public class InformationTrigger : MonoBehaviour
 
         if (infomaitionDataList == null || infomaitionDataList.Count == 0)
         {
-            MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, true);
+            MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, false);
             return;
         }
         playMonologType = monoLogType;
@@ -135,7 +135,7 @@ public class InformationTrigger : MonoBehaviour
             {
                 int id = needData.monologID == 0 ? Constant.MonologKey.NEEDINFO : needData.monologID;
                 Debug.Log(id);
-                MonologSystem.OnStartMonolog?.Invoke(id, delay, true);
+                MonologSystem.OnStartMonolog?.Invoke(id, delay, false);
                 Sound.OnPlaySound?.Invoke(Sound.EAudioType.LockInfoTrigger);
                 return;
             }

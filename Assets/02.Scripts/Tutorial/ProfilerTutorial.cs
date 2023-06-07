@@ -160,6 +160,9 @@ public class ProfilerTutorial : MonoBehaviour
             library.TutorialLibraryClickRemoveEvent();
         }
 
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.AssistantProfile, 115 });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PoliceProfile, 116 });
+        EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
         CallSystem.Inst.OnAnswerCall(ECharacterDataType.Assistant, Constant.MonologKey.END_PROFILER_TUTORIAL);
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
     }

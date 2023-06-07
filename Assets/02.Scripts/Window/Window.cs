@@ -52,6 +52,8 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
 
     protected bool isSelected;
 
+    protected bool canNotClosed;
+
     protected RectTransform rectTransform;
 
     public Action<string> OnClosed;
@@ -143,6 +145,7 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
 
     public void WindowClose()
     {
+        if (canNotClosed) return;
         CloseEventAdd();
         OnClosed?.Invoke(file.fileName);
 
