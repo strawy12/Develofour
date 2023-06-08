@@ -1,14 +1,17 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:GroupBox style="top: auto; align-items: stretch; justify-content: space-between; flex-direction: row; flex-wrap: nowrap;">
+    <ui:GroupBox tabindex="0" focusable="false" style="top: auto; align-items: center; justify-content: space-around; flex-direction: row; flex-wrap: nowrap; height: 26px;">
         <ui:Button text="FileSO" display-tooltip-when-elided="true" name="FileSOBtn" view-data-key="FileSOBtn" />
         <ui:Button text="Monolog" display-tooltip-when-elided="true" name="MonologBtn" view-data-key="MonologBtn" />
         <ui:Button text="ProfilerInfo" display-tooltip-when-elided="true" name="ProfilerInfoBtn" view-data-key="ProfilerInfoBtn" />
         <ui:Button text="ProfilerGuide" display-tooltip-when-elided="true" name="ProfilerGuideBtn" view-data-key="ProfilerGuideBtn" />
         <ui:Button text="Maiil" display-tooltip-when-elided="true" name="MailBtn" view-data-key="MailBtn" />
     </ui:GroupBox>
-    <ui:GroupBox style="top: auto; flex-direction: column-reverse;">
+    <ui:GroupBox tabindex="0" focusable="false" style="top: auto; align-items: center; justify-content: space-between; flex-direction: row; flex-wrap: nowrap; height: 26px;">
+        <ui:Button text="Trigger" display-tooltip-when-elided="true" name="TriggerPrfBtn" view-data-key="TriggerPrfBtn" style="-unity-text-align: middle-left;" />
+    </ui:GroupBox>
+    <ui:GroupBox style="top: auto; flex-direction: column-reverse; height: 45px;">
         <ui:TextField picking-mode="Ignore" label="Gid" text="filler text" name="GidField" view-data-key="GidField" />
         <ui:TextField picking-mode="Ignore" label="SOType" text="filler text" name="SOTypeField" view-data-key="SOTypeField" />
+        <ui:Button text="SO 세팅하기" display-tooltip-when-elided="true" name="SettingButton" class="SO_Settring" style="margin-top: 10px; scale: 1 1; position: absolute; height: 62px; width: 233px; top: 62px; left: 57px; font-size: 25px; flex-direction: column-reverse; justify-content: flex-end; align-items: center; flex-wrap: wrap-reverse; -unity-text-align: middle-center;" />
     </ui:GroupBox>
-    <ui:Button text="SO 세팅하기" display-tooltip-when-elided="true" name="SettingButton" class="SO_Settring" style="margin-top: 10px; scale: 1 1; position: absolute; height: 60px; width: 233px; top: 104px; left: 58px; font-size: 25px; flex-direction: column-reverse; justify-content: flex-end; align-items: center; flex-wrap: wrap-reverse; -unity-text-align: middle-center;" />
 </ui:UXML>

@@ -22,7 +22,8 @@ public class SOSettingWindow : EditorWindow
         ProfilerCategory,
         Monolog,
         ProfilerGuide,
-        Mail
+        Mail,
+        TriggerPrefab,
     }
 
     private Button settingButton;
@@ -31,6 +32,7 @@ public class SOSettingWindow : EditorWindow
     private Button profilerInfoBtn;
     private Button profilerGuideBtn;
     private Button mailBtn;
+    private Button triggerBtn;
     private TextField gidField;
     private TextField soTypeField;
 
@@ -58,7 +60,7 @@ public class SOSettingWindow : EditorWindow
         gidField = rootVisualElement.Q<TextField>("GidField");
         mailBtn = rootVisualElement.Q<Button>("MailBtn");
         soTypeField = rootVisualElement.Q<TextField>("SOTypeField");
-
+        triggerBtn = rootVisualElement.Q<Button>("TriggerPrfBtn");
         profilerGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerGuide));
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
         profilerInfoBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerInfo));
@@ -67,8 +69,6 @@ public class SOSettingWindow : EditorWindow
 
         monologSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Monolog));
     }
-
-
 
     private void AutoComplete(ESOType type)
     {
@@ -99,6 +99,10 @@ public class SOSettingWindow : EditorWindow
             case ESOType.Mail:
                 gidField.value = "2109502413";
                 soTypeField.value = "MailDataSO";
+                break;
+            case ESOType.TriggerPrefab:
+                gidField.value = "13216756070";
+                soTypeField.value = "";
                 break;
         }
     }
@@ -137,6 +141,9 @@ public class SOSettingWindow : EditorWindow
                 break;
             case "MailDataSO":
                 SettingMailSO(add);
+                break;
+            case "Trigger":
+                SettingInfoTrigger(add);
                 break;
         }
 
@@ -702,7 +709,108 @@ public class SOSettingWindow : EditorWindow
 
     }
 
+    private void SettingInfoTrigger(string dataText)
+    {
+        string[] rows = dataText.Split('\n');
 
+        string[] notepadGuids = AssetDatabase.FindAssets("t:NotepadDataSO", null);
+        List<NotepadDataSO> notepadSODatas = new List<NotepadDataSO>();
+
+        foreach (var guid in notepadGuids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            NotepadDataSO notepadDataSO = AssetDatabase.LoadAssetAtPath<NotepadDataSO>(path);
+            notepadDataSO.notepadBody.ClearTextTrigger();
+            notepadSODatas.Add(notepadDataSO);
+        }
+
+        string[] mediaplayerGuids = AssetDatabase.FindAssets("t:MediaPlayerDataSO", null);
+        List<MediaPlayerDataSO> mediaplayerDataSOs = new List<MediaPlayerDataSO>();
+
+        foreach (var guid in mediaplayerGuids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            MediaPlayerDataSO mediaPlayerDataSO = AssetDatabase.LoadAssetAtPath<MediaPlayerDataSO>(path);
+            mediaPlayerDataSO.body.ClearTextTrigger();
+            mediaplayerDataSOs.Add(mediaPlayerDataSO);
+        }
+
+        string[] imageviewerGuids = AssetDatabase.FindAssets("t:ImageViewerDataSO", null);
+        List<ImageViewerDataSO> imageviewerDataSOs = new List<ImageViewerDataSO>();
+
+        foreach (var guid in imageviewerGuids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            imageviewerDataSOs.Add(AssetDatabase.LoadAssetAtPath<ImageViewerDataSO>(path));
+        }
+
+        ClickInfoTrigger infoTriggerPrefab = AssetDatabase.LoadAssetAtPath<ClickInfoTrigger>("Assets/03.Prefabs/InfoTrigger/InfoDefault.prefab");
+        
+        for(int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+
+            int fileID = int.Parse(columns[0]);
+            EWindowType fileType = Enum.Parse<EWindowType>(columns[1]);
+
+            GameObject bodyPrefab = null;
+            switch(fileType)
+            {
+                case EWindowType.Notepad:
+                    bodyPrefab = notepadSODatas.Find((x => x.fileId == fileID)).notepadBody.gameObject;
+                    break;
+                case EWindowType.MediaPlayer:
+                    bodyPrefab = mediaplayerDataSOs.Find(x => x.fileId == fileID).body.gameObject;
+                    break;
+                case EWindowType.ImageViewer:
+                    bodyPrefab = imageviewerDataSOs.Find(x => x.fileId == fileID).imageBody.gameObject;
+                    break;
+            }
+            List<int> infoList = new List<int>();
+            columns[2].Trim().Split(',').ToList().ForEach(x=> infoList.Add(int.Parse(x)));
+
+            int monologID = int.Parse(columns[3]);
+            List<NeedInfoData> needInfoDataList = new List<NeedInfoData>();
+            string[] needInfoDataStrings = columns[4].Split(',');
+            foreach(var needInfo in needInfoDataStrings)
+            {
+                string[] division = needInfo.Trim().Split('/');
+                int infoID = int.Parse(division[0]);
+                int needMonologID = int.Parse(division[1]);
+                bool getInfo = division[2] == "TRUE";
+
+                NeedInfoData needInfoData = new NeedInfoData() { needInfoID = infoID, getInfo = getInfo, monologID = needMonologID };
+
+                needInfoDataList.Add(needInfoData);
+            }
+            int completeMonologID = int.Parse(columns[5]);
+            bool isFakeInfo = columns[6] == "TRUE";
+            float delay = float.Parse(columns[7]);
+
+            ClickInfoTrigger infoTrigger = Instantiate(infoTriggerPrefab, bodyPrefab.transform);
+            infoTrigger.MonologID = monologID;
+            infoTrigger.infoDataIDList = infoList;
+            infoTrigger.completeMonologType = completeMonologID;
+            infoTrigger.delay = delay;
+            infoTrigger.needInfoList = needInfoDataList;
+            infoTrigger.isFakeInfo = isFakeInfo;
+
+            if(fileType == EWindowType.Notepad)
+            {
+                string text = columns[8];
+                NotepadBody notepadBody =bodyPrefab.GetComponent<NotepadBody>();
+                notepadBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger});
+                notepadBody.SetTriggerText();
+            }
+            if(fileType == EWindowType.MediaPlayer)
+            {
+                string text = columns[8];
+                MediaPlayerBody mediaPlayerBody = bodyPrefab.GetComponent<MediaPlayerBody>();
+                mediaPlayerBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
+                mediaPlayerBody.SetTriggerText();
+            }
+        }
+    }
 }
 
 
