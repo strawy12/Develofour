@@ -75,6 +75,6 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
     private void OnDestroy()
     {
-        GuideUISystem.EndGuide?.Invoke(rectTransform);
+        //GuideUISystem.EndGuide?.Invoke(rectTransform);
     }
 }

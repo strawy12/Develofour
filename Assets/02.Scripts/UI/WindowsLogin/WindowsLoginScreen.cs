@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -70,7 +70,7 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.InputField.characterLimit = 4;
 
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
-        hintText.text = "ÈùÆ®: ¸¸¿ìÀý + »õÇØ";
+        hintText.text = "ížŒíŠ¸: ë§Œìš°ì ˆ + ë°¸ëŸ°íƒ€ì¸ ë°ì´";
         hintText.gameObject.SetActive(true);
 
         passwordField.InputField.onValueChanged.AddListener(CheckInputNumber);
@@ -109,12 +109,12 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private IEnumerator InputOnlyNumberCoroutine()
     {
-        hintText.text = "¼ýÀÚ¸¸ ÀÔ·Â °¡´ÉÇÕ´Ï´Ù";
+        hintText.text = "ìˆ«ìžë§Œ ìž…ë ¥ ê°€ëŠ¥í•©ë‹ˆë‹¤";
 
         yield return new WaitForSeconds(numberWrongDuration);
 
 
-        hintText.text = "ÈùÆ®: ¸¸¿ìÀý + »õÇØ";
+        hintText.text = "ížŒíŠ¸: ë§Œìš°ì ˆ + ë°¸ëŸ°íƒ€ì¸ ë°ì´";
 
     }
 
@@ -138,7 +138,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            hintText.text = "ÈùÆ®: ¸¸¿ìÀý + »õÇØ";
+            hintText.text = "ížŒíŠ¸: ë§Œìš°ì ˆ + ë°¸ëŸ°íƒ€ì¸ ë°ì´";
 
             if (hintText.gameObject.activeSelf == false)
             {
@@ -177,10 +177,13 @@ public class WindowsLoginScreen : MonoBehaviour
     private void OpenLoginFailUI()
     {
         failedLoginCnt++;
-
+        if(failedLoginCnt == 1)
+        {
+            GuideManager.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 450);
+        }
         if (failedLoginCnt >= 5)
         {
-            GuideManager.OnPlayGuide(EGuideTopicName.GuestLoginGuide, 1.5f);
+            GuideManager.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 1.5f);
         }
 
         loginFailUI.SetActive(true);
@@ -189,7 +192,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void EndLogin()
     {
-        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.GuestLoginGuide });
+        EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.FirstLoginGuide });
     }
 
     private void StartMonolog()

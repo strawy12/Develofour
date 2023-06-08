@@ -375,7 +375,13 @@ public class Library : Window
     {
         base.OnDestroyWindow();
         isFirstOpen = false;
-        GuideUISystem.EndAllGuide?.Invoke();
+        //GuideUISystem.EndAllGuide?.Invoke();
+        Debug.Log(DataManager.Inst.GetProfilerTutorialIdx());
+        if (DataManager.Inst.GetProfilerTutorialIdx() == 0 || DataManager.Inst.GetProfilerTutorialIdx() == 2)
+        {
+            EventManager.TriggerEvent(ETutorialEvent.LibraryGuide);
+        }
+
         OnSelected -= TutorialLibraryClick;
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
