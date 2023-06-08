@@ -810,6 +810,7 @@ public class SOSettingWindow : EditorWindow
                 notepadBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
                 notepadBody.SetTriggerText();
             }
+
             if (fileType == EWindowType.MediaPlayer)
             {
                 string text = columns[8];
