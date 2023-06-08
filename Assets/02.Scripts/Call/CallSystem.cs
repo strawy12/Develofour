@@ -210,7 +210,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         yield return PlayPhoneCallSound(delay);
         if (monologType != -1)
         {
-            MonologSystem.OnStartMonolog?.Invoke(monologType, 0, true);
+            MonologSystem.OnStartMonolog?.Invoke(monologType, 0, false);
         }
         else
         {
@@ -256,14 +256,17 @@ public class CallSystem : MonoSingleton<CallSystem>
 
         if (isShow)
         {
-            callCoverPanel.gameObject.SetActive(true);
             spectrumUI.StartSpectrum();
         }
         else
         {
-            callCoverPanel.gameObject.SetActive(false);
             spectrumUI.StopSpectrum();
         }
+    }
+
+    private void SetCoverPanel(bool value)
+    {
+        callCoverPanel.gameObject.SetActive(value);
     }
 
     private void SetCallUI(CharacterInfoDataSO data)
@@ -297,7 +300,7 @@ public class CallSystem : MonoSingleton<CallSystem>
             }
         };
 
-        MonologSystem.OnStartMonolog?.Invoke(monologType, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(monologType, 0, false);
     }
 
     public void SaveReturnMonolog(MonologLockData data)
@@ -352,6 +355,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     public void Show()
     {
         isCalling = true;
+        SetCoverPanel(true);
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
         transform.DOLocalMoveX(770, 0.5f).SetEase(Ease.Linear);
     }
@@ -378,6 +382,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     public void Hide()
     {
         isCalling = false;
+        SetCoverPanel(false);
         transform.DOKill(true);
         Sound.OnImmediatelyStop(Sound.EAudioType.PhoneCall);
         GameManager.Inst.ChangeGameState(EGameState.Game);
