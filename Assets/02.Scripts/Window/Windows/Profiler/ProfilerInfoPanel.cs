@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class ProfilerInfoPanel : MonoBehaviour
 {
@@ -105,7 +106,13 @@ public class ProfilerInfoPanel : MonoBehaviour
             {
                 infoText.Show();
             }
+            InfoTextListRefresh();
         }
+    }
+
+    private void InfoTextListRefresh()
+    {
+        infoTextList.ForEach((info) => { info.RefreshSize(); });
     }
 
     public void Show(object[] ps)
