@@ -278,7 +278,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         StopAllCoroutines();
 
         if (GameManager.Inst.isApplicationQuit) return;
-        GuideUISystem.EndGuide?.Invoke(rectTranstform);
+        //GuideUISystem.EndGuide?.Invoke(rectTranstform);
     }
 }
 

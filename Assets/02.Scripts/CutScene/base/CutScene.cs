@@ -8,11 +8,12 @@ public class CutScene : MonoBehaviour
     protected bool isPlaying;
 
     private EGameState saveState;
+    public GameObject cutSceneCoverPanel;
 
     public virtual void ShowCutScene()
     {
         if (isPlaying) return;
-        GameManager.Inst.cutSceneCoverPanel.gameObject.SetActive(true);
+        cutSceneCoverPanel.SetActive(true);
         saveState = GameManager.Inst.GameState;
         Sound.OnStopBGM?.Invoke(true);
         isPlaying = true;
@@ -21,7 +22,7 @@ public class CutScene : MonoBehaviour
     public virtual void StopCutScene()
     {
         if (!isPlaying) return;
-        GameManager.Inst.cutSceneCoverPanel.gameObject.SetActive(false);
+        cutSceneCoverPanel.SetActive(false);
         GameManager.Inst.ChangeGameState(saveState);
         isPlaying = false;
         InputManager.Inst.RemoveKeyInput(KeyCode.Escape, onKeyDown: StopCutScene);
@@ -37,6 +38,6 @@ public class CutScene : MonoBehaviour
 
     public virtual void OnDestroy()
     {
-        GameManager.Inst.cutSceneCoverPanel.gameObject.SetActive(false);
+        cutSceneCoverPanel.SetActive(false);
     }
 }

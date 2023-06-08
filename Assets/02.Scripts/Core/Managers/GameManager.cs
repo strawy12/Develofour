@@ -21,9 +21,6 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject CutSceneCanvas => cutSceneCanvas;
 
     public bool IsTutorial => gameState == EGameState.Tutorial;
-
-    public GameObject cutSceneCoverPanel;
-
     public bool isApplicationQuit { get; private set; }
 
     public void Init()

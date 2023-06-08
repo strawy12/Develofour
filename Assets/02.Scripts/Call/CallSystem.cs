@@ -51,6 +51,10 @@ public class CallSystem : MonoSingleton<CallSystem>
         {
             yield return new WaitForSeconds(deflaultDelayTime);
             DecisionCheck();
+            if(callCoverPanel.activeSelf && !isCalling)
+            {
+                callCoverPanel.SetActive(false);
+            }
         }
     }
 

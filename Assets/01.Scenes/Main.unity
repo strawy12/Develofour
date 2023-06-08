@@ -1276,7 +1276,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 267761860}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
@@ -1919,7 +1919,7 @@ RectTransform:
   - {fileID: 5607095947241946250}
   - {fileID: 966577309}
   m_Father: {fileID: 715709451}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4196,9 +4196,8 @@ RectTransform:
   m_Children:
   - {fileID: 493335199}
   - {fileID: 638911650}
-  - {fileID: 746294247}
-  - {fileID: 604864003}
   - {fileID: 424089655}
+  - {fileID: 604864003}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4237,8 +4236,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 715709451}
-  m_RootOrder: 2
+  m_Father: {fileID: 5050174721249461681}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8173,7 +8172,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameState: 0
   cutSceneCanvas: {fileID: 267761860}
-  cutSceneCoverPanel: {fileID: 746294246}
 --- !u!1 &1231287277
 GameObject:
   m_ObjectHideFlags: 0
@@ -10353,7 +10351,7 @@ MonoBehaviour:
   windowLoginCanvas: {fileID: 924957042}
   passwordField: {fileID: 1997061512}
   coverPanel: {fileID: 940956729}
-  password: 0502
+  password: 0615
   hintText: {fileID: 301044580}
   placeHoldText: {fileID: 1900371060}
   loadingIcon: {fileID: 317794835}
@@ -20500,6 +20498,7 @@ RectTransform:
   - {fileID: 5665428862432448056}
   - {fileID: 5684819477172008085}
   - {fileID: 6720949613728764036}
+  - {fileID: 746294247}
   m_Father: {fileID: 267761865}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26745,8 +26744,8 @@ CanvasGroup:
   m_GameObject: {fileID: 7783120913877595461}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!114 &7364831177718073797
 MonoBehaviour:
@@ -27422,6 +27421,7 @@ MonoBehaviour:
   backgroundImagePanel: {fileID: 3812637451254395097}
   loadingIcon: {fileID: 1513385448852608789}
   loadingText: {fileID: 2323085441041630282}
+  cutSceneCoverPanel: {fileID: 746294246}
   isScreamSound: 0
   isSkip: 0
 --- !u!1 &7783120913877595461
