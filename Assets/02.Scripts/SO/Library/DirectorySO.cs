@@ -24,12 +24,6 @@ public class DirectorySO : FileSO
             Debug.Log($"FileName: {so.fileName}");
             Debug.Log($"WindowType: {so.windowType}");
 
-            if (so.isFileLock)
-            {
-                Debug.Log($"Pin: {so.windowPin}");
-                Debug.Log($"Pin Hint: {so.windowPinHintGuide}");
-            }
-
             if (so is DirectorySO)
             {
                 Debug.Log(string.Join(", ", (so as DirectorySO).children));

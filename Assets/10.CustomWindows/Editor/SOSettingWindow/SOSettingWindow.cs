@@ -346,8 +346,6 @@ public class SOSettingWindow : EditorWindow
             file.fileName = fileName;
             file.windowType = type;
             file.isFileLock = isFileLock;
-            file.windowPinHintGuide = pinHint;
-            file.windowPin = pinList;
             file.name = columns[9];
             file.tags = tags;
             file.propertyData.bytes = bytes;

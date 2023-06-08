@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class WindowPinInput : Window
 {
     private bool isShaking = false;
@@ -28,7 +29,6 @@ public class WindowPinInput : Window
 
     [SerializeField]
     private Button confirmButton;
-
 
     [Header("Shaking Data")]
     [SerializeField]
@@ -60,7 +60,7 @@ public class WindowPinInput : Window
     private void PinOpen()
     {
         windowBar.SetNameText("[ " + file.name + " - 잠금 안내 ]");
-        pinGuideText.SetText(file.windowPinHintGuide);
+        pinGuideText.SetText(file.windowLock.windowPinHintGuide);
 
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
@@ -69,9 +69,13 @@ public class WindowPinInput : Window
 
     private void CheckPinPassword()
     {
-        string inputText = pinInputField.text.Trim();
+        string inputText = pinInputField.text.Replace(" ", "");
+        // 입력한거 공백 제거해서 들고 옴
 
-        foreach (string answerText in file.windowPin)
+        string[] answerArr = file.windowLock.windowPin.Split(',');
+        // 파일 정답 목록들 구분 해서 들고 옴
+
+        foreach (string answerText in answerArr)
         {
             if (inputText == answerText)
             {

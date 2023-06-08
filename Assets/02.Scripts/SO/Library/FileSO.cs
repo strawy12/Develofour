@@ -25,8 +25,7 @@ public class FileSO : ScriptableObject
     public Sprite iconSprite;
     public WindowIconData propertyData;
     public bool isFileLock;
-    public List<string> windowPin;
-    public string windowPinHintGuide;
+    public WindowLockDataSO windowLock;
     
     public List<string> tags;
     public bool isHide;
