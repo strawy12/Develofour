@@ -83,7 +83,7 @@ public class Library : Window
         {
             poolQueue.Enqueue(icon);
         }
-        GuideUISystem.EndGuide?.Invoke(icon.rectTranstform);
+        //GuideUISystem.EndGuide?.Invoke(icon.rectTranstform);
         icon.transform.SetParent(poolParent);
         icon.gameObject.SetActive(false);
     }
@@ -226,8 +226,8 @@ public class Library : Window
         else
         {
             TopFileButton button = fileAddressPanel.TopFileButtons.Find((x) => x.CurrentDirectory.id == Constant.FileID.MYPC);
-
-            GuideUISystem.EndAllGuide?.Invoke();
+            
+            //GuideUISystem.EndAllGuide?.Invoke();
             GuideUISystem.OnGuide(button.tutorialSelectImage.transform as RectTransform);
             GuideUISystem.FullSizeGuide?.Invoke(button.tutorialSelectImage.transform as RectTransform);
         }
