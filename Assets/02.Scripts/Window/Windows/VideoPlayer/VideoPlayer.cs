@@ -37,7 +37,7 @@ public class VideoPlayer : Window
         }
         //크기 조절은 알아서~
         mainImage.ChangeImage(data.sprite);
-
+        //mainImage.SetImageSizeReset(new Vector2(750f, 400f));
 
         startButton.button.onClick.AddListener(ButtonClick);
         //컷씬을 새로 생성시켜서 start해주고

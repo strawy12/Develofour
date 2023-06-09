@@ -123,6 +123,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     // 얘는 결국에는 거는 전용
     public void OnRequestCall(CharacterInfoDataSO data)
     {
+
         SetCallUI(data);
         int result = -1;
         if (!DataManager.Inst.IsExistReturnData(data.characterType))
@@ -311,7 +312,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         foreach (ReturnMonologData returnData in data.returnMonologDataList)
         {
             if (returnData.characterType == ECharacterDataType.None || returnData.MonologID == 0) continue;
-                DataManager.Inst.AddReturnData(returnData);
+            DataManager.Inst.AddReturnData(returnData);
         }
 
     }
@@ -333,7 +334,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         {
             foreach (ReturnMonologData data in incomingCallData.incomingMonologList) //한 캐릭의 리턴 독백마다
             {
-                    Debug.Log(data.MonologID);
+                Debug.Log(data.MonologID);
                 if (DataManager.Inst.IsMonologShow(data.MonologID))//이미 본 독백이면
                 {
                     continue;//넘어가
