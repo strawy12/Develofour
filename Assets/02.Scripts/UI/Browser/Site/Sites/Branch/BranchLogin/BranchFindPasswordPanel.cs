@@ -10,8 +10,8 @@ public class BranchFindPasswordPanel : MonoBehaviour
     private TMP_InputField branchIDField;
     [SerializeField]
     private Button checkBtn;
-    [SerializeField]
-    private TMP_Text signText;
+    //SerializeField]
+    //private TMP_Text signText;
     private string id;
 
     public BranchSentMailPanel sentPanel;
@@ -39,11 +39,11 @@ public class BranchFindPasswordPanel : MonoBehaviour
         }
         else if(branchIDField.text == "")
         {
-            signText.SetText("아이디를 입력해 주세요.");
+            branchIDField.text = "아이디를 입력해 주세요.";
         }
         else
         {
-            signText.SetText("존재하지 않는 아이디입니다.");
+            branchIDField.text = "존재하지 않는 아이디입니다.";
         }
     }
 
