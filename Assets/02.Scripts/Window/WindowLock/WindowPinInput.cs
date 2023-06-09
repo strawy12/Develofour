@@ -12,6 +12,8 @@ public class WindowPinInput : Window
 
     [Header("Pin UI")]
     [SerializeField]
+    private AutoAnswerInputFiled autoPinAnswerFiled;
+    [SerializeField]
     private TMP_Text pinWindowNameBarText;
     [SerializeField]
     private TMP_Text pinGuideText;
@@ -42,7 +44,6 @@ public class WindowPinInput : Window
     [SerializeField]
     private Color wrongAnswerTextColor;
 
-
     protected override void Init()
     {
         base.Init();
@@ -54,6 +55,8 @@ public class WindowPinInput : Window
     public override void WindowOpen()
     {
         PinOpen();
+        SetAnswerDatas();
+
         base.WindowOpen();
     }
 
@@ -65,6 +68,11 @@ public class WindowPinInput : Window
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
+    }
+
+    private void SetAnswerDatas()
+    {
+        autoPinAnswerFiled.autoAnswerDatas.Add(file.windowLock.answerData);
     }
 
     private void CheckPinPassword()
@@ -85,6 +93,20 @@ public class WindowPinInput : Window
                 return;
             }
         }
+
+        Debug.Log(file.windowLock.answerData);
+        if(file.windowLock.answerData != null)
+        {
+
+            List<MonologLockDecision> infoDatas = file.windowLock.answerData.infoData;
+            foreach(MonologLockDecision infoData in infoDatas)
+            {
+                int infoID = infoData.key;
+
+                EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[1] { infoID });
+            }
+        }
+
         PinWrongAnswer();
         pinInputField.text = "";
     }
