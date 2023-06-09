@@ -60,9 +60,13 @@ public partial class MonologSystem : TextSystem
 
     public void StartMonolog(int textDataType, float beforeDelay, bool isSave)
     {
-        if(isSave)
+        if (isSave)
         {
-            if (DataManager.Inst.IsMonologShow(textDataType)) return;
+            if (DataManager.Inst.IsMonologShow(textDataType))
+            {
+                Debug.Log("이미 저장된 독백입니다");
+                return;
+            }
         }
 
         StartCoroutine(StartMonologCor(textDataType, beforeDelay));
@@ -79,6 +83,11 @@ public partial class MonologSystem : TextSystem
 
         currentTextDataIdx = 0;
         currentTextData = ResourceManager.Inst.GetMonologTextData(textDataType);
+
+        if(currentTextData == null)
+        {
+            Debug.Log("해당 독백은 존재하지 않습니다: " + textDataType);
+        }
 
         PrintText();
         InputManager.Inst.AddAnyKeyInput(onKeyDown: PrintText);
