@@ -132,6 +132,7 @@ public class CallSystem : MonoSingleton<CallSystem>
             Debug.Log($"{callData.characterType}, {callData.defaultMonologID}");
             if (callData != null && Define.MonologLockDecisionFlag(callData.defaultDecisions))
             {
+                Debug.Log("1");
                 MonologSystem.OnEndMonologEvent = () => SetMonologSelector(callData);
                 result = callData.defaultMonologID;
             }
@@ -152,7 +153,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         // TODO
         // 추후 풀링으로 변경할 예정 
         int spawnCnt = 0;
-
+        
         for (int i = 0; i < callData.monologLockList.Count; i++)
         {
             if (!Define.MonologLockDecisionFlag(callData.monologLockList[i].decisions)) continue;
@@ -171,14 +172,14 @@ public class CallSystem : MonoSingleton<CallSystem>
             MakeCallTextDataBtn(lockData.monologID, lockData);
             spawnCnt++;
         }
-
+        Debug.Log(spawnCnt);
         if (spawnCnt <= 0)
         {
             StartMonolog(callData.notExistMonoLogID);
             return;
         }
         MakeCallTextDataBtn(callData.notExistMonoLogID);
-
+     
     }
     private void MakeCallTextDataBtn(int monologID, MonologLockData lockData = null)
     {
@@ -288,6 +289,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         //저장쪽은 나중에 생각
         // 딜레이 후 해당 독백이 실행되는 작업 해야함
 
+        Debug.Log($"monologType = {monologType}");
         MonologSystem.OnEndMonologEvent = Hide;
 
         MonologSystem.OnEndMonologEvent = () => DataManager.Inst.SetMonologShow(monologType, true);
