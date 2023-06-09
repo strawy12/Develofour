@@ -35,7 +35,8 @@ public class ProfilerInfoSystem : MonoBehaviour
         if (ps[0] is int)
         {
             id = (int)ps[0];
-            category =ResourceManager.Inst.GetProfilerInfoData(id).category;
+            category = ResourceManager.Inst.GetProfilerInfoData(id).category;
+            Debug.Log(category);
         }
         else if (ps[0] is EProfilerCategory && ps[1] is int)
         {
@@ -44,10 +45,9 @@ public class ProfilerInfoSystem : MonoBehaviour
         }
         else
         {
+            Debug.Log("Return");
             return;
         }
-
-
 
         if (!DataManager.Inst.IsProfilerInfoData(id))
         {

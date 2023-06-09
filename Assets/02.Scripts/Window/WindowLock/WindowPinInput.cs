@@ -73,6 +73,21 @@ public class WindowPinInput : Window
     private void SetAnswerDatas()
     {
         autoPinAnswerFiled.autoAnswerDatas.Add(file.windowLock.answerData);
+
+        if (file.windowLock.answerData != null)
+        {
+            List<MonologLockDecision> infoDatas = file.windowLock.answerData.infoData;
+            foreach (MonologLockDecision infoData in infoDatas)
+            {
+                int infoID = infoData.key;
+
+                if(DataManager.Inst.IsProfilerInfoData(infoID))
+                {
+                    autoPinAnswerFiled.inputSystem.ShowPanel(autoPinAnswerFiled.inputField, autoPinAnswerFiled.autoAnswerDatas);
+                }
+            }
+        }
+
     }
 
     private void CheckPinPassword()
@@ -90,14 +105,16 @@ public class WindowPinInput : Window
                 DataManager.Inst.SetFileLock(file.id, false);
                 StartCoroutine(PinAnswerTextChange());
                 pinInputField.text = "";
-                return;
+            }
+            else
+            {
+                PinWrongAnswer();
             }
         }
 
         Debug.Log(file.windowLock.answerData);
         if(file.windowLock.answerData != null)
         {
-
             List<MonologLockDecision> infoDatas = file.windowLock.answerData.infoData;
             foreach(MonologLockDecision infoData in infoDatas)
             {
@@ -107,7 +124,6 @@ public class WindowPinInput : Window
             }
         }
 
-        PinWrongAnswer();
         pinInputField.text = "";
     }
 
