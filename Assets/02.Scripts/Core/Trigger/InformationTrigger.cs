@@ -19,7 +19,7 @@ public class InformationTrigger : MonoBehaviour
     /// 정보들 id들 넣는 곳입니다.
     /// </summary>
     [SerializeField]
-    protected List<int> infoDataIDList;
+    public List<int> infoDataIDList;
 
     [SerializeField]
     protected List<NeedInfoData> needInfoList;
@@ -34,6 +34,9 @@ public class InformationTrigger : MonoBehaviour
     protected int playMonologType = 0;
 
     public int MonologID => monoLogType;
+
+    [SerializeField]
+    protected int fildID;
 
     protected virtual void Start()
     {
