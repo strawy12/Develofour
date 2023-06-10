@@ -454,7 +454,6 @@ public class SOSettingWindow : EditorWindow
             infoData.infomationText = infoText;
             infoData.noticeText = noticeText;
 
-
             string SO_PATH = $"Assets/07.ScriptableObjects/Profiler/ProfilerInfoData/InfoTextData/{category}/{columns[5].Trim()}.asset";
 
             if (isCreate)
@@ -766,6 +765,7 @@ public class SOSettingWindow : EditorWindow
                     bodyPrefab = imageviewerDataSOs.Find(x => x.fileId == fileID).imageBody.gameObject;
                     break;
             }
+            bodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList().ForEach(x=>Destroy(x));
             List<int> infoList = new List<int>();
             columns[2].Trim().Split(',').ToList().ForEach(x => infoList.Add(int.Parse(x)));
 
@@ -788,6 +788,7 @@ public class SOSettingWindow : EditorWindow
             float delay = float.Parse(columns[7]);
 
             ClickInfoTrigger infoTrigger = Instantiate(infoTriggerPrefab, bodyPrefab.transform);
+            infoTrigger.fileID = fileID;
             infoTrigger.MonologID = monologID;
             infoTrigger.infoDataIDList = infoList;
             infoTrigger.completeMonologType = completeMonologID;
@@ -805,22 +806,46 @@ public class SOSettingWindow : EditorWindow
 
             if (fileType == EWindowType.Notepad)
             {
-                string text = columns[8];
                 NotepadBody notepadBody = bodyPrefab.GetComponent<NotepadBody>();
-                notepadBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
-                notepadBody.SetTriggerText();
+
+                string text = columns[8];
+                int textIdx = 0;
+                if(int.TryParse(columns[8], out textIdx))
+                {
+                    notepadBody.AddTextTriggerData(new TextTriggerData() { id = textIdx, trigger = infoTrigger });
+
+                }
+                else
+                {
+                    notepadBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
+                    notepadBody.SetTriggerText();
+                }
+
             }
 
             if (fileType == EWindowType.MediaPlayer)
             {
-                string text = columns[8];
                 MediaPlayerBody mediaPlayerBody = bodyPrefab.GetComponent<MediaPlayerBody>();
+                string text = columns[8];
+                int textIdx = 0;
+                if (int.TryParse(columns[8], out textIdx))
+                {
+                    mediaPlayerBody.AddTextTriggerData(new TextTriggerData() { id = textIdx, trigger = infoTrigger });
+                }
+                else
+                {
+                    mediaPlayerBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
+                    mediaPlayerBody.SetTriggerText();
+                }
+
                 mediaPlayerBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
                 mediaPlayerBody.SetTriggerText();
             }
 
-
+            EditorUtility.SetDirty(infoTrigger);
         }
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
     }
 }
 
