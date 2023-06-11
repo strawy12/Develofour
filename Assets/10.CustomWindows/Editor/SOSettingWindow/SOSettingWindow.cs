@@ -25,7 +25,11 @@ public class SOSettingWindow : EditorWindow
         Mail,
         TriggerPrefab,
     }
-
+    private class BodyPrefabData
+    {
+        public GameObject bodyObject;
+        public string prefabPath;
+    }
     private Button settingButton;
     private Button fileSOBtn;
     private Button monologSOBtn;
@@ -698,29 +702,32 @@ public class SOSettingWindow : EditorWindow
         string[] rows = dataText.Split('\n');
 
         string[] notepadGuids = AssetDatabase.FindAssets("t:NotepadDataSO", null);
-        Dictionary<int, GameObject> notePadBodys = new Dictionary<int, GameObject>();
-
+        Dictionary<int, BodyPrefabData> notePadBodys = new Dictionary<int, BodyPrefabData>();
+       
         foreach (var guid in notepadGuids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             NotepadDataSO notepadDataSO = AssetDatabase.LoadAssetAtPath<NotepadDataSO>(path);
             if (notepadDataSO.notepadBody != null)
                 notepadDataSO.notepadBody.ClearTextTrigger();
-            GameObject bodyPrefab = PrefabUtility.InstantiatePrefab(notepadDataSO.notepadBody.gameObject) as GameObject;
-            List<ClickInfoTrigger> bodyTriggerList = bodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList();
+            if (notepadDataSO.notepadBody == null) continue;
+
+            GameObject soBodyPrefab = Instantiate(notepadDataSO.notepadBody.gameObject);
+            List<ClickInfoTrigger> bodyTriggerList = soBodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList();
 
             while (bodyTriggerList.Count != 0)
             {
                 ClickInfoTrigger clickInfoTrigger = bodyTriggerList[0];
                 bodyTriggerList.RemoveAt(0);
-                Destroy(clickInfoTrigger);
-            }
+                DestroyImmediate(clickInfoTrigger.gameObject, true);
 
-            notePadBodys.Add(notepadDataSO.fileId, bodyPrefab);
+            }
+            BodyPrefabData bodyData= new BodyPrefabData() { bodyObject = soBodyPrefab, prefabPath = AssetDatabase.GetAssetPath(notepadDataSO.notepadBody) };
+            notePadBodys.Add(notepadDataSO.fileId, bodyData);
         }
 
         string[] mediaplayerGuids = AssetDatabase.FindAssets("t:MediaPlayerDataSO", null);
-        Dictionary<int,GameObject> mediaplayerBodys = new Dictionary<int, GameObject>();
+        Dictionary<int, BodyPrefabData> mediaplayerBodys = new Dictionary<int, BodyPrefabData>();
 
         foreach (var guid in mediaplayerGuids)
         {
@@ -728,38 +735,44 @@ public class SOSettingWindow : EditorWindow
             MediaPlayerDataSO mediaPlayerDataSO = AssetDatabase.LoadAssetAtPath<MediaPlayerDataSO>(path);
             if (mediaPlayerDataSO.body != null)
                 mediaPlayerDataSO.body.ClearTextTrigger();
-            GameObject bodyPrefab = PrefabUtility.InstantiatePrefab(mediaPlayerDataSO.body.gameObject) as GameObject;
-            List<ClickInfoTrigger> bodyTriggerList = bodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList();
+            if (mediaPlayerDataSO.body == null) continue;
 
+            GameObject soBodyPrefab = Instantiate(mediaPlayerDataSO.body.gameObject);
+            
+            List<ClickInfoTrigger> bodyTriggerList = soBodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList();
+            Debug.Log($"{soBodyPrefab.name} : {bodyTriggerList.Count}");
             while (bodyTriggerList.Count != 0)
             {
                 ClickInfoTrigger clickInfoTrigger = bodyTriggerList[0];
                 bodyTriggerList.RemoveAt(0);
-                Destroy(clickInfoTrigger);
-            }
+                DestroyImmediate(clickInfoTrigger.gameObject, true);
 
-            mediaplayerBodys.Add(mediaPlayerDataSO.fileId, bodyPrefab);
+            }
+            BodyPrefabData bodyData = new BodyPrefabData() { bodyObject = soBodyPrefab, prefabPath = AssetDatabase.GetAssetPath(mediaPlayerDataSO.body) };
+            mediaplayerBodys.Add(mediaPlayerDataSO.fileId, bodyData);
+
+
         }
 
         string[] imageviewerGuids = AssetDatabase.FindAssets("t:ImageViewerDataSO", null);
-        Dictionary<int,GameObject> imageviewerBodys = new Dictionary<int, GameObject>();
+        Dictionary<int, BodyPrefabData> imageviewerBodys = new Dictionary<int, BodyPrefabData>();
 
         foreach (var guid in imageviewerGuids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             ImageViewerDataSO imageViewerDataSO = AssetDatabase.LoadAssetAtPath<ImageViewerDataSO>(path);
-
-            GameObject soBodyPrefab = PrefabUtility.InstantiatePrefab(imageViewerDataSO.imageBody.gameObject) as GameObject;
+            if (imageViewerDataSO.imageBody == null) continue;
+            GameObject soBodyPrefab = Instantiate(imageViewerDataSO.imageBody.gameObject);
             List<ClickInfoTrigger> bodyTriggerList = soBodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList();
 
             while (bodyTriggerList.Count != 0)
             {
                 ClickInfoTrigger clickInfoTrigger = bodyTriggerList[0];
                 bodyTriggerList.RemoveAt(0);
-                Destroy(clickInfoTrigger);
+                DestroyImmediate(clickInfoTrigger.gameObject, true);
             }
-
-            imageviewerBodys.Add(imageViewerDataSO.fileId, soBodyPrefab);
+            BodyPrefabData bodyData = new BodyPrefabData() { bodyObject = soBodyPrefab, prefabPath = AssetDatabase.GetAssetPath(imageViewerDataSO.imageBody) };
+            imageviewerBodys.Add(imageViewerDataSO.fileId, bodyData);
         }
 
         ClickInfoTrigger infoTriggerPrefab = AssetDatabase.LoadAssetAtPath<ClickInfoTrigger>("Assets/03.Prefabs/InfoTrigger/InfoDefault.prefab");
@@ -771,17 +784,17 @@ public class SOSettingWindow : EditorWindow
             int fileID = int.Parse(columns[0]);
             EWindowType fileType = Enum.Parse<EWindowType>(columns[1]);
 
-            GameObject bodyPrefab = null;
+            BodyPrefabData bodyPrefabData = null;
             switch (fileType)
             {
                 case EWindowType.Notepad:
-                    bodyPrefab = notePadBodys[fileID];
+                    bodyPrefabData = notePadBodys[fileID];
                     break;
                 case EWindowType.MediaPlayer:
-                    bodyPrefab = mediaplayerBodys[fileID];
+                    bodyPrefabData = mediaplayerBodys[fileID];
                     break;
                 case EWindowType.ImageViewer:
-                    bodyPrefab = imageviewerBodys[fileID];
+                    bodyPrefabData = imageviewerBodys[fileID];
                     break;
             }
 
@@ -818,7 +831,7 @@ public class SOSettingWindow : EditorWindow
             bool isFakeInfo = columns[6] == "TRUE";
             float delay = float.Parse(columns[7].Trim());
 
-            ClickInfoTrigger infoTrigger = Instantiate(infoTriggerPrefab, bodyPrefab.transform);
+            ClickInfoTrigger infoTrigger = Instantiate(infoTriggerPrefab, bodyPrefabData.bodyObject.transform);
 
             infoTrigger.fileID = fileID;
             infoTrigger.MonologID = monologID;
@@ -839,7 +852,7 @@ public class SOSettingWindow : EditorWindow
 
             if (fileType == EWindowType.Notepad)
             {
-                NotepadBody notepadBody = bodyPrefab.GetComponent<NotepadBody>();
+                NotepadBody notepadBody = bodyPrefabData.bodyObject.GetComponent<NotepadBody>();
 
                 string text = columns[8];
                 int textIdx = 0;
@@ -858,7 +871,7 @@ public class SOSettingWindow : EditorWindow
 
             if (fileType == EWindowType.MediaPlayer)
             {
-                MediaPlayerBody mediaPlayerBody = bodyPrefab.GetComponent<MediaPlayerBody>();
+                MediaPlayerBody mediaPlayerBody = bodyPrefabData.bodyObject.GetComponent<MediaPlayerBody>();
                 string text = columns[8];
                 int textIdx = 0;
                 if (int.TryParse(columns[8], out textIdx))
@@ -875,11 +888,8 @@ public class SOSettingWindow : EditorWindow
                 mediaPlayerBody.SetTriggerText();
             }
 
-            EditorUtility.SetDirty(bodyPrefab);
-            PrefabUtility.SaveAsPrefabAsset(bodyPrefab, AssetDatabase.GetAssetPath(bodyPrefab));
+            PrefabUtility.SaveAsPrefabAsset(bodyPrefabData.bodyObject, bodyPrefabData.prefabPath);
         }
-
-
 
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
