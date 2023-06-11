@@ -43,6 +43,7 @@ public class NotepadBody : MonoBehaviour
     }
     public void ClearTextTrigger()
     {
+        if(textTriggerList != null)
         textTriggerList.Clear();
     }
 #endif
