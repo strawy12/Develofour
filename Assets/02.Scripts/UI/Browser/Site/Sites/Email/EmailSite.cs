@@ -106,6 +106,12 @@ public class EmailSite : Site
         {
             EmailLine emailLine = Instantiate(emailLinePrefab, emailLineParent);
             emailLine.Init(mail);
+            ProfileOverlayOpenTrigger trigger = mail.GetComponent<ProfileOverlayOpenTrigger>();
+            if(trigger != null)
+            {
+                emailLine.overlayTrigger = trigger;
+                mail.OnOverlayClose += emailLine.overlayTrigger.Close;
+            }
             emailLine.gameObject.SetActive(false);
             mail.Init();
 

@@ -59,7 +59,6 @@ public class ProfileOverlaySystem : MonoBehaviour
     {
         if(completeProfileCount == wholeProfileCount)
         {
-            Debug.Log(completeProfileCount + " " + wholeProfileCount);
             return;
         }
 
@@ -67,11 +66,19 @@ public class ProfileOverlaySystem : MonoBehaviour
 
         if(completeProfileCount == wholeProfileCount)
         {
-            Debug.Log(completeProfileCount + " " + wholeProfileCount);
-            MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, 1f, false);
+            if(!MonologSystem.isEndMonolog)//독백중이면
+            {
+                Debug.Log(1);
+                MonologSystem.OnEndMonologEvent = () => { MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, 0.5f, false); };
+            }
+            else
+            {
+                Debug.Log(2);
+                MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, 1f, false);
+            }
         }
 
-        Setting(id);
+        Setting(id);    
     }
 
     public void Setting(int id)

@@ -103,4 +103,11 @@ public static partial class Constant
 
     #endregion
 
+    public static class OverlayID //파일이 아닌 것들의 정보들
+    {
+        public const int START_ATTRIBUTE = -1;
+        public const int NOTIFICATION_SYSTEM = -2;
+        public const int ORDER_LIST_MAIL = -3;
+        public const int BACKGROUND_MAIL = -4;
+    }
 }

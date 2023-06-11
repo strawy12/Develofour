@@ -36,7 +36,7 @@ public class InformationTrigger : MonoBehaviour
     public int MonologID => monoLogType;
 
     [SerializeField]
-    protected int fildID;
+    public int fildID;
 
     protected virtual void Start()
     {

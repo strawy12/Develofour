@@ -7063,7 +7063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoDataIDList: 
+  infoDataIDList: 85000000
   needInfoList: []
   monoLogType: 160
   completeMonologType: 0
@@ -8770,7 +8770,7 @@ MonoBehaviour:
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  fildID: 0
+  fildID: -1
   backgroundImage: {fileID: 1283911533}
 --- !u!114 &1283911533
 MonoBehaviour:
@@ -9285,6 +9285,7 @@ GameObject:
   - component: {fileID: 1395410946}
   - component: {fileID: 1395410945}
   - component: {fileID: 1395410947}
+  - component: {fileID: 1395410948}
   m_Layer: 5
   m_Name: NotificationSystem
   m_TagString: Untagged
@@ -9344,6 +9345,7 @@ MonoBehaviour:
   noticePanelParant: {fileID: 1120884905}
   saveNoticeList: []
   maxExtend: 3
+  overlayTrigger: {fileID: 0}
 --- !u!114 &1395410942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9450,6 +9452,21 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1395410948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395410938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileID: -2
+  triggerCount:
+  - {fileID: 996333747}
 --- !u!1 &1419930710
 GameObject:
   m_ObjectHideFlags: 0
@@ -13634,6 +13651,7 @@ GameObject:
   - component: {fileID: 2058078484}
   - component: {fileID: 2058078489}
   - component: {fileID: 2058078488}
+  - component: {fileID: 2058078490}
   m_Layer: 5
   m_Name: StartAttributeUI
   m_TagString: StartAttribute
@@ -13689,6 +13707,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   expandDelayTime: 0.5
   nameText: {fileID: 1937368240}
+  overlayTrigger: {fileID: 0}
 --- !u!114 &2058078486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13765,6 +13784,21 @@ Canvas:
   m_SortingLayerID: 1325060129
   m_SortingOrder: 10
   m_TargetDisplay: 0
+--- !u!114 &2058078490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058078482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileID: 0
+  triggerCount:
+  - {fileID: 1283911532}
 --- !u!1 &2068408922
 GameObject:
   m_ObjectHideFlags: 0
@@ -17567,7 +17601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 205, y: 0}
   m_SizeDelta: {x: 230, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2884288030495000395
@@ -22085,7 +22119,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 125, y: 0}
   m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6155462079995700940
@@ -22239,8 +22273,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 342.5, y: 0}
+  m_SizeDelta: {x: 342.5, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &6155462080139323139
 GameObject:
@@ -22434,7 +22468,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 120.65, y: 0}
   m_SizeDelta: {x: 241.3, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6155462081717301248
@@ -22563,7 +22597,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 129.995, y: 0}
   m_SizeDelta: {x: 259.99, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6155462081717301254

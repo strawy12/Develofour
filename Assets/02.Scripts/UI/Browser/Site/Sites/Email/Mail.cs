@@ -43,6 +43,8 @@ public abstract class Mail : MonoBehaviour
 
     private int originMask;
 
+    public Action OnOverlayClose;
+
     [ContextMenu("BindBtns")]
     public void BindBtns()
     {
@@ -79,6 +81,7 @@ public abstract class Mail : MonoBehaviour
 
     public virtual void HideMail()
     {
+        OnOverlayClose?.Invoke();
         gameObject.SetActive(false);
     }
 
@@ -105,5 +108,15 @@ public abstract class Mail : MonoBehaviour
     public void DebugReset()
     {
         mailData.mailCategory = originMask;
+    }
+
+    void OnDisable()
+    {
+        OnOverlayClose?.Invoke();
+    }
+
+    void OnDestroy()
+    {
+        OnDisable();
     }
 }
