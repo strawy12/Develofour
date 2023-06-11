@@ -740,21 +740,19 @@ public class SOSettingWindow : EditorWindow
             EWindowType fileType = Enum.Parse<EWindowType>(columns[1]);
 
             GameObject bodyPrefab = null;
-            string prefabPath = "";
             switch (fileType)
             {
                 case EWindowType.Notepad:
-                    prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(notepadSODatas.Find((x => x.fileId == fileID)).notepadBody);
-                    bodyPrefab = PrefabUtility.LoadPrefabContents(prefabPath) as GameObject;
+                    bodyPrefab = notepadSODatas.Find((x => x.fileId == fileID)).notepadBody.gameObject;
+                   
                     break;
                 case EWindowType.MediaPlayer:
-                    prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(mediaplayerDataSOs.Find((x => x.fileId == fileID)).body);
-                    bodyPrefab = PrefabUtility.LoadPrefabContents(prefabPath) as GameObject;
+                    bodyPrefab =mediaplayerDataSOs.Find((x => x.fileId == fileID)).body.gameObject;
+                     
                     
                     break;
                 case EWindowType.ImageViewer:
-                    prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(imageviewerDataSOs.Find((x => x.fileId == fileID)).imageBody);
-                    bodyPrefab = PrefabUtility.LoadPrefabContents(prefabPath) as GameObject;
+                    bodyPrefab = imageviewerDataSOs.Find((x => x.fileId == fileID)).imageBody.gameObject;
                     break;
             }
             List<ClickInfoTrigger> bodyPrefabClickInfoTriggers =  bodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList();
@@ -800,10 +798,8 @@ public class SOSettingWindow : EditorWindow
             float delay = float.Parse(columns[7].Trim());
 
             GameObject copyBodyPrefab = PrefabUtility.InstantiatePrefab(bodyPrefab) as GameObject;
-            ClickInfoTrigger infoTrigger = new ClickInfoTrigger();
+            ClickInfoTrigger infoTrigger = Instantiate(infoTriggerPrefab, copyBodyPrefab.transform);
             
-            UnityEngine.UI.Image infoimage = infoTrigger.AddComponent<UnityEngine.UI.Image>();
-            infoimage.color = new Color(255, 0, 0, 0);
             infoTrigger.fileID = fileID;
             infoTrigger.MonologID = monologID;
             infoTrigger.infoDataIDList = infoList;
@@ -811,7 +807,6 @@ public class SOSettingWindow : EditorWindow
             infoTrigger.delay = delay;
             infoTrigger.needInfoList = needInfoDataList;
             infoTrigger.isFakeInfo = isFakeInfo;
-            infoTrigger.transform.SetParent(copyBodyPrefab.transform);
             
             string infoName = "";
             for (int j = 0; j < infoList.Count; j++)
@@ -863,7 +858,6 @@ public class SOSettingWindow : EditorWindow
             EditorUtility.SetDirty(infoTrigger);
             PrefabUtility.SaveAsPrefabAsset(copyBodyPrefab, AssetDatabase.GetAssetPath(bodyPrefab));
             Destroy(copyBodyPrefab);
-            PrefabUtility.UnloadPrefabContents(bodyPrefab);
         }
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
