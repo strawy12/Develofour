@@ -692,21 +692,6 @@ public class SOSettingWindow : EditorWindow
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
     }
-    private void CreateFolder(string path)
-    {
-        string[] splitPath = path.Split('/');
-        string temp = "Assets";
-        for (int i = 1; i < splitPath.Length - 1; i++)
-        {
-            temp += '/' + splitPath[i];
-            if (!Directory.Exists(temp))
-            {
-                Directory.CreateDirectory(temp);
-            }
-        }
-        AssetDatabase.Refresh();
-
-    }
 
     private void SettingInfoTrigger(string dataText)
     {
@@ -800,8 +785,11 @@ public class SOSettingWindow : EditorWindow
             int completeMonologID = int.Parse(columns[5]);
             bool isFakeInfo = columns[6] == "TRUE";
             float delay = float.Parse(columns[7].Trim());
-            GameObject copyBodyPrefab = Instantiate(bodyPrefab);
-            ClickInfoTrigger infoTrigger = Instantiate(infoTriggerPrefab);
+            GameObject copyBodyPrefab = PrefabUtility.InstantiatePrefab(bodyPrefab) as GameObject;
+            ClickInfoTrigger infoTrigger = new ClickInfoTrigger();
+
+            UnityEngine.UI.Image infoimage = infoTrigger.AddComponent<UnityEngine.UI.Image>();
+            infoimage.color = new Color(255, 0, 0, 0);
             infoTrigger.fileID = fileID;
             infoTrigger.MonologID = monologID;
             infoTrigger.infoDataIDList = infoList;
@@ -863,6 +851,22 @@ public class SOSettingWindow : EditorWindow
         }
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
+    }
+
+    private void CreateFolder(string path)
+    {
+        string[] splitPath = path.Split('/');
+        string temp = "Assets";
+        for (int i = 1; i < splitPath.Length - 1; i++)
+        {
+            temp += '/' + splitPath[i];
+            if (!Directory.Exists(temp))
+            {
+                Directory.CreateDirectory(temp);
+            }
+        }
+        AssetDatabase.Refresh();
+
     }
 }
 
