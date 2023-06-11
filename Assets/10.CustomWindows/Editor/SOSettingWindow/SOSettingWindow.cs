@@ -740,19 +740,32 @@ public class SOSettingWindow : EditorWindow
             EWindowType fileType = Enum.Parse<EWindowType>(columns[1]);
 
             GameObject bodyPrefab = null;
+            string prefabPath = "";
             switch (fileType)
             {
                 case EWindowType.Notepad:
-                    bodyPrefab = notepadSODatas.Find((x => x.fileId == fileID)).notepadBody.gameObject;
+                    prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(notepadSODatas.Find((x => x.fileId == fileID)).notepadBody);
+                    bodyPrefab = PrefabUtility.LoadPrefabContents(prefabPath) as GameObject;
                     break;
                 case EWindowType.MediaPlayer:
-                    bodyPrefab = mediaplayerDataSOs.Find(x => x.fileId == fileID).body.gameObject;
+                    prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(mediaplayerDataSOs.Find((x => x.fileId == fileID)).body);
+                    bodyPrefab = PrefabUtility.LoadPrefabContents(prefabPath) as GameObject;
+                    
                     break;
                 case EWindowType.ImageViewer:
-                    bodyPrefab = imageviewerDataSOs.Find(x => x.fileId == fileID).imageBody.gameObject;
+                    prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(imageviewerDataSOs.Find((x => x.fileId == fileID)).imageBody);
+                    bodyPrefab = PrefabUtility.LoadPrefabContents(prefabPath) as GameObject;
                     break;
             }
-            //bodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList().ForEach(x => Destroy(x));
+            List<ClickInfoTrigger> bodyPrefabClickInfoTriggers =  bodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList();
+            
+            while(bodyPrefabClickInfoTriggers.Count != 0)
+            {
+                ClickInfoTrigger clickInfoTrigger = bodyPrefabClickInfoTriggers[0];
+                bodyPrefabClickInfoTriggers.RemoveAt(0);
+                DestroyImmediate(clickInfoTrigger);
+            }
+
             List<int> infoList = new List<int>();
             List<string> infoStringList  = columns[2].Trim().Split(',').ToList();
             foreach(var infoString in infoStringList)
@@ -785,9 +798,10 @@ public class SOSettingWindow : EditorWindow
             int completeMonologID = int.Parse(columns[5]);
             bool isFakeInfo = columns[6] == "TRUE";
             float delay = float.Parse(columns[7].Trim());
+
             GameObject copyBodyPrefab = PrefabUtility.InstantiatePrefab(bodyPrefab) as GameObject;
             ClickInfoTrigger infoTrigger = new ClickInfoTrigger();
-
+            
             UnityEngine.UI.Image infoimage = infoTrigger.AddComponent<UnityEngine.UI.Image>();
             infoimage.color = new Color(255, 0, 0, 0);
             infoTrigger.fileID = fileID;
@@ -798,8 +812,7 @@ public class SOSettingWindow : EditorWindow
             infoTrigger.needInfoList = needInfoDataList;
             infoTrigger.isFakeInfo = isFakeInfo;
             infoTrigger.transform.SetParent(copyBodyPrefab.transform);
-
-            bodyPrefab = copyBodyPrefab;
+            
             string infoName = "";
             for (int j = 0; j < infoList.Count; j++)
             {
@@ -848,6 +861,9 @@ public class SOSettingWindow : EditorWindow
             }
 
             EditorUtility.SetDirty(infoTrigger);
+            PrefabUtility.SaveAsPrefabAsset(copyBodyPrefab, AssetDatabase.GetAssetPath(bodyPrefab));
+            Destroy(copyBodyPrefab);
+            PrefabUtility.UnloadPrefabContents(bodyPrefab);
         }
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
