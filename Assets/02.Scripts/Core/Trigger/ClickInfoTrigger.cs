@@ -8,6 +8,7 @@ using static CursorChangeSystem;
 
 public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+
     [SerializeField]
     protected Image backgroundImage;
     public int fileID;

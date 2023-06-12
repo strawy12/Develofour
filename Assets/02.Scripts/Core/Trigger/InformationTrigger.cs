@@ -17,7 +17,7 @@ public class InformationTrigger : MonoBehaviour
 {
     /// <summary>
     /// 정보들 id들 넣는 곳입니다.
-    
+    public int triggerID = 0;
     public List<int> infoDataIDList;
 
     public List<NeedInfoData> needInfoList;
