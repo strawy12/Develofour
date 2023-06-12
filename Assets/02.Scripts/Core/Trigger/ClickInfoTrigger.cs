@@ -29,6 +29,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     public virtual void OnPointerClick(PointerEventData eventData)
     {
         GetInfo();
+        ProfileOverlaySystem.OnAdd(fildID);
         OnPointerEnter(eventData);
     }
 
@@ -64,7 +65,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
             return;
         }
 
-        if (infomaitionDataList == null || infoDataIDList.Count == 0)
+        if (infoDataIDList == null || infoDataIDList.Count == 0)
         {
             ChangeCursor(ECursorState.FindInfo);
             return;

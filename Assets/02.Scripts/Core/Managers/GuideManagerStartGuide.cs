@@ -14,6 +14,12 @@ public partial class GuideManager : MonoBehaviour
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }
+            case EGuideTopicName.FirstLoginGuide:
+                {
+                    MonologSystem.OnStartMonolog.Invoke(Constant.MonologKey.FIRST_LOGIN_GUIDE, 0.1f, true);
+                    DataManager.Inst.SetGuide(guideTopic, true);
+                    break;
+                }
             //case EGuideTopicName.ClickPinNotePadHint:
             //    {
             //        EventManager.TriggerEvent(EProfileEvent.ProfileSendMessage, new object[1] { guideTopicDictionary[guideTopic].guideTexts[0] });

@@ -47,6 +47,8 @@ public class EmailLine : MonoBehaviour
     public MailDataSO MailData => mail.MailData;
     public bool IsFavorited { get { return mail.MailData.isFavorited; } }
 
+    public ProfileOverlayOpenTrigger overlayTrigger;
+
     public void Init(Mail mail)
     {
         this.mail = mail;
@@ -55,9 +57,6 @@ public class EmailLine : MonoBehaviour
         favoriteButton.Init(MailData.isFavorited);
         favoriteButton.OnChangeFavorited += ChangeFavorite;
     }
-
-    
-
 
     public void ChangeText()
     {
@@ -96,6 +95,7 @@ public class EmailLine : MonoBehaviour
 
     public void ShowMail()
     {
+        overlayTrigger.Open();
         mail.ShowMail();
     }
 

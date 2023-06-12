@@ -5,10 +5,17 @@
     ChangeBGM,
     EndDataLoading,
     CursorChange,
-    CoverPanelSetting,
     SendCallNumber,
     OpenVolume,
     MainSceneStart,
+}
+
+public enum EOverlayEvent
+{
+    None = -1,
+    OpenOverlay,
+    SettingOverlay,
+
 }
 
 public enum EBranchEvent
@@ -179,7 +186,7 @@ public enum ETutorialEvent
     GuideObject,
     SelectLibrary,
     LibraryEventTrigger,
-
+    LibraryGuide,
 }
 
 

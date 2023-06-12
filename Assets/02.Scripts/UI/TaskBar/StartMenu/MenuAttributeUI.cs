@@ -26,6 +26,9 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     public TMP_Text nameText;
 
+    [SerializeField]
+    private ProfileOverlayOpenTrigger overlayTrigger;
+
     private void Awake()
     {
         Bind();
@@ -35,6 +38,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+        overlayTrigger ??= GetComponent<ProfileOverlayOpenTrigger>();
     }
 
     private void Init()
@@ -71,6 +75,8 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         rectTransform.sizeDelta = contractSize;
 
         SetActive(true);
+        overlayTrigger.fileID = Constant.OverlayID.START_ATTRIBUTE;
+        overlayTrigger.Open();
 
         DOTween.To(
             () => rectTransform.sizeDelta.y,
@@ -88,6 +94,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
     public void Close()
     {
         if (isOpen == false) { return; }
+        overlayTrigger.Close();
         isOpen = false;
         SetActive(false);
     }

@@ -840,6 +840,7 @@ public class SOSettingWindow : EditorWindow
             infoTrigger.delay = delay;
             infoTrigger.needInfoList = needInfoDataList;
             infoTrigger.isFakeInfo = isFakeInfo;
+            infoTrigger.fildID = fileID;
 
             string infoName = "";
             for (int j = 0; j < infoList.Count; j++)
@@ -859,7 +860,6 @@ public class SOSettingWindow : EditorWindow
                 if (int.TryParse(columns[8], out textIdx))
                 {
                     notepadBody.AddTextTriggerData(new TextTriggerData() { id = textIdx, trigger = infoTrigger });
-
                 }
                 else
                 {

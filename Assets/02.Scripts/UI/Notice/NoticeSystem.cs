@@ -41,6 +41,9 @@ public class NoticeSystem : MonoUI
     public int maxExtend = 3;
     private int extendCount = 0;
 
+    [SerializeField]
+    private ProfileOverlayOpenTrigger overlayTrigger;
+
     private void Awake()
     {
         Bind();
@@ -58,6 +61,7 @@ public class NoticeSystem : MonoUI
 
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
+        overlayTrigger ??= GetComponent<ProfileOverlayOpenTrigger>();
     }
 
     private void Init()
@@ -112,6 +116,8 @@ public class NoticeSystem : MonoUI
     public void Open()
     {
         if (isOpen) return;
+        overlayTrigger.fileID = Constant.OverlayID.NOTIFICATION_SYSTEM;
+        overlayTrigger.Open();
         isOpen = true;
 
         EventManager.TriggerEvent(ENoticeEvent.OpenNoticeSystem);
@@ -125,6 +131,7 @@ public class NoticeSystem : MonoUI
     public void Close()
     {
         if (!isOpen) return;
+        overlayTrigger.Close();
         isOpen = false;
         rectTransform.DOKill();
         rectTransform.DOAnchorPosX(rectTransform.rect.width, Constant.NOTICE_DURATION).OnComplete(() =>

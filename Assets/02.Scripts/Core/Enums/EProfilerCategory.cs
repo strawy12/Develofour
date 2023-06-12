@@ -30,5 +30,12 @@ public enum EProfilerCategory
     AssistantProfile,
     PoliceProfile,
     OrderListMail,
+    ConsultationAgreement,
+    NewsserafimFanEvent,
+    FirstDayToDate,
+    PetHospitalName,
+    PetHospitalDay,
+    ParkJuyoungHigh,
+    PetBirthDay,
     Count,
 }

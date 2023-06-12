@@ -31,6 +31,7 @@ public class ProfilerTutorial : MonoBehaviour
     void Start()
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, CreatePopUp);
+        EventManager.StartListening(ETutorialEvent.LibraryGuide, LibraryRect);
     }
 
     private void CreatePopUp(object[] ps)
@@ -66,7 +67,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void StartTutorialSetting()
     {
-        LibraryRect();
+        LibraryRect(null);
     }
     private void OpenLibrary(object[] ps)
     {
@@ -184,9 +185,10 @@ public class ProfilerTutorial : MonoBehaviour
     }
 #endif
 
-    private void LibraryRect()
+    private void LibraryRect(object[] ps)
     {
         GuideUISystem.OnGuide(libraryRect);
+        Debug.Log(libraryRect);
     }
 }
 

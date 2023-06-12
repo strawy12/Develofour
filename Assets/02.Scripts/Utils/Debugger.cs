@@ -87,6 +87,16 @@ public class Debugger : MonoBehaviour
             DataManager.Inst.AddProfilerSaveData(EProfilerCategory.InvisibleInformation,66);
         }
 
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+
+            foreach (var temp in ResourceManager.Inst.GetProfileCategory(EProfilerCategory.ParkJuyoungProfile).infoTextList)
+            {
+                EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.ParkJuyoungProfile, temp.id });
+                //DataManager.Inst.AddProfilerSaveData(EProfilerCategory.ParkJuyoungProfile, temp.id);
+            }
+        }
+
     }
 
     private void ActiveDebug()

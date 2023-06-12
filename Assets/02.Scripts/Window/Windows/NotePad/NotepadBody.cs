@@ -12,6 +12,16 @@ public class NotepadBody : MonoBehaviour
 
     [SerializeField] private List<TextTriggerData> textTriggerList;
 
+    public TMP_Text bodyText
+    {
+        get
+        {
+            inputField ??= GetComponent<TMP_InputField>();
+            text ??= inputField.textComponent;
+            return text;
+        }
+    }
+
     public void Init()
     {
         inputField ??= GetComponent<TMP_InputField>();

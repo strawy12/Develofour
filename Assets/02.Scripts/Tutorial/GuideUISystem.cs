@@ -90,6 +90,7 @@ public class GuideUISystem : MonoBehaviour
 
     private void StopGuideUICor()
     {
+        Debug.Log("지우지말라고!!!으악!!!!");
         currentRectTransform = null;
         guideUI.transform.SetParent(transform);
         isSign = false;
