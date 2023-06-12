@@ -1,12 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:GroupBox tabindex="0" focusable="false" style="top: auto; align-items: center; justify-content: space-around; flex-direction: row; flex-wrap: nowrap; height: 26px;">
+    <ui:GroupBox tabindex="0" focusable="false" name="GroupBox" style="top: auto; align-items: flex-start; justify-content: flex-start; flex-direction: row; flex-wrap: wrap; height: 59px;">
         <ui:Button text="FileSO" display-tooltip-when-elided="true" name="FileSOBtn" view-data-key="FileSOBtn" />
         <ui:Button text="Monolog" display-tooltip-when-elided="true" name="MonologBtn" view-data-key="MonologBtn" />
         <ui:Button text="ProfilerInfo" display-tooltip-when-elided="true" name="ProfilerInfoBtn" view-data-key="ProfilerInfoBtn" />
         <ui:Button text="ProfilerGuide" display-tooltip-when-elided="true" name="ProfilerGuideBtn" view-data-key="ProfilerGuideBtn" />
         <ui:Button text="Maiil" display-tooltip-when-elided="true" name="MailBtn" view-data-key="MailBtn" />
-    </ui:GroupBox>
-    <ui:GroupBox tabindex="0" focusable="false" style="top: auto; align-items: center; justify-content: space-between; flex-direction: row; flex-wrap: nowrap; height: 26px;">
         <ui:Button text="Trigger" display-tooltip-when-elided="true" name="TriggerPrfBtn" view-data-key="TriggerPrfBtn" style="-unity-text-align: middle-left;" />
     </ui:GroupBox>
     <ui:GroupBox style="top: auto; flex-direction: column-reverse; height: 45px;">
