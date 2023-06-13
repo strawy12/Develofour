@@ -47,7 +47,7 @@ public class BrowserFavoriteButton : MonoBehaviour
 
     public void OpenTriggerWindow()
     {
-        object[] ps = new object[2] { siteLink, Constant.LOADING_DELAY };
+        object[] ps = new object[3] { siteLink, Constant.LOADING_DELAY, true };
         EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, ps);
     }
 
