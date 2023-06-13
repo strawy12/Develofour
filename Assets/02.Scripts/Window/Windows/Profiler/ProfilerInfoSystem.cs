@@ -41,7 +41,7 @@ public class ProfilerInfoSystem : MonoBehaviour
         } 
         else if(ps.Length == 1)
         {
-            if(!(ps[1] is int))
+            if(!(ps[0] is int))
             {
                 return;
             }
