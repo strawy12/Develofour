@@ -365,10 +365,18 @@ public class SOSettingWindow : EditorWindow
                 pinList.Add(pin);
             }
 
+            WindowLockDataSO lockData = ResourceManager.Inst.GetFileLockData(id);
+            bool isLock = false;
+
+            if (lockData != null)
+            {
+                isLock = true;
+            }
+
             file.id = id;
             file.fileName = fileName;
             file.windowType = type;
-            file.isFileLock = isFileLock;
+            lockData.isLock = isLock;
             file.name = columns[9];
             file.tags = tags;
             file.propertyData.bytes = bytes;

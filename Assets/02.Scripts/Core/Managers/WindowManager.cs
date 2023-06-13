@@ -146,8 +146,16 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         if (targetWindow == null)
         {
+            WindowLockDataSO windowLock = ResourceManager.Inst.GetFileLockData(file.id);
+            bool isLock = false;
+
+            if(windowLock != null)
+            {
+                isLock = true;
+            }
+
             // lock이 설정 되어있는 fileSO가 이미 락이 풀려있는지 체크
-            if (file.isFileLock && DataManager.Inst.IsFileLock(file.id))
+            if (isLock && DataManager.Inst.IsFileLock(file.id))
             {
                 targetWindow = CreateWindow(EWindowType.WindowPinLock, file);
             }
