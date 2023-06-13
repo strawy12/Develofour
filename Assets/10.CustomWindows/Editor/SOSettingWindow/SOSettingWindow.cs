@@ -863,13 +863,14 @@ public class SOSettingWindow : EditorWindow
             ClickInfoTrigger infoTrigger = null;
             if (infoTriggerList.ContainsKey(triggerID))
             {
+                Debug.Log("Have");
                 infoTrigger = infoTriggerList[triggerID];
             }
             else
             {
                 infoTrigger = Instantiate(infoTriggerPrefab, bodyPrefabData.bodyObject.transform);
             }
-
+            infoTrigger.triggerID = triggerID;
             infoTrigger.fileID = fileID;
             infoTrigger.MonologID = monologID;
             infoTrigger.infoDataIDList = infoList;
