@@ -24,8 +24,6 @@ public class FileSO : ScriptableObject
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
     public Sprite iconSprite;
     public WindowIconData propertyData;
-    public bool isFileLock;
-    public WindowLockDataSO windowLock;
     
     public List<string> tags;
     public bool isHide;

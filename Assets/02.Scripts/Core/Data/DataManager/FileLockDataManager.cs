@@ -10,11 +10,18 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.FileLockData = new List<FileLockData>();
         List<FileSO> fileList = FileManager.Inst.GetALLFileList();
 
-        foreach (FileSO file in fileList)
+        for(int i = 0; i < fileList.Count; i++)
         {
-            if (file.isFileLock == true)
+            WindowLockDataSO lockData = ResourceManager.Inst.GetFileLockData(fileList[i].id);
+
+            if(lockData == null) 
             {
-                saveData.FileLockData.Add(new FileLockData() { id = file.id, isLock = true });
+                continue;
+            }
+
+            if (lockData.isLock == true)
+            {
+                saveData.FileLockData.Add(new FileLockData() { id = lockData.fileId, isLock = true });
             }
         }
 
