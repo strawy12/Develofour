@@ -757,7 +757,6 @@ public class SOSettingWindow : EditorWindow
             GameObject soBodyPrefab = Instantiate(mediaPlayerDataSO.body.gameObject);
 
             List<ClickInfoTrigger> bodyTriggerList = soBodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList();
-            Debug.Log($"{soBodyPrefab.name} : {bodyTriggerList.Count}");
             foreach (var trigger in bodyTriggerList)
             {
                 if (trigger.triggerID == 0)
@@ -863,12 +862,18 @@ public class SOSettingWindow : EditorWindow
             ClickInfoTrigger infoTrigger = null;
             if (infoTriggerList.ContainsKey(triggerID))
             {
-                Debug.Log("Have");
                 infoTrigger = infoTriggerList[triggerID];
             }
             else
             {
-                infoTrigger = Instantiate(infoTriggerPrefab, bodyPrefabData.bodyObject.transform);
+                if(fileType == EWindowType.Notepad || fileType == EWindowType.MediaPlayer)
+                {
+                    infoTrigger = Instantiate(infoTriggerPrefab, bodyPrefabData.bodyObject.GetComponentInChildren<TMPro.TMP_Text>().transform);
+                }
+                else
+                {
+                    infoTrigger = Instantiate(infoTriggerPrefab, bodyPrefabData.bodyObject.transform);
+                }
             }
             infoTrigger.triggerID = triggerID;
             infoTrigger.fileID = fileID;
@@ -927,22 +932,6 @@ public class SOSettingWindow : EditorWindow
 
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
-    }
-
-    private void CreateFolder(string path)
-    {
-        string[] splitPath = path.Split('/');
-        string temp = "Assets";
-        for (int i = 1; i < splitPath.Length - 1; i++)
-        {
-            temp += '/' + splitPath[i];
-            if (!Directory.Exists(temp))
-            {
-                Directory.CreateDirectory(temp);
-            }
-        }
-        AssetDatabase.Refresh();
-
     }
 
     public void SettingFileLockSO(string dataText)
@@ -1013,6 +1002,22 @@ public class SOSettingWindow : EditorWindow
         AssetDatabase.SaveAssets();
 
     }
+    private void CreateFolder(string path)
+    {
+        string[] splitPath = path.Split('/');
+        string temp = "Assets";
+        for (int i = 1; i < splitPath.Length - 1; i++)
+        {
+            temp += '/' + splitPath[i];
+            if (!Directory.Exists(temp))
+            {
+                Directory.CreateDirectory(temp);
+            }
+        }
+        AssetDatabase.Refresh();
+
+    }
+
 }
 
 
