@@ -1,4 +1,4 @@
-using Cinemachine;
+ï»¿using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic; 
@@ -55,7 +55,7 @@ public class ImageViewer : Window
 
     private void OverlayClose()
     {
-        if (overlayTrigger == null) // ¾ø´Ù¸é Ã£¾Æ¿Í
+        if (overlayTrigger == null) // ì—†ë‹¤ë©´ ì°¾ì•„ì™€
         {
             overlayTrigger = imageViewerBody.GetComponent<ProfileOverlayOpenTrigger>();
             if (overlayTrigger == null) { return; }
@@ -66,7 +66,7 @@ public class ImageViewer : Window
     private void OverlayOpen()
     {
 
-        if (overlayTrigger == null) // ¾ø´Ù¸é Ã£¾Æ¿Í
+        if (overlayTrigger == null) // ì—†ë‹¤ë©´ ì°¾ì•„ì™€
         {
             overlayTrigger = imageViewerBody.GetComponent<ProfileOverlayOpenTrigger>();
             if (overlayTrigger == null) { return; }
