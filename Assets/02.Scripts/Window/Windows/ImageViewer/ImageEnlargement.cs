@@ -90,7 +90,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         currentImage = GetComponent<Image>();
         currentImage.sprite = sprite;
 
-        SetImageSizeReset(new Vector2(850, 850f));
+        SetImageSizeReset(new Vector2(400f, 400f));
         currentImage.transform.localScale = Vector3.one * imageScale;
 
     }

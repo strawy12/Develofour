@@ -8,5 +8,6 @@ public class VideoPlayerDataSO : ScriptableObject
     public int fileId;
     public Sprite sprite;
     public CutScene cutScene;
+    public Vector2 imageSize;
 }
     

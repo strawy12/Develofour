@@ -74,7 +74,10 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.ParkJuyoungProfile, 66 });
+            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 77 });
+            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.KimYujinProfile, 11 });
+            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 36 });
+
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -82,7 +85,7 @@ public class Debugger : MonoBehaviour
             EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetProfile, 18 });
         }
 
-        if(Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             DataManager.Inst.SetMonologShow(212, true);
             DataManager.Inst.AddProfilerSaveData(EProfilerCategory.InvisibleInformation,66);

@@ -10,7 +10,7 @@ public class VideoPlayer : Window
     private CutScene instanceCutScene;
     private VideoPlayerDataSO data;
 
-    public ImageEnlargement mainImage;
+    public Image mainImage;
 
     public VideoPlayerButton startButton;
 
@@ -36,9 +36,11 @@ public class VideoPlayer : Window
             return;
         }
         //크기 조절은 알아서~
-        mainImage.ChangeImage(data.sprite);
-
-
+        mainImage.rectTransform.sizeDelta = data.imageSize;
+        if (data.imageSize == Vector2.zero)
+        {
+            mainImage.rectTransform.sizeDelta = new Vector2(750f, 400f);
+        }
         startButton.button.onClick.AddListener(ButtonClick);
         //컷씬을 새로 생성시켜서 start해주고
         //멈출땐 그냥 삭제

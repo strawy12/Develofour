@@ -35,7 +35,5 @@ public partial class DataManager : MonoSingleton<DataManager>
         List<ReturnMonologData> list = new List<ReturnMonologData>();
         list = saveData.returnMonologData.Where(x => x.characterType == type).ToList();
         return saveData.returnMonologData;
-
-
     }
 }
