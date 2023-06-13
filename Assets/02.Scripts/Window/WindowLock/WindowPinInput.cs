@@ -44,9 +44,13 @@ public class WindowPinInput : Window
     [SerializeField]
     private Color wrongAnswerTextColor;
 
+    private WindowLockDataSO windowLockData;
+
     protected override void Init()
     {
         base.Init();
+
+        windowLockData = ResourceManager.Inst.GetFileLockData(file.id);
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);
@@ -63,7 +67,7 @@ public class WindowPinInput : Window
     private void PinOpen()
     {
         windowBar.SetNameText("[ " + file.name + " - 잠금 안내 ]");
-        pinGuideText.SetText(file.windowLock.windowPinHintGuide);
+        pinGuideText.SetText(windowLockData.windowPinHintGuide);
 
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
@@ -72,11 +76,11 @@ public class WindowPinInput : Window
 
     private void SetAnswerDatas()
     {
-        autoPinAnswerFiled.autoAnswerDatas.Add(file.windowLock.answerData);
+        autoPinAnswerFiled.autoAnswerDatas.Add(windowLockData.answerData);
 
-        if (file.windowLock.answerData != null)
+        if (windowLockData.answerData != null)
         {
-            List<MonologLockDecision> infoDatas = file.windowLock.answerData.infoData;
+            List<MonologLockDecision> infoDatas = windowLockData.answerData.infoData;
             foreach (MonologLockDecision infoData in infoDatas)
             {
                 int infoID = infoData.key;
@@ -95,7 +99,7 @@ public class WindowPinInput : Window
         string inputText = pinInputField.text.Replace(" ", "");
         // 입력한거 공백 제거해서 들고 옴
 
-        string[] answerArr = file.windowLock.windowPin.Split(',');
+        string[] answerArr = windowLockData.windowPin.Split(',');
         // 파일 정답 목록들 구분 해서 들고 옴
 
         foreach (string answerText in answerArr)
@@ -112,10 +116,10 @@ public class WindowPinInput : Window
             }
         }
 
-        Debug.Log(file.windowLock.answerData);
-        if(file.windowLock.answerData != null)
+        Debug.Log(windowLockData.answerData);
+        if(windowLockData.answerData != null)
         {
-            List<MonologLockDecision> infoDatas = file.windowLock.answerData.infoData;
+            List<MonologLockDecision> infoDatas = windowLockData.answerData.infoData;
             foreach(MonologLockDecision infoData in infoDatas)
             {
                 int infoID = infoData.key;
