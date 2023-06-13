@@ -37,5 +37,13 @@ public enum EProfilerCategory
     PetHospitalDay,
     ParkJuyoungHigh,
     PetBirthDay,
+    StudentC,
+    StudentA,
+    Newsserafim,
+    ParkjuyoungEtc,
+    KangYohanEtc,
+    YohanPavoriteIdol,
+    YohansPet,
+    JuyoungYohanDate,
     Count,
 }

@@ -919,9 +919,6 @@ public class SOSettingWindow : EditorWindow
                     mediaPlayerBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
                     mediaPlayerBody.SetTriggerText();
                 }
-
-                mediaPlayerBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
-                mediaPlayerBody.SetTriggerText();
             }
 
             PrefabUtility.SaveAsPrefabAsset(bodyPrefabData.bodyObject, bodyPrefabData.prefabPath);
