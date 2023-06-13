@@ -376,7 +376,6 @@ public class SOSettingWindow : EditorWindow
             file.id = id;
             file.fileName = fileName;
             file.windowType = type;
-            lockData.isLock = isLock;
             file.name = columns[9];
             file.tags = tags;
             file.propertyData.bytes = bytes;

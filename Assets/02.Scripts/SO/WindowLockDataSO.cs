@@ -10,5 +10,5 @@ public class WindowLockDataSO : ScriptableObject
 
     public AutoAnswerData answerData;
 
-    public bool isLock;
+    //public bool isLock;
 }
