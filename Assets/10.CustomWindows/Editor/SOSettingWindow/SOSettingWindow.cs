@@ -131,7 +131,7 @@ public class SOSettingWindow : EditorWindow
 
         www = UnityWebRequest.Get(string.Format(URL, gidField.value));
         yield return www.SendWebRequest();
-        string add = www.downloadHandler.text.Replace("\r","");
+        string add = www.downloadHandler.text.Replace("\r", "");
 
         switch (soTypeField.value)
         {
@@ -797,7 +797,8 @@ public class SOSettingWindow : EditorWindow
                 }
                 else
                 {
-                    infoTriggerList.Add(trigger.triggerID, trigger);
+                    if (!infoTriggerList.ContainsKey(trigger.triggerID))
+                        infoTriggerList.Add(trigger.triggerID, trigger);
                 }
             }
             BodyPrefabData bodyData = new BodyPrefabData() { bodyObject = soBodyPrefab, prefabPath = AssetDatabase.GetAssetPath(imageViewerDataSO.imageBody) };
@@ -966,14 +967,14 @@ public class SOSettingWindow : EditorWindow
             data.answer = columns[1].Split(',')[0];
             data.infoData = new List<MonologLockDecision>();
 
-            for(int j = 4; j < columns.Length; j++)
+            for (int j = 4; j < columns.Length; j++)
             {
                 if (string.IsNullOrEmpty(columns[j])) continue;
-                
+
                 string[] decesions = columns[j].Split("_");
                 EDecisionType type = (EDecisionType)Enum.Parse(typeof(EDecisionType), decesions[0]);
                 int key = int.Parse(decesions[1]);
-                data.infoData.Add(new MonologLockDecision { decisionType=type, key=key });
+                data.infoData.Add(new MonologLockDecision { decisionType = type, key = key });
             }
 
 
