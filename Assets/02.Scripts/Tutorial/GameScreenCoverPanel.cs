@@ -6,8 +6,6 @@ public class GameScreenCoverPanel : MonoBehaviour
 {
     private void Start()
     {
-        EventManager.StartListening(ECoreEvent.CoverPanelSetting, ScreenSetting);
-
         gameObject.SetActive(false);
     }
 
@@ -21,6 +19,6 @@ public class GameScreenCoverPanel : MonoBehaviour
 
         bool value = (bool)ps[0];
 
-        gameObject.SetActive(value);
+        //gameObject.SetActive(value);
     }
 }

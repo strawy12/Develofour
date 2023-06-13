@@ -28,6 +28,9 @@ public class StartCutScene : MonoBehaviour
     [SerializeField]
     private GameObject loadingText;
 
+    [SerializeField]
+    private GameObject cutSceneCoverPanel;
+
     [Header("디버그용")]
     public bool isScreamSound;
     public bool isSkip;
@@ -40,7 +43,7 @@ public class StartCutScene : MonoBehaviour
     private void CutSceneStart()
     {
         OnPlayCutScene -= CutSceneStart;
-
+        cutSceneCoverPanel.SetActive(true);
         if (DataManager.Inst.SaveData.isWatchStartCutScene)
         {
             EndRequestCutScene();
@@ -127,6 +130,7 @@ public class StartCutScene : MonoBehaviour
     private void EndRequestCutScene()
     {
         DataManager.Inst.SaveData.isWatchStartCutScene = true;
+        cutSceneCoverPanel.SetActive(false);
         GameManager.Inst.ChangeGameState(EGameState.Game);
         EventManager.TriggerEvent(ECutSceneEvent.EndStartCutScene);
         Sound.OnPlaySound(Sound.EAudioType.StartMainBGM);
@@ -136,6 +140,7 @@ public class StartCutScene : MonoBehaviour
 
     private void SetActiveThisObject()
     {
+        cutSceneCoverPanel.SetActive(false);
         Destroy(gameObject);
     }
 

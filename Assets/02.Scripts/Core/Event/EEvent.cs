@@ -5,7 +5,6 @@
     ChangeBGM,
     EndDataLoading,
     CursorChange,
-    CoverPanelSetting,
     SendCallNumber,
     OpenVolume,
     MainSceneStart,
@@ -179,7 +178,7 @@ public enum ETutorialEvent
     GuideObject,
     SelectLibrary,
     LibraryEventTrigger,
-
+    LibraryGuide,
 }
 
 

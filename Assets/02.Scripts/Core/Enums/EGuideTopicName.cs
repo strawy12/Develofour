@@ -2,7 +2,7 @@
 public enum EGuideTopicName
 {
     None,
-    GuestLoginGuide,
+    FirstLoginGuide,
     LibraryOpenGuide,
     Count
 }

@@ -88,6 +88,7 @@ public static partial class Constant
         public const int CCTV_CUTSCENE_02 = 183;
         public const int CCTV_CUTSCENE_03 = 184;
         public const int CCTV_CUTSCENE_04 = 185;
+        public const int FIRST_LOGIN_GUIDE = 214;
     }
     #endregion
     #region MailKey

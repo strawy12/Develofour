@@ -33,6 +33,9 @@ public class CallSystem : MonoSingleton<CallSystem>
     public CallSelectButton selectButton;
 
     [SerializeField]
+    private GameObject callCoverPanel;
+
+    [SerializeField]
     private float deflaultDelayTime = 10f;
 
     private bool isCalling = false;
@@ -48,6 +51,10 @@ public class CallSystem : MonoSingleton<CallSystem>
         {
             yield return new WaitForSeconds(deflaultDelayTime);
             DecisionCheck();
+            if(callCoverPanel.activeSelf && !isCalling)
+            {
+                callCoverPanel.SetActive(false);
+            }
         }
     }
 
@@ -207,7 +214,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         yield return PlayPhoneCallSound(delay);
         if (monologType != -1)
         {
-            MonologSystem.OnStartMonolog?.Invoke(monologType, 0, true);
+            MonologSystem.OnStartMonolog?.Invoke(monologType, 0, false);
         }
         else
         {
@@ -261,6 +268,11 @@ public class CallSystem : MonoSingleton<CallSystem>
         }
     }
 
+    private void SetCoverPanel(bool value)
+    {
+        callCoverPanel.gameObject.SetActive(value);
+    }
+
     private void SetCallUI(CharacterInfoDataSO data)
     {
         if (data.characterName == "")
@@ -292,7 +304,7 @@ public class CallSystem : MonoSingleton<CallSystem>
             }
         };
 
-        MonologSystem.OnStartMonolog?.Invoke(monologType, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(monologType, 0, false);
     }
 
     public void SaveReturnMonolog(MonologLockData data)
@@ -347,6 +359,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     public void Show()
     {
         isCalling = true;
+        SetCoverPanel(true);
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
         transform.DOLocalMoveX(770, 0.5f).SetEase(Ease.Linear);
     }
@@ -373,6 +386,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     public void Hide()
     {
         isCalling = false;
+        SetCoverPanel(false);
         transform.DOKill(true);
         Sound.OnImmediatelyStop(Sound.EAudioType.PhoneCall);
         GameManager.Inst.ChangeGameState(EGameState.Game);

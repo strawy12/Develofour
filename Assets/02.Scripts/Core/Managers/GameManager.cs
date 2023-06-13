@@ -21,7 +21,6 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject CutSceneCanvas => cutSceneCanvas;
 
     public bool IsTutorial => gameState == EGameState.Tutorial;
-
     public bool isApplicationQuit { get; private set; }
 
     public void Init()
@@ -38,16 +37,6 @@ public class GameManager : MonoSingleton<GameManager>
         gameState = state;
 
         OnChangeGameState?.Invoke(gameState);
-
-        if (gameState == EGameState.CutScene || gameState == EGameState.NotClick)
-        {
-            EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { true });
-        }
-        else
-        {
-            EventManager.TriggerEvent(ECoreEvent.CoverPanelSetting, new object[1] { false });
-        }
-
     }
 
     public void ClickStop(float time)
