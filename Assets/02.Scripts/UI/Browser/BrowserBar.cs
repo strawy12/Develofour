@@ -5,6 +5,8 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using ExtenstionMethod;
+using System;
+
 public class BrowserBar : MonoBehaviour
 {
     [SerializeField] private Button closeBtn;
@@ -32,6 +34,10 @@ public class BrowserBar : MonoBehaviour
         if(siteData.address != "")
         addressText.text = siteData.address;
     }
-    
-  
+
+    public void SettingButtons()
+    {
+        redoBtn.interactable = Browser.currentBrowser.IsExistRedoSite();
+        undoBtn.interactable = Browser.currentBrowser.IsExistUndoSite();
+    }
 }

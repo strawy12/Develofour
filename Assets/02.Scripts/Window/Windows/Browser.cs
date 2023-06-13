@@ -25,7 +25,9 @@ public partial class Browser : Window
     public static Browser currentBrowser;
     private Dictionary<ESiteLink, Site> siteDictionary = new Dictionary<ESiteLink, Site>();
 
+    [SerializeField]
     private Site usingSite;
+    public Site UsingSite => usingSite;
 
     [SerializeField] private Transform siteParent;
 
@@ -61,6 +63,7 @@ public partial class Browser : Window
         OnClosed += (a) => ResetBrowser();
         browserBar.Init();
         browserBar.OnClose?.AddListener(WindowClose);
+
         browserBar.OnUndo?.AddListener(UndoSite);
         browserBar.OnRedo?.AddListener(RedoSite);
 
@@ -72,7 +75,7 @@ public partial class Browser : Window
 
     private void ResetAddressInputField(string str)
     {
-        if(usingSite.SiteLink == ESiteLink.Chrome)
+        if (usingSite.SiteLink == ESiteLink.Chrome)
         {
             saveAddressString = addressInputField.text;
             addressInputField.text = "";
@@ -99,8 +102,8 @@ public partial class Browser : Window
     }
 
     public void AddressChangeSite(string address)
-    { 
-        switch(address)
+    {
+        switch (address)
         {
             case Constant.BranchSite:
                 ChangeSite(ESiteLink.Branch, Constant.LOADING_DELAY);
@@ -131,6 +134,7 @@ public partial class Browser : Window
 
         if (TryGetSitePrefab(eSiteLink, out sitePrefab))
         {
+            Debug.Log(addUndo);
             ChangeSite(sitePrefab, loadDelay, addUndo, true);
         }
         else
@@ -171,6 +175,8 @@ public partial class Browser : Window
             beforeSite.gameObject.SetActive(false);
         }
 
+        
+
         loadingCoroutine = StartCoroutine(LoadingSite(loadDelay, () =>
         {
             OpenSite(site, beforeSite, addUndo, isPrefab);
@@ -193,22 +199,22 @@ public partial class Browser : Window
 
         if (addUndo && beforeSite != null)
         {
+            Debug.Log("트리거");
             usingSite.SetUndoSite(beforeSite);
         }
         //else if (usingSite.SiteLink != ESiteLink.Chrome &&beforeSite.undoSite != null)
         //{
         //    usingSite.SetUndoSite(beforeSite.undoSite);
         //}
-
         if (addUndo && beforeSite != null)
         {
-            DeleteRedoSite(beforeSite.redoSite);
             beforeSite.SetRedoSite(null);
         }
 
         usingSite.gameObject.SetActive(true);
         usingSite?.OnUsed?.Invoke();
 
+        browserBar.SettingButtons();
         browserBar.ChangeSiteData(usingSite.SiteData); // 로딩이 다 되고 나서 바뀌게 해놈
     }
 
@@ -246,14 +252,35 @@ public partial class Browser : Window
 
     public void UndoSite(object[] emptyParam) => UndoSite();
 
+    public bool IsExistUndoSite()
+    {
+        if (usingSite.undoSite == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public bool IsExistRedoSite()
+    {
+        if (usingSite.redoSite == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
+
     public void UndoSite()
     {
+
         if (isLoading) return;
         if (usingSite.undoSite == null)
         {
             return;
         }
-
+        Debug.Log("언도");
+        Debug.Log(usingSite);
         Site currentSite = usingSite.undoSite;
 
         Site beforeSite = ChangeSite(currentSite, Constant.LOADING_DELAY, false);
@@ -266,9 +293,10 @@ public partial class Browser : Window
 
     public void RedoSite()
     {
+
         if (isLoading) return;
         if (usingSite.redoSite == null) return;
-
+        Debug.Log("리도");
         Site currentSite = usingSite.redoSite;
         usingSite.SetRedoSite(null);
 
