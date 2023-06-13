@@ -9,4 +9,6 @@ public class WindowLockDataSO : ScriptableObject
     public string windowPinHintGuide;
 
     public AutoAnswerData answerData;
+
+    public bool isLock;
 }

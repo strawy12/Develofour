@@ -33,8 +33,6 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         originPos = rectTransform.anchoredPosition;
     }
 
-
-
     private void Start()
     {
         GameManager.Inst.OnStartCallback += Init;

@@ -180,14 +180,23 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-        if(fileData.windowType == EWindowType.Dummy)
+        WindowLockDataSO windowLock = ResourceManager.Inst.GetFileLockData(fileData.id);
+        bool isLock = false;
+
+        if (windowLock != null)
+        {
+            isLock = true;
+        }
+
+
+        if (fileData.windowType == EWindowType.Dummy)
         {
             return;
         }
 
         if (fileData is DirectorySO && isBackground == false)
         {
-            if (fileData.isFileLock && DataManager.Inst.IsFileLock(fileData.id))
+            if (isLock && DataManager.Inst.IsFileLock(fileData.id))
             {
                 targetWindow = WindowManager.Inst.WindowOpen(EWindowType.WindowPinLock, fileData);
             }
