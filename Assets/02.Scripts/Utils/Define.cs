@@ -226,7 +226,7 @@ public static class Define
         {
             switch (decision.decisionType)
             {
-                case MonologLockDecision.EDecisionType.Infomation:
+                case MonologLockDecision.EDecisionType.Information:
                     // 해당 정보 id를 비교하여 정보를 획득했는지 확인
                     if (!DataManager.Inst.IsProfilerInfoData(decision.key))
                     {

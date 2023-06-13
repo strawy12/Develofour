@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
 using Unity.VisualScripting;
+using static MonologLockDecision;
 
 public class SOSettingWindow : EditorWindow
 {
@@ -24,6 +25,7 @@ public class SOSettingWindow : EditorWindow
         ProfilerGuide,
         Mail,
         TriggerPrefab,
+        WindowLockData,
     }
     private class BodyPrefabData
     {
@@ -61,12 +63,14 @@ public class SOSettingWindow : EditorWindow
         monologSOBtn = rootVisualElement.Q<Button>("MonologBtn");
         profilerInfoBtn = rootVisualElement.Q<Button>("ProfilerInfoBtn");
         profilerGuideBtn = rootVisualElement.Q<Button>("ProfilerGuideBtn");
-        gidField = rootVisualElement.Q<TextField>("GidField");
         mailBtn = rootVisualElement.Q<Button>("MailBtn");
+        rootVisualElement.Q<Button>("FileLockBtn").RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.WindowLockData));
+        gidField = rootVisualElement.Q<TextField>("GidField");
         soTypeField = rootVisualElement.Q<TextField>("SOTypeField");
         triggerBtn = rootVisualElement.Q<Button>("TriggerPrfBtn");
-        profilerGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerGuide));
+
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
+        profilerGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerGuide));
         profilerInfoBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerInfo));
         fileSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.File));
         mailBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Mail));
@@ -108,6 +112,10 @@ public class SOSettingWindow : EditorWindow
                 gidField.value = "1321675607";
                 soTypeField.value = "Trigger";
                 break;
+            case ESOType.WindowLockData:
+                gidField.value = "33006268";
+                soTypeField.value = "WindowLockDataSO";
+                break;
         }
     }
 
@@ -123,7 +131,7 @@ public class SOSettingWindow : EditorWindow
 
         www = UnityWebRequest.Get(string.Format(URL, gidField.value));
         yield return www.SendWebRequest();
-        string add = www.downloadHandler.text;
+        string add = www.downloadHandler.text.Replace("\r","");
 
         switch (soTypeField.value)
         {
@@ -148,6 +156,9 @@ public class SOSettingWindow : EditorWindow
                 break;
             case "Trigger":
                 SettingInfoTrigger(add);
+                break;
+            case "WindowLockDataSO":
+                SettingFileLockSO(add);
                 break;
         }
 
@@ -286,12 +297,13 @@ public class SOSettingWindow : EditorWindow
 
         string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
         List<FileSO> fileSOList = new List<FileSO>();
-        List<FileSO> temp = fileSOList.ToList();
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             fileSOList.Add(AssetDatabase.LoadAssetAtPath<FileSO>(path));
         }
+        List<FileSO> temp = fileSOList.ToList();
+
         for (int i = 0; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split('\t');
@@ -357,8 +369,6 @@ public class SOSettingWindow : EditorWindow
             file.fileName = fileName;
             file.windowType = type;
             file.isFileLock = isFileLock;
-            file.windowPinHintGuide = pinHint;
-            file.windowPin = pinList;
             file.name = columns[9];
             file.tags = tags;
             file.propertyData.bytes = bytes;
@@ -934,6 +944,75 @@ public class SOSettingWindow : EditorWindow
             }
         }
         AssetDatabase.Refresh();
+
+    }
+
+    public void SettingFileLockSO(string dataText)
+    {
+        string[] rows = dataText.Split('\n');
+
+        string[] guids = AssetDatabase.FindAssets("t:WindowLockDataSO", null);
+        List<WindowLockDataSO> fileLockSOList = new List<WindowLockDataSO>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            fileLockSOList.Add(AssetDatabase.LoadAssetAtPath<WindowLockDataSO>(path));
+        }
+        for (int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+
+            int id = int.Parse(columns[0]);
+            string windowPin = columns[1];
+            string windowPinHint = columns[2];
+
+            AutoAnswerData data = new AutoAnswerData();
+
+            data.answer = columns[1].Split(',')[0];
+            data.infoData = new List<MonologLockDecision>();
+
+            for(int j = 4; j < columns.Length; j++)
+            {
+                if (string.IsNullOrEmpty(columns[j])) continue;
+                
+                string[] decesions = columns[j].Split("_");
+                EDecisionType type = (EDecisionType)Enum.Parse(typeof(EDecisionType), decesions[0]);
+                int key = int.Parse(decesions[1]);
+                data.infoData.Add(new MonologLockDecision { decisionType=type, key=key });
+            }
+
+
+            bool isCreate = false;
+
+            WindowLockDataSO lockdata = fileLockSOList.Find(x => x.fileId == id);
+
+            if (lockdata == null)
+            {
+                lockdata = CreateInstance<WindowLockDataSO>();
+                isCreate = true;
+            }
+
+            lockdata.fileId = id;
+            lockdata.windowPin = windowPin;
+            lockdata.windowPinHintGuide = windowPinHint;
+            lockdata.answerData = data;
+
+            string SO_PATH = $"Assets/07.ScriptableObjects/WindowLockData/{columns[3]}.asset";
+
+            if (isCreate)
+            {
+                CreateFolder(SO_PATH);
+                AssetDatabase.CreateAsset(lockdata, SO_PATH);
+            }
+
+            EditorUtility.SetDirty(lockdata);
+            fileLockSOList.Remove(lockdata);
+        }
+
+        fileLockSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
 
     }
 }

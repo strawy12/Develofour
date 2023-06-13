@@ -5,11 +5,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class WindowPinInput : Window
 {
     private bool isShaking = false;
 
     [Header("Pin UI")]
+    [SerializeField]
+    private AutoAnswerInputFiled autoPinAnswerFiled;
     [SerializeField]
     private TMP_Text pinWindowNameBarText;
     [SerializeField]
@@ -29,7 +32,6 @@ public class WindowPinInput : Window
     [SerializeField]
     private Button confirmButton;
 
-
     [Header("Shaking Data")]
     [SerializeField]
     private int strength;
@@ -42,7 +44,6 @@ public class WindowPinInput : Window
     [SerializeField]
     private Color wrongAnswerTextColor;
 
-
     protected override void Init()
     {
         base.Init();
@@ -54,34 +55,75 @@ public class WindowPinInput : Window
     public override void WindowOpen()
     {
         PinOpen();
+        SetAnswerDatas();
+
         base.WindowOpen();
     }
 
     private void PinOpen()
     {
         windowBar.SetNameText("[ " + file.name + " - 잠금 안내 ]");
-        pinGuideText.SetText(file.windowPinHintGuide);
+        pinGuideText.SetText(file.windowLock.windowPinHintGuide);
 
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
 
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
     }
 
+    private void SetAnswerDatas()
+    {
+        autoPinAnswerFiled.autoAnswerDatas.Add(file.windowLock.answerData);
+
+        if (file.windowLock.answerData != null)
+        {
+            List<MonologLockDecision> infoDatas = file.windowLock.answerData.infoData;
+            foreach (MonologLockDecision infoData in infoDatas)
+            {
+                int infoID = infoData.key;
+
+                if(DataManager.Inst.IsProfilerInfoData(infoID))
+                {
+                    autoPinAnswerFiled.inputSystem.ShowPanel(autoPinAnswerFiled.inputField, autoPinAnswerFiled.autoAnswerDatas);
+                }
+            }
+        }
+
+    }
+
     private void CheckPinPassword()
     {
-        string inputText = pinInputField.text.Trim();
+        string inputText = pinInputField.text.Replace(" ", "");
+        // 입력한거 공백 제거해서 들고 옴
 
-        foreach (string answerText in file.windowPin)
+        string[] answerArr = file.windowLock.windowPin.Split(',');
+        // 파일 정답 목록들 구분 해서 들고 옴
+
+        foreach (string answerText in answerArr)
         {
             if (inputText == answerText)
             {
                 DataManager.Inst.SetFileLock(file.id, false);
                 StartCoroutine(PinAnswerTextChange());
                 pinInputField.text = "";
-                return;
+            }
+            else
+            {
+                PinWrongAnswer();
             }
         }
-        PinWrongAnswer();
+
+        Debug.Log(file.windowLock.answerData);
+        if(file.windowLock.answerData != null)
+        {
+            List<MonologLockDecision> infoDatas = file.windowLock.answerData.infoData;
+            foreach(MonologLockDecision infoData in infoDatas)
+            {
+                int infoID = infoData.key;
+
+                EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[1] { infoID });
+            }
+        }
+
         pinInputField.text = "";
     }
 

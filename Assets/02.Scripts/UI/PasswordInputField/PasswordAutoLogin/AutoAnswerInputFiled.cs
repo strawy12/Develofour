@@ -16,14 +16,11 @@ public class AutoAnswerData
 
 public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField]
-    protected TMP_InputField inputField; 
+    public TMP_InputField inputField; 
 
-    [SerializeField]
-    protected List<AutoAnswerData> autoAnswerDatas;
+    public List<AutoAnswerData> autoAnswerDatas;
 
-    [SerializeField]
-    protected AutoInput inputSystem;
+    public AutoInput inputSystem;
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
