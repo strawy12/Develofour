@@ -55,6 +55,10 @@ public class MediaPlayerBody : MonoBehaviour
 
         foreach (TextTriggerData data in mediaPlayerTriggerList)
         {
+            if(data.text == null)
+            {
+                continue;
+            }
             data.id = mediaDetailText.text.IndexOf(data.text);
         }
     }

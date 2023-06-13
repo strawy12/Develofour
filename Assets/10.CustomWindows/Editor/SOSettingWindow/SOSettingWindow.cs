@@ -919,9 +919,6 @@ public class SOSettingWindow : EditorWindow
                     mediaPlayerBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
                     mediaPlayerBody.SetTriggerText();
                 }
-
-                mediaPlayerBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
-                mediaPlayerBody.SetTriggerText();
             }
 
             PrefabUtility.SaveAsPrefabAsset(bodyPrefabData.bodyObject, bodyPrefabData.prefabPath);
@@ -929,22 +926,6 @@ public class SOSettingWindow : EditorWindow
 
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
-    }
-
-    private void CreateFolder(string path)
-    {
-        string[] splitPath = path.Split('/');
-        string temp = "Assets";
-        for (int i = 1; i < splitPath.Length - 1; i++)
-        {
-            temp += '/' + splitPath[i];
-            if (!Directory.Exists(temp))
-            {
-                Directory.CreateDirectory(temp);
-            }
-        }
-        AssetDatabase.Refresh();
-
     }
 
     public void SettingFileLockSO(string dataText)
@@ -1015,6 +996,22 @@ public class SOSettingWindow : EditorWindow
         AssetDatabase.SaveAssets();
 
     }
+    private void CreateFolder(string path)
+    {
+        string[] splitPath = path.Split('/');
+        string temp = "Assets";
+        for (int i = 1; i < splitPath.Length - 1; i++)
+        {
+            temp += '/' + splitPath[i];
+            if (!Directory.Exists(temp))
+            {
+                Directory.CreateDirectory(temp);
+            }
+        }
+        AssetDatabase.Refresh();
+
+    }
+
 }
 
 
