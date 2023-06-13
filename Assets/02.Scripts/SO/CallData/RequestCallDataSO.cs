@@ -8,7 +8,7 @@ public class MonologLockDecision
 {
     public enum EDecisionType
     {
-        Infomation,
+        Information,
         Monolog
     }
 

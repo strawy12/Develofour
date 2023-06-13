@@ -29,13 +29,25 @@ public class ProfilerInfoSystem : MonoBehaviour
             return;
         }
 
-        if (!(ps[0] is EProfilerCategory) || !(ps[1] is int))
+        EProfilerCategory category = EProfilerCategory.None;
+        int id = 0;
+
+        if (ps[0] is int)
         {
+            id = (int)ps[0];
+            category = ResourceManager.Inst.GetProfilerInfoData(id).category;
+            Debug.Log(category);
+        }
+        else if (ps[0] is EProfilerCategory && ps[1] is int)
+        {
+            category = (EProfilerCategory)ps[0];
+            id = (int)ps[1];
+        }
+        else
+        {
+            Debug.Log("Return");
             return;
         }
-
-        EProfilerCategory category = (EProfilerCategory)ps[0];
-        int id = (int)ps[1];
 
         if (!DataManager.Inst.IsProfilerInfoData(id))
         {
