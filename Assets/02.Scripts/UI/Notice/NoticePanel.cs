@@ -244,7 +244,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         if (isEnter)
         {
             backgroundImage.DOColor(new Color(0f, 0f, 0f), 0.1f);
-            rectTransform.localScale = Vector3.one;
+            rectTransform.DOScale(Vector3.one,0.1f);
             isEnter = false;
         }
 

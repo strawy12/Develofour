@@ -217,6 +217,7 @@ public class NoticeSystem : MonoUI
     {
         panel.transform.SetParent(noticePanelParant);
         panel.OnCompeleted -= IncludePanel;
+        panel.transform.localScale = Vector3.one;
         noticePanel = null;
     }
 
