@@ -1,4 +1,5 @@
-using Cinemachine;
+﻿using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic; 
 using TMPro;
@@ -22,6 +23,9 @@ public class ImageViewer : Window
     private ImageEnlargement imageEnlargement;
     private ImageViewerDataSO imageData;
 
+    [SerializeField]
+    private ProfileOverlayOpenTrigger overlayTrigger;
+
     protected override void Init()
     {
         base.Init();
@@ -43,6 +47,31 @@ public class ImageViewer : Window
 
         enlargementButton.onClick?.AddListener(EnlargementButtonClick);
         reductionButton.onClick?.AddListener(ReductionButton);
+
+        OnSelected += OverlayOpen;
+        OnUnSelected += OverlayClose;
+        OverlayOpen();
+    }
+
+    private void OverlayClose()
+    {
+        if (overlayTrigger == null) // 없다면 찾아와
+        {
+            overlayTrigger = imageViewerBody.GetComponent<ProfileOverlayOpenTrigger>();
+            if (overlayTrigger == null) { return; }
+        }
+        overlayTrigger.Close();
+    }
+
+    private void OverlayOpen()
+    {
+
+        if (overlayTrigger == null) // 없다면 찾아와
+        {
+            overlayTrigger = imageViewerBody.GetComponent<ProfileOverlayOpenTrigger>();
+            if (overlayTrigger == null) { return; }
+        }
+        overlayTrigger.Open();
     }
 
     private void EnlargementButtonClick()
@@ -53,5 +82,12 @@ public class ImageViewer : Window
     private void ReductionButton()
     {
         imageEnlargement.reductionClick?.Invoke();
+    }
+
+    protected override void OnDestroyWindow()
+    {
+        base.OnDestroyWindow();
+        OnSelected -= OverlayOpen;
+        OnUnSelected -= OverlayClose;
     }
 }

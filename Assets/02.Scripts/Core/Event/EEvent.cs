@@ -10,6 +10,14 @@
     MainSceneStart,
 }
 
+public enum EOverlayEvent
+{
+    None = -1,
+    OpenOverlay,
+    SettingOverlay,
+
+}
+
 public enum EBranchEvent
 {
     None=-1,

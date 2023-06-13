@@ -49,6 +49,23 @@ public class MediaPlayerBody : MonoBehaviour
             Debug.Log($"{data.text}의 위치는 {_mediaDetailText.text.IndexOf(data.text)}입니다");
         }
     }
+    public void SetTriggerText()
+    {
+        Init(null);
+
+        foreach (TextTriggerData data in mediaPlayerTriggerList)
+        {
+            data.id = mediaDetailText.text.IndexOf(data.text);
+        }
+    }
+    public void AddTextTriggerData(TextTriggerData textData)
+    {
+        mediaPlayerTriggerList.Add(textData);
+    }
+    public void ClearTextTrigger()
+    {
+        mediaPlayerTriggerList.Clear();
+    }
 #endif
 
     public void Init(MediaPlayer player)

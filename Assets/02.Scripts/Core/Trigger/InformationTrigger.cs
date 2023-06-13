@@ -17,23 +17,30 @@ public class InformationTrigger : MonoBehaviour
 {
     /// <summary>
     /// 정보들 id들 넣는 곳입니다.
-    /// </summary>
-    [SerializeField]
-    protected List<int> infoDataIDList;
+    public int triggerID = 0;
+    public List<int> infoDataIDList;
 
-    [SerializeField]
-    protected List<NeedInfoData> needInfoList;
-
-    protected List<ProfilerInfoTextDataSO> infomaitionDataList;
+    public List<NeedInfoData> needInfoList;
 
     [SerializeField] protected int monoLogType;
-    [SerializeField] protected int completeMonologType = 0;
-    [SerializeField] protected float delay;
-    [SerializeField] protected bool isFakeInfo;
+    public int completeMonologType = 0;
+    public float delay;
+    public bool isFakeInfo;
 
     protected int playMonologType = 0;
 
-    public int MonologID => monoLogType;
+    public int MonologID {
+        get
+        {
+            return monoLogType;
+        }
+        set
+        {
+            monoLogType = value;
+        }
+    }
+
+    public int fildID;
 
     protected virtual void Start()
     {
@@ -49,14 +56,7 @@ public class InformationTrigger : MonoBehaviour
 
     protected virtual void Bind()
     {
-        if (infoDataIDList.Count != 0 || infomaitionDataList == null)
-        {
-            infomaitionDataList = new List<ProfilerInfoTextDataSO>();
-            foreach (var id in infoDataIDList)
-            {
-                infomaitionDataList.Add(ResourceManager.Inst.GetProfilerInfoData(id));
-            }
-        }
+
     }
 
     public void FindInfo()
@@ -66,17 +66,17 @@ public class InformationTrigger : MonoBehaviour
         {
             bool playMonolog = false;
 
-            foreach (var infoData in infomaitionDataList)
+            foreach (var infoID in infoDataIDList)
             {
                 if (!DataManager.Inst.GetIsClearTutorial())
                 {
                     int idx = DataManager.Inst.GetProfilerTutorialIdx();
                     if (
                         (idx == 0 &&
-                        infoData.id == INCIDENTREPORT_TITLE)
+                        infoID == INCIDENTREPORT_TITLE)
                         ||
                         (idx == 2 &&
-                        (infoData.id == KIMYUJIN_NAME || infoData.id == PARKJUYOUNG_NAME))
+                        (infoID == KIMYUJIN_NAME || infoID  == PARKJUYOUNG_NAME))
                     )
                     {
                         playMonolog = true;
@@ -87,7 +87,7 @@ public class InformationTrigger : MonoBehaviour
                 playMonolog = true;
                 if(!isFakeInfo)
                 {
-                    EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { infoData.category, infoData.id });
+                    EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[1] { infoID });
                 }
             }
 
@@ -115,7 +115,7 @@ public class InformationTrigger : MonoBehaviour
         if (!DataManager.Inst.SaveData.isProfilerInstall) return;
 
 
-        if (infomaitionDataList == null || infomaitionDataList.Count == 0)
+        if (infoDataIDList.Count == 0 || infoDataIDList == null)
         {
             MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, false);
             return;

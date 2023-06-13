@@ -12,11 +12,20 @@ public class NotepadBody : MonoBehaviour
 
     [SerializeField] private List<TextTriggerData> textTriggerList;
 
+    public TMP_Text bodyText
+    {
+        get
+        {
+            inputField ??= GetComponent<TMP_InputField>();
+            text ??= inputField.textComponent;
+            return text;
+        }
+    }
+
     public void Init()
     {
-        inputField = GetComponent<TMP_InputField>();
-        text = inputField.textComponent;
-
+        inputField ??= GetComponent<TMP_InputField>();
+        text ??= inputField.textComponent;
     }
 
 #if UNITY_EDITOR
@@ -29,6 +38,24 @@ public class NotepadBody : MonoBehaviour
             Debug.Log($"{data.text}의 위치는 {text.text.IndexOf(data.text)}입니다");
         }
     } 
+    public void SetTriggerText()
+    {
+        Init();
+
+        foreach (TextTriggerData data in textTriggerList)
+        {
+            data.id = text.text.IndexOf(data.text);
+        }
+    }
+    public void AddTextTriggerData(TextTriggerData textData)
+    {
+        textTriggerList.Add(textData);
+    }
+    public void ClearTextTrigger()
+    {
+        if(textTriggerList != null)
+        textTriggerList.Clear();
+    }
 #endif
 
     public void SetTriggerPosition()

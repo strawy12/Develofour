@@ -64,7 +64,7 @@ public partial class MonologSystem : TextSystem
         {
             if (DataManager.Inst.IsMonologShow(textDataType)) return;
         }
-
+        Debug.Log(textDataType);
         StartCoroutine(StartMonologCor(textDataType, beforeDelay));
     }
 

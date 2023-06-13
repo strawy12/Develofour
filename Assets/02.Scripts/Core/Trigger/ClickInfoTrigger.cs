@@ -8,9 +8,10 @@ using static CursorChangeSystem;
 
 public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+
     [SerializeField]
     protected Image backgroundImage;
-
+    public int fileID;
     protected Color yellowColor = new Color(1f, 1f, 0f, 0.4f);
     protected Color redColor = new Color(1f, 0f, 0f, 0.4f);
     protected Color tempColor;
@@ -29,6 +30,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     public virtual void OnPointerClick(PointerEventData eventData)
     {
         GetInfo();
+        ProfileOverlaySystem.OnAdd(fildID);
         OnPointerEnter(eventData);
     }
 
@@ -64,7 +66,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
             return;
         }
 
-        if (infomaitionDataList == null || infoDataIDList.Count == 0)
+        if (infoDataIDList == null || infoDataIDList.Count == 0)
         {
             ChangeCursor(ECursorState.FindInfo);
             return;

@@ -29,37 +29,43 @@ public class ProfilerInfoSystem : MonoBehaviour
             return;
         }
 
-        EProfilerCategory category = EProfilerCategory.None;
-        int id = 0;
+        if(ps.Length == 2)
+        {
+            if (!(ps[0] is EProfilerCategory) || !(ps[1] is int))
+            {
+                return;
+            }
+            EProfilerCategory category = (EProfilerCategory)ps[0];
+            int id = (int)ps[1];
+            ChangeValue(category, id);
+        } 
+        else if(ps.Length == 1)
+        {
+            if(!(ps[1] is int))
+            {
+                return;
+            }
+            int id = (int)ps[0];
+            ProfilerInfoTextDataSO infoDataSO = ResourceManager.Inst.GetProfilerInfoData(id);
+            ChangeValue(infoDataSO.category, id);
+            ps = new object[2] { infoDataSO.category, id };
+        }
 
-        if (ps[0] is int)
-        {
-            id = (int)ps[0];
-            category = ResourceManager.Inst.GetProfilerInfoData(id).category;
-            Debug.Log(category);
-        }
-        else if (ps[0] is EProfilerCategory && ps[1] is int)
-        {
-            category = (EProfilerCategory)ps[0];
-            id = (int)ps[1];
-        }
-        else
-        {
-            Debug.Log("Return");
-            return;
-        }
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoInProfiler, ps);
 
+    }
+    private void ChangeValue(EProfilerCategory category, int id)
+    {
         if (!DataManager.Inst.IsProfilerInfoData(id))
         {
             DataManager.Inst.AddProfilerSaveData(category, id);
 
-            if(!DataManager.Inst.IsCategoryShow(category))
+            if (!DataManager.Inst.IsCategoryShow(category))
             {
                 DataManager.Inst.SetCategoryData(category, true);
-                EventManager.TriggerEvent(ECallEvent.GetMonologSettingIncomingData, new object[] { id } );
+                EventManager.TriggerEvent(ECallEvent.GetMonologSettingIncomingData, new object[] { id });
                 SendCategoryNotice(category);
             }
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoInProfiler, ps);
             SendAlarm(category, id);
         }
         else
@@ -67,6 +73,7 @@ public class ProfilerInfoSystem : MonoBehaviour
             return;
         }
     }
+
 
     public void SendAlarm(EProfilerCategory category, int id)
     {
