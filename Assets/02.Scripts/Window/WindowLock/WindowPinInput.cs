@@ -56,7 +56,7 @@ public class WindowPinInput : Window
         closeButton.onClick?.AddListener(CloseWindowPinLock);
     }
 
-    public override void WindowOpen()
+    public override void WindowOpen()   
     {
         PinOpen();
         SetAnswerDatas();
@@ -117,28 +117,13 @@ public class WindowPinInput : Window
         {
             if (inputText == answerText)
             {
-                DataManager.Inst.SetFileLock(file.id, false);
                 StartCoroutine(PinAnswerTextChange());
                 pinInputField.text = "";
-            }
-            else
-            {
-                PinWrongAnswer();
+                return;
             }
         }
-
-        Debug.Log(windowLockData.answerData);
-        if(windowLockData.answerData != null)
-        {
-            List<MonologLockDecision> infoDatas = windowLockData.answerData.infoData;
-            foreach(MonologLockDecision infoData in infoDatas)
-            {
-                int infoID = infoData.key;
-
-                EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[1] { infoID });
-            }
-        }
-
+        
+        PinWrongAnswer();
         pinInputField.text = "";
     }
 
@@ -147,24 +132,30 @@ public class WindowPinInput : Window
         answerMarkText.color = answerTextColor;
 
         answerMarkText.SetText("정답입니다.");
-
+        Debug.Log("Bingo");
         yield return new WaitForSeconds(0.6f);
 
         answerMarkText.SetText("");
 
-        ExceptionFile();
+        if (windowLockData.answerData != null)
+        {
+            List<MonologLockDecision> infoDatas = windowLockData.answerData.infoData;
+            foreach (MonologLockDecision infoData in infoDatas)
+            {
+                int infoID = infoData.key;
 
-        WindowManager.Inst.WindowOpen(file.windowType, file);
+                EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[1] { infoID });
+            }
+        }
+
         DataManager.Inst.SetFileLock(file.id, false);
+        WindowManager.Inst.WindowOpen(file.windowType, file);
 
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
 
-
         CloseWindowPinLock();
     }
-    private void ExceptionFile()
-    {
-    }
+
     private void PinWrongAnswer()
     {
         if (isShaking) return;
