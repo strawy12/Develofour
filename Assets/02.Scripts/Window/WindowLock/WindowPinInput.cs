@@ -76,6 +76,17 @@ public class WindowPinInput : Window
 
     private void SetAnswerDatas()
     {
+        if(!DataManager.Inst.SaveData.isProfilerInstall)
+        {
+            return;
+        }
+
+        Debug.Log(windowLockData.answerData.answer);
+        if (windowLockData.answerData.answer == "")
+        {
+            return;
+        }
+
         autoPinAnswerFiled.autoAnswerDatas.Add(windowLockData.answerData);
 
         if (windowLockData.answerData != null)
