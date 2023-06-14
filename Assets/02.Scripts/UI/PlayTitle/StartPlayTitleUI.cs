@@ -32,7 +32,7 @@ public class StartPlayTitleUI : MonoBehaviour
     
     private void OnCreditButton()
     {
-
+        creditPanel.StartCredit();
     }
 
 }
