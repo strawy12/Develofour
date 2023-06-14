@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -18,20 +18,24 @@ public partial class DataManager : MonoSingleton<DataManager>
     {
         if (isInit == false) return;
 
-#if UNITY_EDITOR
         CreateSaveData();
-        Debug.LogWarning("PlayerData ½ÇÇà ½Ã ¸Å¹ø ÃÊ±âÈ­ µÇ´Â µğ¹ö±ë ÄÚµå°¡ Á¸ÀçÇÕ´Ï´Ù.");
+        //ë°ëª¨ëŠ” í•­ìƒ í¬ë¦¬ì—ì´íŠ¸
         return;
-#else
-        if (File.Exists(SAVE_PATH + SAVE_FILE))
-        {
-            string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
-            saveData = JsonUtility.FromJson<SaveData>(data);
-        }
-        else
-        {
-            CreateSaveData();
-        }
-#endif
+
+        //#if UNITY_EDITOR
+        //        CreateSaveData();
+        //        Debug.LogWarning("PlayerData ì‹¤í–‰ ì‹œ ë§¤ë²ˆ ì´ˆê¸°í™” ë˜ëŠ” ë””ë²„ê¹… ì½”ë“œê°€ ì¡´ì¬í•©ë‹ˆë‹¤.");
+        //        return;
+        //#else
+        //        if (File.Exists(SAVE_PATH + SAVE_FILE))
+        //        {
+        //            string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
+        //            saveData = JsonUtility.FromJson<SaveData>(data);
+        //        }
+        //        else
+        //        {
+        //            CreateSaveData();
+        //        }
+        //#endif
     }
 }
