@@ -100,7 +100,53 @@ public class FileManager : MonoSingleton<FileManager>
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AddFile, 0.5f);
     }
+    public List<FileSO> GetALLUnLockFileList(DirectorySO currentDirectory = null, bool isAdditional = false)
+    {
+        //fileList.Clear();
+        if (currentDirectory == null)
+        {
+            currentDirectory = rootDirectory;
+        }
 
+        List<FileSO> fileList = new List<FileSO>();
+
+        Queue<DirectorySO> directories = new Queue<DirectorySO>();
+        directories.Enqueue(currentDirectory);
+        int i = 0;
+        while (directories.Count != 0)
+        {
+            DirectorySO directory = directories.Dequeue();
+            i++;
+            if (i > 10000)
+            {
+                Debug.LogWarning("while문이 계속해서 실행중입니다.");
+                break;
+            }
+            foreach (FileSO file in directory.children)
+            {
+                if (file == null)
+                {
+                    continue;
+                }
+                if(DataManager.Inst.IsFileLock(file.id))
+                {
+                    continue;
+                }
+                fileList.Add(file);
+                if (file is DirectorySO)
+                {
+                    directories.Enqueue(file as DirectorySO);
+                }
+            }
+        }
+
+        if (isAdditional)
+        {
+            fileList.AddRange(additionFileList);
+        }
+
+        return fileList;
+    }
     public List<FileSO> GetALLFileList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
         //fileList.Clear();
@@ -153,7 +199,7 @@ public class FileManager : MonoSingleton<FileManager>
     }
     public List<FileSO> SearchFile(string text, DirectorySO currentDirectory = null)
     {
-        List<FileSO> allFileList = GetALLFileList(currentDirectory);
+        List<FileSO> allFileList = GetALLUnLockFileList(currentDirectory);
 
         List<FileSO> searchFileList = new List<FileSO>();
 
