@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -90,7 +90,6 @@ public class GuideUISystem : MonoBehaviour
 
     private void StopGuideUICor()
     {
-        Debug.Log("Áö¿ìÁö¸»¶ó°í!!!À¸¾Ç!!!!");
         currentRectTransform = null;
         guideUI.transform.SetParent(transform);
         isSign = false;
