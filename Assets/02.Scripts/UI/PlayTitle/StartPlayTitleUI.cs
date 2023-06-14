@@ -11,6 +11,8 @@ public class StartPlayTitleUI : MonoBehaviour
     [SerializeField]
     private Button creditButton;
 
+    [SerializeField]
+    private CreditPanel creditPanel;
     private void Start()
     {
         gameObject.SetActive(true);
@@ -27,10 +29,10 @@ public class StartPlayTitleUI : MonoBehaviour
         
         this.gameObject.SetActive(false);
     }
-
+    
     private void OnCreditButton()
     {
-
+        creditPanel.StartCredit();
     }
 
 }
