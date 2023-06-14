@@ -31,23 +31,19 @@ public class CreditPanel : MonoBehaviour
         scrollRect.verticalNormalizedPosition = 1f;
         gameObject.SetActive(true);
         InputManager.Inst.AddKeyInput(KeyCode.Escape, SkipCredit);
-
         StartCoroutine(StartCreditCoroutine());
     }
 
     private IEnumerator StartCreditCoroutine()
     {
         yield return new WaitForSeconds(startDelay);
-        DownCredit();
-    }
-    private void DownCredit()
-    {
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(scrollRect.DOVerticalNormalizedPos(0f, duration));
-        sequence.AppendCallback(() => { StartCoroutine(EndCreditCoroutine()); });
-    }
-    private IEnumerator EndCreditCoroutine()
-    {
+        while(scrollRect.verticalNormalizedPosition > 0f)
+        {
+            scrollRect.verticalNormalizedPosition -= 0.01f / duration;
+            yield return new WaitForSeconds(0.01f);
+
+        }
+
         yield return new WaitForSeconds(endDelay);
         SkipCredit();
     }

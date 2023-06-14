@@ -9766,7 +9766,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPlayButton: {fileID: 701449884}
   creditButton: {fileID: 1624139309}
-  creditPanel: {fileID: 0}
+  creditPanel: {fileID: 1402089264}
 --- !u!1 &940956729
 GameObject:
   m_ObjectHideFlags: 0
@@ -14718,7 +14718,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1402089263
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14752,6 +14752,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf2591c4e58e5954896649b2ee0df760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duration: 60
+  startDelay: 1.5
+  endDelay: 1.5
 --- !u!114 &1402089265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14759,15 +14762,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1402089262}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 970745754}
-  m_Horizontal: 1
-  m_Vertical: 1
-  m_MovementType: 1
+  m_Horizontal: 0
+  m_Vertical: 0
+  m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
@@ -16339,7 +16342,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 471829026}
   m_HandleRect: {fileID: 471829025}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
