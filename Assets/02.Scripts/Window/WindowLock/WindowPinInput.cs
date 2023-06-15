@@ -66,7 +66,7 @@ public class WindowPinInput : Window
 
     private void PinOpen()
     {
-        windowBar.SetNameText("[ " + file.name + " - 잠금 안내 ]");
+        windowBar.SetNameText("[ " + file.fileName + " - 잠금 안내 ]");
         pinGuideText.SetText(windowLockData.windowPinHintGuide);
 
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: CheckPinPassword);
