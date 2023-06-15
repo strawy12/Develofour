@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
-public class BrowserFavoriteButton : MonoBehaviour
+public class BrowserFavoriteButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text titleText;
@@ -13,6 +14,8 @@ public class BrowserFavoriteButton : MonoBehaviour
 
     [SerializeField]
     private ESiteLink siteLink;
+    [SerializeField]
+    private GameObject highlightPanel;
 
     public ESiteLink SiteLink
     {
@@ -43,6 +46,18 @@ public class BrowserFavoriteButton : MonoBehaviour
         titleText.text = title;
 
         OnClick.AddListener(() => OpenTriggerWindow());
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (highlightPanel == null) return;
+        highlightPanel.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (highlightPanel == null) return;
+        highlightPanel.SetActive(false);
     }
 
     public void OpenTriggerWindow()
