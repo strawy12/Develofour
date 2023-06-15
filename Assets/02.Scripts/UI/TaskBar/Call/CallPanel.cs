@@ -33,8 +33,7 @@ public class CallPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         }
 
         CallButton.onClick?.AddListener(OnPhoneCallUI);
-        //phoneCallUI.OnCloseIngnoreFlag += () => isEnter;
-        phoneCallUI.Close();
+        phoneCallUI.OnCloseIngnoreFlag += () => isEnter;
     }
 
     private void OnCallButton(object[] ps)

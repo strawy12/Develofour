@@ -44,7 +44,6 @@ public class PhoneCallUI : MonoBehaviour
 
     public void Open()
     {
-        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
         AllEraseText();
         GetButtonAction();
         gameObject.SetActive(true);
@@ -86,6 +85,7 @@ public class PhoneCallUI : MonoBehaviour
         eraseButton.onClick?.AddListener(EraseButton);
         callButton.onClick?.AddListener(CallButton);
         callTopPanel.Init();
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
     private void GetButtonAction()
@@ -122,7 +122,9 @@ public class PhoneCallUI : MonoBehaviour
 
     private void CheckClose(object[] hits)
     {
-        Debug.Log(Define.ExistInHits(gameObject, hits[0]));
+        if (OnCloseIngnoreFlag != null && OnCloseIngnoreFlag.Invoke())
+            return;
+
         if (Define.ExistInHits(gameObject, hits[0]) == false)
         {
             Close();
