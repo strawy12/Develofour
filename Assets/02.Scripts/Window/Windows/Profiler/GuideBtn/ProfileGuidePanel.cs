@@ -57,7 +57,6 @@ public class ProfileGuidePanel : MonoBehaviour
 
         movePanelRect.DOSizeDelta(new Vector2(0, hideValue), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
-            
             currentValue = hideValue;
             moveButton.onClick.RemoveAllListeners();
             moveButton.onClick.AddListener(ShowPanel);
