@@ -16,7 +16,7 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
         if(!isSetting)
         {
             isSetting = true;
-            triggerCount.ForEach((trigger) => { trigger.fildID = fileID; });
+            //triggerCount.ForEach((trigger) => { trigger.f = fileID; });
         }
         //ProfileOverlaySystem.OnOpen?.Invoke(fileID, triggerCount);
     }
