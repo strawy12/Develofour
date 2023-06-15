@@ -178,6 +178,7 @@ public class ProfilerChatting : MonoBehaviour
             SetScrollView();
             hideImage.SetActive(false);
             showImage.SetActive(true);
+            profileGuidePanel.SetGuideParentWeight(false);
             isMoving = false;
             loadingPanel.SetActive(false);
         });
@@ -197,6 +198,7 @@ public class ProfilerChatting : MonoBehaviour
             SetScrollView();
             hideImage.SetActive(true);
             showImage.SetActive(false);
+            profileGuidePanel.SetGuideParentWeight(true);
             isMoving = false;
             loadingPanel.SetActive(false);
         });
