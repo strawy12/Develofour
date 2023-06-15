@@ -21,7 +21,7 @@ public class InformationTrigger : MonoBehaviour
     public List<int> infoDataIDList;
 
     public List<NeedInfoData> needInfoList;
-
+    //public int fileID
     [SerializeField] protected int monoLogType;
     public int completeMonologType = 0;
     public float delay;
@@ -39,8 +39,6 @@ public class InformationTrigger : MonoBehaviour
             monoLogType = value;
         }
     }
-
-    public int fildID;
 
     protected virtual void Start()
     {
