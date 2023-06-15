@@ -47,7 +47,7 @@ public class HomeProfile : MonoBehaviour, IPointerClickHandler
     private void ChangeLoginPanel()
     {
         loginButton.gameObject.SetActive(false);
-
+        loginGamilText.gameObject.SetActive(true);
         loginNameText.SetText("강요한");
         loginGamilText.SetText(zmailString);
     }
