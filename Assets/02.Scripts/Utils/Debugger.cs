@@ -16,6 +16,7 @@ public class DebugEvent
 
 public class Debugger : MonoBehaviour
 {
+    
 #if UNITY_EDITOR
 
     [SerializeField]
