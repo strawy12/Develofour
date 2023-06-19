@@ -20,16 +20,25 @@ public class IconPropertyBody : MonoBehaviour
     private TMP_Text iconFixData;
     [SerializeField]
     private TMP_Text iconAccessData;
+    [SerializeField]
+    private Sprite pictureSprite;
 
 
     public void Init(FileSO file)
     {
-        iconImage.sprite = file.iconSprite;
-        iconName.text = file.name;
-        if (file.windowType != EWindowType.ImageViewer)
+        if(file.windowType == EWindowType.ImageViewer)
         {
+            iconImage.sprite = pictureSprite;
             iconImage.color = Color.black;
+            iconImage.GetComponent<RectTransform>().sizeDelta = new Vector2(60, 45);
         }
+        else
+        {
+            iconImage.sprite = file.iconSprite;
+            iconImage.color = file.color;
+        }
+
+        iconName.text = file.name;
         string location = file.GetFileLocation();
 
         location = location.Replace('\\', '/');

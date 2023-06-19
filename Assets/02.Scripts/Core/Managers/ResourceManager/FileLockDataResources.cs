@@ -11,6 +11,10 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
     public WindowLockDataSO GetFileLockData(int key)
     {
+        if(fileLockDataList == null)
+        {
+            return null;
+        }
         if (!fileLockDataList.ContainsKey(key))
         {
             return null;

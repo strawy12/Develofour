@@ -30,7 +30,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     public virtual void OnPointerClick(PointerEventData eventData)
     {
         GetInfo();
-        ProfileOverlaySystem.OnAdd(fildID);
+        //ProfileOverlaySystem.OnAdd(fildID);
         OnPointerEnter(eventData);
     }
 

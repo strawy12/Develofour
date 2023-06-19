@@ -18,11 +18,7 @@ public partial class DataManager : MonoSingleton<DataManager>
             {
                 continue;
             }
-
-            if (lockData.isLock == true)
-            {
-                saveData.FileLockData.Add(new FileLockData() { id = lockData.fileId, isLock = true });
-            }
+            saveData.FileLockData.Add(new FileLockData() { id = lockData.fileId, isLock = true });
         }
 
         // 해쉬로 정렬을 해둬서 찾는 속도를 더욱 증가 시킴

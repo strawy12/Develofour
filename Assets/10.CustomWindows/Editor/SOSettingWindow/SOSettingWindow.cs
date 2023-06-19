@@ -376,7 +376,6 @@ public class SOSettingWindow : EditorWindow
             file.id = id;
             file.fileName = fileName;
             file.windowType = type;
-            lockData.isLock = isLock;
             file.name = columns[9];
             file.tags = tags;
             file.propertyData.bytes = bytes;
@@ -992,6 +991,11 @@ public class SOSettingWindow : EditorWindow
             lockdata.windowPin = windowPin;
             lockdata.windowPinHintGuide = windowPinHint;
             lockdata.answerData = data;
+            
+            if(lockdata.answerData.infoData.Count == 0)
+            {
+                lockdata.answerData.answer = string.Empty;
+            }
 
             string SO_PATH = $"Assets/07.ScriptableObjects/WindowLockData/{columns[3]}.asset";
 

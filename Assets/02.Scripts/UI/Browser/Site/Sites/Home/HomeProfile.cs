@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -15,6 +15,9 @@ public class HomeProfile : MonoBehaviour, IPointerClickHandler
     private TMP_Text loginNameText;
     [SerializeField]
     private TMP_Text loginGamilText;
+
+    [SerializeField]
+    private string zmailString = "Heaven's Cloud@Gamil.com";
 
     public void Init()
     {
@@ -44,8 +47,8 @@ public class HomeProfile : MonoBehaviour, IPointerClickHandler
     private void ChangeLoginPanel()
     {
         loginButton.gameObject.SetActive(false);
-
-        loginNameText.SetText("°­¿äÇÑ");
-        loginGamilText.SetText("Heaven's Cloud@Gamil.com");
+        loginGamilText.gameObject.SetActive(true);
+        loginNameText.SetText("ê°•ìš”í•œ");
+        //loginGamilText.SetText(zmailString);
     }
 }

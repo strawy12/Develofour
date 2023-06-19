@@ -88,7 +88,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     public void GetCharacterInfo(object[] ps)
     {
-        int id = (int)ps[1];
+        int id = (int)ps[0];
         if (id == targetCharID1 || id == targetCharID2)
         {
             EventManager.StopListening(EProfilerEvent.FindInfoText, GetCharacterInfo);
@@ -104,7 +104,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     public void GetIncidentInfo(object[] ps)
     {
-        int id = (int)ps[1];
+        int id = (int)ps[0];
         if (id == targetIncidentID)
         {
             EventManager.StopListening(EProfilerEvent.FindInfoText, GetIncidentInfo);

@@ -120,6 +120,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         rectTransform.anchorMin = new Vector2(1f, 0.5f);
         rectTransform.anchorMax = new Vector2(1f, 0.5f);
         rectTransform.pivot = new Vector2(1f, 0f);
+        rectTransform.localScale = Vector3.one;
+
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
     }
@@ -242,8 +244,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         if (isEnter)
         {
             backgroundImage.DOColor(new Color(0f, 0f, 0f), 0.1f);
-            rectTransform.DOScale(Vector3.one, 0.1f);
-
+            rectTransform.DOScale(Vector3.one,0.1f);
             isEnter = false;
         }
 
