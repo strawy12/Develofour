@@ -67,6 +67,8 @@ public class InstallerWindow : Window
 
     public void EndInstall()
     {
+        if (DataManager.Inst.SaveData.isProfilerInstall)
+            return;
         EventManager.TriggerEvent(EProfilerEvent.InstalledProfiler);
 
         DataManager.Inst.SaveData.isProfilerInstall = true;
