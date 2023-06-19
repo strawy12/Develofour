@@ -32,7 +32,6 @@ public class CameraResolution : MonoBehaviour
             }
 
             camera.rect = rect;
-            Debug.Log("화면조정");
         }
     }
 }
