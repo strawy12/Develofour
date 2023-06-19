@@ -95,10 +95,10 @@ public class EmailLine : MonoBehaviour
 
     public void ShowMail()
     {
-        overlayTrigger.Open();
+        //overlayTrigger.Open();
         mail.ShowMail();
     }
-
+ 
     public void HideMail()
     {
         mail.HideMail();
