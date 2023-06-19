@@ -51,6 +51,9 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
 
         titleName.SetText(categoryData.categoryName);
 
+        EventManager.StartListening(EProfilerEvent.Maximum, SetSize);
+        EventManager.StartListening(EProfilerEvent.Minimum, SetSize);
+
         categoryImage.sprite = currentData.categorySprite;
         SetSize();
     }
