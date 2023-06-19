@@ -12,7 +12,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
     public Action enlargementClick;
     public Action reductionClick;
 
-    private float imageScale;
+    private float imageScale = 1;
 
     public float maxImageScale = 50f;
 
@@ -73,7 +73,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         enlargementClick += EnlargementButtonClick;
         reductionClick += ReductionButtonClick;
 
-        SetImageSizeReset(MAXSIZE);
+        SetImageSizeReset();
 
         ReSetting();
     }
@@ -84,20 +84,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         isDiscord = _isDiscord;
     }
 
-    public void ChangeImage(Sprite sprite)
-    {
-        //VideoPlayer
-        currentImage = GetComponent<Image>();
-        currentImage.sprite = sprite;
-
-        SetImageSizeReset(new Vector2(400f, 400f));
-        currentImage.transform.localScale = Vector3.one * imageScale;
-
-    }
-
-
-
-    public void SetImageSizeReset(Vector2 maxSize)
+    public void SetImageSizeReset()
     {
         Vector2 size = currentImage.sprite.rect.size;
 
@@ -120,6 +107,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
         transform.localScale = Vector3.one * scale;
 
         imageScale = transform.localScale.x;
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -158,7 +146,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
             return;
         }
 
-        if (enlarScale.x >= maxImageScale)
+        if (enlarScale.x > maxImageScale)
         {
             return;
         }
