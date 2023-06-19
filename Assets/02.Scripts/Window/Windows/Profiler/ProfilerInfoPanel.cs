@@ -173,6 +173,7 @@ public class ProfilerInfoPanel : MonoBehaviour
         float iconDefaultSize = categoryImageParent.rect.height - 5;
         if (currentData.categorySprite == null)
         {
+            categoryImage.sprite = null;
             return;
         }
         if (currentData.categorySprite.rect.width != currentData.categorySprite.rect.height)
