@@ -20,13 +20,13 @@ public class InformationTrigger : MonoBehaviour
     protected TriggerDataSO triggerData;
     public int triggerID = 0;
     public List<int> infoDataIDList;
-    protected int fileID;
-    protected List<NeedInfoData> needInfoList;
+    public int fileID;
+    public List<NeedInfoData> needInfoList;
     //public int fileID
     [SerializeField] protected int monoLogType;
-    protected int completeMonologType = 0;
-    protected float delay;
-    protected bool isFakeInfo;
+    public int completeMonologType = 0;
+    public float delay;
+    public bool isFakeInfo;
 
     protected int playMonologType = 0;
 
