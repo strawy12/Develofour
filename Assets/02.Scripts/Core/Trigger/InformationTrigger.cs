@@ -17,19 +17,21 @@ public class InformationTrigger : MonoBehaviour
 {
     /// <summary>
     /// 정보들 id들 넣는 곳입니다.
+    protected TriggerDataSO triggerData;
     public int triggerID = 0;
     public List<int> infoDataIDList;
-
-    public List<NeedInfoData> needInfoList;
+    protected int fileID;
+    protected List<NeedInfoData> needInfoList;
     //public int fileID
     [SerializeField] protected int monoLogType;
-    public int completeMonologType = 0;
-    public float delay;
-    public bool isFakeInfo;
+    protected int completeMonologType = 0;
+    protected float delay;
+    protected bool isFakeInfo;
 
     protected int playMonologType = 0;
 
-    public int MonologID {
+    public int MonologID
+    {
         get
         {
             return monoLogType;
@@ -54,7 +56,21 @@ public class InformationTrigger : MonoBehaviour
 
     protected virtual void Bind()
     {
-
+        if (triggerData == null)
+        {
+            triggerData = ResourceManager.Inst.GetTriggerDataSOResources(triggerID);
+            if (triggerData == null)
+            {
+                return;
+            }
+        }
+        infoDataIDList = triggerData.infoDataIDList;
+        fileID = triggerData.fileID;
+        needInfoList = triggerData.needInfoList;
+        monoLogType = triggerData.monoLogType;
+        completeMonologType = triggerData.completeMonologType;
+        delay = triggerData.delay;
+        isFakeInfo = triggerData.isFakeInfo;
     }
 
     public void FindInfo()
@@ -74,16 +90,16 @@ public class InformationTrigger : MonoBehaviour
                         infoID == INCIDENTREPORT_TITLE)
                         ||
                         (idx == 2 &&
-                        (infoID == KIMYUJIN_NAME || infoID  == PARKJUYOUNG_NAME))
+                        (infoID == KIMYUJIN_NAME || infoID == PARKJUYOUNG_NAME))
                     )
                     {
                         playMonolog = true;
                     }
                     else
-                    continue;
+                        continue;
                 }
                 playMonolog = true;
-                if(!isFakeInfo)
+                if (!isFakeInfo)
                 {
                     EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[1] { infoID });
                 }
@@ -139,10 +155,7 @@ public class InformationTrigger : MonoBehaviour
             }
 
         }
-
-  
-            FindInfo();
-     
+        FindInfo();
     }
 
 

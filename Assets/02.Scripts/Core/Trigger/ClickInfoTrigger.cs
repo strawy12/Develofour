@@ -8,10 +8,10 @@ using static CursorChangeSystem;
 
 public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-
+    
     [SerializeField]
     protected Image backgroundImage;
-    public int fileID;
+
     protected Color yellowColor = new Color(1f, 1f, 0f, 0.4f);
     protected Color redColor = new Color(1f, 0f, 0f, 0.4f);
     protected Color tempColor;

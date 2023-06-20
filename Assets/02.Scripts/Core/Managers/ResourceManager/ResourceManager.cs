@@ -13,7 +13,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     }
     private IEnumerator StartGetData()
     {
-        int cnt = 19;
+        int cnt = 20;
 
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);
@@ -36,8 +36,8 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         LoadProfilerInfoDataAssets(() => cnt--);
         LoadLockImage(() => cnt--);
         LoadBackgroundBGMWindowDataResourcesAssets(() => cnt--);
-
         LoadFileLockDataAssets(() => cnt--);
+        LoadTriggerDataSOResourcesAssets(()=>cnt--);
 
         yield return new WaitUntil(() => cnt <= 0);
 
