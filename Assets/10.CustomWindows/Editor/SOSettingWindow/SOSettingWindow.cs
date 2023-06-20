@@ -718,100 +718,13 @@ public class SOSettingWindow : EditorWindow
     {
         string[] rows = dataText.Split('\n');
 
-        string[] notepadGuids = AssetDatabase.FindAssets("t:NotepadDataSO", null);
-
-        Dictionary<int, ClickInfoTrigger> infoTriggerList = new Dictionary<int, ClickInfoTrigger>();
-        Dictionary<int, BodyPrefabData> notePadBodys = new Dictionary<int, BodyPrefabData>();
-        List<ClickInfoTrigger> removeTriggerList = new List<ClickInfoTrigger>();
-        foreach (var guid in notepadGuids)
+        string[] guids = AssetDatabase.FindAssets("t:TriggerDataSO", null);
+        List<TriggerDataSO> guideSODatas = new List<TriggerDataSO>();
+        foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            NotepadDataSO notepadDataSO = AssetDatabase.LoadAssetAtPath<NotepadDataSO>(path);
-            if (notepadDataSO.notepadBody != null)
-                notepadDataSO.notepadBody.ClearTextTrigger();
-            if (notepadDataSO.notepadBody == null) continue;
-
-            GameObject soBodyPrefab = Instantiate(notepadDataSO.notepadBody.gameObject);
-            List<ClickInfoTrigger> bodyTriggerList = soBodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList();
-
-            foreach (var trigger in bodyTriggerList)
-            {
-                if (trigger.triggerID == 0)
-                {
-                    removeTriggerList.Add(trigger);
-                }
-                else
-                {
-                    infoTriggerList.Add(trigger.triggerID, trigger);
-                }
-            }
-
-            BodyPrefabData bodyData = new BodyPrefabData() { bodyObject = soBodyPrefab, prefabPath = AssetDatabase.GetAssetPath(notepadDataSO.notepadBody) };
-            notePadBodys.Add(notepadDataSO.fileId, bodyData);
+            guideSODatas.Add(AssetDatabase.LoadAssetAtPath<TriggerDataSO>(path));
         }
-
-        string[] mediaplayerGuids = AssetDatabase.FindAssets("t:MediaPlayerDataSO", null);
-        Dictionary<int, BodyPrefabData> mediaplayerBodys = new Dictionary<int, BodyPrefabData>();
-
-        foreach (var guid in mediaplayerGuids)
-        {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            MediaPlayerDataSO mediaPlayerDataSO = AssetDatabase.LoadAssetAtPath<MediaPlayerDataSO>(path);
-            if (mediaPlayerDataSO.body != null)
-                mediaPlayerDataSO.body.ClearTextTrigger();
-            if (mediaPlayerDataSO.body == null) continue;
-
-            GameObject soBodyPrefab = Instantiate(mediaPlayerDataSO.body.gameObject);
-
-            List<ClickInfoTrigger> bodyTriggerList = soBodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList();
-            foreach (var trigger in bodyTriggerList)
-            {
-                if (trigger.triggerID == 0)
-                {
-                    removeTriggerList.Add(trigger);
-                }
-                else
-                {
-                    infoTriggerList.Add(trigger.triggerID, trigger);
-                }
-            }
-            BodyPrefabData bodyData = new BodyPrefabData() { bodyObject = soBodyPrefab, prefabPath = AssetDatabase.GetAssetPath(mediaPlayerDataSO.body) };
-            mediaplayerBodys.Add(mediaPlayerDataSO.fileId, bodyData);
-        }
-        string[] imageviewerGuids = AssetDatabase.FindAssets("t:ImageViewerDataSO", null);
-        Dictionary<int, BodyPrefabData> imageviewerBodys = new Dictionary<int, BodyPrefabData>();
-
-        foreach (var guid in imageviewerGuids)
-        {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            ImageViewerDataSO imageViewerDataSO = AssetDatabase.LoadAssetAtPath<ImageViewerDataSO>(path);
-            if (imageViewerDataSO.imageBody == null) continue;
-            GameObject soBodyPrefab = Instantiate(imageViewerDataSO.imageBody.gameObject);
-            List<ClickInfoTrigger> bodyTriggerList = soBodyPrefab.GetComponentsInChildren<ClickInfoTrigger>().ToList();
-            foreach (var trigger in bodyTriggerList)
-            {
-                if (trigger.triggerID == 0)
-                {
-                    removeTriggerList.Add(trigger);
-                }
-                else
-                {
-                    if (!infoTriggerList.ContainsKey(trigger.triggerID))
-                        infoTriggerList.Add(trigger.triggerID, trigger);
-                }
-            }
-            BodyPrefabData bodyData = new BodyPrefabData() { bodyObject = soBodyPrefab, prefabPath = AssetDatabase.GetAssetPath(imageViewerDataSO.imageBody) };
-            imageviewerBodys.Add(imageViewerDataSO.fileId, bodyData);
-        }
-
-        while (removeTriggerList.Count != 0)
-        {
-            ClickInfoTrigger temp = removeTriggerList[0];
-            removeTriggerList.RemoveAt(0);
-            DestroyImmediate(temp.gameObject, true);
-        }
-
-        ClickInfoTrigger infoTriggerPrefab = AssetDatabase.LoadAssetAtPath<ClickInfoTrigger>("Assets/03.Prefabs/InfoTrigger/InfoDefault.prefab");
 
         for (int i = 0; i < rows.Length; i++)
         {
@@ -819,36 +732,22 @@ public class SOSettingWindow : EditorWindow
 
             int triggerID = int.Parse(columns[0]);
             int fileID = int.Parse(columns[1]);
-            EWindowType fileType = Enum.Parse<EWindowType>(columns[2]);
 
-            BodyPrefabData bodyPrefabData = null;
-            switch (fileType)
-            {
-                case EWindowType.Notepad:
-                    bodyPrefabData = notePadBodys[fileID];
-                    break;
-                case EWindowType.MediaPlayer:
-                    bodyPrefabData = mediaplayerBodys[fileID];
-                    break;
-                case EWindowType.ImageViewer:
-                    bodyPrefabData = imageviewerBodys[fileID];
-                    break;
-            }
 
             List<int> infoList = new List<int>();
-            List<string> infoStringList = columns[3].Trim().Split(',').ToList();
+            List<string> infoStringList = columns[2].Trim().Split(',').ToList();
             foreach (var infoString in infoStringList)
             {
                 int infoId = 0;
                 if (!int.TryParse(infoString, out infoId))
                 {
                     continue;
-                }
+                }   
                 infoList.Add(infoId);
             }
-            int monologID = int.Parse(columns[4]);
+            int monologID = int.Parse(columns[3]);
             List<NeedInfoData> needInfoDataList = new List<NeedInfoData>();
-            string[] needInfoDataStrings = columns[5].Split(',');
+            string[] needInfoDataStrings = columns[4].Split(',');
             foreach (var needInfo in needInfoDataStrings)
             {
                 string[] division = needInfo.Trim().Split('/');
@@ -864,78 +763,37 @@ public class SOSettingWindow : EditorWindow
 
                 needInfoDataList.Add(needInfoData);
             }
-            int completeMonologID = int.Parse(columns[6]);
-            bool isFakeInfo = columns[7] == "TRUE";
-            float delay = float.Parse(columns[8].Trim());
-            ClickInfoTrigger infoTrigger = null;
-            if (infoTriggerList.ContainsKey(triggerID))
-            {
-                infoTrigger = infoTriggerList[triggerID];
-            }
-            else
-            {
-                if(fileType == EWindowType.Notepad || fileType == EWindowType.MediaPlayer)
-                {
-                    infoTrigger = Instantiate(infoTriggerPrefab, bodyPrefabData.bodyObject.GetComponentInChildren<TMPro.TMP_Text>().transform);
-                }
-                else
-                {
-                    infoTrigger = Instantiate(infoTriggerPrefab, bodyPrefabData.bodyObject.transform);
-                }
-            }
-            infoTrigger.triggerID = triggerID;
-            infoTrigger.fileID = fileID;
-            infoTrigger.MonologID = monologID;
-            infoTrigger.infoDataIDList = infoList;
-            infoTrigger.completeMonologType = completeMonologID;
-            infoTrigger.delay = delay;
-            infoTrigger.needInfoList = needInfoDataList;
-            infoTrigger.isFakeInfo = isFakeInfo;
+            int completeMonologID = int.Parse(columns[5]);
+            bool isFakeInfo = columns[6] == "TRUE";
+            float delay = float.Parse(columns[7].Trim());
 
-            string infoName = "";
-            for (int j = 0; j < infoList.Count; j++)
+            bool isCreate =false; 
+            TriggerDataSO triggerData = null;
+            triggerData = guideSODatas.Find(x => x.triggerID == triggerID);
+
+            if(triggerData == null)
             {
-                if (j != 0)
-                    infoName += ',';
-                infoName += infoList[j];
-            }
-            infoTrigger.name = $"info{infoName}_{monologID}_{completeMonologID}";
-
-            if (fileType == EWindowType.Notepad)
-            {
-                NotepadBody notepadBody = bodyPrefabData.bodyObject.GetComponent<NotepadBody>();
-
-                string text = columns[9];
-                int textIdx = 0;
-                if (int.TryParse(text, out textIdx))
-                {
-                    notepadBody.AddTextTriggerData(new TextTriggerData() { id = textIdx, trigger = infoTrigger });
-                }
-                else
-                {
-                    notepadBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
-                    notepadBody.SetTriggerText();
-                }
-
+                triggerData = CreateInstance<TriggerDataSO>();
+                isCreate = true;
             }
 
-            if (fileType == EWindowType.MediaPlayer)
+            triggerData.triggerID = triggerID;
+            triggerData.fileID = fileID;
+            triggerData.monoLogType = monologID;
+            triggerData.infoDataIDList = infoList;
+            triggerData.completeMonologType = completeMonologID;
+            triggerData.delay = delay;
+            triggerData.needInfoList = needInfoDataList;
+            triggerData.isFakeInfo = isFakeInfo;
+            triggerData.name = $"Trigger_{triggerData.triggerID}";
+            string SO_PATH = $"Assets/07.ScriptableObjects/TriggerData/Trigger_{triggerData.triggerID}.asset";
+            if(isCreate)
             {
-                MediaPlayerBody mediaPlayerBody = bodyPrefabData.bodyObject.GetComponent<MediaPlayerBody>();
-                string text = columns[9];
-                int textIdx = 0;
-                if (int.TryParse(text, out textIdx))
-                {
-                    mediaPlayerBody.AddTextTriggerData(new TextTriggerData() { id = textIdx, trigger = infoTrigger });
-                }
-                else
-                {
-                    mediaPlayerBody.AddTextTriggerData(new TextTriggerData() { text = text, trigger = infoTrigger });
-                    mediaPlayerBody.SetTriggerText();
-                }
+                CreateFolder(SO_PATH);
+                AssetDatabase.CreateAsset(triggerData, SO_PATH);
             }
-
-            PrefabUtility.SaveAsPrefabAsset(bodyPrefabData.bodyObject, bodyPrefabData.prefabPath);
+            EditorUtility.SetDirty(triggerData);
+            guideSODatas.Remove(triggerData);
         }
 
         AssetDatabase.Refresh();
