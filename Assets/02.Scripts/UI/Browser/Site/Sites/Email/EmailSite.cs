@@ -77,28 +77,13 @@ public class EmailSite : Site
         EventManager.StartListening(EMailSiteEvent.VisiableMail, VisiableMail);
         EventManager.StartListening(EMailSiteEvent.RefreshPavoriteMail, FavoriteRefreshMail);
         currentCategory = EEmailCategory.Receive;
-
-        GetMailSaveData();
         CreateLines();
         base.Init();
         ChangeEmailCategory();
         ShowMailLineAll();
     }
 
-    private void GetMailSaveData()
-    {
-        return;
-    }
 
-    //private void RegisterMailData()
-    //{
-    //    mailDataDictionary = new Dictionary<EMailType, MailData>();
-
-    //    foreach(var mailData in mailDataList.MailDataList)
-    //    {
-    //        mailDataDictionary.Add(mailData.mailDataSO.Type, mailData);
-    //    }
-    //}
 
     private void CreateLines()
     {
