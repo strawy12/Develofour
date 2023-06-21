@@ -108,6 +108,7 @@ public class ProfilerInfoPanel : MonoBehaviour
             }
             InfoTextListRefresh();
         }
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
     }
 
     private void InfoTextListRefresh()
