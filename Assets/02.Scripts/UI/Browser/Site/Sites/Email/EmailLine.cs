@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
 using ExtenstionMethod;
+using System;
 
 public class EmailLine : MonoBehaviour
 {
@@ -93,9 +94,25 @@ public class EmailLine : MonoBehaviour
         }
     }
 
+    public void OverlayOpenEventAdd()
+    {
+        Browser.currentBrowser.OnSelected += OverlayOpen;
+    }
+
+    private void OverlayOpen()
+    {
+        if(mail.gameObject.activeSelf)
+        {
+            if(overlayTrigger != null)
+            {
+                overlayTrigger.Open();
+            }
+        }
+    }
+
     public void ShowMail()
     {
-        //overlayTrigger.Open();
+        overlayTrigger.Open();
         mail.ShowMail();
     }
  

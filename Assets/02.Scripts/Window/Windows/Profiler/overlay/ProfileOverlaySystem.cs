@@ -40,6 +40,7 @@ public class ProfileOverlaySystem : MonoBehaviour
         completeProfileCount = 0;
         wholeProfileCount = 0;
         currentFileID = 0;
+        Debug.Log("Fdsa");
         profileIDList.Clear();
     }
 
@@ -48,8 +49,9 @@ public class ProfileOverlaySystem : MonoBehaviour
         if (!DataManager.Inst.SaveData.isProfilerInstall) return;
         ResetCount();
         currentFileID = id;
+        Debug.Log("ㅁㄴㅇㄹ");
         GetProfileIDList(triggerList);
-
+        Debug.Log(profileIDList.Count);
         completeProfileCount = GetCompleteCount();
         wholeProfileCount = GetWholeCount();
         Setting(id);
@@ -77,7 +79,7 @@ public class ProfileOverlaySystem : MonoBehaviour
                 MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, 1f, false);
             }
         }
-
+        Debug.Log("id는 " + id);
         Setting(id);    
     }
 
@@ -88,19 +90,24 @@ public class ProfileOverlaySystem : MonoBehaviour
             Debug.Log("현재 오버레이의 fileId와 다릅니다.");
             return;
         }
-
+        Debug.Log("Asdfasfd");
         overlayText.text = GetCompleteCount() + " / " + GetWholeCount();
         overlayPanel.SetActive(true);
     }
 
     private void GetProfileIDList(List<InformationTrigger> list)
     {
+        Debug.Log(list.Count);
         list.ForEach((trigger) =>
         {
+            Debug.Log(trigger.MonologID);
+            Debug.Log(trigger.infoDataIDList.Count);
             for (int i = 0; i < trigger.infoDataIDList.Count; i++)
             {
+                Debug.Log(trigger.infoDataIDList[i]);
                 if (!profileIDList.Contains(trigger.infoDataIDList[i]))
                 {
+                    Debug.Log("add");
                     profileIDList.Add(trigger.infoDataIDList[i]);
                 }
             }

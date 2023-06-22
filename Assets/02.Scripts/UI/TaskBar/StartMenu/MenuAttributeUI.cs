@@ -75,8 +75,8 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         rectTransform.sizeDelta = contractSize;
 
         SetActive(true);
-        //overlayTrigger.fileID = Constant.OverlayID.START_ATTRIBUTE;
-        //overlayTrigger.Open();
+        overlayTrigger.fileID = Constant.OverlayID.START_ATTRIBUTE;
+        overlayTrigger.Open();
 
         DOTween.To(
             () => rectTransform.sizeDelta.y,
@@ -94,7 +94,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
     public void Close()
     {
         if (isOpen == false) { return; }
-        //overlayTrigger.Close();
+        overlayTrigger.Close();
         isOpen = false;
         SetActive(false);
     }

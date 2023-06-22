@@ -91,7 +91,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 15
   infoDataIDList: 
+  fileID: 0
+  needInfoList: []
   monoLogType: 1
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
   backgroundImage: {fileID: 5088137327886341937}
 --- !u!1 &348155349188037220
 GameObject:
@@ -184,7 +189,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 20
   infoDataIDList: 
+  fileID: 0
+  needInfoList: []
   monoLogType: 5
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
   backgroundImage: {fileID: 4412686750443668698}
 --- !u!1 &4207929276730760005
 GameObject:
@@ -277,7 +287,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 23
   infoDataIDList: 
+  fileID: 0
+  needInfoList: []
   monoLogType: 5
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
   backgroundImage: {fileID: 5627129741493880461}
 --- !u!1 &4879399643047958026
 GameObject:
@@ -370,7 +385,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 18
   infoDataIDList: 
+  fileID: 0
+  needInfoList: []
   monoLogType: 4
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
   backgroundImage: {fileID: 1061946542873023046}
 --- !u!1 &5027611098894034829
 GameObject:
@@ -463,7 +483,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 16
   infoDataIDList: 
+  fileID: 0
+  needInfoList: []
   monoLogType: 122
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
   backgroundImage: {fileID: 3435743836067392673}
 --- !u!1 &6027484679948395211
 GameObject:
@@ -556,7 +581,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 22
   infoDataIDList: 
+  fileID: 0
+  needInfoList: []
   monoLogType: 6
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
   backgroundImage: {fileID: 6996142319127441585}
 --- !u!1 &6477166259668365583
 GameObject:
@@ -649,7 +679,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 17
   infoDataIDList: 
+  fileID: 0
+  needInfoList: []
   monoLogType: 39
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
   backgroundImage: {fileID: 4231807065974005696}
 --- !u!1 &7102155995870435364
 GameObject:
@@ -742,7 +777,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 21
   infoDataIDList: 
+  fileID: 0
+  needInfoList: []
   monoLogType: 39
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
   backgroundImage: {fileID: 8622438144223426160}
 --- !u!1 &7173300515967175413
 GameObject:
@@ -835,7 +875,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 19
   infoDataIDList: 
+  fileID: 0
+  needInfoList: []
   monoLogType: 5
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
   backgroundImage: {fileID: 8413351087343754777}
 --- !u!1 &8454321266748870906
 GameObject:
@@ -850,6 +895,7 @@ GameObject:
   - component: {fileID: 8454321266748870900}
   - component: {fileID: 5891423301709456168}
   - component: {fileID: 8051523755304602131}
+  - component: {fileID: 2654566187141367597}
   m_Layer: 5
   m_Name: IncidentReport
   m_TagString: Untagged
@@ -952,6 +998,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73291e00daf54a5d823d70076d4eeb52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2654566187141367597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454321266748870906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileID: 5
+  triggerCount:
+  - {fileID: 6829805079331807508}
+  - {fileID: 4918768171911223936}
+  - {fileID: 6092347396983118846}
+  - {fileID: 1161936722511775132}
+  - {fileID: 1498703215901245112}
+  - {fileID: 8802290040495538675}
+  - {fileID: 3832900806130696088}
+  - {fileID: 890204538884331157}
+  - {fileID: 2013055085068804535}
+  - {fileID: 5200219014898358261}
 --- !u!1 &9202547369800723026
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,5 +1113,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 24
   infoDataIDList: 
+  fileID: 0
+  needInfoList: []
   monoLogType: 7
+  completeMonologType: 0
+  delay: 0
+  isFakeInfo: 0
   backgroundImage: {fileID: 5717055028634397510}

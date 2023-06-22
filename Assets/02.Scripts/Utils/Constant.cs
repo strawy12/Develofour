@@ -109,5 +109,10 @@ public static partial class Constant
         public const int NOTIFICATION_SYSTEM = -2;
         public const int ORDER_LIST_MAIL = -3;
         public const int BACKGROUND_MAIL = -4;
+        public const int HARMONY_ANIMALHOSPITAL = -5;
+        public const int HARMONY_TAEWOONG = -6;
+        public const int HARMONY_YUZIN = -7;
+        public const int HARMONY_JUYOUNG = -8;
+        public const int HARMONY_UNKNOWN = -9;
     }
 }
