@@ -106,15 +106,10 @@ public class ProfilerInfoPanel : MonoBehaviour
             {
                 infoText.Show();
             }
-            InfoTextListRefresh();
+            StartCoroutine(RefreshSizeCoroutine());
         }
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
     }
 
-    private void InfoTextListRefresh()
-    {
-        infoTextList.ForEach((info) => { info.RefreshSize(); });
-    }
 
     public void Show(object[] ps)
     {
