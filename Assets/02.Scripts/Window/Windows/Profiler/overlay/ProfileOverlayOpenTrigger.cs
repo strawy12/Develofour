@@ -13,7 +13,7 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
 
     public void Open()
     {
-        if(!isSetting)
+        if (!isSetting)
         {
             isSetting = true;
             triggerCount.ForEach((trigger) => { trigger.fileID = fileID; });
@@ -21,13 +21,18 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
         ProfileOverlaySystem.OnOpen?.Invoke(fileID, triggerCount);
     }
 
-    private void CheckClose(object[] hits)
+    public void OpenByIntList(int fileID, List<int> listInt)
     {
-        if (Define.ExistInHits(gameObject, hits[0]) == false)
-        {
-            Close();
-        }
+        ProfileOverlaySystem.OnOpenInt?.Invoke(fileID, listInt);
     }
+
+    //private void CheckClose(object[] hits)
+    //{
+    //    if (Define.ExistInHits(gameObject, hits[0]) == false)
+    //    {
+    //        Close();
+    //    }
+    //}
 
     public void Close()
     {

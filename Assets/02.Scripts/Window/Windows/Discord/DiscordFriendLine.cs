@@ -66,6 +66,8 @@ public class DiscordFriendLine : MonoBehaviour, IPointerEnterHandler, IPointerEx
         set { statusText = value; }
     }
 
+    public ProfileOverlayOpenTrigger overlayTrigger;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         highlightPanel.SetActive(true);

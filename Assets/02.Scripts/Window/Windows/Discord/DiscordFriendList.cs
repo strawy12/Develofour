@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,7 @@ public class DiscordFriendList : MonoBehaviour
     private DiscordFriendLine friendLinePrefab;
 
     private DiscordFriendLine beforeFriendLine = null; //과거 좌클릭한 라인
-    private DiscordFriendLine currentFriendLine = null; //현재 좌클릭한 라인
+    public static DiscordFriendLine currentFriendLine = null; //현재 좌클릭한 라인
     private DiscordFriendLine AttributeFriendLine = null; //우클릭 한 라인
 
     public DiscordFriendLine CurrentFriendLine { get { return currentFriendLine; } }
@@ -28,6 +29,8 @@ public class DiscordFriendList : MonoBehaviour
 
     [SerializeField]
     private DiscordArea discordArea;
+
+    public static Action<DiscordFriendLine> OnOverlay;
 
     public void Init()
     {
@@ -40,11 +43,13 @@ public class DiscordFriendList : MonoBehaviour
         }
 
         discordArea.OnAttributePanelOff += delegate { attribuePanel.SetActive(false); };
+        OnOverlay += OpenOverlay;
     }
 
     private DiscordFriendLine CreateFriendLine(DiscordProfileDataSO data)
     {
         DiscordFriendLine friendLine = Instantiate(friendLinePrefab, this.transform);
+
 
         friendLine.OnLeftClickPanel += LeftClickLine;
         friendLine.OnRightClickPanel += RightClickLine;
@@ -63,13 +68,29 @@ public class DiscordFriendList : MonoBehaviour
             friendLine.StatusText.text = data.statusMsg;
         }
 
+        if (data.overlayID < 0) //constant에 있는 음수
+        {
+            friendLine.overlayTrigger = friendLine.GetComponent<ProfileOverlayOpenTrigger>();
+            friendLine.overlayTrigger.fileID = data.overlayID;
+            friendLine.OnLeftClickPanel += OpenOverlay;
+        }
+
         friendLine.gameObject.SetActive(true);
 
         return friendLine;
     }
 
+    public void OpenOverlay(DiscordFriendLine line)
+    {
+        currentFriendLine.overlayTrigger.OpenByIntList(line.myData.overlayID, Discord.OnGetInfoID?.Invoke(line.myData));
+    }
+
     public void LeftClickLine(DiscordFriendLine line)
     {
+        if (line == currentFriendLine)
+        {
+            return;
+        }
         beforeFriendLine = currentFriendLine;
         if (beforeFriendLine != null && beforeFriendLine != line)
         {
@@ -78,6 +99,8 @@ public class DiscordFriendList : MonoBehaviour
         currentFriendLine = line;
         //클릭됬을때 해당 메세지창 보여주면 됨
         EventManager.TriggerEvent(EDiscordEvent.ShowChattingPanel, new object[] { line.myData.userName });
+
+        currentFriendLine.overlayTrigger.Close();
     }
 
     public void RightClickLine(Vector2 pos, DiscordFriendLine line)

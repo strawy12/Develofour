@@ -9,6 +9,6 @@ public class DiscordProfileDataSO : ScriptableObject
     public string statusMsg;
     public string infoMsg;
     public bool isFriend;
-
+    public int overlayID;
 }
 
