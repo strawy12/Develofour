@@ -37,6 +37,13 @@ public class ProfilerPanel : MonoBehaviour
 
         typePanel.AddProfileCategoryPrefab(category);
         infoPanel.ChangeValue(category, id);
+        StartCoroutine(SizeFilterCoroutine());
+    }
+
+    private IEnumerator SizeFilterCoroutine()
+    {
+        yield return new WaitForSeconds(0.02f);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
     }
     public void Show()
     {
