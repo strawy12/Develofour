@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,10 +42,10 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private void Init()
     {
-        InputManager.Inst.AddAnyKeyInput(onKeyUp: AnyKeyUp);
         EventManager.StartListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
         isTutorialEnd = DataManager.Inst.SaveData.isClearStartCutScene;
     }
+
 
     private void TurnInteractable(object[] ps)
     {
@@ -53,13 +54,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         EventManager.StopListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
     }
 
-    private void AnyKeyUp()
-    {
-        if (anyKeyUp) return;
-        if (!isTutorialEnd) return;
-        anyKeyUp = true;
-        rectTransform.DOAnchorPos(originPos + Vector3.up * targetMovementY, 0.1f).OnComplete(OpenLoginScreen);
-    }
+
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -98,7 +93,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         loginScreen.SetActive(true);
          
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.WINDOWS_LOGIN_SCREEN_OPEN, 1.5f, true);
-        
+
         gameObject.SetActive(false);
     }
 }
