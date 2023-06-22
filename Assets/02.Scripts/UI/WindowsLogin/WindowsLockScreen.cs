@@ -42,10 +42,30 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private void Init()
     {
+        EventManager.StartListening(ECutSceneEvent.EndStartCutScene, AnyKeyUp);
         EventManager.StartListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
         isTutorialEnd = DataManager.Inst.SaveData.isClearStartCutScene;
     }
 
+    private void AnyKeyUp(object[] ps)
+    {
+        Debug.Log("asdf");
+        StartCoroutine(KeyUpCor());
+    }
+
+    IEnumerator KeyUpCor()
+    {
+        yield return new WaitForSeconds(0.1f);
+        InputManager.Inst.AddAnyKeyInput(onKeyUp: AnyKeyUp);
+        EventManager.StopListening(ECutSceneEvent.EndStartCutScene, AnyKeyUp);
+    }
+
+    private void AnyKeyUp()
+    {
+        if (anyKeyUp) return;
+        anyKeyUp = true;
+        rectTransform.DOAnchorPos(originPos + Vector3.up * targetMovementY, 0.1f).OnComplete(OpenLoginScreen);
+    }
 
     private void TurnInteractable(object[] ps)
     {
