@@ -88,8 +88,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            DataManager.Inst.SetMonologShow(212, true);
-            DataManager.Inst.AddProfilerSaveData(EProfilerCategory.InvisibleInformation,66);
+            Debug.Log(DataManager.Inst.IsMonologShow(213));
         }
 
         if(Input.GetKeyDown(KeyCode.P))

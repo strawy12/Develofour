@@ -162,7 +162,6 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Exit");
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[1] { CursorChangeSystem.ECursorState.Default });
         backgroundImage.enabled = false;
         timeText.gameObject.SetActive(false);
@@ -183,7 +182,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
                 {
                     if (!DataManager.Inst.IsProfilerInfoData(needInfo.needInfoID))
                     {
-                        MonologSystem.OnStartMonolog?.Invoke(needInfo.monologID, 0f, true);
+                        MonologSystem.OnStartMonolog?.Invoke(needInfo.monologID, 0f, false);
                         return;
                     }
                 }
@@ -193,13 +192,14 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
                 foreach (var infoID in currentChatData.infoIDs)
                 {
                     var infoData = ResourceManager.Inst.GetProfilerInfoData(infoID);
-                    EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[3] { infoData.category, infoData.id, null });
+                    EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { infoData.category, infoData.id});
+                    ProfileOverlaySystem.OnAdd?.Invoke(currentProfileData.overlayID);
                 }
 
             }
             if (currentChatData.monologID != 0)
             {
-                MonologSystem.OnStartMonolog?.Invoke(currentChatData.monologID, 0f, true);
+                MonologSystem.OnStartMonolog?.Invoke(currentChatData.monologID, 0f, false);
             }
         }
 
