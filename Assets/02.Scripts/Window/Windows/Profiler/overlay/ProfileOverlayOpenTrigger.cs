@@ -13,12 +13,17 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
 
     public void Open()
     {
-        if(!isSetting)
+        if (!isSetting)
         {
             isSetting = true;
-            //triggerCount.ForEach((trigger) => { trigger.f = fileID; });
+            triggerCount.ForEach((trigger) => { trigger.fileID = fileID; });
         }
-        //ProfileOverlaySystem.OnOpen?.Invoke(fileID, triggerCount);
+        ProfileOverlaySystem.OnOpen?.Invoke(fileID, triggerCount);
+    }
+
+    public void OpenByIntList(int fileID, List<int> listInt)
+    {
+        ProfileOverlaySystem.OnOpenInt?.Invoke(fileID, listInt);
     }
 
     //private void CheckClose(object[] hits)
@@ -31,7 +36,7 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
 
     public void Close()
     {
-        //ProfileOverlaySystem.OnClose?.Invoke();
+        ProfileOverlaySystem.OnClose?.Invoke();
     }
 
     //다른거 누를때 꺼지게하는거

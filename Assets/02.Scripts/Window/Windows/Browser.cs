@@ -58,6 +58,7 @@ public partial class Browser : Window
         usedSiteList = new List<Site>();
 
         BindingStart();
+        OnUnSelected += OverlayClose;
         OnSelected += SelectedBrowser;
 
         OnClosed += (a) => ResetBrowser();
@@ -71,6 +72,11 @@ public partial class Browser : Window
         EventManager.StartListening(ELoginSiteEvent.LoginSuccess, LoginSiteOpen);
 
         ChangeSite(ESiteLink.Chrome, 0f, false);
+    }
+
+    private void OverlayClose()
+    {
+        ProfileOverlaySystem.OnClose?.Invoke();
     }
 
     private void ResetAddressInputField(string str)

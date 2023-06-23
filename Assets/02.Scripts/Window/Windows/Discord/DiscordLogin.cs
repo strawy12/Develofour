@@ -93,8 +93,13 @@ public class DiscordLogin : MonoBehaviour
 
     public void OnClickLogin()
     {
+#if UNITY_EDITOR
+
+            SuccessLogin();
+        
+#endif
         //현재 내 윈도우가 가장 위에있는지 확인
-        if(WindowManager.Inst != null && !WindowManager.Inst.IsTopWindow(EWindowType.Discord))
+        if (WindowManager.Inst != null && !WindowManager.Inst.IsTopWindow(EWindowType.Discord))
         {
             return;
         }

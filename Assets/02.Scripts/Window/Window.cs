@@ -31,7 +31,7 @@ public enum EWindowType // 확장자
 }
 
 [RequireComponent(typeof(GraphicRaycaster))]
-public class Window : MonoUI, IPointerClickHandler, ISelectable
+public class Window : MonoUI, ISelectable
 {
     public static int windowMaxCnt;
     public static Window currentWindow;
@@ -239,10 +239,10 @@ public class Window : MonoUI, IPointerClickHandler, ISelectable
         EventManager.TriggerEvent(EWindowEvent.CreateWindow, new object[] { this });
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        SelectWindow();
-    }
+    //public void OnPointerClick(PointerEventData eventData)
+    //{
+    //    SelectWindow();
+    //}
 
     private void CheckSelected(object[] hits)
     {

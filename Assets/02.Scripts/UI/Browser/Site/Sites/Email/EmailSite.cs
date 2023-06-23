@@ -96,6 +96,7 @@ public class EmailSite : Site
             {
                 emailLine.overlayTrigger = trigger;
                 mail.OnOverlayClose += emailLine.overlayTrigger.Close;
+                emailLine.OverlayOpenEventAdd();
             }
             emailLine.gameObject.SetActive(false);
             mail.Init();

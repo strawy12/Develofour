@@ -34,15 +34,22 @@ public class Discord : Window
 
     private HarmonyShortcutDataSO chatData;
 
+    public static Func<DiscordProfileDataSO, List<int>> OnGetInfoID;
+
     protected override void Init()
     {
         base.Init();
         EventManager.StartListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
         EventManager.StartListening(EDiscordEvent.StartTalk, StartTalkChat);
 
-        OnSelected += SelectedDiscord;
+        Debug.Log("이닛");
 
+        OnSelected += SelectedDiscord;
+        OnGetInfoID += GetInfoID;
         OnClosed += (a) => ResetDiscord();
+
+        OnSelected += OverlayOpen;
+        OnUnSelected += OverlayClose;
 
         friendList.Init();
         chattingPanel.Init();
@@ -55,6 +62,43 @@ public class Discord : Window
             discordLogin.gameObject.SetActive(false);
         }
         currentDiscord = this;
+    }
+
+    private void OverlayClose()
+    {
+        ProfileOverlaySystem.OnClose?.Invoke();
+    }
+
+    private void OverlayOpen()
+    {
+        if (DiscordFriendList.currentFriendLine != null)
+        {
+            DiscordFriendList.OnOverlay?.Invoke(DiscordFriendList.currentFriendLine);
+        }
+    }
+
+    private List<int> GetInfoID(DiscordProfileDataSO data)
+    {
+        List<int> list = new List<int>();
+        DiscordChatDataListSO dataListSO = new DiscordChatDataListSO();
+        dataListSO = GetChatDataList(data.userName);
+        dataListSO.chatDataSOList.ForEach((chatData) =>
+        {
+            chatData.chatDatas.ForEach((data) =>
+            {
+                if (data.infoIDs.Count != 0)
+                {
+                    for (int i = 0; i < data.infoIDs.Count; i++)
+                    {
+                        if (!list.Contains(data.infoIDs[i]))
+                        {
+                            list.Add(data.infoIDs[i]);
+                        }
+                    }
+                }
+            });
+        });
+        return list;
     }
 
     public DiscordChatDataListSO GetChatDataList(string userName)
@@ -91,7 +135,7 @@ public class Discord : Window
         {
             foreach (DiscordChatDataSO chatDataSO in currentChatData.chatDataSOList)
             {
-                foreach(DiscordChatData chatData in chatDataSO.chatDatas)
+                foreach (DiscordChatData chatData in chatDataSO.chatDatas)
                 {
                     chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData, chatDataSO.chatDay);
                 }
@@ -156,16 +200,4 @@ public class Discord : Window
         EventManager.StopListening(EDiscordEvent.ShowChattingPanel, SettingChattingPanel);
         EventManager.StopListening(EDiscordEvent.StartTalk, StartTalkChat);
     }
-#if UNITY_EDITOR
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.J))
-    //    {
-    //        object[] ps = new object[1] { "테스트" };
-
-    //        StartTalkChat(ps);
-
-    //    }
-    //}
-#endif
 }
