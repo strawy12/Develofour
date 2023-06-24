@@ -15,8 +15,18 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
     {
         if (!isSetting)
         {
-            isSetting = true;
-            triggerCount.ForEach((trigger) => { trigger.fileID = fileID; });
+            InformationTrigger[] triggerArray = GetComponentsInChildren<InformationTrigger>();
+
+            triggerCount.Clear();
+            for(int i = 0; i < triggerArray.Length; i++)
+            {
+                triggerCount.Add(triggerArray[i]);
+            }
+
+            if(triggerCount.Count != 0)
+            {
+                fileID = triggerCount[0].fileID;
+            }
         }
         ProfileOverlaySystem.OnOpen?.Invoke(fileID, triggerCount);
     }
