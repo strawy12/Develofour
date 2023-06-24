@@ -91,14 +91,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 34
   infoDataIDList: 12000000
+  fileID: 37
   needInfoList: []
   monoLogType: 192
   completeMonologType: 15
   delay: 0
   isFakeInfo: 1
-  fildID: 0
   backgroundImage: {fileID: 3076870783298546224}
-  fileID: 37
 --- !u!1 &8454321266748870906
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,6 +111,7 @@ GameObject:
   - component: {fileID: 8454321266748870900}
   - component: {fileID: 5891423301709456168}
   - component: {fileID: 8051523755304602131}
+  - component: {fileID: 3812391117940087093}
   m_Layer: 5
   m_Name: PetAdmission
   m_TagString: Untagged
@@ -206,6 +206,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73291e00daf54a5d823d70076d4eeb52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3812391117940087093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454321266748870906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileID: 37
+  triggerCount:
+  - {fileID: 5611456670118017931}
+  - {fileID: 1918171156415243083}
 --- !u!1 &9213418844744184256
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 35
   infoDataIDList: 13000000
+  fileID: 37
   needInfoList:
   - needInfoID: 18
     monologID: 167
@@ -305,6 +322,4 @@ MonoBehaviour:
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  fildID: 0
   backgroundImage: {fileID: 6064435151922747738}
-  fileID: 37

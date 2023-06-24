@@ -13,6 +13,8 @@ public class Notepad : Window
     [SerializeField]
     private float scrollValue = 7;
 
+    public ProfileOverlayOpenTrigger overlayTrigger;
+
     protected override void Init()
     {
         base.Init();
@@ -33,6 +35,10 @@ public class Notepad : Window
 
         OnSelected += notepadBody.inputField.ActivateInputField;
         OnUnSelected += () => notepadBody.inputField.DeactivateInputField();
+
+        OnSelected += OverlayOpen;
+        OnUnSelected += OverlayClose;
+        OverlayOpen();
 
         windowBar.OnMaximum.AddListener(notepadBody.SetTriggerPosition);
 
@@ -59,5 +65,31 @@ public class Notepad : Window
         notepadBody.inputField.text = currentData.scripts;
     }
 
+    private void OverlayClose()
+    {
+        if (overlayTrigger == null) // 없다면 찾아와
+        {
+            overlayTrigger = notepadBody.GetComponent<ProfileOverlayOpenTrigger>();
+            if (overlayTrigger == null) { return; }
+        }
+        overlayTrigger.Close();
+    }
 
+    private void OverlayOpen()
+    {
+
+        if (overlayTrigger == null) // 없다면 찾아와
+        {
+            overlayTrigger = notepadBody.GetComponent<ProfileOverlayOpenTrigger>();
+            if (overlayTrigger == null) { return; }
+        }
+        overlayTrigger.Open();
+    }
+
+    protected override void OnDestroyWindow()
+    {
+        base.OnDestroyWindow();
+        OnSelected -= OverlayOpen;
+        OnUnSelected -= OverlayClose;
+    }
 }

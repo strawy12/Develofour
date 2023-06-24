@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 1
   infoDataIDList: 7b000000
+  fileID: 163
   needInfoList:
   - needInfoID: 48
     monologID: 161
@@ -99,9 +100,7 @@ MonoBehaviour:
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  fildID: 0
   backgroundImage: {fileID: 6950571531352124228}
-  fileID: 163
 --- !u!1 &8454321266748870906
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,6 +115,7 @@ GameObject:
   - component: {fileID: 5891423301709456168}
   - component: {fileID: 8051523755304602131}
   - component: {fileID: 1626884417832986336}
+  - component: {fileID: 7667787018279213785}
   m_Layer: 5
   m_Name: Bat
   m_TagString: Untagged
@@ -223,9 +223,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 0
   infoDataIDList: 
+  fileID: 0
   needInfoList: []
   monoLogType: 8
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  fildID: 0
+--- !u!114 &7667787018279213785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454321266748870906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileID: 163
+  triggerCount:
+  - {fileID: 8048553545201493057}

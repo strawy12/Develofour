@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 3383222128430822548}
   - component: {fileID: 7368675620878798104}
   - component: {fileID: 3383222128430822549}
+  - component: {fileID: 8939221069940558132}
   m_Layer: 5
   m_Name: NewsserafimDebut
   m_TagString: Untagged
@@ -339,6 +340,21 @@ MonoBehaviour:
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
+--- !u!114 &8939221069940558132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3383222128430822547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileID: 104
+  triggerCount:
+  - {fileID: 7773537976868791648}
 --- !u!1 &3383222128617245468
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,6 +498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 82
   infoDataIDList: 8f000000
+  fileID: 104
   needInfoList:
   - needInfoID: 1
     monologID: 153
@@ -490,6 +507,4 @@ MonoBehaviour:
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  fildID: 0
   backgroundImage: {fileID: 7569067697555953724}
-  fileID: 104

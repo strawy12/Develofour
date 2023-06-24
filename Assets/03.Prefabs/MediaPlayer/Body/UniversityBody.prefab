@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5630979468520345138}
   - component: {fileID: 3502405524647487754}
   - component: {fileID: 1317743494518724695}
+  - component: {fileID: 8976630417842274811}
   m_Layer: 5
   m_Name: UniversityBody
   m_TagString: Untagged
@@ -152,6 +153,23 @@ MonoBehaviour:
     id: 25
     trigger: {fileID: 184121945467930517}
   endMediaInfoTrigger: {fileID: 0}
+--- !u!114 &8976630417842274811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556363316380209432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileID: 47
+  triggerCount:
+  - {fileID: 2213103744607030575}
+  - {fileID: 4771671703242731240}
+  - {fileID: 184121945467930517}
 --- !u!1 &1178453062908555258
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,6 +774,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 95
   infoDataIDList: 03000000
+  fileID: 47
   needInfoList:
   - needInfoID: 1
     monologID: 0
@@ -767,9 +786,7 @@ MonoBehaviour:
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  fildID: 0
   backgroundImage: {fileID: 5618137117053764460}
-  fileID: 47
 --- !u!1 &6976637115582665739
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,6 +1005,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 94
   infoDataIDList: 02000000
+  fileID: 47
   needInfoList:
   - needInfoID: 1
     monologID: 0
@@ -996,9 +1014,7 @@ MonoBehaviour:
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  fildID: 0
   backgroundImage: {fileID: 8741631485858844424}
-  fileID: 47
 --- !u!1 &8243331949855214469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,11 +1106,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 96
   infoDataIDList: 01000000
+  fileID: 47
   needInfoList: []
   monoLogType: 153
   completeMonologType: 38
   delay: 0
   isFakeInfo: 0
-  fildID: 0
   backgroundImage: {fileID: 4692266486652926930}
-  fileID: 47
