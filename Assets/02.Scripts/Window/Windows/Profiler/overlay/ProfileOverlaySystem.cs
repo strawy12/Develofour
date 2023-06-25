@@ -105,6 +105,14 @@ public class ProfileOverlaySystem : MonoBehaviour
         }
 
         overlayText.text = GetCompleteCount() + " / " + GetWholeCount();
+
+        if (GetWholeCount() == 0)
+        {
+            OnClose?.Invoke();
+            return;
+        }
+            
+
         overlayPanel.SetActive(true);
     }
 

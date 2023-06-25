@@ -23,6 +23,11 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
                 triggerCount.Add(triggerArray[i]);
             }
 
+            if(triggerCount == null || triggerCount.Count == 0)
+            {
+                return;
+            }
+
             if(triggerCount.Count != 0)
             {
                 fileID = triggerCount[0].fileID;
