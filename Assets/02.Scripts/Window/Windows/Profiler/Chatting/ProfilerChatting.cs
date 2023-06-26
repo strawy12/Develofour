@@ -73,14 +73,22 @@ public class ProfilerChatting : MonoBehaviour
         EventManager.StartListening(EProfilerEvent.ProfilerSendMessage, PrintText);
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
-        OpenCloseButton.onClick.AddListener(HidePanel);
         movePanelRect = GetComponent<RectTransform>();
         profileGuidePanel.Init();
         AddSaveTexts();
 
         SetScrollView();
-
-        ShowPanel();
+        if(DataManager.Inst.GetIsClearTutorial())
+        {
+            OpenCloseButton.onClick.AddListener(ShowPanel);
+            HidePanel();
+        }
+        else
+        {
+            OpenCloseButton.onClick.AddListener(HidePanel);
+            ShowPanel();
+            EventManager.StartListening(ETutorialEvent.EndTutorial,HidePanel);
+        }
 
         defaultOffsetMinY = scrollrectTransform.offsetMax.y;
         EventManager.StartListening(EProfilerEvent.ClickGuideToggleButton, SetChattingHeight);
@@ -163,7 +171,11 @@ public class ProfilerChatting : MonoBehaviour
 
         return textUI;
     }
-
+    protected void HidePanel(object[] ps = null)
+    {
+        HidePanel();
+        EventManager.StopListening(ETutorialEvent.EndTutorial, HidePanel);
+    } 
     protected virtual void HidePanel()
     {
         if (isMoving) return;

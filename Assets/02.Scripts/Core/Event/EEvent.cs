@@ -187,6 +187,7 @@ public enum ETutorialEvent
     SelectLibrary,
     LibraryEventTrigger,
     LibraryGuide,
+    EndTutorial,
 }
 
 
