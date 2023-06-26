@@ -32,6 +32,7 @@ public class DiscordImagePanel : MonoBehaviour, IPointerClickHandler
             GameObject prefab = obj[0] as GameObject;
             GameObject instance = Instantiate(prefab, this.gameObject.transform);
             instance.GetComponent<ImageEnlargement>().Init(true);
+            instance.GetComponent<RectTransform>().sizeDelta = instance.GetComponent<Image>().sprite.bounds.size * 20;
             gameObject.SetActive(true);
         }
 
