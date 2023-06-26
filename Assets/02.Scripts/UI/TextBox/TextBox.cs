@@ -20,7 +20,7 @@ public class TextBox : MonoUI
     private Image bgImage;
 
     [SerializeField]
-    private Sprite simpleTypeSprite;
+    private TextBoxCursor textBoxCursor;
 
     [SerializeField]
     private Vector2 offsetSize;
@@ -40,6 +40,7 @@ public class TextBox : MonoUI
     private void Start()
     {
         triggerDictionary = new Dictionary<int, Action>();
+        textBoxCursor.Init();
     }
 
 
@@ -180,6 +181,7 @@ public class TextBox : MonoUI
         isTextPrinting = false;
         Sound.OnImmediatelyStop?.Invoke(EAudioType.MonologueTyping);
         isSkip = false;
+        textBoxCursor.TurnOn();
         OnEnd?.Invoke();
         OnEnd = null;
     }
@@ -199,6 +201,7 @@ public class TextBox : MonoUI
         messageText.color = Color.white;
         currentColor = Color.white;
         isActive = false;
+        textBoxCursor.TurnOff();
         SetActive(false);
     }
 
@@ -213,7 +216,6 @@ public class TextBox : MonoUI
     {
         bgImage.color = Color.black;
         bgImage.ChangeImageAlpha(1f);
-        bgImage.sprite = simpleTypeSprite;
 
         messageText.SetText(data);
         messageText.color = currentColor;

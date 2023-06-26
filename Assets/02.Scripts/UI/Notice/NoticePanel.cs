@@ -98,6 +98,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         headText.SetText(head);
         bodyText.SetText(body);
+        DateTime time  = TimeSystem.TimeCount();
+        dateText.SetText($"{(time.Hour > 12 ? "오후" : "오전")} {(time.Hour - 12).ToString()}:{time.Minute.ToString()}");
 
         if (icon != null)
         {
