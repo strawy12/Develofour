@@ -11,10 +11,11 @@ public class StartCutScene : MonoBehaviour
 {
     public static Action OnPlayCutScene { get; private set; }
 
+    [SerializeField]
+    private Image titleLogo;
 
-    public TMP_Text titleText;
-
-    public Image interrogationRoomSprite;
+    [SerializeField]
+    private Image interrogationRoomSprite;
 
     [SerializeField]
     private GameObject blackImagePanel;
@@ -66,10 +67,10 @@ public class StartCutScene : MonoBehaviour
         yield return new WaitForSeconds(delay == null ? 5f : (float)delay);
         isScreamSound = false;
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutScenePoint);
-        titleText.gameObject.SetActive(true);
+        titleLogo.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
 
-        titleText.DOColor(new Color(255, 255, 255, 0), 2.5f);
+        titleLogo.DOColor(new Color(255, 255, 255, 0), 2.5f);
         yield return new WaitForSeconds(3f);
 
         yield return new WaitForSeconds(1f);
