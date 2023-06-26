@@ -31,12 +31,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6760515456667878588}
-  m_RootOrder: 1
+  m_Father: {fileID: 6760515457785497151}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -629.89966, y: 261}
+  m_AnchoredPosition: {x: -629.89966, y: 261.5}
   m_SizeDelta: {x: 606.4662, y: 28.331}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &7598517782533763023
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0.312, a: 0}
+  m_Color: {r: 1, g: 1, b: 0.312, a: 0.5254902}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -132,12 +132,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6760515456667878588}
-  m_RootOrder: 2
+  m_Father: {fileID: 6760515457785497151}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -19.3, y: 121.7}
+  m_AnchoredPosition: {x: -19.3, y: 122.2}
   m_SizeDelta: {x: 366.1382, y: 30.5402}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8983617768173426680
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0.312, a: 0}
+  m_Color: {r: 1, g: 1, b: 0.312, a: 0.5254902}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -236,13 +236,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6760515456667878588}
-  m_RootOrder: 3
+  m_Father: {fileID: 6760515457785497151}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -630, y: 86.2}
-  m_SizeDelta: {x: 1206.1768, y: 30.5524}
+  m_AnchoredPosition: {x: -630, y: 86.7}
+  m_SizeDelta: {x: 826.2883, y: 30.5524}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1965839026526543378
 CanvasRenderer:
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0.312, a: 0}
+  m_Color: {r: 1, g: 1, b: 0.312, a: 0.54509807}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -389,9 +389,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6760515456448002865}
-  - {fileID: 4401868097337159864}
-  - {fileID: 8209547704687811831}
-  - {fileID: 2247042681900952382}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -451,14 +448,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textTriggerList:
-  - text: 
-    id: 80
+  - text: "\uAF2D \uBAB8\uC758"
+    id: 81
     trigger: {fileID: 4290444291371511664}
-  - text: 
-    id: 226
+  - text: "\uC544 \uC8FC\uC601"
+    id: 227
     trigger: {fileID: 3614722380945940976}
-  - text: 
-    id: 247
+  - text: "\uC694\uD55C\uC774\uAC00 \uAD70\uB300\uB97C"
+    id: 249
     trigger: {fileID: 6309645582654594964}
   - text: 
     id: 247
@@ -623,7 +620,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4401868097337159864}
+  - {fileID: 8209547704687811831}
+  - {fileID: 2247042681900952382}
   m_Father: {fileID: 6760515456448002865}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

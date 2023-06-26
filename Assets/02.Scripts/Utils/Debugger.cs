@@ -70,7 +70,7 @@ public class Debugger : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.G))
         {
-            FileManager.Inst.AddFile(152, 1);
+            FileManager.Inst.AddFile(146, 1);
         }
 
         if (Input.GetKeyDown(KeyCode.H))
@@ -80,12 +80,10 @@ public class Debugger : MonoBehaviour
             EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 36 });
 
         }
-
         if (Input.GetKeyDown(KeyCode.A))
         {
             EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetProfile, 18 });
         }
-
         if (Input.GetKeyDown(KeyCode.L))
         {
             Debug.Log(DataManager.Inst.IsMonologShow(213));
@@ -189,5 +187,4 @@ public class Debugger : MonoBehaviour
     }
 
 #endif
-
 }
