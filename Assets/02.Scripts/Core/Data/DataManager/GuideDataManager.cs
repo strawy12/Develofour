@@ -31,4 +31,17 @@ public partial class DataManager : MonoSingleton<DataManager>
         }
         guideData.isUse = value;
     }
+
+    public bool CheckGuideButtonSaveData(string guideName)
+    {
+        return saveData.profilerGuideBtnSaveData.Contains(guideName);
+    }
+
+    public void AddGuideButtonSaveData(string guideName)
+    {
+        if(!CheckGuideButtonSaveData(guideName))
+            saveData.profilerGuideBtnSaveData.Add(guideName);
+    }
+    
 }
+

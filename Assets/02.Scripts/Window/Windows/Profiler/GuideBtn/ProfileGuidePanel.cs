@@ -31,15 +31,13 @@ public class ProfileGuidePanel : MonoBehaviour
     [Header("가이드 관련")]
     [SerializeField]
     private ProfilerGuideButtonParent guideParent;
-    [SerializeField]
-    private List<ProfilerGuideDataSO> guideDataList;
     public void Init()
     {
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
         moveButton.onClick.AddListener(ShowPanel);
         movePanelRect = GetComponent<RectTransform>();
-        guideParent.Init(guideDataList);
+        guideParent.Init();
         guideParent.OnClickGuideButton += ShowPanel;
         EventManager.StartListening(EGuideButtonTutorialEvent.GuideMoveBtn, GuideMoveButton);
         SetGuideParentWeight(true);
