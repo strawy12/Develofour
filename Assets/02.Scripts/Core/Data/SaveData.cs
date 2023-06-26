@@ -28,6 +28,8 @@ public class GuideSaveData
     public EGuideTopicName topicName;
     public bool isUse;
 }
+
+
 [System.Serializable]
 public class ProfilerSaveData
 {
@@ -69,6 +71,7 @@ public class SaveData
     public List<MailSaveData> mailSaveData = new List<MailSaveData>();
     public List<ReturnMonologData> returnMonologData;
     public List<LastAccessDateData> lastAccessDateData;
+    public List<string> profilerGuideBtnSaveData;
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
     public bool isZooglePinHintNoteOpen;
