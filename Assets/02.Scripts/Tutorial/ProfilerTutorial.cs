@@ -166,6 +166,7 @@ public class ProfilerTutorial : MonoBehaviour
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
         CallSystem.Inst.OnAnswerCall(ECharacterDataType.Assistant, Constant.MonologKey.END_PROFILER_TUTORIAL);
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
+        EventManager.TriggerEvent(ETutorialEvent.EndTutorial);
     }
 
 #if UNITY_EDITOR
@@ -178,6 +179,7 @@ public class ProfilerTutorial : MonoBehaviour
         GuideUISystem.EndAllGuide?.Invoke();
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.AssistantProfile, 115 });
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PoliceProfile, 116 });
+        EventManager.TriggerEvent(ETutorialEvent.EndTutorial);
 
         DataManager.Inst.SetProfilerTutorialIdx(5);
         StopAllCoroutines();

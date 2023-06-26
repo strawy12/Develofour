@@ -52,6 +52,7 @@ public class DiscordFriendList : MonoBehaviour
 
 
         friendLine.OnLeftClickPanel += LeftClickLine;
+        friendLine.OnLeftClickPanel += (x) => { discordArea.SettingInputText(data.userName); };
         friendLine.OnRightClickPanel += RightClickLine;
         friendLine.myData = data;
         friendLine.ProfileImage.sprite = data.userSprite;

@@ -30,7 +30,7 @@ public class DiscordMessageImagePanel : MonoBehaviour
 
     public void SettingImage(Sprite sprite)
     {
-        msgImage.rectTransform.sizeDelta = sprite.bounds.size * 30;
+        msgImage.rectTransform.sizeDelta = sprite.bounds.size * 10;
         msgImage.sprite = sprite;
         PanelSizeSetting();
     }

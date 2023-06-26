@@ -59,14 +59,11 @@ public class ProfilerWindow : Window
         OnSelected += ProfilerSelected;
 
         infoPanelBtn.button.onClick?.AddListener(OnClickShowProfiling);
-        //searchPanelBtn.button.onClick?.AddListener(OnClickShowFileSearch);
 
         moveDownPanelBtn.onClick.AddListener(MoveButtonClick);
         movePopUpPanelBtn.onClick.AddListener(MoveButtonClick);
 
-        //EventManager.StartListening(ETutorialEvent.SearchBtnGuide, GuideSearchButton);
         EventManager.StartListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
-
 
         beforeClickButton = infoPanelBtn;
 
@@ -105,19 +102,7 @@ public class ProfilerWindow : Window
         StartCoroutine(OnShowProfile());
     }
 
-    private void OnClickShowFileSearch()
-    {
-        if (beforeClickButton == searchPanelBtn)
-        {
-            return;
-        }
-
-        beforeClickButton = searchPanelBtn;
-
-        ButtonBlackSetting();
-        StartCoroutine(OnShowFileSearch());
-    }
-
+ 
     private void ButtonBlackSetting()
     {
         infoPanelBtn.Setting(beforeClickButton);
@@ -169,16 +154,6 @@ public class ProfilerWindow : Window
             ShowProfileCategoryPanel();
         }
     }
-
-    private IEnumerator OnShowFileSearch()
-    {
-        if (!isMoving)
-        {
-            isMoving = true;
-            yield return StartCoroutine(HideAllPanel());
-            ShowFileSearchPanel();
-        }
-    }
     public override void WindowMaximum()
     {
         base.WindowMaximum();
@@ -188,13 +163,6 @@ public class ProfilerWindow : Window
     {
         ShowPanel();
         profilePanel.Show();
-    }
-
-    private void ShowFileSearchPanel()
-    {
-        ShowPanel();
-        //fileSearchPanel.gameObject.SetActive(true);
-        //EventManager.TriggerEvent(ETutorialEvent.ClickSearchBtn);
     }
 
     private void ShowPanel()
@@ -226,8 +194,5 @@ public class ProfilerWindow : Window
     {
         EventManager.StopListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
     }
-    private void GuideSearchButton(object[] ps)
-    {
-        GuideUISystem.OnGuide?.Invoke(searchPanelBtn.RectTrm);
-    }
+  
 }
