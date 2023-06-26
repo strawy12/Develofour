@@ -91,14 +91,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 5
   infoDataIDList: 01000000
+  fileID: 34
   needInfoList: []
   monoLogType: 153
   completeMonologType: 38
   delay: 0
   isFakeInfo: 1
-  fildID: 0
   backgroundImage: {fileID: 2537061368687502141}
-  fileID: 34
 --- !u!1 &5977742856742687278
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 97
   infoDataIDList: 83000000
+  fileID: 34
   needInfoList:
   - needInfoID: 1
     monologID: 0
@@ -198,9 +198,7 @@ MonoBehaviour:
   completeMonologType: 38
   delay: 0
   isFakeInfo: 1
-  fildID: 0
   backgroundImage: {fileID: 9179076856780250953}
-  fileID: 34
 --- !u!1 &7873898243547464588
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,14 +290,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 4
   infoDataIDList: 82000000
+  fileID: 34
   needInfoList: []
   monoLogType: 152
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  fildID: 0
   backgroundImage: {fileID: 3321474439081736406}
-  fileID: 34
 --- !u!1 &8454321266748870906
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,6 +310,7 @@ GameObject:
   - component: {fileID: 8454321266748870900}
   - component: {fileID: 5891423301709456168}
   - component: {fileID: 8051523755304602131}
+  - component: {fileID: 2487327649177408066}
   m_Layer: 5
   m_Name: ConsultationAgreement
   m_TagString: Untagged
@@ -408,3 +406,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73291e00daf54a5d823d70076d4eeb52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2487327649177408066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454321266748870906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileID: 34
+  triggerCount:
+  - {fileID: 7734446082042898899}
+  - {fileID: 5656493546598665452}
+  - {fileID: 3063282933366642776}

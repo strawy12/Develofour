@@ -215,6 +215,7 @@ public class NoticeSystem : MonoUI
 
     public void IncludePanel(NoticePanel panel)
     {
+        panel.CanvasSortingSetting();
         panel.transform.SetParent(noticePanelParant);
         panel.OnCompeleted -= IncludePanel;
         panel.transform.localScale = Vector3.one;

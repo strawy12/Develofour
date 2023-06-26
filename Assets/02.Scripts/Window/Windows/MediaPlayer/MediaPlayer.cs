@@ -41,7 +41,8 @@ public partial class MediaPlayer : Window
     public Action OnEnd;
 
     //private MediaPlayInfoFind infoFind;
-
+    [SerializeField]
+    private ProfileOverlayOpenTrigger overlayTrigger;
 
     private float MediaLength
     {
@@ -107,6 +108,10 @@ public partial class MediaPlayer : Window
 
         audioSource.Play();
         mediaPlayerDownBar.PlayButtonClick?.Invoke();
+
+        OnSelected += OverlayOpen;
+        OnUnSelected += OverlayClose;
+        OverlayOpen();
     }
 
     public override void WindowOpen()
@@ -246,5 +251,32 @@ public partial class MediaPlayer : Window
         cdPlayMedia.StopCdAnimation();
         audioSource.Pause();
         StopAllCoroutines();
+    }
+
+    private void OverlayClose()
+    {
+        if (overlayTrigger == null) // 없다면 찾아와
+        {
+            overlayTrigger = body.GetComponent<ProfileOverlayOpenTrigger>();
+            if (overlayTrigger == null) { return; }
+        }
+        overlayTrigger.Close();
+    }
+
+    private void OverlayOpen()
+    {
+        if (overlayTrigger == null) // 없다면 찾아와
+        {
+            overlayTrigger = body.GetComponent<ProfileOverlayOpenTrigger>();
+            if (overlayTrigger == null) { return; }
+        }
+        overlayTrigger.Open();
+    }
+
+    protected override void OnDestroyWindow()
+    {
+        base.OnDestroyWindow();
+        OnSelected -= OverlayOpen;
+        OnUnSelected -= OverlayClose;
     }
 }

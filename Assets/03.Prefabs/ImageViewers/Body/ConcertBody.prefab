@@ -91,14 +91,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 2
   infoDataIDList: 01000000
+  fileID: 16
   needInfoList: []
   monoLogType: 153
   completeMonologType: 38
   delay: 0
   isFakeInfo: 1
-  fildID: 0
   backgroundImage: {fileID: 3333087500696175794}
-  fileID: 16
 --- !u!1 &7847513309642065005
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 3
   infoDataIDList: 4f000000
+  fileID: 16
   needInfoList:
   - needInfoID: 1
     monologID: 0
@@ -198,9 +198,7 @@ MonoBehaviour:
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  fildID: 0
   backgroundImage: {fileID: 4608021331124363213}
-  fileID: 16
 --- !u!1 &8454321266748870906
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +212,7 @@ GameObject:
   - component: {fileID: 8454321266748870900}
   - component: {fileID: 5891423301709456168}
   - component: {fileID: 8051523755304602131}
+  - component: {fileID: 1382680350102825007}
   m_Layer: 5
   m_Name: ConcertBody
   m_TagString: Untagged
@@ -308,3 +307,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73291e00daf54a5d823d70076d4eeb52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1382680350102825007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454321266748870906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileID: 16
+  triggerCount:
+  - {fileID: 3417167111146802852}
+  - {fileID: 4073259491964628061}

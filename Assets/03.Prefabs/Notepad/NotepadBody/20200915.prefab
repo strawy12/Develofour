@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -631.1, y: 331.6}
+  m_AnchoredPosition: {x: -952.1, y: 510.6}
   m_SizeDelta: {x: 267.3656, y: 33.168396}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4630136446240326244
@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerID: 0
   infoDataIDList: 37000000
+  fileID: 28
   needInfoList:
   - needInfoID: 7
     monologID: 0
@@ -102,9 +103,7 @@ MonoBehaviour:
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  fildID: 0
   backgroundImage: {fileID: 7805428471055824193}
-  fileID: 0
 --- !u!1 &6760515456448002866
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,6 +169,7 @@ GameObject:
   - component: {fileID: 6760515456667878586}
   - component: {fileID: 1541208587050286390}
   - component: {fileID: 6760515456667878587}
+  - component: {fileID: 8338597978303649102}
   m_Layer: 5
   m_Name: 20200915
   m_TagString: Untagged
@@ -360,6 +360,21 @@ MonoBehaviour:
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
+--- !u!114 &8338597978303649102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6760515456667878589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileID: 28
+  triggerCount:
+  - {fileID: 2977902961494124112}
 --- !u!1 &6760515457785497136
 GameObject:
   m_ObjectHideFlags: 0

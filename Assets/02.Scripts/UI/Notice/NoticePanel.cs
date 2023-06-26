@@ -52,7 +52,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private bool isCompleted = false;
 
-
+    private Canvas canvas;
     //연장 변수
     private float addTime = 2f;
     private bool isNoticeExtend;
@@ -61,6 +61,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     public string HeadText { get { return headText.text; } }
     private void Bind()
     {
+        canvas ??= GetComponent<Canvas>();
         canvasGroup ??= GetComponent<CanvasGroup>();
         rectTransform ??= GetComponent<RectTransform>();
         backgroundImage ??= GetComponent<Image>();
@@ -366,6 +367,12 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         if (isCompleted) return;
         ImmediatelyStop();
+    }
+
+    public void CanvasSortingSetting()
+    {
+        if (canvas != null)
+            canvas.overrideSorting = false;
     }
 
     private void OnEnable()
