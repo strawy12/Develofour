@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -88,14 +88,14 @@ public class DiscordChattingPanel : MonoBehaviour
         return popObj;
     }
     #endregion
-    #region Ã¤ÆÃ »ı¼º
-    public void CreatePanel(DiscordChatData data, DiscordProfileDataSO opponentProfile, DiscordSendTime sendTime)
+    #region ì±„íŒ… ìƒì„±
+    public void CreatePanel(DiscordChatData data, DiscordProfileDataSO opponentProfile, DiscordSendTime sendTime, bool isFirst = false)
     {
         DiscordMessagePanel messagePanel = Pop();
         opponentProfileData = opponentProfile;
         if (data.isMine)
         {
-            messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data), sendTime);
+            messagePanel.SettingChatData(data, playerProfileData, CheckShowMsgPanelProfile(data), sendTime, isFirst);
         }
         else
         {
@@ -103,7 +103,7 @@ public class DiscordChattingPanel : MonoBehaviour
             {
                 Debug.Log("opponentProfileData is null");
             }
-            messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data), sendTime);
+            messagePanel.SettingChatData(data, opponentProfileData, CheckShowMsgPanelProfile(data), sendTime, isFirst);
         }
         messagePanel.gameObject.SetActive(true);
     }
@@ -159,7 +159,7 @@ public class DiscordChattingPanel : MonoBehaviour
     //    }
     //    //end
     //    isInputed = false;
-    //    inputChatingText.text = "#Ã¤ÆÃ¿¡ ¸Ş¼¼Áö º¸³»±â";
+    //    inputChatingText.text = "#ì±„íŒ…ì— ë©”ì„¸ì§€ ë³´ë‚´ê¸°";
 
     //    stateText.text = "";
     //}
@@ -173,7 +173,7 @@ public class DiscordChattingPanel : MonoBehaviour
         }
         else
         {
-            stateText.text = $"{opponentProfileData.userName}´ÔÀÌ ÀÔ·ÂÇÏ°í ÀÖ¾î¿ä...";
+            stateText.text = $"{opponentProfileData.userName}ë‹˜ì´ ì…ë ¥í•˜ê³  ìˆì–´ìš”...";
         }
 
     }
@@ -184,7 +184,7 @@ public class DiscordChattingPanel : MonoBehaviour
             return true;
         }
 
-        DiscordMessagePanel lastMessage = messageList[messageList.Count - 2]; // Àü¸Ş¼¼Áö;
+        DiscordMessagePanel lastMessage = messageList[messageList.Count - 2]; // ì „ë©”ì„¸ì§€;
         if (lastMessage.ChatData.isMine != data.isMine)
         {
             lastMessage.AutoSettingMessagePanelSize(true);

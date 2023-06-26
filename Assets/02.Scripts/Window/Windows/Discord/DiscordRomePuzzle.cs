@@ -89,6 +89,7 @@ public class DiscordRomePuzzle : MonoBehaviour
     {
         SetNumber();
         resetButton.onClick.AddListener(SetNumber);
+        inputField.characterLimit = 5;
     }
 
     public void SetNumber()

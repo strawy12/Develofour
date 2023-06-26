@@ -133,11 +133,21 @@ public class Discord : Window
         chattingPanel.playerProfileData = currentChatData.myProfileData;
         if (currentChatData != null)
         {
+
             foreach (DiscordChatDataSO chatDataSO in currentChatData.chatDataSOList)
             {
+                int idx = 0;
                 foreach (DiscordChatData chatData in chatDataSO.chatDatas)
                 {
-                    chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData, chatDataSO.chatDay);
+                    if (idx == 0)
+                    {
+                        idx++;
+                        chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData, chatDataSO.chatDay, true);
+                    }
+                    else
+                    {
+                        chattingPanel.CreatePanel(chatData, currentChatData.opponentProfileData, chatDataSO.chatDay);
+                    }
                 }
             }
         }

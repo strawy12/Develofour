@@ -59,7 +59,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
         profileImage.sprite = null;
     }
 
-    public void SettingChatData(DiscordChatData data, DiscordProfileDataSO profileData, bool showProfile, DiscordSendTime sendTime)
+    public void SettingChatData(DiscordChatData data, DiscordProfileDataSO profileData, bool showProfile, DiscordSendTime sendTime, bool isFirst)
     {
         currentChatData = data;
         currentProfileData = profileData;
@@ -77,7 +77,7 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
             messageImagePanel.gameObject.SetActive(false);
         }
 
-        if (showProfile)
+        if (showProfile || isFirst)
         {
             profileImage.sprite = profileData.userSprite;
             userNameText.text = profileData.userName;
