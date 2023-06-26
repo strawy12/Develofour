@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ProfilerGuideButtonParent : MonoBehaviour
 {
     public Action OnClickGuideButton;
+    [SerializeField]
+    private Sprite profileSprite;
 
     [SerializeField]
     private ProfilerGuideButton guideButtonPrefab;
@@ -35,11 +38,11 @@ public class ProfilerGuideButtonParent : MonoBehaviour
 
     }
 
-    public void Init(List<ProfilerGuideDataSO> guideDataSOs)
+    public void Init()
     {
         guideButtonList = new List<ProfilerGuideButton>();
         poolQueue = new Queue<ProfilerGuideButton>();
-        guideDataList = guideDataSOs;
+        guideDataList = ResourceManager.Inst.ProfilerGuideDataSOResourcesList.Select(x=>x.Value).ToList();
         CreatePool();
         EventManager.StartListening(EProfilerEvent.AddGuideButton, AddGuideButton);
         prevBtn.onClick.AddListener(ClickPrev);
@@ -90,6 +93,10 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         {
             foreach (var data in guideDataList)
             {
+                if(data.isAddTutorial == false && DataManager.Inst.CheckGuideButtonSaveData(data.guideName) == false)
+                {
+                    continue;
+                }
                 AddButton(data);
             }
         }
@@ -113,6 +120,13 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         button.transform.SetParent(transform);
         button.Init(data);
         button.OnClick.AddListener(delegate { OnClickGuideButton?.Invoke(); });
+       
+        if(!DataManager.Inst.CheckGuideButtonSaveData(data.guideName))
+        {
+            string noticeBody = $"{data.guideName} 가이드 버튼이 추가되었습니다. 프로파일러의 가이드 버튼 패널을 들어가 확인해보세요";
+            NoticeSystem.OnNotice?.Invoke("가이드 버튼이 추가되었습니다", noticeBody, 0.1f, false, profileSprite, Color.white, ENoticeTag.Profiler);
+        }
+        DataManager.Inst.AddGuideButtonSaveData(data.guideName);
         guideButtonList.Add(button);
 
         UpdateButton();

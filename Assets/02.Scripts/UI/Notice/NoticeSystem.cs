@@ -23,8 +23,6 @@ public class NoticeSystem : MonoUI
     [SerializeField]
     private Transform noticePanelParant;
 
-    private Queue<NoticePanel> noticePanelQueue;
-
     private Stack<NoticePanel> noticePanelPool;
 
     private RectTransform rectTransform;
@@ -56,7 +54,6 @@ public class NoticeSystem : MonoUI
 
     private void Bind()
     {
-        noticePanelQueue = new Queue<NoticePanel>();
         noticePanelPool = new Stack<NoticePanel>();
 
         canvasGroup = GetComponent<CanvasGroup>();
