@@ -102,8 +102,7 @@ public class Library : Window
     #endregion
 
     private bool isSetLibrary = false;
-    private bool isFirstOpen = false;
-
+    private bool isNotFirstOpen = false;
     private Queue<WindowIcon> poolQueue = new Queue<WindowIcon>();
     private List<WindowIcon> iconList = new List<WindowIcon>();
 
@@ -111,20 +110,35 @@ public class Library : Window
     private Sprite lockLibrary;
     public override void WindowOpen()
     {
-
         base.WindowOpen();
+        Debug.Log(isNotFirstOpen + "1");
         if (DataManager.Inst.IsProfilerTutorial())
         {
             TutorialEvent();
         }
-
-        if(!DataManager.Inst.GetIsClearTutorial())
+        if (!DataManager.Inst.GetIsClearTutorial())
         {
             OnSelected -= TutorialLibraryClick;
             OnSelected += TutorialLibraryClick;
         }
     }
-
+    public override void SizeDoTween()
+    {
+        Debug.Log(isNotFirstOpen + "2");
+        if(isNotFirstOpen)
+        {
+            rectTransform.sizeDelta = windowAlteration.size;
+            SetActive(true);
+            DataManager.Inst.AddLastAccessDateData(file.id, TimeSystem.TimeCount());
+        }
+        else
+        {
+            Debug.Log("FalseCommand");
+            base.SizeDoTween();
+        }
+        isNotFirstOpen = true;
+        Debug.Log(isNotFirstOpen + "3");
+    }
     private void TutorialLibraryClick()
     {
         EventManager.TriggerEvent(ETutorialEvent.SelectLibrary, new object[] { this });
@@ -157,7 +171,7 @@ public class Library : Window
         EventManager.StartListening(ELibraryEvent.AddFile, Refresh);
 
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
-        
+
         searchInputField.onSubmit.AddListener(SearchFunction);
         searchBtn.onClick.AddListener(SearchFunction);
         undoBtn.onClick.AddListener(UndoFile);
@@ -185,7 +199,7 @@ public class Library : Window
         List<FileSO> fileList = FileManager.Inst.SearchFile(text, currentDirectory);
         ShowFoundFile(fileList);
     }
-        
+
     private void SearchFunction()
     {
         if (searchInputField.text.Length < 2) return;
@@ -226,12 +240,11 @@ public class Library : Window
         else
         {
             TopFileButton button = fileAddressPanel.TopFileButtons.Find((x) => x.CurrentDirectory.id == Constant.FileID.MYPC);
-            
+
             //GuideUISystem.EndAllGuide?.Invoke();
             GuideUISystem.OnGuide(button.tutorialSelectImage.transform as RectTransform);
             GuideUISystem.FullSizeGuide?.Invoke(button.tutorialSelectImage.transform as RectTransform);
         }
-
     }
 
     private void CreateChildren()
@@ -243,9 +256,9 @@ public class Library : Window
             WindowIcon icon = Pop();
             icon.PointerStayImage.gameObject.SetActive(false);
             icon.SetFileData(file); // icon마다의 startTrigger를 이 함수에 넣어야함
-            if(file.windowType == EWindowType.Directory)
+            if (file.windowType == EWindowType.Directory)
             {
-                if(DataManager.Inst.IsFileLock(file.id))
+                if (DataManager.Inst.IsFileLock(file.id))
                 {
                     icon.ChangeIcon(lockLibrary, file.color);
                 }
@@ -253,7 +266,7 @@ public class Library : Window
         }
         isSetLibrary = false;
     }
-    
+
     private void CheckSearchInputTextLength(string text)
     {
         if (isSetLibrary) return;
@@ -297,15 +310,9 @@ public class Library : Window
     }
     private void OnClickIcon(object[] ps)
     {
-
         if (redoStack.Count != 0)
         {
             redoStack.Pop();
-        }
-
-        if(!isFirstOpen)
-        {
-            isFirstOpen = true;
         }
         else
         {
@@ -314,6 +321,7 @@ public class Library : Window
 
         RedoStackReset(ps);
         OnFileOpen(ps);
+
     }
 
     public void UndoStackPush(object[] ps)
@@ -374,7 +382,7 @@ public class Library : Window
     protected override void OnDestroyWindow()
     {
         base.OnDestroyWindow();
-        isFirstOpen = false;
+        isNotFirstOpen = false;
         //GuideUISystem.EndAllGuide?.Invoke();
         Debug.Log(DataManager.Inst.GetProfilerTutorialIdx());
         if (DataManager.Inst.GetProfilerTutorialIdx() == 0 || DataManager.Inst.GetProfilerTutorialIdx() == 2)
