@@ -45,6 +45,14 @@ public class Window : MonoUI, ISelectable
 
     protected WindowAlterationSO windowAlteration;
 
+    public Vector2 WindowSize
+    {
+        get
+        {
+            return windowAlteration.size;
+        }
+    }
+
     protected FileSO file;
 
     [SerializeField]
@@ -78,12 +86,13 @@ public class Window : MonoUI, ISelectable
 
     private Vector3 windowPos;
     protected Canvas currentCanvas;
-
+    protected Image windowPanel;
     protected virtual void Init()
     {
         currentCanvas = GetComponent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
+        windowPanel = GetComponent<Image>();
 
         windowAlteration = Instantiate(originWindowAlteration);
 
@@ -206,16 +215,22 @@ public class Window : MonoUI, ISelectable
         {
             rectTransform.localPosition = Constant.WINDOWMAXIMUMPOS;
         }
+        SizeDoTween();
+    }
+    public virtual void SizeDoTween()
+    {
+        float minusX = windowAlteration.size.x / 10f;
+        float minusY = windowAlteration.size.y / 10f;
+        float minDuration = 0.16f;
+        rectTransform.sizeDelta = new Vector2(windowAlteration.size.x - minusX, windowAlteration.size.y - minusY);
 
-
-        rectTransform.sizeDelta = windowAlteration.size;
-
+        Sequence sequence = DOTween.Sequence();
+        sequence.Join(rectTransform.DOSizeDelta(windowAlteration.size, minDuration));
+        sequence.AppendCallback(() => SetActive(true));
         DataManager.Inst.AddLastAccessDateData(file.id, TimeSystem.TimeCount());
 
-        SetActive(true);
 
     }
-
     public void CloseEventAdd()
     {
         if (WindowManager.Inst != null && file != null && this != null)
@@ -281,7 +296,8 @@ public class Window : MonoUI, ISelectable
     //EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { type });
 
     protected virtual void OnDestroyWindow()
-    {
+    { 
+        DOTween.Kill(gameObject, true);
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
     protected virtual void OnEnable()

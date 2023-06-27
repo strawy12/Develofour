@@ -149,7 +149,7 @@ public class WindowManager : MonoSingleton<WindowManager>
             WindowLockDataSO windowLock = ResourceManager.Inst.GetFileLockData(file.id);
             bool isLock = false;
 
-            if(windowLock != null)
+            if (windowLock != null)
             {
                 isLock = true;
             }
@@ -164,8 +164,8 @@ public class WindowManager : MonoSingleton<WindowManager>
                 targetWindow = CreateWindow(file.windowType, file);
             }
         }
-
         targetWindow.WindowOpen();
+
         return targetWindow;
     }
 
@@ -184,8 +184,7 @@ public class WindowManager : MonoSingleton<WindowManager>
                 fileExplore.CreatedWindow(file);
                 SetWindowOpenInt(windowType, fileExplore);
                 windowDictionary[windowType].Add(fileExplore);
-                fileExplore.OnClosed += (s) => windowOrderList.Remove(fileExplore); ;
-                fileExplore.WindowOpen();
+                fileExplore.OnClosed += (s) => windowOrderList.Remove(fileExplore);
             }
             Window directory = windowDictionary[windowType][0];
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[] { file });
@@ -290,13 +289,15 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         return window.File.windowType == type ? true : false;
     }
-
     public void SelectedObjectNull()
     {
         selectedObject?.OnUnSelected?.Invoke();
         selectedObject = null;
     }
-
+    public bool IsOpenWindowType(EWindowType windowType)
+    {
+        return windowDictionary.ContainsKey(windowType);
+    } 
     void LateUpdate()
     {
         if (!DataLoadingScreen.completedDataLoad) return;
@@ -341,13 +342,11 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             targetWindow = CreateWindow(EWindowType.Popup, file);
         }
-
         PopupWindow popupWindow = targetWindow as PopupWindow;
 
         popupWindow.Setting(text, agreeAction, degreeAction);
 
         targetWindow.WindowOpen();
-
     }
 
 }
