@@ -55,7 +55,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
     }
-
+    public void Release()
+    {
+        iconImage.sprite = null;
+        iconNameText.SetText("");
+        isBackground = false;
+        fileData = null;
+    }
     public void SetFileData(FileSO newFileData)
     {
         if (newFileData == null)
@@ -263,9 +269,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         pointerStayImage.gameObject.SetActive(false);
     }
-
     private bool isSign;
-
 
     protected virtual void Select()
     {
