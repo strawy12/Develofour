@@ -83,7 +83,9 @@ public class Library : Window
         {
             poolQueue.Enqueue(icon);
         }
+        icon.Release();
         //GuideUISystem.EndGuide?.Invoke(icon.rectTranstform);
+       
         icon.transform.SetParent(poolParent);
         icon.gameObject.SetActive(false);
     }
@@ -111,7 +113,6 @@ public class Library : Window
     private Sprite lockLibrary;
     public override void WindowOpen()
     {
-
         base.WindowOpen();
         if (DataManager.Inst.IsProfilerTutorial())
         {
@@ -274,7 +275,6 @@ public class Library : Window
         }
         fileAddressPanel.SetEmptyBtn();
     }
-
 
     public void UndoFile(object[] emptyParam) => UndoFile();
     public void UndoFile()
