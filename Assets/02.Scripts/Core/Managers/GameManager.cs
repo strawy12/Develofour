@@ -23,6 +23,9 @@ public class GameManager : MonoSingleton<GameManager>
     public bool IsTutorial => gameState == EGameState.Tutorial;
     public bool isApplicationQuit { get; private set; }
 
+    [SerializeField]
+    private DemoEndScene demoEndScene;
+
     public void Init()
     {
         DataManager.Inst.Init();
@@ -55,5 +58,16 @@ public class GameManager : MonoSingleton<GameManager>
     private void OnApplicationQuit()
     {
         isApplicationQuit = true;
+    }
+
+    public void GameQuit()
+    {
+        Debug.Log("Quit");
+        Application.Quit();
+    }
+
+    public void DemoEnd()
+    {
+        demoEndScene.Open();
     }
 }

@@ -10,7 +10,8 @@ public class StartPlayTitleUI : MonoBehaviour
     private Button startPlayButton;
     [SerializeField]
     private Button creditButton;
-
+    [SerializeField]
+    private Button exitButton;
     [SerializeField]
     private CreditPanel creditPanel;
     private void Start()
@@ -19,6 +20,7 @@ public class StartPlayTitleUI : MonoBehaviour
 
         startPlayButton.onClick?.AddListener(StartplayGame);
         creditButton.onClick?.AddListener(OnCreditButton);
+        exitButton.onClick?.AddListener(ExitGame);
     }
 
     private void StartplayGame()
@@ -30,6 +32,11 @@ public class StartPlayTitleUI : MonoBehaviour
     private void OnCreditButton()
     {
         creditPanel.StartCredit();
+    }
+    
+    private void ExitGame()
+    {
+        GameManager.Inst.GameQuit();
     }
 
 }

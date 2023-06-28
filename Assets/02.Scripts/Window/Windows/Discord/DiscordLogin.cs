@@ -53,6 +53,7 @@ public class DiscordLogin : MonoBehaviour
 
     public void Init()
     {
+    //public
         background.OnIDPWPanelOff += SetIDPWPanel;
         identificationPanel.Init(identificationAnswerText);
         //IDAccountPanel.Init();
@@ -133,6 +134,7 @@ public class DiscordLogin : MonoBehaviour
 
     public void SuccessLogin()
     {
+
         //성공을 알리는 이벤트
         if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.KANGYOHAN_PHONENUMBER)) //id
         {

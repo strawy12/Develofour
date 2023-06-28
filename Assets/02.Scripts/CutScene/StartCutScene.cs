@@ -12,7 +12,7 @@ public class StartCutScene : MonoBehaviour
     public static Action OnPlayCutScene { get; private set; }
 
 
-    public TMP_Text titleText;
+    public Image logoImage;
 
     public Image interrogationRoomSprite;
 
@@ -66,10 +66,10 @@ public class StartCutScene : MonoBehaviour
         yield return new WaitForSeconds(delay == null ? 5f : (float)delay);
         isScreamSound = false;
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutScenePoint);
-        titleText.gameObject.SetActive(true);
+        logoImage.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
 
-        titleText.DOColor(new Color(255, 255, 255, 0), 2.5f);
+        logoImage.DOColor(new Color(255, 255, 255, 0), 2.5f);
         yield return new WaitForSeconds(3f);
 
         yield return new WaitForSeconds(1f);

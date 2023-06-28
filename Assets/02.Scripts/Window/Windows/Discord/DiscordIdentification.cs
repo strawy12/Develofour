@@ -69,5 +69,7 @@ public class DiscordIdentification : MonoBehaviour
         DataManager.Inst.SetIsLogin(ELoginType.Harmony, true);
         InputManager.Inst.RemoveKeyInput(KeyCode.Tab, onKeyDown: OnInputTap);
         loginPanel.SetActive(false);
+
+        GameManager.Inst.DemoEnd();
     }
 }
