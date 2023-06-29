@@ -36,7 +36,7 @@ public class Window : MonoUI, ISelectable
     public static int windowMaxCnt;
     public static Window currentWindow;
 
-    public int openInt = 0;
+    private int openInt = 0;
 
 
     [Header("Window Data")]
@@ -208,7 +208,7 @@ public class Window : MonoUI, ISelectable
 
         if (!windowAlteration.isMaximum)
         {
-            Vector2 pos = windowAlteration.pos + new Vector2(20 * (openInt), -20 * (openInt));
+            Vector2 pos = windowAlteration.pos;
             rectTransform.localPosition = pos;
         }
         else

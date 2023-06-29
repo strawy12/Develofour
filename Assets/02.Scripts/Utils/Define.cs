@@ -253,7 +253,7 @@ public static class Define
         {
             foreach (TextTriggerData trigger in triggerList)
             {
-                Vector2 pos = text.textInfo.characterInfo[trigger.id].topLeft;
+                Vector2 pos = text.textInfo.characterInfo[trigger.id].topLeft; 
 
                 for (int i = trigger.id + 1; i < text.text.Length; i++)
                 {
