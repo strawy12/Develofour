@@ -9,62 +9,45 @@ using System.Linq.Expressions;
 
 public class ProfilerWindow : Window
 {
-    [Header("ProfilerPanel")]
-    [SerializeField]
-    private ProfilerPanel profilePanel;
-    //[SerializeField]
-    //private FileSearchPanel fileSearchPanel;
+
+    [Header("Panels")]
     [SerializeField]
     private ProfilerUsingDocument profilerUsingDocuments;
-
-    [Header("ProfilerChatUI")]
     [SerializeField]
-    private ProfilerChatting profileChatting;
+    private ProfilerPanel profilerPanel;
+    [SerializeField]
+    private ProfileGuidePanel profilerGuidePanel;
+    [SerializeField]
+    private ProfilerChatting profilerChatting;
 
+    [Header("Buttons")]
     [SerializeField]
     private ProfilerPanelButton infoPanelBtn;
     [SerializeField]
-    private ProfilerPanelButton searchPanelBtn;
-
-    [Header("UIPanelButton")]
-    [SerializeField]
-    private Button moveDownPanelBtn;
-    [SerializeField]
-    private Button movePopUpPanelBtn;
+    private ProfilerPanelButton aiChattingPanelBtn;
 
     [Header("UIEtc")]
     [SerializeField]
     private RectTransform area;
-    [SerializeField]
-    private float moveDelay = 0.75f;
-
-    private bool isPanelOpen;
-    private bool isMoving;
 
     //DataManager
     private ProfilerPanelButton beforeClickButton;
 
     protected override void Init()
     {
-        isPanelOpen = true;
-        isMoving = false;
-
         base.Init();
 
-        profileChatting.Init();
-        profilePanel.Init();
+        profilerChatting.Init();
+        profilerPanel.Init();
         profilerUsingDocuments.Init();
-        //fileSearchPanel.Init();
-
+        profilerGuidePanel.Init();
         OnSelected += ProfilerSelected;
 
-        infoPanelBtn.button.onClick?.AddListener(OnClickShowProfiling);
-
-        moveDownPanelBtn.onClick.AddListener(MoveButtonClick);
-        movePopUpPanelBtn.onClick.AddListener(MoveButtonClick);
+        infoPanelBtn.AddListening(OnClickShowProfiling);
+        aiChattingPanelBtn.AddListening(OnClickShowChatting);
 
         EventManager.StartListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
-
+        EventManager.StartListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
         beforeClickButton = infoPanelBtn;
 
         ButtonBlackSetting();
@@ -81,7 +64,7 @@ public class ProfilerWindow : Window
 
     private void CheckProfilerOnOff(object[] emptyPs)
     {
-        if (profilePanel.gameObject.activeSelf == false)
+        if (profilerPanel.gameObject.activeSelf == false)
         {
             OnClickShowProfiling();
         }
@@ -98,101 +81,74 @@ public class ProfilerWindow : Window
 
         beforeClickButton = infoPanelBtn;
 
+        ShowProfilePanel();
         ButtonBlackSetting();
-        StartCoroutine(OnShowProfile());
+    }
+    private void OnClickShowChatting(object[] ps)
+    {
+        OnClickShowChatting();
+    }
+    private void OnClickShowChatting()
+    {
+        Debug.Log("ShowChatting");
+
+        if (beforeClickButton == aiChattingPanelBtn)
+        {
+            return;
+        }
+
+        beforeClickButton = aiChattingPanelBtn;
+
+        ShowChattingPanel();
+        ButtonBlackSetting();
     }
 
- 
     private void ButtonBlackSetting()
     {
         infoPanelBtn.Setting(beforeClickButton);
-        searchPanelBtn.Setting(beforeClickButton);
+        aiChattingPanelBtn.Setting(beforeClickButton);
     }
 
-    private void MoveButtonClick()
+    private void ShowProfilePanel()
     {
-        if (isPanelOpen)
-        {
-            area.DOAnchorPosY(-1000, moveDelay);
-
-            movePopUpPanelBtn.gameObject.SetActive(true);
-            moveDownPanelBtn.gameObject.SetActive(false);
-
-            isPanelOpen = false;
-        }
-        else if (!isPanelOpen)
-        {
-            area.DOAnchorPosY(-50, moveDelay);
-
-            moveDownPanelBtn.gameObject.SetActive(true);
-            movePopUpPanelBtn.gameObject.SetActive(false);
-
-            isPanelOpen = true;
-        }
+        HidePanel();
+        profilerPanel.Show();
     }
 
-    private IEnumerator HideAllPanel()
+    private void ShowChattingPanel()
     {
-        isMoving = true;
-
-        area.DOAnchorPosY(-1000, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
-        {
-            profilePanel.Hide();
-            //fileSearchPanel.gameObject.SetActive(false);
-        });
-
-        yield return new WaitForSeconds(moveDelay + 0.05f);
-        isMoving = false;
+        HidePanel();
+        profilerChatting.Show();
     }
 
-    private IEnumerator OnShowProfile()
+    private void HidePanel()
     {
-        if (!isMoving)
-        {
-            isMoving = true;
-            yield return StartCoroutine(HideAllPanel());
-            ShowProfileCategoryPanel();
-        }
+        profilerPanel.Hide();
+        profilerChatting.Hide();
     }
-    public override void WindowMaximum()
-    {
-        base.WindowMaximum();
-        EventManager.TriggerEvent(EProfilerEvent.Maximum);
-    }
-    private void ShowProfileCategoryPanel()
-    {
-        ShowPanel();
-        profilePanel.Show();
-    }
-
-    private void ShowPanel()
-    {
-        isMoving = true;
-
-        area.DOAnchorPosY(-50, moveDelay).SetEase(Ease.Linear).OnComplete(() =>
-        {
-            isPanelOpen = true;
-            isMoving = false;
-
-        });
-    }
-
-
 
     public override void WindowMinimum()
     {
         base.WindowMinimum();
         EventManager.TriggerEvent(EProfilerEvent.Minimum);
     }
+    public override void WindowMaximum()
+    {
+        base.WindowMaximum();
+        EventManager.TriggerEvent(EProfilerEvent.Maximum);
+    }
 
     private void OnDestroy()
     {
         EventManager.StopListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
+        EventManager.StopListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
+
     }
 
     private void OnApplicationQuit()
     {
         EventManager.StopListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
+        EventManager.StopListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
     }
-  
+
 }

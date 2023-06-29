@@ -159,11 +159,10 @@ public enum EProfilerEvent
     ClickIncidentTab,
     ClickCharacterTab,
     AddGuideButton,
-    RemoveGuideButton,
     EndGuide,
-    ClickGuideToggleButton,
     Maximum,
     Minimum,
+    ClickGuideButton,
 }
 public enum EGuideEventType
 {
@@ -209,8 +208,6 @@ public enum EGuideButtonTutorialEvent
     None = -1,
     OpenPopup,
     TutorialStart,
-    GuideMoveBtn,
-    ClickMoveBtn,
     ClickAnyBtn,
 }
 public enum EMonologEvent

@@ -99,7 +99,25 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         headText.SetText(head);
         bodyText.SetText(body);
         DateTime time  = TimeSystem.TimeCount();
-        dateText.SetText($"{(time.Hour > 12 ? "오후" : "오전")} {(time.Hour - 12).ToString()}:{time.Minute.ToString()}");
+
+        string timeText = "";
+        if(time.Hour > 12)
+        {
+            timeText = $"오후 {time.Hour - 12:00}:{time.Minute:00}";
+        }
+        else if(time.Hour == 12)
+        {
+            timeText = $"오후 {time.Hour}:{time.Minute:00}";
+        }
+        else if(time.Hour == 0)
+        {
+            timeText = $"오전 {12}:{time.Minute:00}";
+        }
+        else
+        {
+            timeText = $"오전 {time.Hour:00}:{time.Minute:00}";
+        }
+        dateText.SetText(timeText);
 
         if (icon != null)
         {
