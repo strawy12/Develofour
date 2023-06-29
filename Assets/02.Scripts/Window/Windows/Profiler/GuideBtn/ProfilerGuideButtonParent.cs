@@ -7,81 +7,26 @@ using UnityEngine.UI;
 
 public class ProfilerGuideButtonParent : MonoBehaviour
 {
-    public Action OnClickGuideButton;
     [SerializeField]
     private Sprite profileSprite;
 
     [SerializeField]
     private ProfilerGuideButton guideButtonPrefab;
 
-    [SerializeField]
-    private Transform poolParent;
-
     private List<ProfilerGuideButton> guideButtonList;
-
-    private Queue<ProfilerGuideButton> poolQueue;
-
-    private List<ProfilerGuideDataSO> guideDataList; 
-    [SerializeField]
-    private Button nextBtn;
-    [SerializeField]
-    private Button prevBtn;
-
-    private int currentIndex = 0;
-
-    public bool isWeightSizeUp = false;
-
-    public void SetActiveBtn(bool value)
-    {
-        nextBtn.gameObject.SetActive(value);
-        prevBtn.gameObject.SetActive(value);
-
-    }
+    private List<ProfilerGuideDataSO> guideDataList;
 
     public void Init()
     {
         guideButtonList = new List<ProfilerGuideButton>();
-        poolQueue = new Queue<ProfilerGuideButton>();
-        guideDataList = ResourceManager.Inst.ProfilerGuideDataSOResourcesList.Select(x=>x.Value).ToList();
-        CreatePool();
+        guideDataList = ResourceManager.Inst.ProfilerGuideDataSOResourcesList.Select(x => x.Value).ToList();
         EventManager.StartListening(EProfilerEvent.AddGuideButton, AddGuideButton);
-        prevBtn.onClick.AddListener(ClickPrev);
-        nextBtn.onClick.AddListener(ClickNext);
         SaveSetting();
     }
-    #region Pool
-    private void CreatePool()
-    {
-        for (int i = 0; i < 15; i++)
-        {
-            ProfilerGuideButton button = Instantiate(guideButtonPrefab, poolParent);
-            button.gameObject.SetActive(false);
-            poolQueue.Enqueue(button);
-        }
-    }
-
-    private ProfilerGuideButton PopButton()
-    {
-        if (poolQueue.Count <= 0)
-        {
-            CreatePool();
-        }
-
-        return poolQueue.Dequeue();
-    }
-
-    private void PushButton(ProfilerGuideButton button)
-    {
-        guideButtonList.Remove(button);
-        button.Releasse();
-        button.gameObject.SetActive(false);
-        poolQueue.Enqueue(button);
-    }
-    #endregion
     #region ButtonSetting
     private void SaveSetting()
     {
-        if(DataManager.Inst.GetIsClearTutorial())
+        if (DataManager.Inst.GetIsClearTutorial())
         {
             AddGuideButton();
         }
@@ -89,11 +34,11 @@ public class ProfilerGuideButtonParent : MonoBehaviour
 
     private void AddGuideButton(object[] ps = null)
     {
-        if(ps == null)
+        if (ps == null)
         {
             foreach (var data in guideDataList)
             {
-                if(data.isAddTutorial == false && DataManager.Inst.CheckGuideButtonSaveData(data.guideName) == false)
+                if (data.isAddTutorial == false && DataManager.Inst.CheckGuideButtonSaveData(data.guideName) == false)
                 {
                     continue;
                 }
@@ -115,115 +60,21 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         {
             return;
         }
-        button = PopButton();
-
-        button.transform.SetParent(transform);
+        button = Instantiate(guideButtonPrefab, transform);
         button.Init(data);
-        button.OnClick.AddListener(delegate { OnClickGuideButton?.Invoke(); });
-       
-        if(!DataManager.Inst.CheckGuideButtonSaveData(data.guideName))
+        button.gameObject.SetActive(true);
+        if (!DataManager.Inst.CheckGuideButtonSaveData(data.guideName))
         {
             string noticeBody = $"{data.guideName} 가이드 버튼이 추가되었습니다. 프로파일러의 가이드 버튼 패널을 들어가 확인해보세요";
             NoticeSystem.OnNotice?.Invoke("가이드 버튼이 추가되었습니다", noticeBody, 0.1f, false, profileSprite, Color.white, ENoticeTag.Profiler);
         }
         DataManager.Inst.AddGuideButtonSaveData(data.guideName);
         guideButtonList.Add(button);
-
-        UpdateButton();
     }
-    #endregion
-    #region Page
-    public void UpdateButton()
-    {
-        if (guideButtonList.Count == 0)
-        {
-            return;
-        }
-
-        if (currentIndex >= guideButtonList.Count)
-        {
-            currentIndex = currentIndex <= 0 ? 0 : guideButtonList.Count - 1;
-        }
-
-        if (isWeightSizeUp == false)
-        {
-            for (int i = 0; i < guideButtonList.Count; i++)
-            {
-                guideButtonList[i].gameObject.SetActive(false);
-            }
-            if(guideButtonList.Count != 0)
-            {
-                guideButtonList[currentIndex].gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < guideButtonList.Count; i++)
-            {
-                guideButtonList[i].gameObject.SetActive(false);
-            }
-            guideButtonList[currentIndex].gameObject.SetActive(true);
-            int tempIndex = currentIndex;
-            for (int i = 0; i < 2; i++)
-            {
-                tempIndex++;
-                if (tempIndex >= guideButtonList.Count)
-                {
-                    break;
-                }
-                guideButtonList[tempIndex].gameObject.SetActive(true);
-            }
-        }
-    }
-    private void ClickNext()
-    {
-        if (currentIndex + 1 >= guideButtonList.Count)
-        {
-            return;
-        }
-        if (isWeightSizeUp)
-        {
-            currentIndex += 3;
-            if(currentIndex >= guideButtonList.Count)
-            {
-                int value = (currentIndex) % 3;
-                currentIndex =currentIndex - (3 -  value);
-            }
-        }
-        else
-        {
-            currentIndex++;
-        }
-
-
-        UpdateButton();
-    }
-    private void ClickPrev()
-    {
-        if (currentIndex - 1 < 0)
-        {
-            return;
-        }
-        if (isWeightSizeUp)
-        {
-            currentIndex -= 3;
-            if (currentIndex < 0)
-            {
-                currentIndex = 0;
-            }
-        }
-        else
-        {
-            currentIndex--;
-
-        }
-
-        UpdateButton();
-    }
-    #endregion
 
     private void OnDestroy()
     {
         EventManager.StopListening(EProfilerEvent.AddGuideButton, AddGuideButton);
     }
+    #endregion
 }

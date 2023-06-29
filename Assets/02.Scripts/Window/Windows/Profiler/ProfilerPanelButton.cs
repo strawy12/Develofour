@@ -1,15 +1,17 @@
+using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class ProfilerPanelButton : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text btnText;
 
-    public Button button;
+    private Button button;
 
     private RectTransform rectTransform;
 
@@ -22,9 +24,17 @@ public class ProfilerPanelButton : MonoBehaviour
         }
     }
 
+    public void AddListening(UnityAction action)
+    {
+        button ??= GetComponent<Button>();
+        button.onClick?.AddListener(action);
+    }
+
     public void Setting(ProfilerPanelButton beforeButton)
     {
-        if(beforeButton == this)
+        button ??= GetComponent<Button>();
+
+        if (beforeButton == this)
         {
             button.image.color = Color.black;
             btnText.color = Color.white;

@@ -35,6 +35,8 @@ public class ProfilerGuideButton : MonoBehaviour
 
     private void PlayGuide()
     {
+        EventManager.TriggerEvent(EProfilerEvent.ClickGuideButton);
+
         if (isGuide)
         {
             return;
@@ -45,7 +47,7 @@ public class ProfilerGuideButton : MonoBehaviour
 
     private void StartAiChatting()
     {
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(guideData.guideTextList, 1.5f, false);
+        ProfilerChattingSystem.OnPlayChatList?.Invoke(guideData.guideTextList, 1.5f, true);
     } 
 
     private void EndGuide(object[] ps)
