@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChatBoxPanel : MonoBehaviour
+public class UserChatBoxPanel : MonoBehaviour
 {
     [SerializeField]
     private GameObject chatBoxTemp;
