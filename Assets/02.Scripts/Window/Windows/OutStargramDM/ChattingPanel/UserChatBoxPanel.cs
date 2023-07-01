@@ -10,7 +10,7 @@ public class UserChatBoxPanel : MonoBehaviour
     [SerializeField]
     private Transform boxParent;
 
-    private void Init()
+    public void Init()
     {
         boxParent = transform.Find("");
     }

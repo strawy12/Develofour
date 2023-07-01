@@ -5,5 +5,12 @@ using UnityEngine;
 public class OutStargramDMWindow : Window
 {
 
+    //private List<>
 
+    protected override void Init()
+    {
+        base.Init();
+
+
+    }
 }
