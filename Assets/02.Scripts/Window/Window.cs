@@ -219,13 +219,11 @@ public class Window : MonoUI, ISelectable
     }
     public virtual void SizeDoTween()
     {
-        float minusX = windowAlteration.size.x / 10f;
-        float minusY = windowAlteration.size.y / 10f;
         float minDuration = 0.16f;
-        rectTransform.sizeDelta = new Vector2(windowAlteration.size.x - minusX, windowAlteration.size.y - minusY);
+        rectTransform.localScale = new Vector2(0.9f, 0.9f);
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Join(rectTransform.DOSizeDelta(windowAlteration.size, minDuration));
+        sequence.Join(rectTransform.DOScale(1, minDuration));
         sequence.AppendCallback(() => SetActive(true));
         DataManager.Inst.AddLastAccessDateData(file.id, TimeSystem.TimeCount());
 
