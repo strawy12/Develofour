@@ -245,6 +245,28 @@ public static class Define
 
         return true;
     }
+    
+    public static string GetOutStarTimeText(System.DateTime dateTime)
+    {
+        string timeText = "";
+        if (dateTime.Hour > 12)
+        {
+            timeText = $"{dateTime.Year}.{dateTime.Month: 00}.{dateTime.Day: 00} 오후{dateTime.Hour - 12}시 {dateTime.Minute}";
+        }
+        else if (dateTime.Hour == 12)
+        {
+            timeText = $"{dateTime.Year}.{dateTime.Month: 00}.{dateTime.Day: 00} 오후{dateTime.Hour}시 {dateTime.Minute}";
+        }
+        else if (dateTime.Hour == 0)
+        {
+            timeText = $"{dateTime.Year}.{dateTime.Month: 00}.{dateTime.Day: 00} 오전{12}시 {dateTime.Minute}";
+        }
+        else
+        {
+            timeText = $"{dateTime.Year}.{dateTime.Month: 00}.{dateTime.Day: 00} 오전{dateTime.Hour}시 {dateTime.Minute}";
+        }
+        return timeText;
+    }
 
     public static void SetTriggerPosition(TMP_Text text, List<TextTriggerData> triggerList)
     {
