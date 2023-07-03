@@ -19,7 +19,7 @@ public class DiscordIdentification : MonoBehaviour
 
     public TextMove wrongText;
 
-    public DiscordRomePuzzle romePuzzle;
+    public OutStarRomePuzzle romePuzzle;
 
     public void Init(string IDAnswer)
     {

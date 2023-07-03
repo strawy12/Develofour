@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using UnityEngine.UI;
 using TMPro;
-public class DiscordRomePuzzle : MonoBehaviour
+public class OutStarRomePuzzle : MonoBehaviour
 {
     public GameObject[] romeNum;
 
