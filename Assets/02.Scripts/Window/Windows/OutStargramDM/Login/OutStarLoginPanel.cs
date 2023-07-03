@@ -33,6 +33,8 @@ public class OutStarLoginPanel : MonoBehaviour
         showPasswordBtn.onClick.AddListener(OnShowPasswordButton);
         loginBtn.onClick.AddListener(OnLoginButton);
         romePuzzle.Init();
+        gameObject.SetActive(true);
+        guideText.text = "";
     }
 
     public void OnLoginButton()
@@ -40,6 +42,7 @@ public class OutStarLoginPanel : MonoBehaviour
         if(CheckInputField() && CheckSecurity())
         {
             this.gameObject.SetActive(false);
+            DataManager.Inst.SaveData.isOutStarLogin = true;
         }
     }
 

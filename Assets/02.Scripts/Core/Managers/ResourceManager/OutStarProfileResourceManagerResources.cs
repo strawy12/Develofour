@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -8,6 +9,11 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     [SerializeField]
     private Dictionary<string, OutStarCharacterDataSO> outStarProfileResourceManagerList;
+
+    public List<OutStarCharacterDataSO> GetOutStarCharacterDataToList()
+    {
+        return outStarProfileResourceManagerList.Select(x => x.Value).ToList();
+    }
 
     public OutStarCharacterDataSO GetOutStarProfileResourceManager(string key)
     {

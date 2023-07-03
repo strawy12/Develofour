@@ -16,6 +16,9 @@ public class OutStarUserPanel : MonoBehaviour
     [SerializeField]
     private TMP_Text lastChatText;
 
+    [SerializeField]
+    private GameObject selectedImage;
+
     public void Init(OutStarCharacterDataSO characterData)
     {
         outStarCharacterData = characterData;
@@ -32,5 +35,10 @@ public class OutStarUserPanel : MonoBehaviour
     public void OnPointerClick(PointerEventData eventData)
     {
         EventManager.TriggerEvent(EOutStarEvent.ClickFriendPanel);
+    }
+
+    public void SetActiveSelectedImage(bool isActive)
+    {
+        selectedImage.SetActive(isActive);
     }
 }
