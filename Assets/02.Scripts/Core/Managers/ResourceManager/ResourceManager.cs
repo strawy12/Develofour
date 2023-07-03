@@ -13,7 +13,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     }
     private IEnumerator StartGetData()
     {
-        int cnt = 21;
+        int cnt = 24;
 
         LoadAudioAssets(() => cnt--);
         LoadNoticeDatas(() => cnt--);
@@ -40,6 +40,9 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         LoadTriggerDataSOResourcesAssets(()=>cnt--);
 
         LoadProfilerGuideDataSOResourcesAssets(() => cnt--);
+        LoadOutStarProfileResourceManagerAssets(() => cnt--);
+        LoadOutStarTimeChatResourceManagerAssets(() => cnt--);
+        LoadOutStarChatResourceManagerAssets(() => cnt--);
 
         yield return new WaitUntil(() => cnt <= 0);
 

@@ -6,10 +6,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/OutStar/TimeChatData")]
 public class OutStarTimeChatDataSO : ScriptableObject
 {
+    [SerializeField]
     private string id;
     public string ID { get => id; }
     public string SetID { set => id = value; }
 
     public DateTime time;
-    public List<string> ChatDataIDList;
+
+    public List<string> chatDataIDList;
 }
