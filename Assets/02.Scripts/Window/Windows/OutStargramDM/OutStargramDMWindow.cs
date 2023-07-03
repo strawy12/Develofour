@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class OutStargramDMWindow : Window
 {
+    [SerializeField]
+    private OutStarUserListPanel outStarUserPanel;
 
-    //private List<>
-
+    //[SerializeField]
+    //private 
     protected override void Init()
     {
         base.Init();
-
-
+        outStarUserPanel.Init();
     }
+    
+    
 }
+
+
+
