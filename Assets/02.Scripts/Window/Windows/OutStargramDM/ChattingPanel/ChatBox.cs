@@ -27,6 +27,14 @@ public class ChatBox : MonoBehaviour
         chatText.ForceMeshUpdate();
         SetSize();
     }
+    
+    public void Init(string text)
+    {
+        text = TextLineDown(text);
+        chatText.SetText(text);
+        chatText.ForceMeshUpdate();
+        SetSize();
+    }
 
     private void SetSize()
     {
