@@ -7,12 +7,13 @@ public partial class ChattingPanel : MonoBehaviour
     [SerializeField]
     private Transform contentTransform;
     [SerializeField]
-    private UserChattingPanel userChattingPanelTemp;
+    private UserChattingPanel userChattingPanel;
     private OutStarCharacterDataSO currentCharacterData;
 
+    
     public void Init()
     {
-        userChattingPanelTemp.Init();
+        userChattingPanel.Init();
 
         EventManager.StartListening(EOutStarEvent.ClickFriendPanel, ChangeUserChatingData);
     }
@@ -23,12 +24,12 @@ public partial class ChattingPanel : MonoBehaviour
         OutStarCharacterDataSO characterData = ps[0] as OutStarCharacterDataSO;
 
         ChangeUserData(characterData);
-
     }
 
     private void ChangeUserData(OutStarCharacterDataSO data)
     {
         currentCharacterData = data;
+        userChattingPanel.ChangeUserData(data);
     }
 
     private void OnDestroy()

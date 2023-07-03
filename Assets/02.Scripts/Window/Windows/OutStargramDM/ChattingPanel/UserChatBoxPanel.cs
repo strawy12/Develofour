@@ -8,41 +8,95 @@ public class UserChatBoxPanel : MonoBehaviour
     private ChatBox chatBoxTemp;
 
     [SerializeField]
-    private Transform boxParent;
+    private RectTransform boxParent;
 
+    private Transform boxPoolParent;
+    [SerializeField]
+    private float offset = 5f;
+    [SerializeField]
+    private float spacing;
+    [SerializeField]
+    private int poolCnt;
+    private Queue<ChatBox> chatBoxQueue;
     private List<ChatBox> chatBoxList;
-    private List<string> chatTextList;
-    public void Init(List<string> chatDataList)
-    {
-        boxParent = transform.Find("");
-        chatBoxList = new List<ChatBox>();
-        this.chatTextList = chatDataList;
 
-        CreateChatBox();
-    }
-
+    public bool isMine;
+    #region Pool
     private void CreateChatBox()
     {
-        foreach(var text in chatTextList)
+        for(int i = 0; i < poolCnt; i++)
         {
-            AddChatBox(text);
+            ChatBox chatBox = Instantiate(chatBoxTemp, boxParent);
+            chatBox.gameObject.SetActive(false);
+            chatBox.transform.SetParent(boxPoolParent);
+            chatBoxQueue.Enqueue(chatBox);
         }
+    }
 
+    private ChatBox Pop()
+    {
+        if(chatBoxQueue.Count == 0)
+        {
+            CreateChatBox();
+        }
+        ChatBox chatBox = chatBoxQueue.Dequeue();
+        chatBox.transform.SetParent(boxParent);
+        chatBoxList.Add(chatBox);
+        return chatBox;
+    }
+    
+    private void Push(ChatBox chatBox)
+    {
+        chatBoxList.Remove(chatBox);
+        chatBox.gameObject.SetActive(false);
+        chatBox.Release();
+        chatBoxQueue.Enqueue(chatBox);
+    }
+
+    private void PushAll()
+    {
+        while(chatBoxList.Count != 0)
+        {
+            Push(chatBoxList[0]);
+        }
+    }
+    #endregion
+    public void Init(Transform poolParent)
+    {
+        chatBoxList = new List<ChatBox>();
+        chatBoxQueue = new Queue<ChatBox>();
+        CreateChatBox();
+        boxPoolParent = poolParent;
+    }
+    public void Setting()
+    {
         SetSize();
     }
 
-    private void AddChatBox(string text)
+    public void AddChatBox(string text)
     {
-        ChatBox chatBox = Instantiate(chatBoxTemp, boxParent);
-        chatBox.Init(text);
-        chatBoxList.Add(chatBox);
+        ChatBox chatBox = Pop();
+        chatBox.Setting(text);
+        chatBox.gameObject.SetActive(true);
+        SetSize();
     }
 
     public void SetSize()
     {
-        foreach (var text in chatTextList)
+        float totalY = offset - spacing;
+        foreach (var box in chatBoxList)
         {
-            
+            RectTransform boxRectTrm = (RectTransform)box.transform;
+            totalY += boxRectTrm.sizeDelta.y + spacing;
         }
+        boxParent.sizeDelta = new Vector2(boxParent.sizeDelta.x, totalY);
+        RectTransform rectTransform = (RectTransform)transform;
+        rectTransform.sizeDelta = boxParent.sizeDelta;
+    }
+
+    public void Release()
+    {
+        PushAll();
+
     }
 }

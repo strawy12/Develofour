@@ -13,7 +13,7 @@ public class OutStarUserListPanel : MonoBehaviour
 
     public void Init()
     {
-        //characterDataList = ResourceManager.Inst
+        characterDataList = ResourceManager.Inst.GetOutStarCharacterDataToList();
         CreateFriendPanel();
         EventManager.StartListening(EOutStarEvent.ClickFriendPanel, ChangeCurrentFriendData);
 
@@ -23,10 +23,10 @@ public class OutStarUserListPanel : MonoBehaviour
     {
         foreach(var data in characterDataList)
         {
-            OutStarUserPanel friendPanel = Instantiate(friendPanelPrefab, transform);
-            friendPanel.Init(data);
-            friendPanel.gameObject.SetActive(true);
-            userPanelList.Add(friendPanel);
+            OutStarUserPanel userPanel = Instantiate(friendPanelPrefab, transform);
+            userPanel.Init(data);
+            userPanel.gameObject.SetActive(true);
+            userPanelList.Add(userPanel);
         }
     }
     
@@ -40,10 +40,11 @@ public class OutStarUserListPanel : MonoBehaviour
 
     private void ChangeCurrentFriendData(OutStarCharacterDataSO data)
     {
+        userPanelList.ForEach(x => x.SetActiveSelectedImage(false));
         OutStarUserPanel userPanel = userPanelList.Find(x => x.CharacterID == data.ID);
 
         currentData = data;
-        //userPanel.
+        userPanel.SetActiveSelectedImage(true);
     }
 
     private void OnDestroy()

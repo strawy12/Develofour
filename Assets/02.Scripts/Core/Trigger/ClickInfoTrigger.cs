@@ -101,7 +101,6 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
         if (lockImage != null)
             ResourceManager.Inst.PushLockImage(lockImage);
     }
-
 #if UNITY_EDITOR
     private void Reset()
     {
