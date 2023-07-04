@@ -89,8 +89,39 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
             lockImage.transform.SetParent(transform);
             lockImage.transform.rotation = transform.rotation;
         }
+
+        Vector2 thisSizeDelta = ((RectTransform)transform).sizeDelta;
+        if(thisSizeDelta == Vector2.zero)
+        {
+            RectTransform rect = transform.parent as RectTransform;
+            thisSizeDelta = rect.sizeDelta;
+        }
+        if(thisSizeDelta == Vector2.zero)
+        {
+            return;
+        }
+
+        RectTransform lockRect = (lockImage.transform as RectTransform);
         
-        lockImage.transform.localScale = Vector3.one;
+        if(thisSizeDelta.x < thisSizeDelta.y)
+        {
+            lockRect.sizeDelta = new Vector2(thisSizeDelta.x * 0.75f, thisSizeDelta.x);
+        }
+        else
+        {
+            lockRect.sizeDelta = new Vector2(thisSizeDelta.y * 0.75f, thisSizeDelta.y);
+        }
+
+        Vector2 maxSizeDelta = new Vector2(150, 200);
+
+        if (lockRect.sizeDelta.x > maxSizeDelta.x)
+        {
+            lockRect.sizeDelta = maxSizeDelta;
+        }
+
+        lockRect.localPosition = Vector3.zero;
+        lockRect.localScale = Vector3.one;
+
         lockImage.gameObject.SetActive(isActive);
     }
 
