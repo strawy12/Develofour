@@ -41,4 +41,6 @@ public class OutStarUserPanel : MonoBehaviour
     {
         selectedImage.SetActive(isActive);
     }
+    
+    
 }

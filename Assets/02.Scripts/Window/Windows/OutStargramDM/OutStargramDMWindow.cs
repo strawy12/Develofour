@@ -6,7 +6,6 @@ public class OutStargramDMWindow : Window
 {
     [SerializeField]
     private OutStarUserListPanel outStarUserPanel;
-
     [SerializeField]
     private OutStarLoginPanel outStarLoginPanel;
     [SerializeField]
