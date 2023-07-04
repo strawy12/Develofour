@@ -46,7 +46,7 @@ public partial class Browser : Window
     private Coroutine loadingCoroutine;
 
     private string saveAddressString = "";
-
+    private bool isNotFirstOpen = false;
     protected override void Init()
     {
         base.Init();
@@ -77,6 +77,7 @@ public partial class Browser : Window
     private void OverlayClose()
     {
         ProfileOverlaySystem.OnClose?.Invoke();
+
     }
 
     private void ResetAddressInputField(string str)
@@ -321,6 +322,19 @@ public partial class Browser : Window
     public void SelectedBrowser()
     {
         currentBrowser = this;
+    }
+
+    public override void SizeDoTween()
+    {
+        if (isNotFirstOpen)
+        {
+            SetActive(true);
+        }
+        else
+        {
+            base.SizeDoTween();
+        }
+        isNotFirstOpen = true;
     }
 
     private void OnDestroy()
