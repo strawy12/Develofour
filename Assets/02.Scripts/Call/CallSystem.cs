@@ -137,7 +137,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         if (DataManager.Inst.IsSavePhoneNumber(charSO.phoneNum) == false)
         {
             Debug.Log(charSO.characterName);
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.InvisibleInformation, charSO.phoneNumberInfoID });
+            //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.InvisibleInformation, charSO.phoneNumberInfoID });
             EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { charSO.phoneNum });
         }
         Show();
