@@ -55,10 +55,11 @@ public class UserChattingPanel : MonoBehaviour
             timeTextList.Remove(timeText);
             Destroy(timeText.gameObject);
         }
-        string lastMine = "";
 
         foreach (var id in userData.timeChatIDList)
         {
+            string lastMine = "";
+
             OutStarTimeChatDataSO timeChat = ResourceManager.Inst.GetOutStarTimeChatResourceManager(id);
             string timeText = Define.GetOutStarTimeText(timeChat.time);
             TMP_Text timeTextObj = Instantiate(timeTextTemp, transform);
@@ -76,6 +77,7 @@ public class UserChattingPanel : MonoBehaviour
                     currentPanel = Pop(chatData.isMine);
                 }
                 currentPanel.AddChatBox(chatData.chatText);
+                lastMine = chatData.isMine.ToString();
             }
         }
     }
