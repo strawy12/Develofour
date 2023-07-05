@@ -234,7 +234,6 @@ public class SOSettingWindow : EditorWindow
 
                 break;
 
-
             case "OutStarTimeChatDataSO":
                 SettingOutStarTimeChat(add);
 
@@ -1143,7 +1142,7 @@ public class SOSettingWindow : EditorWindow
             {
                 for (int j = 0; j < chatIDList.Length; j++)
                 {
-                    outStarTimeChatData.chatDataIDList.Add(chatIDList[j]);
+                    outStarTimeChatData.chatDataIDList.Add(chatIDList[j].Trim());
                 }
             }
             else
@@ -1207,7 +1206,10 @@ public class SOSettingWindow : EditorWindow
 
             characterData.id = id;
             characterData.characterName = name;
-            characterData.profileIcon = AssetDatabase.LoadAssetAtPath<Sprite>(spriteRoot);
+            if(spriteRoot.Trim() != "")
+            {
+                characterData.profileIcon = AssetDatabase.LoadAssetAtPath<Sprite>(spriteRoot);
+            }
             characterData.phoneNum = phoneNum;
             characterData.characterType = characterType;
 

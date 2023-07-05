@@ -26,9 +26,10 @@ public class UserChatBoxPanel : MonoBehaviour
     {
         for(int i = 0; i < poolCnt; i++)
         {
-            ChatBox chatBox = Instantiate(chatBoxTemp, boxParent);
+            ChatBox chatBox = Instantiate(chatBoxTemp, boxPoolParent);
             chatBox.gameObject.SetActive(false);
             chatBox.transform.SetParent(boxPoolParent);
+            chatBox.Release();
             chatBoxQueue.Enqueue(chatBox);
         }
     }
@@ -65,8 +66,8 @@ public class UserChatBoxPanel : MonoBehaviour
     {
         chatBoxList = new List<ChatBox>();
         chatBoxQueue = new Queue<ChatBox>();
-        CreateChatBox();
         boxPoolParent = poolParent;
+        CreateChatBox();
     }
     public void Setting()
     {
@@ -76,8 +77,8 @@ public class UserChatBoxPanel : MonoBehaviour
     public void AddChatBox(string text)
     {
         ChatBox chatBox = Pop();
-        chatBox.Setting(text);
         chatBox.gameObject.SetActive(true);
+        chatBox.Setting(text);
         SetSize();
     }
 

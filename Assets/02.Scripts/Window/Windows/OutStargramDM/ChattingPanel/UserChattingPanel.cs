@@ -24,9 +24,8 @@ public class UserChattingPanel : MonoBehaviour
     private Queue<UserChatBoxPanel> myChatBoxPanelQueue;
     private Queue<UserChatBoxPanel> otherChatBoxPanelQueue;
 
-
+    [SerializeField]
     private TMP_Text timeTextTemp;
-
     private List<TMP_Text> timeTextList;
 
 
@@ -37,6 +36,7 @@ public class UserChattingPanel : MonoBehaviour
         myChatBoxPanelList = new List<UserChatBoxPanel>();
         otherChatBoxPanelList = new List<UserChatBoxPanel>();
         timeTextList = new List<TMP_Text>();
+
         CreatePool();
     }
 
@@ -49,12 +49,17 @@ public class UserChattingPanel : MonoBehaviour
     private void Setting()
     {
         PushAll();
-        //1. 보낸이가 달라지는 상황
-        //2. 시간대가 달라지는 상황
-        string lastMine = "";
-        List<OutStarTimeChatDataSO> timeChatDataList = null;
-        foreach (var timeChat in timeChatDataList)
+        while (timeTextList.Count != 0)
         {
+            TMP_Text timeText = timeTextList[0];
+            timeTextList.Remove(timeText);
+            Destroy(timeText.gameObject);
+        }
+        string lastMine = "";
+
+        foreach (var id in userData.timeChatIDList)
+        {
+            OutStarTimeChatDataSO timeChat = ResourceManager.Inst.GetOutStarTimeChatResourceManager(id);
             string timeText = Define.GetOutStarTimeText(timeChat.time);
             TMP_Text timeTextObj = Instantiate(timeTextTemp, transform);
             timeTextObj.SetText(timeText);
@@ -65,14 +70,13 @@ public class UserChattingPanel : MonoBehaviour
 
             foreach (var chatId in timeChat.chatDataIDList)
             {
-                OutStarChatDataSO chatData = null; // Resource
-                if(lastMine == "" || lastMine != chatData.isMine.ToString())
+                OutStarChatDataSO chatData = ResourceManager.Inst.GetOutStarChatResourceManager(chatId); // Resource
+                if (lastMine == "" || lastMine != chatData.isMine.ToString())
                 {
                     currentPanel = Pop(chatData.isMine);
                 }
                 currentPanel.AddChatBox(chatData.chatText);
             }
-
         }
     }
 
@@ -82,11 +86,13 @@ public class UserChattingPanel : MonoBehaviour
         for (int i = 0; i < poolCnt; i++)
         {
             UserChatBoxPanel myChatBoxPanel = Instantiate(myChatBoxPanelTemp, panelPoolParent);
+            myChatBoxPanel.transform.SetParent(panelPoolParent);
             myChatBoxPanel.Init(boxPoolParent);
             myChatBoxPanel.gameObject.SetActive(false);
             myChatBoxPanelQueue.Enqueue(myChatBoxPanel);
 
             UserChatBoxPanel otherChatBoxPanel = Instantiate(otherChatBoxPanelTemp, panelPoolParent);
+            otherChatBoxPanel.transform.SetParent(panelPoolParent);
             otherChatBoxPanel.Init(boxPoolParent);
             otherChatBoxPanel.gameObject.SetActive(false);
             otherChatBoxPanelQueue.Enqueue(otherChatBoxPanel);
@@ -97,7 +103,7 @@ public class UserChattingPanel : MonoBehaviour
         UserChatBoxPanel chatBoxPanel = null;
         if(isMine)
         {
-            if(myChatBoxPanelQueue.Count == 0)
+            if(myChatBoxPanelQueue.Count <= 0)
             {
                 CreatePool();
             }
@@ -106,7 +112,7 @@ public class UserChattingPanel : MonoBehaviour
         }
         else
         {
-            if (otherChatBoxPanelQueue.Count == 0)
+            if (otherChatBoxPanelQueue.Count <= 0)
             {
                 CreatePool();
             }
@@ -114,6 +120,7 @@ public class UserChattingPanel : MonoBehaviour
             otherChatBoxPanelList.Add(chatBoxPanel);
         }
         chatBoxPanel.transform.SetParent(transform);
+        chatBoxPanel.gameObject.SetActive(true);
         return chatBoxPanel;
     }
 
@@ -146,6 +153,7 @@ public class UserChattingPanel : MonoBehaviour
         {
             Push(otherChatBoxPanelList[0]);
         }
+
     }
     #endregion
 

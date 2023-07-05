@@ -7,12 +7,15 @@ public class OutStarUserListPanel : MonoBehaviour
     private List<OutStarCharacterDataSO> characterDataList;
     private List<OutStarUserPanel> userPanelList;
     [SerializeField]
-    private OutStarUserPanel friendPanelPrefab;
+    private Transform userPanelTransform;
+    [SerializeField]
+    private OutStarUserPanel userPanelPrefab;
 
     private OutStarCharacterDataSO currentData;
 
     public void Init()
     {
+        userPanelList = new List<OutStarUserPanel>();
         characterDataList = ResourceManager.Inst.GetOutStarCharacterDataToList();
         CreateFriendPanel();
         EventManager.StartListening(EOutStarEvent.ClickFriendPanel, ChangeCurrentFriendData);
@@ -23,7 +26,7 @@ public class OutStarUserListPanel : MonoBehaviour
     {
         foreach(var data in characterDataList)
         {
-            OutStarUserPanel userPanel = Instantiate(friendPanelPrefab, transform);
+            OutStarUserPanel userPanel = Instantiate(userPanelPrefab, userPanelTransform);
             userPanel.Init(data);
             userPanel.gameObject.SetActive(true);
             userPanelList.Add(userPanel);

@@ -7,27 +7,15 @@ using UnityEngine.UI;
 
 public class ChatBox : MonoBehaviour
 {
-    private RectTransform rectTransform;
     [SerializeField]
     private TMP_Text chatText;
 
     [SerializeField]
-    private int maxCnt = 12;
+    private int maxCnt = 20;
 
     [SerializeField]
     private Vector2 offset;
 
-    [ContextMenu("DDs")]
-    public void SetChatText()
-    {
-        rectTransform =GetComponent<RectTransform>();
-        string text = "광운도 하인쪽에 위치한 계곡에 도착했다. 짐 정리하고 계곡 가서 놀았다. 아.. 실수로 방학 보고서를 안 들고와서..";
-        text = TextLineDown(text);
-        chatText.SetText(text);
-        chatText.ForceMeshUpdate();
-        SetSize();
-    }
-    
     public void Setting(string text)
     {
         text = TextLineDown(text);
@@ -35,16 +23,16 @@ public class ChatBox : MonoBehaviour
         chatText.ForceMeshUpdate();
         SetSize();
     }
-
     public void Release()
     {
-
+        chatText.SetText("");
+        //chatText.ForceMeshUpdate();
     }
 
     private void SetSize()
     {
         Vector2 topLeft = new Vector2(int.MaxValue, 0);
-        Vector2 bottomRight = new Vector2(0, int.MaxValue); 
+        Vector2 bottomRight = new Vector2(0, int.MaxValue);
 
         foreach (TMP_CharacterInfo info in chatText.textInfo.characterInfo)
         {
@@ -70,9 +58,8 @@ public class ChatBox : MonoBehaviour
         }
 
         Vector2 newSize = new Vector2(bottomRight.x - topLeft.x, topLeft.y - bottomRight.y);
-        Debug.Log(newSize);
         newSize += offset;
-        rectTransform.sizeDelta = newSize;
+        ((RectTransform)transform).sizeDelta = newSize;
     }
 
     private string TextLineDown(string text)
