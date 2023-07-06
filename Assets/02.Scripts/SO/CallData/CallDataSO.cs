@@ -10,7 +10,7 @@ public enum ECallDataType
     Return
 }
 
-public abstract class CallDataSO : ScriptableObject
+public class CallDataSO : ScriptableObject
 {
     private string id;
     public ECallDataType callDataType = ECallDataType.None;

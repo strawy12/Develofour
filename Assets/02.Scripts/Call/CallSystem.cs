@@ -6,16 +6,15 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
-//class StackMonolog
-//{
-//    public int priority;
-//    public int monologType;
-//    public string monologName;
-//}
-
-public class CallSystem : MonoSingleton<CallSystem>
+public class CallSystem : MonoBehaviour
 {
-    private List<CallSelectButton> buttonList = new List<CallSelectButton>();
+    /// <summary>
+    /// string: CallCharacterID
+    /// </summary>
+    public static Action<string> OnOutGoingCall;
+
+    [SerializeField]
+    private CallSystemUI callSystemUI;
 
     [SerializeField]
     private float deflaultDelayTime = 8f;
@@ -39,21 +38,12 @@ public class CallSystem : MonoSingleton<CallSystem>
     }
 
 
-    public void DecisionCheck(object[] ps = null)
-    {
-        // 리턴 통화와 오는 통화의 조건 체크
-        // 리턴 통화는 어떻게 했냐면 세이브 데이터에 남은 시간을 계산해서 넣어뒀을거야
-        //
-    }
-
-    // 얘는 결국에는 받는 전용
+    // 얘는 받는 전용
     public void OnAnswerCall(ECharacterDataType characterType, int monologType)
     {
         if (characterType == ECharacterDataType.None) return;
         CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
         SetCallUI(charSO);
-
-        StartCoroutine(PhoneSoundCor());
 
         ShowSpectrumUI(false);
         ShowAnswerButton(true);
@@ -69,7 +59,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     }
 
     // 얘는 결국에는 거는 전용
-    public void OnRequestCall(CharacterInfoDataSO data)
+    public void OnOutGoingCall(string callCharacterID)
     {
         SetCallUI(data);
         int result = -1;
@@ -218,18 +208,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         callCoverPanel.gameObject.SetActive(value);
     }
 
-    private void SetCallUI(CharacterInfoDataSO data)
-    {
-        if (data.characterName == "")
-        {
-            nameText.text = data.phoneNum;
-        }
-        else
-        {
-            nameText.text = data.characterName;
-        }
-        profileIcon.sprite = data.profileIcon;
-    }
+
 
     public void StartMonolog(int monologType, MonologLockData data = null)
     {

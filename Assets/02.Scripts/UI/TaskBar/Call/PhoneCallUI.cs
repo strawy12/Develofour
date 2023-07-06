@@ -171,7 +171,7 @@ public class PhoneCallUI : MonoBehaviour
             data.characterType = ECharacterDataType.None;
             data.phoneNum = phoneNumberText.text;
         }
-        CallSystem.Inst.OnRequestCall(data);
+        CallSystem.Inst.OnOutGoingCall(data);
 
         Close();
     }
