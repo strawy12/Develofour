@@ -5,14 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Trigger")]
 public class TriggerDataSO : ScriptableObject
 {
-    public int triggerID = 0;
-    public List<int> infoDataIDList;
-    public int fileID;
+    public string triggerID = "";
+    public List<string> infoDataIDList;
+    public string fileID;
     public List<NeedInfoData> needInfoList;
-    public int monoLogType;
-    public int completeMonologType = 0;
+    public string monoLogType;
+    public string completeMonologType = "";
     public float delay;
     public bool isFakeInfo;
-
-    protected int playMonologType = 0;
 }

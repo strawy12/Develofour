@@ -7,9 +7,9 @@ using UnityEngine.AddressableAssets;
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     [SerializeField]
-    private Dictionary<int, WindowLockDataSO> fileLockDataList;
+    private Dictionary<string, PinLockDataSO> fileLockDataList;
 
-    public WindowLockDataSO GetFileLockData(int key)
+    public PinLockDataSO GetPinLockData(string key)
     {
         if(fileLockDataList == null)
         {
@@ -25,14 +25,14 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
     private async void LoadFileLockDataAssets(Action callBack)
     {
-        fileLockDataList = new Dictionary<int, WindowLockDataSO>();
+        fileLockDataList = new Dictionary<string, PinLockDataSO>();
 
-        var handle = Addressables.LoadResourceLocationsAsync("FileLockData", typeof(WindowLockDataSO));
+        var handle = Addressables.LoadResourceLocationsAsync("FileLockData", typeof(PinLockDataSO));
         await handle.Task;
 
         for (int i = 0; i < handle.Result.Count; i++)
         {
-            var task = Addressables.LoadAssetAsync<WindowLockDataSO>(handle.Result[i]).Task;
+            var task = Addressables.LoadAssetAsync<PinLockDataSO>(handle.Result[i]).Task;
             await task;
 
             fileLockDataList.Add(task.Result.fileId, task.Result);

@@ -13,7 +13,8 @@ public class MonologSystem : TextSystem
 
     private static Dictionary<string, Action> onEndMonologDictionary;
 
-    private bool isPlayMonolog = false;
+    private static bool isPlayMonolog = false;
+    public static bool IsPlayMonolog { get; }
 
     [SerializeField]
     private TextBox textBox;
@@ -45,13 +46,13 @@ public class MonologSystem : TextSystem
         }
     }
 
-    public void StartMonolog(string textDataType, bool isSave)
+    public void StartMonolog(string monologID, bool isSave)
     {
         if (isPlayMonolog) return;
 
         if (isSave)
         {
-            if (DataManager.Inst.IsMonologShow(textDataType))
+            if (DataManager.Inst.IsMonologShow(monologID))
             {
                 Debug.LogError("이미 저장된 독백입니다");
                 return;
@@ -63,16 +64,15 @@ public class MonologSystem : TextSystem
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
 
         currentTextDataIdx = 0;
-        currentTextData = ResourceManager.Inst.GetMonologTextData(textDataType);
+        currentTextData = ResourceManager.Inst.GetMonologTextData(monologID);
 
         if (currentTextData == null)
         {
-            Debug.LogError("해당 독백은 존재하지 않습니다: " + textDataType);
+            Debug.LogError("해당 독백은 존재하지 않습니다: " + monologID);
         }
 
         PrintText();
         InputManager.Inst.AddAnyKeyInput(onKeyDown: PrintText);
-        DataManager.Inst.SetMonologShow(textDataType, true);
     }
 
     private void EndMonolog()
@@ -94,6 +94,8 @@ public class MonologSystem : TextSystem
             Action onEndEvent = onEndMonologDictionary[currentTextData.ID];
             onEndEvent?.Invoke();
             onEndMonologDictionary.Remove(currentTextData.ID);
+            DataManager.Inst.SetMonologShow(currentTextData.ID, true);
+            currentTextData = null;
         }
     }
 

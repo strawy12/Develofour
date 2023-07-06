@@ -5,13 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using System.Linq;
 
 public class CallSystem : MonoBehaviour
 {
     /// <summary>
     /// string: CallCharacterID
     /// </summary>
-    public static Action<string> OnOutGoingCall;
+    public static Action<string> OnOutGoingCall { get; private set; }
 
     [SerializeField]
     private CallSystemUI callSystemUI;
@@ -20,6 +21,7 @@ public class CallSystem : MonoBehaviour
     private float deflaultDelayTime = 8f;
 
     private bool isCalling = false;
+    private CallDataSO currentCallData;
 
     public void Start()
     {
@@ -28,42 +30,69 @@ public class CallSystem : MonoBehaviour
 
     private void Init()
     {
-        EventManager.StartListening(EMonologEvent.MonologEnd, IncomingCheck);
-        EventManager.StartListening(EProfilerEvent.FindInfoInProfiler, IncomingCheck);
+        EventManager.StartListening(EProfilerEvent.RegisterInfo, CallDataCheck);
 
-        EventManager.StartListening(ECallEvent.ClickSelectBtn, StartMonolog);
+        EventManager.StartListening(ECallEvent.ClickSelectBtn, StartCallMonolog);
+        EventManager.StartListening(ECallEvent.RecivivedCall, StartCallMonolog);
 
-        //EventManager.StartListening(EMonologEvent.MonologEnd, DecisionCheck);
-        //EventManager.StartListening(EProfilerEvent.FindInfoInProfiler, DecisionCheck);
+        OnOutGoingCall += StartOutGoingCall;
+    }
 
-        GetIncomingData();
+    private IEnumerator CallDataCheckTimer()
+    {
+        
+        WaitForSeconds waitTime = new WaitForSeconds(Constant.INCOMMING_CHECK_DELAY);
+        while(true)
+        {
+            yield return waitTime;
+            CallDataCheck(null);
+        }
+    }
+
+    private void CallDataCheck(object[] ps)
+    {
+        var callDataList = ResourceManager.Inst.CallDataList.Values.Where(x => x.callDataType == ECallDataType.InComing).ToList();
+
+        foreach (CallDataSO callData in callDataList)
+        {
+            if (!Define.NeedInfoFlag(callData.needInfoIDList)) continue;
+
+            ReturnCallData returnData = DataManager.Inst.GetReturnData(callData.ID);
+            if(returnData == null || returnData.EndDelayTime > DataManager.Inst.GetCurrentTime())
+            {
+                StartInComingCall(callData.callProfileID, callData.ID);
+            }
+        }
     }
 
 
     // 얘는 받는 전용
-    public void OnAnswerCall(ECharacterDataType characterType, int monologType)
+    public void StartInComingCall(string callProfileID, string callDataID)
     {
-        if (characterType == ECharacterDataType.None) return;
-        CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
-        SetCallUI(charSO);
+        if (isCalling) return;
+        isCalling = true;
 
-        ShowSpectrumUI(false);
-        ShowAnswerButton(true);
-        ButtonSetting(monologType);
+        CallProfileDataSO callProfileData = ResourceManager.Inst.GetCallProfileData(callProfileID);
+        if (callProfileData == null) return;
 
-        if (DataManager.Inst.IsSavePhoneNumber(charSO.phoneNum) == false)
+        CharacterInfoDataSO characterInfoData = ResourceManager.Inst.GetCharacterDataSO(callProfileID);
+        if (DataManager.Inst.IsSavePhoneNumber(characterInfoData.phoneNum) == false)
         {
-            Debug.Log(charSO.characterName);
-            //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.InvisibleInformation, charSO.phoneNumberInfoID });
-            EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { charSO.phoneNum });
+            // 주소록 기능은 나중에 다시 코드를 짜십쇼
         }
-        Show();
+
+
+        callSystemUI.InCommingCall(callProfileData);
+
+        CallDataSO callData = ResourceManager.Inst.GetCallData(callDataID);
+        callSystemUI.OnClickAnswerBtn += () => StartCallMonolog(new object[] { callData });
     }
 
-    // 얘는 결국에는 거는 전용
+    // 얘는 거는 전용
     public void StartOutGoingCall(string callProfileID)
     {
         if (isCalling) return;
+        isCalling = true;
 
         CallProfileDataSO data = ResourceManager.Inst.GetCallProfileData(callProfileID);
         if (data == null) return;
@@ -71,18 +100,34 @@ public class CallSystem : MonoBehaviour
         callSystemUI.OutGoingCall(data);
     }
 
-    public void StartMonolog(object[] ps)
+    private void EndCall()
     {
-        if (ps.Length == 0 ||
-            !(ps[0] is string) ||
-            (ps.Length == 2 && !(ps[1] is List<AdditionFile>))
-            ) return;
+        callSystemUI.Hide();
+        isCalling = false;
 
-        string monologID = (string)ps[0];
-        List<AdditionFile> additionFiles = (List<AdditionFile>)ps[1];
+        if (currentCallData != null)
+        {
+            AddFiles(currentCallData.additionFileIDList);
 
-        MonologSystem.AddOnEndMonologEvent(monologID, callSystemUI.Hide);
-        MonologSystem.AddOnEndMonologEvent(monologID, () => AddFiles(additionFiles));
+            if (string.IsNullOrEmpty(currentCallData.returnCallID))
+            {
+                CallDataSO returnCallData = ResourceManager.Inst.GetCallData(currentCallData.returnCallID);
+                DataManager.Inst.AddReturnCallData(returnCallData.ID, (int)returnCallData.delay);
+            }
+
+            currentCallData = null;
+        }
+    }
+
+    public void StartCallMonolog(object[] ps)
+    {
+        if (ps.Length != 1 || !(ps[0] is CallDataSO)) return;
+
+        CallDataSO callData = (CallDataSO)ps[0];
+        string monologID = callData.monologID;
+        currentCallData = callData;
+
+        MonologSystem.AddOnEndMonologEvent(monologID, EndCall);
 
         MonologSystem.OnStartMonolog?.Invoke(monologID, false);
     }
@@ -93,63 +138,5 @@ public class CallSystem : MonoBehaviour
         {
             FileManager.Inst.AddFile(additionFile.fileID, additionFile.directoryID);
         }
-    }
-
-    public void SaveReturnMonolog(MonologLockData data)
-    {
-
-        if (data == null)
-            return;
-        foreach (ReturnMonologData returnData in data.returnMonologDataList)
-        {
-            if (returnData.characterType == ECharacterDataType.None || returnData.MonologID == 0) continue;
-            DataManager.Inst.AddReturnData(returnData);
-        }
-
-    }
-
-
-    private void GetIncomingData()
-    {
-        foreach (var incomingData in ResourceManager.Inst.IncomingCallDataList)
-        {
-            incomingCallDataList.Add(incomingData.Value);
-        }
-    }
-
-    private void IncomingCheck(object[] ps)
-    {
-        if (isCalling) return;
-
-        foreach (var incomingCallData in incomingCallDataList) //캐릭마다
-        {
-            foreach (ReturnMonologData data in incomingCallData.incomingMonologList) //한 캐릭의 리턴 독백마다
-            {
-                Debug.Log(data.MonologID);
-                if (DataManager.Inst.IsMonologShow(data.MonologID))//이미 본 독백이면
-                {
-                    continue;//넘어가
-                }
-
-                if (Define.MonologLockDecisionFlag(data.decisions))// 조건 확인
-                {
-                    OnAnswerCall(data.characterType, data.MonologID);// 전화걸리기
-                    if (data.additionFiles != null && data.additionFiles.Count > 0)//추가 파일 있으면 추가
-                    {
-                        MonologSystem.OnEndMonologEvent = () => data.additionFiles.ForEach(x => FileManager.Inst.AddFile((int)x.x, (int)x.y));
-                    }
-                }
-            }
-        }
-    }
-
-
-
-
-
-
-    public void SetEndMonolog(int monologType)
-    {
-        MonologSystem.OnStopMonolog?.Invoke();
     }
 }

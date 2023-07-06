@@ -18,33 +18,25 @@ public class CallSystemUI : MonoBehaviour
     [SerializeField]
     private AudioSpectrumUI spectrumUI;
 
-    private bool isRecieveCall;
-
     [SerializeField]
     private Transform selectButtonParent;
     [SerializeField]
     private CallSelectButton selectButton;
 
-    [SerializeField]
-    private GameObject callCoverPanel;
-
     private List<CallSelectButton> buttonList;
-    private bool isCalling;
-
     private CallProfileDataSO currentCallProfileData;
+    private bool isRecieveCall;
+
+    public Action OnClickAnswerBtn;
 
     public void Show()
     {
-        isCalling = true;
-        SetCoverPanel(true);
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
         transform.DOLocalMoveX(770, 0.5f).SetEase(Ease.Linear);
     }
 
     public void Hide()
     {
-        isCalling = false;
-        SetCoverPanel(false);
         transform.DOKill(true);
         Sound.OnImmediatelyStop(Sound.EAudioType.PhoneCall);
         GameManager.Inst.ChangeGameState(EGameState.Game);
@@ -77,6 +69,22 @@ public class CallSystemUI : MonoBehaviour
         profileIcon.sprite = characterData.profileIcon;
     }
 
+    public void InCommingCall(CallProfileDataSO data)
+    {
+        currentCallProfileData = data;
+        InitCallUI();
+
+        ShowAnswerButton(true);
+        ShowSpectrumUI(false);
+
+        isRecieveCall = false;
+
+        Show();
+        // AnswerButton 셋팅
+        StartCoroutine(PlayPhoneSoundAndShake());
+
+    }
+
     public void OutGoingCall(CallProfileDataSO data)
     {
         currentCallProfileData = data;
@@ -85,15 +93,46 @@ public class CallSystemUI : MonoBehaviour
         ShowAnswerButton(false);
         ShowSpectrumUI(true);
 
+        Show();
         StartCoroutine(PlayPhoneCallSound(currentCallProfileData.delay));
 
+    }
 
-        Show();
+    private IEnumerator PlayPhoneCallSound(float delay)
+    {
+        while (delay > 0f)
+        {
+            float soundSecond = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneCall);
+
+            if (delay - soundSecond < 0f)
+                yield return new WaitForSeconds(delay - soundSecond);
+
+            else
+                yield return new WaitForSeconds(soundSecond);
+
+            delay -= soundSecond;
+        }
+
+        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.PhoneCall);
+        RecivivedCall();
+    }
+
+    private IEnumerator PlayPhoneSoundAndShake()
+    {
+        yield return new WaitForSeconds(0.8f);
+        while (!isRecieveCall)
+        {
+            transform.DOKill(true);
+            transform.DOShakePosition(2.5f, 5);
+            float soundSecond = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
+            yield return new WaitForSeconds(soundSecond + Constant.PHONECALLSOUND_DELAY);
+        }
+
+        isRecieveCall = false;
     }
 
     private void SetSelectBtns()
     {
-        int spawnCnt = 0;
         foreach (string callDataID in currentCallProfileData.outGoingCallIDList)
         {
             CallDataSO callData = ResourceManager.Inst.GetCallData(callDataID);
@@ -103,22 +142,18 @@ public class CallSystemUI : MonoBehaviour
             {
                 if (Define.NeedInfoFlag(callData.needInfoIDList))
                 {
-                    spawnCnt++;
-                    MonologSystem.AddOnEndMonologEvent(callData.monologID, () => MakeSelectBtn(callData));
+                    MakeSelectBtn(callData);
                 }
             }
         }
 
-        if(spawnCnt == 0)
-        {
-            MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(currentCallProfileData.notExistMonologID);
-            EventManager.TriggerEvent(ECallEvent.ClickSelectBtn, new object[] { textData });
-        }
+        CallDataSO notExistCallData = ResourceManager.Inst.GetCallData(currentCallProfileData.notExistCallID);
+        MakeSelectBtn(notExistCallData);
     }
-
-
     private void MakeSelectBtn(CallDataSO callData)
     {
+        if (callData == null) return;
+
         CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
         MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(callData.monologID);
         buttonList.Add(instance);
@@ -127,44 +162,16 @@ public class CallSystemUI : MonoBehaviour
         instance.btn.onClick.AddListener(() =>
         {
             HideSelectBtns();
-            EventManager.TriggerEvent(ECallEvent.ClickSelectBtn, new object[] { textData, callData.additionFileIDList });
+            EventManager.TriggerEvent(ECallEvent.ClickSelectBtn, new object[] { callData });
         });
         instance.gameObject.SetActive(true);
     }
 
-    private IEnumerator PlayPhoneCallSound(float delay)
+    private void RecivivedCall()
     {
-        while (delay > 0f)
-        {
-            float soundSecond = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneCall);
-
-            yield return new WaitForSeconds(soundSecond);
-            delay -= soundSecond;
-        }
-
         MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(currentCallProfileData.monologID);
         MonologSystem.AddOnEndMonologEvent(textData.ID, SetSelectBtns);
-        EventManager.TriggerEvent(ECallEvent.ClickSelectBtn, new object[] { textData });
-    }
-
-
-    private IEnumerator PhoneSoundCo()
-    {
-        if (isCalling)
-        {
-            yield return new WaitUntil(() => !isCalling);
-            yield return new WaitForSeconds(5f);
-        }
-        yield return new WaitForSeconds(0.8f);
-        while (!isRecieveCall)
-        {
-            transform.DOKill(true);
-            transform.DOShakePosition(2.5f, 5);
-            Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
-            yield return new WaitForSeconds(4f);
-        }
-
-        isRecieveCall = false;
+        MonologSystem.OnStartMonolog?.Invoke(textData.ID, false);
     }
 
     private void ShowAnswerButton(bool isShow)
@@ -185,7 +192,10 @@ public class CallSystemUI : MonoBehaviour
         isRecieveCall = true;
 
         transform.DOKill(true);
-        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.PhoneAlarm);
+        OnClickAnswerBtn?.Invoke();
+
+        // 추후 문제가 생길 경우 변경을 시켜야한다
+        OnClickAnswerBtn = null;
     }
 
     private void ShowSpectrumUI(bool isShow)
@@ -201,11 +211,5 @@ public class CallSystemUI : MonoBehaviour
             spectrumUI.StopSpectrum();
         }
     }
-
-    private void SetCoverPanel(bool value)
-    {
-        callCoverPanel.gameObject.SetActive(value);
-    }
-
 
 }

@@ -260,7 +260,7 @@ public class Library : Window
             icon.SetFileData(file); // icon마다의 startTrigger를 이 함수에 넣어야함
             if (file.windowType == EWindowType.Directory)
             {
-                if (DataManager.Inst.IsFileLock(file.id))
+                if (DataManager.Inst.IsPinLock(file.id))
                 {
                     icon.ChangeIcon(lockLibrary, file.color);
                 }

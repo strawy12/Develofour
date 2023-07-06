@@ -20,9 +20,6 @@ public enum EWindowType // 확장자
     MediaPlayer,
     IconProperty,
     Popup,
-    Calculator,
-    SiteShortCut,
-    HarmonyShortCut,
     Dummy,
     VideoPlayer,
     SoundPlayer,
@@ -36,9 +33,6 @@ public class Window : MonoUI, ISelectable
 {
     public static int windowMaxCnt;
     public static Window currentWindow;
-
-    private int openInt = 0;
-
 
     [Header("Window Data")]
     [SerializeField]

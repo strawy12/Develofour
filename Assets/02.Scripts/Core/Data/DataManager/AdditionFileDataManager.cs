@@ -9,7 +9,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.additionFileData.Add(new AdditionFileData() { fileID = file.id, directoryID = directory.id });
     }
 
-    public AdditionFileData GetAdditionFileData(int fileID)
+    public AdditionFileData GetAdditionFileData(string fileID)
     {
        return saveData.additionFileData.Find(x=>x.fileID == fileID);
     }

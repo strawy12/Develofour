@@ -32,8 +32,6 @@ public class Discord : Window
     [SerializeField]
     private DiscordLogin discordLogin;
 
-    private HarmonyShortcutDataSO chatData;
-
     public static Func<DiscordProfileDataSO, List<int>> OnGetInfoID;
 
     protected override void Init()

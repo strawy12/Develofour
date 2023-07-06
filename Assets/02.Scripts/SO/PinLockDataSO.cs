@@ -1,9 +1,8 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Window/LockData")]
-public class WindowLockDataSO : ScriptableObject
+public class PinLockDataSO : ScriptableObject
 {
-    public int fileId;
+    public string fileId;
 
     public string windowPin;
     public string windowPinHintGuide;

@@ -6,9 +6,8 @@ using UnityEngine;
 
 public class ProfileOverlaySystem : MonoBehaviour
 {
-    public static Action<int, List<InformationTrigger>> OnOpen; //fileid, completeCnt, wholeCnt
-    public static Action<int, List<int>> OnOpenInt; //fileid, completeCnt, wholeCnt
-    public static Action<int> OnAdd; //fileid , profileid
+    public static Action<string, List<InformationTrigger>> OnOpen; //fileid, completeCnt, wholeCnt
+    public static Action<string> OnAdd; //fileid , profileid
     public static Action OnClose;
 
     #region overlay
@@ -17,9 +16,9 @@ public class ProfileOverlaySystem : MonoBehaviour
     #endregion
 
     [SerializeField]
-    private List<int> profileIDList = new List<int>();
+    private List<string> profileIDList = new List<string>();
 
-    private int currentFileID;
+    private string currentFileID;
     private int completeProfileCount;
     private int wholeProfileCount;
 
@@ -28,21 +27,8 @@ public class ProfileOverlaySystem : MonoBehaviour
         OnOpen += Open;
         OnAdd += Add;
         OnClose += Close;
-        OnOpenInt += OpenInt;
     }
 
-    private void OpenInt(int id, List<int> list)
-    {
-        Debug.Log(list.Count);
-        if (!DataManager.Inst.SaveData.isProfilerInstall) return;
-        ResetCount();
-        currentFileID = id;
-        profileIDList = list;
-
-        completeProfileCount = GetCompleteCount();
-        wholeProfileCount = GetWholeCount();
-        Setting(id);
-    }
 
     private void Close()
     {
@@ -54,11 +40,11 @@ public class ProfileOverlaySystem : MonoBehaviour
     {
         completeProfileCount = 0;
         wholeProfileCount = 0;
-        currentFileID = 0;
+        currentFileID = string.Empty;
         profileIDList.Clear();
     }
 
-    public void Open(int id, List<InformationTrigger> triggerList)
+    public void Open(string id, List<InformationTrigger> triggerList)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
         ResetCount();
@@ -70,7 +56,7 @@ public class ProfileOverlaySystem : MonoBehaviour
         Setting(id);
     }
 
-    public void Add(int id)
+    public void Add(string id)
     {
         if (completeProfileCount == wholeProfileCount)
         {
@@ -81,22 +67,22 @@ public class ProfileOverlaySystem : MonoBehaviour
 
         if (completeProfileCount == wholeProfileCount)
         {
-            if (!MonologSystem.isEndMonolog)//독백중이면
+            if (!MonologSystem.IsPlayMonolog)//독백중이면
             {
                 Debug.Log(1);
-                MonologSystem.OnEndMonologEvent = () => { MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, 0.5f, false); };
+                MonologSystem.AddOnEndMonologEvent(id, () => { MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, false); });
             }
             else
             {
                 Debug.Log(2);
-                MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, 1f, false);
+                MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, false);
             }
         }
 
         Setting(id);
     }
 
-    public void Setting(int id)
+    public void Setting(string id)
     {
         if (currentFileID != id) //fileID 체크
         {
@@ -116,15 +102,15 @@ public class ProfileOverlaySystem : MonoBehaviour
         overlayPanel.SetActive(true);
     }
 
-    private List<int> GetProfileIDList(List<InformationTrigger> list)
+    private List<string> GetProfileIDList(List<InformationTrigger> list)
     {
         list.ForEach((trigger) =>
         {
-            for (int i = 0; i < trigger.infoDataIDList.Count; i++)
+            for (int i = 0; i < trigger.TriggerData.infoDataIDList.Count; i++)
             {
-                if (!profileIDList.Contains(trigger.infoDataIDList[i]))
+                if (!profileIDList.Contains(trigger.TriggerData.infoDataIDList[i]))
                 {
-                    profileIDList.Add(trigger.infoDataIDList[i]);
+                    profileIDList.Add(trigger.TriggerData.infoDataIDList[i]);
                 }
             }
         });

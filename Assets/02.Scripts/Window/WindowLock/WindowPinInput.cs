@@ -44,13 +44,13 @@ public class WindowPinInput : Window
     [SerializeField]
     private Color wrongAnswerTextColor;
 
-    private WindowLockDataSO windowLockData;
+    private PinLockDataSO windowLockData;
 
     protected override void Init()
     {
         base.Init();
 
-        windowLockData = ResourceManager.Inst.GetFileLockData(file.id);
+        windowLockData = ResourceManager.Inst.GetPinLockData(file.id);
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);

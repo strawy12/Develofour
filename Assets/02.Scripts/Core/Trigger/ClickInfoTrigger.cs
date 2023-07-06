@@ -31,7 +31,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
         GetInfo();
-        ProfileOverlaySystem.OnAdd(fileID);
+        ProfileOverlaySystem.OnAdd?.Invoke(fileID);
         OnPointerEnter(eventData);
     }
 

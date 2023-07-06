@@ -179,11 +179,11 @@ public class WindowsLoginScreen : MonoBehaviour
         failedLoginCnt++;
         if(failedLoginCnt == 1)
         {
-            GuideManager.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 450);
+            GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 450);
         }
         if (failedLoginCnt >= 5)
         {
-            GuideManager.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 1.5f);
+            GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 1.5f);
         }
 
         loginFailUI.SetActive(true);
@@ -206,6 +206,6 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         NoticeSystem.OnGeneratedNotice(ENoticeType.ConnectUSB, 0.5f);
 
-        GuideManager.OnPlayGuide(EGuideTopicName.LibraryOpenGuide, 40);
+        GuideSystem.OnPlayGuide(EGuideTopicName.LibraryOpenGuide, 40);
     }
 }

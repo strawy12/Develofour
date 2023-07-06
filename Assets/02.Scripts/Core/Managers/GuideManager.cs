@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public partial class GuideManager : MonoBehaviour
+public partial class GuideSystem : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
     public static Action<ProfilerGuideDataSO> OnPlayInfoGuide;

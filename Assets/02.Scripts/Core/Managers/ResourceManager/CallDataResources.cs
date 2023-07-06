@@ -7,6 +7,8 @@ using UnityEngine.AddressableAssets;
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     private Dictionary<string, CallDataSO> callDataList;
+    public Dictionary<string, CallDataSO> CallDataList => callDataList;
+
 
     public CallDataSO GetCallData(string key)
     {
@@ -16,6 +18,8 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         }
         return null;
     }
+
+
     private async void LoadCallDataResourcesAssets(Action callBack)
     {
         callDataList = new Dictionary<string, CallDataSO>();

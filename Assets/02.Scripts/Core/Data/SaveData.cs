@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 [System.Serializable]
-public class FileLockData
+public class PinLockData
 {
-    public int id;
+    public string id;
     public bool isLock = true;
 }
 
@@ -20,8 +20,8 @@ public class MonologSaveData
 [System.Serializable]
 public class AdditionFileData
 {
-    public int fileID;
-    public int directoryID;
+    public string fileID;
+    public string directoryID;
 }
 [System.Serializable]
 public class GuideSaveData
@@ -76,7 +76,7 @@ public class ReturnCallData
 [System.Serializable]
 public class SaveData
 {
-    public List<FileLockData> FileLockData;
+    public List<PinLockData> PinLockData;
     public List<MonologSaveData> monologData;
     public List<AdditionFileData> additionFileData;
     public List<GuideSaveData> guideSaveData;

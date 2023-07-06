@@ -49,7 +49,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         ProfilerSaveData();
         CreateGuideSaveData();
         CreateMonologData();
-        CreateFileLockData();
+        CreatePinLockData();
         CreateNoticeDataSave();
 
         SaveToJson();

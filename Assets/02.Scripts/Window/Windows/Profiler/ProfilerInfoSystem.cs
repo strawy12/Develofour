@@ -51,7 +51,7 @@ public class ProfilerInfoSystem : MonoBehaviour
             ps = new object[2] { infoDataSO.category, id };
         }
 
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoInProfiler, ps);
+        EventManager.TriggerEvent(EProfilerEvent.RegisterInfo, ps);
 
     }
     private void ChangeValue(EProfilerCategory category, int id)

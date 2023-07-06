@@ -55,7 +55,7 @@ public class FileManager : MonoSingleton<FileManager>
         {
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
-                int directoryID = DataManager.Inst.GetAdditionFileData(fileData.id).directoryID;
+                string directoryID = DataManager.Inst.GetAdditionFileData(fileData.id).directoryID;
                 AddFile(fileData, directoryID);
             }
         }
@@ -129,7 +129,7 @@ public class FileManager : MonoSingleton<FileManager>
                 {
                     continue;
                 }
-                if(DataManager.Inst.IsFileLock(file.id))
+                if(DataManager.Inst.IsPinLock(file.id))
                 {
                     continue;
                 }
@@ -192,7 +192,7 @@ public class FileManager : MonoSingleton<FileManager>
         return fileList;
     }
 
-    public bool IsExistFile(int id)
+    public bool IsExistFile(string id)
     {
         List<FileSO> allFileList = GetALLFileList();
 

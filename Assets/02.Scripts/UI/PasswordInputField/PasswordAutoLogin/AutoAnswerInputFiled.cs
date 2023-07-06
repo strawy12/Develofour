@@ -11,7 +11,7 @@ public class AutoAnswerData
     public string answer;
     
     //public ProfilerInfoTextDataSO infoData;
-    public List<MonologLockDecision> infoData;
+    public List<string> needInfoData;
 }
 
 public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler

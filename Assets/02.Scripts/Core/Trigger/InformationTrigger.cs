@@ -7,40 +7,23 @@ using static Constant.ProfilerInfoKey;
 [System.Serializable]
 public class NeedInfoData
 {
-    public int needInfoID;
-    public int monologID;
+    public string needInfoID;
+    public string monologID;
     // needInfoID를 충족하지 않더라도 즉시 정보를 획득
     public bool getInfo;
 }
 
 public class InformationTrigger : MonoBehaviour
 {
-    /// <summary>
-    /// 정보들 id들 넣는 곳입니다.
+    [SerializeField]
+    private string triggerID;
+
     protected TriggerDataSO triggerData;
-    public int triggerID = 0;
-    public List<int> infoDataIDList;
-    public int fileID;
-    public List<NeedInfoData> needInfoList;
-    //public int fileID
-    [SerializeField] protected int monoLogType;
-    public int completeMonologType = 0;
-    public float delay;
-    public bool isFakeInfo;
+    public TriggerDataSO TriggerData { get; private set; }
 
-    protected int playMonologType = 0;
+    protected string playMonologType = "";
 
-    public int MonologID
-    {
-        get
-        {
-            return monoLogType;
-        }
-        set
-        {
-            monoLogType = value;
-        }
-    }
+    public string MonologID => triggerData.monoLogType;
 
     protected virtual void Awake()
     {
@@ -64,13 +47,6 @@ public class InformationTrigger : MonoBehaviour
                 return;
             }
         }
-        infoDataIDList = triggerData.infoDataIDList;
-        fileID = triggerData.fileID;
-        needInfoList = triggerData.needInfoList;
-        monoLogType = triggerData.monoLogType;
-        completeMonologType = triggerData.completeMonologType;
-        delay = triggerData.delay;
-        isFakeInfo = triggerData.isFakeInfo;
     }
 
     public void FindInfo()
@@ -80,7 +56,7 @@ public class InformationTrigger : MonoBehaviour
         {
             bool playMonolog = false;
 
-            foreach (var infoID in infoDataIDList)
+            foreach (var infoID in triggerData.infoDataIDList)
             {
                 if (!DataManager.Inst.GetIsClearTutorial())
                 {

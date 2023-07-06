@@ -450,7 +450,7 @@ public class SOSettingWindow : EditorWindow
                 pinList.Add(pin);
             }
 
-            WindowLockDataSO lockData = ResourceManager.Inst.GetFileLockData(id);
+            PinLockDataSO lockData = ResourceManager.Inst.GetFileLockData(id);
             bool isLock = false;
 
             if (lockData != null)
@@ -890,11 +890,11 @@ public class SOSettingWindow : EditorWindow
         string[] rows = dataText.Split('\n');
 
         string[] guids = AssetDatabase.FindAssets("t:WindowLockDataSO", null);
-        List<WindowLockDataSO> fileLockSOList = new List<WindowLockDataSO>();
+        List<PinLockDataSO> fileLockSOList = new List<PinLockDataSO>();
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            fileLockSOList.Add(AssetDatabase.LoadAssetAtPath<WindowLockDataSO>(path));
+            fileLockSOList.Add(AssetDatabase.LoadAssetAtPath<PinLockDataSO>(path));
         }
         for (int i = 0; i < rows.Length; i++)
         {
@@ -922,11 +922,11 @@ public class SOSettingWindow : EditorWindow
 
             bool isCreate = false;
 
-            WindowLockDataSO lockdata = fileLockSOList.Find(x => x.fileId == id);
+            PinLockDataSO lockdata = fileLockSOList.Find(x => x.fileId == id);
 
             if (lockdata == null)
             {
-                lockdata = CreateInstance<WindowLockDataSO>();
+                lockdata = CreateInstance<PinLockDataSO>();
                 isCreate = true;
             }
 

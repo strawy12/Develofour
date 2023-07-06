@@ -21,7 +21,7 @@ public class ProfilerPanel : MonoBehaviour
         typePanel.Init();
         characterBtn.onClick.AddListener(OnClickCharacterPanelBtn);
         sceneBtn.onClick.AddListener(OnClickIncidentPanelBtn);
-        EventManager.StartListening(EProfilerEvent.FindInfoInProfiler, ChangeValue);
+        EventManager.StartListening(EProfilerEvent.RegisterInfo, ChangeValue);
 
         Show();
 
@@ -74,7 +74,7 @@ public class ProfilerPanel : MonoBehaviour
     }
     private void OnDestroy()
     {
-        EventManager.StopListening(EProfilerEvent.FindInfoInProfiler, ChangeValue);
+        EventManager.StopListening(EProfilerEvent.RegisterInfo, ChangeValue);
     }
 
 }

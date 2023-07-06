@@ -93,7 +93,7 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     // TODO : 같은 이름의 윈도우를 실행 시켰을 때 키 값이 겹칠 수 있음. (나중에 구분 할 수 있는 코드 짜야함)
     // 다른 키값 하나가 더 있으야함
-    public Window GetWindow(EWindowType windowType, int fileId)
+    public Window GetWindow(EWindowType windowType, string fileId)
     {
         return windowDictionary[windowType].Find(x => x.File.id == fileId);
     }
@@ -126,27 +126,11 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
 
         Window targetWindow = null;
-
-        if (file.windowType == EWindowType.SiteShortCut)
-        {
-            BrowserShortcutDataSO siteData = ResourceManager.Inst.GetBrowserShortcutData(file.id);
-            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { siteData.eSiteLink, Constant.LOADING_DELAY });
-            return null;
-        }
-        else if (file.windowType == EWindowType.HarmonyShortCut)
-        {
-            HarmonyShortcutDataSO harmonydata = ResourceManager.Inst.GetHarmonyShortcutData(file.id);
-            EventManager.TriggerEvent(EDiscordEvent.OpenHarmony, new object[] { harmonydata.chattingName });
-            return null;
-        }
-        else
-        {
-            targetWindow = GetWindow(file.windowType, file.id);
-        }
+        targetWindow = GetWindow(file.windowType, file.id);
 
         if (targetWindow == null)
         {
-            WindowLockDataSO windowLock = ResourceManager.Inst.GetFileLockData(file.id);
+            PinLockDataSO windowLock = ResourceManager.Inst.GetPinLockData(file.id);
             bool isLock = false;
 
             if (windowLock != null)
@@ -155,7 +139,7 @@ public class WindowManager : MonoSingleton<WindowManager>
             }
 
             // lock이 설정 되어있는 fileSO가 이미 락이 풀려있는지 체크
-            if (isLock && DataManager.Inst.IsFileLock(file.id))
+            if (isLock && DataManager.Inst.IsPinLock(file.id))
             {
                 targetWindow = CreateWindow(EWindowType.WindowPinLock, file);
             }
@@ -272,7 +256,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     public bool IsOpenWindowType(EWindowType windowType)
     {
         return windowDictionary.ContainsKey(windowType);
-    } 
+    }
     void LateUpdate()
     {
         if (!DataLoadingScreen.completedDataLoad) return;

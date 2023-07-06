@@ -6,13 +6,14 @@ public enum ECallDataType
 {
     None = -1,
     OutGoing,
-    InComming,
-    Return
+    InComing,
 }
 
 public class CallDataSO : ScriptableObject
 {
     private string id;
+    public string callProfileID;
+
     public ECallDataType callDataType = ECallDataType.None;
     public float delay;
 

@@ -5,29 +5,29 @@ using UnityEngine;
 
 public partial class DataManager : MonoSingleton<DataManager>
 {
-    private void CreateFileLockData()
+    private void CreatePinLockData()
     {
-        saveData.FileLockData = new List<FileLockData>();
+        saveData.PinLockData = new List<PinLockData>();
         List<FileSO> fileList = FileManager.Inst.GetALLFileList();
 
         for(int i = 0; i < fileList.Count; i++)
         {
-            WindowLockDataSO lockData = ResourceManager.Inst.GetFileLockData(fileList[i].id);
+            PinLockDataSO lockData = ResourceManager.Inst.GetPinLockData(fileList[i].id);
 
             if(lockData == null) 
             {
                 continue;
             }
-            saveData.FileLockData.Add(new FileLockData() { id = lockData.fileId, isLock = true });
+            saveData.PinLockData.Add(new PinLockData() { id = lockData.fileId, isLock = true });
         }
 
         // 해쉬로 정렬을 해둬서 찾는 속도를 더욱 증가 시킴
         //saveData.FileLockData.OrderBy(x => Animator.StringToHash(x.fileLocation));
     }
 
-    public bool IsFileLock(int id)
+    public bool IsPinLock(string id)
     {
-        FileLockData data = saveData.FileLockData.Find(x => x.id == id);
+        PinLockData data = saveData.PinLockData.Find(x => x.id == id);
 
         if (data == null)
         {
@@ -37,9 +37,9 @@ public partial class DataManager : MonoSingleton<DataManager>
         return data.isLock;
     }
 
-    public void SetFileLock(int id, bool value)
+    public void SetPinLock(string id, bool value)
     {
-        FileLockData data = saveData.FileLockData.Find(x => x.id == id);
+        PinLockData data = saveData.PinLockData.Find(x => x.id == id);
 
         if (data != null)
         {
