@@ -76,7 +76,7 @@ public class UserChattingPanel : MonoBehaviour
                 {
                     currentPanel = Pop(chatData.isMine);
                 }
-                currentPanel.AddChatBox(chatData.chatText);
+                currentPanel.AddChatBox(chatData);
                 lastMine = chatData.isMine.ToString();
             }
         }

@@ -20,6 +20,8 @@ public class UserChatBoxPanel : MonoBehaviour
     private Queue<ChatBox> chatBoxQueue;
     private List<ChatBox> chatBoxList;
 
+    private OutStarChatDataSO chatData;
+
     public bool isMine;
     #region Pool
     private void CreateChatBox()
@@ -74,11 +76,12 @@ public class UserChatBoxPanel : MonoBehaviour
         SetSize();
     }
 
-    public void AddChatBox(string text)
+    public void AddChatBox(OutStarChatDataSO data)
     {
+        chatData = data;
         ChatBox chatBox = Pop();
         chatBox.gameObject.SetActive(true);
-        chatBox.Setting(text);
+        chatBox.Setting(data.chatText);
         SetSize();
     }
 
