@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class TextData
+{
+    [TextArea(5, 30)]
+    public string text;
+    public Color textColor = Color.white;
+}
+
 [CreateAssetMenu(fileName = "TextData_", menuName = "SO/TextDataSO/Monolog")]
-public class MonologTextDataSO : TextDataSO
+public class MonologTextDataSO : ScriptableObject
 {
     [SerializeField]
-    private int textDataType;
-    [SerializeField]
-    private int callPriority;
-
-    // 필요 없을 거 같은 거
-    public int CallPriority => callPriority;
+    private string id;
 
     /// <summary>
     /// 해당 이름은 인 게임 내 보여지는 이름입니다.
@@ -19,15 +22,37 @@ public class MonologTextDataSO : TextDataSO
     /// </summary>
     public string monologName;
 
-    public int TextDataType
+    public string ID
     {
         get
         {
-            return textDataType;
+            return id;
         }
         set
         {
-            textDataType = value;
+            if (string.IsNullOrEmpty(id)) return;
+            id = value;
+        }
+    }
+
+    private List<TextData> textDataList;
+    public TextData this[int index]
+    {
+        get
+        {
+            return textDataList[index];
+        }
+        set
+        {
+            textDataList[index] = value;
+        }
+    }
+
+    public int Count
+    {
+        get
+        {
+            return (int)textDataList.Count;
         }
     }
 
@@ -37,7 +62,7 @@ public class MonologTextDataSO : TextDataSO
     public void DebugToString()
     {
         string result = "";
-        foreach(var text in textDataList)
+        foreach (var text in textDataList)
         {
             result += text.text;
             result += "\n";

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -56,6 +57,22 @@ public class LastAccessDateData
     public int fileID;
     public string date;
 }
+
+[System.Serializable]
+public class ReturnCallData
+{
+    public string id;
+    [SerializeField]
+    private int endDelayTime;
+
+    public int EndDelayTime => endDelayTime;
+
+    public void SetEndDelayTime(int delay)
+    {
+        endDelayTime = DataManager.Inst.GetCurrentTime() + delay;
+    }
+}
+
 [System.Serializable]
 public class SaveData
 {
@@ -69,7 +86,7 @@ public class SaveData
     public List<string> branchPostLockData;
     public List<string> savePhoneNumber;
     public List<MailSaveData> mailSaveData = new List<MailSaveData>();
-    public List<ReturnMonologData> returnMonologData;
+    public List<ReturnCallData> returnCallData;
     public List<LastAccessDateData> lastAccessDateData;
     public List<string> profilerGuideBtnSaveData;
     public bool isWatchStartCutScene;

@@ -5,6 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 [System.Serializable]
+public struct AddtionFile
+{
+    public string fileID;
+    public string directoryID;
+}
+
+[System.Serializable]
 public struct WindowIconData
 {
     public float bytes;

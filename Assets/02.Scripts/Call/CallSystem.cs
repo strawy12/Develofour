@@ -16,24 +16,6 @@ using TMPro;
 public class CallSystem : MonoSingleton<CallSystem>
 {
     private List<CallSelectButton> buttonList = new List<CallSelectButton>();
-    //Call Stack(전화 쌓이는거) 저장 해야함.
-
-    private List<IncomingCallDataSO> incomingCallDataList = new List<IncomingCallDataSO>();
-
-    [Header("CallUI")]
-    public TMP_Text nameText;
-    public Image profileIcon;
-
-    public Button answerBtn;
-    public AudioSpectrumUI spectrumUI;
-
-    public bool isRecieveCall;
-
-    public Transform selectButtonParent;
-    public CallSelectButton selectButton;
-
-    [SerializeField]
-    private GameObject callCoverPanel;
 
     [SerializeField]
     private float deflaultDelayTime = 8f;
@@ -45,83 +27,26 @@ public class CallSystem : MonoSingleton<CallSystem>
         GameManager.Inst.OnStartCallback += Init;
     }
 
-    private IEnumerator RepeatCheckReturnCall()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(deflaultDelayTime);
-            DecisionCheck();
-            if(callCoverPanel.activeSelf && !isCalling)
-            {
-                callCoverPanel.SetActive(false);
-            }
-        }
-    }
-
     private void Init()
     {
-        answerBtn.gameObject.SetActive(false);
-        spectrumUI.gameObject.SetActive(false);
-
         EventManager.StartListening(EMonologEvent.MonologEnd, IncomingCheck);
         EventManager.StartListening(EProfilerEvent.FindInfoInProfiler, IncomingCheck);
 
         //EventManager.StartListening(EMonologEvent.MonologEnd, DecisionCheck);
         //EventManager.StartListening(EProfilerEvent.FindInfoInProfiler, DecisionCheck);
 
-
         GetIncomingData();
-
-
-        spectrumUI.Init();
-
-        StartCoroutine(RepeatCheckReturnCall());
     }
 
 
     public void DecisionCheck(object[] ps = null)
     {
-        //디시전 체크 // 몇초마다 반복됨
-
-        if (isCalling) return; //전화중이라면 리턴
-
-        //현재 AddReturnData 함수를 사용해 추가된 return data들을 받아와
-        //구조를 변경할때는 특정 타입만 확인해주는게 아니라 모든 캐릭터의 return data를 확인해줘야함
-        //현재는 경찰만 확인중
-        List<ReturnMonologData> list = DataManager.Inst.GetReturnDataList(ECharacterDataType.Police);
-        List<ReturnMonologData> temp = new List<ReturnMonologData>();
-        //경찰 리턴 리스트에서 
-        foreach (ReturnMonologData data in list)
-        {
-            //해당 데이타의 시간의 아직 남았다?
-            if (data.EndDelayTime > DataManager.Inst.GetCurrentTime())
-                continue;
-
-            //해당 독백의 decision들 체크
-            if (Define.MonologLockDecisionFlag(data.decisions))
-            {
-                //정보를 다 획득했으면
-
-                //전화를 걸어
-                OnAnswerCall(data.characterType, data.MonologID);
-
-                //추가 파일 잇으면
-                if (data.additionFiles != null && data.additionFiles.Count > 0)
-                {
-                    //해당 독백 끝나고 추가
-                    MonologSystem.OnEndMonologEvent = () => data.additionFiles.ForEach(x => FileManager.Inst.AddFile((int)x.x, (int)x.y));
-                }
-                //해당 파일을 데이터 매니저에서 지우기 위해 새로운 temp라는 리스트에 추가
-                temp.Add(data);
-            }
-        }
-
-        temp.ForEach(x => DataManager.Inst.RemoveReturnData(x)); //데이터 매니저의 있는 데이타를 지움
+        // 리턴 통화와 오는 통화의 조건 체크
+        // 리턴 통화는 어떻게 했냐면 세이브 데이터에 남은 시간을 계산해서 넣어뒀을거야
+        //
     }
 
     // 얘는 결국에는 받는 전용
-
-
     public void OnAnswerCall(ECharacterDataType characterType, int monologType)
     {
         if (characterType == ECharacterDataType.None) return;
@@ -146,16 +71,15 @@ public class CallSystem : MonoSingleton<CallSystem>
     // 얘는 결국에는 거는 전용
     public void OnRequestCall(CharacterInfoDataSO data)
     {
-
         SetCallUI(data);
         int result = -1;
+
+        // 한번 선택한 선택지는 다시는 안 나오게 만들기 위해 쓴 코드
         if (!DataManager.Inst.IsExistReturnData(data.characterType))
         {
             RequestCallDataSO callData = ResourceManager.Inst.GetRequestCallData(data.characterType);
-            Debug.Log($"{callData.characterType}, {callData.defaultMonologID}");
             if (callData != null && Define.MonologLockDecisionFlag(callData.defaultDecisions))
             {
-                Debug.Log("1");
                 MonologSystem.OnEndMonologEvent = () => SetMonologSelector(callData);
                 result = callData.defaultMonologID;
             }
@@ -386,24 +310,6 @@ public class CallSystem : MonoSingleton<CallSystem>
         transform.DOLocalMoveX(770, 0.5f).SetEase(Ease.Linear);
     }
 
-    private IEnumerator PhoneSoundCor()
-    {
-        if (isCalling)
-        {
-            yield return new WaitUntil(() => !isCalling);
-            yield return new WaitForSeconds(5f);
-        }
-        yield return new WaitForSeconds(0.8f);
-        while (!isRecieveCall)
-        {
-            transform.DOKill(true);
-            transform.DOShakePosition(2.5f, 5);
-            Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
-            yield return new WaitForSeconds(4f);
-        }
-
-        isRecieveCall = false;
-    }
 
 
     public void Hide()

@@ -42,7 +42,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.branchPostLockData = new List<string>();
         saveData.savePhoneNumber = new List<string>();
         saveData.branchPassword = "";
-        saveData.returnMonologData = new List<ReturnMonologData>();
+        saveData.returnCallData = new List<ReturnCallData>();
         saveData.lastAccessDateData = new List<LastAccessDateData>();
         saveData.profilerGuideBtnSaveData = new List<string>();
         CreateLoginData();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "TextData_", menuName = "SO/TextDataSO/AIChatting")]
-public class AIChattingTextDataSO : TextDataSO
+public class AIChattingTextDataSO : ScriptableObject
 {
     [SerializeField]
     private EAIChattingTextDataType textDataType;
@@ -16,4 +16,6 @@ public class AIChattingTextDataSO : TextDataSO
             return textDataType;
         }
     }
+
+
 }
