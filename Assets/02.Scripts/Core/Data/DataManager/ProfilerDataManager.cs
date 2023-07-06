@@ -37,7 +37,7 @@ public partial class DataManager : MonoSingleton<DataManager>
     {
         return saveData.profilerSaveData.Find(x => x.category == category).isShowCategory;
     }
-    public bool IsProfilerInfoData(int id)
+    public bool IsProfilerInfoData(string id)
     {
         foreach(var categoryData in saveData.profilerSaveData)
         {

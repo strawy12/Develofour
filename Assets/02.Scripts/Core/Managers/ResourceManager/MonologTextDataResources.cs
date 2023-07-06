@@ -6,21 +6,22 @@ using UnityEngine.AddressableAssets;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-    private Dictionary<int, MonologTextDataSO> monologTextDataSOList;
-    public Dictionary<int, MonologTextDataSO> MonologTextDataSOList => monologTextDataSOList;
-    public int MonologDataListCount => monologTextDataSOList.Count;
+    private Dictionary<string, MonologTextDataSO> monologTextDataList;
+    public Dictionary<string, MonologTextDataSO> MonologTextDataList => monologTextDataList;
+    public int MonologDataListCount => monologTextDataList.Count;
 
-    public MonologTextDataSO GetMonologTextData(int textType)
+    public MonologTextDataSO GetMonologTextData(string textID)
     {
-        if (textType == 0)
-            return null;
-        return monologTextDataSOList[textType];
+        if (monologTextDataList.ContainsKey(textID))
+            return monologTextDataList[textID];
+
+        return null;
     }
 
 
     private async void LoadMonologTextDataAssets(Action callBack)
     {
-        monologTextDataSOList = new Dictionary<int, MonologTextDataSO>();
+        monologTextDataList = new Dictionary<string, MonologTextDataSO>();
         var handle = Addressables.LoadResourceLocationsAsync("MonologTextData", typeof(MonologTextDataSO));
         await handle.Task;
 
@@ -30,8 +31,8 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<MonologTextDataSO>(handle.Result[i]).Task;
             await task;
 
-            if (task.Result.TextDataType == 0) continue;
-            monologTextDataSOList.Add(task.Result.TextDataType, task.Result);
+            if (string.IsNullOrEmpty(task.Result.ID)) continue;
+            monologTextDataList.Add(task.Result.ID, task.Result);
         }
 
         Addressables.Release(handle);

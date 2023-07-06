@@ -14,7 +14,7 @@ public class FileLockData
 [System.Serializable]
 public class MonologSaveData
 {
-    public int monologType;
+    public string monologType;
     public bool isShow;
 }
 [System.Serializable]
@@ -36,7 +36,7 @@ public class ProfilerSaveData
 {
     public EProfilerCategory category;
     public bool isShowCategory;
-    public List<int> infoData;
+    public List<string> infoData;
 }
 
 

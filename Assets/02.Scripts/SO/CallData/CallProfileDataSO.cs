@@ -7,8 +7,10 @@ public class CallProfileDataSO : ScriptableObject
     [SerializeField]
     private string chatacterID = "";
 
-    public string textDataID;
-    public string notExistTextDataID;
+    public string monologID;
+    public string notExistMonologID;
+
+    public float delay;
 
     public List<string> outGoingCallIDList;
     public List<string> inCommingCallIDList;

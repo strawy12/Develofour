@@ -220,8 +220,8 @@ public enum ECallEvent
 {
     None = -1,
     AddAutoCompleteCallBtn,
-    CallInit,
-    GetMonologSettingIncomingData,
+    // CallSystem
+    ClickSelectBtn,
 }
 public enum ETimeEvent
 {

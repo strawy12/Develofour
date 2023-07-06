@@ -71,19 +71,20 @@ public class FileManager : MonoSingleton<FileManager>
         return file;
     }
 
-    public FileSO GetAdditionalFile(int key)
+    public FileSO GetAdditionalFile(string key)
     {
         FileSO file = additionFileList.Find((x) => x.id == key);
         return file;
     }
 
-    public void AddFile(int file, int directoryID)
+    public void AddFile(string file, string directoryID)
     {
         AddFile(GetAdditionalFile(file),directoryID);
     }
-    public void AddFile(FileSO file, int directoryID)
+    public void AddFile(FileSO file, string directoryID)
     {
         List<FileSO> fileList = GetALLFileList();
+        // 이분탐색 만들 때 Define에다 만들든 함수를 따로 빼서 작업해야해
         DirectorySO directory = fileList.Find(x=>x.id == directoryID) as DirectorySO;
 
         if (!directory.children.Contains(file))

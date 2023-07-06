@@ -21,7 +21,7 @@ public class CallDataSO : ScriptableObject
     public string returnCallID;
 
     public List<string> needInfoIDList;
-    public List<AddtionFile> additionFileIDList;
+    public List<AdditionFile> additionFileIDList;
     
     public string ID
     {

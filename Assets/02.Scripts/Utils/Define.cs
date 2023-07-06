@@ -218,34 +218,21 @@ public static class Define
         image.rectTransform.sizeDelta = size * scale;
     }
 
-    public static bool MonologLockDecisionFlag(List<MonologLockDecision> list)
+    public static bool NeedInfoFlag(List<string> list)
     {
-        if (list == null) return true;
+        if (list == null) return false;
 
-        foreach (MonologLockDecision decision in list)
+        foreach (string infoID in list)
         {
-            switch (decision.decisionType)
+            if (!DataManager.Inst.IsProfilerInfoData(infoID))
             {
-                case MonologLockDecision.EDecisionType.Information:
-                    // 해당 정보 id를 비교하여 정보를 획득했는지 확인
-                    if (!DataManager.Inst.IsProfilerInfoData(decision.key))
-                    {
-                        return false;
-                    }
-                    break;
-
-                case MonologLockDecision.EDecisionType.Monolog:
-                    if (!DataManager.Inst.IsMonologShow(decision.key))
-                    {
-                        return false;
-                    }
-                    break;
+                return false;
             }
         }
 
         return true;
     }
-    
+
     public static string GetOutStarTimeText(System.DateTime dateTime)
     {
         string timeText = "";
@@ -275,7 +262,7 @@ public static class Define
         {
             foreach (TextTriggerData trigger in triggerList)
             {
-                Vector2 pos = text.textInfo.characterInfo[trigger.id].topLeft; 
+                Vector2 pos = text.textInfo.characterInfo[trigger.id].topLeft;
 
                 for (int i = trigger.id + 1; i < text.text.Length; i++)
                 {

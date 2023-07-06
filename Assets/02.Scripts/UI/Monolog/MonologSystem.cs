@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class MonologSystem : TextSystem
+public class MonologSystem : TextSystem
 {
     /// <summary>
     /// int textDataType, bool isSave
     /// </summary>
-    public static Action<int, bool> OnStartMonolog { get; private set; }
+    public static Action<string, bool> OnStartMonolog { get; private set; }
     public static Action OnStopMonolog { get; private set; }
 
-    private Dictionary<string, Action> onEndMonologDictionary;
+    private static Dictionary<string, Action> onEndMonologDictionary;
 
     private bool isPlayMonolog = false;
 
@@ -33,7 +33,19 @@ public partial class MonologSystem : TextSystem
         //EventManager.StartListening(EMonologEvent.MonologException, ProfilerFileException);
     }
 
-    public void StartMonolog(int textDataType, bool isSave)
+    public static void AddOnEndMonologEvent(string monologID, Action action)
+    {
+        if (onEndMonologDictionary.ContainsKey(monologID))
+        {
+            onEndMonologDictionary[monologID] += action;
+        }
+        else
+        {
+            onEndMonologDictionary.Add(monologID, action);
+        }
+    }
+
+    public void StartMonolog(string textDataType, bool isSave)
     {
         if (isPlayMonolog) return;
 
@@ -61,13 +73,13 @@ public partial class MonologSystem : TextSystem
         PrintText();
         InputManager.Inst.AddAnyKeyInput(onKeyDown: PrintText);
         DataManager.Inst.SetMonologShow(textDataType, true);
-}
+    }
 
     private void EndMonolog()
     {
         if (currentTextData == null)
             return;
-        
+
         textBox.HideBox();
 
         InputManager.Inst.RemoveAnyKeyInput(onKeyDown: PrintText);
@@ -77,7 +89,7 @@ public partial class MonologSystem : TextSystem
 
         textBox.DictionaryClear();
 
-        if(currentTextData != null)
+        if (currentTextData != null)
         {
             Action onEndEvent = onEndMonologDictionary[currentTextData.ID];
             onEndEvent?.Invoke();

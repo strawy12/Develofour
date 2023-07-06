@@ -63,7 +63,6 @@ public class ProfilerInfoSystem : MonoBehaviour
             if (!DataManager.Inst.IsCategoryShow(category))
             {
                 DataManager.Inst.SetCategoryData(category, true);
-                EventManager.TriggerEvent(ECallEvent.GetMonologSettingIncomingData, new object[] { id });
                 SendCategoryNotice(category);
             }
             SendAlarm(category, id);

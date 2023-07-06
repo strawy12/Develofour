@@ -18,7 +18,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.monologData.OrderBy(x => x.monologType);
     }
 
-    public bool IsMonologShow(int type)
+    public bool IsMonologShow(string type)
     {
         MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);
         if (data == null)
@@ -30,7 +30,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         return data.isShow;
     }
 
-    public void SetMonologShow(int type, bool value)
+    public void SetMonologShow(string type, bool value)
     {
         MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);
         if (data == null)

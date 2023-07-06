@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [System.Serializable]
-public struct AddtionFile
+public struct AdditionFile
 {
     public string fileID;
     public string directoryID;
@@ -24,7 +24,7 @@ public struct WindowIconData
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
 public class FileSO : ScriptableObject
 {
-    public int id;
+    public string id;
 
     public DirectorySO parent;
     public string fileName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
