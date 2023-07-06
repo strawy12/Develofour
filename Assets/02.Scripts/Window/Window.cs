@@ -27,6 +27,7 @@ public enum EWindowType // 확장자
     VideoPlayer,
     SoundPlayer,
     BackgroundBGM,
+    OutStarGramDM,
     End 
 }
 
@@ -36,7 +37,7 @@ public class Window : MonoUI, ISelectable
     public static int windowMaxCnt;
     public static Window currentWindow;
 
-    public int openInt = 0;
+    private int openInt = 0;
 
 
     [Header("Window Data")]
@@ -208,7 +209,7 @@ public class Window : MonoUI, ISelectable
 
         if (!windowAlteration.isMaximum)
         {
-            Vector2 pos = windowAlteration.pos + new Vector2(20 * (openInt), -20 * (openInt));
+            Vector2 pos = windowAlteration.pos;
             rectTransform.localPosition = pos;
         }
         else
@@ -219,13 +220,11 @@ public class Window : MonoUI, ISelectable
     }
     public virtual void SizeDoTween()
     {
-        float minusX = windowAlteration.size.x / 10f;
-        float minusY = windowAlteration.size.y / 10f;
         float minDuration = 0.16f;
-        rectTransform.sizeDelta = new Vector2(windowAlteration.size.x - minusX, windowAlteration.size.y - minusY);
+        rectTransform.localScale = new Vector2(0.9f, 0.9f);
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Join(rectTransform.DOSizeDelta(windowAlteration.size, minDuration));
+        sequence.Join(rectTransform.DOScale(1, minDuration));
         sequence.AppendCallback(() => SetActive(true));
         DataManager.Inst.AddLastAccessDateData(file.id, TimeSystem.TimeCount());
 

@@ -182,7 +182,6 @@ public class WindowManager : MonoSingleton<WindowManager>
             {
                 Window fileExplore = GetWindowPrefab(windowType);
                 fileExplore.CreatedWindow(file);
-                SetWindowOpenInt(windowType, fileExplore);
                 windowDictionary[windowType].Add(fileExplore);
                 fileExplore.OnClosed += (s) => windowOrderList.Remove(fileExplore);
             }
@@ -194,33 +193,9 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         Window window = GetWindowPrefab(windowType);
         window.CreatedWindow(file);
-        SetWindowOpenInt(windowType, window);
         windowDictionary[windowType].Add(window);
         window.OnClosed += (s) => windowOrderList.Remove(window);
         return window;
-    }
-
-    public void SetWindowOpenInt(EWindowType type, Window window)
-    {
-        int num = 0;
-        bool isClear = true;
-        while (isClear)
-        {
-            isClear = false;
-            foreach (var temp in windowDictionary[type])
-            {
-                if (temp.openInt == num)
-                {
-                    isClear = true;
-                }
-            }
-            if (isClear)
-            {
-                num++;
-            }
-        }
-
-        window.openInt = num;
     }
 
     public Window OpenIconProperty(FileSO file)
