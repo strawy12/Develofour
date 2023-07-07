@@ -34,7 +34,7 @@ public class GuideSaveData
 [System.Serializable]
 public class ProfilerSaveData
 {
-    public EProfilerCategory category;
+    public string categoryID;
     public bool isShowCategory;
     public List<string> infoData;
 }
@@ -54,7 +54,7 @@ public class MailSaveData
 [System.Serializable]
 public class LastAccessDateData
 {
-    public int fileID;
+    public string fileID;
     public string date;
 }
 
@@ -89,6 +89,7 @@ public class SaveData
     public List<ReturnCallData> returnCallData;
     public List<LastAccessDateData> lastAccessDateData;
     public List<string> profilerGuideBtnSaveData;
+
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
     public bool isZooglePinHintNoteOpen;

@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using static Constant.ProfilerInfoKey;
+using static Constant.MonologKey;
 
 public class CCTVCutScene : CutScene
 {
@@ -34,8 +36,9 @@ public class CCTVCutScene : CutScene
 
     private void CutScene0_Start()
     {
-        MonologSystem.OnEndMonologEvent = CutScene1_Start;
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_CUTSCENE_00, 0, true); ;
+        string monologID = Constant.MonologKey.CCTV_CUTSCENE_00;
+        MonologSystem.AddOnEndMonologEvent(monologID,CutScene1_Start);
+        MonologSystem.OnStartMonolog?.Invoke(monologID, true); ;
     }
 
     private void CutScene1_Start()
@@ -51,10 +54,11 @@ public class CCTVCutScene : CutScene
         timerText.text = "[2023.10.20 01:13]";
         sprite.DOFade(1, 1);
         yield return new WaitForSeconds(1f);
-        MonologSystem.OnEndMonologEvent = CutScene2_Start;
-        MonologSystem.OnEndMonologEvent =
-            () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.CCTV, Constant.ProfilerInfoKey.CCTV_TIME });
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_CUTSCENE_01, 0, true);
+
+        string monologID = CCTV_CUTSCENE_01;
+        MonologSystem.AddOnEndMonologEvent(monologID, CutScene2_Start);
+        MonologSystem.AddOnEndMonologEvent(monologID, () => GetProfilerInfo(CCTV_TIME));
+        MonologSystem.OnStartMonolog?.Invoke(monologID, true);
     }
 
     private void CutScene2_Start()
@@ -70,8 +74,10 @@ public class CCTVCutScene : CutScene
         timerText.text = "[2023.10.20 01:20]";
         sprite.DOFade(1, 1);
         yield return new WaitForSeconds(1f);
-        MonologSystem.OnEndMonologEvent = CutScene3_Start;
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_CUTSCENE_02, 0, true);
+
+        string monologID = CCTV_CUTSCENE_02;
+        MonologSystem.AddOnEndMonologEvent(monologID, CutScene3_Start);
+        MonologSystem.OnStartMonolog?.Invoke(monologID, true);
     }
 
     private void CutScene3_Start()
@@ -87,10 +93,11 @@ public class CCTVCutScene : CutScene
         timerText.text = "[2023.10.20 01:23]";
         sprite.DOFade(1, 1);
         yield return new WaitForSeconds(1f);
-        MonologSystem.OnEndMonologEvent = CutScene4_Start;
-        MonologSystem.OnEndMonologEvent =
-    () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.CCTV, Constant.ProfilerInfoKey.CCTV_DETAIL }) ;
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_CUTSCENE_03, 0, true);
+        string monologID = Constant.MonologKey.CCTV_CUTSCENE_03;
+
+        MonologSystem.AddOnEndMonologEvent(monologID, CutScene4_Start);
+        MonologSystem.AddOnEndMonologEvent(monologID, () => GetProfilerInfo(CCTV_DETAIL));
+        MonologSystem.OnStartMonolog?.Invoke(monologID, true);
     }
 
     private void CutScene4_Start()
@@ -106,10 +113,11 @@ public class CCTVCutScene : CutScene
         timerText.text = "[2023.10.20 01:24]";
         sprite.DOFade(1, 1);
         yield return new WaitForSeconds(1f);
-        MonologSystem.OnEndMonologEvent = DelayStart;
-        MonologSystem.OnEndMonologEvent =
-    () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.CCTV, Constant.ProfilerInfoKey.CCTV_UYOUNGWHEREABOUTS });
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_CUTSCENE_04, 0, true);
+
+        string monologData = CCTV_CUTSCENE_04;
+        MonologSystem.AddOnEndMonologEvent(monologData, DelayStart);
+        MonologSystem.AddOnEndMonologEvent(monologData, () => GetProfilerInfo(CCTV_UYOUNGWHEREABOUTS));
+        MonologSystem.OnStartMonolog?.Invoke(monologData, true);
     }
 
     private void DelayStart()
@@ -131,5 +139,14 @@ public class CCTVCutScene : CutScene
         StopAllCoroutines();
         MonologSystem.OnStopMonolog?.Invoke();
         base.StopCutScene();
+    }
+
+    private void GetProfilerInfo(string infoID)
+    {
+        object[] ps = new object[2];
+        ps[0] = EProfilerCategory.CCTV;
+        ps[1] = infoID;
+
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, ps);
     }
 }

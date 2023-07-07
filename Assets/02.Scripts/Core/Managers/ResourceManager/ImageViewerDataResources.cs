@@ -7,16 +7,16 @@ using UnityEngine.AddressableAssets;
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
    
-    private Dictionary<int, ImageViewerDataSO> imageVierwerDictionary;
+    private Dictionary<string, ImageViewerDataSO> imageVierwerDictionary;
 
-    public ImageViewerDataSO GetImageViewerData(int fileId)
+    public ImageViewerDataSO GetImageViewerData(string fileId)
     {
         return imageVierwerDictionary[fileId];
     }
 
     private async void LoadImageViewerDataAssets(Action callBack)
     {
-        imageVierwerDictionary = new Dictionary<int, ImageViewerDataSO>();
+        imageVierwerDictionary = new Dictionary<string, ImageViewerDataSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("ImageViewerData");
         // ImageViewerData 이 Label을 들고있는 데이터들의 경로를 리스트로 묶어서 불러오는 거

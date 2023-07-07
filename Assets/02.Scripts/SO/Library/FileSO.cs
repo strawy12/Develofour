@@ -24,21 +24,29 @@ public struct WindowIconData
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
 public class FileSO : ScriptableObject
 {
-    public string id;
+    private string id;
+    public string ID
+    {
+        get => id;
+        set
+        {
+            if (!string.IsNullOrEmpty(id))
+                return;
+
+            id = value;
+        }
+    }
 
     public DirectorySO parent;
     public string fileName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
-    public Sprite iconSprite;
-    public WindowIconData propertyData;
-    
-    public List<string> tags;
     public bool isHide;
-    public bool isCantFind;
-    [Header("Debug")]
-    public string splitString;
 
-    public Color color = Color.black;
+    public Sprite iconSprite;
+    public Color iconColor = Color.black;
+
+    public WindowIconData propertyData;
+
 
     #region GetFileData
 
@@ -78,18 +86,6 @@ public class FileSO : ScriptableObject
     [ContextMenu("GetFileLocation")]
     public string DebugGetFileLocation()
     {
-        string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
-        List<FileSO> fileSOList = new List<FileSO>();
-        foreach (string guid in guids)
-        {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            if(AssetDatabase.LoadAssetAtPath<FileSO>(path).id == 46)
-            {
-                Debug.Log(AssetDatabase.LoadAssetAtPath<FileSO>(path).name);
-            }
-        }
-
-
         string location = "";
         if (parent == null)
         {
@@ -104,14 +100,6 @@ public class FileSO : ScriptableObject
         Debug.Log(location);
 
         return location;
-    }
-    [ContextMenu("AddTag")]
-    public void EditorTagAdd()
-    {
-        string[] strings = splitString.Split(',');
-
-        tags = new List<string>();
-        tags.AddRange(strings);
     }
 
 #endif

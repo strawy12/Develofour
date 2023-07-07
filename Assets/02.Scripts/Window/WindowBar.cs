@@ -97,7 +97,7 @@ public class WindowBar : MonoBehaviour, IPointerClickHandler,IBeginDragHandler, 
         {
             // FileSO
             iconImage.sprite = currentFile.iconSprite;
-            iconImage.color = currentFile.color;
+            iconImage.color = currentFile.iconColor;
         }
     }
 

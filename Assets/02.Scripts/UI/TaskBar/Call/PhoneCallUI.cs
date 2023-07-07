@@ -35,7 +35,7 @@ public class PhoneCallUI : MonoBehaviour
 
     private void DictionaryAdd()
     {
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             int idx = i;
             actionDictionary.Add(idx, new Action(() => KeyboardEventAdd(idx)));
@@ -53,14 +53,14 @@ public class PhoneCallUI : MonoBehaviour
 
     private void KeyboardEventAdd()
     {
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             int idx = i;
             string str = "Keypad" + idx.ToString();
 
-            InputManager.Inst.AddKeyInput((KeyCode)Enum.Parse(typeof(KeyCode), str), onKeyDown: actionDictionary[idx]) ;
+            InputManager.Inst.AddKeyInput((KeyCode)Enum.Parse(typeof(KeyCode), str), onKeyDown: actionDictionary[idx]);
         }
-        InputManager.Inst.AddKeyInput(KeyCode.Backspace, onKeyDown: EraseButton );
+        InputManager.Inst.AddKeyInput(KeyCode.Backspace, onKeyDown: EraseButton);
     }
 
     private void KeyboardEventAdd(int value)
@@ -110,7 +110,7 @@ public class PhoneCallUI : MonoBehaviour
 
     private void OnClickBtn(string data)
     {
-        if(currentNumber.Length > 12)
+        if (currentNumber.Length > 12)
         {
             return;
         }
@@ -157,21 +157,23 @@ public class PhoneCallUI : MonoBehaviour
 
     private void CallButton()
     {
-        if(string.IsNullOrEmpty(phoneNumberText.text))
+        if (string.IsNullOrEmpty(phoneNumberText.text))
         {
             return;
         }
 
         CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(phoneNumberText.text);
-        
+        string callProfileID;
         if (data == null)
         {
-            data = new CharacterInfoDataSO();
-            data.characterName = "";
-            data.characterType = ECharacterDataType.None;
-            data.phoneNum = phoneNumberText.text;
+            // 없는 번호의 대한 캐릭터 ID 입력
+            callProfileID = "MISSING";
         }
-        CallSystem.Inst.OnOutGoingCall(data);
+        else
+        {
+            callProfileID = data.ID;
+        }
+        CallSystem.OnOutGoingCall?.Invoke(callProfileID);
 
         Close();
     }

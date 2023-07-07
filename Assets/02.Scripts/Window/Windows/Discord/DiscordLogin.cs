@@ -77,7 +77,7 @@ public class DiscordLogin : MonoBehaviour
 
     public void ShowIDAccountPanel()
     {
-        if(DataManager.Inst.IsMonologShow(212))
+        if(DataManager.Inst.IsMonologShow("T_CA_P_R_3"))
         {
             IDAccountPanel.gameObject.SetActive(true);
         }
@@ -85,7 +85,7 @@ public class DiscordLogin : MonoBehaviour
 
     public void ShowPWAccountPanel()
     {
-        if(DataManager.Inst.IsProfilerInfoData(66))
+        if(DataManager.Inst.IsProfilerInfoData("T_M_63"))
         {
             pwAccountPanel.gameObject.SetActive(true);
         }

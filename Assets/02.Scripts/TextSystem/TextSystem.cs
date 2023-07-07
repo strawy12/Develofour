@@ -88,8 +88,8 @@ public abstract class TextSystem : MonoBehaviour
                 {
                     string[] cmdValueArray = cmdValue.Split(',');
                     CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(cmdValueArray[0]);
-                    int monologData = int.Parse(cmdValueArray[1]);
-                    CallSystem.Inst.OnAnswerCall(data.characterType, monologData);
+                    string monologID = cmdValueArray[1];
+                    CallSystem.OnInComingCall(data.ID, monologID);
                 }
                 break;
 
@@ -107,9 +107,7 @@ public abstract class TextSystem : MonoBehaviour
                 {
                     //키 값, 폴더 키 값
                     string[] cmdValueArray = cmdValue.Split(',');
-
-                    FileSO file = FileManager.Inst.GetAdditionalFile(int.Parse(cmdValueArray[0]));
-                    FileManager.Inst.AddFile(file, int.Parse(cmdValueArray[1]));
+                    FileManager.Inst.AddFile(cmdValueArray[0], cmdValueArray[1]);
                 }
                 break;
         }

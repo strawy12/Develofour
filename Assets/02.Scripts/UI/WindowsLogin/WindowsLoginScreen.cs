@@ -198,8 +198,9 @@ public class WindowsLoginScreen : MonoBehaviour
     private void StartMonolog()
     {
         //Sound.OnPlaySound(Sound.EAudioType.USBConnect);
-        MonologSystem.OnEndMonologEvent = USBNoticeFunc;
-        MonologSystem.OnStartMonolog(Constant.MonologKey.WINDOWS_LOGIN_COMPLETE, monologDelay, true);
+        string monologID = Constant.MonologKey.WINDOWS_LOGIN_COMPLETE;
+        MonologSystem.AddOnEndMonologEvent(monologID, USBNoticeFunc);
+        MonologSystem.OnStartMonolog(monologID, true);
     }
 
     private void USBNoticeFunc()

@@ -29,7 +29,7 @@ public class AutoInput : MonoBehaviour
         {
             AutoAnswerData data = answerDatas[i];
 
-            if(Define.MonologLockDecisionFlag(data.infoData))
+            if(Define.NeedInfoFlag(data.needInfoData))
             {
                 autoInputPanelList[i].Setting(inputField, answerDatas[i].answer);
                 isCanShowPanel = true;

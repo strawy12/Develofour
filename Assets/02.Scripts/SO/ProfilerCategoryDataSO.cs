@@ -14,7 +14,17 @@ public enum EProfilerCategoryType
 public class ProfilerCategoryDataSO : ScriptableObject
 {
     [Header("Category")]
-    public EProfilerCategory category;
+    private string id;
+    public string ID
+    {
+        get => id;
+        set
+        {
+            if (!string.IsNullOrEmpty(value))
+                return;
+            id= value;
+        }
+    }
     public EProfilerCategoryType categoryType;
     public Sprite categorySprite;
     public string categoryName;
@@ -23,13 +33,13 @@ public class ProfilerCategoryDataSO : ScriptableObject
     public List<ProfilerInfoTextDataSO> infoTextList;
     public ProfilerInfoTextDataSO defaultInfoText;
 
-    public ProfilerInfoTextDataSO GetSaveData(int id)
+    public ProfilerInfoTextDataSO GetSaveData(string id)
     {
         ProfilerInfoTextDataSO data = null;
 
         foreach(ProfilerInfoTextDataSO saveData in infoTextList)
         {
-            if (saveData.id == id)
+            if (saveData.ID == id)
             {
                 data = saveData;
             }

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Window/Notepad/Data")]
 public class NotepadDataSO : ScriptableObject
 {
-    public int fileId;
+    public string fileId;
     public bool readOnly = true;
 
     public NotepadBody notepadBody;

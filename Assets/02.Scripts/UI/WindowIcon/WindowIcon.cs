@@ -100,15 +100,15 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         iconImage.sprite = newFileData.iconSprite;
 
-        iconImage.color = newFileData.color;
+        iconImage.color = newFileData.iconColor;
 
-        if (fileData.id == 6 ) //usb
+        if (fileData.ID == Constant.FileID.USB) //usb
         {
             EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);
             EventManager.StartListening(ETutorialEvent.USBTutorial, YellowUI);
         }
 
-        if (fileData.id == 5 ) //사건보고서
+        if (fileData.ID == Constant.FileID.INCIDENT_REPORT) //사건보고서
         {
             EventManager.StopListening(ETutorialEvent.ReportTutorial, YellowUI);
             EventManager.StartListening(ETutorialEvent.ReportTutorial, YellowUI);
@@ -186,7 +186,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-        PinLockDataSO windowLock = ResourceManager.Inst.GetPinLockData(fileData.id);
+        PinLockDataSO windowLock = ResourceManager.Inst.GetPinLockData(fileData.ID);
         bool isLock = false;
 
         if (windowLock != null)
@@ -202,7 +202,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         if (fileData is DirectorySO && isBackground == false)
         {
-            if (isLock && DataManager.Inst.IsPinLock(fileData.id))
+            if (isLock && DataManager.Inst.IsPinLock(fileData.ID))
             {
                 targetWindow = WindowManager.Inst.WindowOpen(EWindowType.WindowPinLock, fileData);
             }

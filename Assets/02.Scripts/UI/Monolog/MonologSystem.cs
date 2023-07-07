@@ -94,7 +94,7 @@ public class MonologSystem : TextSystem
             Action onEndEvent = onEndMonologDictionary[currentTextData.ID];
             onEndEvent?.Invoke();
             onEndMonologDictionary.Remove(currentTextData.ID);
-            DataManager.Inst.SetMonologShow(currentTextData.ID, true);
+            DataManager.Inst.SetMonologShow(currentTextData.ID);
             currentTextData = null;
         }
     }

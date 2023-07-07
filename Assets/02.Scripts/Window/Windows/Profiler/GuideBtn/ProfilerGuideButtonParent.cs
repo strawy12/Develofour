@@ -19,7 +19,7 @@ public class ProfilerGuideButtonParent : MonoBehaviour
     public void Init()
     {
         guideButtonList = new List<ProfilerGuideButton>();
-        guideDataList = ResourceManager.Inst.ProfilerGuideDataSOResourcesList.Select(x => x.Value).ToList();
+        guideDataList = ResourceManager.Inst.ProfilerGuideDataList.Select(x => x.Value).ToList();
         EventManager.StartListening(EProfilerEvent.AddGuideButton, AddGuideButton);
         SaveSetting();
     }

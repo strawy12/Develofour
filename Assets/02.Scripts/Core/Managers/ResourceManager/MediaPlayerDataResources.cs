@@ -7,9 +7,9 @@ using UnityEngine.AddressableAssets;
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     [SerializeField]
-    private Dictionary<int, MediaPlayerDataSO> mediaPlayerDataList;
+    private Dictionary<string, MediaPlayerDataSO> mediaPlayerDataList;
 
-    public MediaPlayerDataSO GetMediaPlayerData(int key)
+    public MediaPlayerDataSO GetMediaPlayerData(string key)
     {
         if(mediaPlayerDataList.ContainsKey(key))
             return mediaPlayerDataList[key];
@@ -18,7 +18,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
     private async void LoadMediaPlayerDataAssets(Action callBack)
     {
-        mediaPlayerDataList = new Dictionary<int, MediaPlayerDataSO>();
+        mediaPlayerDataList = new Dictionary<string, MediaPlayerDataSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("MediaPlayerData", typeof(MediaPlayerDataSO));
         await handle.Task;

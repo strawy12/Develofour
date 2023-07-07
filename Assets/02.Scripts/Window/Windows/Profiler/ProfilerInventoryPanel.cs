@@ -140,9 +140,9 @@ public class ProfilerInventoryPanel : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-    public void AddProfileCategoryPrefab(EProfilerCategory category)
+    public void AddProfileCategoryPrefab(string categoryID)
     {
-        if(category == EProfilerCategory.InvisibleInformation)
+        if(!categoryID.Contains("_V_"))
         {
             return;
         }
@@ -151,9 +151,9 @@ public class ProfilerInventoryPanel : MonoBehaviour
         {
             foreach (var data in characterCategoryList)
             {
-                if (data.category == category)
+                if (data.ID == categoryID)
                 {
-                    var prefab = categoryList.Find(x => x.CurrentData.category == category);
+                    var prefab = categoryList.Find(x => x.CurrentData.ID == categoryID);
                     prefab.Show(data);
                 }
             }
@@ -162,9 +162,9 @@ public class ProfilerInventoryPanel : MonoBehaviour
         {
             foreach (var data in sceneCategoryList)
             {
-                if (data.category == category)
+                if (data.ID == categoryID)
                 {
-                    var prefab = categoryList.Find(x => x.CurrentData.category == category);
+                    var prefab = categoryList.Find(x => x.CurrentData.ID == categoryID);
                     prefab.Show(data);
                 }
             }

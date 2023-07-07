@@ -136,7 +136,7 @@ public static class Define
         return FileManager.Inst.IsExistFile(Constant.FileID.PROFILER);
     }
 
-    public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<NeedInfoData> needInfoList, List<int> infoIDList)
+    public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<NeedInfoData> needInfoList, List<string> infoIDList)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {

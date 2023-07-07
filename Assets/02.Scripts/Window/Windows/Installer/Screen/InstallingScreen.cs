@@ -28,7 +28,6 @@ public class InstallingScreen : InstallerScreen
     private void EndInstall()
     {
         installer.EndInstall();
-        EventManager.TriggerEvent(ECallEvent.CallInit);
         //EventManager.StopAllListening(ETutorialEvent.TutorialStart);
         NextBtn.interactable = true;
     }

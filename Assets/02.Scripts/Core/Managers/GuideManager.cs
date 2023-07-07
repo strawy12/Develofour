@@ -74,7 +74,7 @@ public partial class GuideSystem : MonoBehaviour
         }
         FileSO file = (FileSO)ps[0];
 
-        if (file.id == Constant.FileID.ZOOGLEPIN)
+        if (file.ID == Constant.FileID.ZOOGLEPIN)
         {
             EventManager.TriggerEvent(EProfilerEvent.AddGuideButton, new object[1] { Constant.ZOOGLEPASSWORDGUIDE });
         }

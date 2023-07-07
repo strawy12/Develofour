@@ -9,7 +9,7 @@ public class ClickPhoneNumberTrigger : ClickInfoTrigger
     {
         base.OnPointerClick(eventData);
 
-        string InformaitonText = ResourceManager.Inst.GetProfilerInfoData(infoDataIDList[0]).infomationText;
+        string InformaitonText = ResourceManager.Inst.GetProfilerInfoData(triggerData.infoDataIDList[0]).infomationText;
 
         EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { InformaitonText });
     }

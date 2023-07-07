@@ -4,48 +4,54 @@ using UnityEngine;
 
 public partial class DataManager : MonoSingleton<DataManager>
 {
-    private void ProfilerSaveData()
+    public ProfilerSaveData GetProfilerSaveData(string categoryID)
     {
-        saveData.profilerSaveData = new List<ProfilerSaveData>();
-
-        for (int i = ((int)EProfilerCategory.None) + 1; i < (int)EProfilerCategory.Count; i++)
+        if (saveData.profilerSaveData == null)
         {
-            saveData.profilerSaveData.Add(new ProfilerSaveData() { category = (EProfilerCategory)i, isShowCategory = false, infoData = new List<int>() }); ;
+            saveData.profilerSaveData = new List<ProfilerSaveData>();
         }
-    }
+        ProfilerSaveData data = saveData.profilerSaveData.Find(x => x.categoryID == categoryID);
 
-    public ProfilerSaveData GetProfilerSaveData(EProfilerCategory category)
-    {
-        ProfilerSaveData data = saveData.profilerSaveData.Find(x => x.category == category);
+        if(data == null) 
+        {
+            data.categoryID = categoryID;
+            data.isShowCategory = false;
+            data.infoData = new List<string>();
+            saveData.profilerSaveData.Add(data);
+        }
+
         return data;
     }
 
-    public void AddProfilerSaveData(EProfilerCategory category, int id)
+    public void SaveProfilerInfoData(string categoryID, string infoID)
     {
-        if (GetProfilerSaveData(category).infoData.Contains(id))
-        {
-            return;
-        }
-        saveData.profilerSaveData.Find(x => x.category == category).infoData.Add(id);
+        var infoList = GetProfilerSaveData(categoryID).infoData;
+        if (infoList.Contains(infoID))
+            return; 
+
+        GetProfilerSaveData(categoryID).infoData.Add(infoID);
     }
 
-    public void SetCategoryData(EProfilerCategory category, bool value)
+    public void SetCategoryShow(string categoryID, bool value)
     {
-        saveData.profilerSaveData.Find(x => x.category == category).isShowCategory = value;
+        GetProfilerSaveData(categoryID).isShowCategory = value;
     }
-    public bool IsCategoryShow(EProfilerCategory category)
+    public bool IsCategoryShow(string categoryID)
     {
-        return saveData.profilerSaveData.Find(x => x.category == category).isShowCategory;
+        return GetProfilerSaveData(categoryID).isShowCategory;
     }
-    public bool IsProfilerInfoData(string id)
+    public bool IsProfilerInfoData(string infoID)
     {
-        foreach(var categoryData in saveData.profilerSaveData)
+        if (saveData.profilerSaveData == null) return false;
+
+        foreach (var categoryData in saveData.profilerSaveData)
         {
-            if(categoryData.infoData.Contains(id))
+            if (categoryData.infoData.Contains(infoID))
             {
                 return true;
             }
         }
         return false;
     }
+
 }

@@ -19,7 +19,7 @@ public class Notepad : Window
     {
         base.Init();
  
-        currentData = ResourceManager.Inst.GetNotepadData(file.id);
+        currentData = ResourceManager.Inst.GetNotepadData(file.ID);
 
         bool useDataBody = currentData.notepadBody != null;
         if (useDataBody)

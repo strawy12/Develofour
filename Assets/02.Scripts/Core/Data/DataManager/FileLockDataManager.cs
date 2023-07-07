@@ -12,7 +12,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
         for(int i = 0; i < fileList.Count; i++)
         {
-            PinLockDataSO lockData = ResourceManager.Inst.GetPinLockData(fileList[i].id);
+            PinLockDataSO lockData = ResourceManager.Inst.GetPinLockData(fileList[i].ID);
 
             if(lockData == null) 
             {

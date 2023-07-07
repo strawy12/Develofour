@@ -89,13 +89,13 @@ public class ProfilerInfoPanel : MonoBehaviour
     }
 
 
-    public void ChangeValue(EProfilerCategory category, int id)
+    public void ChangeValue(string category, int id)
     {
         if(currentData == null)
         {
             return;
         }
-        if (category != currentData.category)
+        if (category != currentData.id)
         {
             return;
         }

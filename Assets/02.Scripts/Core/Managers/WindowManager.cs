@@ -95,7 +95,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     // 다른 키값 하나가 더 있으야함
     public Window GetWindow(EWindowType windowType, string fileId)
     {
-        return windowDictionary[windowType].Find(x => x.File.id == fileId);
+        return windowDictionary[windowType].Find(x => x.File.ID == fileId);
     }
 
     // 현재 윈도우 딕셔너리의 있는 windowType의 개수를 반환
@@ -126,11 +126,11 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
 
         Window targetWindow = null;
-        targetWindow = GetWindow(file.windowType, file.id);
+        targetWindow = GetWindow(file.windowType, file.ID);
 
         if (targetWindow == null)
         {
-            PinLockDataSO windowLock = ResourceManager.Inst.GetPinLockData(file.id);
+            PinLockDataSO windowLock = ResourceManager.Inst.GetPinLockData(file.ID);
             bool isLock = false;
 
             if (windowLock != null)
@@ -139,7 +139,7 @@ public class WindowManager : MonoSingleton<WindowManager>
             }
 
             // lock이 설정 되어있는 fileSO가 이미 락이 풀려있는지 체크
-            if (isLock && DataManager.Inst.IsPinLock(file.id))
+            if (isLock && DataManager.Inst.IsPinLock(file.ID))
             {
                 targetWindow = CreateWindow(EWindowType.WindowPinLock, file);
             }
@@ -186,7 +186,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         FileSO propertyFile = FileManager.Inst.GetDefaultFile(EWindowType.IconProperty);
 
-        Window targetWindow = GetWindow(propertyFile.windowType, file.id);
+        Window targetWindow = GetWindow(propertyFile.windowType, file.ID);
 
         if (targetWindow == null)
         {
@@ -295,7 +295,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         FileSO popupFile = FileManager.Inst.GetDefaultFile(EWindowType.Popup);
 
-        Window targetWindow = GetWindow(popupFile.windowType, file.id);
+        Window targetWindow = GetWindow(popupFile.windowType, file.ID);
 
         if (targetWindow == null)
         {

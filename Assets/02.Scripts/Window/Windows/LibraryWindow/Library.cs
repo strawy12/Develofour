@@ -131,7 +131,7 @@ public class Library : Window
         {
             rectTransform.sizeDelta = windowAlteration.size;
             SetActive(true);
-            DataManager.Inst.AddLastAccessDateData(file.id, TimeSystem.TimeCount());
+            DataManager.Inst.AddLastAccessDateData(file.ID, TimeSystem.TimeCount());
         }
         else
         {
@@ -231,17 +231,17 @@ public class Library : Window
         int idx = DataManager.Inst.GetProfilerTutorialIdx();
         if (idx != 0 && idx != 2) return;
 
-        if (currentDirectory.id == Constant.FileID.MYPC)
+        if (currentDirectory.ID == Constant.FileID.MYPC)
         {
             EventManager.TriggerEvent(ETutorialEvent.USBTutorial);
         }
-        else if (currentDirectory.id == Constant.FileID.USB)
+        else if (currentDirectory.ID == Constant.FileID.USB)
         {
             EventManager.TriggerEvent(ETutorialEvent.ReportTutorial);
         }
         else
         {
-            TopFileButton button = fileAddressPanel.TopFileButtons.Find((x) => x.CurrentDirectory.id == Constant.FileID.MYPC);
+            TopFileButton button = fileAddressPanel.TopFileButtons.Find((x) => x.CurrentDirectory.ID == Constant.FileID.MYPC);
 
             //GuideUISystem.EndAllGuide?.Invoke();
             GuideUISystem.OnGuide(button.tutorialSelectImage.transform as RectTransform);
@@ -260,9 +260,9 @@ public class Library : Window
             icon.SetFileData(file); // icon마다의 startTrigger를 이 함수에 넣어야함
             if (file.windowType == EWindowType.Directory)
             {
-                if (DataManager.Inst.IsPinLock(file.id))
+                if (DataManager.Inst.IsPinLock(file.ID))
                 {
-                    icon.ChangeIcon(lockLibrary, file.color);
+                    icon.ChangeIcon(lockLibrary, file.iconColor);
                 }
             }
         }

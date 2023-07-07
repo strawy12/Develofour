@@ -5,6 +5,18 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Window/BackgroundBGM")]
 public class BGMWindowSO : ScriptableObject
 {
-    public int id;
+    [SerializeField]
+    private string id;
     public Sound.EAudioType audioType;
+
+    public string ID
+    {
+        get => id;
+        set
+        {
+            if (!string.IsNullOrEmpty(value))
+                return;
+            id = value;
+        }
+    }
 }

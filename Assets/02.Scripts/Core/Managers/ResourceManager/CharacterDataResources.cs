@@ -8,10 +8,6 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     private Dictionary<string, CharacterInfoDataSO> characterDataSOList;
 
-    public CharacterInfoDataSO GetCharacterDataSO(ECharacterDataType characterType)
-    {
-        return characterDataSOList.Values.FirstOrDefault(x=>x.characterType == characterType);
-    }
     public CharacterInfoDataSO GetCharacterByPhoneNumber(string phoneNumber)
     {
         return characterDataSOList.Values.FirstOrDefault((x) => x.phoneNum == phoneNumber);
@@ -40,7 +36,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<CharacterInfoDataSO>(handle.Result[i]).Task;
             await task;
 
-            characterDataSOList.Add(task.Result.id, task.Result);
+            characterDataSOList.Add(task.Result.ID, task.Result);
         }
 
         Addressables.Release(handle);

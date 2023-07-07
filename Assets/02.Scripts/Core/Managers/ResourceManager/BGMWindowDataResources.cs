@@ -7,16 +7,16 @@ using UnityEngine.AddressableAssets;
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     [SerializeField]
-    private Dictionary<int, BGMWindowSO> backgroundBGMWindowDataResourcesList;
+    private Dictionary<string, BGMWindowSO> bgmWindowDataList;
 
-    public BGMWindowSO GetBGMWindowDataResources(int key)
+    public BGMWindowSO GetBGMWindowDataResources(string key)
     {
-        return backgroundBGMWindowDataResourcesList[key];
+        return bgmWindowDataList[key];
     }
 
     private async void LoadBackgroundBGMWindowDataResourcesAssets(Action callBack)
     {
-        backgroundBGMWindowDataResourcesList = new Dictionary<int, BGMWindowSO>();
+        bgmWindowDataList = new Dictionary<string, BGMWindowSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("BGMWindowData", typeof(BGMWindowSO));
         await handle.Task;
@@ -26,7 +26,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<BGMWindowSO>(handle.Result[i]).Task;
             await task;
 
-            backgroundBGMWindowDataResourcesList.Add(task.Result.id, task.Result);
+            bgmWindowDataList.Add(task.Result.ID, task.Result);
         }
 
         Addressables.Release(handle);

@@ -13,6 +13,7 @@ public class CallSystem : MonoBehaviour
     /// string: CallCharacterID
     /// </summary>
     public static Action<string> OnOutGoingCall { get; private set; }
+    public static Action<string, string> OnInComingCall { get; private set; }
 
     [SerializeField]
     private CallSystemUI callSystemUI;
@@ -36,11 +37,13 @@ public class CallSystem : MonoBehaviour
         EventManager.StartListening(ECallEvent.RecivivedCall, StartCallMonolog);
 
         OnOutGoingCall += StartOutGoingCall;
+        OnInComingCall += StartInComingCall;
+
+        StartCoroutine(CallDataCheckTimer());
     }
 
     private IEnumerator CallDataCheckTimer()
     {
-        
         WaitForSeconds waitTime = new WaitForSeconds(Constant.INCOMMING_CHECK_DELAY);
         while(true)
         {

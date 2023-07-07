@@ -7,9 +7,9 @@ using UnityEngine.AddressableAssets;
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     [SerializeField]
-    private Dictionary<int, NotepadDataSO> notepadDataList;
+    private Dictionary<string, NotepadDataSO> notepadDataList;
 
-    public NotepadDataSO GetNotepadData(int key)
+    public NotepadDataSO GetNotepadData(string key)
     {
         if(notepadDataList.ContainsKey(key))
             return notepadDataList[key];
@@ -18,7 +18,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
     private async void LoadNotepadDataAssets(Action callBack)
     {
-        notepadDataList = new Dictionary<int, NotepadDataSO>();
+        notepadDataList = new Dictionary<string, NotepadDataSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("NotepadData", typeof(NotepadDataSO));
         await handle.Task;

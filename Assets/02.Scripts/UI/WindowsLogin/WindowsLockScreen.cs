@@ -111,9 +111,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private void OpenLoginScreen()
     {
         loginScreen.SetActive(true);
-         
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.WINDOWS_LOGIN_SCREEN_OPEN, 1.5f, true);
-
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.WINDOWS_LOGIN_SCREEN_OPEN, true);
         gameObject.SetActive(false);
     }
 }

@@ -44,8 +44,9 @@ public class PetCamCutScene : CutScene
 
     private void QurrelMonologStart()
     {
-        MonologSystem.OnEndMonologEvent = ByTheCollarImageFadeIn;
-        StartMonolog(Constant.MonologKey.PETCAM_CUTSCENE_1);
+        string monologID = Constant.MonologKey.PETCAM_CUTSCENE_1;
+        MonologSystem.AddOnEndMonologEvent(monologID, ByTheCollarImageFadeIn);
+        StartMonolog(monologID);
     }
 
     private void ByTheCollarImageFadeIn()
@@ -57,9 +58,10 @@ public class PetCamCutScene : CutScene
 
     private void ByTheCollarMonologStart()
     {
+        string monologID = Constant.MonologKey.PETCAM_CUTSCENE_2;
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetCam, 41 });
-        MonologSystem.OnEndMonologEvent = PetKickImageFadeIn;
-        StartMonolog(Constant.MonologKey.PETCAM_CUTSCENE_2);
+        MonologSystem.AddOnEndMonologEvent(monologID, PetKickImageFadeIn);
+        StartMonolog(monologID);
     }
 
     private void PetKickImageFadeIn()
@@ -82,8 +84,9 @@ public class PetCamCutScene : CutScene
 
     private void PetKickMonologStart()
     {
-        MonologSystem.OnEndMonologEvent = FallenPetImageFadeIn;
-        StartMonolog(Constant.MonologKey.PETCAM_CUTSCENE_3);
+        string monologID = Constant.MonologKey.PETCAM_CUTSCENE_3;
+        MonologSystem.AddOnEndMonologEvent(monologID, FallenPetImageFadeIn);
+        StartMonolog(monologID);
     }
 
     private void FallenPetImageFadeIn()
@@ -97,8 +100,9 @@ public class PetCamCutScene : CutScene
 
     private void FallenPetMonologStart()
     {
-        MonologSystem.OnEndMonologEvent = () => StartCoroutine(ExitSoundCoroutine());
-        StartMonolog(Constant.MonologKey.PETCAM_CUTSCENE_4);
+        string monologID = Constant.MonologKey.PETCAM_CUTSCENE_4;
+        MonologSystem.AddOnEndMonologEvent(monologID, () => StartCoroutine(ExitSoundCoroutine()));
+        StartMonolog(monologID);
     }
 
     private IEnumerator ExitSoundCoroutine()

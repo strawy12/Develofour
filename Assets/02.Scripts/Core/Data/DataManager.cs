@@ -45,10 +45,10 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.returnCallData = new List<ReturnCallData>();
         saveData.lastAccessDateData = new List<LastAccessDateData>();
         saveData.profilerGuideBtnSaveData = new List<string>();
+        saveData.monologData = new List<MonologSaveData>();
+        saveData.profilerSaveData = new List<ProfilerSaveData>();
         CreateLoginData();
-        ProfilerSaveData();
         CreateGuideSaveData();
-        CreateMonologData();
         CreatePinLockData();
         CreateNoticeDataSave();
 

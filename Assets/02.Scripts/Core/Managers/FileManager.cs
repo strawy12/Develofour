@@ -55,7 +55,7 @@ public class FileManager : MonoSingleton<FileManager>
         {
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
-                string directoryID = DataManager.Inst.GetAdditionFileData(fileData.id).directoryID;
+                string directoryID = DataManager.Inst.GetAdditionFileData(fileData.ID).directoryID;
                 AddFile(fileData, directoryID);
             }
         }
@@ -73,7 +73,7 @@ public class FileManager : MonoSingleton<FileManager>
 
     public FileSO GetAdditionalFile(string key)
     {
-        FileSO file = additionFileList.Find((x) => x.id == key);
+        FileSO file = additionFileList.Find((x) => x.ID == key);
         return file;
     }
 
@@ -85,7 +85,7 @@ public class FileManager : MonoSingleton<FileManager>
     {
         List<FileSO> fileList = GetALLFileList();
         // 이분탐색 만들 때 Define에다 만들든 함수를 따로 빼서 작업해야해
-        DirectorySO directory = fileList.Find(x=>x.id == directoryID) as DirectorySO;
+        DirectorySO directory = fileList.Find(x=>x.ID == directoryID) as DirectorySO;
 
         if (!directory.children.Contains(file))
         {
@@ -129,7 +129,7 @@ public class FileManager : MonoSingleton<FileManager>
                 {
                     continue;
                 }
-                if(DataManager.Inst.IsPinLock(file.id))
+                if(DataManager.Inst.IsPinLock(file.ID))
                 {
                     continue;
                 }
@@ -196,7 +196,7 @@ public class FileManager : MonoSingleton<FileManager>
     {
         List<FileSO> allFileList = GetALLFileList();
 
-        return allFileList.Find(x => x.id == id) == true;
+        return allFileList.Find(x => x.ID == id) == true;
     }
     public List<FileSO> SearchFile(string text, DirectorySO currentDirectory = null)
     {

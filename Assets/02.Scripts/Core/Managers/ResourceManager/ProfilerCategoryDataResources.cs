@@ -6,19 +6,19 @@ using UnityEngine.AddressableAssets;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-    private Dictionary<EProfilerCategory, ProfilerCategoryDataSO> profilerCategoryDataResourcesList;
+    private Dictionary<string, ProfilerCategoryDataSO> profilerCategoryDataResourcesList;
 
-    public ProfilerCategoryDataSO GetProfileCategory(EProfilerCategory key)
+    public ProfilerCategoryDataSO GetProfileCategory(string key)
     {
         return profilerCategoryDataResourcesList[key];
     }
-    public Dictionary<EProfilerCategory, ProfilerCategoryDataSO> GetProfilerCategoryList()
+    public Dictionary<string, ProfilerCategoryDataSO> GetProfilerCategoryList()
     {
         return profilerCategoryDataResourcesList;
     }
     private async void LoadProfilerCategoryResourcesAssets(Action callBack)
     {
-        profilerCategoryDataResourcesList = new Dictionary<EProfilerCategory, ProfilerCategoryDataSO>();
+        profilerCategoryDataResourcesList = new Dictionary<string, ProfilerCategoryDataSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("ProfilerCategoryData", typeof(ProfilerCategoryDataSO));
         await handle.Task;
@@ -27,7 +27,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<ProfilerCategoryDataSO>(handle.Result[i]).Task;
             await task;
 
-            profilerCategoryDataResourcesList.Add(task.Result.category, task.Result);
+            profilerCategoryDataResourcesList.Add(task.Result.id, task.Result);
         }
 
         Addressables.Release(handle);

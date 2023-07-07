@@ -41,6 +41,7 @@ public static partial class Constant
         public const string ZOOGLEPIN = "F_N_13";
         public const string ZOOGLEPASSWORD = "F_N_12";
         public const string CALLRECORDING = "F_DR_25";
+        public const string INCIDENT_REPORT = "F_IV_1";
     }
 
 
@@ -116,5 +117,10 @@ public static partial class Constant
         public const int HARMONY_YUZIN = -7;
         public const int HARMONY_JUYOUNG = -8;
         public const int HARMONY_UNKNOWN = -9;
+    }
+
+    public static class CharacterKey
+    {
+        public const string ASSISTANT = "CD_AS";
     }
 }

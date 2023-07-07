@@ -13,7 +13,7 @@ public class MediaPlayerDataSO : ScriptableObject
      
     [TextArea(10, 20)]
     public string textData;
-    public int fileId;
+    public string fileId;
 
     public float endlineDelay;
     public List<int> infoID;

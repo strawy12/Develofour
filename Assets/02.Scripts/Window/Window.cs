@@ -220,7 +220,7 @@ public class Window : MonoUI, ISelectable
         Sequence sequence = DOTween.Sequence();
         sequence.Join(rectTransform.DOScale(1, minDuration));
         sequence.AppendCallback(() => SetActive(true));
-        DataManager.Inst.AddLastAccessDateData(file.id, TimeSystem.TimeCount());
+        DataManager.Inst.AddLastAccessDateData(file.ID, TimeSystem.TimeCount());
 
 
     }

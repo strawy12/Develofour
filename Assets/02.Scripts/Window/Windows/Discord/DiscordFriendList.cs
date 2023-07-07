@@ -72,7 +72,7 @@ public class DiscordFriendList : MonoBehaviour
         if (data.overlayID < 0) //constant에 있는 음수
         {
             friendLine.overlayTrigger = friendLine.GetComponent<ProfileOverlayOpenTrigger>();
-            friendLine.overlayTrigger.fileID = data.overlayID;
+            //friendLine.overlayTrigger.fileID = data.overlayID;
             friendLine.OnLeftClickPanel += OpenOverlay;
         }
 
@@ -83,7 +83,7 @@ public class DiscordFriendList : MonoBehaviour
 
     public void OpenOverlay(DiscordFriendLine line)
     {
-        currentFriendLine.overlayTrigger.OpenByIntList(line.myData.overlayID, Discord.OnGetInfoID?.Invoke(line.myData));
+        //currentFriendLine.overlayTrigger.OpenByIntList(line.myData.overlayID, Discord.OnGetInfoID?.Invoke(line.myData));
     }
 
     public void LeftClickLine(DiscordFriendLine line)

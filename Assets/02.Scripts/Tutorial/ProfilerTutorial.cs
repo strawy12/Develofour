@@ -19,12 +19,12 @@ public class ProfilerTutorial : MonoBehaviour
     public static EGuideObject guideObjectName;
 
     [SerializeField]
-    private int targetIncidentID = Constant.ProfilerInfoKey.INCIDENTREPORT_TITLE;
+    private string targetIncidentID = Constant.ProfilerInfoKey.INCIDENTREPORT_TITLE;
 
     [SerializeField]
-    private int targetCharID1 = Constant.ProfilerInfoKey.PARKJUYOUNG_NAME;
+    private string targetCharID1 = Constant.ProfilerInfoKey.PARKJUYOUNG_NAME;
     [SerializeField]
-    private int targetCharID2 = Constant.ProfilerInfoKey.KIMYUJIN_NAME;
+    private string targetCharID2 = Constant.ProfilerInfoKey.KIMYUJIN_NAME;
 
     private Library library;
 
@@ -88,7 +88,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     public void GetCharacterInfo(object[] ps)
     {
-        int id = (int)ps[0];
+        string id = (string)ps[0];
         if (id == targetCharID1 || id == targetCharID2)
         {
             EventManager.StopListening(EProfilerEvent.FindInfoText, GetCharacterInfo);
@@ -104,7 +104,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     public void GetIncidentInfo(object[] ps)
     {
-        int id = (int)ps[0];
+        string id = (string)ps[0];
         if (id == targetIncidentID)
         {
             EventManager.StopListening(EProfilerEvent.FindInfoText, GetIncidentInfo);
@@ -164,7 +164,7 @@ public class ProfilerTutorial : MonoBehaviour
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.AssistantProfile, 115 });
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PoliceProfile, 116 });
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
-        CallSystem.Inst.OnAnswerCall(ECharacterDataType.Assistant, Constant.MonologKey.END_PROFILER_TUTORIAL);
+        CallSystem.OnInComingCall(Constant.CharacterKey.ASSISTANT, Constant.MonologKey.END_PROFILER_TUTORIAL);
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
         EventManager.TriggerEvent(ETutorialEvent.EndTutorial);
     }

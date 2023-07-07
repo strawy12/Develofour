@@ -14,7 +14,7 @@ public enum EImageExtensionType
 [CreateAssetMenu(menuName = "SO/Window/ImageViewer/Data")]  
 public class ImageViewerDataSO : ScriptableObject
 {
-    public int fileId;
+    public string fileId;
     public string imageName;
     public ImageViewerBody imageBody;
     public Sprite sprite;

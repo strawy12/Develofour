@@ -35,7 +35,7 @@ public class IconPropertyBody : MonoBehaviour
         else
         {
             iconImage.sprite = file.iconSprite;
-            iconImage.color = file.color;
+            iconImage.color = file.iconColor;
         }
 
         iconName.text = file.name;
@@ -46,7 +46,7 @@ public class IconPropertyBody : MonoBehaviour
         iconByte.text = file.GetFileBytes().ToString() + "KB";
         iconMadeData.text = file.GetMadeDate();
         iconFixData.text = file.GetFixDate();
-        string accessDate = DataManager.Inst.GetLastAcccestDate(file.id);
+        string accessDate = DataManager.Inst.GetLastAcccestDate(file.ID);
         if (accessDate == "")
         {
             iconAccessData.text = file.GetAccessDate();

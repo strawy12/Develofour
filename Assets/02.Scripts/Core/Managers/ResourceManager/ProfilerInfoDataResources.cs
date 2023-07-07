@@ -7,16 +7,16 @@ using UnityEngine.AddressableAssets;
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     [SerializeField]
-    private Dictionary<int, ProfilerInfoTextDataSO> profilerInfoDataList;
+    private Dictionary<string, ProfilerInfoTextDataSO> profilerInfoDataList;
 
-    public ProfilerInfoTextDataSO GetProfilerInfoData(int key)
+    public ProfilerInfoTextDataSO GetProfilerInfoData(string key)
     {
         return profilerInfoDataList[key];
     }
 
     private async void LoadProfilerInfoDataAssets(Action callBack)
     {
-        profilerInfoDataList = new Dictionary<int, ProfilerInfoTextDataSO>();
+        profilerInfoDataList = new Dictionary<string, ProfilerInfoTextDataSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("ProfilerInfoData", typeof(ProfilerInfoTextDataSO));
         await handle.Task;
@@ -26,7 +26,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<ProfilerInfoTextDataSO>(handle.Result[i]).Task;
             await task;
 
-            profilerInfoDataList.Add(task.Result.id, task.Result);
+            profilerInfoDataList.Add(task.Result.ID, task.Result);
         }
 
         Addressables.Release(handle);

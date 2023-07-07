@@ -556,7 +556,7 @@ public class SOSettingWindow : EditorWindow
             }
 
             infoData.id = id;
-            infoData.category = category;
+            infoData.categoryID = category;
             infoData.infomationText = infoText;
             infoData.noticeText = noticeText;
 
@@ -634,7 +634,7 @@ public class SOSettingWindow : EditorWindow
             }
 
             bool isCreate = false;
-            ProfilerCategoryDataSO categoryData = categorySODatas.Find(x => x.category == category);
+            ProfilerCategoryDataSO categoryData = categorySODatas.Find(x => x.id == category);
 
             if (categoryData == null)
             {
@@ -642,7 +642,7 @@ public class SOSettingWindow : EditorWindow
                 isCreate = true;
             }
 
-            categoryData.category = category;
+            categoryData.id = category;
             categoryData.categoryType = categoryType;
             categoryData.categoryName = categoryName;
             categoryData.infoTextList = infoTextDataList;

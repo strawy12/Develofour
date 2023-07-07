@@ -50,7 +50,7 @@ public class WindowPinInput : Window
     {
         base.Init();
 
-        windowLockData = ResourceManager.Inst.GetPinLockData(file.id);
+        windowLockData = ResourceManager.Inst.GetPinLockData(file.ID);
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);
@@ -91,12 +91,10 @@ public class WindowPinInput : Window
 
         if (windowLockData.answerData != null)
         {
-            List<MonologLockDecision> infoDatas = windowLockData.answerData.infoData;
-            foreach (MonologLockDecision infoData in infoDatas)
+            List<string> infoDatas = windowLockData.answerData.needInfoData;
+            foreach (string infoDataID in infoDatas)
             {
-                int infoID = infoData.key;
-
-                if(DataManager.Inst.IsProfilerInfoData(infoID))
+                if(DataManager.Inst.IsProfilerInfoData(infoDataID))
                 {
                     autoPinAnswerFiled.inputSystem.ShowPanel(autoPinAnswerFiled.inputField, autoPinAnswerFiled.autoAnswerDatas);
                 }
@@ -139,16 +137,14 @@ public class WindowPinInput : Window
 
         if (windowLockData.answerData != null)
         {
-            List<MonologLockDecision> infoDatas = windowLockData.answerData.infoData;
-            foreach (MonologLockDecision infoData in infoDatas)
+            List<string> infoDatas = windowLockData.answerData.needInfoData;
+            foreach (string infoDataID in infoDatas)
             {
-                int infoID = infoData.key;
-
-                EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[1] { infoID });
+                EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[1] { infoDataID });
             }
         }
 
-        DataManager.Inst.SetFileLock(file.id, false);
+        DataManager.Inst.SetPinLock(file.ID, false);
         WindowManager.Inst.WindowOpen(file.windowType, file);
 
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });

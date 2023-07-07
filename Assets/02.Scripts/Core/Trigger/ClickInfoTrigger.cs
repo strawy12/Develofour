@@ -8,7 +8,6 @@ using static CursorChangeSystem;
 
 public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    
     [SerializeField]
     protected Image backgroundImage;
 
@@ -31,7 +30,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
         GetInfo();
-        ProfileOverlaySystem.OnAdd?.Invoke(fileID);
+        ProfileOverlaySystem.OnAdd?.Invoke(triggerData.fileID);
         OnPointerEnter(eventData);
     }
 
@@ -65,13 +64,13 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
 
-        if (infoDataIDList == null || infoDataIDList.Count == 0)
+        if (triggerData.infoDataIDList == null || triggerData.infoDataIDList.Count == 0)
         {
             ChangeCursor(ECursorState.FindInfo);
             return;
         }
 
-        ECursorState isListFinder = Define.ChangeInfoCursor(needInfoList, infoDataIDList);
+        ECursorState isListFinder = Define.ChangeInfoCursor(triggerData.needInfoList, triggerData.infoDataIDList);
         ChangeCursor(isListFinder);
     }
 
@@ -81,8 +80,8 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     }
     private void ActiveLockImage(bool isActive)
     {
-        if (infoDataIDList == null || infoDataIDList.Count == 0) return;
-        if (needInfoList == null || needInfoList.Count <= 0) return;
+        if (triggerData.infoDataIDList == null || triggerData.infoDataIDList.Count == 0) return;
+        if (triggerData.needInfoList == null || triggerData.needInfoList.Count <= 0) return;
         if (lockImage == null)
         {
             lockImage = ResourceManager.Inst.GetLockImage();

@@ -7,17 +7,17 @@ using UnityEngine.AddressableAssets;
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     [SerializeField]
-    private Dictionary<string, TriggerDataSO> triggerDataSOResourcesList;
+    private Dictionary<string, TriggerDataSO> triggerDataList;
 
     public TriggerDataSO GetTriggerDataSOResources(string key)
     {
-        if (key == 0) return null;
-        return triggerDataSOResourcesList[key];
+        if (string.IsNullOrEmpty(key)) return null;
+        return triggerDataList[key];
     }
 
     private async void LoadTriggerDataSOResourcesAssets(Action callBack)
     {
-        triggerDataSOResourcesList = new Dictionary<string, TriggerDataSO>();
+        triggerDataList = new Dictionary<string, TriggerDataSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("TriggerData", typeof(TriggerDataSO));
         await handle.Task;
@@ -27,7 +27,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<TriggerDataSO>(handle.Result[i]).Task;
             await task;
 
-            triggerDataSOResourcesList.Add(task.Result.triggerID, task.Result);
+            triggerDataList.Add(task.Result.triggerID, task.Result);
         }
 
         Addressables.Release(handle);
