@@ -45,6 +45,10 @@ public abstract class Mail : MonoBehaviour
 
     public Action OnOverlayClose;
 
+    public ProfileOverlayOpenTrigger overlayTrigger;
+
+    public Action OnOpenMail;
+
     [ContextMenu("BindBtns")]
     public void BindBtns()
     {
@@ -59,6 +63,13 @@ public abstract class Mail : MonoBehaviour
         mailCloseButton.OnClick +=(HideMail);
         mailDestroyButton.OnClick +=(DestroyMail);
         mailFavoriteButton.Init(mailData.isFavorited);
+        overlayTrigger = GetComponent<ProfileOverlayOpenTrigger>();
+        if(overlayTrigger != null)
+        {
+            OnOverlayClose += overlayTrigger.Close;
+            OverlayOpenEventAdd();
+        }
+        OnOpenMail += ShowMail;
     }
 
     public virtual void ShowMail()
@@ -76,6 +87,12 @@ public abstract class Mail : MonoBehaviour
         {
             timeText.text = mailData.TimeText;
         }
+
+        if (overlayTrigger != null)
+        {
+            overlayTrigger.Open();
+        }
+
         gameObject.SetActive(true);
     }
 
@@ -102,6 +119,22 @@ public abstract class Mail : MonoBehaviour
         {
             mailData.mailCategory = mailData.mailCategory.RemoveMask((int)EEmailCategory.Favorite);
             EventManager.TriggerEvent(EMailSiteEvent.RefreshPavoriteMail);
+        }
+    }
+
+    public void OverlayOpenEventAdd()
+    {
+        Browser.currentBrowser.OnSelected += OverlayOpen;
+    }
+
+    private void OverlayOpen()
+    {
+        if (this.gameObject.activeSelf)
+        {
+            if (overlayTrigger != null)
+            {
+                overlayTrigger.Open();
+            }
         }
     }
 

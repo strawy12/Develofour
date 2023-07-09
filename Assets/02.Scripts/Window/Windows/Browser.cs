@@ -77,7 +77,6 @@ public partial class Browser : Window
     private void OverlayClose()
     {
         ProfileOverlaySystem.OnClose?.Invoke();
-
     }
 
     private void ResetAddressInputField(string str)

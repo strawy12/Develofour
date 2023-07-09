@@ -65,8 +65,6 @@ public class EmailSite : Site
     private TextMeshProUGUI receiveMailCntText;
     private int receiveMailCnt = 0;
 
-    public Action miniGameClear;
-
     public override void Init()
     {
         receiveBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Receive));
@@ -91,13 +89,7 @@ public class EmailSite : Site
         {
             EmailLine emailLine = Instantiate(emailLinePrefab, emailLineParent);
             emailLine.Init(mail);
-            ProfileOverlayOpenTrigger trigger = mail.GetComponent<ProfileOverlayOpenTrigger>();
-            if(trigger != null)
-            {
-                emailLine.overlayTrigger = trigger;
-                mail.OnOverlayClose += emailLine.overlayTrigger.Close;
-                emailLine.OverlayOpenEventAdd();
-            }
+
             emailLine.gameObject.SetActive(false);
             mail.Init();
 
