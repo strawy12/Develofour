@@ -73,7 +73,7 @@ public class BranchLoginSite : Site
     {
         if(!DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.BRANCHID))
         {
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.InvisibleInformation, Constant.ProfilerInfoKey.BRANCHID });
+            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { "IC_V_0", Constant.ProfilerInfoKey.BRANCHID });
         }
         DataManager.Inst.SetIsLogin(ELoginType.Branch,true);
         EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { ESiteLink.Branch, Constant.LOADING_DELAY });

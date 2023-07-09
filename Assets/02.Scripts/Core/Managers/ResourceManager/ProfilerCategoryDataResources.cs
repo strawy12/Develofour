@@ -27,7 +27,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<ProfilerCategoryDataSO>(handle.Result[i]).Task;
             await task;
 
-            profilerCategoryDataResourcesList.Add(task.Result.id, task.Result);
+            profilerCategoryDataResourcesList.Add(task.Result.ID, task.Result);
         }
 
         Addressables.Release(handle);

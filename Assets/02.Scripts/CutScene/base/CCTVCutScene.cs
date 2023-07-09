@@ -129,8 +129,8 @@ public class CCTVCutScene : CutScene
     {
         sprite.DOFade(0, 1);
         yield return new WaitForSeconds(3f);
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.Bat, Constant.ProfilerInfoKey.BAT_DETAIL });
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.CriminalInfomation, Constant.ProfilerInfoKey.CRIMINAL_ACTION });
+        //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.Bat, Constant.ProfilerInfoKey.BAT_DETAIL });
+        //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.CriminalInfomation, Constant.ProfilerInfoKey.CRIMINAL_ACTION });
         StopCutScene();
     }
 
@@ -144,7 +144,7 @@ public class CCTVCutScene : CutScene
     private void GetProfilerInfo(string infoID)
     {
         object[] ps = new object[2];
-        ps[0] = EProfilerCategory.CCTV;
+        //ps[0] = ;
         ps[1] = infoID;
 
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, ps);

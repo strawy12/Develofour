@@ -42,7 +42,7 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
     {
         currentData = categoryData;
 
-        if (!DataManager.Inst.IsCategoryShow(categoryData.id) || categoryData.id == EProfilerCategory.InvisibleInformation)
+        if (!DataManager.Inst.IsCategoryShow(categoryData.ID) || categoryData.categoryType == EProfilerCategoryType.Visiable)
         {
             return;   
         }

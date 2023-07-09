@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Profiler/InfoText")]
-public class ProfilerInfoTextDataSO : ScriptableObject
+public class ProfilerInfoDataSO : ScriptableObject
 {
     private string id;
     //public string key;

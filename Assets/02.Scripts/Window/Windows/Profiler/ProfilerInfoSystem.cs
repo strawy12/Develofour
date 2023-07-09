@@ -9,8 +9,6 @@ public class ProfilerInfoSystem : MonoBehaviour
     [SerializeField]
     private Sprite profileSprite;
 
-    private Dictionary<string, ProfilerCategoryDataSO> infoList = new Dictionary<string, ProfilerCategoryDataSO>();
-
     private void Start()
     {
         GameManager.Inst.OnStartCallback += StartCallback;
@@ -18,7 +16,6 @@ public class ProfilerInfoSystem : MonoBehaviour
 
     private void StartCallback()
     { 
-        infoList = ResourceManager.Inst.GetProfilerCategoryList();
         EventManager.StartListening(EProfilerEvent.FindInfoText, ChangeValue);
     }
 
@@ -46,7 +43,7 @@ public class ProfilerInfoSystem : MonoBehaviour
                 return;
             }
             string id = (string)ps[0];
-            ProfilerInfoTextDataSO infoDataSO = ResourceManager.Inst.GetProfilerInfoData(id);
+            ProfilerInfoDataSO infoDataSO = ResourceManager.Inst.GetProfilerInfoData(id);
             ChangeValue(infoDataSO.categoryID, id);
             ps = new object[2] { infoDataSO.categoryID, id };
         }
@@ -77,19 +74,14 @@ public class ProfilerInfoSystem : MonoBehaviour
     public void SendAlarm(string categoryID, string id)
     {
         string temp = "nullError";
-        ProfilerCategoryDataSO categoryData = infoList[categoryID];
-        foreach (var infoText in categoryData.infoTextList)
-        {
-            if (id == infoText.ID)
-            {
-                temp = infoText.noticeText; 
-            }
-        }
+        ProfilerCategoryDataSO categoryData = ResourceManager.Inst.GetProfileCategory(categoryID);
+        ProfilerInfoDataSO infoData = ResourceManager.Inst.GetProfilerInfoData(id);
+        temp = infoData != null ? infoData.infoName : temp;
 
         string text;
         if (temp == "nullError") return;
 
-        if (!categoryID.Contains("_V_"))
+        if (categoryData != null && categoryData.categoryType != EProfilerCategoryType.Visiable)
         {
             text = categoryData.categoryName + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
             NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
@@ -105,10 +97,12 @@ public class ProfilerInfoSystem : MonoBehaviour
     {
         string head = "새로운 카테고리가 추가되었습니다";
         string body = "";
-       
-        if (!categoryID.Contains("_V_"))
+
+        ProfilerCategoryDataSO data = ResourceManager.Inst.GetProfileCategory(categoryID);
+
+        if (data != null && data.categoryType != EProfilerCategoryType.Visiable)
         {
-            body = $"새 카테고리 {infoList[categoryID].categoryName}가 추가되었습니다.";
+            body = $"새 카테고리 {data.categoryName}가 추가되었습니다.";
         }
 
         NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);

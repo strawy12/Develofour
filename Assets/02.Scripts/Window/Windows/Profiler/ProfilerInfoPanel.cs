@@ -89,20 +89,20 @@ public class ProfilerInfoPanel : MonoBehaviour
     }
 
 
-    public void ChangeValue(string category, int id)
+    public void ChangeValue(string category, string infoID)
     {
         if(currentData == null)
         {
             return;
         }
-        if (category != currentData.id)
+        if (category != currentData.ID)
         {
             return;
         }
 
         foreach (var infoText in infoTextList)
         {
-            if (infoText.InfoData.id == id)
+            if (infoText.InfoData.ID == infoID)
             {
                 infoText.Show();
             }
@@ -128,20 +128,24 @@ public class ProfilerInfoPanel : MonoBehaviour
         titleText.SetText(currentData.categoryName);
         SpriteSetting();
 
-        if(currentData.defaultInfoText != null)
+        if(!string.IsNullOrEmpty(currentData.defaultInfoID))
         {
+            ProfilerInfoDataSO infoData = ResourceManager.Inst.GetProfilerInfoData(currentData.defaultInfoID);
+
             ProfilerInfoText infoText = Pop();
-            infoText.Setting(currentData.defaultInfoText);
+            infoText.Setting(infoData);
             infoText.Show();
             infoText.gameObject.SetActive(true);
         }
 
-        foreach (var infoData in currentData.infoTextList)
+        foreach (string infoID in currentData.infoIDList)
         {
+            ProfilerInfoDataSO infoData = ResourceManager.Inst.GetProfilerInfoData(infoID);
+
             ProfilerInfoText infoText = Pop();
             infoText.Setting(infoData);
 
-            if (DataManager.Inst.IsProfilerInfoData(infoText.InfoData.id))
+            if (DataManager.Inst.IsProfilerInfoData(infoText.InfoData.ID))
             {
                 infoText.Show();
                 infoText.gameObject.SetActive(true);
@@ -215,12 +219,12 @@ public class ProfilerInfoPanel : MonoBehaviour
         return true;
     }
 
-    public string SetInfoText(int id)
+    public string SetInfoText(string id)
     {
         string answer = "";
         foreach (var infoText in infoTextList)
         {
-            if (id == infoText.InfoData.id)
+            if (id == infoText.InfoData.ID)
             {
                 answer = infoText.InfoData.noticeText;
             }
@@ -236,11 +240,4 @@ public class ProfilerInfoPanel : MonoBehaviour
         EventManager.StopListening(EProfilerEvent.Minimum, RefreshSize);
 
     }
-    //private void FillPostItColor()
-    //{
-    //DOTween.To(
-    //    () => currentImage.material.GetFloat("_Dissolve"),
-    //    (v) => currentImage.material.SetFloat("_Dissolve", v),
-    //    1f, 3f);
-    //}
-}
+ }

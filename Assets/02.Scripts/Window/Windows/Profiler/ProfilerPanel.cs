@@ -28,15 +28,15 @@ public class ProfilerPanel : MonoBehaviour
     }
     public void ChangeValue(object[] ps)
     {
-        if (!(ps[0] is EProfilerCategory) || !(ps[1] is int))
+        if (!(ps[0] is string) || !(ps[1] is string))
         {
             return;
         }
-        EProfilerCategory category = (EProfilerCategory)ps[0];
-        int id = (int)ps[1];
+        string categoryID = (string)ps[0];
+        string infoID = (string)ps[1];
 
-        typePanel.AddProfileCategoryPrefab(category);
-        infoPanel.ChangeValue(category, id);
+        typePanel.AddProfileCategoryPrefab(categoryID);
+        infoPanel.ChangeValue(categoryID, infoID);
         StartCoroutine(SizeFilterCoroutine());
     }
 

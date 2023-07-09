@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using static Constant;
 
 public class PetCamCutScene : CutScene
 {
@@ -44,7 +45,7 @@ public class PetCamCutScene : CutScene
 
     private void QurrelMonologStart()
     {
-        string monologID = Constant.MonologKey.PETCAM_CUTSCENE_1;
+        string monologID = MonologKey.PETCAM_CUTSCENE_1;
         MonologSystem.AddOnEndMonologEvent(monologID, ByTheCollarImageFadeIn);
         StartMonolog(monologID);
     }
@@ -58,8 +59,8 @@ public class PetCamCutScene : CutScene
 
     private void ByTheCollarMonologStart()
     {
-        string monologID = Constant.MonologKey.PETCAM_CUTSCENE_2;
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetCam, 41 });
+        string monologID = MonologKey.PETCAM_CUTSCENE_2;
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { ProfilerCategoryKey.PETCAM, "" });
         MonologSystem.AddOnEndMonologEvent(monologID, PetKickImageFadeIn);
         StartMonolog(monologID);
     }
@@ -91,7 +92,7 @@ public class PetCamCutScene : CutScene
 
     private void FallenPetImageFadeIn()
     {
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetCam, 110 });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { ProfilerCategoryKey.PETCAM, "" });
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(fallenPetImage.DOFade(1, fallenPetImageFadeInDelay));
@@ -109,8 +110,8 @@ public class PetCamCutScene : CutScene
     {
         float soundLength = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.ExitDoor);
         yield return new WaitForSeconds(soundLength + exitSoundAfterDelay);
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetCam, 111 });
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetCam, 112 });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { ProfilerCategoryKey.PETCAM, "" });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { ProfilerCategoryKey.PETCAM, "" });
         StopCutScene();
     }
 

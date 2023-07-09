@@ -123,4 +123,9 @@ public static partial class Constant
     {
         public const string ASSISTANT = "CD_AS";
     }
+
+    public static class ProfilerCategoryKey
+    {
+        public const string PETCAM = "IC_I_2";
+    }
 }

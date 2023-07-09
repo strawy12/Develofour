@@ -161,8 +161,8 @@ public class ProfilerTutorial : MonoBehaviour
             library.TutorialLibraryClickRemoveEvent();
         }
 
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.AssistantProfile, 115 });
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PoliceProfile, 116 });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "" });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "" });
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
         CallSystem.OnInComingCall(Constant.CharacterKey.ASSISTANT, Constant.MonologKey.END_PROFILER_TUTORIAL);
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
@@ -175,13 +175,8 @@ public class ProfilerTutorial : MonoBehaviour
         EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { "01023459876" });
         ProfilerChattingSystem.OnImmediatelyEndChat?.Invoke();
         ProfilerChattingSystem.OnChatEnd = null;
-        EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
-        GuideUISystem.EndAllGuide?.Invoke();
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.AssistantProfile, 115 });
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PoliceProfile, 116 });
-        EventManager.TriggerEvent(ETutorialEvent.EndTutorial);
-
         DataManager.Inst.SetProfilerTutorialIdx(5);
+        TutorialEnd();
         StopAllCoroutines();
 
     }
@@ -189,7 +184,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void LibraryRect(object[] ps)
     {
-        GuideUISystem.OnGuide(libraryRect);
+        GuideUISystem.OnGuide?.Invoke(libraryRect);
         Debug.Log(libraryRect);
     }
 }

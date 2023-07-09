@@ -9,9 +9,9 @@ using UnityEngine.UI;
 public class ProfilerInfoText : MonoBehaviour
 {
 
-    private ProfilerInfoTextDataSO currentInfoData;
+    private ProfilerInfoDataSO currentInfoData;
 
-    public ProfilerInfoTextDataSO InfoData
+    public ProfilerInfoDataSO InfoData
     {
         get
         {
@@ -49,7 +49,7 @@ public class ProfilerInfoText : MonoBehaviour
         rectTransform ??= GetComponent<RectTransform>();
     }
 
-    public void Setting(ProfilerInfoTextDataSO infoData)
+    public void Setting(ProfilerInfoDataSO infoData)
     {
         currentInfoData = infoData;
     }
