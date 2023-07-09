@@ -15,7 +15,8 @@ public class TextTriggerData
 #endif
 
     [Header("사용 변수")]
-    public int id;
+    public int startIdx;
+    public int endIdx;
     public InformationTrigger trigger;
 }
 
@@ -55,7 +56,7 @@ public class MediaPlayerBody : MonoBehaviour
 
         foreach (TextTriggerData data in mediaPlayerTriggerList)
         {
-            data.id = mediaDetailText.text.IndexOf(data.text);
+            data.startIdx = mediaDetailText.text.IndexOf(data.text);
         }
     }
     public void AddTextTriggerData(TextTriggerData textData)

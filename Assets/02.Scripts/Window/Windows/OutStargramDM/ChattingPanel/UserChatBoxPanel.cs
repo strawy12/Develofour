@@ -9,7 +9,8 @@ public class UserChatBoxPanel : MonoBehaviour
 
     [SerializeField]
     private RectTransform boxParent;
-
+    [SerializeField]
+    private ClickInfoTrigger clickInfoTriggerTemp;
     private Transform boxPoolParent;
     [SerializeField]
     private float offset = 5f;
@@ -81,7 +82,33 @@ public class UserChatBoxPanel : MonoBehaviour
         chatData = data;
         ChatBox chatBox = Pop();
         chatBox.gameObject.SetActive(true);
+        List<TextTriggerData> triggerDataList = new List<TextTriggerData>();
+
+        if(data.outStarTriggerList != null && data.outStarTriggerList.Count != 0)
+        {
+            foreach (var outStarTrigger in data.outStarTriggerList)
+            {
+                TriggerDataSO triggerData = ResourceManager.Inst.GetTriggerDataSOResources(outStarTrigger.triggerID);
+                if (triggerData != null)
+                {
+                    ClickInfoTrigger clickInfoTrigger = Instantiate(clickInfoTriggerTemp, chatBox.ChatText.transform);
+                    RectTransform triggerRect = (RectTransform)clickInfoTrigger.transform;
+                    triggerRect.anchorMin = new Vector2(0, 0.5f);
+                    triggerRect.anchorMax = new Vector2(0, 0.5f);
+                    triggerRect.pivot = new Vector2(0, 1f);
+                    TextTriggerData textTriggerData = new TextTriggerData() { startIdx = outStarTrigger.startIdx, trigger = clickInfoTrigger, endIdx = outStarTrigger.endIdx };
+                    clickInfoTrigger.Setting(triggerData);
+                    clickInfoTrigger.gameObject.SetActive(true);
+                    triggerDataList.Add(textTriggerData);
+                }
+            }
+        }
+        
         chatBox.Setting(data.chatText);
+        
+        Define.SetTriggerPosition(chatBox.ChatText, triggerDataList);
+        Define.SetTiggerSize(chatBox.ChatText, triggerDataList);
+
         SetSize();
     }
 

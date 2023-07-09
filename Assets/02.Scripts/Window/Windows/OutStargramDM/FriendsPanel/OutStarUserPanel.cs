@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+using System.Linq;
 public class OutStarUserPanel : MonoBehaviour, IPointerClickHandler
 {
     private OutStarCharacterDataSO outStarCharacterData;
@@ -26,6 +26,7 @@ public class OutStarUserPanel : MonoBehaviour, IPointerClickHandler
 
     [SerializeField]
     private GameObject pointerPanel;
+
     public void Init(OutStarCharacterDataSO characterData)
     {
         outStarCharacterData = characterData;
@@ -36,9 +37,26 @@ public class OutStarUserPanel : MonoBehaviour, IPointerClickHandler
     private void SettingPanel()
     {
         nameText.text = characterData.characterName;
-        //lastChatText
+        List<OutStarTimeChatDataSO> timeChatList = new List<OutStarTimeChatDataSO>();
+
+        OutStarTimeChatDataSO lastTimeChat = null;
+        foreach(var timeChatID in outStarCharacterData.timeChatIDList)
+        {
+            OutStarTimeChatDataSO timeChat = ResourceManager.Inst.GetOutStarTimeChatResourceManager(timeChatID);
+            timeChatList.Add(timeChat);
+        }
+
+        lastTimeChat = timeChatList.OrderBy(x => x.time).LastOrDefault();
+        if(lastTimeChat != null && lastTimeChat.chatDataIDList != null)
+        {
+            OutStarChatDataSO lastChatData = ResourceManager.Inst.GetOutStarChatResourceManager(lastTimeChat.chatDataIDList.LastOrDefault());
+            if(lastChatData != null)
+            {
+                lastChatText.text = lastChatData.chatText;
+            }
+        }
     }
-    
+
     public void SetActiveSelectedImage(bool isActive)
     {
         selectedImage.SetActive(isActive);

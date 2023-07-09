@@ -1041,23 +1041,12 @@ public class SOSettingWindow : EditorWindow
             bool isMine = bool.Parse(columns[1]);
             string talkText = columns[2];
 
-            string triggerId = string.Empty;
-            int startIdx = 0;
-            int endIdx = 0;
+            List<string> outStarTriggerDataString = new List<string>();
             Debug.Log(columns.Length);
             if (columns.Length > 3 && columns[3] != string.Empty)
             {
-                triggerId = columns[3];
+                outStarTriggerDataString = columns[3].Trim().Split("/").ToList();
             }
-            if (columns.Length > 4 && columns[4] != string.Empty)
-            {
-                startIdx = int.Parse(columns[4]);
-            }
-            if (columns.Length > 5 && columns[5] != string.Empty)
-            {
-                endIdx = int.Parse(columns[5]);
-            }
-
             OutStarChatDataSO outStarChatData = outStarChatDataSOList.Find(x => x.ID == id);
 
             bool isCreate = false;
@@ -1071,14 +1060,19 @@ public class SOSettingWindow : EditorWindow
             outStarChatData.SetID = id;
             outStarChatData.isMine = isMine;
             outStarChatData.chatText = talkText;
-            outStarChatData.triggerID = triggerId;
-            outStarChatData.startIdx = startIdx;
-            outStarChatData.endIdx = endIdx;
+            outStarChatData.outStarTriggerList = new List<OutStarTigger>();
 
+            foreach (var textTriggerString in outStarTriggerDataString)
+            {
+                string[] triggerColumns = textTriggerString.Trim().Split(',');
+                string triggerID = triggerColumns[0].Trim();
+                int startIdx = int.Parse(triggerColumns[1].Trim());
+                int endIdx = int.Parse(triggerColumns[2].Trim());
+                OutStarTigger outStarTigger = new OutStarTigger(triggerID, startIdx, endIdx);
+                outStarChatData.outStarTriggerList.Add(outStarTigger);
+            }
 
             string SO_PATH = $"Assets/07.ScriptableObjects/OutStar/OutStarChat/OutStarChat_{columns[0]}.asset";
-
-
 
             if (isCreate)
             {
@@ -1137,7 +1131,7 @@ public class SOSettingWindow : EditorWindow
             outStarTimeChatData.time = new DateTime(year, month, day, hour, minute, 0);
 
             outStarTimeChatData.chatDataIDList = new List<string>();
-
+     
             if (chatIDList[0] != string.Empty)
             {
                 for (int j = 0; j < chatIDList.Length; j++)
@@ -1212,7 +1206,6 @@ public class SOSettingWindow : EditorWindow
             }
             characterData.phoneNum = phoneNum;
             characterData.characterType = characterType;
-
             string SO_PATH = $"Assets/07.ScriptableObjects/CharacterType/{columns[0]}.asset";
 
             if (isCreate)
