@@ -221,8 +221,6 @@ public class Window : MonoUI, ISelectable
         sequence.Join(rectTransform.DOScale(1, minDuration));
         sequence.AppendCallback(() => SetActive(true));
         DataManager.Inst.AddLastAccessDateData(file.ID, TimeSystem.TimeCount());
-
-
     }
     public void CloseEventAdd()
     {

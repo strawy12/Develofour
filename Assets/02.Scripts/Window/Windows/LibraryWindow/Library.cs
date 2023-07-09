@@ -129,7 +129,6 @@ public class Library : Window
         Debug.Log(isNotFirstOpen + "2");
         if(isNotFirstOpen)
         {
-            rectTransform.sizeDelta = windowAlteration.size;
             SetActive(true);
             DataManager.Inst.AddLastAccessDateData(file.ID, TimeSystem.TimeCount());
         }
