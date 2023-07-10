@@ -6,14 +6,10 @@ using UnityEngine;
 public partial class ChattingPanel : MonoBehaviour
 {
     [SerializeField]
-    private UserChattingPanel userChattingPanel;
-    private OutStarCharacterDataSO currentCharacterData;
-    [SerializeField]
     private TMP_Text userNameText;
     
     public void Init()
     {
-        userChattingPanel.Init();
         EventManager.StartListening(EOutStarEvent.ClickFriendPanel, ChangeUserChatingData);
     }
 
@@ -27,10 +23,8 @@ public partial class ChattingPanel : MonoBehaviour
 
     private void ChangeUserData(OutStarCharacterDataSO data)
     {
-        currentCharacterData = data;
         CharacterInfoDataSO characterData = ResourceManager.Inst.GetCharacterDataSO(data.ID);
         userNameText.SetText(characterData.characterName);
-        userChattingPanel.ChangeUserData(data);
     }
 
     private void OnDestroy()

@@ -11,15 +11,13 @@ public class OutStarUserListPanel : MonoBehaviour
     [SerializeField]
     private OutStarUserPanel userPanelPrefab;
 
-    private OutStarCharacterDataSO currentData;
 
     public void Init()
     {
         userPanelList = new List<OutStarUserPanel>();
-        characterDataList = ResourceManager.Inst.GetOutStarCharacterDataToList();
-        CreateFriendPanel();
+        characterDataList = ResourceManager.Inst.GetOutStarCharacterProfileToList();
         EventManager.StartListening(EOutStarEvent.ClickFriendPanel, ChangeCurrentFriendData);
-
+        CreateFriendPanel();
     }
     
     private void CreateFriendPanel()
@@ -32,10 +30,10 @@ public class OutStarUserListPanel : MonoBehaviour
             userPanelList.Add(userPanel);
         }
     }
-    
+
     private void ChangeCurrentFriendData(object[] ps)
     {
-        if(!(ps[0] is OutStarCharacterDataSO)) return;
+        if (ps.Length < 1 || !(ps[0] is OutStarCharacterDataSO)) return;
 
         OutStarCharacterDataSO data = ps[0] as OutStarCharacterDataSO;
         ChangeCurrentFriendData(data);
@@ -46,10 +44,8 @@ public class OutStarUserListPanel : MonoBehaviour
         userPanelList.ForEach(x => x.SetActiveSelectedImage(false));
         OutStarUserPanel userPanel = userPanelList.Find(x => x.CharacterID == data.ID);
 
-        currentData = data;
         userPanel.SetActiveSelectedImage(true);
     }
-
     private void OnDestroy()
     {
         EventManager.StopListening(EOutStarEvent.ClickFriendPanel, ChangeCurrentFriendData);
