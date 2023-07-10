@@ -28,6 +28,9 @@ public class ProfilerChatting : MonoBehaviour
     [SerializeField]
     protected TMP_Text textPrefab;
     [SerializeField]
+    protected GameObject imagePrefab;
+
+    [SerializeField]
     protected Transform textParent;
     [SerializeField]
     protected ScrollRect scroll;
@@ -42,7 +45,7 @@ public class ProfilerChatting : MonoBehaviour
 
     public void Show()
     {
-        EventManager.StartListening(EProfilerEvent.ProfilerSendMessage, PrintText);
+        EventManager.StartListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
         AddSaveTexts();
         SetScrollView();//스크롤뷰 가장 밑으로 내리기;
         gameObject.SetActive(true);
@@ -50,28 +53,45 @@ public class ProfilerChatting : MonoBehaviour
 
     public void Hide()
     {
-        EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintText);
+        EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
 
         gameObject.SetActive(false);
     }
 
-    private void PrintText(object[] ps)
+    private void PrintChat(object[] ps)
     {
-        if (ps[0] == null || !(ps[0] is string))
+        if (ps[0] == null)
         {
             return;
         }
-        string msg = (ps[0] as string);
-        CreateTextUI(msg);
+
+        if(ps[0] is string)
+        {
+            string msg = (ps[0] as string);
+            CreateTextUI(msg);
+        }
+
+        if(ps[0] is Sprite)
+        {
+            Sprite sprite = ps[0] as Sprite;
+            CreateImageUI(sprite);
+        }
     }
 
     private void AddSaveTexts()
     {
-        List<string> list = DataManager.Inst.SaveData.aiChattingList;
+        List<AIChat> list = DataManager.Inst.SaveData.aiChattingList;
 
-        foreach (string data in list)
+        foreach (AIChat data in list)
         {
-            CreateTextUI(data);
+            if(data.sprite == null && data.text != null)
+            {
+                CreateTextUI(data.text);
+            }
+            else if(data.sprite != null)
+            {
+                CreateImageUI(data.sprite);
+            }
         }
     }
 
@@ -87,6 +107,25 @@ public class ProfilerChatting : MonoBehaviour
         SetLastWidth();
 
         return textUI;
+    }
+
+
+    private void CreateImageUI(Sprite sprite)
+    {
+        GameObject imageUI = Instantiate(imagePrefab, textParent); //이미지 프리팹 생성
+
+        Image image = imageUI.transform.GetChild(0).GetComponent<Image>(); //이미지 컴포넌트 가져오고
+        image.GetComponent<RectTransform>().sizeDelta = sprite.bounds.size; //크기 맞춰주고
+        image.sprite = sprite; //스프라이트 변경
+
+        RectTransform imageRect = imageUI.GetComponent<RectTransform>(); //자식의 이미지 크기랑 height랑 같게함
+        imageRect.sizeDelta = new Vector2(imageRect.sizeDelta.x, sprite.bounds.size.y);
+
+        SetLastWidth();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(imageRect);
+        SetScrollView();
+        imageUI.gameObject.SetActive(true);
+        SetLastWidth();
     }
 
     protected void SetScrollView()
@@ -118,6 +157,6 @@ public class ProfilerChatting : MonoBehaviour
 
     protected void OnDestroy()
     {
-        EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintText);
+        EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
     }
 }

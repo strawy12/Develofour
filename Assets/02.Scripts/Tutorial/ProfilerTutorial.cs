@@ -7,6 +7,8 @@ using System;
 
 public class ProfilerTutorial : MonoBehaviour
 {
+    //갈아엎기
+
     [SerializeField]
     private TutorialTextSO profilerTutorialTextData;
     [SerializeField]
@@ -51,7 +53,7 @@ public class ProfilerTutorial : MonoBehaviour
     public void StartChatting(int textListIndex)
     {
         ProfilerChattingSystem.OnChatEnd += () => DataManager.Inst.SetProfilerTutorialIdx();
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(profilerTutorialTextData.tutorialTexts[textListIndex].data, 1.5f, true);
+        //ProfilerChattingSystem.OnPlayChatList?.Invoke(profilerTutorialTextData.tutorialTexts[textListIndex].data, 1.5f, true);
     }
 
     private IEnumerator StartProfilerTutorial()

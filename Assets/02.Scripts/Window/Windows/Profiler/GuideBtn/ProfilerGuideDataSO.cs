@@ -8,5 +8,7 @@ public class ProfilerGuideDataSO : ScriptableObject
     public string guideName;
     [TextArea(5, 15)]
     public List<string> guideTextList;
+
+    public AIChattingDataSO guideData;
     public bool isAddTutorial;
 }

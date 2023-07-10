@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +14,12 @@ public class ProfilerGuideButtonParent : MonoBehaviour
     private ProfilerGuideButton guideButtonPrefab;
 
     private List<ProfilerGuideButton> guideButtonList;
-    private List<ProfilerGuideDataSO> guideDataList;
+    private List<AIChattingDataSO> guideDataList;
 
     public void Init()
     {
         guideButtonList = new List<ProfilerGuideButton>();
-        guideDataList = ResourceManager.Inst.ProfilerGuideDataList.Select(x => x.Value).ToList();
+        guideDataList = ResourceManager.Inst.AIChattingDataSOList.Select(x => x.Value).ToList();
         EventManager.StartListening(EProfilerEvent.AddGuideButton, AddGuideButton);
         SaveSetting();
     }
@@ -38,7 +38,7 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         {
             foreach (var data in guideDataList)
             {
-                if (data.isAddTutorial == false && DataManager.Inst.CheckGuideButtonSaveData(data.guideName) == false)
+                if (data.isAddGuideButton == false && DataManager.Inst.CheckGuideButtonSaveData(data.chatName) == false)
                 {
                     continue;
                 }
@@ -49,11 +49,11 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         {
             if (!(ps[0] is string)) return;
             string name = ps[0] as string;
-            AddButton(guideDataList.Find(x => x.guideName == name));
+            AddButton(guideDataList.Find(x => x.chatName == name));
         }
     }
 
-    public void AddButton(ProfilerGuideDataSO data)
+    public void AddButton(AIChattingDataSO data)
     {
         ProfilerGuideButton button = guideButtonList.Find(x => x.GuideData == data);
         if (button != null)
@@ -63,12 +63,12 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         button = Instantiate(guideButtonPrefab, transform);
         button.Init(data);
         button.gameObject.SetActive(true);
-        if (!DataManager.Inst.CheckGuideButtonSaveData(data.guideName))
+        if (!DataManager.Inst.CheckGuideButtonSaveData(data.chatName))
         {
-            string noticeBody = $"{data.guideName} °¡ÀÌµå ¹öÆ°ÀÌ Ãß°¡µÇ¾ú½À´Ï´Ù. ÇÁ·ÎÆÄÀÏ·¯ÀÇ °¡ÀÌµå ¹öÆ° ÆĞ³ÎÀ» µé¾î°¡ È®ÀÎÇØº¸¼¼¿ä";
-            NoticeSystem.OnNotice?.Invoke("°¡ÀÌµå ¹öÆ°ÀÌ Ãß°¡µÇ¾ú½À´Ï´Ù", noticeBody, 0.1f, false, profileSprite, Color.white, ENoticeTag.Profiler);
+            string noticeBody = $"{data.chatName} ê°€ì´ë“œ ë²„íŠ¼ì´ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤. í”„ë¡œíŒŒì¼ëŸ¬ì˜ ê°€ì´ë“œ ë²„íŠ¼ íŒ¨ë„ì„ ë“¤ì–´ê°€ í™•ì¸í•´ë³´ì„¸ìš”";
+            NoticeSystem.OnNotice?.Invoke("ê°€ì´ë“œ ë²„íŠ¼ì´ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤", noticeBody, 0.1f, false, profileSprite, Color.white, ENoticeTag.Profiler);
         }
-        DataManager.Inst.AddGuideButtonSaveData(data.guideName);
+        DataManager.Inst.AddGuideButtonSaveData(data.chatName);
         guideButtonList.Add(button);
     }
 
