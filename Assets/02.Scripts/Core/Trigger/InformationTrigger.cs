@@ -24,6 +24,14 @@ public class InformationTrigger : MonoBehaviour
     protected string playMonologType = "";
 
     public string MonologID => triggerData.monoLogType;
+    public List<int> infoDataIDList;
+    public int fileID;
+    public List<NeedInfoData> needInfoList;
+    //public int fileID
+    [SerializeField] protected int monoLogType;
+    public int completeMonologType = 0;
+    public float delay;
+    public bool isFakeInfo;
 
     protected virtual void Awake()
     {
@@ -41,7 +49,7 @@ public class InformationTrigger : MonoBehaviour
     {
         if (triggerData == null)
         {
-            triggerData = ResourceManager.Inst.GetTriggerDataSOResources(triggerID);
+            triggerData = ResourceManager.Inst.GetTriggerDataSOResources(triggerID.ToString());
             if (triggerData == null)
             {
                 return;
@@ -103,8 +111,6 @@ public class InformationTrigger : MonoBehaviour
     public void GetInfo()
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
-
-
         if (triggerData.infoDataIDList.Count == 0 || triggerData.infoDataIDList == null)
         {
             MonologSystem.OnStartMonolog?.Invoke(triggerData.monoLogType, false);

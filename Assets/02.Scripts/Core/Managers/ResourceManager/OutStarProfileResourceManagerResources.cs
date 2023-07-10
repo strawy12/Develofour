@@ -10,7 +10,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     [SerializeField]
     private Dictionary<string, OutStarCharacterDataSO> outStarProfileResourceManagerList;
 
-    public List<OutStarCharacterDataSO> GetOutStarCharacterDataToList()
+    public List<OutStarCharacterDataSO> GetOutStarCharacterProfileToList()
     {
         return outStarProfileResourceManagerList.Select(x => x.Value).ToList();
     }

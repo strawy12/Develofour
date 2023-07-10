@@ -44,7 +44,7 @@ public class NotepadBody : MonoBehaviour
 
         foreach (TextTriggerData data in textTriggerList)
         {
-            data.id = text.text.IndexOf(data.text);
+            data.startIdx = text.text.IndexOf(data.text);
         }
     }
     public void AddTextTriggerData(TextTriggerData textData)

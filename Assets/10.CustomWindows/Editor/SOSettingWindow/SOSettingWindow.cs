@@ -17,7 +17,4 @@ public class SOSettingWindow : EditorWindow
         win.minSize = new Vector2(350, 250);
         win.maxSize = new Vector2(350, 250);
     }
-
-
-
 }

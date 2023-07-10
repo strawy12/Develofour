@@ -26,6 +26,13 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
         base.Bind();
     }
 
+    public void Setting(TriggerDataSO data)
+    {
+        triggerData = data;
+        Bind();
+      
+
+    }
     public virtual void OnPointerClick(PointerEventData eventData)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;

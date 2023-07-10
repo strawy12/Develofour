@@ -10,6 +10,9 @@ public class OutStargramDMWindow : Window
     private OutStarLoginPanel outStarLoginPanel;
     [SerializeField]
     private ChattingPanel chattingPanel;
+
+    [SerializeField]
+    private List<UserChattingPanel> userChattingPrefabList;
     //[SerializeField]
     //private 
     protected override void Init()
@@ -25,6 +28,11 @@ public class OutStargramDMWindow : Window
             outStarLoginPanel.gameObject.SetActive(false);
         }
         chattingPanel.Init();
+
+        foreach(var panel in userChattingPrefabList)
+        {
+            panel.gameObject.SetActive(false);
+        }
     }
     
     
