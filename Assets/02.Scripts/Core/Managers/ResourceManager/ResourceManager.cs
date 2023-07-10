@@ -4,6 +4,8 @@ using UnityEngine;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
+
+
     [SerializeField]
     private Transform poolParent;
     public void Start()
@@ -11,6 +13,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         StartCoroutine(StartGetData());
         DataLoadingScreen.OnShowLoadingScreen?.Invoke();
     }
+
     private IEnumerator StartGetData()
     {
         yield return null;

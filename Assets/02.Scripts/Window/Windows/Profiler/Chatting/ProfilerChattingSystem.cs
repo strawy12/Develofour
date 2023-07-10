@@ -23,6 +23,8 @@ public class ProfilerChattingSystem : TextSystem
 
     private string RECIEVE_IMAGE = "이미지가 전송되었습니다.";
 
+    public static bool isChatting;
+
     private void Awake()
     {
         OnPlayChatList += StartChatting;
@@ -58,6 +60,7 @@ public class ProfilerChattingSystem : TextSystem
 
     private IEnumerator ChattingCoroutine(float delay, bool isSave)
     {
+        isChatting = true;
         foreach (AIChat data in currentChatData.AIChatList)
         {
             if(data.sprite == null && data.text != null) // 텍스트
@@ -87,6 +90,7 @@ public class ProfilerChattingSystem : TextSystem
 
     private void EndChatting()
     {
+        isChatting = false;
         OnChatEnd?.Invoke();
 
         OnChatEnd = null;

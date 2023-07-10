@@ -13,8 +13,6 @@ public class TextList
 [CreateAssetMenu(menuName = "SO/TextDataSO/TutorialTextSO")]
 public class TutorialTextSO : ScriptableObject
 {
-    public List<AIChattingDataSO> tutorialss;
-    public List<TextList> tutorialTexts;
-    [Multiline]
+    public List<AIChattingDataSO> tutorialChatData;
     public string popText;
 }

@@ -105,7 +105,6 @@ public class SaveData
     public int CurrentTimeData;
 
     // 튜토리얼 중인지
-    public int tutorialDataIdx = -1;
 }
 
 
