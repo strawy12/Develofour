@@ -6,15 +6,19 @@ using UnityEngine.AddressableAssets;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-    private Dictionary<ECharacterDataType, CharacterInfoDataSO> characterDataSOList;
+    private Dictionary<string, CharacterInfoDataSO> characterDataSOList;
 
-    public CharacterInfoDataSO GetCharacterDataSO(ECharacterDataType textType)
+    public CharacterInfoDataSO GetCharacterDataSO(ECharacterDataType characterType)
     {
-        return characterDataSOList[textType];
+        return characterDataSOList.Values.FirstOrDefault(x=>x.characterType == characterType);
     }
-    public CharacterInfoDataSO GetCharacterDataSO(string phoneNumber)
+    public CharacterInfoDataSO GetCharacterByPhoneNumber(string phoneNumber)
     {
         return characterDataSOList.Values.FirstOrDefault((x) => x.phoneNum == phoneNumber);
+    }
+    public CharacterInfoDataSO GetCharacterDataSO(string id)
+    {
+        return characterDataSOList[id];
     }
     public List< CharacterInfoDataSO> GetCharacterDataSOList()
     {
@@ -27,7 +31,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     }
     private async void LoadCharacterDataDataSOAssets(Action callBack)
     {
-        characterDataSOList = new Dictionary<ECharacterDataType, CharacterInfoDataSO>();
+        characterDataSOList = new Dictionary<string, CharacterInfoDataSO>();
         var handle = Addressables.LoadResourceLocationsAsync("CharacterInfoData", typeof(CharacterInfoDataSO));
         await handle.Task;
 
@@ -36,7 +40,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<CharacterInfoDataSO>(handle.Result[i]).Task;
             await task;
 
-            characterDataSOList.Add(task.Result.characterType, task.Result);
+            characterDataSOList.Add(task.Result.id, task.Result);
         }
 
         Addressables.Release(handle);

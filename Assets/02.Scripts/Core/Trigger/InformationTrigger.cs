@@ -30,6 +30,7 @@ public class InformationTrigger : MonoBehaviour
 
     protected int playMonologType = 0;
 
+
     public int MonologID
     {
         get
@@ -58,7 +59,7 @@ public class InformationTrigger : MonoBehaviour
     {
         if (triggerData == null)
         {
-            triggerData = ResourceManager.Inst.GetTriggerDataSOResources(triggerID);
+            triggerData = ResourceManager.Inst.GetTriggerDataSOResources(triggerID.ToString());
             if (triggerData == null)
             {
                 return;
@@ -127,7 +128,6 @@ public class InformationTrigger : MonoBehaviour
     public void GetInfo()
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
-
 
         if (infoDataIDList.Count == 0 || infoDataIDList == null)
         {

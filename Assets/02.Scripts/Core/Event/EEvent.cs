@@ -228,3 +228,9 @@ public enum ETimeEvent
     None = -1,
     ChangeTime,
 }
+
+public enum EOutStarEvent
+{
+    None = -1,
+    ClickFriendPanel,
+}

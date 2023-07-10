@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+using UnityRandom = UnityEngine.Random;
 public static class Define
 {
     public static Vector2 MaxWindowSize
@@ -117,7 +118,7 @@ public static class Define
 
     public static Color RandomColor()
     {
-        return new Color(Random.value, Random.value, Random.value, Random.value);
+        return new Color(UnityRandom.value, UnityRandom.value, UnityRandom.value, UnityRandom.value);
     }
 
     public static bool IsBoundOver(int idx, int maxCnt)
@@ -245,7 +246,29 @@ public static class Define
 
         return true;
     }
-
+    
+    public static string GetOutStarTimeText(DateTime dateTime)
+    {
+        string timeText = "";
+        if (dateTime.Hour > 12)
+        {
+            timeText = $"{dateTime.Year}.{dateTime.Month: 00}.{dateTime.Day: 00} 오후{dateTime.Hour - 12}시 {dateTime.Minute}";
+        }
+        else if (dateTime.Hour == 12)
+        {
+            timeText = $"{dateTime.Year}.{dateTime.Month: 00}.{dateTime.Day: 00} 오후{dateTime.Hour}시 {dateTime.Minute}";
+        }
+        else if (dateTime.Hour == 0)
+        {
+            timeText = $"{dateTime.Year}.{dateTime.Month: 00}.{dateTime.Day: 00} 오전{12}시 {dateTime.Minute}";
+        }
+        else
+        {
+            timeText = $"{dateTime.Year}.{dateTime.Month: 00}.{dateTime.Day: 00} 오전{dateTime.Hour}시 {dateTime.Minute}";
+        }
+        return timeText;
+    }
+    #region Trigger
     public static void SetTriggerPosition(TMP_Text text, List<TextTriggerData> triggerList)
     {
         text.ForceMeshUpdate();
@@ -253,9 +276,9 @@ public static class Define
         {
             foreach (TextTriggerData trigger in triggerList)
             {
-                Vector2 pos = text.textInfo.characterInfo[trigger.id].topLeft;
+                Vector2 pos = text.textInfo.characterInfo[trigger.startIdx].topLeft; 
 
-                for (int i = trigger.id + 1; i < text.text.Length; i++)
+                for (int i = trigger.startIdx + 1; i < text.text.Length; i++)
                 {
                     if (text.text[i] == ' ') break;
                     Vector2 temp = text.textInfo.characterInfo[i].topLeft;
@@ -269,4 +292,52 @@ public static class Define
             }
         }
     }
+
+    public static void SetTiggerSize(TMP_Text text, List<TextTriggerData> triggerList)
+    {
+        text.ForceMeshUpdate();
+        if (triggerList != null && triggerList.Count > 0)
+        {
+            foreach (TextTriggerData triggerData in triggerList)
+            {
+      
+                RectTransform triggerRectTrm = (RectTransform)triggerData.trigger.transform;
+                Vector2 newSize = CalcTextMaxSize(triggerData.startIdx, triggerData.endIdx, text);
+                triggerRectTrm.sizeDelta = newSize;
+            }
+        }
+    }
+    #endregion
+    public static Vector2 CalcTextMaxSize(int minIdx, int maxIdx, TMP_Text text)
+    {
+        Vector2 topLeft = new Vector2(int.MaxValue, 0);
+        Vector2 bottomRight = new Vector2(0, int.MaxValue);
+        var characterInfos = text.textInfo.characterInfo;
+        for (int i = minIdx; i <= maxIdx; i++)
+        {
+            if (characterInfos[i].topLeft.x < topLeft.x)
+            {
+                topLeft.x = characterInfos[i].topLeft.x;
+            }
+
+            if (characterInfos[i].topLeft.y > topLeft.y)
+            {
+                topLeft.y = characterInfos[i].topLeft.y;
+            }
+
+            if (characterInfos[i].bottomRight.x > bottomRight.x)
+            {
+                bottomRight.x = characterInfos[i].bottomRight.x;
+            }
+
+            if (characterInfos[i].bottomRight.y < bottomRight.y)
+            {
+                bottomRight.y = characterInfos[i].bottomRight.y;
+            }
+        }
+
+        Vector2 newSize = new Vector2(bottomRight.x - topLeft.x, topLeft.y - bottomRight.y);
+        return newSize;
+    }
+
 }

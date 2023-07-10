@@ -14,6 +14,7 @@ using static MonologLockDecision;
 public class SOSettingWindow : EditorWindow
 {
     const string URL = @"https://docs.google.com/spreadsheets/d/1yrZPGjn1Vw5-YiqKahh6nIVdxDFNO0lo86dslqTVb6Q/export?format=tsv&range=2:1000&gid={0}";
+    const string URL2 = @"https://docs.google.com/spreadsheets/d/1AYfKB3JgfR8zXXDccow0jJCuqa-CJJP9cBjdOlUIusw/export?format=tsv&range=2:1000&gid={0}";
 
     private enum ESOType
     {
@@ -26,6 +27,9 @@ public class SOSettingWindow : EditorWindow
         Mail,
         TriggerPrefab,
         WindowLockData,
+        CharacterData,
+        OutStar,
+
     }
     private class BodyPrefabData
     {
@@ -39,6 +43,8 @@ public class SOSettingWindow : EditorWindow
     private Button profilerGuideBtn;
     private Button mailBtn;
     private Button triggerBtn;
+    private Button outStarBtn;
+    private Button CharacterDataBtn;
     private TextField gidField;
     private TextField soTypeField;
 
@@ -47,8 +53,8 @@ public class SOSettingWindow : EditorWindow
     public static void ShowWindow()
     {
         SOSettingWindow win = GetWindow<SOSettingWindow>();
-        win.minSize = new Vector2(350, 200);
-        win.maxSize = new Vector2(350, 200);
+        win.minSize = new Vector2(350, 250);
+        win.maxSize = new Vector2(350, 250);
     }
 
     private void OnEnable()
@@ -68,6 +74,8 @@ public class SOSettingWindow : EditorWindow
         gidField = rootVisualElement.Q<TextField>("GidField");
         soTypeField = rootVisualElement.Q<TextField>("SOTypeField");
         triggerBtn = rootVisualElement.Q<Button>("TriggerPrfBtn");
+        outStarBtn = rootVisualElement.Q<Button>("OutStarProfileBtn");
+        CharacterDataBtn = rootVisualElement.Q<Button>("CharacterBtn");
 
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
         profilerGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerGuide));
@@ -76,6 +84,8 @@ public class SOSettingWindow : EditorWindow
         mailBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Mail));
         triggerBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.TriggerPrefab));
         monologSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Monolog));
+        outStarBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.OutStar));
+        CharacterDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CharacterData));
     }
 
     private void AutoComplete(ESOType type)
@@ -87,7 +97,6 @@ public class SOSettingWindow : EditorWindow
                 gidField.value = "2075656520";
                 soTypeField.value = "FileSO";
                 break;
-
             case ESOType.Monolog:
                 gidField.value = "441334984";
                 soTypeField.value = "MonologTextDataSO";
@@ -116,6 +125,16 @@ public class SOSettingWindow : EditorWindow
                 gidField.value = "33006268";
                 soTypeField.value = "WindowLockDataSO";
                 break;
+            case ESOType.OutStar:
+                gidField.value = "405560364";
+                soTypeField.value = "OutStar";
+                break;
+            case ESOType.CharacterData:
+                gidField.value = "1030073895";
+                soTypeField.value = "CharacterData";
+                break;
+            default:
+                break;
         }
     }
 
@@ -125,6 +144,18 @@ public class SOSettingWindow : EditorWindow
         Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(ReadSheet(), new object[0]);
     }
 
+    private void Setting2()
+    {
+        Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(ReadSheet2(), new object[0]);
+    }
+
+    private void SettingOutStar()
+    {
+        soTypeField.value = "OutStarCharacterDataSO";
+        gidField.value = "405560364"; //OutStarProfile
+        Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(OutStarReedSheet(), new object[0]);
+    }
+
     private IEnumerator ReadSheet()
     {
         UnityWebRequest www;
@@ -132,7 +163,6 @@ public class SOSettingWindow : EditorWindow
         www = UnityWebRequest.Get(string.Format(URL, gidField.value));
         yield return www.SendWebRequest();
         string add = www.downloadHandler.text.Replace("\r", "");
-
         switch (soTypeField.value)
         {
             case "FileSO":
@@ -159,6 +189,61 @@ public class SOSettingWindow : EditorWindow
                 break;
             case "WindowLockDataSO":
                 SettingFileLockSO(add);
+                break;
+            case "OutStar":
+                SettingOutStar();
+                break;
+            default:
+                Setting2();
+                break;
+        }
+
+    }
+
+    private IEnumerator ReadSheet2()
+    {
+        UnityWebRequest www;
+
+        www = UnityWebRequest.Get(string.Format(URL2, gidField.value));
+        yield return www.SendWebRequest();
+        string add = www.downloadHandler.text.Replace("\r", "");
+        switch (soTypeField.value)
+        {
+            case "CharacterData":
+                SettingCharacterDataSO(add);
+                break;
+        }
+    }
+
+    private IEnumerator OutStarReedSheet()
+    {
+        UnityWebRequest www;
+
+        www = UnityWebRequest.Get(string.Format(URL2, gidField.value));
+        yield return www.SendWebRequest();
+        string add = www.downloadHandler.text.Replace("\r", "");
+
+        switch (soTypeField.value)
+        {
+            case "OutStarCharacterDataSO":
+                SettingOutStarProfile(add);
+
+                gidField.value = "468226420"; //OutStarTimeChat
+                soTypeField.value = "OutStarTimeChatDataSO";
+                Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(OutStarReedSheet(), new object[0]);
+
+                break;
+
+            case "OutStarTimeChatDataSO":
+                SettingOutStarTimeChat(add);
+
+                gidField.value = "798117740"; //OutStarChat
+                soTypeField.value = "OutStarChatDataSO";
+                Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(OutStarReedSheet(), new object[0]);
+                break;
+
+            case "OutStarChatDataSO":
+                SettingOutStarChat(add);
                 break;
         }
 
@@ -742,7 +827,7 @@ public class SOSettingWindow : EditorWindow
                 if (!int.TryParse(infoString, out infoId))
                 {
                     continue;
-                }   
+                }
                 infoList.Add(infoId);
             }
             int monologID = int.Parse(columns[3]);
@@ -767,11 +852,11 @@ public class SOSettingWindow : EditorWindow
             bool isFakeInfo = columns[6] == "TRUE";
             float delay = float.Parse(columns[7].Trim());
 
-            bool isCreate =false; 
+            bool isCreate = false;
             TriggerDataSO triggerData = null;
             triggerData = guideSODatas.Find(x => x.triggerID == triggerID);
 
-            if(triggerData == null)
+            if (triggerData == null)
             {
                 triggerData = CreateInstance<TriggerDataSO>();
                 isCreate = true;
@@ -787,7 +872,7 @@ public class SOSettingWindow : EditorWindow
             triggerData.isFakeInfo = isFakeInfo;
             triggerData.name = $"Trigger_{triggerData.triggerID}";
             string SO_PATH = $"Assets/07.ScriptableObjects/TriggerData/Trigger_{triggerData.triggerID}.asset";
-            if(isCreate)
+            if (isCreate)
             {
                 CreateFolder(SO_PATH);
                 AssetDatabase.CreateAsset(triggerData, SO_PATH);
@@ -849,8 +934,8 @@ public class SOSettingWindow : EditorWindow
             lockdata.windowPin = windowPin;
             lockdata.windowPinHintGuide = windowPinHint;
             lockdata.answerData = data;
-            
-            if(lockdata.answerData.infoData.Count == 0)
+
+            if (lockdata.answerData.infoData.Count == 0)
             {
                 lockdata.answerData.answer = string.Empty;
             }
@@ -873,6 +958,273 @@ public class SOSettingWindow : EditorWindow
         AssetDatabase.SaveAssets();
 
     }
+
+    public void SettingOutStarProfile(string dataText)
+    {
+        string[] rows = dataText.Split('\n');
+
+        string[] guids = AssetDatabase.FindAssets("t:OutStarCharacterDataSO", null);
+        List<OutStarCharacterDataSO> outStarCharacterDataSOList = new List<OutStarCharacterDataSO>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            outStarCharacterDataSOList.Add(AssetDatabase.LoadAssetAtPath<OutStarCharacterDataSO>(path));
+        }
+        for (int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+
+            string characterId = columns[0];
+            string[] timeChatList = columns[1].Trim().Split("/");
+
+            OutStarCharacterDataSO outStarCharacterData = outStarCharacterDataSOList.Find(x => x.ID == characterId);
+
+            bool isCreate = false;
+
+            if (outStarCharacterData == null)
+            {
+                outStarCharacterData = CreateInstance<OutStarCharacterDataSO>();
+                isCreate = true;
+            }
+
+            outStarCharacterData.SetID = characterId;
+            outStarCharacterData.timeChatIDList = new List<string>();
+
+            if (timeChatList[0] != string.Empty)
+            {
+                for (int j = 0; j < timeChatList.Length; j++)
+                {
+                    outStarCharacterData.timeChatIDList.Add(timeChatList[j]);
+                }
+            }
+            else
+            {
+                outStarCharacterData.timeChatIDList.Clear();
+            }
+
+            string SO_PATH = $"Assets/07.ScriptableObjects/OutStar/OutStarProfile/OutStarProfile_{columns[0]}.asset";
+
+
+
+            if (isCreate)
+            {
+                CreateFolder(SO_PATH);
+                AssetDatabase.CreateAsset(outStarCharacterData, SO_PATH);
+            }
+
+            EditorUtility.SetDirty(outStarCharacterData);
+            outStarCharacterDataSOList.Remove(outStarCharacterData);
+        }
+
+        outStarCharacterDataSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
+    }
+
+    public void SettingOutStarChat(string dataText)
+    {
+        string[] rows = dataText.Split('\n');
+
+        string[] guids = AssetDatabase.FindAssets("t:OutStarChatDataSO", null);
+        List<OutStarChatDataSO> outStarChatDataSOList = new List<OutStarChatDataSO>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            outStarChatDataSOList.Add(AssetDatabase.LoadAssetAtPath<OutStarChatDataSO>(path));
+        }
+        for (int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+
+            string id = columns[0];
+            bool isMine = bool.Parse(columns[1]);
+            string talkText = columns[2];
+
+            List<string> outStarTriggerDataString = new List<string>();
+            Debug.Log(columns.Length);
+            if (columns.Length > 3 && columns[3] != string.Empty)
+            {
+                outStarTriggerDataString = columns[3].Trim().Split("/").ToList();
+            }
+            OutStarChatDataSO outStarChatData = outStarChatDataSOList.Find(x => x.ID == id);
+
+            bool isCreate = false;
+
+            if (outStarChatData == null)
+            {
+                outStarChatData = CreateInstance<OutStarChatDataSO>();
+                isCreate = true;
+            }
+
+            outStarChatData.SetID = id;
+            outStarChatData.isMine = isMine;
+            outStarChatData.chatText = talkText;
+            outStarChatData.outStarTriggerList = new List<OutStarTigger>();
+
+            foreach (var textTriggerString in outStarTriggerDataString)
+            {
+                string[] triggerColumns = textTriggerString.Trim().Split(',');
+                string triggerID = triggerColumns[0].Trim();
+                int startIdx = int.Parse(triggerColumns[1].Trim());
+                int endIdx = int.Parse(triggerColumns[2].Trim());
+                OutStarTigger outStarTigger = new OutStarTigger(triggerID, startIdx, endIdx);
+                outStarChatData.outStarTriggerList.Add(outStarTigger);
+            }
+
+            string SO_PATH = $"Assets/07.ScriptableObjects/OutStar/OutStarChat/OutStarChat_{columns[0]}.asset";
+
+            if (isCreate)
+            {
+                CreateFolder(SO_PATH);
+                AssetDatabase.CreateAsset(outStarChatData, SO_PATH);
+            }
+
+            EditorUtility.SetDirty(outStarChatData);
+            outStarChatDataSOList.Remove(outStarChatData);
+        }
+
+        outStarChatDataSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
+    }
+
+    public void SettingOutStarTimeChat(string dataText)
+    {
+        string[] rows = dataText.Split('\n');
+
+        string[] guids = AssetDatabase.FindAssets("t:OutStarTimeChatDataSO", null);
+        List<OutStarTimeChatDataSO> outStarTimeChatDataSOList = new List<OutStarTimeChatDataSO>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            outStarTimeChatDataSOList.Add(AssetDatabase.LoadAssetAtPath<OutStarTimeChatDataSO>(path));
+        }
+        for (int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+
+            string id = columns[0];
+            string date = columns[1];
+            string[] chatIDList = columns[2].Trim().Split("/");
+
+            OutStarTimeChatDataSO outStarTimeChatData = outStarTimeChatDataSOList.Find(x => x.ID == id);
+
+            bool isCreate = false;
+
+            if (outStarTimeChatData == null)
+            {
+                outStarTimeChatData = CreateInstance<OutStarTimeChatDataSO>();
+                isCreate = true;
+            }
+
+            outStarTimeChatData.SetID = id;
+
+            int year = int.Parse(date.Substring(0, 4));
+            int month = int.Parse(date.Substring(4, 2));
+            int day = int.Parse(date.Substring(6, 2));
+
+            int hour = int.Parse(date.Substring(9, 2));
+            int minute = int.Parse(date.Substring(11, 2));
+
+            outStarTimeChatData.time = new DateTime(year, month, day, hour, minute, 0);
+
+            outStarTimeChatData.chatDataIDList = new List<string>();
+     
+            if (chatIDList[0] != string.Empty)
+            {
+                for (int j = 0; j < chatIDList.Length; j++)
+                {
+                    outStarTimeChatData.chatDataIDList.Add(chatIDList[j].Trim());
+                }
+            }
+            else
+            {
+                outStarTimeChatData.chatDataIDList.Clear();
+            }
+
+            string SO_PATH = $"Assets/07.ScriptableObjects/OutStar/OutStarTimeChat/OutStarTimeChat_{columns[0]}.asset";
+
+
+
+            if (isCreate)
+            {
+                CreateFolder(SO_PATH);
+                AssetDatabase.CreateAsset(outStarTimeChatData, SO_PATH);
+            }
+
+            EditorUtility.SetDirty(outStarTimeChatData);
+            outStarTimeChatDataSOList.Remove(outStarTimeChatData);
+        }
+
+        outStarTimeChatDataSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
+    }
+
+    public void SettingCharacterDataSO(string dataText)
+    {
+        string[] rows = dataText.Split('\n');
+
+        string[] guids = AssetDatabase.FindAssets("t:CharacterInfoDataSO", null);
+        List<CharacterInfoDataSO> CharacterInfoDataSOList = new List<CharacterInfoDataSO>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            Debug.Log(path);
+            CharacterInfoDataSOList.Add(AssetDatabase.LoadAssetAtPath<CharacterInfoDataSO>(path));
+        }
+        for (int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+
+            string id = columns[0];
+            string name = columns[1];
+            string spriteRoot = columns[2];
+            string phoneNum = columns[3];
+            string characterTypeStr = columns[4];
+
+            ECharacterDataType characterType = (ECharacterDataType)Enum.Parse(typeof(ECharacterDataType), characterTypeStr);
+
+            bool isCreate = false;
+
+            CharacterInfoDataSO characterData = CharacterInfoDataSOList.Find(x => x.characterType == characterType);
+
+            if (characterData == null)
+            {
+                characterData = CreateInstance<CharacterInfoDataSO>();
+                isCreate = true;
+            }
+
+            characterData.id = id;
+            characterData.characterName = name;
+            if(spriteRoot.Trim() != "")
+            {
+                characterData.profileIcon = AssetDatabase.LoadAssetAtPath<Sprite>(spriteRoot);
+            }
+            characterData.phoneNum = phoneNum;
+            characterData.characterType = characterType;
+            string SO_PATH = $"Assets/07.ScriptableObjects/CharacterType/{columns[0]}.asset";
+
+            if (isCreate)
+            {
+                CreateFolder(SO_PATH);
+                AssetDatabase.CreateAsset(characterData, SO_PATH);
+            }
+
+            EditorUtility.SetDirty(characterData);
+            CharacterInfoDataSOList.Remove(characterData);
+        }
+
+        CharacterInfoDataSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
+
+    }
+
     private void CreateFolder(string path)
     {
         string[] splitPath = path.Split('/');
@@ -890,5 +1242,4 @@ public class SOSettingWindow : EditorWindow
     }
 
 }
-
 
