@@ -102,7 +102,7 @@ public abstract class Mail : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public virtual void DestroyMail()
+    protected virtual void DestroyMail()
     {
         mailData.mailCategory |= (int)EEmailCategory.Remove;
         OnChangeRemoveCatagory?.Invoke();
@@ -122,7 +122,7 @@ public abstract class Mail : MonoBehaviour
         }
     }
 
-    public void OverlayOpenEventAdd()
+    private void OverlayOpenEventAdd()
     {
         Browser.currentBrowser.OnSelected += OverlayOpen;
     }
@@ -143,12 +143,12 @@ public abstract class Mail : MonoBehaviour
         mailData.mailCategory = originMask;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         OnOverlayClose?.Invoke();
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         OnDisable();
     }

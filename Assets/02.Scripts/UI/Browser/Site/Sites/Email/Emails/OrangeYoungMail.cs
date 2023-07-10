@@ -31,7 +31,7 @@ public class OrangeYoungMail : Mail
         base.HideMail();
     }
 
-    public override void DestroyMail()
+    protected override void DestroyMail()
     {
         base.DestroyMail();
     }

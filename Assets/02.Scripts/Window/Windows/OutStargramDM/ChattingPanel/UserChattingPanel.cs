@@ -12,18 +12,21 @@ public class UserChattingPanel : MonoBehaviour
 
     [SerializeField]
     private UserChatBoxPanel otherChatBoxPanelTemp;
-    
+
     [SerializeField]
     private TMP_Text timeTextTemp;
 
+    public ProfileOverlayOpenTrigger overlayOpenTrigger;
+
     public void Init()
     {
+        overlayOpenTrigger = GetComponent<ProfileOverlayOpenTrigger>();
         EventManager.StartListening(EOutStarEvent.ClickFriendPanel, ChangeUserData);
     }
 
     private void ChangeUserData(object[] ps)
     {
-        if(ps.Length < 1 || !(ps[0] is OutStarCharacterDataSO)) { return; }
+        if (ps.Length < 1 || !(ps[0] is OutStarCharacterDataSO)) { return; }
 
         ChangeUserData(ps[0] as OutStarCharacterDataSO);
     }
@@ -31,16 +34,30 @@ public class UserChattingPanel : MonoBehaviour
     private void ChangeUserData(OutStarCharacterDataSO data)
     {
         OutStarCharacterDataSO userData = ResourceManager.Inst.GetOutStarProfileResourceManager(characterID);
-        if(data != userData)
+        if (data != userData)
         {
-            gameObject.SetActive(false);
+            Hide();
         }
         else
         {
-            gameObject.SetActive(true);
+            Show();
         }
     }
 
+    private void Show()
+    {
+        gameObject.SetActive(true);
+        overlayOpenTrigger.Open();
+    }
+    private void Hide()
+    {
+        gameObject.SetActive(false);
+        overlayOpenTrigger.Close();
+    }
+    private void OnDisable()
+    {
+        overlayOpenTrigger.Close();
+    }
     private void OnDestroy()
     {
         EventManager.StopListening(EOutStarEvent.ClickFriendPanel, ChangeUserData);
@@ -67,9 +84,9 @@ public class UserChattingPanel : MonoBehaviour
                 OutStarChatDataSO chatData = ResourceManager.Inst.GetOutStarChatResourceManager(chatId); // to AssetDataBase
                 if (lastMine == "" || lastMine != chatData.isMine.ToString())
                 {
-                    if(chatData.isMine)
+                    if (chatData.isMine)
                     {
-                        currentPanel = Instantiate(myChatBoxPanelTemp,transform);
+                        currentPanel = Instantiate(myChatBoxPanelTemp, transform);
                     }
                     else
                     {
