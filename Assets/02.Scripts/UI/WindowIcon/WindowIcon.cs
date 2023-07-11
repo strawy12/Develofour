@@ -186,7 +186,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-        PinLockDataSO windowLock = ResourceManager.Inst.GetPinLockData(fileData.ID);
+        PinLockDataSO windowLock = ResourceManager.Inst.GetResource<PinLockDataSO>(fileData.ID);
         bool isLock = false;
 
         if (windowLock != null)

@@ -4,19 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public partial class ResourceManager : MonoSingleton<ResourceManager>
+public partial class BGMWindowDataResources : ResourcesComponent
 {
-    [SerializeField]
-    private Dictionary<string, BGMWindowSO> bgmWindowDataList;
-
-    public BGMWindowSO GetBGMWindowDataResources(string key)
+    public async override void LoadResourceDataAssets(Action callBack)
     {
-        return bgmWindowDataList[key];
-    }
-
-    private async void LoadBackgroundBGMWindowDataResourcesAssets(Action callBack)
-    {
-        bgmWindowDataList = new Dictionary<string, BGMWindowSO>();
+        resourceDictionary = new Dictionary<string, ResourceSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("BGMWindowData", typeof(BGMWindowSO));
         await handle.Task;
@@ -26,7 +18,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<BGMWindowSO>(handle.Result[i]).Task;
             await task;
 
-            bgmWindowDataList.Add(task.Result.ID, task.Result);
+            resourceDictionary.Add(task.Result.ID, task.Result);
         }
 
         Addressables.Release(handle);

@@ -75,7 +75,7 @@ public class EmailLine : MonoBehaviour
 
     public string GetMailTimeData()
     {
-        MailSaveData saveData = DataManager.Inst.GetMailSaveData(MailData.mailID);
+        MailSaveData saveData = DataManager.Inst.GetMailSaveData(MailData.id);
 
         if(saveData != null)
         {

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Window/BackgroundBGM")]
-public class BGMWindowSO : ScriptableObject
+public class BGMWindowSO : ResourceSO
 {
-    [SerializeField]
-    private string id;
+    //id is fileid
     public Sound.EAudioType audioType;
 
     public string ID

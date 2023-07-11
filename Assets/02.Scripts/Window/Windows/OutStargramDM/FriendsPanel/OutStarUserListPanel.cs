@@ -15,7 +15,7 @@ public class OutStarUserListPanel : MonoBehaviour
     public void Init()
     {
         userPanelList = new List<OutStarUserPanel>();
-        characterDataList = ResourceManager.Inst.GetOutStarCharacterProfileToList();
+        characterDataList = ResourceManager.Inst.GetResourceList<OutStarCharacterDataSO>();
         EventManager.StartListening(EOutStarEvent.ClickFriendPanel, ChangeCurrentFriendData);
         CreateFriendPanel();
     }

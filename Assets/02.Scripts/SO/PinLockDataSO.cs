@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class PinLockDataSO : ScriptableObject
+public class PinLockDataSO : ResourceSO
 {
-    public string fileId;
-
+    //id is fileID
     public string windowPin;
     public string windowPinHintGuide;
 

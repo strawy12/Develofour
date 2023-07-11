@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Window/VideoPlayer/Data")]
-public class VideoPlayerDataSO : ScriptableObject
+public class VideoPlayerDataSO : ResourceSO
 {
-    private string fileId;
-
+    //id is fileID
     public string FileID
     {
-        get => fileId;
+        get => id;
         set
         {
-            if (!string.IsNullOrEmpty(fileId))
+            if (!string.IsNullOrEmpty(id))
                 return;
 
-            fileId = value;
+            id = value;
         }
     }
 

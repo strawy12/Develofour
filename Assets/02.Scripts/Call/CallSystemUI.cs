@@ -57,7 +57,8 @@ public class CallSystemUI : MonoBehaviour
 
     private void InitCallUI()
     {
-        CharacterInfoDataSO characterData = ResourceManager.Inst.GetCharacterDataSO(currentCallProfileData.CharacterID);
+        CharacterInfoDataSO characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(currentCallProfileData.ID);
+
         if (characterData.characterName == "")
         {
             nameText.text = characterData.phoneNum;
@@ -135,7 +136,7 @@ public class CallSystemUI : MonoBehaviour
     {
         foreach (string callDataID in currentCallProfileData.outGoingCallIDList)
         {
-            CallDataSO callData = ResourceManager.Inst.GetCallData(callDataID);
+            CallDataSO callData = ResourceManager.Inst.GetResource<CallDataSO>(callDataID);
             if (callData == null) continue;
 
             if (!DataManager.Inst.IsMonologShow(callData.monologID))
@@ -147,7 +148,7 @@ public class CallSystemUI : MonoBehaviour
             }
         }
 
-        CallDataSO notExistCallData = ResourceManager.Inst.GetCallData(currentCallProfileData.notExistCallID);
+        CallDataSO notExistCallData = ResourceManager.Inst.GetResource<CallDataSO>(currentCallProfileData.notExistCallID);
         MakeSelectBtn(notExistCallData);
     }
     private void MakeSelectBtn(CallDataSO callData)
@@ -155,7 +156,7 @@ public class CallSystemUI : MonoBehaviour
         if (callData == null) return;
 
         CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
-        MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(callData.monologID);
+        MonologTextDataSO textData = ResourceManager.Inst.GetResource<MonologTextDataSO>(callData.monologID);
         buttonList.Add(instance);
 
         instance.btnText.text = textData.monologName;
@@ -169,7 +170,7 @@ public class CallSystemUI : MonoBehaviour
 
     private void RecivivedCall()
     {
-        MonologTextDataSO textData = ResourceManager.Inst.GetMonologTextData(currentCallProfileData.monologID);
+        MonologTextDataSO textData = ResourceManager.Inst.GetResource<MonologTextDataSO>(currentCallProfileData.monologID);
         MonologSystem.AddOnEndMonologEvent(textData.ID, SetSelectBtns);
         MonologSystem.OnStartMonolog?.Invoke(textData.ID, false);
     }

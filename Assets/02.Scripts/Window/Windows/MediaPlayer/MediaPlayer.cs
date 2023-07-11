@@ -65,7 +65,7 @@ public partial class MediaPlayer : Window
     {
         base.Init();
 
-        mediaPlayerData = ResourceManager.Inst.GetMediaPlayerData(file.ID);
+        mediaPlayerData = ResourceManager.Inst.GetResource<MediaPlayerDataSO>(file.ID);
 
         if(mediaPlayerData.body != null)
         {

@@ -78,7 +78,7 @@ public abstract class Mail : MonoBehaviour
         titleText.text = mailData.titleText;
         receiveText.text = mailData.receiveName + "¿¡°Ô";
         sendText.text = mailData.sendName;
-        MailSaveData saveData = DataManager.Inst.GetMailSaveData(mailData.mailID);
+        MailSaveData saveData = DataManager.Inst.GetMailSaveData(mailData.id);
         if (saveData != null)
         {
             timeText.text = $"{mailData.Year}. {saveData.month}. {saveData.day}. {saveData.hour}:{saveData.minute}";

@@ -4,19 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public partial class ResourceManager : MonoSingleton<ResourceManager>
+public partial class ImageViewerDataResources : ResourcesComponent
 {
-   
-    private Dictionary<string, ImageViewerDataSO> imageVierwerDictionary;
-
-    public ImageViewerDataSO GetImageViewerData(string fileId)
-    {
-        return imageVierwerDictionary[fileId];
-    }
+    //public ImageViewerDataSO GetImageViewerData(string fileId)
+    //{
+    //    return imageVierwerDictionary[fileId];
+    //}
 
     private async void LoadImageViewerDataAssets(Action callBack)
     {
-        imageVierwerDictionary = new Dictionary<string, ImageViewerDataSO>();
+        resourceDictionary = new Dictionary<string, ResourceSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("ImageViewerData");
         // ImageViewerData 이 Label을 들고있는 데이터들의 경로를 리스트로 묶어서 불러오는 거
@@ -30,7 +27,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<ImageViewerDataSO>(handle.Result[i]).Task;
             await task;
 
-            imageVierwerDictionary.Add(task.Result.fileId, task.Result);
+            resourceDictionary.Add(task.Result.id, task.Result);
         }
 
         Addressables.Release(handle);

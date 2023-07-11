@@ -130,7 +130,7 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         if (targetWindow == null)
         {
-            PinLockDataSO windowLock = ResourceManager.Inst.GetPinLockData(file.ID);
+            PinLockDataSO windowLock = ResourceManager.Inst.GetResource<PinLockDataSO>(file.ID);
             bool isLock = false;
 
             if (windowLock != null)

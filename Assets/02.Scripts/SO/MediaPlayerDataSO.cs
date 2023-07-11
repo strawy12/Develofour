@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Window/MediaPlayer/Data")]
-public class MediaPlayerDataSO : ScriptableObject
+public class MediaPlayerDataSO : ResourceSO
 {
+    //id is fileID
     public float textPlaySpeed = 0.05f;
     public AudioClip mediaAudioClip;
 
@@ -13,7 +14,6 @@ public class MediaPlayerDataSO : ScriptableObject
      
     [TextArea(10, 20)]
     public string textData;
-    public string fileId;
 
     public float endlineDelay;
     public List<int> infoID;

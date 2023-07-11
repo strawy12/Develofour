@@ -45,7 +45,7 @@ public class ProfilerSaveData
 public class MailSaveData
 {
     [BitMask(typeof(EEmailCategory))]
-    public int id;
+    public string id;
     public int month;
     public int day;
     public int hour;

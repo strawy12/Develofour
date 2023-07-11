@@ -12,13 +12,13 @@ public partial class DataManager : MonoSingleton<DataManager>
 
         for(int i = 0; i < fileList.Count; i++)
         {
-            PinLockDataSO lockData = ResourceManager.Inst.GetPinLockData(fileList[i].ID);
+            PinLockDataSO lockData = ResourceManager.Inst.GetResource<PinLockDataSO>(fileList[i].ID);
 
             if(lockData == null) 
             {
                 continue;
             }
-            saveData.PinLockData.Add(new PinLockData() { id = lockData.fileId, isLock = true });
+            saveData.PinLockData.Add(new PinLockData() { id = lockData.id, isLock = true });
         }
 
         // 해쉬로 정렬을 해둬서 찾는 속도를 더욱 증가 시킴

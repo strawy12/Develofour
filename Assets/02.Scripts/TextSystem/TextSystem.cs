@@ -87,7 +87,7 @@ public abstract class TextSystem : MonoBehaviour
             case "CALL": //받을때
                 {
                     string[] cmdValueArray = cmdValue.Split(',');
-                    CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(cmdValueArray[0]);
+                    CharacterInfoDataSO data = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(cmdValueArray[0]);
                     string monologID = cmdValueArray[1];
                     CallSystem.OnInComingCall(data.ID, monologID);
                 }
@@ -97,7 +97,7 @@ public abstract class TextSystem : MonoBehaviour
             case "STACKCALL":
                 {
                     string[] cmdValueArray = cmdValue.Split(',');
-                    CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(cmdValueArray[0]);
+                    CharacterInfoDataSO data = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(cmdValueArray[0]);
                     int monologData = int.Parse(cmdValueArray[1]);
                     //  CallSystem.Inst.StackMonolog(data.characterType, ResourceManager.Inst.GetMonologTextData(monologData));
                 }

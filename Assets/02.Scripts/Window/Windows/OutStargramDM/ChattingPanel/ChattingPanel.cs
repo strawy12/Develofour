@@ -23,7 +23,7 @@ public partial class ChattingPanel : MonoBehaviour
 
     private void ChangeUserData(OutStarCharacterDataSO data)
     {
-        CharacterInfoDataSO characterData = ResourceManager.Inst.GetCharacterDataSO(data.ID);
+        CharacterInfoDataSO characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(data.ID);
         userNameText.SetText(characterData.characterName);
     }
 

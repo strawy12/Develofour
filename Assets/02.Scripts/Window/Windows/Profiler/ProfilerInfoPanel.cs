@@ -130,7 +130,7 @@ public class ProfilerInfoPanel : MonoBehaviour
 
         if(!string.IsNullOrEmpty(currentData.defaultInfoID))
         {
-            ProfilerInfoDataSO infoData = ResourceManager.Inst.GetProfilerInfoData(currentData.defaultInfoID);
+            ProfilerInfoDataSO infoData = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(currentData.defaultInfoID);
 
             ProfilerInfoText infoText = Pop();
             infoText.Setting(infoData);
@@ -140,7 +140,7 @@ public class ProfilerInfoPanel : MonoBehaviour
 
         foreach (string infoID in currentData.infoIDList)
         {
-            ProfilerInfoDataSO infoData = ResourceManager.Inst.GetProfilerInfoData(infoID);
+            ProfilerInfoDataSO infoData = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(infoID);
 
             ProfilerInfoText infoText = Pop();
             infoText.Setting(infoData);

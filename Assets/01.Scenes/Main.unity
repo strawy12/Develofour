@@ -1111,7 +1111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba6f6b5b6e6d4170a6ce1991a85844a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugEventList: []
   todoFile: {fileID: 0}
   cutScene: {fileID: 7783120913877595460}
   testFileso: {fileID: 0}
@@ -2956,7 +2955,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overlayPanel: {fileID: 1323700523}
   overlayText: {fileID: 834366362}
-  profileIDList: 
+  profileIDList: []
 --- !u!1 &337520660
 GameObject:
   m_ObjectHideFlags: 0
@@ -10957,15 +10956,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerID: 0
-  infoDataIDList: 85000000
-  fileID: -2
+  triggerID: 
+  infoDataIDList: 
+  fileID: 0
   needInfoList: []
-  monoLogType: 160
+  monoLogType: 0
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  backgroundImage: {fileID: 996333745}
+  backgroundImage: {fileID: 0}
 --- !u!1 &1016419457
 GameObject:
   m_ObjectHideFlags: 0
@@ -12026,9 +12025,7 @@ MonoBehaviour:
   inputField: {fileID: 0}
   autoAnswerDatas:
   - answer: 
-    infoData:
-    - decisionType: 0
-      key: 1
+    needInfoData: []
   inputSystem: {fileID: 0}
 --- !u!1 &1120884904
 GameObject:
@@ -13321,14 +13318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e13b5b1ec04cf2bf9b3769f69b2e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 2161882274861463634}
-  profileIcon: {fileID: 2161882275024925219}
-  answerBtn: {fileID: 2161882275134689551}
-  spectrumUI: {fileID: 2161882274632275934}
-  isRecieveCall: 0
-  selectButtonParent: {fileID: 138643829}
-  selectButton: {fileID: 1079311148}
-  callCoverPanel: {fileID: 638911649}
+  callSystemUI: {fileID: 0}
   deflaultDelayTime: 10
 --- !u!1 &1253739943
 GameObject:
@@ -13533,15 +13523,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerID: 0
-  infoDataIDList: 01000000
-  fileID: -1
+  triggerID: 
+  infoDataIDList: 
+  fileID: 0
   needInfoList: []
-  monoLogType: 38
+  monoLogType: 0
   completeMonologType: 0
   delay: 0
   isFakeInfo: 0
-  backgroundImage: {fileID: 1283911533}
+  backgroundImage: {fileID: 0}
 --- !u!114 &1283911533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14399,7 +14389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug_Data:
-    FileLockData: []
+    PinLockData: []
     monologData: []
     additionFileData: []
     guideSaveData: []
@@ -14409,7 +14399,7 @@ MonoBehaviour:
     branchPostLockData: []
     savePhoneNumber: []
     mailSaveData: []
-    returnMonologData: []
+    returnCallData: []
     lastAccessDateData: []
     profilerGuideBtnSaveData: []
     isWatchStartCutScene: 0
@@ -14797,9 +14787,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileID: -2
-  triggerCount:
-  - {fileID: 996333747}
+  fileID: 0
+  triggerCount: []
 --- !u!1 &1402089262
 GameObject:
   m_ObjectHideFlags: 0
@@ -16443,7 +16432,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 471829026}
   m_HandleRect: {fileID: 471829025}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -21353,9 +21342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49aa9fbeca30f84fbcf157334a5e4b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileID: -1
-  triggerCount:
-  - {fileID: 1283911532}
+  fileID: 0
+  triggerCount: []
 --- !u!1 &2067300828
 GameObject:
   m_ObjectHideFlags: 0

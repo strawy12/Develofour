@@ -162,7 +162,7 @@ public class PhoneCallUI : MonoBehaviour
             return;
         }
 
-        CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(phoneNumberText.text);
+        CharacterInfoDataSO data = ResourceManager.Inst.FindCharacterPhoneNumber(phoneNumberText.text);
         string callProfileID;
         if (data == null)
         {

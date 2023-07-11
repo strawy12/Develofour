@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Window/Notepad/Data")]
-public class NotepadDataSO : ScriptableObject
+public class NotepadDataSO : ResourceSO
 {
-    public string fileId;
+    //id is fileID
     public bool readOnly = true;
 
     public NotepadBody notepadBody;

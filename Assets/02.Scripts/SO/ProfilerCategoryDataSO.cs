@@ -12,10 +12,8 @@ public enum EProfilerCategoryType
 }
 
 [CreateAssetMenu(menuName = "SO/Profiler/ProfilerInfo/Category")]
-public class ProfilerCategoryDataSO : ScriptableObject
+public class ProfilerCategoryDataSO : ResourceSO
 {
-    [Header("Category")]
-    private string id;
     public string ID
     {
         get => id;

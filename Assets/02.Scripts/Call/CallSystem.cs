@@ -54,7 +54,7 @@ public class CallSystem : MonoBehaviour
 
     private void CallDataCheck(object[] ps)
     {
-        var callDataList = ResourceManager.Inst.CallDataList.Values.Where(x => x.callDataType == ECallDataType.InComing).ToList();
+        var callDataList = ResourceManager.Inst.GetResourceList<CallDataSO>().Where(x => x.callDataType == ECallDataType.InComing).ToList();
 
         foreach (CallDataSO callData in callDataList)
         {
@@ -75,10 +75,10 @@ public class CallSystem : MonoBehaviour
         if (isCalling) return;
         isCalling = true;
 
-        CallProfileDataSO callProfileData = ResourceManager.Inst.GetCallProfileData(callProfileID);
+        CallProfileDataSO callProfileData = ResourceManager.Inst.GetResource<CallProfileDataSO>(callProfileID);
         if (callProfileData == null) return;
 
-        CharacterInfoDataSO characterInfoData = ResourceManager.Inst.GetCharacterDataSO(callProfileID);
+        CharacterInfoDataSO characterInfoData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(callProfileID);
         if (DataManager.Inst.IsSavePhoneNumber(characterInfoData.phoneNum) == false)
         {
             // 주소록 기능은 나중에 다시 코드를 짜십쇼
@@ -87,7 +87,7 @@ public class CallSystem : MonoBehaviour
 
         callSystemUI.InCommingCall(callProfileData);
 
-        CallDataSO callData = ResourceManager.Inst.GetCallData(callDataID);
+        CallDataSO callData = ResourceManager.Inst.GetResource<CallDataSO>(callDataID);
         callSystemUI.OnClickAnswerBtn += () => StartCallMonolog(new object[] { callData });
     }
 
@@ -97,7 +97,7 @@ public class CallSystem : MonoBehaviour
         if (isCalling) return;
         isCalling = true;
 
-        CallProfileDataSO data = ResourceManager.Inst.GetCallProfileData(callProfileID);
+        CallProfileDataSO data = ResourceManager.Inst.GetResource<CallProfileDataSO>(callProfileID);
         if (data == null) return;
 
         callSystemUI.OutGoingCall(data);
@@ -114,7 +114,7 @@ public class CallSystem : MonoBehaviour
 
             if (string.IsNullOrEmpty(currentCallData.returnCallID))
             {
-                CallDataSO returnCallData = ResourceManager.Inst.GetCallData(currentCallData.returnCallID);
+                CallDataSO returnCallData = ResourceManager.Inst.GetResource<CallDataSO>(currentCallData.returnCallID);
                 DataManager.Inst.AddReturnCallData(returnCallData.ID, (int)returnCallData.delay);
             }
 

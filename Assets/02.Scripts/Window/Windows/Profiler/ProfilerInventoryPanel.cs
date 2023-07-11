@@ -105,12 +105,9 @@ public class ProfilerInventoryPanel : MonoBehaviour
         sceneCategoryList = new List<ProfilerCategoryDataSO>();
         characterCategoryList = new List<ProfilerCategoryDataSO>();
         categorysQueue = new Queue<ProfilerCategoryPrefab>();
-        sceneCategoryList = ResourceManager.Inst.GetProfilerCategoryList()
-            .Where(x => x.Value.categoryType == EProfilerCategoryType.Info)
-            .Select(x => x.Value).ToList();
-        characterCategoryList = ResourceManager.Inst.GetProfilerCategoryList()
-            .Where(x => x.Value.categoryType == EProfilerCategoryType.Character)
-            .Select(x => x.Value).ToList();
+        List<ProfilerCategoryDataSO> categoryDataList = ResourceManager.Inst.GetResourceList<ProfilerCategoryDataSO>();
+        sceneCategoryList = categoryDataList.Where(x => x.categoryType == EProfilerCategoryType.Info).ToList();
+        characterCategoryList = categoryDataList.Where(x => x.categoryType == EProfilerCategoryType.Character).ToList();
 
         categoryType = EProfilerCategoryType.None;
 

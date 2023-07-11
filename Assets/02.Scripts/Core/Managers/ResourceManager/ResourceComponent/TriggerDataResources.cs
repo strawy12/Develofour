@@ -4,20 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public partial class ResourceManager : MonoSingleton<ResourceManager>
+public partial class TriggerDataResources : ResourcesComponent
 {
-    [SerializeField]
-    private Dictionary<string, TriggerDataSO> triggerDataList;
-
-    public TriggerDataSO GetTriggerDataSOResources(string key)
+    public override async void LoadResourceDataAssets(Action callBack)
     {
-        if (string.IsNullOrEmpty(key)) return null;
-        return triggerDataList[key];
-    }
-
-    private async void LoadTriggerDataSOResourcesAssets(Action callBack)
-    {
-        triggerDataList = new Dictionary<string, TriggerDataSO>();
+        resourceDictionary = new Dictionary<string, ResourceSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("TriggerData", typeof(TriggerDataSO));
         await handle.Task;
@@ -27,7 +18,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             var task = Addressables.LoadAssetAsync<TriggerDataSO>(handle.Result[i]).Task;
             await task;
 
-            triggerDataList.Add(task.Result.triggerID, task.Result);
+            resourceDictionary.Add(task.Result.id, task.Result);
         }
 
         Addressables.Release(handle);

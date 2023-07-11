@@ -33,7 +33,7 @@ public class UserChattingPanel : MonoBehaviour
 
     private void ChangeUserData(OutStarCharacterDataSO data)
     {
-        OutStarCharacterDataSO userData = ResourceManager.Inst.GetOutStarProfileResourceManager(characterID);
+        OutStarCharacterDataSO userData = ResourceManager.Inst.GetResource<OutStarCharacterDataSO>(characterID);
         if (data != userData)
         {
             Hide();
@@ -65,13 +65,13 @@ public class UserChattingPanel : MonoBehaviour
 #if UNITY_EDITOR
     private void PrefabSetting()
     {
-        OutStarCharacterDataSO userData = ResourceManager.Inst.GetOutStarProfileResourceManager(characterID);
+        OutStarCharacterDataSO userData = ResourceManager.Inst.GetResource<OutStarCharacterDataSO>(characterID);
 
         foreach (var id in userData.timeChatIDList)
         {
             string lastMine = "";
 
-            OutStarTimeChatDataSO timeChat = ResourceManager.Inst.GetOutStarTimeChatResourceManager(id); // to AssetDataBase
+            OutStarTimeChatDataSO timeChat = ResourceManager.Inst.GetResource<OutStarTimeChatDataSO>(id); // to AssetDataBase
             string timeText = Define.GetOutStarTimeText(timeChat.time);
             TMP_Text timeTextObj = Instantiate(timeTextTemp, transform);
             timeTextObj.SetText(timeText);
@@ -81,7 +81,7 @@ public class UserChattingPanel : MonoBehaviour
 
             foreach (var chatId in timeChat.chatDataIDList)
             {
-                OutStarChatDataSO chatData = ResourceManager.Inst.GetOutStarChatResourceManager(chatId); // to AssetDataBase
+                OutStarChatDataSO chatData = ResourceManager.Inst.GetResource<OutStarChatDataSO>(chatId); // to AssetDataBase
                 if (lastMine == "" || lastMine != chatData.isMine.ToString())
                 {
                     if (chatData.isMine)

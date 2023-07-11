@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Trigger")]
-public class TriggerDataSO : ScriptableObject
+public class TriggerDataSO : ResourceSO
 {
-    public string triggerID = "";
     public List<string> infoDataIDList;
     public string fileID;
     public List<NeedInfoData> needInfoList;

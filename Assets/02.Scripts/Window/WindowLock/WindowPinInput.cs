@@ -50,7 +50,7 @@ public class WindowPinInput : Window
     {
         base.Init();
 
-        windowLockData = ResourceManager.Inst.GetPinLockData(file.ID);
+        windowLockData = ResourceManager.Inst.GetResource<PinLockDataSO>(file.ID);
 
         confirmButton.onClick?.AddListener(CheckPinPassword);
         closeButton.onClick?.AddListener(CloseWindowPinLock);

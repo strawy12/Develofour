@@ -49,7 +49,7 @@ public class InformationTrigger : MonoBehaviour
     {
         if (triggerData == null)
         {
-            triggerData = ResourceManager.Inst.GetTriggerDataSOResources(triggerID.ToString());
+            triggerData = ResourceManager.Inst.GetResource<TriggerDataSO>(triggerID);
             if (triggerData == null)
             {
                 return;

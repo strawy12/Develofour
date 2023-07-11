@@ -17,7 +17,7 @@ public class BGMWindow : Window
     protected override void Init()
     {
         base.Init();
-        audioType = ResourceManager.Inst.GetBGMWindowDataResources(file.ID).audioType;
+        audioType = ResourceManager.Inst.GetResource<BGMWindowSO>(file.ID).audioType;
     }
 
     public override void WindowOpen()

@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CallProfileDataSO : ScriptableObject
+public class CallProfileDataSO : ResourceSO
 {
-    [SerializeField]
-    private string chatacterID = "";
-
     public string monologID;
 
     // 전화를 받지 않을 경우의 통화 ID
@@ -18,15 +15,15 @@ public class CallProfileDataSO : ScriptableObject
     public List<string> inCommingCallIDList;
     public List<string> returnCallIDList;
 
-    public string CharacterID
+    public string ID
     {
-        get { return chatacterID; }
+        get { return id; }
         set
         {
-            if (!string.IsNullOrEmpty(chatacterID))
+            if (!string.IsNullOrEmpty(id))
                 return;
 
-            chatacterID = value;
+            id = value;
         }
     }
 }

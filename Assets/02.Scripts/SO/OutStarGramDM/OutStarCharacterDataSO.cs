@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/OutStar/CharacterData")]
-public class OutStarCharacterDataSO : ScriptableObject
+public class OutStarCharacterDataSO : ResourceSO
 {
-    [SerializeField]
-    private string characterId;
+    public string ID { get => id; }
 
-    public string ID { get => characterId; }
-
-    public string SetID { set => characterId = value; }
+    public string SetID { set => id = value; }
 
     public List<string> timeChatIDList;
 }

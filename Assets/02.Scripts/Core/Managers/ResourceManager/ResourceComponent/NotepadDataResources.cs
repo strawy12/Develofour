@@ -4,21 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public partial class ResourceManager : MonoSingleton<ResourceManager>
+public partial class NotepadDataResources : ResourcesComponent
 {
-    [SerializeField]
-    private Dictionary<string, NotepadDataSO> notepadDataList;
-
-    public NotepadDataSO GetNotepadData(string key)
+    public async override void LoadResourceDataAssets(Action callBack)
     {
-        if(notepadDataList.ContainsKey(key))
-            return notepadDataList[key];
-        return null;
-    }
-
-    private async void LoadNotepadDataAssets(Action callBack)
-    {
-        notepadDataList = new Dictionary<string, NotepadDataSO>();
+        resourceDictionary = new Dictionary<string, ResourceSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync("NotepadData", typeof(NotepadDataSO));
         await handle.Task;
@@ -27,7 +17,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         {
             var task = Addressables.LoadAssetAsync<NotepadDataSO>(handle.Result[i]).Task;
             await task;
-            notepadDataList.Add(task.Result.fileId, task.Result);
+            resourceDictionary.Add(task.Result.id, task.Result);
         }
 
         Addressables.Release(handle);

@@ -11,11 +11,8 @@ public class TextData
 }
 
 [CreateAssetMenu(fileName = "TextData_", menuName = "SO/TextDataSO/Monolog")]
-public class MonologTextDataSO : ScriptableObject
+public class MonologTextDataSO : ResourceSO
 {
-    [SerializeField]
-    private string id;
-
     /// <summary>
     /// 해당 이름은 인 게임 내 보여지는 이름입니다.
     /// 영어로 작성하지 말고 한글로 작성해주세요.

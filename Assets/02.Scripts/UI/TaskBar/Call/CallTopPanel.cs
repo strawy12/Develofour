@@ -27,7 +27,7 @@ public class CallTopPanel : MonoBehaviour
         nextBtn.onClick.AddListener(OnClickNextBtn);
         beforeBtn.onClick.AddListener(OnClickBeforeBtn);
         autoCompleteBtn.onClick.AddListener(OnClickAutoBtn);
-        characterDataList = ResourceManager.Inst.GetCharacterDataSOList();
+        characterDataList = ResourceManager.Inst.GetResourceList<CharacterInfoDataSO>();
         EventManager.StartListening(ECallEvent.AddAutoCompleteCallBtn, AddNewAutoPhoneNumber);
         currentIdx = 0;
 

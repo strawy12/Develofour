@@ -9,9 +9,8 @@ public enum ECallDataType
     InComing,
 }
 
-public class CallDataSO : ScriptableObject
+public class CallDataSO : ResourceSO
 {
-    private string id;
     public string callProfileID;
 
     public ECallDataType callDataType = ECallDataType.None;

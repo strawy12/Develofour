@@ -30,7 +30,7 @@ public class OutStarUserPanel : MonoBehaviour, IPointerClickHandler
     public void Init(OutStarCharacterDataSO characterData)
     {
         outStarCharacterData = characterData;
-        this.characterData = ResourceManager.Inst.GetCharacterDataSO(characterData.ID);
+        this.characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(characterData.ID);
         SettingPanel();
     }
     
@@ -42,14 +42,14 @@ public class OutStarUserPanel : MonoBehaviour, IPointerClickHandler
         OutStarTimeChatDataSO lastTimeChat = null;
         foreach(var timeChatID in outStarCharacterData.timeChatIDList)
         {
-            OutStarTimeChatDataSO timeChat = ResourceManager.Inst.GetOutStarTimeChatResourceManager(timeChatID);
+            OutStarTimeChatDataSO timeChat = ResourceManager.Inst.GetResource<OutStarTimeChatDataSO>(timeChatID);
             timeChatList.Add(timeChat);
         }
 
         lastTimeChat = timeChatList.OrderBy(x => x.time).LastOrDefault();
         if(lastTimeChat != null && lastTimeChat.chatDataIDList != null)
         {
-            OutStarChatDataSO lastChatData = ResourceManager.Inst.GetOutStarChatResourceManager(lastTimeChat.chatDataIDList.LastOrDefault());
+            OutStarChatDataSO lastChatData = ResourceManager.Inst.GetResource<OutStarChatDataSO>(lastTimeChat.chatDataIDList.LastOrDefault());
             if(lastChatData != null)
             {
                 lastChatText.text = lastChatData.chatText;

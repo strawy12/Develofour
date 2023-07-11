@@ -4,9 +4,8 @@ using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "SO/CharacterInfoDataSO")]
-public class CharacterInfoDataSO : ScriptableObject 
+public class CharacterInfoDataSO : ResourceSO 
 {
-    private string id;
     public string characterName;
     public string phoneNum;
     public Sprite profileIcon;

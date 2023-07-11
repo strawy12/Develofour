@@ -43,7 +43,7 @@ public class ProfilerInfoSystem : MonoBehaviour
                 return;
             }
             string id = (string)ps[0];
-            ProfilerInfoDataSO infoDataSO = ResourceManager.Inst.GetProfilerInfoData(id);
+            ProfilerInfoDataSO infoDataSO = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(id);
             ChangeValue(infoDataSO.categoryID, id);
             ps = new object[2] { infoDataSO.categoryID, id };
         }
@@ -74,8 +74,8 @@ public class ProfilerInfoSystem : MonoBehaviour
     public void SendAlarm(string categoryID, string id)
     {
         string temp = "nullError";
-        ProfilerCategoryDataSO categoryData = ResourceManager.Inst.GetProfileCategory(categoryID);
-        ProfilerInfoDataSO infoData = ResourceManager.Inst.GetProfilerInfoData(id);
+        ProfilerCategoryDataSO categoryData = ResourceManager.Inst.GetResource<ProfilerCategoryDataSO>(categoryID);
+        ProfilerInfoDataSO infoData = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(id);
         temp = infoData != null ? infoData.infoName : temp;
 
         string text;
@@ -98,7 +98,7 @@ public class ProfilerInfoSystem : MonoBehaviour
         string head = "새로운 카테고리가 추가되었습니다";
         string body = "";
 
-        ProfilerCategoryDataSO data = ResourceManager.Inst.GetProfileCategory(categoryID);
+        ProfilerCategoryDataSO data = ResourceManager.Inst.GetResource<ProfilerCategoryDataSO>(categoryID);
 
         if (data != null && data.categoryType != EProfilerCategoryType.Visiable)
         {

@@ -6,7 +6,7 @@ using UnityEngine;
 public partial class DataManager : MonoSingleton<DataManager>
 {
 
-    public MailSaveData GetMailSaveData(int mailID)
+    public MailSaveData GetMailSaveData(string mailID)
     {
         MailSaveData data = saveData.mailSaveData.Find(x => x.id == mailID);
         if (data == null)
@@ -16,7 +16,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         return data;
     }
 
-    public void SetMailSaveData(int mailID)
+    public void SetMailSaveData(string mailID)
     {
         MailSaveData data = saveData.mailSaveData.Find(x => x.id == mailID);
         if (data == null)
