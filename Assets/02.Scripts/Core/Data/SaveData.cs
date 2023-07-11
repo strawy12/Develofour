@@ -74,6 +74,16 @@ public class ReturnCallData
 }
 
 [System.Serializable]
+public class TutorialData
+{
+    public bool isPlayingTutorial; // 튜토리얼을 하고있는지?
+    public bool isStartTutorial; // 튜토리얼을 시작했는지?
+    public bool isOverlayTutorial; // 오버레이 튜토리얼을 했는지?
+    public bool isCharacterTutorial; // 인물 정보 튜토리얼을 했는지?
+    public bool isIncidentTutorial; // 사건 정보 튜토리얼을 했는지?
+}
+
+[System.Serializable]
 public class SaveData
 {
     public List<PinLockData> PinLockData;
@@ -89,6 +99,7 @@ public class SaveData
     public List<ReturnCallData> returnCallData;
     public List<LastAccessDateData> lastAccessDateData;
     public List<string> profilerGuideBtnSaveData;
+    public TutorialData profilerTutorialData;
 
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
@@ -103,8 +114,6 @@ public class SaveData
     public bool isOnceOpenWindowProperty;
 
     public int CurrentTimeData;
-
-    // 튜토리얼 중인지
 }
 
 

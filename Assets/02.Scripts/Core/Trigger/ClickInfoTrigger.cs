@@ -28,7 +28,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
+        if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
         GetInfo();
         ProfileOverlaySystem.OnAdd?.Invoke(triggerData.fileID);
         OnPointerEnter(eventData);
@@ -36,7 +36,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     private void ChangeCursor(ECursorState state)
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
+        if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
         switch (state)
         {
             case ECursorState.Default:
@@ -62,7 +62,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
+        if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
 
         if (triggerData.infoDataIDList == null || triggerData.infoDataIDList.Count == 0)
         {

@@ -116,7 +116,7 @@ public class NoticeSystem : MonoUI
 
         if(overlayTrigger != null)
         {
-            overlayTrigger.fileID = Constant.OverlayID.NOTIFICATION_SYSTEM;
+            overlayTrigger.fileID = Constant.OverlayID.NOTIFICATION_SYSTEM.ToString();
             overlayTrigger.Open();
         }
 

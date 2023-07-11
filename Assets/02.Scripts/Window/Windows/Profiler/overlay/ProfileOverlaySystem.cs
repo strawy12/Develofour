@@ -46,7 +46,7 @@ public class ProfileOverlaySystem : MonoBehaviour
 
     public void Open(string id, List<InformationTrigger> triggerList)
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
+        if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
 
         ResetCount();
         currentFileID = id;
