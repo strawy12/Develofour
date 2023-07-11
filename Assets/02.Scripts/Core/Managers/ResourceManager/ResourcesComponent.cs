@@ -4,17 +4,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public class ResourcesComponent : MonoBehaviour
+public abstract class ResourcesComponent : MonoBehaviour
 {
-    public string componentName;
-
-    public Type soType;
-
+    [SerializeField] private string label;
     protected Dictionary<string, ResourceSO> resourceDictionary;
 
-    public virtual async void LoadResourceDataAssets(Action callBack)
+    public abstract void LoadResources(Action callBack);
+    protected async void LoadResourceDataAssets<T>(Action callBack) where T : ResourceSO
     {
-        
+        resourceDictionary = new Dictionary<string, ResourceSO>();
+        var handle = Addressables.LoadResourceLocationsAsync(label, typeof(T));
+        await handle.Task;
+        for (int i = 0; i < handle.Result.Count; i++)
+        {
+            var task = Addressables.LoadAssetAsync<T>(handle.Result[i]).Task;
+            await task;
+
+            resourceDictionary.Add(task.Result.id, task.Result);
+        }
+
+        Addressables.Release(handle);
+
+        ResourceManager.Inst.AddResourcesComponent(typeof(T), this);
+        callBack?.Invoke();
     }
 
     public ResourceSO GetResource(string key)  

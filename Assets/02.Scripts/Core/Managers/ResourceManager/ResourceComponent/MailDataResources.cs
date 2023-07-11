@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public partial class MediaPlayerDataResources : ResourcesComponent
+public class MailDataResources : ResourcesComponent
 {
-
     public override void LoadResources(Action callBack)
     {
-        LoadResourceDataAssets<MediaPlayerDataSO>(callBack);
+        LoadResourceDataAssets<MailDataSO>(callBack);
     }
 }

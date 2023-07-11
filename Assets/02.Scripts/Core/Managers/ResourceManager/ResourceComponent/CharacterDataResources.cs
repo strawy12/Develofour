@@ -6,35 +6,33 @@ using UnityEngine.AddressableAssets;
 
 public partial class CharacterDataResources : ResourcesComponent
 {
-    //public CharacterInfoDataSO GetCharacterByPhoneNumber(string phoneNumber)
-    //{
-    //    return characterDataSOList.Values.FirstOrDefault((x) => x.phoneNum == phoneNumber);
-    //}
-    //public List< CharacterInfoDataSO> GetCharacterDataSOList()
-    //{
-    //    List<CharacterInfoDataSO> results = new List<CharacterInfoDataSO>();
-    //    foreach(var temp in characterDataSOList.Values)
-    //    {
-    //        results.Add(temp);
-    //    }
-    //    return results;
-    //}
-    public async override void LoadResourceDataAssets(Action callBack)
+    public CharacterInfoDataSO GetCharacterByPhoneNumber(string phoneNumber)
     {
-        resourceDictionary = new Dictionary<string, ResourceSO>();
-        var handle = Addressables.LoadResourceLocationsAsync("CharacterInfoData", typeof(CharacterInfoDataSO));
-        await handle.Task;
-
-        for (int i = 0; i < handle.Result.Count; i++)
+        foreach(var data in resourceDictionary.Values)
         {
-            var task = Addressables.LoadAssetAsync<CharacterInfoDataSO>(handle.Result[i]).Task;
-            await task;
-
-            resourceDictionary.Add(task.Result.ID, task.Result);
+            CharacterInfoDataSO infoData = data as CharacterInfoDataSO;
+            if(infoData.phoneNum == phoneNumber)
+            {
+                return infoData;
+            }
         }
 
-        Addressables.Release(handle);
+        return null;
+    }
+    public List<CharacterInfoDataSO> GetCharacterDataList()
+    {
+        List<CharacterInfoDataSO> list = new List<CharacterInfoDataSO>();
+        
+        foreach(var data in resourceDictionary.Values)
+        {
+            list.Add(data as CharacterInfoDataSO);
+        }
 
-        callBack?.Invoke();
+        return list;
+    }
+
+    public override void LoadResources(Action callBack)
+    {
+        LoadResourceDataAssets<CharacterInfoDataSO>(callBack);
     }
 }
