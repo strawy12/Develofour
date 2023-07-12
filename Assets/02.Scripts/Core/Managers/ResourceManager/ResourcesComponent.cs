@@ -10,18 +10,23 @@ public abstract class ResourcesComponent : MonoBehaviour
     protected Dictionary<string, ResourceSO> resourceDictionary;
 
     public abstract void LoadResources(Action callBack);
+
     protected async void LoadResourceDataAssets<T>(Action callBack) where T : ResourceSO
     {
         resourceDictionary = new Dictionary<string, ResourceSO>();
 
         var handle = Addressables.LoadResourceLocationsAsync(label, typeof(T));
         await handle.Task;
-        Debug.Log(typeof(T));
         for (int i = 0; i < handle.Result.Count; i++)
         {
             var task = Addressables.LoadAssetAsync<T>(handle.Result[i]).Task;
             await task;
-
+            Debug.Log(typeof(T) + task.Result.id);
+            if (task.Result.id == null)
+            {
+                Debug.Log("null");
+                continue;
+            }
             resourceDictionary.Add(task.Result.id, task.Result);
         }
         Addressables.Release(handle);
@@ -30,7 +35,7 @@ public abstract class ResourcesComponent : MonoBehaviour
         callBack?.Invoke();
     }
 
-    public ResourceSO GetResource(string key)  
+    public ResourceSO GetResource(string key)
     {
         if (!resourceDictionary.ContainsKey(key)) return null;
 
