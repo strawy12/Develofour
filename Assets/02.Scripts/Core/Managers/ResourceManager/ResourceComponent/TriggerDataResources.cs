@@ -6,23 +6,8 @@ using UnityEngine.AddressableAssets;
 
 public partial class TriggerDataResources : ResourcesComponent
 {
-    public override async void LoadResourceDataAssets(Action callBack)
+    public override void LoadResources(Action callBack)
     {
-        resourceDictionary = new Dictionary<string, ResourceSO>();
-
-        var handle = Addressables.LoadResourceLocationsAsync("TriggerData", typeof(TriggerDataSO));
-        await handle.Task;
-
-        for (int i = 0; i < handle.Result.Count; i++)
-        {
-            var task = Addressables.LoadAssetAsync<TriggerDataSO>(handle.Result[i]).Task;
-            await task;
-
-            resourceDictionary.Add(task.Result.id, task.Result);
-        }
-
-        Addressables.Release(handle);
-
-        callBack?.Invoke();
+        LoadResourceDataAssets<TriggerDataSO>(callBack);
     }
 }

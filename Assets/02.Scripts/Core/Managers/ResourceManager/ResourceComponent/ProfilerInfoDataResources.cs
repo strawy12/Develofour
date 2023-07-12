@@ -6,23 +6,8 @@ using UnityEngine.AddressableAssets;
 
 public partial class ProfilerInfoDataResources : ResourcesComponent
 {
-    public override async void LoadResourceDataAssets(Action callBack)
+    public override void LoadResources(Action callBack)
     {
-        resourceDictionary = new Dictionary<string, ResourceSO>();
-
-        var handle = Addressables.LoadResourceLocationsAsync("ProfilerInfoData", typeof(ProfilerInfoDataSO));
-        await handle.Task;
-
-        for (int i = 0; i < handle.Result.Count; i++)
-        {
-            var task = Addressables.LoadAssetAsync<ProfilerInfoDataSO>(handle.Result[i]).Task;
-            await task;
-
-            resourceDictionary.Add(task.Result.ID, task.Result);
-        }
-
-        Addressables.Release(handle);
-
-        callBack?.Invoke();
+        LoadResourceDataAssets<ProfilerInfoDataSO>(callBack);
     }
 }
