@@ -24,6 +24,7 @@ public struct WindowIconData
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
 public class FileSO : ScriptableObject
 {
+    [SerializeField]
     private string id;
     public string ID
     {

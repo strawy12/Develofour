@@ -31,7 +31,7 @@ public class MonologTextDataSO : ResourceSO
             id = value;
         }
     }
-
+    [SerializeField]
     private List<TextData> textDataList;
     public TextData this[int index]
     {

@@ -13,8 +13,10 @@ public abstract class ResourcesComponent : MonoBehaviour
     protected async void LoadResourceDataAssets<T>(Action callBack) where T : ResourceSO
     {
         resourceDictionary = new Dictionary<string, ResourceSO>();
+
         var handle = Addressables.LoadResourceLocationsAsync(label, typeof(T));
         await handle.Task;
+        Debug.Log(typeof(T));
         for (int i = 0; i < handle.Result.Count; i++)
         {
             var task = Addressables.LoadAssetAsync<T>(handle.Result[i]).Task;
@@ -22,7 +24,6 @@ public abstract class ResourcesComponent : MonoBehaviour
 
             resourceDictionary.Add(task.Result.id, task.Result);
         }
-
         Addressables.Release(handle);
 
         ResourceManager.Inst.AddResourcesComponent(typeof(T), this);
