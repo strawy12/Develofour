@@ -20,9 +20,19 @@ public partial class SOSettingWindow : EditorWindow
         win.minSize = new Vector2(350, 250);
         win.maxSize = new Vector2(350, 250);
     }
-
-    private void OnEnable()
+    private void CreateFolder(string path)
     {
-        
+        string[] splitPath = path.Split('/');
+        string temp = "Assets";
+        for (int i = 1; i < splitPath.Length - 1; i++)
+        {
+            temp += '/' + splitPath[i];
+            if (!Directory.Exists(temp))
+            {
+                Directory.CreateDirectory(temp);
+            }
+        }
+        AssetDatabase.Refresh();
+
     }
 }

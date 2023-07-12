@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class Decision
+{
+    public string decisionName;
+    public string outGoingCallID;
+}
+
 public class CallProfileDataSO : ResourceSO
 {
     public string monologID;
@@ -11,7 +17,7 @@ public class CallProfileDataSO : ResourceSO
 
     public float delay;
 
-    public List<string> outGoingCallIDList;
+    public List<Decision> outGoingCallIDList;
     public List<string> inCommingCallIDList;
     public List<string> returnCallIDList;
 
