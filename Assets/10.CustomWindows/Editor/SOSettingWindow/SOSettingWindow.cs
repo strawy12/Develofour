@@ -31,6 +31,7 @@ public partial class SOSettingWindow : EditorWindow
         ProfilerInfo,
         ProfilerGuide,
         Character,
+        Trigger,
     }
     #region UIBuilderParam
     private Button settingButton;
@@ -41,7 +42,7 @@ public partial class SOSettingWindow : EditorWindow
     private Button profilerInfoBtn;
     private Button profilerGuideBtn;
     private Button characterDataBtn;
-
+    private Button triggerBtn;
 
     private Label gidText;
     private Label soTypeText;
@@ -62,6 +63,8 @@ public partial class SOSettingWindow : EditorWindow
         profilerInfoBtn = rootVisualElement.Q<Button>("ProfilerInfoBtn");
         profilerGuideBtn = rootVisualElement.Q<Button>("ProfilerGuideBtn");
         characterDataBtn = rootVisualElement.Q<Button>("CharacterBtn");
+        triggerBtn = rootVisualElement.Q<Button>("TriggerBtn");
+
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
 
@@ -73,6 +76,8 @@ public partial class SOSettingWindow : EditorWindow
         profilerInfoBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerInfo));
         profilerGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerGuide));
         characterDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Character));
+        triggerBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Trigger));
+
     }
 
     private void AutoComplete(ESOType type)
@@ -103,9 +108,15 @@ public partial class SOSettingWindow : EditorWindow
                 gidText.text = "1489579503";
                 soTypeText.text = "ProfilerGuideBtn";
                 break;
+
             case ESOType.Character:
                 gidText.text = "1030073895";
                 soTypeText.text = "CharacterDataSO";
+                break;
+
+            case ESOType.Trigger:
+                gidText.text = "1062045985";
+                soTypeText.text = "TriggerBtn";
                 break;
         }
     }
@@ -146,8 +157,13 @@ public partial class SOSettingWindow : EditorWindow
             case "ProfilerGuideBtn":
                 SettingProfilerGuideSO(add, soTypeText.text);
                 break;
+
             case "CharacterDataSO":
                 SettingCharacterData(add, soTypeText.text);
+                break;
+
+            case "TriggerBtn":
+                SettingTriggerSO(add, soTypeText.text);
                 break;
         }
     }
