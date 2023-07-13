@@ -31,6 +31,7 @@ public partial class SOSettingWindow : EditorWindow
         ProfilerInfo,
         ProfilerGuide,
         Character,
+        CallProfile,
     }
     #region UIBuilderParam
     private Button settingButton;
@@ -41,7 +42,7 @@ public partial class SOSettingWindow : EditorWindow
     private Button profilerInfoBtn;
     private Button profilerGuideBtn;
     private Button characterDataBtn;
-
+    private Button CallProfileDataBtn;
 
     private Label gidText;
     private Label soTypeText;
@@ -62,6 +63,7 @@ public partial class SOSettingWindow : EditorWindow
         profilerInfoBtn = rootVisualElement.Q<Button>("ProfilerInfoBtn");
         profilerGuideBtn = rootVisualElement.Q<Button>("ProfilerGuideBtn");
         characterDataBtn = rootVisualElement.Q<Button>("CharacterBtn");
+        CallProfileDataBtn = rootVisualElement.Q<Button>("CallProfileBtn");
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
 
@@ -73,6 +75,7 @@ public partial class SOSettingWindow : EditorWindow
         profilerInfoBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerInfo));
         profilerGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerGuide));
         characterDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Character));
+        CallProfileDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallProfile));
     }
 
     private void AutoComplete(ESOType type)
@@ -107,6 +110,10 @@ public partial class SOSettingWindow : EditorWindow
                 gidText.text = "1030073895";
                 soTypeText.text = "CharacterDataSO";
                 break;
+            case ESOType.CallProfile:
+                gidText.text = "2090943632";
+                soTypeText.text = "CallProfileDataSO";
+                break;
         }
     }
 
@@ -127,27 +134,28 @@ public partial class SOSettingWindow : EditorWindow
         switch (soTypeText.text)
         {
             case "FileSO":
-                SettingFileSO(add, soTypeText.text);
+                SettingFileSO(add);
                 break;
-
             case "TextDataSO":
-                SettingMonologSO(add, soTypeText.text);
+                SettingMonologSO(add);
                 break;
-
             case "AIChattingDataSO":
-                SettingAIChattingSO(add, soTypeText.text);
+                SettingAIChattingSO(add);
                 break;
             case "ProfilerCategoryDataSO":
-                SettingCategorySO(add, soTypeText.text);
+                SettingCategorySO(add);
                 break;
             case "ProfilerInfoDataSO":
-                SettingProfilerInfoSO(add, soTypeText.text);
+                SettingProfilerInfoSO(add);
                 break;
             case "ProfilerGuideBtn":
-                SettingProfilerGuideSO(add, soTypeText.text);
+                SettingProfilerGuideSO(add);
                 break;
             case "CharacterDataSO":
-                SettingCharacterData(add, soTypeText.text);
+                SettingCharacterData(add);
+                break;
+            case "CallProfileDataSO":
+                CallProfileSOSetting(add);
                 break;
         }
     }

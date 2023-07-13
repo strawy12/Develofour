@@ -10,7 +10,7 @@ using System.Linq;
 
 public partial class SOSettingWindow : EditorWindow
 {
-    public void SettingMonologSO(string dataText, string type)
+    public void SettingMonologSO(string dataText)
     {
         string[] rows = dataText.Split('\n');
 

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public partial class SOSettingWindow : EditorWindow
 {
-    public void SettingCategorySO(string dataText, string typeStr)
+    public void SettingCategorySO(string dataText)
     {
         string[] rows = dataText.Split('\n');
 
