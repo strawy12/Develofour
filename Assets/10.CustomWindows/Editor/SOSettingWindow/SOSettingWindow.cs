@@ -12,7 +12,6 @@ public partial class SOSettingWindow : EditorWindow
 {
     const string URL = @"https://docs.google.com/spreadsheets/d/1AYfKB3JgfR8zXXDccow0jJCuqa-CJJP9cBjdOlUIusw/export?format=tsv&range=2:1000&gid={0}";
 
-    private string gid;
     [MenuItem("Tools/SOSettingWindow")]
     public static void ShowWindow()
     {
@@ -36,6 +35,7 @@ public partial class SOSettingWindow : EditorWindow
         OutStarProfile,
         OutStarChat,
         OutStarTimeChat,
+        CallOutGoing,
     }
     #region UIBuilderParam
     private Button settingButton;
@@ -51,6 +51,8 @@ public partial class SOSettingWindow : EditorWindow
     private Button outStarProfileBtn;
     private Button outStarChatBtn;
     private Button outStarTimeChatBtn;
+    private Button callOutGoingBtn;
+
 
     private Label gidText;
     private Label soTypeText;
@@ -76,10 +78,9 @@ public partial class SOSettingWindow : EditorWindow
         outStarProfileBtn = rootVisualElement.Q<Button>("OutStarProfileBtn");
         outStarChatBtn = rootVisualElement.Q<Button>("OutStarChatBtn");
         outStarTimeChatBtn = rootVisualElement.Q<Button>("OutStarTimeChatBtn");
-
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
-
+        callOutGoingBtn = rootVisualElement.Q<Button>("CallOutGoingBtn");
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
         fileSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.File));
         monologSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Monolog));
@@ -93,6 +94,7 @@ public partial class SOSettingWindow : EditorWindow
         outStarProfileBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.OutStarProfile));
         outStarChatBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.OutStarChat));
         outStarTimeChatBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.OutStarTimeChat));
+        callOutGoingBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallOutGoing));
     }
 
     private void AutoComplete(ESOType type)
@@ -136,20 +138,21 @@ public partial class SOSettingWindow : EditorWindow
                 gidText.text = "2090943632";
                 soTypeText.text = "CallProfileDataSO";
                 break;
-
             case ESOType.OutStarProfile:
                 gidText.text = "405560364";
                 soTypeText.text = "OutStarProfileBtn";
                 break;
-
             case ESOType.OutStarChat:
                 gidText.text = "798117740";
                 soTypeText.text = "OutStarChatBtn";
                 break;
-
             case ESOType.OutStarTimeChat:
                 gidText.text = "468226420";
                 soTypeText.text = "OutStarTimeChatBtn";
+                break;
+            case ESOType.CallOutGoing:
+                gidText.text = "1986380815";
+                soTypeText.text = "CallOutGoingDataSO";
                 break;
         }
     }
@@ -188,14 +191,12 @@ public partial class SOSettingWindow : EditorWindow
             case "ProfilerGuideBtn":
                 SettingProfilerGuideSO(add);
                 break;
-
             case "CharacterDataSO":
                 SettingCharacterData(add);
                 break;
             case "CallProfileDataSO":
                 CallProfileSOSetting(add);
                 break;
-
             case "TriggerBtn":
                 SettingTriggerSO(add);
                 break;
@@ -210,6 +211,9 @@ public partial class SOSettingWindow : EditorWindow
 
             case "OutStarTimeChatBtn":
                 SettingOutStarTimeChatSO(add);
+                break;
+            case "CallOutGoingDataSO":
+                SettingCallOutgoingDataSO(add);
                 break;
         }
     }
