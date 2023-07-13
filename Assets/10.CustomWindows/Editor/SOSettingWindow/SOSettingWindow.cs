@@ -26,15 +26,18 @@ public partial class SOSettingWindow : EditorWindow
         None,
         File,
         Monolog,
-    }
+        AIChatting,
 
+    }
+    #region UIBuilderParam
     private Button settingButton;
     private Button fileSOBtn;
     private Button monologSOBtn;
+    private Button aiChattingBtn;
 
     private Label gidText;
-    private Label soTypeField;
-
+    private Label soTypeText;
+    #endregion
 
     private void OnEnable()
     {
@@ -45,14 +48,16 @@ public partial class SOSettingWindow : EditorWindow
 
         settingButton = rootVisualElement.Q<Button>("SOSettingBtn");
         fileSOBtn = rootVisualElement.Q<Button>("FileSOBtn");
-        monologSOBtn = rootVisualElement.Q<Button>("MonologBtn");
+        monologSOBtn = rootVisualElement.Q<Button>("TextSOBtn");
+        aiChattingBtn = rootVisualElement.Q<Button>("AIChattingBtn");
 
         gidText = rootVisualElement.Q<Label>("GidText");
-        soTypeField = rootVisualElement.Q<Label>("SOTypeText");
+        soTypeText = rootVisualElement.Q<Label>("SOTypeText");
 
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
         fileSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.File));
         monologSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Monolog));
+        aiChattingBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.AIChatting));
     }
 
     private void AutoComplete(ESOType type)
@@ -61,12 +66,16 @@ public partial class SOSettingWindow : EditorWindow
         {
             case ESOType.File:
                 gidText.text = "0";
-                soTypeField.text = "FileSO";
+                soTypeText.text = "FileSO";
                 break;
 
             case ESOType.Monolog:
                 gidText.text = "764708499";
-                soTypeField.text = "MonologTextDataSO";
+                soTypeText.text = "TextDataSO";
+                break;
+            case ESOType.AIChatting:
+                gidText.text = "36720751";
+                soTypeText.text = "AIChattingDataSO";
                 break;
         }
     }
@@ -81,17 +90,21 @@ public partial class SOSettingWindow : EditorWindow
         UnityWebRequest www;
 
         www = UnityWebRequest.Get(string.Format(URL, gidText.text));
+        Debug.Log(string.Format(URL, gidText.text));
         yield return www.SendWebRequest();
         string add = www.downloadHandler.text.Replace("\r", "");
 
-        switch (soTypeField.text)
+        switch (soTypeText.text)
         {
             case "FileSO":
-                SettingFileSO(add, soTypeField.text);
+                SettingFileSO(add, soTypeText.text);
                 break;
 
-            case "MonologTextDataSO":
-                SettingMonologSO(add, soTypeField.text);
+            case "TextDataSO":
+                SettingMonologSO(add, soTypeText.text);
+                break;
+            case "AIChattingDataSO":
+                SettingAIChattingSO(add, soTypeText.text);
                 break;
         }
     }
@@ -112,4 +125,16 @@ public partial class SOSettingWindow : EditorWindow
 
     }
 
+    private List<T> GuidsToSOList<T>(string filtter) where T : UnityEngine.Object
+    {
+        string[] guids = AssetDatabase.FindAssets(filtter, null);
+        List<T> SOList = new List<T>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            SOList.Add(AssetDatabase.LoadAssetAtPath<T>(path));
+        }
+
+        return SOList;
+    } 
 }

@@ -16,27 +16,21 @@ public partial class SOSettingWindow : EditorWindow
         string SO_PATH;
         string[] rows = dataText.Split('\n');
 
-        string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
-        List<FileSO> fileSOList = new List<FileSO>();
-        foreach (string guid in guids)
-        {
-            path = AssetDatabase.GUIDToAssetPath(guid);
-            fileSOList.Add(AssetDatabase.LoadAssetAtPath<FileSO>(path));
-        }
+        List<FileSO> fileSOList = GuidsToSOList<FileSO>("t:FileSO");
         List<FileSO> temp = fileSOList.ToList();
-
+        List<FileSO> parentNullFileList = new List<FileSO>();
         for (int i = 0; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split('\t');
             if (string.IsNullOrEmpty(columns[0])) continue;
-            string id = columns[0];
+            string id = columns[0].Trim();
             string fileName = columns[1];
 
             EWindowType type = (EWindowType)Enum.Parse(typeof(EWindowType), columns[2]);
 
             string parentID = columns[3];
             float bytes = 0;
-            string madeDate = string.Empty; 
+            string madeDate = string.Empty;
             string lastFixDate = string.Empty;
             string lastAccessDate = string.Empty;
             if (columns.Length > 4)
@@ -56,7 +50,6 @@ public partial class SOSettingWindow : EditorWindow
                 {
                     file = CreateInstance<DirectorySO>();
                     (file as DirectorySO).children = new List<FileSO>();
-
                 }
                 else
                 {
@@ -72,19 +65,42 @@ public partial class SOSettingWindow : EditorWindow
             file.windowType = type;
             file.parentName = parentID;
 
-            if(bytes != 0)
+            if (bytes != 0)
             {
                 file.propertyData.bytes = bytes;
                 file.propertyData.madeDate = madeDate;
                 file.propertyData.lastAccessDate = lastAccessDate;
                 file.propertyData.lastFixDate = lastFixDate;
             }
-
-
+            if (!(file.parentName == "" || string.IsNullOrEmpty(file.parentName)))
+            {
+                DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == file.parentName));
+                if (directory != null)
+                {
+                    fileSOList[i].parent = directory;
+                    directory.children.Add(file);
+                }
+                else
+                {
+                    parentNullFileList.Add(file);
+                }
+            }
             path = file.GetRealFileLocation();
 
-            SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}.asset";
+            SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}_{fileName}.asset";
             SO_PATH = SO_PATH.Replace("\\", "/");
+
+            if (columns.Length > 8)
+            {
+                if (columns[8] == "추가 파일")
+                {
+                    SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/AdditionalFile/{id}_{fileName}.asset";
+                }
+                else if (columns[8] == "디폴트 파일")
+                {
+                    SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/DefaultFile/{id}_{fileName}.asset";
+                }
+            }
 
             if (isCreate)
             {
@@ -97,66 +113,42 @@ public partial class SOSettingWindow : EditorWindow
                 AssetDatabase.CreateAsset(file, SO_PATH);
             }
             else
-            { 
+            {
                 CreateFolder(SO_PATH);
-                if(columns.Length > 8)
-                {
-                    bool flag1 = !File.Exists(SO_PATH);
-                    bool flag2 = !(columns[8] == "추가 파일" || columns[8] == "디폴트 파일");
-
-                    if (flag1 && flag2)
-                    {
-                        string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());
-                        AssetDatabase.MoveAsset(oldPath, SO_PATH);
-                    }
-                }
+                string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());
+                AssetDatabase.MoveAsset(oldPath, SO_PATH);
             }
 
+            AssetDatabase.Refresh();
             EditorUtility.SetDirty(file);
             temp.Remove(file);
         }
-
         //이제 parent 넣어주자
-
-
         temp.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
 
-        fileSOList.Clear();
+        fileSOList = GuidsToSOList<FileSO>("t:FileSO");
 
-        string[] newGuids = AssetDatabase.FindAssets("t:FileSO", null);
-        foreach (string guid in newGuids)
+        for (int i = 0; i < parentNullFileList.Count; i++)
         {
-            path = AssetDatabase.GUIDToAssetPath(guid);
-            fileSOList.Add(AssetDatabase.LoadAssetAtPath<FileSO>(path));
+            Debug.Log(parentNullFileList[i].parentName);
         }
-
-        for(int i = 0; i < fileSOList.Count; i++)
+        //이제 부모없는 파일들 폴더 위치 생성해주고 이동시켜주기
+        for (int i = 0; i < parentNullFileList.Count; i++)
         {
-            Debug.Log(fileSOList[i].parentName);
-            DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == fileSOList[i].parentName));
-            if(directory != null)
+            DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == parentNullFileList[i].parentName));
+            if (directory != null)
             {
-                fileSOList[i].parent = directory;
+                parentNullFileList[i].parent = directory;
+                directory.children.Add(parentNullFileList[i]);
             }
-        }
-
-
-        //이제 파일들 폴더 위치 생성해주고 이동시켜주기
-
-
-        for (int i = 0; i < fileSOList.Count; i++)
-        {
-            path = fileSOList[i].GetRealFileLocation();
+            path = parentNullFileList[i].GetRealFileLocation();
 
             SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}.asset";
             SO_PATH = SO_PATH.Replace("\\", "/");
             Debug.Log(SO_PATH);
             CreateFolder(SO_PATH);
-            AssetDatabase.MoveAsset(AssetDatabase.GetAssetPath(fileSOList[i]), SO_PATH);
+            AssetDatabase.MoveAsset(AssetDatabase.GetAssetPath(parentNullFileList[i]), SO_PATH);
         }
-
-        fileSOList.Clear();
-
 
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
