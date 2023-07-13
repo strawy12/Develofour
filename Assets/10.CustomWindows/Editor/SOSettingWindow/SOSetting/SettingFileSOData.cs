@@ -10,96 +10,106 @@ using System.Text.RegularExpressions;
 using System.Linq;
 public partial class SOSettingWindow : EditorWindow
 {
-
-    public void SettingMonologSO(string dataText, string type)
+    public void SettingFileSO(string dataText, string type)
     {
         string[] rows = dataText.Split('\n');
 
-        string[] guids = AssetDatabase.FindAssets("t:MonologTextDataSO", null);
-        List<MonologTextDataSO> monologSOList = new List<MonologTextDataSO>();
+        string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
+        List<FileSO> fileSOList = new List<FileSO>();
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            monologSOList.Add(AssetDatabase.LoadAssetAtPath<MonologTextDataSO>(path));
+            fileSOList.Add(AssetDatabase.LoadAssetAtPath<FileSO>(path));
         }
+        List<FileSO> temp = fileSOList.ToList();
 
         for (int i = 0; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split('\t');
 
-            if (columns[0] == string.Empty || columns[1] == string.Empty) continue;
-
-
             string id = columns[0];
+            string fileName = columns[1];
 
-            Color characterColor = Color.white;
-            Color character2Color = Color.white;
-            UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[4], out characterColor);
-            UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[5], out character2Color);
+            EWindowType type = (EWindowType)Enum.Parse(typeof(EWindowType), columns[2]);
 
-            MonologTextDataSO monologData = monologSOList.Find(x => x.ID == id);
+            string parentID = columns[3];
+
+            float bytes;
+            float.TryParse(columns[4], out bytes);
+            string madeDate = columns[5];
+            string lastFixDate = columns[6];
+            string lastAccessDate = columns[7];
+
+            FileSO file = fileSOList.Find(x => x.ID == id);
             bool isCreate = false;
 
-            if (monologData == null)
+            if (file == null)
             {
-                monologData = CreateInstance<MonologTextDataSO>();
+                if (type == EWindowType.Directory)
+                {
+                    file = CreateInstance<DirectorySO>();
+                    (file as DirectorySO).children = new List<FileSO>();
+
+                }
+                else
+                {
+                    file = CreateInstance<FileSO>();
+                }
+
                 isCreate = true;
             }
 
+            file.ID = id;
+            file.fileName = fileName;
+            file.windowType = type;
+            file.propertyData.bytes = bytes;
+            file.propertyData.madeDate = madeDate;
+            file.propertyData.lastAccessDate = lastAccessDate;
+            file.propertyData.lastFixDate = lastFixDate;
 
-            string[] textDataList = columns[3].Split('#');
-
-            monologData.textDataList = new List<TextData>();
-
-            for (int j = 0; j < textDataList.Length; j++)
+            if(!string.IsNullOrEmpty(parentID))
             {
-                TextData data = new TextData() { text = textDataList[j] };
-
-                if (textDataList[j].Contains("-"))
-                {
-                    data.textColor = characterColor;
-                    data.text = data.text.Replace("-", "");
-                }
-                else
-                {
-                    data.textColor = character2Color;
-                }
-                if (monologData.Count <= j)
-                {
-                    monologData.textDataList.Add(data);
-                }
-                else
-                {
-                    monologData[j] = data;
-                }
+                DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == parentID));
+                if (directory == null) { Debug.LogError("디렉토리가 없음"); }
+                else { directory.children.Add(file); }
             }
-
-            string SO_PATH = $"Assets/07.ScriptableObjects/TextDataSO/CreateMonolog/{fileName}.asset";
-            SO_PATH = SO_PATH.Replace("\\", "/");
-
+            string path = file.GetRealFileLocation();
+            string SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}.asset";
 
             if (isCreate)
             {
+                if (File.Exists(SO_PATH))
+                {
+                    SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path}_{id}.asset";
+                }
+
                 CreateFolder(SO_PATH);
-                AssetDatabase.CreateAsset(monologData, SO_PATH);
+                AssetDatabase.CreateAsset(file, SO_PATH);
             }
-
-            string path = AssetDatabase.GetAssetPath(monologData.GetInstanceID());
-            string[] pathSplits = path.Split('/');
-            pathSplits[pathSplits.Length - 1] = $"{fileName}.asset";
-            string newPath = string.Join('/', pathSplits);
-
-            if (path != newPath)
+            else
             {
-                AssetDatabase.RenameAsset(path, newPath);
+                SO_PATH = SO_PATH.Replace("\\", "/");
+
+                CreateFolder(SO_PATH);
+                bool flag1 = !File.Exists(SO_PATH);
+                bool flag2 = !(columns[8] == "추가 파일" || columns[8] == "디폴트 파일");
+
+                if (flag1 && flag2)
+                {
+                    string oldPath = AssetDatabase.GetAssetPath(file.GetInstanceID());
+                    AssetDatabase.MoveAsset(oldPath, SO_PATH);
+                }
             }
 
-            EditorUtility.SetDirty(monologData);
-            monologSOList.Remove(monologData);
+            EditorUtility.SetDirty(file);
+            temp.Remove(file);
         }
-        monologSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+
+        temp.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
 
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();
+
     }
+
 }
