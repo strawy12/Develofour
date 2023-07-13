@@ -23,8 +23,8 @@ public enum EWindowType // 확장자
     Dummy,
     VideoPlayer,
     SoundPlayer,
-    BackgroundBGM,
-    OutStarGramDM,
+    BGM,
+    OutStarDM,
     End 
 }
 

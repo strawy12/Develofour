@@ -134,22 +134,22 @@ public class CallSystemUI : MonoBehaviour
 
     private void SetSelectBtns()
     {
-        foreach (string callDataID in currentCallProfileData.outGoingCallIDList)
-        {
-            CallDataSO callData = ResourceManager.Inst.GetResource<CallDataSO>(callDataID);
-            if (callData == null) continue;
+        //foreach (string callDataID in currentCallProfileData.outGoingCallIDList)
+        //{
+        //    CallDataSO callData = ResourceManager.Inst.GetResource<CallDataSO>(callDataID);
+        //    if (callData == null) continue;
 
-            if (!DataManager.Inst.IsMonologShow(callData.monologID))
-            {
-                if (Define.NeedInfoFlag(callData.needInfoIDList))
-                {
-                    MakeSelectBtn(callData);
-                }
-            }
-        }
+        //    if (!DataManager.Inst.IsMonologShow(callData.monologID))
+        //    {
+        //        if (Define.NeedInfoFlag(callData.needInfoIDList))
+        //        {
+        //            MakeSelectBtn(callData);
+        //        }
+        //    }
+        //}
 
-        CallDataSO notExistCallData = ResourceManager.Inst.GetResource<CallDataSO>(currentCallProfileData.notExistCallID);
-        MakeSelectBtn(notExistCallData);
+        //CallDataSO notExistCallData = ResourceManager.Inst.GetResource<CallDataSO>(currentCallProfileData.notExistCallID);
+        //MakeSelectBtn(notExistCallData);
     }
     private void MakeSelectBtn(CallDataSO callData)
     {

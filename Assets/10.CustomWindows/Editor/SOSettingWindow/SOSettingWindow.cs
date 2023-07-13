@@ -2,12 +2,7 @@
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEngine.Networking;
-using System;
-using UnityEngine;
-using UnityEditor;
-using UnityEngine.UIElements;
-using UnityEngine.Networking;
-using System;
+using System; 
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -78,7 +73,7 @@ public partial class SOSettingWindow : EditorWindow
         switch (type)
         {
             case ESOType.File:
-                gidText.text = "2075656520";
+                gidText.text = "0";
                 soTypeText.text = "FileSO";
                 break;
 
@@ -120,7 +115,7 @@ public partial class SOSettingWindow : EditorWindow
         switch (soTypeText.text)
         {
             case "FileSO":
-                //SettingFileSO(add, soTypeField.text);
+                SettingFileSO(add, soTypeText.text);
                 break;
 
             case "TextDataSO":
