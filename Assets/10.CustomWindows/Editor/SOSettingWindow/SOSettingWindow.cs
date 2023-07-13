@@ -36,6 +36,8 @@ public partial class SOSettingWindow : EditorWindow
         OutStarChat,
         OutStarTimeChat,
         CallOutGoing,
+        CallInComing,
+        CallReturn,
         PinLock,
     }
     #region UIBuilderParam
@@ -54,6 +56,8 @@ public partial class SOSettingWindow : EditorWindow
     private Button outStarTimeChatBtn;
     private Button callOutGoingBtn;
     private Button pinLockBtn;
+    private Button callInComingBtn;
+    private Button callReturnBtn;
 
     private Label gidText;
     private Label soTypeText;
@@ -84,7 +88,9 @@ public partial class SOSettingWindow : EditorWindow
 
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
-
+        callOutGoingBtn = rootVisualElement.Q<Button>("CallOutGoingBtn");
+        callInComingBtn = rootVisualElement.Q<Button>("CallInComingBtn");
+        callReturnBtn = rootVisualElement.Q<Button>("CallReturnBtn");
 
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
         fileSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.File));
@@ -101,6 +107,8 @@ public partial class SOSettingWindow : EditorWindow
         outStarTimeChatBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.OutStarTimeChat));
         callOutGoingBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallOutGoing));
         pinLockBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.PinLock));
+        callInComingBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallInComing));
+        callReturnBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallReturn));
     }
 
     private void AutoComplete(ESOType type)
@@ -163,6 +171,14 @@ public partial class SOSettingWindow : EditorWindow
             case ESOType.PinLock:
                 gidText.text = "1805533189";
                 soTypeText.text = "PinLockDataSO";
+                break;
+            case ESOType.CallInComing:
+                gidText.text = "270045203";
+                soTypeText.text = "CallInComingDataSO";
+                break;
+            case ESOType.CallReturn:
+                gidText.text = "2051581446";
+                soTypeText.text = "CallReturnDataSO";
                 break;
         }
     }
@@ -227,6 +243,12 @@ public partial class SOSettingWindow : EditorWindow
                 break;
             case "PinLockDataSO":
                 SettingPinLockSO(add);
+                break;
+            case "CallInComingDataSO":
+                SettingCall_InComingSO(add);
+                break;
+            case "CallReturnDataSO":
+                SettingCallReturnData(add);
                 break;
         }
     }

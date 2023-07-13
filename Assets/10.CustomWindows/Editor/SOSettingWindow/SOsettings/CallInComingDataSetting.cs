@@ -6,7 +6,7 @@ using UnityEngine;
 
 public partial class SOSettingWindow : EditorWindow
 {
-    private void SettingCallOutgoingDataSO(string dataText)
+    private void SettingCall_InComingSO(string dataText)
     {
         string[] rows = dataText.Split('\n');
 
@@ -48,13 +48,11 @@ public partial class SOSettingWindow : EditorWindow
 
             bool isCreate = false;
             CallDataSO callData = callDataSOList.Find(x => x.id == id);
-
             if (callData == null)
             {
                 callData = CreateInstance<CallDataSO>();
                 isCreate = true;
             }
-
 
             callData.additionFileIDList = additionFileDataList;
             callData.monologID = textDataID;
@@ -62,19 +60,17 @@ public partial class SOSettingWindow : EditorWindow
             {
                 callData.needInfoIDList = needInfoIDList.ToList();
             }
-            callData.callDataType = ECallDataType.OutGoing;
             if (callProfileDataSOList != null)
             {
-                var profileData = callProfileDataSOList.Where(x =>
+                callData.callProfileID = callProfileDataSOList.Where(x =>
                 {
-                    if (x.outGoingCallOptionList == null) return false;
-                    List<string> optionIDList = x.outGoingCallOptionList.Select(y=>y.outGoingCallID).ToList();
-                    return optionIDList.Contains(id);
-                }).FirstOrDefault();
-                if (profileData != null) callData.callProfileID = profileData.id;
+                if (x.inCommingCallIDList == null) return false;
+                return x.inCommingCallIDList.Contains(id);
+                }).FirstOrDefault().id;
             }
+            callData.callDataType = ECallDataType.InComing;
 
-            string SO_PATH = $"Assets/07.ScriptableObjects/CallData/OutGoingCallText/{id}.asset";
+            string SO_PATH = $"Assets/07.ScriptableObjects/CallData/InComingData/{columns[0]}.asset";
 
             string[] idChars = columns[0].Split('_');
             List<string> idDivision = new List<string>();
@@ -106,7 +102,7 @@ public partial class SOSettingWindow : EditorWindow
                     idDivision.Add("EtcCall");
                     break;
             }
-            SO_PATH = $"Assets/07.ScriptableObjects/CallData/OutGoingCallText/{idDivision[0]}/{id}.asset";
+            SO_PATH = $"Assets/07.ScriptableObjects/CallData/InComingCallText/{idDivision[0]}/{id}.asset";
 
             if (isCreate)
             {
@@ -117,9 +113,5 @@ public partial class SOSettingWindow : EditorWindow
             EditorUtility.SetDirty(callData);
             callDataSOList.Remove(callData);
         }
-        callDataSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
-
-        AssetDatabase.Refresh();
-        AssetDatabase.SaveAssets();
     }
 }
