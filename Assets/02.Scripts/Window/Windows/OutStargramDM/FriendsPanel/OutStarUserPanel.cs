@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using System.Linq;
 public class OutStarUserPanel : MonoBehaviour, IPointerClickHandler
 {
-    private OutStarCharacterDataSO outStarCharacterData;
+    private OutStarProfileDataSO outStarCharacterData;
     private CharacterInfoDataSO characterData;
 
     public string CharacterID { get => outStarCharacterData.ID; }
@@ -27,7 +27,7 @@ public class OutStarUserPanel : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private GameObject pointerPanel;
 
-    public void Init(OutStarCharacterDataSO characterData)
+    public void Init(OutStarProfileDataSO characterData)
     {
         outStarCharacterData = characterData;
         this.characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(characterData.ID);

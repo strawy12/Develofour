@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OutStarUserListPanel : MonoBehaviour
 {
-    private List<OutStarCharacterDataSO> characterDataList;
+    private List<OutStarProfileDataSO> characterDataList;
     private List<OutStarUserPanel> userPanelList;
     [SerializeField]
     private Transform userPanelTransform;
@@ -15,7 +15,7 @@ public class OutStarUserListPanel : MonoBehaviour
     public void Init()
     {
         userPanelList = new List<OutStarUserPanel>();
-        characterDataList = ResourceManager.Inst.GetResourceList<OutStarCharacterDataSO>();
+        characterDataList = ResourceManager.Inst.GetResourceList<OutStarProfileDataSO>();
         EventManager.StartListening(EOutStarEvent.ClickFriendPanel, ChangeCurrentFriendData);
         CreateFriendPanel();
     }
@@ -33,13 +33,13 @@ public class OutStarUserListPanel : MonoBehaviour
 
     private void ChangeCurrentFriendData(object[] ps)
     {
-        if (ps.Length < 1 || !(ps[0] is OutStarCharacterDataSO)) return;
+        if (ps.Length < 1 || !(ps[0] is OutStarProfileDataSO)) return;
 
-        OutStarCharacterDataSO data = ps[0] as OutStarCharacterDataSO;
+        OutStarProfileDataSO data = ps[0] as OutStarProfileDataSO;
         ChangeCurrentFriendData(data);
     }
 
-    private void ChangeCurrentFriendData(OutStarCharacterDataSO data)
+    private void ChangeCurrentFriendData(OutStarProfileDataSO data)
     {
         userPanelList.ForEach(x => x.SetActiveSelectedImage(false));
         OutStarUserPanel userPanel = userPanelList.Find(x => x.CharacterID == data.ID);

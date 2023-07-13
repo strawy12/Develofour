@@ -10,17 +10,17 @@ public class OutStarChatDataSO : ResourceSO
 
     public bool isMine;
     public string chatText;
-    public List<OutStarTigger> outStarTriggerList;
+    public List<OutStarTrigger> outStarTriggerList;
 }
 
 [System.Serializable]
-public class OutStarTigger
+public class OutStarTrigger
 {
     public int startIdx;
     public int endIdx;
     public string triggerID;
 
-    public OutStarTigger(string id, int startIdx, int endIdx)
+    public OutStarTrigger(string id, int startIdx, int endIdx)
     {
         this.startIdx = startIdx;
         this.endIdx = endIdx;
