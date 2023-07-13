@@ -30,6 +30,7 @@ public partial class SOSettingWindow : EditorWindow
         ProfilerCategory,
         ProfilerInfo,
         ProfilerGuide,
+        Character,
     }
     #region UIBuilderParam
     private Button settingButton;
@@ -39,6 +40,8 @@ public partial class SOSettingWindow : EditorWindow
     private Button profilerCategoryBtn;
     private Button profilerInfoBtn;
     private Button profilerGuideBtn;
+    private Button characterDataBtn;
+
 
     private Label gidText;
     private Label soTypeText;
@@ -58,7 +61,7 @@ public partial class SOSettingWindow : EditorWindow
         profilerCategoryBtn = rootVisualElement.Q<Button>("ProfilerCategoryBtn");
         profilerInfoBtn = rootVisualElement.Q<Button>("ProfilerInfoBtn");
         profilerGuideBtn = rootVisualElement.Q<Button>("ProfilerGuideBtn");
-
+        characterDataBtn = rootVisualElement.Q<Button>("CharacterBtn");
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
 
@@ -69,7 +72,7 @@ public partial class SOSettingWindow : EditorWindow
         profilerCategoryBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerCategory));
         profilerInfoBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerInfo));
         profilerGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerGuide));
-
+        characterDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Character));
     }
 
     private void AutoComplete(ESOType type)
@@ -80,7 +83,6 @@ public partial class SOSettingWindow : EditorWindow
                 gidText.text = "0";
                 soTypeText.text = "FileSO";
                 break;
-
             case ESOType.Monolog:
                 gidText.text = "764708499";
                 soTypeText.text = "TextDataSO";
@@ -89,20 +91,21 @@ public partial class SOSettingWindow : EditorWindow
                 gidText.text = "36720751";
                 soTypeText.text = "AIChattingDataSO";
                 break;
-
             case ESOType.ProfilerCategory:
                 gidText.text = "82908635";
                 soTypeText.text = "ProfilerCategoryDataSO";
                 break;
-
             case ESOType.ProfilerInfo:
                 gidText.text = "1620940611";
                 soTypeText.text = "ProfilerInfoDataSO";
                 break;
-
             case ESOType.ProfilerGuide:
                 gidText.text = "1489579503";
                 soTypeText.text = "ProfilerGuideBtn";
+                break;
+            case ESOType.Character:
+                gidText.text = "1030073895";
+                soTypeText.text = "CharacterDataSO";
                 break;
         }
     }
@@ -134,17 +137,17 @@ public partial class SOSettingWindow : EditorWindow
             case "AIChattingDataSO":
                 SettingAIChattingSO(add, soTypeText.text);
                 break;
-
             case "ProfilerCategoryDataSO":
                 SettingCategorySO(add, soTypeText.text);
                 break;
-
             case "ProfilerInfoDataSO":
                 SettingProfilerInfoSO(add, soTypeText.text);
                 break;
-
             case "ProfilerGuideBtn":
                 SettingProfilerGuideSO(add, soTypeText.text);
+                break;
+            case "CharacterDataSO":
+                SettingCharacterData(add, soTypeText.text);
                 break;
         }
     }
