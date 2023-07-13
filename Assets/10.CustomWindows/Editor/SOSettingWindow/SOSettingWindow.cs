@@ -12,7 +12,6 @@ public partial class SOSettingWindow : EditorWindow
 {
     const string URL = @"https://docs.google.com/spreadsheets/d/1AYfKB3JgfR8zXXDccow0jJCuqa-CJJP9cBjdOlUIusw/export?format=tsv&range=2:1000&gid={0}";
 
-    private string gid;
     [MenuItem("Tools/SOSettingWindow")]
     public static void ShowWindow()
     {
@@ -33,6 +32,7 @@ public partial class SOSettingWindow : EditorWindow
         Character,
         Trigger,
         CallProfile,
+        CallOutGoing,
     }
     #region UIBuilderParam
     private Button settingButton;
@@ -45,6 +45,8 @@ public partial class SOSettingWindow : EditorWindow
     private Button characterDataBtn;
     private Button triggerBtn;
     private Button callProfileDataBtn;
+    private Button callOutGoingBtn;
+
 
     private Label gidText;
     private Label soTypeText;
@@ -69,6 +71,7 @@ public partial class SOSettingWindow : EditorWindow
         callProfileDataBtn = rootVisualElement.Q<Button>("CallProfileBtn");
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
+        callOutGoingBtn = rootVisualElement.Q<Button>("CallOutGoingBtn");
 
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
         fileSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.File));
@@ -80,6 +83,7 @@ public partial class SOSettingWindow : EditorWindow
         characterDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Character));
         triggerBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Trigger));
         callProfileDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallProfile));
+        callOutGoingBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallOutGoing));
     }
 
     private void AutoComplete(ESOType type)
@@ -121,6 +125,10 @@ public partial class SOSettingWindow : EditorWindow
             case ESOType.CallProfile:
                 gidText.text = "2090943632";
                 soTypeText.text = "CallProfileDataSO";
+                break;
+            case ESOType.CallOutGoing:
+                gidText.text = "1986380815";
+                soTypeText.text = "CallOutGoingDataSO";
                 break;
         }
     }
@@ -166,9 +174,11 @@ public partial class SOSettingWindow : EditorWindow
             case "CallProfileDataSO":
                 CallProfileSOSetting(add);
                 break;
-
             case "TriggerBtn":
                 SettingTriggerSO(add, soTypeText.text);
+                break;
+            case "CallOutGoingDataSO":
+                SettingCallOutgoingDataSO(add);
                 break;
         }
     }
