@@ -29,6 +29,7 @@ public partial class SOSettingWindow : EditorWindow
         AIChatting,
         ProfilerCategory,
         ProfilerInfo,
+        Character,
     }
     #region UIBuilderParam
     private Button settingButton;
@@ -37,6 +38,7 @@ public partial class SOSettingWindow : EditorWindow
     private Button aiChattingBtn;
     private Button profilerCategoryBtn;
     private Button profilerInfoBtn;
+    private Button characterDataBtn;
 
     private Label gidText;
     private Label soTypeText;
@@ -55,7 +57,7 @@ public partial class SOSettingWindow : EditorWindow
         aiChattingBtn = rootVisualElement.Q<Button>("AIChattingBtn");
         profilerCategoryBtn = rootVisualElement.Q<Button>("ProfilerCategoryBtn");
         profilerInfoBtn = rootVisualElement.Q<Button>("ProfilerInfoBtn");
-
+        characterDataBtn = rootVisualElement.Q<Button>("CharacterBtn");
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
 
@@ -65,7 +67,7 @@ public partial class SOSettingWindow : EditorWindow
         aiChattingBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.AIChatting));
         profilerCategoryBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerCategory));
         profilerInfoBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerInfo));
-
+        characterDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Character));
     }
 
     private void AutoComplete(ESOType type)
@@ -94,6 +96,10 @@ public partial class SOSettingWindow : EditorWindow
             case ESOType.ProfilerInfo:
                 gidText.text = "1620940611";
                 soTypeText.text = "ProfilerInfoDataSO";
+                break;
+            case ESOType.Character:
+                gidText.text = "1030073895";
+                soTypeText.text = "CharacterDataSO";
                 break;
         }
     }
@@ -128,10 +134,11 @@ public partial class SOSettingWindow : EditorWindow
             case "ProfilerCategoryDataSO":
                 SettingCategorySO(add, soTypeText.text);
                 break;
-
-
             case "ProfilerInfoDataSO":
                 SettingProfilerInfoSO(add, soTypeText.text);
+                break;
+            case "CharacterDataSO":
+                SettingCharacterData(add, soTypeText.text);
                 break;
         }
     }
