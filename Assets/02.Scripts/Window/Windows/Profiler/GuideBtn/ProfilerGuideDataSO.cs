@@ -6,7 +6,6 @@ using UnityEngine;
 public class ProfilerGuideDataSO : ResourceSO
 {
     public string guideName;
-    [TextArea(5, 15)]
-    public List<string> guideTextList;
+    public string guideTextID;
     public bool isAddTutorial;
 }

@@ -47,7 +47,8 @@ public class ProfilerGuideButton : MonoBehaviour
 
     private void StartAiChatting()
     {
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(guideData.guideTextList, 1.5f, true);
+        //TODO id로 가져오기
+        //ProfilerChattingSystem.OnPlayChatList?.Invoke(guideData.guideTextList, 1.5f, true);
     } 
 
     private void EndGuide(object[] ps)
