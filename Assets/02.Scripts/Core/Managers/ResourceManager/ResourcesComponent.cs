@@ -21,7 +21,7 @@ public abstract class ResourcesComponent : MonoBehaviour
         {
             var task = Addressables.LoadAssetAsync<T>(handle.Result[i]).Task;
             await task;
-            Debug.Log(typeof(T) + task.Result.id);
+            Debug.Log(typeof(T) + task.Result.id); 
             if (task.Result.id == null)
             {
                 Debug.Log("null");

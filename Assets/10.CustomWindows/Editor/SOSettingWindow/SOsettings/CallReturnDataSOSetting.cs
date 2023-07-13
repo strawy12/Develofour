@@ -56,6 +56,7 @@ public partial class SOSettingWindow : EditorWindow
             bool isCreate = false;
             CallDataSO callData = callDataSOList.Find(x => x.id == id);
 
+            callData.id = id;
             callData.additionFileIDList = additionFileDataList;
             callData.monologID = textDataID;
             if (needInfoIDList != null)

@@ -55,7 +55,7 @@ public partial class SOSettingWindow : EditorWindow
                 isCreate = true;
             }
 
-
+            callData.id = id;
             callData.additionFileIDList = additionFileDataList;
             callData.monologID = textDataID;
             if (needInfoIDList != null)
