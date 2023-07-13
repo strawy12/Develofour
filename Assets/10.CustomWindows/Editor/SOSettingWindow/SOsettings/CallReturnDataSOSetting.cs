@@ -6,7 +6,7 @@ using UnityEngine;
 
 public partial class SOSettingWindow : EditorWindow
 {
-    private void SettingCallOutgoingDataSO(string dataText)
+    private void SettingCallReturnData(string dataText)
     {
         string[] rows = dataText.Split('\n');
 
@@ -17,9 +17,13 @@ public partial class SOSettingWindow : EditorWindow
         {
             string[] columns = rows[i].Split('\t');
 
+            if (columns[0] == "") continue;
+
             string id = columns[0].Trim();
             string textDataID = columns[1].Trim();
             string[] needInfoIDList = null;
+            float delay = 0f;
+
             if (columns.Length >= 3 && !string.IsNullOrEmpty(columns[2]))
             {
                 needInfoIDList = columns[2].Split('/');
@@ -34,7 +38,10 @@ public partial class SOSettingWindow : EditorWindow
             {
                 returnCallID = columns[4].Trim();
             }
-
+            if (columns.Length >= 6)
+            {
+                float.TryParse(columns[5], out delay);
+            }
             List<AdditionFile> additionFileDataList = new List<AdditionFile>();
             if (AdditionalFileStrList != null)
             {
@@ -49,32 +56,28 @@ public partial class SOSettingWindow : EditorWindow
             bool isCreate = false;
             CallDataSO callData = callDataSOList.Find(x => x.id == id);
 
-            if (callData == null)
-            {
-                callData = CreateInstance<CallDataSO>();
-                isCreate = true;
-            }
-
-
             callData.additionFileIDList = additionFileDataList;
             callData.monologID = textDataID;
             if (needInfoIDList != null)
             {
                 callData.needInfoIDList = needInfoIDList.ToList();
             }
-            callData.callDataType = ECallDataType.OutGoing;
             if (callProfileDataSOList != null)
             {
-                var profileData = callProfileDataSOList.Where(x =>
+                callData.callProfileID = callProfileDataSOList.Where(x =>
                 {
-                    if (x.outGoingCallOptionList == null) return false;
-                    List<string> optionIDList = x.outGoingCallOptionList.Select(y=>y.outGoingCallID).ToList();
-                    return optionIDList.Contains(id);
-                }).FirstOrDefault();
-                if (profileData != null) callData.callProfileID = profileData.id;
+                    if (x.returnCallIDList == null) return false;
+                    return x.returnCallIDList.Contains(id);
+                }).FirstOrDefault().id;
             }
-
-            string SO_PATH = $"Assets/07.ScriptableObjects/CallData/OutGoingCallText/{id}.asset";
+            callData.callDataType = ECallDataType.Return;
+            callData.delay = delay;
+            if (callData == null)
+            {
+                callData = CreateInstance<CallDataSO>();
+                isCreate = true;
+            }
+            string SO_PATH = $"Assets/07.ScriptableObjects/CallData/ReturnCallData/{columns[0]}.asset";
 
             string[] idChars = columns[0].Split('_');
             List<string> idDivision = new List<string>();
@@ -117,9 +120,5 @@ public partial class SOSettingWindow : EditorWindow
             EditorUtility.SetDirty(callData);
             callDataSOList.Remove(callData);
         }
-        callDataSOList.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
-
-        AssetDatabase.Refresh();
-        AssetDatabase.SaveAssets();
     }
 }

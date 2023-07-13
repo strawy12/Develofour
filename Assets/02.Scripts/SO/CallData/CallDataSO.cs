@@ -7,6 +7,7 @@ public enum ECallDataType
     None = -1,
     OutGoing,
     InComing,
+    Return
 }
 
 public class CallDataSO : ResourceSO
