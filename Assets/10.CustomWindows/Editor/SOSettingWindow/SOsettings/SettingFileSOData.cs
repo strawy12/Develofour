@@ -78,6 +78,7 @@ public partial class SOSettingWindow : EditorWindow
                 if (directory != null)
                 {
                     fileSOList[i].parent = directory;
+                    if(!directory.children.Contains(file))
                     directory.children.Add(file);
                 }
                 else
@@ -139,7 +140,8 @@ public partial class SOSettingWindow : EditorWindow
             if (directory != null)
             {
                 parentNullFileList[i].parent = directory;
-                directory.children.Add(parentNullFileList[i]);
+                if (!directory.children.Contains(parentNullFileList[i]))
+                    directory.children.Add(parentNullFileList[i]);
             }
             path = parentNullFileList[i].GetRealFileLocation();
 
