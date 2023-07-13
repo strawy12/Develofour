@@ -44,8 +44,8 @@ public class ProfilerInfoSystem : MonoBehaviour
             }
             string id = (string)ps[0];
             ProfilerInfoDataSO infoDataSO = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(id);
-            ChangeValue(infoDataSO.categoryID, id);
-            ps = new object[2] { infoDataSO.categoryID, id };
+            //ChangeValue(infoDataSO.categoryID, id);
+            //ps = new object[2] { infoDataSO.categoryID, id };
         }
 
         EventManager.TriggerEvent(EProfilerEvent.RegisterInfo, ps);
