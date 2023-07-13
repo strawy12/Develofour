@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEngine.Networking;
@@ -12,13 +12,15 @@ public partial class SOSettingWindow : EditorWindow
 {
     public void SettingFileSO(string dataText, string typeStr)
     {
+        string path;
+        string SO_PATH;
         string[] rows = dataText.Split('\n');
 
         string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
         List<FileSO> fileSOList = new List<FileSO>();
         foreach (string guid in guids)
         {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
+            path = AssetDatabase.GUIDToAssetPath(guid);
             fileSOList.Add(AssetDatabase.LoadAssetAtPath<FileSO>(path));
         }
         List<FileSO> temp = fileSOList.ToList();
@@ -65,8 +67,11 @@ public partial class SOSettingWindow : EditorWindow
             }
 
             file.ID = id;
+            file.name = id;
             file.fileName = fileName;
             file.windowType = type;
+            file.parentName = parentID;
+
             if(bytes != 0)
             {
                 file.propertyData.bytes = bytes;
@@ -75,41 +80,29 @@ public partial class SOSettingWindow : EditorWindow
                 file.propertyData.lastFixDate = lastFixDate;
             }
 
-            Debug.Log(parentID);
 
-            if(!string.IsNullOrEmpty(parentID))
-            {
-                Debug.Log(parentID);
-                DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == parentID));
-                if (directory == null) { Debug.LogError("µğ·ºÅä¸®°¡ ¾øÀ½"); }
-                else { FileSO SO = file; Debug.Log(SO.GetType()); directory.children.Add(SO); }
-            }
+            path = file.GetRealFileLocation();
 
-            string path = file.GetRealFileLocation();
+            SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}.asset";
+            SO_PATH = SO_PATH.Replace("\\", "/");
 
-            Debug.Log(path);
-            string SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}.asset";
-
-            Debug.Log(SO_PATH);
             if (isCreate)
             {
                 if (File.Exists(SO_PATH))
                 {
-                    SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path}_{id}.asset";
+                    SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path}_{id}_{fileName}.asset";
                 }
 
                 CreateFolder(SO_PATH);
                 AssetDatabase.CreateAsset(file, SO_PATH);
             }
             else
-            {
-                SO_PATH = SO_PATH.Replace("\\", "/");
-
+            { 
                 CreateFolder(SO_PATH);
                 if(columns.Length > 8)
                 {
                     bool flag1 = !File.Exists(SO_PATH);
-                    bool flag2 = !(columns[8] == "Ãß°¡ ÆÄÀÏ" || columns[8] == "µğÆúÆ® ÆÄÀÏ");
+                    bool flag2 = !(columns[8] == "ì¶”ê°€ íŒŒì¼" || columns[8] == "ë””í´íŠ¸ íŒŒì¼");
 
                     if (flag1 && flag2)
                     {
@@ -123,7 +116,47 @@ public partial class SOSettingWindow : EditorWindow
             temp.Remove(file);
         }
 
+        //ì´ì œ parent ë„£ì–´ì£¼ì
+
+
         temp.ForEach(x => AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(x.GetInstanceID())));
+
+        fileSOList.Clear();
+
+        string[] newGuids = AssetDatabase.FindAssets("t:FileSO", null);
+        foreach (string guid in newGuids)
+        {
+            path = AssetDatabase.GUIDToAssetPath(guid);
+            fileSOList.Add(AssetDatabase.LoadAssetAtPath<FileSO>(path));
+        }
+
+        for(int i = 0; i < fileSOList.Count; i++)
+        {
+            Debug.Log(fileSOList[i].parentName);
+            DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == fileSOList[i].parentName));
+            if(directory != null)
+            {
+                fileSOList[i].parent = directory;
+            }
+        }
+
+
+        //ì´ì œ íŒŒì¼ë“¤ í´ë” ìœ„ì¹˜ ìƒì„±í•´ì£¼ê³  ì´ë™ì‹œì¼œì£¼ê¸°
+
+
+        for (int i = 0; i < fileSOList.Count; i++)
+        {
+            path = fileSOList[i].GetRealFileLocation();
+
+            SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}.asset";
+            SO_PATH = SO_PATH.Replace("\\", "/");
+            Debug.Log(SO_PATH);
+            CreateFolder(SO_PATH);
+            AssetDatabase.MoveAsset(AssetDatabase.GetAssetPath(fileSOList[i]), SO_PATH);
+        }
+
+        fileSOList.Clear();
+
 
         AssetDatabase.Refresh();
         AssetDatabase.SaveAssets();

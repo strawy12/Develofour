@@ -116,7 +116,7 @@ public class Debugger : MonoBehaviour
             {
                 so.iconSprite = InstallerSprite;
             }
-            else if (so.windowType == EWindowType.BackgroundBGM)
+            else if (so.windowType == EWindowType.BGM)
             {
                 so.iconSprite = backgroundBGMSprite;
             }
