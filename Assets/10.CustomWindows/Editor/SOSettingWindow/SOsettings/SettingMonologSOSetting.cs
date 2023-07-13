@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -14,13 +14,7 @@ public partial class SOSettingWindow : EditorWindow
     {
         string[] rows = dataText.Split('\n');
 
-        string[] guids = AssetDatabase.FindAssets("t:MonologTextDataSO", null);
-        List<MonologTextDataSO> monologSOList = new List<MonologTextDataSO>();
-        foreach (string guid in guids)
-        {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            monologSOList.Add(AssetDatabase.LoadAssetAtPath<MonologTextDataSO>(path));
-        }
+        List<MonologTextDataSO> monologSOList = GuidsToSOList<MonologTextDataSO>("t:MonologTextDataSO");
 
         for (int i = 0; i < rows.Length; i++)
         {
@@ -91,7 +85,7 @@ public partial class SOSettingWindow : EditorWindow
                     idDivision.Add("StartCutSceneText");
                     break;
                 default:
-                    Debug.LogError($"MonologDataSO : {columns[0]}¿¡ ºÐ·ù µÇÁö¾ÊÀº ¾ÆÀÌµð °ª : {idChars[1]}");
+                    Debug.LogError($"MonologDataSO : {columns[0]}ì— ë¶„ë¥˜ ë˜ì§€ì•Šì€ ì•„ì´ë”” ê°’ : {idChars[1]}");
                     break;
             }
 
@@ -109,7 +103,7 @@ public partial class SOSettingWindow : EditorWindow
                         idDivision.Add("Ending");
                         break;
                     default:
-                        Debug.Log($"MonologDataSO : {columns[0]}¿¡ ºÐ·ù µÇÁö¾ÊÀº ¾ÆÀÌµð °ª : {idChars[2]}");
+                        Debug.Log($"MonologDataSO : {columns[0]}ì— ë¶„ë¥˜ ë˜ì§€ì•Šì€ ì•„ì´ë”” ê°’ : {idChars[2]}");
                         idDivision.Add("EtcCutSceneTextData");
                         break;
                 }
@@ -161,9 +155,6 @@ public partial class SOSettingWindow : EditorWindow
                 CreateFolder(SO_PATH);
                 AssetDatabase.CreateAsset(monologData, SO_PATH);
             }
-
-
-
 
             string path = AssetDatabase.GetAssetPath(monologData.GetInstanceID());
             string[] pathSplits = path.Split('/');

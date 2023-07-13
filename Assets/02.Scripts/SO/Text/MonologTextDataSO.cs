@@ -39,6 +39,10 @@ public class MonologTextDataSO : ResourceSO
         }
         set
         {
+            if (index > textDataList.Count - 1)
+            {
+                textDataList.Add(value);
+            }
             textDataList[index] = value;
         }
     }
