@@ -8,7 +8,6 @@ public class ProfilerInfoDataSO : ResourceSO
     //public string key;
     public string infomationText;
     public string noticeText;
-    public string categoryID;
     public string infoName;
 
     public string ID
