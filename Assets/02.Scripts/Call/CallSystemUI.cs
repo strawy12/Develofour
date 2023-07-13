@@ -159,7 +159,7 @@ public class CallSystemUI : MonoBehaviour
         MonologTextDataSO textData = ResourceManager.Inst.GetResource<MonologTextDataSO>(callData.monologID);
         buttonList.Add(instance);
 
-        instance.btnText.text = textData.monologName;
+        //instance.btnText.text = textData.monologName;
         instance.btn.onClick.AddListener(() =>
         {
             HideSelectBtns();

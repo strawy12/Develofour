@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:ScrollView>
+    <ui:ScrollView style="height: 77px;">
         <ui:GroupBox tabindex="0" focusable="false" name="GroupBox" style="top: auto; align-items: flex-start; justify-content: flex-start; flex-direction: row; flex-wrap: wrap; height: 53px;">
             <ui:Button text="FileSO" display-tooltip-when-elided="true" name="FileSOBtn" view-data-key="FileSOBtn" />
             <ui:Button text="Monolog" display-tooltip-when-elided="true" name="MonologBtn" view-data-key="MonologBtn" />
@@ -12,4 +12,13 @@
             <ui:Button text="Character" display-tooltip-when-elided="true" name="CharacterBtn" view-data-key="CharacterBtn" style="-unity-text-align: middle-left;" />
         </ui:GroupBox>
     </ui:ScrollView>
+    <ui:GroupBox name="GroupBox" style="flex-direction: row; flex-wrap: wrap; height: 40px;">
+        <ui:Label text="Gid" display-tooltip-when-elided="true" style="width: 52px; height: 15px;" />
+        <ui:Label display-tooltip-when-elided="true" name="GidText" view-data-key="GidText" style="width: 265px; flex-wrap: nowrap; height: 17px;" />
+        <ui:Label text="SoType" display-tooltip-when-elided="true" style="width: 50px; height: 14px;" />
+        <ui:Label display-tooltip-when-elided="true" name="SOTypeText" view-data-key="SOTypeText" style="width: 269px; height: 14px;" />
+    </ui:GroupBox>
+    <ui:GroupBox style="justify-content: flex-start; align-items: center;">
+        <ui:Button text="SOSettingBtn" display-tooltip-when-elided="true" name="SOSettingBtn" view-data-key="SOSettingBtn" style="width: 300px; -unity-text-align: middle-center; white-space: nowrap;" />
+    </ui:GroupBox>
 </ui:UXML>
