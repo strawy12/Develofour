@@ -36,6 +36,7 @@ public partial class SOSettingWindow : EditorWindow
         OutStarChat,
         OutStarTimeChat,
         CallOutGoing,
+        PinLock,
     }
     #region UIBuilderParam
     private Button settingButton;
@@ -52,7 +53,7 @@ public partial class SOSettingWindow : EditorWindow
     private Button outStarChatBtn;
     private Button outStarTimeChatBtn;
     private Button callOutGoingBtn;
-
+    private Button pinLockBtn;
 
     private Label gidText;
     private Label soTypeText;
@@ -78,9 +79,13 @@ public partial class SOSettingWindow : EditorWindow
         outStarProfileBtn = rootVisualElement.Q<Button>("OutStarProfileBtn");
         outStarChatBtn = rootVisualElement.Q<Button>("OutStarChatBtn");
         outStarTimeChatBtn = rootVisualElement.Q<Button>("OutStarTimeChatBtn");
+        callOutGoingBtn = rootVisualElement.Q<Button>("CallOutGoingBtn");
+        pinLockBtn = rootVisualElement.Q<Button>("PinLockBtn");
+
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
-        callOutGoingBtn = rootVisualElement.Q<Button>("CallOutGoingBtn");
+
+
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
         fileSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.File));
         monologSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Monolog));
@@ -95,6 +100,7 @@ public partial class SOSettingWindow : EditorWindow
         outStarChatBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.OutStarChat));
         outStarTimeChatBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.OutStarTimeChat));
         callOutGoingBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallOutGoing));
+        pinLockBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.PinLock));
     }
 
     private void AutoComplete(ESOType type)
@@ -153,6 +159,10 @@ public partial class SOSettingWindow : EditorWindow
             case ESOType.CallOutGoing:
                 gidText.text = "1986380815";
                 soTypeText.text = "CallOutGoingDataSO";
+                break;
+            case ESOType.PinLock:
+                gidText.text = "1805533189";
+                soTypeText.text = "PinLockDataSO";
                 break;
         }
     }
@@ -214,6 +224,9 @@ public partial class SOSettingWindow : EditorWindow
                 break;
             case "CallOutGoingDataSO":
                 SettingCallOutgoingDataSO(add);
+                break;
+            case "PinLockDataSO":
+                SettingPinLockSO(add);
                 break;
         }
     }
