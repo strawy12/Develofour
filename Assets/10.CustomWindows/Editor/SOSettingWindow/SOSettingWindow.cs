@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 public partial class SOSettingWindow : EditorWindow
 {
-    const string URL = @"https://docs.google.com/spreadsheets/d/1AYfKB3JgfR8zXXDccow0jJCuqa-CJJP9cBjdOlUIusw/export?format=tsv&range=2:1000&edit#gid={0}";
+    const string URL = @"https://docs.google.com/spreadsheets/d/1AYfKB3JgfR8zXXDccow0jJCuqa-CJJP9cBjdOlUIusw/export?format=tsv&range=2:1000&gid={0}";
 
     private string gid;
     [MenuItem("Tools/SOSettingWindow")]
@@ -50,7 +50,7 @@ public partial class SOSettingWindow : EditorWindow
 
         settingButton = rootVisualElement.Q<Button>("SOSettingBtn");
         fileSOBtn = rootVisualElement.Q<Button>("FileSOBtn");
-        monologSOBtn = rootVisualElement.Q<Button>("MonologBtn");
+        monologSOBtn = rootVisualElement.Q<Button>("TextSOBtn");
 
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeField = rootVisualElement.Q<Label>("SOTypeText");
@@ -71,7 +71,7 @@ public partial class SOSettingWindow : EditorWindow
 
             case ESOType.Monolog:
                 gidText.text = "764708499";
-                soTypeField.text = "MonologTextDataSO";
+                soTypeField.text = "TextDataSO";
                 break;
         }
     }
@@ -86,6 +86,7 @@ public partial class SOSettingWindow : EditorWindow
         UnityWebRequest www;
 
         www = UnityWebRequest.Get(string.Format(URL, gidText.text));
+        Debug.Log(string.Format(URL, gidText.text));
         yield return www.SendWebRequest();
         string add = www.downloadHandler.text.Replace("\r", "");
 
@@ -95,7 +96,7 @@ public partial class SOSettingWindow : EditorWindow
                 //SettingFileSO(add, soTypeField.text);
                 break;
 
-            case "MonologTextDataSO":
+            case "TextDataSO":
                 SettingMonologSO(add, soTypeField.text);
                 break;
         }

@@ -28,14 +28,17 @@ public partial class SOSettingWindow : EditorWindow
 
             if (columns[0] == string.Empty || columns[1] == string.Empty) continue;
 
-            string id = columns[0];
+            string id = columns[0].Trim();
             string[] textList = columns[1].Split('#');
 
             Color characterColor = Color.white;
             Color character2Color = Color.white;
-            UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[4], out characterColor);
-            UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[5], out character2Color);
-            Debug.Log(characterColor);
+            UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[3], out characterColor);
+            UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[4], out character2Color);
+            if (characterColor != Color.white)
+            {
+                Debug.Log(characterColor);
+            }
             MonologTextDataSO monologData = monologSOList.Find(x => x.id == id);
             bool isCreate = false;
 
@@ -63,6 +66,8 @@ public partial class SOSettingWindow : EditorWindow
 
                 textDataList.Add(data);
             }
+            monologData.id = id;
+            monologData.TextListSetting(textDataList);
 
             string[] idChars = columns[0].Split('_');
             List<string> idDivision = new List<string>();
@@ -73,7 +78,7 @@ public partial class SOSettingWindow : EditorWindow
                 case "CS":
                     idDivision.Add("CutSceneText");
                     break;
-                case "CA":
+                case "C":
                     idDivision.Add("CallText");
                     break;
                 case "M":
@@ -90,7 +95,7 @@ public partial class SOSettingWindow : EditorWindow
                     break;
             }
 
-            if(idChars[1].Trim() == "CS")
+            if (idChars[1].Trim() == "CS")
             {
                 switch (idChars[2].Trim())
                 {
@@ -109,9 +114,9 @@ public partial class SOSettingWindow : EditorWindow
                         break;
                 }
             }
-            else if(idChars[1].Trim() == "CA")
+            else if (idChars[1].Trim() == "C")
             {
-                switch(idChars[2].Trim())
+                switch (idChars[2].Trim())
                 {
                     case "A":
                         idDivision.Add("AssistantCallText");
@@ -139,12 +144,12 @@ public partial class SOSettingWindow : EditorWindow
             }
 
             string SO_PATH = $"Assets/07.ScriptableObjects/TextDataSO/{columns[0]}.asset";
-            
-            if(idDivision.Count == 1)
+
+            if (idDivision.Count == 1)
             {
                 SO_PATH = $"Assets/07.ScriptableObjects/TextDataSO/{idDivision[0]}/{columns[0]}.asset";
             }
-            else if(idDivision.Count == 2)
+            else if (idDivision.Count == 2)
             {
                 SO_PATH = $"Assets/07.ScriptableObjects/TextDataSO/{idDivision[0]}/{idDivision[1]}/{columns[0]}.asset";
             }
@@ -156,6 +161,9 @@ public partial class SOSettingWindow : EditorWindow
                 CreateFolder(SO_PATH);
                 AssetDatabase.CreateAsset(monologData, SO_PATH);
             }
+
+
+
 
             string path = AssetDatabase.GetAssetPath(monologData.GetInstanceID());
             string[] pathSplits = path.Split('/');
