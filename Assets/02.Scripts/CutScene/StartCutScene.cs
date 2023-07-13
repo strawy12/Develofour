@@ -108,6 +108,7 @@ public class StartCutScene : MonoBehaviour
     {
         backgroundImagePanel.DOFade(1, 1.5f).OnComplete(() =>
         {
+            Debug.Log("asdf");
             string monologID = Constant.MonologKey.STARTCUTSCENE_2;
             MonologSystem.AddOnEndMonologEvent(monologID, StartLoading);
             MonologSystem.OnStartMonolog?.Invoke(monologID, false);

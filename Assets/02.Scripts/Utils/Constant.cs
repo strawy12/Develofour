@@ -75,9 +75,10 @@ public static partial class Constant
         public const string STARTCUTSCENE_1 = "T_CS_S_1";
         public const string STARTCUTSCENE_2 = "T_CS_S_2";
         public const string WINDOWS_LOGIN_COMPLETE = "T_CS_S_3";
-        public const string PROFILER_INSTALL_COMPLETE = "T_CS_S_4";
+        public const string WINDOWS_LOGIN_SCREEN_OPEN = "T_CS_S_4";
+
         public const string END_PROFILER_TUTORIAL = "T_CS_S_5";
-        public const string WINDOWS_LOGIN_SCREEN_OPEN = "T_M_72";
+        public const string PROFILER_INSTALL_COMPLETE = "T_CS_S_6";
         public const string LIBRARY_NOT_OPEN = "T_M_73";
         public const string NEEDINFO = "T_M_88";
         public const string TUTORIAL_NOT_FIND_INFO = "T_M_91";

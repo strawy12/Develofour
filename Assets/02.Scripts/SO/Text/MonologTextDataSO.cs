@@ -32,7 +32,8 @@ public class MonologTextDataSO : ResourceSO
         }
     }
 
-    private List<TextData> textDataList;
+    [SerializeField]
+    private List<TextData> textDataList = new List<TextData>();
     public TextData this[int index]
     {
         get

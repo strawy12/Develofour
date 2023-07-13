@@ -11,7 +11,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         if (data == null)
         {
             Debug.Log("Json에 존재하지않는 텍스트 데이터 입니다.");
-            return true;
+            return false;
 
         }
         return data.isShow;

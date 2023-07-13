@@ -89,8 +89,14 @@ public class MonologSystem : TextSystem
 
         textBox.DictionaryClear();
 
+        isPlayMonolog = false;
+
         if (currentTextData != null)
         {
+            if(!onEndMonologDictionary.ContainsKey(currentTextData.ID))
+            {
+                return;
+            }
             Action onEndEvent = onEndMonologDictionary[currentTextData.ID];
             onEndEvent?.Invoke();
             onEndMonologDictionary.Remove(currentTextData.ID);

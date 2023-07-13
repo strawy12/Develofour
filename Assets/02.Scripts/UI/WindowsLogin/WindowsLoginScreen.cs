@@ -207,6 +207,6 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         NoticeSystem.OnGeneratedNotice(ENoticeType.ConnectUSB, 0.5f);
 
-        GuideSystem.OnPlayGuide(EGuideTopicName.LibraryOpenGuide, 40);
+        //GuideSystem.OnPlayGuide(EGuideTopicName.LibraryOpenGuide, 40);
     }
 }
