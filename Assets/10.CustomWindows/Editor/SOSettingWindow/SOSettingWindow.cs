@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 public partial class SOSettingWindow : EditorWindow
 {
-    const string URL = @"https://docs.google.com/spreadsheets/d/1AYfKB3JgfR8zXXDccow0jJCuqa-CJJP9cBjdOlUIusw/export?format=tsv&range=2:1000&edit#gid={0}";
+    const string URL = @"https://docs.google.com/spreadsheets/d/1AYfKB3JgfR8zXXDccow0jJCuqa-CJJP9cBjdOlUIusw/export?format=tsv&range=2:1000&gid={0}";
 
     private string gid;
     [MenuItem("Tools/SOSettingWindow")]
@@ -60,7 +60,7 @@ public partial class SOSettingWindow : EditorWindow
         switch (type)
         {
             case ESOType.File:
-                gidText.text = "2075656520";
+                gidText.text = "0";
                 soTypeField.text = "FileSO";
                 break;
 
@@ -87,7 +87,7 @@ public partial class SOSettingWindow : EditorWindow
         switch (soTypeField.text)
         {
             case "FileSO":
-                //SettingFileSO(add, soTypeField.text);
+                SettingFileSO(add, soTypeField.text);
                 break;
 
             case "MonologTextDataSO":
