@@ -26,14 +26,14 @@ public class UserChattingPanel : MonoBehaviour
 
     private void ChangeUserData(object[] ps)
     {
-        if (ps.Length < 1 || !(ps[0] is OutStarCharacterDataSO)) { return; }
+        if (ps.Length < 1 || !(ps[0] is OutStarProfileDataSO)) { return; }
 
-        ChangeUserData(ps[0] as OutStarCharacterDataSO);
+        ChangeUserData(ps[0] as OutStarProfileDataSO);
     }
 
-    private void ChangeUserData(OutStarCharacterDataSO data)
+    private void ChangeUserData(OutStarProfileDataSO data)
     {
-        OutStarCharacterDataSO userData = ResourceManager.Inst.GetResource<OutStarCharacterDataSO>(characterID);
+        OutStarProfileDataSO userData = ResourceManager.Inst.GetResource<OutStarProfileDataSO>(characterID);
         if (data != userData)
         {
             Hide();
@@ -65,7 +65,7 @@ public class UserChattingPanel : MonoBehaviour
 #if UNITY_EDITOR
     private void PrefabSetting()
     {
-        OutStarCharacterDataSO userData = ResourceManager.Inst.GetResource<OutStarCharacterDataSO>(characterID);
+        OutStarProfileDataSO userData = ResourceManager.Inst.GetResource<OutStarProfileDataSO>(characterID);
 
         foreach (var id in userData.timeChatIDList)
         {

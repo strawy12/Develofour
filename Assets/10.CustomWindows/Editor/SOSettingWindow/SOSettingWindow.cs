@@ -33,6 +33,9 @@ public partial class SOSettingWindow : EditorWindow
         Character,
         Trigger,
         CallProfile,
+        OutStarProfile,
+        OutStarChat,
+        OutStarTimeChat,
     }
     #region UIBuilderParam
     private Button settingButton;
@@ -45,6 +48,9 @@ public partial class SOSettingWindow : EditorWindow
     private Button characterDataBtn;
     private Button triggerBtn;
     private Button callProfileDataBtn;
+    private Button outStarProfileBtn;
+    private Button outStarChatBtn;
+    private Button outStarTimeChatBtn;
 
     private Label gidText;
     private Label soTypeText;
@@ -67,6 +73,10 @@ public partial class SOSettingWindow : EditorWindow
         characterDataBtn = rootVisualElement.Q<Button>("CharacterBtn");
         triggerBtn = rootVisualElement.Q<Button>("TriggerBtn");
         callProfileDataBtn = rootVisualElement.Q<Button>("CallProfileBtn");
+        outStarProfileBtn = rootVisualElement.Q<Button>("OutStarProfileBtn");
+        outStarChatBtn = rootVisualElement.Q<Button>("OutStarChatBtn");
+        outStarTimeChatBtn = rootVisualElement.Q<Button>("OutStarTimeChatBtn");
+
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
 
@@ -80,6 +90,9 @@ public partial class SOSettingWindow : EditorWindow
         characterDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Character));
         triggerBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Trigger));
         callProfileDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallProfile));
+        outStarProfileBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.OutStarProfile));
+        outStarChatBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.OutStarChat));
+        outStarTimeChatBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.OutStarTimeChat));
     }
 
     private void AutoComplete(ESOType type)
@@ -118,9 +131,25 @@ public partial class SOSettingWindow : EditorWindow
                 gidText.text = "1062045985";
                 soTypeText.text = "TriggerBtn";
                 break;
+
             case ESOType.CallProfile:
                 gidText.text = "2090943632";
                 soTypeText.text = "CallProfileDataSO";
+                break;
+
+            case ESOType.OutStarProfile:
+                gidText.text = "405560364";
+                soTypeText.text = "OutStarProfileBtn";
+                break;
+
+            case ESOType.OutStarChat:
+                gidText.text = "798117740";
+                soTypeText.text = "OutStarChatBtn";
+                break;
+
+            case ESOType.OutStarTimeChat:
+                gidText.text = "468226420";
+                soTypeText.text = "OutStarTimeChatBtn";
                 break;
         }
     }
@@ -168,7 +197,19 @@ public partial class SOSettingWindow : EditorWindow
                 break;
 
             case "TriggerBtn":
-                SettingTriggerSO(add, soTypeText.text);
+                SettingTriggerSO(add);
+                break;
+
+            case "OutStarProfileBtn":
+                SettingOutStarProfileSO(add);
+                break;
+
+            case "OutStarChatBtn":
+                SettingOutStarChatSO(add);
+                break;
+
+            case "OutStarTimeChatBtn":
+                SettingOutStarTimeChatSO(add);
                 break;
         }
     }

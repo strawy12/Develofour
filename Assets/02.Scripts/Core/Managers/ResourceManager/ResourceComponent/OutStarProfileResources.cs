@@ -9,6 +9,6 @@ public class OutStarProfileResources : ResourcesComponent
 {
     public override void LoadResources(Action callBack)
     {
-        LoadResourceDataAssets<OutStarCharacterDataSO>(callBack);
+        LoadResourceDataAssets<OutStarProfileDataSO>(callBack);
     }
 }

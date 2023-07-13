@@ -7,7 +7,7 @@ using UnityEngine;
 
 public partial class SOSettingWindow : EditorWindow
 {
-    public void SettingTriggerSO(string dataText, string typeStr)
+    public void SettingTriggerSO(string dataText)
     {
         string[] rows = dataText.Split('\n');
 
