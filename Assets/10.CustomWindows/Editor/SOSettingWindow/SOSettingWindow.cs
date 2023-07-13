@@ -30,6 +30,7 @@ public partial class SOSettingWindow : EditorWindow
         ProfilerCategory,
         ProfilerInfo,
         ProfilerGuide,
+        Trigger,
     }
     #region UIBuilderParam
     private Button settingButton;
@@ -39,6 +40,7 @@ public partial class SOSettingWindow : EditorWindow
     private Button profilerCategoryBtn;
     private Button profilerInfoBtn;
     private Button profilerGuideBtn;
+    private Button triggerBtn;
 
     private Label gidText;
     private Label soTypeText;
@@ -58,6 +60,7 @@ public partial class SOSettingWindow : EditorWindow
         profilerCategoryBtn = rootVisualElement.Q<Button>("ProfilerCategoryBtn");
         profilerInfoBtn = rootVisualElement.Q<Button>("ProfilerInfoBtn");
         profilerGuideBtn = rootVisualElement.Q<Button>("ProfilerGuideBtn");
+        triggerBtn = rootVisualElement.Q<Button>("TriggerBtn");
 
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
@@ -69,6 +72,7 @@ public partial class SOSettingWindow : EditorWindow
         profilerCategoryBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerCategory));
         profilerInfoBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerInfo));
         profilerGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerGuide));
+        triggerBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Trigger));
 
     }
 
@@ -103,6 +107,11 @@ public partial class SOSettingWindow : EditorWindow
             case ESOType.ProfilerGuide:
                 gidText.text = "1489579503";
                 soTypeText.text = "ProfilerGuideBtn";
+                break;
+
+            case ESOType.Trigger:
+                gidText.text = "1062045985";
+                soTypeText.text = "TriggerBtn";
                 break;
         }
     }
@@ -145,6 +154,10 @@ public partial class SOSettingWindow : EditorWindow
 
             case "ProfilerGuideBtn":
                 SettingProfilerGuideSO(add, soTypeText.text);
+                break;
+
+            case "TriggerBtn":
+                SettingTriggerSO(add, soTypeText.text);
                 break;
         }
     }
