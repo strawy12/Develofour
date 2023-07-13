@@ -6,7 +6,7 @@ using UnityEngine;
 
 public partial class SOSettingWindow : EditorWindow
 {
-    public void SettingAIChattingSO(string dataText, string type)
+    public void SettingAIChattingSO(string dataText)
     {
         string[] rows = dataText.Split('\n');
 

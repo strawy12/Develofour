@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 public partial class SOSettingWindow : EditorWindow
 {
-    public void SettingFileSO(string dataText, string typeStr)
+    public void SettingFileSO(string dataText)
     {
         string path;
         string SO_PATH;

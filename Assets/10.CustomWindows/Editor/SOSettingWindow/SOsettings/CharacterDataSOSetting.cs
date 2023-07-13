@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 public partial class SOSettingWindow : EditorWindow
 {
-    private void SettingCharacterData(string dataText, string type) 
+    private void SettingCharacterData(string dataText) 
     {
         string[] rows = dataText.Split('\n');
 

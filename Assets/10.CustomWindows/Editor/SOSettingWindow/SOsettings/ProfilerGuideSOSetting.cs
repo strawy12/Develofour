@@ -7,7 +7,7 @@ using UnityEngine;
 
 public partial class SOSettingWindow : EditorWindow
 {
-    public void SettingProfilerGuideSO(string dataText, string typeStr)
+    public void SettingProfilerGuideSO(string dataText)
     {
         string[] rows = dataText.Split('\n');
 

@@ -32,6 +32,7 @@ public partial class SOSettingWindow : EditorWindow
         ProfilerGuide,
         Character,
         Trigger,
+        CallProfile,
     }
     #region UIBuilderParam
     private Button settingButton;
@@ -43,6 +44,7 @@ public partial class SOSettingWindow : EditorWindow
     private Button profilerGuideBtn;
     private Button characterDataBtn;
     private Button triggerBtn;
+    private Button callProfileDataBtn;
 
     private Label gidText;
     private Label soTypeText;
@@ -64,7 +66,7 @@ public partial class SOSettingWindow : EditorWindow
         profilerGuideBtn = rootVisualElement.Q<Button>("ProfilerGuideBtn");
         characterDataBtn = rootVisualElement.Q<Button>("CharacterBtn");
         triggerBtn = rootVisualElement.Q<Button>("TriggerBtn");
-
+        callProfileDataBtn = rootVisualElement.Q<Button>("CallProfileBtn");
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
 
@@ -77,7 +79,7 @@ public partial class SOSettingWindow : EditorWindow
         profilerGuideBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.ProfilerGuide));
         characterDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Character));
         triggerBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Trigger));
-
+        callProfileDataBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallProfile));
     }
 
     private void AutoComplete(ESOType type)
@@ -108,15 +110,17 @@ public partial class SOSettingWindow : EditorWindow
                 gidText.text = "1489579503";
                 soTypeText.text = "ProfilerGuideBtn";
                 break;
-
             case ESOType.Character:
                 gidText.text = "1030073895";
                 soTypeText.text = "CharacterDataSO";
                 break;
-
             case ESOType.Trigger:
                 gidText.text = "1062045985";
                 soTypeText.text = "TriggerBtn";
+                break;
+            case ESOType.CallProfile:
+                gidText.text = "2090943632";
+                soTypeText.text = "CallProfileDataSO";
                 break;
         }
     }
@@ -138,28 +142,29 @@ public partial class SOSettingWindow : EditorWindow
         switch (soTypeText.text)
         {
             case "FileSO":
-                SettingFileSO(add, soTypeText.text);
+                SettingFileSO(add);
                 break;
-
             case "TextDataSO":
-                SettingMonologSO(add, soTypeText.text);
+                SettingMonologSO(add);
                 break;
-
             case "AIChattingDataSO":
-                SettingAIChattingSO(add, soTypeText.text);
+                SettingAIChattingSO(add);
                 break;
             case "ProfilerCategoryDataSO":
-                SettingCategorySO(add, soTypeText.text);
+                SettingCategorySO(add);
                 break;
             case "ProfilerInfoDataSO":
-                SettingProfilerInfoSO(add, soTypeText.text);
+                SettingProfilerInfoSO(add);
                 break;
             case "ProfilerGuideBtn":
-                SettingProfilerGuideSO(add, soTypeText.text);
+                SettingProfilerGuideSO(add);
                 break;
 
             case "CharacterDataSO":
-                SettingCharacterData(add, soTypeText.text);
+                SettingCharacterData(add);
+                break;
+            case "CallProfileDataSO":
+                CallProfileSOSetting(add);
                 break;
 
             case "TriggerBtn":
