@@ -150,6 +150,7 @@ public partial class SOSettingWindow : EditorWindow
             Debug.Log(SO_PATH);
             CreateFolder(SO_PATH);
             AssetDatabase.MoveAsset(AssetDatabase.GetAssetPath(parentNullFileList[i]), SO_PATH);
+            EditorUtility.SetDirty(parentNullFileList[i]);
         }
 
         AssetDatabase.Refresh();
