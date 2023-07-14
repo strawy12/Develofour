@@ -40,6 +40,18 @@ public partial class SOSettingWindow : EditorWindow
         CallReturn,
         PinLock,
     }
+
+    private struct SpritePath
+    {
+        public const string Forder = "Assets/04.Sprites/Icon/Library/Library.png";
+        public const string Profiler = "Assets/04.Sprites/Icon/ProfilerIcon.png";
+        public const string VideoPlayer = "Assets/04.Sprites/Icon/MoviePlayer.png";
+        public const string Zoogle = "Assets/04.Sprites/Icon/Argon.png";
+        public const string NotePad = "Assets/04.Sprites/Icon/NotePad.png";
+        public const string MediaPlayer = "Assets/04.Sprites/Icon/MediaPlayers/CD.png";
+        public const string BGM = "Assets/04.Sprites/Icon/BGMSprite.png";
+        public const string Installer = "Assets/04.Sprites/Icon/profilerInstaller.png";
+    }
     #region UIBuilderParam
     private Button settingButton;
     private Button fileSOBtn;
@@ -85,7 +97,6 @@ public partial class SOSettingWindow : EditorWindow
         outStarTimeChatBtn = rootVisualElement.Q<Button>("OutStarTimeChatBtn");
         callOutGoingBtn = rootVisualElement.Q<Button>("CallOutGoingBtn");
         pinLockBtn = rootVisualElement.Q<Button>("PinLockBtn");
-
         gidText = rootVisualElement.Q<Label>("GidText");
         soTypeText = rootVisualElement.Q<Label>("SOTypeText");
         callOutGoingBtn = rootVisualElement.Q<Button>("CallOutGoingBtn");
