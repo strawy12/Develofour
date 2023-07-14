@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class ProfilerGuideButton : MonoBehaviour
 {
-    private AIChattingDataSO guideData;
-    public AIChattingDataSO GuideData
+    private ProfilerGuideDataSO guideData;
+    public ProfilerGuideDataSO GuideData
     {
         get
         {
@@ -25,11 +25,11 @@ public class ProfilerGuideButton : MonoBehaviour
     }
     private bool isGuide = false;
     
-    public void Init(AIChattingDataSO data)
+    public void Init(ProfilerGuideDataSO data)
     {
         guideData = data;
         guideBtn.onClick.AddListener(PlayGuide);
-        infoNameText.text = data.chatName;
+        infoNameText.text = data.guideName;
         EventManager.StartListening(EProfilerEvent.EndGuide, EndGuide);
     }
 
@@ -47,7 +47,8 @@ public class ProfilerGuideButton : MonoBehaviour
 
     private void StartAiChatting()
     {
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(guideData, 1.5f, true);
+        AIChattingTextDataSO data = ResourceManager.Inst.GetResource<AIChattingTextDataSO>(guideData.guideTextID);
+        ProfilerChattingSystem.OnPlayChatList?.Invoke(data, 1.5f, true);
     } 
 
     private void EndGuide(object[] ps)

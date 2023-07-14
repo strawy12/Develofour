@@ -71,6 +71,29 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         fileData = newFileData;
         iconNameText.text = fileData.fileName;
+
+        #region 튜토리얼 이벤트 세팅
+        if (fileData.ID == Constant.FileID.USB) //usb
+        {
+            EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);
+            Debug.Log("USB 이벤트 연동");
+            EventManager.StartListening(ETutorialEvent.USBTutorial, YellowUI);
+        }
+
+        if (fileData.ID == Constant.FileID.INCIDENT_REPORT) //사건보고서
+        {
+            EventManager.StopListening(ETutorialEvent.ReportTutorial, YellowUI);
+            Debug.Log("사건보고서 연동");
+            EventManager.StartListening(ETutorialEvent.ReportTutorial, YellowUI);
+        }
+
+
+        //데이터 매니저로 확인하고
+        //gamestate가 튜토리얼이라면
+        //library, usb, report에 각각 이벤트 넣어줘~
+        #endregion
+
+        #region IconSprite 세팅
         float x1, y1, x2, y2;
         if(newFileData.iconSprite == null)
         {
@@ -101,21 +124,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         iconImage.sprite = newFileData.iconSprite;
 
         iconImage.color = newFileData.iconColor;
-
-        if (fileData.ID == Constant.FileID.USB) //usb
-        {
-            EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);
-            EventManager.StartListening(ETutorialEvent.USBTutorial, YellowUI);
-        }
-
-        if (fileData.ID == Constant.FileID.INCIDENT_REPORT) //사건보고서
-        {
-            EventManager.StopListening(ETutorialEvent.ReportTutorial, YellowUI);
-            EventManager.StartListening(ETutorialEvent.ReportTutorial, YellowUI);
-        }
-        //데이터 매니저로 확인하고
-        //gamestate가 튜토리얼이라면
-        //library, usb, report에 각각 이벤트 넣어줘~
+        #endregion 
     }
 
     public void ChangeIcon(Sprite icon, Color color)

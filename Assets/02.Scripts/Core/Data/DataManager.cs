@@ -47,6 +47,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.profilerGuideBtnSaveData = new List<string>();
         saveData.monologData = new List<MonologSaveData>();
         saveData.profilerSaveData = new List<ProfilerSaveData>();
+        saveData.profilerTutorialData = new TutorialData();
         CreateLoginData();
         CreateGuideSaveData();
         CreatePinLockData();

@@ -7,7 +7,7 @@ using UnityEngine;
 public class ProfilerChattingSystem : TextSystem
 {
     //public static Action<string, bool, bool> OnPlayChat;
-    public static Action<AIChattingDataSO, float, bool> OnPlayChatList;
+    public static Action<AIChattingTextDataSO, float, bool> OnPlayChatList;
 
     public static Action OnChatEnd;
 
@@ -15,7 +15,7 @@ public class ProfilerChattingSystem : TextSystem
 
     public Sprite aiChattingSprite;
 
-    private AIChattingDataSO currentChatData;
+    private AIChattingTextDataSO currentChatData;
 
     private float currentDelay = 0f;
 
@@ -46,8 +46,9 @@ public class ProfilerChattingSystem : TextSystem
     //}
 
     // delay = 채팅 간격 시간
-    public void StartChatting(AIChattingDataSO list, float delay, bool isSave)
+    public void StartChatting(AIChattingTextDataSO list, float delay, bool isSave)
     {
+        Debug.Log(list);
         currentChatData = list;
 
         StartCoroutine(ChattingCoroutine(delay, isSave));

@@ -2,32 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+[Serializable]
+public class AIChat
+{
+    public Sprite sprite;
+    [TextArea(5, 30)]
+    public string text;
+}
 
 [CreateAssetMenu(fileName = "TextData_", menuName = "SO/TextDataSO/AIChatting")]
 public class AIChattingTextDataSO : ResourceSO
 {
-    private List<string> textList;
+    public string chatName;
+    [SerializeField]
+    private List<AIChat> aiChatList;
+    public List<AIChat> AIChatList => aiChatList;
 
-    public string this[int index]
+    public AIChat this[int index]
     {
         get
         {
-            return textList[index];
+            return aiChatList[index];
         }
         set
         {
-            if (index > textList.Count - 1)
+            if (index > aiChatList.Count - 1)
             {
-                textList.Add(value);
+                aiChatList.Add(value);
             }
-            textList[index] = value;
+            aiChatList[index] = value;
         }
     }
 
 #if UNITY_EDITOR
-    public void TextListSetting(List<string> stringList)
+    public void TextListSetting(List<AIChat> stringList)
     {
-        textList = stringList;
+        aiChatList = stringList;
     }
 #endif
+
 }

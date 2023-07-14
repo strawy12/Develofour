@@ -89,14 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerID: 15
-  infoDataIDList: 
-  fileID: 0
-  needInfoList: []
-  monoLogType: 1
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
+  triggerID: IT_3
   backgroundImage: {fileID: 5088137327886341937}
 --- !u!1 &348155349188037220
 GameObject:
@@ -130,7 +123,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -188,13 +181,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerID: 20
-  infoDataIDList: 
-  fileID: 0
-  needInfoList: []
-  monoLogType: 5
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
   backgroundImage: {fileID: 4412686750443668698}
 --- !u!1 &4207929276730760005
 GameObject:
@@ -228,7 +214,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -286,112 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerID: 23
-  infoDataIDList: 
-  fileID: 0
-  needInfoList: []
-  monoLogType: 5
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
   backgroundImage: {fileID: 5627129741493880461}
---- !u!1 &4879399643047958026
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4554491374299561815}
-  - component: {fileID: 5339029015183191829}
-  - component: {fileID: 1061946542873023046}
-  - component: {fileID: 1161936722511775132}
-  m_Layer: 5
-  m_Name: info78_4_0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4554491374299561815
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4879399643047958026}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -42.852894, y: 30.057}
-  m_SizeDelta: {x: 78.4559, y: 10.8638}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &5339029015183191829
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4879399643047958026}
-  m_CullTransparentMesh: 1
---- !u!114 &1061946542873023046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4879399643047958026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0.312, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &1161936722511775132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4879399643047958026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerID: 18
-  infoDataIDList: 
-  fileID: 0
-  needInfoList: []
-  monoLogType: 4
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
-  backgroundImage: {fileID: 1061946542873023046}
 --- !u!1 &5027611098894034829
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,14 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerID: 16
-  infoDataIDList: 
-  fileID: 0
-  needInfoList: []
-  monoLogType: 122
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
+  triggerID: IT_4
   backgroundImage: {fileID: 3435743836067392673}
 --- !u!1 &6027484679948395211
 GameObject:
@@ -522,7 +396,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -580,13 +454,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerID: 22
-  infoDataIDList: 
-  fileID: 0
-  needInfoList: []
-  monoLogType: 6
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
   backgroundImage: {fileID: 6996142319127441585}
 --- !u!1 &6477166259668365583
 GameObject:
@@ -677,14 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerID: 17
-  infoDataIDList: 
-  fileID: 0
-  needInfoList: []
-  monoLogType: 39
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
+  triggerID: IT_5
   backgroundImage: {fileID: 4231807065974005696}
 --- !u!1 &7102155995870435364
 GameObject:
@@ -718,7 +578,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -776,13 +636,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerID: 21
-  infoDataIDList: 
-  fileID: 0
-  needInfoList: []
-  monoLogType: 39
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
   backgroundImage: {fileID: 8622438144223426160}
 --- !u!1 &7173300515967175413
 GameObject:
@@ -816,7 +669,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -873,14 +726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerID: 19
-  infoDataIDList: 
-  fileID: 0
-  needInfoList: []
-  monoLogType: 5
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
+  triggerID: IT_6
   backgroundImage: {fileID: 8413351087343754777}
 --- !u!1 &8454321266748870906
 GameObject:
@@ -918,7 +764,6 @@ RectTransform:
   - {fileID: 4729221392273156984}
   - {fileID: 274890321231433242}
   - {fileID: 3574258751656402320}
-  - {fileID: 4554491374299561815}
   - {fileID: 5535159403773575879}
   - {fileID: 2133443977028259144}
   - {fileID: 2689001191581841515}
@@ -1015,7 +860,7 @@ MonoBehaviour:
   - {fileID: 6829805079331807508}
   - {fileID: 4918768171911223936}
   - {fileID: 6092347396983118846}
-  - {fileID: 1161936722511775132}
+  - {fileID: 0}
   - {fileID: 1498703215901245112}
   - {fileID: 8802290040495538675}
   - {fileID: 3832900806130696088}
@@ -1054,7 +899,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8454321266748870907}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1112,11 +957,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerID: 24
-  infoDataIDList: 
-  fileID: 0
-  needInfoList: []
-  monoLogType: 7
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
   backgroundImage: {fileID: 5717055028634397510}

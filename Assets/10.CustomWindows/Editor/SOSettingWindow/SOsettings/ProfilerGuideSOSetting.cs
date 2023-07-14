@@ -32,10 +32,10 @@ public partial class SOSettingWindow : EditorWindow
 
             guideData.id = id;
             guideData.guideName = name;
-            guideData.isAddTutorial = info;
+            guideData.isAddGuideButton = info;
             guideData.guideTextID = textID;
 
-            string SO_PATH = $"Assets/07.ScriptableObjects/Profiler/Guide/{columns[0]}.asset";
+            string SO_PATH = $"Assets/07.ScriptableObjects/AIChattingData/Guide/{id}.asset";
 
             if (isCreate)
             {

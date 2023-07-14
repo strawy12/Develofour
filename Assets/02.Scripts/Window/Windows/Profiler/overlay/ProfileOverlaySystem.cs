@@ -55,6 +55,7 @@ public class ProfileOverlaySystem : MonoBehaviour
             EventManager.TriggerEvent(ETutorialEvent.IncidentReportOpen);
         }
 
+        Debug.Log(triggerList.Count);
         GetProfileIDList(triggerList);
 
         completeProfileCount = GetCompleteCount();
@@ -112,6 +113,7 @@ public class ProfileOverlaySystem : MonoBehaviour
     {
         list.ForEach((trigger) =>
         {
+            Debug.Log(trigger.TriggerData);
             for (int i = 0; i < trigger.TriggerData.infoDataIDList.Count; i++)
             {
                 if (!profileIDList.Contains(trigger.TriggerData.infoDataIDList[i]))

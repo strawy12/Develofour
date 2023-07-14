@@ -113,7 +113,6 @@ public class Library : Window
     public override void WindowOpen()
     {
         base.WindowOpen();
-        Debug.Log(isNotFirstOpen + "1");
         if (DataManager.Inst.IsPlayingProfilerTutorial())
         {
             TutorialEvent();
@@ -126,7 +125,6 @@ public class Library : Window
     }
     public override void SizeDoTween()
     {
-        Debug.Log(isNotFirstOpen + "2");
         if(isNotFirstOpen)
         {
             SetActive(true);
@@ -138,7 +136,7 @@ public class Library : Window
             base.SizeDoTween();
         }
         isNotFirstOpen = true;
-        Debug.Log(isNotFirstOpen + "3");
+
     }
     private void TutorialLibraryClick()
     {

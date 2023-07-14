@@ -9,7 +9,7 @@ public class ProfilerTutorial : MonoBehaviour
 {
     //갈아엎기
     [SerializeField] 
-    private List<AIChattingDataSO> aiChattingDataList;
+    private TutorialTextSO tutorialTextList;
 
     #region 상수 변수들
     private int FIRST_TUTORIAL = 0;
@@ -49,7 +49,7 @@ public class ProfilerTutorial : MonoBehaviour
     private void CreatePopUp(object[] ps)
     {
 #if UNITY_EDITOR
-        WindowManager.Inst.PopupOpen(profiler, popupText, () => StartTutorial(null), () => StartCompleteProfilerTutorial());
+        WindowManager.Inst.PopupOpen(profiler, popupText, () => StartTutorial(null), null/*, () => StartCompleteProfilerTutorial()*/);
 #else
         WindowManager.Inst.PopupOpen(profiler, popupText, () => StartTutorial(null), null);
 #endif
@@ -57,6 +57,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void StartTutorial(object[] ps)
     {
+        DataManager.Inst.SetStartProfilerTutorial(true);
         StartCoroutine(StartProfilerTutorial());
     }
 
@@ -64,7 +65,8 @@ public class ProfilerTutorial : MonoBehaviour
     {
         ProfilerChattingSystem.OnChatEnd += () => EventManager.TriggerEvent(ETutorialEvent.CheckTutorialState);
         GameManager.Inst.ChangeGameState(EGameState.Tutorial_Chat);
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(aiChattingDataList[textListIndex], 1.5f, true);
+        Debug.Log(tutorialTextList.tutorialChatData[textListIndex]);
+        ProfilerChattingSystem.OnPlayChatList?.Invoke(tutorialTextList.tutorialChatData[textListIndex], 1.5f, true);
     }
 
 
@@ -80,6 +82,7 @@ public class ProfilerTutorial : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Tutorial_Chat);
         ProfilerChattingSystem.OnChatEnd += StartTutorialSetting; //라이브러리 가이드
         ProfilerChattingSystem.OnChatEnd += (() => GameManager.Inst.ChangeGameState(EGameState.Tutorial_NotChat));
+        DataManager.Inst.SetPlayingProfilerTutorial(true);
 
         EventManager.StartListening(ETutorialEvent.IncidentReportOpen, OpenIncidentReport);
 
@@ -151,6 +154,7 @@ public class ProfilerTutorial : MonoBehaviour
         EventManager.StopListening(EProfilerEvent.ClickCharacterTab, CompleteTutorial);
         StartChatting(COMPLETE_TUTORIAL);
         ProfilerChattingSystem.OnChatEnd = null; //startchatting의 게임 스테이트 변경되는거 강제로 막기
+        DataManager.Inst.SetPlayingProfilerTutorial(false) ;
         GameManager.Inst.ChangeGameState(EGameState.Tutorial_NotChat); //그리고 스테이트 원래대로
     }
 
@@ -216,7 +220,7 @@ public class ProfilerTutorial : MonoBehaviour
         ProfilerChattingSystem.OnImmediatelyEndChat?.Invoke();
         ProfilerChattingSystem.OnChatEnd = null;
 
-        TutorialEnd();
+        //TutorialEnd();
         StopAllCoroutines();
 
     }
@@ -225,7 +229,6 @@ public class ProfilerTutorial : MonoBehaviour
     private void LibraryRect(object[] ps)
     {
         GuideUISystem.OnGuide?.Invoke(libraryRect);
-        Debug.Log(libraryRect);
     }
 }
 

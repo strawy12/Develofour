@@ -17,7 +17,29 @@ public partial class SOSettingWindow : EditorWindow
             string[] columns = rows[i].Split('\t');
 
             string id = columns[0].Trim();
-            string[] textList = columns[1].Split('#');
+            string[] textList = columns[1].Trim().Split('#');
+
+            List<AIChat> aiChatList = new List<AIChat>();
+            for(int j = 0; j < textList.Length; j++)
+            {
+                AIChat chat = new AIChat();
+                if(textList[j][0] == '%') //Image
+                {
+                    string spritePath = textList[j].Substring(1, textList[j].Length);
+                    Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+                    if(sprite != null)
+                    {
+                        chat.sprite = sprite;
+                    }
+                }
+                else
+                {
+                    chat.text = textList[j];
+                }
+                aiChatList.Add(chat);
+            }
+
+            string chatName = columns[2];
 
             AIChattingTextDataSO aiChattingData = aiChattingSOList.Find(x => x.id == id);
             bool isCreate = false;
@@ -29,7 +51,12 @@ public partial class SOSettingWindow : EditorWindow
             }
 
             aiChattingData.id = id;
-            aiChattingData.TextListSetting(textList.ToList());
+            aiChattingData.TextListSetting(aiChatList);
+
+            if(!string.IsNullOrEmpty(chatName))
+            {
+                aiChattingData.chatName = chatName;
+            }
 
             #region PathSetting
             string SO_PATH = $"Assets/07.ScriptableObjects/AIChattingData/{columns[0]}.asset";
