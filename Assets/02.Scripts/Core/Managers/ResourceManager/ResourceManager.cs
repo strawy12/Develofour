@@ -7,6 +7,8 @@ using UnityEngine.Experimental.GlobalIllumination;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
+
+
     [SerializeField]
     private Transform poolParent;
 
@@ -18,6 +20,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         StartCoroutine(StartGetData());
         DataLoadingScreen.OnShowLoadingScreen?.Invoke();
     }
+
     private IEnumerator StartGetData()
     {
         var list = GetComponentsInChildren<ResourcesComponent>();

@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class ProfilerChattingSystem : TextSystem
 {
-    public static Action<string, bool, bool> OnPlayChat;
-    public static Action<List<string>, float, bool> OnPlayChatList;
+    //public static Action<string, bool, bool> OnPlayChat;
+    public static Action<AIChattingDataSO, float, bool> OnPlayChatList;
 
     public static Action OnChatEnd;
 
@@ -15,37 +15,40 @@ public class ProfilerChattingSystem : TextSystem
 
     public Sprite aiChattingSprite;
 
-    private List<string> textDataList;
-    private string currentTextData;
+    private AIChattingDataSO currentChatData;
 
     private float currentDelay = 0f;
 
     private float currentDataIndex;
 
+    private string RECIEVE_IMAGE = "이미지가 전송되었습니다.";
+
+    public static bool isChatting;
+
     private void Awake()
     {
         OnPlayChatList += StartChatting;
-        OnPlayChat += StartChatting;
+        //OnPlayChat += StartChatting;
 
         OnImmediatelyEndChat += ImmediateEndChat;
     }
 
-    public void StartChatting(string data, bool isSave, bool isEnd)
-    {
-        currentTextData = data;
+    //public void StartChatting(string data, bool isSave, bool isEnd)
+    //{
+    //    currentTextData = data;
 
-        PrintText(isSave);
+    //    PrintText(isSave);
 
-        if (isEnd)
-        {
-            EndChatting();
-        }
-    }
+    //    if (isEnd)
+    //    {
+    //        EndChatting();
+    //    }
+    //}
 
     // delay = 채팅 간격 시간
-    public void StartChatting(List<string> list, float delay, bool isSave)
+    public void StartChatting(AIChattingDataSO list, float delay, bool isSave)
     {
-        textDataList = list;
+        currentChatData = list;
 
         StartCoroutine(ChattingCoroutine(delay, isSave));
     }
@@ -57,10 +60,21 @@ public class ProfilerChattingSystem : TextSystem
 
     private IEnumerator ChattingCoroutine(float delay, bool isSave)
     {
-        foreach (string data in textDataList)
+        isChatting = true;
+        foreach (AIChat data in currentChatData.AIChatList)
         {
-            currentTextData = data;
-            PrintText(isSave);
+            if(data.sprite == null && data.text != null) // 텍스트
+            {
+                PrintText(data.text, isSave);
+            }
+            else if(data.sprite != null)
+            {
+                PrintImage(data.sprite, isSave);
+            }
+            else
+            {
+                Debug.Log("ChatData Error");
+            }
 
             yield return new WaitForSeconds(delay);
 
@@ -71,37 +85,48 @@ public class ProfilerChattingSystem : TextSystem
             }
         }
 
-        currentDataIndex = textDataList.IndexOf(currentTextData);
-
         EndChatting();
     }
 
     private void EndChatting()
     {
+        isChatting = false;
         OnChatEnd?.Invoke();
 
         OnChatEnd = null;
     }
 
-    private void PrintText(bool isSave)
+    private void PrintText(string currentStr, bool isSave)
     {
         // 이벤트매니저로 쏴주고 
         // 데이터 저장
 
-        currentTextData = RemoveCommandText(currentTextData, true);
+        currentStr = RemoveCommandText(currentStr, true);
         foreach (Action trigger in triggerDictionary.Values)
         {
             trigger?.Invoke();
         }
 
-        EventManager.TriggerEvent(EProfilerEvent.ProfilerSendMessage, new object[] { currentTextData });
+        EventManager.TriggerEvent(EProfilerEvent.ProfilerSendMessage, new object[] { currentStr });
 
         if (isSave)
         {
-            DataManager.Inst.AddAiChattingList(currentTextData);
+            DataManager.Inst.AddTextAiChattingList(currentStr);
         }
 
-        SendNotice(currentTextData);
+        SendNotice(currentStr);
+    }
+
+    private void PrintImage(Sprite sprite, bool isSave)
+    {
+        EventManager.TriggerEvent(EProfilerEvent.ProfilerSendMessage, new object[] { sprite });
+
+        if (isSave)
+        {
+            DataManager.Inst.AddImageAiChattingList(sprite);
+        }
+
+        SendNotice(RECIEVE_IMAGE);
     }
 
     public void SendNotice(string body)

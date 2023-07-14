@@ -7,8 +7,20 @@ using System;
 
 public class ProfilerTutorial : MonoBehaviour
 {
-    [SerializeField]
-    private TutorialTextSO profilerTutorialTextData;
+    //갈아엎기
+    [SerializeField] 
+    private List<AIChattingDataSO> aiChattingDataList;
+
+    #region 상수 변수들
+    private int FIRST_TUTORIAL = 0;
+    private int OVERLAY_TUTORIAL = 1;
+    private int CHARACTER_TUTORIAL = 2;
+    private int INCIDENT_TUTORIAL = 3;
+    private int COMPLETE_TUTORIAL = 4;
+    #endregion
+
+    private string popupText = "튜토리얼을 시작하시겠습니까?";
+
     [SerializeField]
     private float findNameGuideDelay = 60f;
     [SerializeField]
@@ -37,9 +49,9 @@ public class ProfilerTutorial : MonoBehaviour
     private void CreatePopUp(object[] ps)
     {
 #if UNITY_EDITOR
-        WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), () => StartCompleteProfilerTutorial());
+        WindowManager.Inst.PopupOpen(profiler, popupText, () => StartTutorial(null), () => StartCompleteProfilerTutorial());
 #else
-        WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), null);
+        WindowManager.Inst.PopupOpen(profiler, popupText, () => StartTutorial(null), null);
 #endif
     }
 
@@ -50,19 +62,39 @@ public class ProfilerTutorial : MonoBehaviour
 
     public void StartChatting(int textListIndex)
     {
-        ProfilerChattingSystem.OnChatEnd += () => DataManager.Inst.SetProfilerTutorialIdx();
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(profilerTutorialTextData.tutorialTexts[textListIndex].data, 1.5f, true);
+        ProfilerChattingSystem.OnChatEnd += () => EventManager.TriggerEvent(ETutorialEvent.CheckTutorialState);
+        GameManager.Inst.ChangeGameState(EGameState.Tutorial_Chat);
+        ProfilerChattingSystem.OnPlayChatList?.Invoke(aiChattingDataList[textListIndex], 1.5f, true);
     }
+
+
 
     private IEnumerator StartProfilerTutorial()
     {
+        //튜토리얼 첫 시작
+        //게임 스테이트 변경
+        //텍스트 출력
+        //사건보고서 가이드
+        //사건보고서가 열렸을 때 이벤트 추가
         yield return new WaitForSeconds(0.5f);
-        GameManager.Inst.ChangeGameState(EGameState.Tutorial);
-        ProfilerChattingSystem.OnChatEnd += StartTutorialSetting;
+        GameManager.Inst.ChangeGameState(EGameState.Tutorial_Chat);
+        ProfilerChattingSystem.OnChatEnd += StartTutorialSetting; //라이브러리 가이드
+        ProfilerChattingSystem.OnChatEnd += (() => GameManager.Inst.ChangeGameState(EGameState.Tutorial_NotChat));
+
+        EventManager.StartListening(ETutorialEvent.IncidentReportOpen, OpenIncidentReport);
+
+        StartChatting(FIRST_TUTORIAL);
 
         GetIncidentInfoEvent();
+        GetCharacterInfoEvent();
+
         EventManager.StartListening(ETutorialEvent.SelectLibrary, OpenLibrary);
-        StartChatting(0);
+    }
+
+    private void OpenIncidentReport(object[] obj)
+    {
+        EventManager.StopListening(ETutorialEvent.IncidentReportOpen, OpenIncidentReport);
+        StartChatting(OVERLAY_TUTORIAL);
     }
 
     private void StartTutorialSetting()
@@ -89,12 +121,11 @@ public class ProfilerTutorial : MonoBehaviour
     public void GetCharacterInfo(object[] ps)
     {
         string id = (string)ps[0];
-        if (id == targetCharID1 || id == targetCharID2)
-        {
-            EventManager.StopListening(EProfilerEvent.FindInfoText, GetCharacterInfo);
-            ProfilerChattingSystem.OnChatEnd += CharacterTabGuide;
-            StartChatting(3);
-        }
+        //TODO 얻은 정보가 캐릭터 정보라면 if문 적기
+
+        EventManager.StopListening(EProfilerEvent.FindInfoText, GetCharacterInfo);
+        StartChatting(CHARACTER_TUTORIAL);
+        EventManager.StartListening(EProfilerEvent.ClickCharacterTab, CompleteTutorial);
     }
 
     private void GetIncidentInfoEvent()
@@ -105,69 +136,78 @@ public class ProfilerTutorial : MonoBehaviour
     public void GetIncidentInfo(object[] ps)
     {
         string id = (string)ps[0];
-        if (id == targetIncidentID)
-        {
-            EventManager.StopListening(EProfilerEvent.FindInfoText, GetIncidentInfo);
-            ProfilerChattingSystem.OnChatEnd += IncidentTabGuide;
-            StartChatting(1);
-        }
+        //TODO 얻은 정보가 사건 정보라면 if문 적기
+        //사건보고서의 모든 사건 정보를 가져와서 하면 될듯?
+        //일단 리소스 매니저 되돌려놓고 so 직접 만들어서 디버그해보기
+        //버그 많을듯ㅋㅋ
+        EventManager.StopListening(EProfilerEvent.FindInfoText, GetIncidentInfo);
+        StartChatting(INCIDENT_TUTORIAL);
+        EventManager.StartListening(EProfilerEvent.ClickIncidentTab, CompleteTutorial);
     }
 
-
-    private void IncidentTabGuide()
+    public void CompleteTutorial(object[] ps)
     {
-        EventManager.StartListening(EProfilerEvent.ClickIncidentTab, ClickedIncidentTab);
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookIncidentTab, 2f);
-        guideObjectName = EGuideObject.IncidentTab;
-        EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.IncidentTab });
-
-        // 사건 탭이 클릭되는 이벤트 듣고
+        EventManager.StopListening(EProfilerEvent.ClickIncidentTab, CompleteTutorial);
+        EventManager.StopListening(EProfilerEvent.ClickCharacterTab, CompleteTutorial);
+        StartChatting(COMPLETE_TUTORIAL);
+        ProfilerChattingSystem.OnChatEnd = null; //startchatting의 게임 스테이트 변경되는거 강제로 막기
+        GameManager.Inst.ChangeGameState(EGameState.Tutorial_NotChat); //그리고 스테이트 원래대로
     }
 
-    private void ClickedIncidentTab(object[] obj)
-    {
-        EventManager.StopListening(EProfilerEvent.ClickIncidentTab, ClickedIncidentTab);
-        GuideUISystem.EndAllGuide?.Invoke();
-        ProfilerChattingSystem.OnChatEnd += StartTutorialSetting;
-        GetCharacterInfoEvent();
-        StartChatting(2);
-    }
+    //private void IncidentTabGuide()
+    //{
+    //    EventManager.StartListening(EProfilerEvent.ClickIncidentTab, ClickedIncidentTab);
+    //    NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookIncidentTab, 2f);
+    //    guideObjectName = EGuideObject.IncidentTab;
+    //    EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.IncidentTab });
 
-    private void CharacterTabGuide()
-    {
-        EventManager.StartListening(EProfilerEvent.ClickCharacterTab, ClickedCharacterTab);
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookCharacterTab, 2f);
-        guideObjectName = EGuideObject.CharacterTab;
-        EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.CharacterTab });
+    //    // 사건 탭이 클릭되는 이벤트 듣고
+    //}
+
+    //private void ClickedIncidentTab(object[] obj)
+    //{
+    //    EventManager.StopListening(EProfilerEvent.ClickIncidentTab, ClickedIncidentTab);
+    //    GuideUISystem.EndAllGuide?.Invoke();
+    //    ProfilerChattingSystem.OnChatEnd += StartTutorialSetting;
+    //    GetCharacterInfoEvent();
+    //    StartChatting(2);
+    //}
+
+    //private void CharacterTabGuide()
+    //{
+    //    EventManager.StartListening(EProfilerEvent.ClickCharacterTab, ClickedCharacterTab);
+    //    NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookCharacterTab, 2f);
+    //    guideObjectName = EGuideObject.CharacterTab;
+    //    EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.CharacterTab });
         
-        // 인물 탭이 클릭되는 이벤트 듣고
-    }
+    //    // 인물 탭이 클릭되는 이벤트 듣고
+    //}
 
-    private void ClickedCharacterTab(object[] obj)
-    {
+    //private void ClickedCharacterTab(object[] obj)
+    //{
 
-        GuideUISystem.EndAllGuide?.Invoke();
-        TutorialEnd();
-        StartChatting(4);
-    }
+    //    GuideUISystem.EndAllGuide?.Invoke();
+    //    TutorialEnd();
+    //    StartChatting(4);
+    //}
 
-    private void TutorialEnd()
-    {
-        EventManager.StopListening(EProfilerEvent.ClickCharacterTab, ClickedCharacterTab);
-        GameManager.Inst.ChangeGameState(EGameState.Game);
-        GuideUISystem.EndAllGuide?.Invoke();
-        if (library != null)
-        {
-            library.TutorialLibraryClickRemoveEvent();
-        }
+    //private void TutorialEnd()
+    //{
+    //    EventManager.StopListening(EProfilerEvent.ClickCharacterTab, ClickedCharacterTab);
+    //    GameManager.Inst.ChangeGameState(EGameState.Game);
+    //    GuideUISystem.EndAllGuide?.Invoke();
+    //    if (library != null)
+    //    {
+    //        library.TutorialLibraryClickRemoveEvent();
+    //    }
 
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "" });
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "" });
-        EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
-        CallSystem.OnInComingCall(Constant.CharacterKey.ASSISTANT, Constant.MonologKey.END_PROFILER_TUTORIAL);
-        EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
-        EventManager.TriggerEvent(ETutorialEvent.EndTutorial);
-    }
+    //    EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "" });
+    //    EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "" });
+    //    EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
+    //    CallSystem.OnInComingCall(Constant.CharacterKey.ASSISTANT, Constant.MonologKey.END_PROFILER_TUTORIAL);
+    //    EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
+    //    EventManager.TriggerEvent(ETutorialEvent.EndTutorial);
+    //}
 
 #if UNITY_EDITOR
     public void StartCompleteProfilerTutorial(object[] ps = null) // For Debug
@@ -175,7 +215,7 @@ public class ProfilerTutorial : MonoBehaviour
         EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { "01023459876" });
         ProfilerChattingSystem.OnImmediatelyEndChat?.Invoke();
         ProfilerChattingSystem.OnChatEnd = null;
-        DataManager.Inst.SetProfilerTutorialIdx(5);
+
         TutorialEnd();
         StopAllCoroutines();
 

@@ -80,15 +80,15 @@ public partial class GuideSystem : MonoBehaviour
         }
     }
 
-    private void SendAiChattingGuide(string str, bool isSave)
-    {   
-        ProfilerChattingSystem.OnPlayChat?.Invoke(str, isSave, false);
-    }
+    //private void SendAiChattingGuide(string str, bool isSave)
+    //{   
+    //    ProfilerChattingSystem.OnPlayChat?.Invoke(str, isSave, false);
+    //}
 
-    private void SendAiChattingGuide(string[] strList, float delay, bool isSave)
-    {
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(strList.ToList(), delay, isSave);
-    }
+    //private void SendAiChattingGuide(string[] strList, float delay, bool isSave)
+    //{
+    //    ProfilerChattingSystem.OnPlayChatList?.Invoke(strList.ToList(), delay, isSave);
+    //}
 
     private void OnApplicationQuit()
     {

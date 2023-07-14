@@ -26,6 +26,13 @@ public class ProfilerInfoSystem : MonoBehaviour
             return;
         }
 
+        if(GameManager.Inst.GameState == EGameState.Tutorial_Chat)
+        {
+            //이건 so 제작
+            MonologSystem.OnStartMonolog("T_M_0", false);
+            return;
+        }
+
         if(ps.Length == 2)
         {
             if (!(ps[0] is string) || !(ps[1] is string))

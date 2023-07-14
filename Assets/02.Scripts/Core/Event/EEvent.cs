@@ -187,6 +187,10 @@ public enum ETutorialEvent
     LibraryEventTrigger,
     LibraryGuide,
     EndTutorial,
+    IncidentReportOpen,
+    GetCharacterInfo,
+    GetIncidentInfo,
+    CheckTutorialState,
 }
 
 

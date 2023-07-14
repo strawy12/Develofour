@@ -205,6 +205,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     }
 
     private ISelectable selectedObject = null;
+    public ISelectable SelectedObject => selectedObject;
 
     public void SelectObject(ISelectable target)
     {

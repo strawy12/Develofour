@@ -114,7 +114,7 @@ public class Library : Window
     {
         base.WindowOpen();
         Debug.Log(isNotFirstOpen + "1");
-        if (DataManager.Inst.IsProfilerTutorial())
+        if (DataManager.Inst.IsPlayingProfilerTutorial())
         {
             TutorialEvent();
         }
@@ -188,7 +188,7 @@ public class Library : Window
 
     private void SetLibraryEvent(object[] obj)
     {
-        if (DataManager.Inst.IsProfilerTutorial())
+        if (DataManager.Inst.IsPlayingProfilerTutorial())
         {
             TutorialEvent();
         }
@@ -218,7 +218,7 @@ public class Library : Window
         //EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
 
-        if (DataManager.Inst.IsProfilerTutorial())
+        if (DataManager.Inst.IsPlayingProfilerTutorial())
         {
             TutorialEvent();
         }
@@ -226,9 +226,7 @@ public class Library : Window
 
     public void TutorialEvent()
     {
-        if (DataManager.Inst.IsProfilerTutorial() == false) return;
-        int idx = DataManager.Inst.GetProfilerTutorialIdx();
-        if (idx != 0 && idx != 2) return;
+        if (DataManager.Inst.IsPlayingProfilerTutorial() == false) return;
 
         if (currentDirectory.ID == Constant.FileID.MYPC)
         {
@@ -384,8 +382,7 @@ public class Library : Window
         base.OnDestroyWindow();
         isNotFirstOpen = false;
         //GuideUISystem.EndAllGuide?.Invoke();
-        Debug.Log(DataManager.Inst.GetProfilerTutorialIdx());
-        if (DataManager.Inst.GetProfilerTutorialIdx() == 0 || DataManager.Inst.GetProfilerTutorialIdx() == 2)
+        if (DataManager.Inst.IsPlayingProfilerTutorial() && GameManager.Inst.GameState == EGameState.Tutorial_NotChat)
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryGuide);
         }

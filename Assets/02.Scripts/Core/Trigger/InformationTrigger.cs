@@ -60,28 +60,20 @@ public class InformationTrigger : MonoBehaviour
     public void FindInfo()
     {
         Bind();
+
+        if (GameManager.Inst.GameState == EGameState.Tutorial_Chat)
+        {
+            //TODO 이거  string 키값 프로파일러 채팅부터   볼까 어쩌구 그걸로 바꿔야함
+            MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIAL_NOT_FIND_INFO, false);
+            return;
+        }
+
         if (!CheckAllInfoFound())
         {
             bool playMonolog = false;
 
             foreach (var infoID in triggerData.infoDataIDList)
             {
-                if (!DataManager.Inst.GetIsClearTutorial())
-                {
-                    int idx = DataManager.Inst.GetProfilerTutorialIdx();
-                    if (
-                        (idx == 0 &&
-                        infoID == INCIDENTREPORT_TITLE)
-                        ||
-                        (idx == 2 &&
-                        (infoID == KIMYUJIN_NAME || infoID == PARKJUYOUNG_NAME))
-                    )
-                    {
-                        playMonolog = true;
-                    }
-                    else
-                        continue;
-                }
                 playMonolog = true;
                 if (!triggerData.isFakeInfo)
                 {
@@ -110,7 +102,8 @@ public class InformationTrigger : MonoBehaviour
 
     public void GetInfo()
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
+        if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
+
         if (triggerData.infoDataIDList.Count == 0 || triggerData.infoDataIDList == null)
         {
             MonologSystem.OnStartMonolog?.Invoke(triggerData.monoLogType, false);

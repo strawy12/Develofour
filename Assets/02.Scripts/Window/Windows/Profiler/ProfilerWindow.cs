@@ -48,17 +48,25 @@ public class ProfilerWindow : Window
 
         EventManager.StartListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StartListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
+        EventManager.StartListening(ETutorialEvent.CheckTutorialState, CheckTutorialState);
         beforeClickButton = infoPanelBtn;
 
         ButtonBlackSetting();
     }
 
+    private void CheckTutorialState(object[] obj)
+    {
+        if(!DataManager.Inst.GetIsClearTutorial())
+        {
+            Define.CheckTutorialState(this);
+        }
+    }
+
     private void ProfilerSelected()
     {
-        if (DataManager.Inst.GetIsClearTutorial())
+        if (!DataManager.Inst.GetIsClearTutorial())
         {
-            EventManager.TriggerEvent(EGuideButtonTutorialEvent.TutorialStart);
-            OnSelected -= ProfilerSelected;
+            Define.CheckTutorialState(this);
         }
     }
 
@@ -142,6 +150,7 @@ public class ProfilerWindow : Window
     {
         EventManager.StopListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StopListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
+        EventManager.StopListening(ETutorialEvent.CheckTutorialState, CheckTutorialState);
 
     }
 
@@ -149,6 +158,7 @@ public class ProfilerWindow : Window
     {
         EventManager.StopListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StopListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
+        EventManager.StopListening(ETutorialEvent.CheckTutorialState, CheckTutorialState);
     }
 
 }

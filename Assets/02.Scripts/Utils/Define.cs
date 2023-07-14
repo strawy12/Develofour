@@ -281,6 +281,7 @@ public static class Define
         }
     }
 
+
     public static void SetTiggerSize(TMP_Text text, List<TextTriggerData> triggerList)
     {
         text.ForceMeshUpdate();
@@ -328,4 +329,16 @@ public static class Define
         return newSize;
     }
 
+    public static void CheckTutorialState(ISelectable myObj)
+    {
+        if(GameManager.Inst.GameState == EGameState.Tutorial_Chat)
+        {
+            //채팅이 끝나야함
+            //프로파일러 클릭
+            if((WindowManager.Inst.SelectedObject == myObj && !ProfilerChattingSystem.isChatting))
+            {
+                GameManager.Inst.ChangeGameState(EGameState.Tutorial_NotChat);
+            }
+        }
+    }
 }

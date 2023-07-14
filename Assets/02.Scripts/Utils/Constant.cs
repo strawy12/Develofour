@@ -118,7 +118,7 @@ public static partial class Constant
         public const int HARMONY_YUZIN = -7;
         public const int HARMONY_JUYOUNG = -8;
         public const int HARMONY_UNKNOWN = -9;
-    }
+    }                
 
     public static class CharacterKey
     {

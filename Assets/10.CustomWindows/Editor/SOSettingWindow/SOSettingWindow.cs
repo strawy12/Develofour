@@ -20,6 +20,7 @@ public partial class SOSettingWindow : EditorWindow
         win.maxSize = new Vector2(350, 250);
     }
 
+
     private enum ESOType
     {
         None,

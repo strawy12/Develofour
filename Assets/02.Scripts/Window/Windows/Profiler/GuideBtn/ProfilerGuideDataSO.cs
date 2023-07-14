@@ -7,5 +7,7 @@ public class ProfilerGuideDataSO : ResourceSO
 {
     public string guideName;
     public string guideTextID;
+
+    public AIChattingDataSO guideData;
     public bool isAddTutorial;
 }

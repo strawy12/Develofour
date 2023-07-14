@@ -74,7 +74,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         rectTransform.sizeDelta = contractSize;
 
         SetActive(true);
-        overlayTrigger.fileID = Constant.OverlayID.START_ATTRIBUTE;
+        overlayTrigger.fileID = Constant.OverlayID.START_ATTRIBUTE.ToString();
         overlayTrigger.Open();
 
         DOTween.To(
