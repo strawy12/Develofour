@@ -30,14 +30,5 @@ public class PrefabSettingWindow : EditorWindow
         //outStarPrefabBtn.RegisterCallback(x=>)
     }
 
-    private void OutStarPrefabSetting()
-    {
-        string[] characterGuids = AssetDatabase.FindAssets("t:OutStarCharacterDataSO", null);
-        List<OutStarProfileDataSO> characterList = new List<OutStarProfileDataSO>();
-        foreach(var guid in characterGuids)
-        {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            characterList.Add(AssetDatabase.LoadAssetAtPath<OutStarProfileDataSO>(path));
-        }
-    }
+  
 }
