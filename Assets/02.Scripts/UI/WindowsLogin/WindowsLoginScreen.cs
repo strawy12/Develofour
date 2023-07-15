@@ -177,14 +177,15 @@ public class WindowsLoginScreen : MonoBehaviour
     private void OpenLoginFailUI()
     {
         failedLoginCnt++;
-        if(failedLoginCnt == 1)
-        {
-            GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 450);
-        }
-        if (failedLoginCnt >= 5)
-        {
-            GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 1.5f);
-        }
+        //TODO
+        //if(failedLoginCnt == 1)
+        //{
+        //    GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 450);
+        //}
+        //if (failedLoginCnt >= 5)
+        //{
+        //    GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 1.5f);
+        //}
 
         loginFailUI.SetActive(true);
         loginInputUI.SetActive(false);

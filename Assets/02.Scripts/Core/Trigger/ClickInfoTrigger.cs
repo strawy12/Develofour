@@ -72,7 +72,6 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log($"Enter : {triggerID}");
         if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
 
         if (triggerData.infoDataIDList == null || triggerData.infoDataIDList.Count == 0)
@@ -88,7 +87,6 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     public virtual void OnPointerExit(PointerEventData eventData)
     {
         ChangeCursor(ECursorState.Default);
-        Debug.Log($"Exit : {triggerID}");
     }
     private void ActiveLockImage(bool isActive)
     {

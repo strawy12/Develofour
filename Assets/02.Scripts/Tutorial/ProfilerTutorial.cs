@@ -97,7 +97,7 @@ public class ProfilerTutorial : MonoBehaviour
     private void OpenIncidentReport(object[] obj)
     {
         EventManager.StopListening(ETutorialEvent.IncidentReportOpen, OpenIncidentReport);
-        StartChatting(OVERLAY_TUTORIAL);
+        MonologSystem.AddOnEndMonologEvent("TutorialOverlay", (() => StartChatting(OVERLAY_TUTORIAL))); 
     }
 
     private void StartTutorialSetting()
@@ -118,7 +118,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void GetCharacterInfoEvent()
     {
-        EventManager.StartListening(EProfilerEvent.FindInfoText, GetCharacterInfo);
+        EventManager.StartListening(ETutorialEvent.GetCharacterInfo, GetCharacterInfo);
     }
 
     public void GetCharacterInfo(object[] ps)
@@ -127,24 +127,19 @@ public class ProfilerTutorial : MonoBehaviour
         //TODO 얻은 정보가 캐릭터 정보라면 if문 적기
 
         EventManager.StopListening(EProfilerEvent.FindInfoText, GetCharacterInfo);
-        StartChatting(CHARACTER_TUTORIAL);
+        MonologSystem.AddOnEndMonologEvent("TutorialFindCharacter", (()=>StartChatting(CHARACTER_TUTORIAL)));
         EventManager.StartListening(EProfilerEvent.ClickCharacterTab, CompleteTutorial);
     }
 
     private void GetIncidentInfoEvent()
     {
-        EventManager.StartListening(EProfilerEvent.FindInfoText, GetIncidentInfo);
+        EventManager.StartListening(ETutorialEvent.GetIncidentInfo, GetIncidentInfo);
     }
 
     public void GetIncidentInfo(object[] ps)
     {
-        string id = (string)ps[0];
-        //TODO 얻은 정보가 사건 정보라면 if문 적기
-        //사건보고서의 모든 사건 정보를 가져와서 하면 될듯?
-        //일단 리소스 매니저 되돌려놓고 so 직접 만들어서 디버그해보기
-        //버그 많을듯ㅋㅋ
         EventManager.StopListening(EProfilerEvent.FindInfoText, GetIncidentInfo);
-        StartChatting(INCIDENT_TUTORIAL);
+        MonologSystem.AddOnEndMonologEvent("TutorialFindIncident", (() => StartChatting(INCIDENT_TUTORIAL)));
         EventManager.StartListening(EProfilerEvent.ClickIncidentTab, CompleteTutorial);
     }
 

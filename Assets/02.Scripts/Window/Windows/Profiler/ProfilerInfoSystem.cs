@@ -21,15 +21,14 @@ public class ProfilerInfoSystem : MonoBehaviour
 
     private void ChangeValue(object[] ps) 
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall)
+        if (GameManager.Inst.GameState == EGameState.Tutorial_Chat)
         {
+            MonologSystem.OnStartMonolog(Constant.MonologKey.TUTORIAL_CANNOT_GETINFO, false);
             return;
         }
 
-        if(GameManager.Inst.GameState == EGameState.Tutorial_Chat)
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
-            //이건 so 제작
-            MonologSystem.OnStartMonolog("T_M_0", false);
             return;
         }
 
@@ -50,8 +49,21 @@ public class ProfilerInfoSystem : MonoBehaviour
                 return;
             }
             string id = (string)ps[0];
-            Debug.Log(id);
             ProfilerInfoDataSO infoDataSO = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(id);
+
+            if(DataManager.Inst.IsPlayingProfilerTutorial())
+            {
+                string[] strArr = infoDataSO.categoryID.Split('_');
+                if(strArr[1] == "C")
+                {
+                    EventManager.TriggerEvent(ETutorialEvent.GetCharacterInfo);
+                }
+                else if(strArr[1] == "I")
+                {
+                    EventManager.TriggerEvent(ETutorialEvent.GetIncidentInfo) ;
+                }
+            }
+
             ChangeValue(infoDataSO.categoryID, id);
             ps = new object[2] { infoDataSO.categoryID, id };
 

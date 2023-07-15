@@ -14,6 +14,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
         if(data == null) 
         {
+            data = new ProfilerSaveData();
             data.categoryID = categoryID;
             data.isShowCategory = false;
             data.infoData = new List<string>();
