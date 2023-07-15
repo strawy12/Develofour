@@ -16,7 +16,7 @@ public class NeedInfoData
 public class InformationTrigger : MonoBehaviour
 {
     [SerializeField]
-    private string triggerID;
+    protected string triggerID;
 
     protected TriggerDataSO triggerData;
     public TriggerDataSO TriggerData { get; private set; }

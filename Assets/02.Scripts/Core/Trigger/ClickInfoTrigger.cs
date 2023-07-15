@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ using static CursorChangeSystem;
 public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
-    protected Image backgroundImage;
+    protected List<Image> backgroundImageList;
 
     protected Color yellowColor = new Color(1f, 1f, 0f, 0.4f);
     protected Color redColor = new Color(1f, 0f, 0f, 0.4f);
@@ -18,11 +19,11 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     protected override void Bind()
     {
-        if (backgroundImage == null)
+        if (backgroundImageList == null || backgroundImageList.Count == 0)
         {
-            backgroundImage = GetComponent<Image>();
-            tempColor = backgroundImage.color;
+            backgroundImageList = GetComponentsInChildren<Image>().ToList();
         }
+        tempColor = backgroundImageList[0].color;
         base.Bind();
     }
 
@@ -30,9 +31,8 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     {
         triggerData = data;
         Bind();
-      
-
     }
+
     public virtual void OnPointerClick(PointerEventData eventData)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
@@ -48,19 +48,19 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
         switch (state)
         {
             case ECursorState.Default:
-                backgroundImage.color = tempColor;
+                backgroundImageList.ForEach(x=>x.color = tempColor);
                 ActiveLockImage(false);
                 break;
             case ECursorState.NeedInfo:
-                backgroundImage.color = yellowColor;
+                backgroundImageList.ForEach(x=>x.color = yellowColor);
                 ActiveLockImage(true);
                 break;
             case ECursorState.FindInfo:
-                backgroundImage.color = yellowColor;
+                backgroundImageList.ForEach(x => x.color = yellowColor);
                 ActiveLockImage(false);
                 break;
             case ECursorState.FoundInfo:
-                backgroundImage.color = redColor;
+                backgroundImageList.ForEach(x => x.color = redColor);
                 ActiveLockImage(false);
                 break;
         }
@@ -70,6 +70,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log($"Enter : {triggerID}");
         if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
 
         if (triggerData.infoDataIDList == null || triggerData.infoDataIDList.Count == 0)
@@ -85,6 +86,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     public virtual void OnPointerExit(PointerEventData eventData)
     {
         ChangeCursor(ECursorState.Default);
+        Debug.Log($"Exit : {triggerID}");
     }
     private void ActiveLockImage(bool isActive)
     {
@@ -98,19 +100,19 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
         }
 
         Vector2 thisSizeDelta = ((RectTransform)transform).sizeDelta;
-        if(thisSizeDelta == Vector2.zero)
+        if (thisSizeDelta == Vector2.zero)
         {
             RectTransform rect = transform.parent as RectTransform;
             thisSizeDelta = rect.sizeDelta;
         }
-        if(thisSizeDelta == Vector2.zero)
+        if (thisSizeDelta == Vector2.zero)
         {
             return;
         }
 
         RectTransform lockRect = (lockImage.transform as RectTransform);
-        
-        if(thisSizeDelta.x < thisSizeDelta.y)
+
+        if (thisSizeDelta.x < thisSizeDelta.y)
         {
             lockRect.sizeDelta = new Vector2(thisSizeDelta.x * 0.75f, thisSizeDelta.x);
         }
@@ -142,7 +144,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 #if UNITY_EDITOR
     private void Reset()
     {
-        backgroundImage = GetComponent<Image>();
+
     }
 #endif
 }
