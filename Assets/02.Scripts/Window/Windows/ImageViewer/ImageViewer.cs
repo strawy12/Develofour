@@ -31,6 +31,7 @@ public class ImageViewer : Window
         base.Init();
 
         imageData = ResourceManager.Inst.GetResource<ImageViewerDataSO>(file.ID);
+        Debug.Log(imageData);
         windowBar.SetNameText($"{imageData.imageName}.{imageData.extensionType.ToString().ToLower()}");
 
         if(imageData.imageBody != null)
