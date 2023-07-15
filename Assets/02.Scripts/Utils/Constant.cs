@@ -94,6 +94,8 @@ public static partial class Constant
 
         public const string FIRST_LOGIN_GUIDE = "T_M_155";
         public const string COMPLETE_OVERLAY = "T_M_156";
+
+        public const string TUTORIAL_CANNOT_GETINFO = "T_M_22";
     }
     #endregion
     #region MailKey

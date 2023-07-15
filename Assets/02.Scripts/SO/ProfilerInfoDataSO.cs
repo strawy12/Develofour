@@ -9,6 +9,7 @@ public class ProfilerInfoDataSO : ResourceSO
     public string infomationText;
     public string noticeText;
     public string infoName;
+    public string categoryID;
 
     public string ID
     {

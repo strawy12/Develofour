@@ -113,7 +113,6 @@ public class ProfileOverlaySystem : MonoBehaviour
     {
         list.ForEach((trigger) =>
         {
-            Debug.Log(trigger.TriggerData);
             for (int i = 0; i < trigger.TriggerData.infoDataIDList.Count; i++)
             {
                 if (!profileIDList.Contains(trigger.TriggerData.infoDataIDList[i]))

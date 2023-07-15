@@ -36,6 +36,8 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     public virtual void OnPointerClick(PointerEventData eventData)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
+       
+
         GetInfo();
         //TODO
         //ProfileOverlaySystem.OnAdd?.Invoke(triggerData.fileID);

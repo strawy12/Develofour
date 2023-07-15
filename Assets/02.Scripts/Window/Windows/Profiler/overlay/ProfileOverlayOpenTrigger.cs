@@ -27,7 +27,7 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
             {
                 return;
             }
-
+            isSetting = true;
         }
         ProfileOverlaySystem.OnOpen?.Invoke(fileID, triggerCount);
     }

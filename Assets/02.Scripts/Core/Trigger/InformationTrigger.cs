@@ -19,7 +19,7 @@ public class InformationTrigger : MonoBehaviour
     private string triggerID;
 
     protected TriggerDataSO triggerData;
-    public TriggerDataSO TriggerData { get; private set; }
+    public TriggerDataSO TriggerData => triggerData;
 
     protected string playMonologType = "";
 
@@ -63,8 +63,7 @@ public class InformationTrigger : MonoBehaviour
 
         if (GameManager.Inst.GameState == EGameState.Tutorial_Chat)
         {
-            //TODO 이거  string 키값 프로파일러 채팅부터   볼까 어쩌구 그걸로 바꿔야함
-            MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIAL_NOT_FIND_INFO, false);
+            MonologSystem.OnStartMonolog(Constant.MonologKey.TUTORIAL_CANNOT_GETINFO, false);
             return;
         }
 

@@ -33,7 +33,7 @@ public class ProfilerInfoSystem : MonoBehaviour
             return;
         }
 
-        if(ps.Length == 2)
+        if (ps.Length == 2)
         {
             if (!(ps[0] is string) || !(ps[1] is string))
             {
@@ -42,19 +42,20 @@ public class ProfilerInfoSystem : MonoBehaviour
             string category = (string)ps[0];
             string id = (string)ps[1];
             ChangeValue(category, id);
-        } 
-        else if(ps.Length == 1)
+        }
+        else if (ps.Length == 1)
         {
-            if(!(ps[0] is string))
+            if (!(ps[0] is string))
             {
                 return;
             }
             string id = (string)ps[0];
+            Debug.Log(id);
             ProfilerInfoDataSO infoDataSO = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(id);
-            //ChangeValue(infoDataSO.categoryID, id);
-            //ps = new object[2] { infoDataSO.categoryID, id };
-        }
+            ChangeValue(infoDataSO.categoryID, id);
+            ps = new object[2] { infoDataSO.categoryID, id };
 
+        }
         EventManager.TriggerEvent(EProfilerEvent.RegisterInfo, ps);
 
     }
@@ -83,14 +84,14 @@ public class ProfilerInfoSystem : MonoBehaviour
         string temp = "nullError";
         ProfilerCategoryDataSO categoryData = ResourceManager.Inst.GetResource<ProfilerCategoryDataSO>(categoryID);
         ProfilerInfoDataSO infoData = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(id);
-        temp = infoData != null ? infoData.infoName : temp;
+        temp = infoData != null ? infoData.noticeText : temp;
 
         string text;
         if (temp == "nullError") return;
 
         if (categoryData != null && categoryData.categoryType != EProfilerCategoryType.Visiable)
         {
-            text = categoryData.categoryName + " 카테고리의 " + temp + "정보가 업데이트 되었습니다.";
+            text =  temp + "정보가 업데이트 되었습니다.";
             NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
         }
         else

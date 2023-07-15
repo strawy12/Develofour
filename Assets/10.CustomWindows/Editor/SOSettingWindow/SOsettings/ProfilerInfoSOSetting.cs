@@ -35,6 +35,11 @@ public partial class SOSettingWindow : EditorWindow
             infoData.infomationText = info;
             infoData.noticeText = notice;
 
+            string[] categoryIDArr = id.Trim().Split('_');
+            string categoryID = "IC_" + categoryIDArr[1] + "_" + categoryIDArr[2];
+            Debug.Log(categoryID);
+            infoData.categoryID = categoryID;
+
             #region PathSetting
             string SO_PATH = $"Assets/07.ScriptableObjects/Profiler/Info/{columns[0]}.asset";
 
