@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -327,5 +328,21 @@ public static class Define
         Vector2 newSize = new Vector2(bottomRight.x - topLeft.x, topLeft.y - bottomRight.y);
         return newSize;
     }
+
+
+#if UNITY_EDITOR
+    public static List<T> GuidsToList<T>(string filtter) where T : UnityEngine.Object
+    {
+        string[] guids = AssetDatabase.FindAssets(filtter, null);
+        List<T> SOList = new List<T>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            SOList.Add(AssetDatabase.LoadAssetAtPath<T>(path));
+        }
+
+        return SOList;
+    }
+#endif
 
 }

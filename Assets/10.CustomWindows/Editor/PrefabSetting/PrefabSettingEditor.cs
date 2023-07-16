@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public class PrefabSettingWindow : EditorWindow
+public partial class PrefabSettingWindow : EditorWindow
 {
     private Button outStarPrefabBtn;
 
@@ -15,7 +15,8 @@ public class PrefabSettingWindow : EditorWindow
     public static void ShowWindow()
     {
         PrefabSettingWindow win = GetWindow<PrefabSettingWindow>();
-
+        win.minSize = new Vector2(350, 250);
+        win.maxSize = new Vector2(350, 250);
     }
 
     private void OnEnable()
@@ -27,8 +28,8 @@ public class PrefabSettingWindow : EditorWindow
 
         outStarPrefabBtn = rootVisualElement.Q<Button>("OutStarPrefabBtn");
 
-        //outStarPrefabBtn.RegisterCallback(x=>)
+        outStarPrefabBtn.RegisterCallback<MouseUpEvent>(x => OutStarGramSetting());
     }
 
-  
+
 }
