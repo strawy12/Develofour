@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class WindowPinInput : Window
+public class WindowPinLock : Window
 {
     private bool isShaking = false;
 

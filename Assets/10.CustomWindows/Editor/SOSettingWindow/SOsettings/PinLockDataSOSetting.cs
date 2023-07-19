@@ -20,10 +20,18 @@ public partial class SOSettingWindow : EditorWindow
             string id = columns[0];
             string answerPin = columns[1];
             string hint = columns[2];
+            EWindowType windowType =EWindowType.None;
+
+            bool isType = Enum.TryParse(columns[3].Trim(), out windowType);
+
+            if(isType == false)
+            {
+                Debug.Log($"{columns[3].Trim()}이라는 윈도우 타입이 존재하지 않습니다.");
+            }
 
             AutoAnswerData answerData = new AutoAnswerData();
             answerData.answer = columns[1];
-            string[] decisions = columns[3].Trim().Split(',');
+            string[] decisions = columns[4].Trim().Split(',');
             for(int j = 0; j < decisions.Length; j++)
             {
                 if(!string.IsNullOrEmpty(decisions[j]))
@@ -43,6 +51,7 @@ public partial class SOSettingWindow : EditorWindow
             pinLockData.windowPin = answerPin;
             pinLockData.windowPinHintGuide = hint;
             pinLockData.answerData = answerData;
+            pinLockData.lockWindowType = windowType;
 
             string SO_PATH = $"Assets/07.ScriptableObjects/PinLock/{columns[0]}_PinLock.asset";
 
