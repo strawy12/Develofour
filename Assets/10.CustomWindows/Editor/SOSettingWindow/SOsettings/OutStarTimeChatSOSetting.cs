@@ -17,7 +17,7 @@ public partial class SOSettingWindow : EditorWindow
         {
             string[] columns = rows[i].Split('\t');
 
-            string id = columns[0];
+            string id = columns[0].Trim();
 
             string dateText = columns[1];
 
@@ -36,11 +36,11 @@ public partial class SOSettingWindow : EditorWindow
             {
                 if(!string.IsNullOrEmpty(chats[j]))
                 {
-                    chatIDList.Add(chats[j]);
+                    chatIDList.Add(chats[j].Trim());
                 }
             }
 
-            OutStarTimeChatDataSO timeChatData = timeChatSOList.Find(x => x.id == id);
+            OutStarTimeChatDataSO timeChatData = timeChatSOList.Find(x => x.id == id.Trim());
             bool isCreate = false;
 
             if (timeChatData == null)
@@ -49,7 +49,7 @@ public partial class SOSettingWindow : EditorWindow
                 isCreate = true;
             }
 
-            timeChatData.id = id;
+            timeChatData.id = id.Trim();
             timeChatData.time = date;
             timeChatData.chatDataIDList = chatIDList;
 

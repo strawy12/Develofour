@@ -20,12 +20,11 @@ public partial class SOSettingWindow : EditorWindow
             EProfilerCategoryType type = (EProfilerCategoryType)Enum.Parse(typeof(EProfilerCategoryType), columns[1]);
             string categoryName = columns[2];
             string defaultID = columns[3];
-
+            string[] infoIDStrList = columns[4].Split('/');
             List<string> infoIDList = new List<string>();
-            for (int j = 4; j < columns.Length; j++)
+            for (int j = 0; j < infoIDStrList.Length; j++)
             {
-                if(!string.IsNullOrEmpty(columns[j]))
-                    infoIDList.Add(columns[j]);
+                infoIDList.Add(infoIDStrList[j].Trim());
             }
 
             ProfilerCategoryDataSO categoryData = categorySOList.Find(x => x.id == id);
