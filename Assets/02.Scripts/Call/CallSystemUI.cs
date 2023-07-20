@@ -29,6 +29,11 @@ public class CallSystemUI : MonoBehaviour
 
     public Action OnClickAnswerBtn;
 
+    public void Init()
+    {
+        spectrumUI.Init();
+    }
+
     public void Show()
     {
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
@@ -59,7 +64,7 @@ public class CallSystemUI : MonoBehaviour
     {
         CharacterInfoDataSO characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(currentCallProfileData.ID);
 
-        if (characterData.characterName == "")
+        if (string.IsNullOrEmpty(characterData.characterName))
         {
             nameText.text = characterData.phoneNum;
         }

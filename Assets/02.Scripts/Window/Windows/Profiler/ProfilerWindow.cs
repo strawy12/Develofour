@@ -9,7 +9,6 @@ using System.Linq.Expressions;
 
 public class ProfilerWindow : Window
 {
-
     [Header("Panels")]
     [SerializeField]
     private ProfilerUsingDocument profilerUsingDocuments;
@@ -19,12 +18,16 @@ public class ProfilerWindow : Window
     private ProfileGuidePanel profilerGuidePanel;
     [SerializeField]
     private ProfilerChatting profilerChatting;
+    [SerializeField]
+    private ProfilerCallingPanel profilerCallingPanel;
 
     [Header("Buttons")]
     [SerializeField]
     private ProfilerPanelButton infoPanelBtn;
     [SerializeField]
     private ProfilerPanelButton aiChattingPanelBtn;
+    [SerializeField]
+    private ProfilerPanelButton callPanelBtn;
 
     [Header("UIEtc")]
     [SerializeField]
@@ -41,11 +44,13 @@ public class ProfilerWindow : Window
         profilerPanel.Init();
         profilerUsingDocuments.Init();
         profilerGuidePanel.Init();
+        profilerCallingPanel.Init();
+
         OnSelected += ProfilerSelected;
 
         infoPanelBtn.AddListening(OnClickShowProfiling);
         aiChattingPanelBtn.AddListening(OnClickShowChatting);
-
+        callPanelBtn.AddListening(OnClickShowCalling);
         EventManager.StartListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StartListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
         EventManager.StartListening(ETutorialEvent.CheckTutorialState, CheckTutorialState);
@@ -56,7 +61,7 @@ public class ProfilerWindow : Window
 
     private void CheckTutorialState(object[] obj)
     {
-        if(!DataManager.Inst.GetIsClearTutorial())
+        if (!DataManager.Inst.GetIsClearTutorial())
         {
             Define.CheckTutorialState(this);
         }
@@ -110,7 +115,17 @@ public class ProfilerWindow : Window
         ShowChattingPanel();
         ButtonBlackSetting();
     }
+    private void OnClickShowCalling()
+    {
+        if (beforeClickButton == callPanelBtn)
+        {
+            return;
+        }
 
+        beforeClickButton = callPanelBtn;
+        ShowCallingPanel();
+        ButtonBlackSetting();
+    }
     private void ButtonBlackSetting()
     {
         infoPanelBtn.Setting(beforeClickButton);
@@ -122,7 +137,11 @@ public class ProfilerWindow : Window
         HidePanel();
         profilerPanel.Show();
     }
-
+    private void ShowCallingPanel()
+    {
+        HidePanel();
+        profilerCallingPanel.Show();
+    }
     private void ShowChattingPanel()
     {
         HidePanel();
@@ -133,6 +152,7 @@ public class ProfilerWindow : Window
     {
         profilerPanel.Hide();
         profilerChatting.Hide();
+        profilerCallingPanel.Hide();
     }
 
     public override void WindowMinimum()
@@ -148,6 +168,7 @@ public class ProfilerWindow : Window
 
     private void OnDestroy()
     {
+        HidePanel();
         EventManager.StopListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StopListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
         EventManager.StopListening(ETutorialEvent.CheckTutorialState, CheckTutorialState);
@@ -156,6 +177,7 @@ public class ProfilerWindow : Window
 
     private void OnApplicationQuit()
     {
+        HidePanel();
         EventManager.StopListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StopListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
         EventManager.StopListening(ETutorialEvent.CheckTutorialState, CheckTutorialState);

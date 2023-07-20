@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static System.Net.Mime.MediaTypeNames;
 using System;
 
-public class PhoneCallUI : MonoBehaviour
+public class ProfilerCallKeyPad : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text phoneNumberText;
@@ -16,9 +15,7 @@ public class PhoneCallUI : MonoBehaviour
     [SerializeField]
     private Button callButton;
     [SerializeField]
-    private CallTopPanel callTopPanel;
-    [SerializeField]
-    private GameObject buttonPad;
+    private Button clearButton;
 
     private string currentNumber;
 
@@ -26,29 +23,20 @@ public class PhoneCallUI : MonoBehaviour
 
     private Dictionary<int, Action> actionDictionary = new Dictionary<int, Action>();
 
-
-    void Start()
-    {
-        DictionaryAdd();
-        this.gameObject.SetActive(false);
-    }
-
     private void DictionaryAdd()
     {
         for (int i = 0; i < 10; i++)
         {
             int idx = i;
-            actionDictionary.Add(idx, new Action(() => KeyboardEventAdd(idx)));
+            actionDictionary.Add(idx, () => KeyboardEventAdd(idx));
         }
     }
-
     public void Open()
     {
         AllEraseText();
         GetButtonAction();
         gameObject.SetActive(true);
         KeyboardEventAdd();
-        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
     private void KeyboardEventAdd()
@@ -57,10 +45,15 @@ public class PhoneCallUI : MonoBehaviour
         {
             int idx = i;
             string str = "Keypad" + idx.ToString();
+            string str1 = "Alpha" + idx.ToString();
 
+            Debug.Log((KeyCode)Enum.Parse(typeof(KeyCode), str));
+            InputManager.Inst.AddKeyInput((KeyCode)Enum.Parse(typeof(KeyCode), str1), onKeyDown: actionDictionary[idx]);
             InputManager.Inst.AddKeyInput((KeyCode)Enum.Parse(typeof(KeyCode), str), onKeyDown: actionDictionary[idx]);
         }
         InputManager.Inst.AddKeyInput(KeyCode.Backspace, onKeyDown: EraseButton);
+        InputManager.Inst.AddKeyInput(KeyCode.Escape, onKeyDown: ClearButton);
+
     }
 
     private void KeyboardEventAdd(int value)
@@ -71,21 +64,28 @@ public class PhoneCallUI : MonoBehaviour
 
     private void KeyboardEventRemove()
     {
+        Debug.Log("RemoveKey");
+
         for (int i = 0; i < 10; i++)
         {
             int idx = i;
             string str = "Keypad" + idx.ToString();
+            string str1 = "Alpha" + idx.ToString();
+            InputManager.Inst.RemoveKeyInput((KeyCode)Enum.Parse(typeof(KeyCode), str1), onKeyDown: actionDictionary[idx]);
             InputManager.Inst.RemoveKeyInput((KeyCode)Enum.Parse(typeof(KeyCode), str), onKeyDown: actionDictionary[idx]);
         }
         InputManager.Inst.RemoveKeyInput(KeyCode.Backspace, onKeyDown: EraseButton);
+        InputManager.Inst.RemoveKeyInput(KeyCode.Escape, onKeyDown: ClearButton);
+
     }
 
 
     public void Init()
     {
+        DictionaryAdd();
         eraseButton.onClick?.AddListener(EraseButton);
         callButton.onClick?.AddListener(CallButton);
-        callTopPanel.Init();
+        clearButton.onClick?.AddListener(ClearButton);
     }
 
     private void GetButtonAction()
@@ -120,26 +120,11 @@ public class PhoneCallUI : MonoBehaviour
         phoneNumberText.SetText(currentNumber);
     }
 
-    private void CheckClose(object[] hits)
-    {
-        //if (OnCloseIngnoreFlag != null && OnCloseIngnoreFlag.Invoke())
-        //    return;
-
-        if (Define.ExistInHits(gameObject, hits[0]) == false)
-        {
-            Close();
-        }
-    }
-
     public void Close()
     {
         AllEraseText();
         ResetButtonAction();
         KeyboardEventRemove();
-        KeyboardEventRemove();
-        gameObject.SetActive(false);
-
-        EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
     private void EraseButton()
@@ -154,7 +139,10 @@ public class PhoneCallUI : MonoBehaviour
 
         phoneNumberText.SetText(currentNumber);
     }
-
+    private void ClearButton()
+    {
+        AllEraseText();
+    }
     private void CallButton()
     {
         if (string.IsNullOrEmpty(phoneNumberText.text))
@@ -166,8 +154,9 @@ public class PhoneCallUI : MonoBehaviour
         string callProfileID;
         if (data == null)
         {
-            // 없는 번호의 대한 캐릭터 ID 입력
-            callProfileID = "MISSING";
+            callProfileID = "CD_MS";
+            data = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(callProfileID);
+            data.phoneNum = phoneNumberText.text;
         }
         else
         {
@@ -175,7 +164,7 @@ public class PhoneCallUI : MonoBehaviour
         }
         CallSystem.OnOutGoingCall?.Invoke(callProfileID);
 
-        Close();
+        AllEraseText();
     }
     public void SetNumberText(string number)
     {
@@ -185,7 +174,6 @@ public class PhoneCallUI : MonoBehaviour
     private void AllEraseText()
     {
         currentNumber = "";
-
         phoneNumberText.SetText(currentNumber);
     }
 }

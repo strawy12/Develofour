@@ -125,6 +125,7 @@ public static partial class Constant
     public static class CharacterKey
     {
         public const string ASSISTANT = "CD_AS";
+        public const string MISSING = "CD_MS";
     }
 
     public static class ProfilerCategoryKey
