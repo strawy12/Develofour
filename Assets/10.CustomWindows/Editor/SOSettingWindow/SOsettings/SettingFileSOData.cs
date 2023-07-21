@@ -40,7 +40,36 @@ public partial class SOSettingWindow : EditorWindow
                 lastFixDate = columns[6];
                 lastAccessDate = columns[7];
             }
-
+            Sprite iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpritePath.Forder);
+            string spritePath = columns[8];
+            switch (type)
+            {
+                case EWindowType.ProfilerWindow:
+                    iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpritePath.Profiler);
+                    break;
+                case EWindowType.VideoPlayer:
+                    iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpritePath.VideoPlayer);
+                    break;
+                case EWindowType.Notepad:
+                    iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpritePath.NotePad);
+                    break;
+                case EWindowType.Browser:
+                    iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpritePath.Zoogle);
+                    break;
+                case EWindowType.MediaPlayer:
+                    iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpritePath.MediaPlayer);
+                    break;
+                case EWindowType.Installer:
+                    iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpritePath.Installer);
+                    break;
+                case EWindowType.BGM:
+                    iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpritePath.BGM);
+                    break;
+                default:
+                    if (spritePath != "")
+                        iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+                    break;
+            }
             FileSO file = fileSOList.Find(x => x.ID == id);
             bool isCreate = false;
 
@@ -60,11 +89,10 @@ public partial class SOSettingWindow : EditorWindow
             }
 
             file.ID = id;
-            file.name = id;
             file.fileName = fileName;
             file.windowType = type;
-            file.parentName = parentID;
-
+            file.parentID = parentID;
+            file.iconSprite = iconSprite;
             if (bytes != 0)
             {
                 file.propertyData.bytes = bytes;
@@ -72,14 +100,14 @@ public partial class SOSettingWindow : EditorWindow
                 file.propertyData.lastAccessDate = lastAccessDate;
                 file.propertyData.lastFixDate = lastFixDate;
             }
-            if (!(file.parentName == "" || string.IsNullOrEmpty(file.parentName)))
+            if (!(file.parentID == "" || string.IsNullOrEmpty(file.parentID)))
             {
-                DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == file.parentName));
+                DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == file.parentID));
                 if (directory != null)
                 {
                     fileSOList[i].parent = directory;
-                    if(!directory.children.Contains(file))
-                    directory.children.Add(file);
+                    if (!directory.children.Contains(file))
+                        directory.children.Add(file);
                 }
                 else
                 {
@@ -91,13 +119,14 @@ public partial class SOSettingWindow : EditorWindow
             SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}_{fileName}.asset";
             SO_PATH = SO_PATH.Replace("\\", "/");
 
-            if (columns.Length > 8)
+
+            if (columns.Length > 9)
             {
-                if (columns[8] == "추가 파일")
+                if (columns[9] == "추가 파일")
                 {
                     SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/AdditionalFile/{id}_{fileName}.asset";
                 }
-                else if (columns[8] == "디폴트 파일")
+                else if (columns[9] == "디폴트 파일")
                 {
                     SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/DefaultFile/{id}_{fileName}.asset";
                 }
@@ -105,11 +134,6 @@ public partial class SOSettingWindow : EditorWindow
 
             if (isCreate)
             {
-                if (File.Exists(SO_PATH))
-                {
-                    SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path}_{id}_{fileName}.asset";
-                }
-
                 CreateFolder(SO_PATH);
                 AssetDatabase.CreateAsset(file, SO_PATH);
             }
@@ -131,12 +155,12 @@ public partial class SOSettingWindow : EditorWindow
 
         for (int i = 0; i < parentNullFileList.Count; i++)
         {
-            Debug.Log(parentNullFileList[i].parentName);
+            Debug.Log(parentNullFileList[i].parentID);
         }
         //이제 부모없는 파일들 폴더 위치 생성해주고 이동시켜주기
         for (int i = 0; i < parentNullFileList.Count; i++)
         {
-            DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == parentNullFileList[i].parentName));
+            DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == parentNullFileList[i].parentID));
             if (directory != null)
             {
                 parentNullFileList[i].parent = directory;
@@ -145,7 +169,7 @@ public partial class SOSettingWindow : EditorWindow
             }
             path = parentNullFileList[i].GetRealFileLocation();
 
-            SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}.asset";
+            SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}_{parentNullFileList[i].fileName}.asset";
             SO_PATH = SO_PATH.Replace("\\", "/");
             Debug.Log(SO_PATH);
             CreateFolder(SO_PATH);

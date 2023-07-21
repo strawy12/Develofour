@@ -39,7 +39,7 @@ public class FileSO : ScriptableObject
     }
 
     [HideInInspector]
-    public string parentName; //SO 세팅에서 부모 세팅해줄때 사용할거
+    public string parentID; //SO 세팅에서 부모 세팅해줄때 사용할거
     public DirectorySO parent;
     public string fileName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
@@ -59,12 +59,12 @@ public class FileSO : ScriptableObject
         string location = "";
         if (parent == null)
         {
-            location = this.name + '\\';
+            location = this.id + '\\';
 
             return location;
         }
 
-        location = string.Format("{0}{1}\\", parent.GetRealFileLocation(), this.name);
+        location = string.Format("{0}{1}\\", parent.GetRealFileLocation(), this.id);
 
         return location;
     }

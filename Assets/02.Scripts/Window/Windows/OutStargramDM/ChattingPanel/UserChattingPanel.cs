@@ -63,17 +63,22 @@ public class UserChattingPanel : MonoBehaviour
         EventManager.StopListening(EOutStarEvent.ClickFriendPanel, ChangeUserData);
     }
 #if UNITY_EDITOR
-    private void PrefabSetting()
+    public void PrefabSetting()
     {
-        OutStarProfileDataSO userData = ResourceManager.Inst.GetResource<OutStarProfileDataSO>(characterID);
+        OutStarProfileDataSO userData = Define.GuidsToList<OutStarProfileDataSO>("t:OutStarProfileDataSO").Find(x=>x.id == characterID);
 
         foreach (var id in userData.timeChatIDList)
         {
             string lastMine = "";
 
-            OutStarTimeChatDataSO timeChat = ResourceManager.Inst.GetResource<OutStarTimeChatDataSO>(id); // to AssetDataBase
+            OutStarTimeChatDataSO timeChat = Define.GuidsToList<OutStarTimeChatDataSO>("t:OutStarTimeChatDataSO").Find(x=>x.id == id);
+            if (timeChat == null) {
+                Debug.Log($"timeChat {id} is null");
+                continue;
+            }
             string timeText = Define.GetOutStarTimeText(timeChat.time);
             TMP_Text timeTextObj = Instantiate(timeTextTemp, transform);
+            
             timeTextObj.SetText(timeText);
             timeTextObj.gameObject.SetActive(true);
 
@@ -81,7 +86,12 @@ public class UserChattingPanel : MonoBehaviour
 
             foreach (var chatId in timeChat.chatDataIDList)
             {
-                OutStarChatDataSO chatData = ResourceManager.Inst.GetResource<OutStarChatDataSO>(chatId); // to AssetDataBase
+                OutStarChatDataSO chatData = Define.GuidsToList<OutStarChatDataSO>("t:OutStarChatDataSO").Find(x=>x.id == chatId);
+                if (chatData == null)
+                {
+                    Debug.Log($"chat id:{chatId} is null");
+                    continue;
+                }
                 if (lastMine == "" || lastMine != chatData.isMine.ToString())
                 {
                     if (chatData.isMine)
@@ -93,6 +103,7 @@ public class UserChattingPanel : MonoBehaviour
                         currentPanel = Instantiate(otherChatBoxPanelTemp, transform);
                     }
                 }
+                currentPanel.gameObject.SetActive(true);
                 currentPanel.AddChatBox(chatData);
                 lastMine = chatData.isMine.ToString();
             }

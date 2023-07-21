@@ -17,7 +17,7 @@ public partial class SOSettingWindow : EditorWindow
         {
             string[] columns = rows[i].Split('\t');
 
-            string id = columns[0];
+            string id = columns[0].Trim();
             bool isMine = bool.Parse(columns[1]);
             string chat = columns[2];
 
@@ -37,7 +37,7 @@ public partial class SOSettingWindow : EditorWindow
             }
 
 
-            OutStarChatDataSO chatData = chatSOList.Find(x => x.id == id);
+            OutStarChatDataSO chatData = chatSOList.Find(x => x.id == id.Trim());
             bool isCreate = false;
 
             if (chatData == null)
@@ -46,7 +46,7 @@ public partial class SOSettingWindow : EditorWindow
                 isCreate = true;
             }
 
-            chatData.id = id;
+            chatData.id = id.Trim();
             chatData.isMine = isMine;
             chatData.chatText = chat;
             chatData.outStarTriggerList = triggerList;

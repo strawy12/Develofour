@@ -70,7 +70,17 @@ public class FileManager : MonoSingleton<FileManager>
         FileSO file = defaultFileDictionary[windowType];
         return file;
     }
-
+    public FileSO GetFile(string key)
+    {
+        List<FileSO> allFileList = GetALLUnLockFileList(rootDirectory, true);
+        allFileList.AddRange(defaultFileList);
+        FileSO file = allFileList.Find(x => x.ID == key);
+        if(file == null)
+        {
+            Debug.LogError($"{key}를 id로 가지고있는 파일이 존재하지않습니다.");
+        }
+        return file;
+    }
     public FileSO GetAdditionalFile(string key)
     {
         FileSO file = additionFileList.Find((x) => x.ID == key);
@@ -101,6 +111,7 @@ public class FileManager : MonoSingleton<FileManager>
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AddFile, 0.5f);
     }
+
     public List<FileSO> GetALLUnLockFileList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
         //fileList.Clear();

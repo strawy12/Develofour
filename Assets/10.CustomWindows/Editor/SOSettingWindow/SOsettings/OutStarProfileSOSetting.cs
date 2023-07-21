@@ -26,7 +26,7 @@ public partial class SOSettingWindow : EditorWindow
             {
                 if(!string.IsNullOrEmpty(timeChats[j]))
                 {
-                    timeChatList.Add(timeChats[j]);
+                    timeChatList.Add(timeChats[j].Trim());
                 }
             }
 

@@ -32,20 +32,21 @@ public class CallSystem : MonoBehaviour
     private void Init()
     {
         EventManager.StartListening(EProfilerEvent.RegisterInfo, CallDataCheck);
-
         EventManager.StartListening(ECallEvent.ClickSelectBtn, StartCallMonolog);
         EventManager.StartListening(ECallEvent.RecivivedCall, StartCallMonolog);
 
         OnOutGoingCall += StartOutGoingCall;
         OnInComingCall += StartInComingCall;
-
+        callSystemUI.Init();
         StartCoroutine(CallDataCheckTimer());
+
+        isCalling = false;
     }
 
     private IEnumerator CallDataCheckTimer()
     {
         WaitForSeconds waitTime = new WaitForSeconds(Constant.INCOMMING_CHECK_DELAY);
-        while(true)
+        while (true)
         {
             yield return waitTime;
             CallDataCheck(null);
@@ -59,9 +60,8 @@ public class CallSystem : MonoBehaviour
         foreach (CallDataSO callData in callDataList)
         {
             if (!Define.NeedInfoFlag(callData.needInfoIDList)) continue;
-
             ReturnCallData returnData = DataManager.Inst.GetReturnData(callData.ID);
-            if(returnData == null || returnData.EndDelayTime > DataManager.Inst.GetCurrentTime())
+            if (returnData != null && returnData.EndDelayTime <= DataManager.Inst.GetCurrentTime())
             {
                 StartInComingCall(callData.callProfileID, callData.ID);
             }
@@ -72,7 +72,11 @@ public class CallSystem : MonoBehaviour
     // 얘는 받는 전용
     public void StartInComingCall(string callProfileID, string callDataID)
     {
-        if (isCalling) return;
+        if (isCalling)
+        {
+            Debug.Log("isCalling = true");
+            return;
+        }
         isCalling = true;
 
         CallProfileDataSO callProfileData = ResourceManager.Inst.GetResource<CallProfileDataSO>(callProfileID);
@@ -81,7 +85,7 @@ public class CallSystem : MonoBehaviour
         CharacterInfoDataSO characterInfoData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(callProfileID);
         if (DataManager.Inst.IsSavePhoneNumber(characterInfoData.phoneNum) == false)
         {
-            // 주소록 기능은 나중에 다시 코드를 짜십쇼
+            EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { characterInfoData.phoneNum });
         }
 
 
@@ -92,13 +96,24 @@ public class CallSystem : MonoBehaviour
     }
 
     // 얘는 거는 전용
-    public void StartOutGoingCall(string callProfileID)
+    public void StartOutGoingCall(string characterID)
     {
         if (isCalling) return;
         isCalling = true;
 
-        CallProfileDataSO data = ResourceManager.Inst.GetResource<CallProfileDataSO>(callProfileID);
-        if (data == null) return;
+
+        CallProfileDataSO data = ResourceManager.Inst.GetResource<CallProfileDataSO>(characterID);
+        if (data == null)
+        {
+            Debug.LogWarning($"{characterID}를 id로 하는 데이터가 존재하지않습니다. CallProfilerDataSO의 id값을 확인해 주세요.");
+            return;
+        }
+        CharacterInfoDataSO characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(characterID);
+
+        if (characterData != null)
+        {
+            EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { characterData.phoneNum });
+        }
 
         callSystemUI.OutGoingCall(data);
     }

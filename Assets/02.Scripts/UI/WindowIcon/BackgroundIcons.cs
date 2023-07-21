@@ -21,7 +21,10 @@ public class BackgroundIcons : MonoBehaviour
     private void Init()
     {
         IconListInit();
-
+        if(backgroundDirectory == null)
+        {
+            backgroundDirectory = FileManager.Inst.GetFile(Constant.FileID.BACKGROUND) as DirectorySO;
+        }
         EventManager.StartListening(ELibraryEvent.AddFile, RefreshIcons);
         RefreshIcons(null);
     }

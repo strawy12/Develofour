@@ -141,7 +141,9 @@ public class WindowManager : MonoSingleton<WindowManager>
             // lock이 설정 되어있는 fileSO가 이미 락이 풀려있는지 체크
             if (isLock && DataManager.Inst.IsPinLock(file.ID))
             {
-                targetWindow = CreateWindow(EWindowType.WindowPinLock, file);
+                //FileSO lockFileWindowData = FileManager.Inst.GetFile(windowLock.lockWindowType);
+
+                targetWindow = CreateWindow(windowLock.lockWindowType, file); // file.ID(핀락, 미니게임, 파일), windowLock.lockWindowType
             }
             else
             {

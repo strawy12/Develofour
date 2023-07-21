@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
+public class ProfilerUserCallPanel : MonoBehaviour, IPointerClickHandler
+{
+    private CharacterInfoDataSO characterData;
+
+    [SerializeField]
+    private TMP_Text userName;
+    [SerializeField]
+    private TMP_Text phoneNumText;
+    [SerializeField]
+    private Image userImage;
+
+    private ProfilerCallKeyPad keyPad;
+
+    public void Init(string characterNumber, ProfilerCallKeyPad keyPad)
+    {
+        this.keyPad = keyPad;
+        characterData = ResourceManager.Inst.FindCharacterPhoneNumber(characterNumber);
+
+        phoneNumText.SetText(characterData.phoneNum);
+        userName.SetText(characterData.characterName);
+        userImage.sprite = characterData.profileIcon;
+        gameObject.SetActive(true);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        keyPad.SetNumberText(characterData.phoneNum);
+    }
+}

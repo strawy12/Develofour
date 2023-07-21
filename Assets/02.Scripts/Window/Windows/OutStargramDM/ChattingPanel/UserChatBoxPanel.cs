@@ -36,7 +36,7 @@ public class UserChatBoxPanel : MonoBehaviour
         {
             foreach (var outStarTrigger in data.outStarTriggerList)
             {
-                TriggerDataSO triggerData = ResourceManager.Inst.GetResource<TriggerDataSO>(outStarTrigger.triggerID);
+                TriggerDataSO triggerData = Define.GuidsToList<TriggerDataSO>("t:TriggerDataSO").Find(x => x.id == outStarTrigger.triggerID);
                 if (triggerData != null)
                 {
                     ClickInfoTrigger clickInfoTrigger = Instantiate(clickInfoTriggerTemp, chatBox.ChatText.transform);
