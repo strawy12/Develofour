@@ -28,12 +28,25 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
     public bool isSelected { get; private set; }
 
     private Action OnClick;
+
+    private GuideObject guideObj;
+    public GuideObject GuideObj => guideObj;
+
     public void Init(Action clickAction)
     {
         maxSize = categoryImage.rectTransform.sizeDelta;
         isSelected = false;
         OnClick = null;
         OnClick += clickAction;
+        if(guideObj == null)
+        {
+            guideObj = GetComponent<GuideObject>();
+            if (guideObj == null) Debug.LogError("가이드 오브젝트가 NULL입니다");
+        }
+
+        if (guideObj != null)
+            guideObj.Init();
+
         EventManager.StartListening(EProfilerEvent.Maximum, SetSize);
         EventManager.StartListening(EProfilerEvent.Minimum, SetSize);
     }
@@ -45,6 +58,23 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         if (!DataManager.Inst.IsCategoryShow(categoryData.ID) || categoryData.categoryType == EProfilerCategoryType.Visiable)
         {
             return;   
+        }
+
+        Debug.Log("프로파일 카테고리 프리팹 쇼 " + categoryData.categoryType);
+
+        if(DataManager.Inst.IsPlayingProfilerTutorial())
+        {
+            if(categoryData.categoryType == EProfilerCategoryType.Character)
+            {
+                Debug.Log("프로파일 카테고리 프리팹 character bool false");
+                ProfilerTutorial.IsExistCharacterTODO = false;
+
+            }
+            if (categoryData.categoryType == EProfilerCategoryType.Info) 
+            {
+                Debug.Log("프로파일 카테고리 프리팹 incidnet bool false");
+                ProfilerTutorial.IsExistIncidentTODO = false;
+            }
         }
 
         gameObject.SetActive(true);
@@ -114,6 +144,7 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
             return;
         }
         OnClick?.Invoke();
+        TutorialClickCheck();
         selectImage.gameObject.SetActive(true);
         isSelected = true;
         EventManager.TriggerEvent(EProfilerEvent.ShowInfoPanel, new object[1] { currentData });
@@ -128,6 +159,21 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         isSelected = false;
         selectImage.gameObject.SetActive(false);
 
+    }
+
+    public void TutorialClickCheck()
+    {
+        if(DataManager.Inst.IsPlayingProfilerTutorial())
+        {
+            if (currentData.categoryType == EProfilerCategoryType.Character)
+            {
+                EventManager.TriggerEvent(ETutorialEvent.ClickCharacterCategory);
+            }
+            else if (currentData.categoryType == EProfilerCategoryType.Info)
+            {
+                EventManager.TriggerEvent(ETutorialEvent.ClickIncidentCategory);
+            }
+        }
     }
 
 }

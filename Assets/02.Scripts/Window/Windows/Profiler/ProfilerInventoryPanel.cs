@@ -213,9 +213,13 @@ public class ProfilerInventoryPanel : MonoBehaviour
         foreach (var data in characterCategoryList)
         {
             ProfilerCategoryPrefab categoryPrefab = Pop();
+            if(DataManager.Inst.IsPlayingProfilerTutorial())
+                categoryPrefab.GuideObj.ObjectName = EGuideObject.CharacterCategory;
             categoryPrefab.Show(data);
         }
+
     }
+
     public void ShowScenePanel()
     {
         PushAll();
@@ -225,8 +229,11 @@ public class ProfilerInventoryPanel : MonoBehaviour
         foreach (var data in sceneCategoryList)
         {
             ProfilerCategoryPrefab categoryPrefab = Pop();
+            if (DataManager.Inst.IsPlayingProfilerTutorial())
+                categoryPrefab.GuideObj.ObjectName = EGuideObject.IncidentCategory;
             categoryPrefab.Show(data);
         }
+
     }
 
     private void UnSelectAllPanel()

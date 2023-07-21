@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ public class ProfileOverlaySystem : MonoBehaviour
     #endregion
 
     [SerializeField]
-    private List<string> profileIDList = new List<string>();
+    private List<string> triggerIDList = new List<string>();
 
     private string currentFileID;
     private int completeProfileCount;
@@ -41,7 +42,7 @@ public class ProfileOverlaySystem : MonoBehaviour
         completeProfileCount = 0;
         wholeProfileCount = 0;
         currentFileID = string.Empty;
-        profileIDList.Clear();
+        triggerIDList.Clear();
     }
 
     public void Open(string id, List<InformationTrigger> triggerList)
@@ -50,16 +51,17 @@ public class ProfileOverlaySystem : MonoBehaviour
 
         ResetCount();
         currentFileID = id;
+
         if(id == Constant.FileID.INCIDENT_REPORT)
         {
             EventManager.TriggerEvent(ETutorialEvent.IncidentReportOpen);
         }
 
-        Debug.Log(triggerList.Count);
-        GetProfileIDList(triggerList);
+        GetTriggerIDList(triggerList);
 
-        completeProfileCount = GetCompleteCount();
         wholeProfileCount = GetWholeCount();
+        completeProfileCount = GetCompleteCount();
+
         Setting(id);
     }
 
@@ -74,15 +76,12 @@ public class ProfileOverlaySystem : MonoBehaviour
 
         if (completeProfileCount == wholeProfileCount)
         {
-            if (!MonologSystem.IsPlayMonolog)//독백중이면
+            //TODO 새로운 이펙트
+            Debug.Log("asdf");
+            if(DataManager.Inst.IsPlayingProfilerTutorial())
             {
-                Debug.Log(1);
-                MonologSystem.AddOnEndMonologEvent(id, () => { MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, false); });
-            }
-            else
-            {
-                Debug.Log(2);
-                MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, false);
+                Debug.Log("asdf22222222222222222");
+                EventManager.TriggerEvent(ETutorialEvent.GetAllInfo);
             }
         }
 
@@ -91,11 +90,11 @@ public class ProfileOverlaySystem : MonoBehaviour
 
     public void Setting(string id)
     {
-        if (currentFileID != id) //fileID 체크
-        {
-            Debug.Log("현재 오버레이의 fileId와 다릅니다.");
-            return;
-        }
+        //if (currentFileID != id) //fileID 체크
+        //{
+        //    Debug.Log("현재 오버레이의 fileId와 다릅니다.");
+        //    return;
+        //}
 
         overlayText.text = GetCompleteCount() + " / " + GetWholeCount();
 
@@ -109,32 +108,36 @@ public class ProfileOverlaySystem : MonoBehaviour
         overlayPanel.SetActive(true);
     }
 
-    private List<string> GetProfileIDList(List<InformationTrigger> list)
+    private List<string> GetTriggerIDList(List<InformationTrigger> list)
     {
         list.ForEach((trigger) =>
         {
-            for (int i = 0; i < trigger.TriggerData.infoDataIDList.Count; i++)
-            {
-                if (!profileIDList.Contains(trigger.TriggerData.infoDataIDList[i]))
-                {
-                    profileIDList.Add(trigger.TriggerData.infoDataIDList[i]);
-                }
-            }
+            triggerIDList.Add(trigger.TriggerData.id);
         });
-        return profileIDList;
+        return triggerIDList;
     }
 
     private int GetWholeCount()
     {
-        return profileIDList.Count;
+        return triggerIDList.Count;
     }
 
     private int GetCompleteCount()
     {
         int count = 0;
-        profileIDList.ForEach((id) =>
+        triggerIDList.ForEach((id) =>
         {
-            if (DataManager.Inst.IsProfilerInfoData(id))
+            TriggerDataSO data = ResourceManager.Inst.GetResource<TriggerDataSO>(id);
+            bool flag = false;
+            foreach(var infoID in data.infoDataIDList)
+            {
+                if(!DataManager.Inst.IsProfilerInfoData(infoID))
+                {
+                    flag = true;
+                }
+            }
+
+            if(!flag)
             {
                 count++;
             }

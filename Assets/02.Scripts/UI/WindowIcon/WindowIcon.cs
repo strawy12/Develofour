@@ -76,14 +76,12 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (fileData.ID == Constant.FileID.USB) //usb
         {
             EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);
-            Debug.Log("USB 이벤트 연동");
             EventManager.StartListening(ETutorialEvent.USBTutorial, YellowUI);
         }
 
         if (fileData.ID == Constant.FileID.INCIDENT_REPORT) //사건보고서
         {
             EventManager.StopListening(ETutorialEvent.ReportTutorial, YellowUI);
-            Debug.Log("사건보고서 연동");
             EventManager.StartListening(ETutorialEvent.ReportTutorial, YellowUI);
         }
 

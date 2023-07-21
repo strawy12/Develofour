@@ -191,6 +191,10 @@ public enum ETutorialEvent
     GetCharacterInfo,
     GetIncidentInfo,
     CheckTutorialState,
+    ClickIncidentCategory,
+    ClickCharacterCategory,
+    CompleteEvent,
+    GetAllInfo,
 }
 
 

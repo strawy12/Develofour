@@ -19,7 +19,8 @@ public class MonologSystem : TextSystem
     [SerializeField]
     private TextBox textBox;
 
-    private MonologTextDataSO currentTextData;
+    private static MonologTextDataSO currentTextData;
+
     private int currentTextDataIdx = 0;
 
     private EGameState beforeGameState;
@@ -64,6 +65,7 @@ public class MonologSystem : TextSystem
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
 
         currentTextDataIdx = 0;
+        Debug.Log(monologID);
         currentTextData = ResourceManager.Inst.GetResource<MonologTextDataSO>(monologID);
 
         if (currentTextData == null)

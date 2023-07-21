@@ -88,7 +88,7 @@ public class InformationTrigger : MonoBehaviour
         }
         else
         {
-            if (string.IsNullOrEmpty(triggerData.completeMonologType))
+            if (!string.IsNullOrEmpty(triggerData.completeMonologType))
             {
                 playMonologType = triggerData.completeMonologType;
             }

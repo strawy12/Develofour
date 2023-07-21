@@ -37,7 +37,9 @@ public class ProfilerPanel : MonoBehaviour
 
         typePanel.AddProfileCategoryPrefab(categoryID);
         infoPanel.ChangeValue(categoryID, infoID);
-        StartCoroutine(SizeFilterCoroutine());
+
+        if(this.gameObject.activeSelf)
+            StartCoroutine(SizeFilterCoroutine());
     }
 
     private IEnumerator SizeFilterCoroutine()
@@ -59,6 +61,7 @@ public class ProfilerPanel : MonoBehaviour
 
     private void OnClickCharacterPanelBtn()
     {
+        Debug.Log("fafasd");
         if (typePanel.CheckCurrentType(EProfilerCategoryType.Character) == false)
             typePanel.ShowCharacterPanel();
 

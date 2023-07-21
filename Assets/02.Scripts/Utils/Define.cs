@@ -335,10 +335,16 @@ public static class Define
         {
             //채팅이 끝나야함
             //프로파일러 클릭
-            if((WindowManager.Inst.SelectedObject == myObj && !ProfilerChattingSystem.isChatting))
+            if((WindowManager.Inst.SelectedObject == myObj && !ProfilerChattingSystem.isChatting)
+                && TutorialFlagCheck() == false)
             {
                 GameManager.Inst.ChangeGameState(EGameState.Tutorial_NotChat);
             }
         }
+    }
+
+    public static bool TutorialFlagCheck()
+    {
+        return ProfilerTutorial.IsExistCharacterTODO || ProfilerTutorial.IsExistIncidentTODO;
     }
 }

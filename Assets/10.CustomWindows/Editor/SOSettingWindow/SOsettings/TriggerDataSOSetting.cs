@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,11 +22,15 @@ public partial class SOSettingWindow : EditorWindow
             string monologID = columns[1];
 
             List<string> infoIDList = new List<string>();
-            string[] infoIDs = columns[2].Split(',');
+            string[] infoIDs = columns[2].Trim().Split(',');
             for(int j = 0; j < infoIDs.Length; j++)
             {
                 if(!string.IsNullOrEmpty(infoIDs[j]))
-                    infoIDList.Add(infoIDs[j]);
+                {
+                    string str = infoIDs[j].Trim();
+                    infoIDList.Add(str);
+                }
+
             }
 
             List<NeedInfoData> needInfoList = new List<NeedInfoData>();
@@ -38,9 +43,9 @@ public partial class SOSettingWindow : EditorWindow
                     string[] needInfo = needDatas[j].Trim().Split(',');
                     
                     NeedInfoData needData = new NeedInfoData();
-                    needData.needInfoID = needInfo[0];
-                    needData.monologID = needInfo[1];
-                    needData.getInfo = bool.Parse(needInfo[2]);
+                    needData.needInfoID = needInfo[0].Trim();
+                    needData.monologID = needInfo[1].Trim();
+                    needData.getInfo = bool.Parse(needInfo[2].Trim());
                     needInfoList.Add(needData);
                 }
             }

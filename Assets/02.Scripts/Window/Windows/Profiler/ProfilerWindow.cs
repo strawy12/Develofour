@@ -80,8 +80,6 @@ public class ProfilerWindow : Window
 
     private void OnClickShowProfiling()
     {
-        Debug.Log("ShowFileInfo");
-
         if (beforeClickButton == infoPanelBtn)
         {
             return;
@@ -98,8 +96,6 @@ public class ProfilerWindow : Window
     }
     private void OnClickShowChatting()
     {
-        Debug.Log("ShowChatting");
-
         if (beforeClickButton == aiChattingPanelBtn)
         {
             return;

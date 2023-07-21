@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using static Constant.ProfilerInfoKey;
 
 public class ProfilerInfoSystem : MonoBehaviour
@@ -49,19 +50,25 @@ public class ProfilerInfoSystem : MonoBehaviour
                 return;
             }
             string id = (string)ps[0];
+            Debug.Log(id);
             ProfilerInfoDataSO infoDataSO = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(id);
 
             if(DataManager.Inst.IsPlayingProfilerTutorial())
             {
                 string[] strArr = infoDataSO.categoryID.Split('_');
-                if(strArr[1] == "C")
+                List<TriggerDataSO> triggerList = ResourceManager.Inst.GetResourceList<TriggerDataSO>();
+                var list = triggerList.Where(trigger => trigger.infoDataIDList.Contains(id)).ToList();
+
+                if (strArr[1] == "I")
                 {
-                    EventManager.TriggerEvent(ETutorialEvent.GetCharacterInfo);
+                    EventManager.TriggerEvent(ETutorialEvent.GetIncidentInfo, new object[] { list[0].monoLogType });
                 }
-                else if(strArr[1] == "I")
+
+                if (strArr[1] == "C")
                 {
-                    EventManager.TriggerEvent(ETutorialEvent.GetIncidentInfo) ;
+                    EventManager.TriggerEvent(ETutorialEvent.GetCharacterInfo, new object[] { list[0].monoLogType });
                 }
+
             }
 
             ChangeValue(infoDataSO.categoryID, id);

@@ -40,7 +40,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
         GetInfo();
         //TODO
-        //ProfileOverlaySystem.OnAdd?.Invoke(triggerData.fileID);
+        ProfileOverlaySystem.OnAdd?.Invoke(triggerData.id);
         OnPointerEnter(eventData);
     }
 

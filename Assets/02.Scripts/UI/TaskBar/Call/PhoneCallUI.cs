@@ -57,7 +57,6 @@ public class PhoneCallUI : MonoBehaviour
         {
             int idx = i;
             string str = "Keypad" + idx.ToString();
-
             InputManager.Inst.AddKeyInput((KeyCode)Enum.Parse(typeof(KeyCode), str), onKeyDown: actionDictionary[idx]);
         }
         InputManager.Inst.AddKeyInput(KeyCode.Backspace, onKeyDown: EraseButton);
