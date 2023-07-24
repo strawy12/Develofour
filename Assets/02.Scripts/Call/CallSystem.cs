@@ -98,6 +98,7 @@ public class CallSystem : MonoBehaviour
     // 얘는 거는 전용
     public void StartOutGoingCall(string characterID)
     {
+        Debug.Log(isCalling);
         if (isCalling) return;
         isCalling = true;
 
@@ -106,6 +107,7 @@ public class CallSystem : MonoBehaviour
         if (data == null)
         {
             Debug.LogWarning($"{characterID}를 id로 하는 데이터가 존재하지않습니다. CallProfilerDataSO의 id값을 확인해 주세요.");
+            isCalling = false;
             return;
         }
         CharacterInfoDataSO characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(characterID);
@@ -127,10 +129,11 @@ public class CallSystem : MonoBehaviour
         {
             AddFiles(currentCallData.additionFileIDList);
 
-            if (string.IsNullOrEmpty(currentCallData.returnCallID))
+            if (!string.IsNullOrEmpty(currentCallData.returnCallID))
             {
                 CallDataSO returnCallData = ResourceManager.Inst.GetResource<CallDataSO>(currentCallData.returnCallID);
-                DataManager.Inst.AddReturnCallData(returnCallData.ID, (int)returnCallData.delay);
+                if(returnCallData != null)
+                    DataManager.Inst.AddReturnCallData(returnCallData.ID, (int)returnCallData.delay);
             }
 
             currentCallData = null;
@@ -147,11 +150,20 @@ public class CallSystem : MonoBehaviour
 
         MonologSystem.AddOnEndMonologEvent(monologID, EndCall);
 
+        #region 튜토리얼 체크
+        if (DataManager.Inst.IsPlayingProfilerTutorial() && monologID == Constant.MonologKey.TUTORIAL_CALL_ASSISTANT)
+        {
+            MonologSystem.AddOnEndMonologEvent(monologID, (() => EventManager.TriggerEvent(ETutorialEvent.OutGoingCall))); ;
+        }
+        #endregion
+
         MonologSystem.OnStartMonolog?.Invoke(monologID, false);
     }
 
     private void AddFiles(List<AdditionFile> additionFiles)
     {
+        if (additionFiles == null) return;
+
         foreach (AdditionFile additionFile in additionFiles)
         {
             FileManager.Inst.AddFile(additionFile.fileID, additionFile.directoryID);

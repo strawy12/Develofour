@@ -7,6 +7,7 @@ public enum EGameState
     CutScene,
     Tutorial_NotChat,
     Tutorial_Chat,
+    Tutorial_Call,
     NotClick,
     DataLoading,
 }

@@ -23,7 +23,7 @@ public class CallSystemUI : MonoBehaviour
     [SerializeField]
     private CallSelectButton selectButton;
 
-    private List<CallSelectButton> buttonList;
+    private List<CallSelectButton> buttonList = new List<CallSelectButton>();
     private CallProfileDataSO currentCallProfileData;
     private bool isRecieveCall;
 
@@ -55,7 +55,14 @@ public class CallSystemUI : MonoBehaviour
 
     private void HideSelectBtns()
     {
-        buttonList.ForEach(x => Destroy(x.gameObject));
+        if (buttonList == null) return;
+
+        buttonList.ForEach(x =>
+        {
+            if(x.gameObject != null)
+            Destroy(x.gameObject);
+        });
+
         buttonList.Clear();
     }
 
@@ -139,32 +146,33 @@ public class CallSystemUI : MonoBehaviour
 
     private void SetSelectBtns()
     {
-        //foreach (string callDataID in currentCallProfileData.outGoingCallIDList)
-        //{
-        //    CallDataSO callData = ResourceManager.Inst.GetResource<CallDataSO>(callDataID);
-        //    if (callData == null) continue;
+        foreach (CallOption callOption in currentCallProfileData.outGoingCallOptionList)
+        {
+            CallDataSO callData = ResourceManager.Inst.GetResource<CallDataSO>(callOption.outGoingCallID);
+            if (callData == null) continue;
 
-        //    if (!DataManager.Inst.IsMonologShow(callData.monologID))
-        //    {
-        //        if (Define.NeedInfoFlag(callData.needInfoIDList))
-        //        {
-        //            MakeSelectBtn(callData);
-        //        }
-        //    }
-        //}
+            if (!DataManager.Inst.IsMonologShow(callData.monologID))
+            {
+                if (Define.NeedInfoFlag(callData.needInfoIDList))
+                {
+                    MakeSelectBtn(callData, callOption.decisionName);
+                }
+            }
+        }
 
-        //CallDataSO notExistCallData = ResourceManager.Inst.GetResource<CallDataSO>(currentCallProfileData.notExistCallID);
-        //MakeSelectBtn(notExistCallData);
+        CallDataSO notExistCallData = new CallDataSO();
+        notExistCallData.monologID = currentCallProfileData.notExistCallID;
+        MakeSelectBtn(notExistCallData, "통화 종료");
     }
-    private void MakeSelectBtn(CallDataSO callData)
+    private void MakeSelectBtn(CallDataSO callData, string btnText)
     {
         if (callData == null) return;
 
         CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
-        MonologTextDataSO textData = ResourceManager.Inst.GetResource<MonologTextDataSO>(callData.monologID);
+        instance.btnText.text = btnText;
         buttonList.Add(instance);
 
-        //instance.btnText.text = textData.monologName;
+        //instance.btnText.text = textData.monologName;s
         instance.btn.onClick.AddListener(() =>
         {
             HideSelectBtns();
@@ -175,7 +183,7 @@ public class CallSystemUI : MonoBehaviour
 
     private void RecivivedCall()
     {
-        MonologTextDataSO textData = ResourceManager.Inst.GetResource<MonologTextDataSO>(currentCallProfileData.monologID);
+        MonologTextDataSO textData = ResourceManager.Inst.GetResource<MonologTextDataSO>(currentCallProfileData.defaultCallID);
         MonologSystem.AddOnEndMonologEvent(textData.ID, SetSelectBtns);
         MonologSystem.OnStartMonolog?.Invoke(textData.ID, false);
     }

@@ -103,31 +103,13 @@ public class ProfilerTutorial : MonoBehaviour
         EventManager.StartListening(ETutorialEvent.SelectLibrary, OpenLibrary);
     }
 
-    private void GetAllInfoEvent()
-    {
-        EventManager.StartListening(ETutorialEvent.GetAllInfo, CallTutorial);
-    }
 
-    private void CallTutorial(object[] obj)
-    {
-        EventManager.StopListening(ETutorialEvent.GetAllInfo, CallTutorial);
-        //전화걸기
-        Debug.Log("전화");
-        CallSystem.OnInComingCall?.Invoke(ASSISTANT_CALL_PROFILE_ID, ASSISTANT_CALL_DATA_ID);
-    }
-
-
-    private void OpenIncidentReport(object[] obj)
-    {
-        EventManager.StopListening(ETutorialEvent.IncidentReportOpen, OpenIncidentReport);
-        GuideUISystem.EndAllGuide?.Invoke();
-        StartChatting(OVERLAY_TUTORIAL);
-    }
 
     private void StartTutorialSetting()
     {
         LibraryRect(null);
     }
+
     private void OpenLibrary(object[] ps)
     {
         if (ps[0] is Library)
@@ -139,6 +121,16 @@ public class ProfilerTutorial : MonoBehaviour
         //EventManager.TriggerEvent(ETutorialEvent.LibraryEventTrigger);
         //라이브러리가 오픈될 때 가 아니라 select가 될때
     }
+
+    #region Overlay Event
+    private void OpenIncidentReport(object[] obj)
+    {
+        EventManager.StopListening(ETutorialEvent.IncidentReportOpen, OpenIncidentReport);
+        GuideUISystem.EndAllGuide?.Invoke();
+        StartChatting(OVERLAY_TUTORIAL);
+    }
+    #endregion
+
 
     #region Character Event
 
@@ -269,14 +261,41 @@ public class ProfilerTutorial : MonoBehaviour
     #endregion
 
 
+    #region Call Event
+    private void GetAllInfoEvent()
+    {
+        EventManager.StartListening(ETutorialEvent.GetAllInfo, CallTutorial);
+    }
 
-    public void CompleteTutorial(object[] ps)
+    private void CallTutorial(object[] obj)
+    {
+        GameManager.Inst.ChangeGameState(EGameState.Tutorial_Call);
+        EventManager.StopListening(ETutorialEvent.GetAllInfo, CallTutorial);
+        EventManager.StartListening(ETutorialEvent.OutGoingCall, TutorialEnd);
+        //전화걸기
+        Debug.Log("전화");
+        CallSystem.OnInComingCall?.Invoke(ASSISTANT_CALL_PROFILE_ID, ASSISTANT_CALL_DATA_ID);
+    }
+
+
+    #endregion
+
+
+    public void CompleteTutorial(object[] ps) //끝이 아니라 캐릭터 혹은 사건 튜토리얼 완료
     {
         EventManager.StopListening(EProfilerEvent.ClickIncidentTab, CompleteTutorial);
         EventManager.StopListening(EProfilerEvent.ClickCharacterTab, CompleteTutorial);
         StartChatting(COMPLETE_TUTORIAL);
         ProfilerChattingSystem.OnChatEnd = null; //startchatting의 게임 스테이트 변경되는거 강제로 막기
         GameManager.Inst.ChangeGameState(EGameState.Tutorial_NotChat); //그리고 스테이트 원래대로
+    }
+
+    private void TutorialEnd(object[] obj)
+    {
+        EventManager.StopListening(ETutorialEvent.OutGoingCall, TutorialEnd);
+        GameManager.Inst.ChangeGameState(EGameState.Game); //그리고 스테이트 원래대로
+        DataManager.Inst.SetPlayingProfilerTutorial(false);
+        DataManager.Inst.SetIsClearTutorial(true);
     }
 
 

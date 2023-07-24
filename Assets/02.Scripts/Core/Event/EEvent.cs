@@ -195,6 +195,7 @@ public enum ETutorialEvent
     ClickCharacterCategory,
     CompleteEvent,
     GetAllInfo,
+    OutGoingCall,
 }
 
 

@@ -61,7 +61,7 @@ public class ProfilerWindow : Window
 
     private void CheckTutorialState(object[] obj)
     {
-        if (!DataManager.Inst.GetIsClearTutorial())
+        if (!DataManager.Inst.IsClearTutorial())
         {
             Define.CheckTutorialState(this);
         }
@@ -69,7 +69,7 @@ public class ProfilerWindow : Window
 
     private void ProfilerSelected()
     {
-        if (!DataManager.Inst.GetIsClearTutorial())
+        if (!DataManager.Inst.IsClearTutorial())
         {
             Define.CheckTutorialState(this);
         }

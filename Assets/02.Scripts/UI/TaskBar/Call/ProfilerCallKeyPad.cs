@@ -146,6 +146,7 @@ public class ProfilerCallKeyPad : MonoBehaviour
     }
     private void CallButton()
     {
+        Debug.Log(phoneNumberText.text);
         if (string.IsNullOrEmpty(phoneNumberText.text))
         {
             return;

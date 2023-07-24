@@ -26,7 +26,7 @@ public class ProfilerGuideButtonParent : MonoBehaviour
     #region ButtonSetting
     private void SaveSetting()
     {
-        if (DataManager.Inst.GetIsClearTutorial())
+        if (DataManager.Inst.IsClearTutorial())
         {
             AddGuideButton();
         }

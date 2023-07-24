@@ -134,12 +134,12 @@ public class DiscordLogin : MonoBehaviour
     public void SuccessLogin()
     {
         //성공을 알리는 이벤트
-        if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.KANGYOHAN_PHONENUMBER)) //id
+        if (DataManager.Inst.IsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.KANGYOHAN_PHONENUMBER)) //id
         {
             //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.InvisibleInformation, Constant.ProfilerInfoKey.KANGYOHAN_PHONENUMBER });
         }
 
-        if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.HARMONY_PASSWORD)) //password
+        if (DataManager.Inst.IsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.HARMONY_PASSWORD)) //password
         {
            // EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.InvisibleInformation, Constant.ProfilerInfoKey.HARMONY_PASSWORD });
         }

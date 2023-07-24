@@ -44,13 +44,20 @@ public class ProfilerCallUserListPanel : MonoBehaviour
         {
             return;
         }
-        DataManager.Inst.AddSavePhoneNumber(number);
-        
+
+        Debug.Log(DataManager.Inst.IsSavePhoneNumber(number));
+        if (DataManager.Inst.IsSavePhoneNumber(number))
+        {
+            return;
+        }
+
         if (!phoneNumberList.Contains(number))
         {
             phoneNumberList.Add(number);
         }
         CreateCallProfile(number);
+
+        DataManager.Inst.AddSavePhoneNumber(number);
     }
     private void CreateCallProfile(string number)
     {

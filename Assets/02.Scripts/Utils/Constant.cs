@@ -96,6 +96,9 @@ public static partial class Constant
         public const string COMPLETE_OVERLAY = "T_M_156";
 
         public const string TUTORIAL_CANNOT_GETINFO = "T_M_22";
+        public const string TUTORIAL_CANNOT_GETINFO_CALL = "T_M_23";
+
+        public const string TUTORIAL_CALL_ASSISTANT = "T_C_A_4";
     }
     #endregion
     #region MailKey
@@ -132,4 +135,5 @@ public static partial class Constant
     {
         public const string PETCAM = "IC_I_2";
     }
+
 }
