@@ -23,9 +23,6 @@ public class ProfilerTutorial : MonoBehaviour
     #endregion
 
     private string popupText = "튜토리얼을 시작하시겠습니까?";
-
-    [SerializeField]
-    private float findNameGuideDelay = 60f;
     [SerializeField]
     private FileSO profiler;
     [SerializeField]
@@ -36,13 +33,7 @@ public class ProfilerTutorial : MonoBehaviour
     public static bool IsExistCharacterTODO; //튜토리얼 중 아직 할 일이 남음 ( 정보 튜토리얼 중 패널까지 클릭해야할때 )
     public static bool IsExistIncidentTODO; //튜토리얼 중 아직 할 일이 남음 ( 정보 튜토리얼 중 패널까지 클릭해야할때 )
 
-    [SerializeField]
-    private string targetIncidentID = Constant.ProfilerInfoKey.INCIDENTREPORT_TITLE;
-
-    [SerializeField]
-    private string targetCharID1 = Constant.ProfilerInfoKey.PARKJUYOUNG_NAME;
-    [SerializeField]
-    private string targetCharID2 = Constant.ProfilerInfoKey.KIMYUJIN_NAME;
+    public static bool IsLibraryGuide;
 
     private Library library;
 
@@ -107,6 +98,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void StartTutorialSetting()
     {
+        IsLibraryGuide = true;
         LibraryRect(null);
     }
 
@@ -126,6 +118,7 @@ public class ProfilerTutorial : MonoBehaviour
     private void OpenIncidentReport(object[] obj)
     {
         EventManager.StopListening(ETutorialEvent.IncidentReportOpen, OpenIncidentReport);
+        IsLibraryGuide = false;
         GuideUISystem.EndAllGuide?.Invoke();
         StartChatting(OVERLAY_TUTORIAL);
     }

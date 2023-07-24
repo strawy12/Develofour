@@ -117,7 +117,6 @@ public class ProfilerInfoPanel : MonoBehaviour
         {
             return;
         }
-
         EventManager.TriggerEvent(EProfilerEvent.HideInfoPanel);
         EventManager.StartListening(EProfilerEvent.Maximum, RefreshSize);
         EventManager.StartListening(EProfilerEvent.Minimum, RefreshSize);
@@ -144,7 +143,6 @@ public class ProfilerInfoPanel : MonoBehaviour
 
             ProfilerInfoText infoText = Pop();
             infoText.Setting(infoData);
-
             if (DataManager.Inst.IsProfilerInfoData(infoText.InfoData.ID))
             {
                 infoText.Show();
