@@ -46,20 +46,39 @@ public class ProfilerWindow : Window
         profilerGuidePanel.Init();
         profilerCallingPanel.Init();
 
-        OnSelected += ProfilerSelected;
+        #region 튜토리얼
+        aiChattingPanelBtn.AddListening(ProfilerChattingSelected);
+        EventManager.StartListening(ETutorialEvent.CheckTutorialState, CheckTutorialState);
+        OnSelected += CheckChattingPanel;
+        #endregion
 
         infoPanelBtn.AddListening(OnClickShowProfiling);
         aiChattingPanelBtn.AddListening(OnClickShowChatting);
         callPanelBtn.AddListening(OnClickShowCalling);
         EventManager.StartListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StartListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
-        EventManager.StartListening(ETutorialEvent.CheckTutorialState, CheckTutorialState);
+  
         beforeClickButton = infoPanelBtn;
 
         ButtonBlackSetting();
     }
 
+    #region 튜토리얼
+
+    private void CheckChattingPanel()
+    {
+        if(profilerChatting.isActiveAndEnabled)
+        {
+            ProfilerChattingSelected();
+        }
+    }
+
     private void CheckTutorialState(object[] obj)
+    {
+        ProfilerChattingSelected();
+    }
+
+    private void ProfilerChattingSelected()
     {
         if (!DataManager.Inst.IsClearTutorial())
         {
@@ -67,13 +86,7 @@ public class ProfilerWindow : Window
         }
     }
 
-    private void ProfilerSelected()
-    {
-        if (!DataManager.Inst.IsClearTutorial())
-        {
-            Define.CheckTutorialState(this);
-        }
-    }
+    #endregion
 
     private void CheckProfilerOnOff(object[] emptyPs)
     {

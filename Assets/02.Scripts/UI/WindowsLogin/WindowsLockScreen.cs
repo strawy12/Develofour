@@ -49,7 +49,6 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private void AnyKeyUp(object[] ps)
     {
-        Debug.Log("asdf");
         StartCoroutine(KeyUpCor());
     }
 

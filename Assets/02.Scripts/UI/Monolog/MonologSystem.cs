@@ -65,7 +65,7 @@ public class MonologSystem : TextSystem
         GameManager.Inst.ChangeGameState(EGameState.CutScene);
 
         currentTextDataIdx = 0;
-        Debug.Log(monologID);
+
         currentTextData = ResourceManager.Inst.GetResource<MonologTextDataSO>(monologID);
 
         if (currentTextData == null)

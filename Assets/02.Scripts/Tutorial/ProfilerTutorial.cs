@@ -65,8 +65,6 @@ public class ProfilerTutorial : MonoBehaviour
         ProfilerChattingSystem.OnPlayChatList?.Invoke(tutorialTextList.tutorialChatData[textListIndex], 0.2f, true);
     }
 
-
-
     private IEnumerator StartProfilerTutorial()
     {
         //튜토리얼 첫 시작

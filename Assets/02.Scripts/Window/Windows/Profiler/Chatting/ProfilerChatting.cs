@@ -115,7 +115,9 @@ public class ProfilerChatting : MonoBehaviour
         GameObject imageUI = Instantiate(imagePrefab, textParent); //이미지 프리팹 생성
 
         Image image = imageUI.transform.GetChild(0).GetComponent<Image>(); //이미지 컴포넌트 가져오고
-        image.GetComponent<RectTransform>().sizeDelta = sprite.bounds.size; //크기 맞춰주고
+        Debug.Log(sprite.bounds.size);
+        image.GetComponent<RectTransform>().sizeDelta = sprite.bounds.size * 30; //크기 맞춰주고
+        Debug.Log(image.GetComponent<RectTransform>().sizeDelta);
         image.sprite = sprite; //스프라이트 변경
 
         RectTransform imageRect = imageUI.GetComponent<RectTransform>(); //자식의 이미지 크기랑 height랑 같게함
@@ -151,7 +153,10 @@ public class ProfilerChatting : MonoBehaviour
     protected void SetLastWidth()
     {
         RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
-        rects[rects.Length - 1].sizeDelta = new Vector2(currentValue - 60, 0);
+        if(rects[rects.Length - 1].gameObject.GetComponent<Image>() == null)
+        {
+            rects[rects.Length - 1].sizeDelta = new Vector2(currentValue - 60, 0);
+        }
     }
 
 

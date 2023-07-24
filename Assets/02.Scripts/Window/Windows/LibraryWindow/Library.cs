@@ -132,7 +132,6 @@ public class Library : Window
         }
         else
         {
-            Debug.Log("FalseCommand");
             base.SizeDoTween();
         }
         isNotFirstOpen = true;

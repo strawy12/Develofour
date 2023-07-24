@@ -23,12 +23,6 @@ public class GameManager : MonoSingleton<GameManager>
     public bool IsTutorial => gameState == EGameState.Tutorial_NotChat;
     public bool isApplicationQuit { get; private set; }
 
-#if UNITY_EDITOR
-    public void Update()
-    {
-        Debug.Log(gameState);
-    }
-#endif
 
     public void Init()
     {

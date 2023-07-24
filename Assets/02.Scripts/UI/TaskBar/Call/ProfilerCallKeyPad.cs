@@ -65,7 +65,6 @@ public class ProfilerCallKeyPad : MonoBehaviour
 
     private void KeyboardEventRemove()
     {
-        Debug.Log("RemoveKey");
 
         for (int i = 0; i < 10; i++)
         {
