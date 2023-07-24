@@ -23,7 +23,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
         {
             backgroundImageList = GetComponentsInChildren<Image>().ToList();
         }
-        tempColor = backgroundImageList[0].color;
+        tempColor = new Color(0,0,0,0);
         base.Bind();
     }
 
@@ -47,6 +47,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     private void ChangeCursor(ECursorState state)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
+        Debug.Log(state);
         switch (state)
         {
             case ECursorState.Default:
