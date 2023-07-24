@@ -73,15 +73,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         iconNameText.text = fileData.fileName;
 
         #region 튜토리얼 이벤트 세팅
-        if (fileData.ID == Constant.FileID.USB) //usb
+        if (ProfilerTutorial.IsLibraryGuide && fileData.ID == Constant.FileID.USB) //usb
         {
-            EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);
             EventManager.StartListening(ETutorialEvent.USBTutorial, YellowUI);
         }
 
-        if (fileData.ID == Constant.FileID.INCIDENT_REPORT) //사건보고서
+        if (ProfilerTutorial.IsLibraryGuide && fileData.ID == Constant.FileID.INCIDENT_REPORT) //사건보고서
         {
-            EventManager.StopListening(ETutorialEvent.ReportTutorial, YellowUI);
             EventManager.StartListening(ETutorialEvent.ReportTutorial, YellowUI);
         }
 
@@ -134,6 +132,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void YellowUI(object[] obj)
     {
+        EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);
+        EventManager.StopListening(ETutorialEvent.ReportTutorial, YellowUI);
         GuideUISystem.EndAllGuide?.Invoke();
         GuideUISystem.OnGuide(this.rectTranstform);
     }

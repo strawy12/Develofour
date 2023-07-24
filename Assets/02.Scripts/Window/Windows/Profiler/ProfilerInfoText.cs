@@ -58,7 +58,6 @@ public class ProfilerInfoText : MonoBehaviour
     {
         infoText.text = currentInfoData.infomationText;
         isFind = true;
-        
         this.gameObject.SetActive(true);
         OnFindText?.Invoke();
     }

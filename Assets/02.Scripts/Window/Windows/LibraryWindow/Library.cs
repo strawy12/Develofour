@@ -380,7 +380,7 @@ public class Library : Window
         base.OnDestroyWindow();
         isNotFirstOpen = false;
         //GuideUISystem.EndAllGuide?.Invoke();
-        if (DataManager.Inst.IsPlayingProfilerTutorial() && GameManager.Inst.GameState == EGameState.Tutorial_NotChat)
+        if (DataManager.Inst.IsPlayingProfilerTutorial() && ProfilerTutorial.IsLibraryGuide)
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryGuide);
         }
