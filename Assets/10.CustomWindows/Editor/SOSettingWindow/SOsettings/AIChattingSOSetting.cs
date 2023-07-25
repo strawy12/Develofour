@@ -25,7 +25,13 @@ public partial class SOSettingWindow : EditorWindow
                 AIChat chat = new AIChat();
                 if(textList[j][0] == '%') //Image
                 {
-                    string spritePath = textList[j].Substring(1, textList[j].Length);
+                    string[] divide = textList[j].Trim().Split('&');
+                    string spritePath = textList[j].Substring(1, divide[0].Length);
+                    if(divide.Length == 2)
+                    {
+                        float sizeY = float.Parse(divide[1]);
+                        chat.sizeY = sizeY;
+                    }
                     Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
                     if(sprite != null)
                     {

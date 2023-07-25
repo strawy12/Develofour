@@ -74,7 +74,16 @@ public class ProfilerChatting : MonoBehaviour
         if(ps[0] is Sprite)
         {
             Sprite sprite = ps[0] as Sprite;
-            CreateImageUI(sprite);
+            float sizeY = 0;
+            if (ps.Length == 2)
+            {
+                sizeY = (float)ps[1];
+            }
+
+            if (sizeY == 0)
+                CreateImageUI(sprite);
+            else
+                CreateImageUI(sprite, sizeY);
         }
     }
 
@@ -110,18 +119,29 @@ public class ProfilerChatting : MonoBehaviour
     }
 
 
-    private void CreateImageUI(Sprite sprite)
+    private void CreateImageUI(Sprite sprite, float YSize = 100)
     {
         GameObject imageUI = Instantiate(imagePrefab, textParent); //이미지 프리팹 생성
 
         Image image = imageUI.transform.GetChild(0).GetComponent<Image>(); //이미지 컴포넌트 가져오고
         Debug.Log(sprite.bounds.size);
-        image.GetComponent<RectTransform>().sizeDelta = sprite.bounds.size * 30; //크기 맞춰주고
-        Debug.Log(image.GetComponent<RectTransform>().sizeDelta);
+
+        float x = sprite.bounds.size.x;
+        float y = sprite.bounds.size.y;
+
+        float remain = YSize / x;
+
+        float spriteY = y * remain;
+
+        Vector2 size = new Vector2(YSize, spriteY);
+        Debug.Log("Remain값 = " + remain + "   size 값 = " + size);
+
+        image.GetComponent<RectTransform>().sizeDelta = size; //크기 맞춰주고
+
         image.sprite = sprite; //스프라이트 변경
 
         RectTransform imageRect = imageUI.GetComponent<RectTransform>(); //자식의 이미지 크기랑 height랑 같게함
-        imageRect.sizeDelta = new Vector2(imageRect.sizeDelta.x, sprite.bounds.size.y);
+        imageRect.sizeDelta = new Vector2(imageRect.sizeDelta.x, spriteY);
 
         SetLastWidth();
         LayoutRebuilder.ForceRebuildLayoutImmediate(imageRect);

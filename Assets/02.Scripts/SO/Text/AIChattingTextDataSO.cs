@@ -11,6 +11,7 @@ using System;
 public class AIChat
 {
     public Sprite sprite;
+    public float sizeY;
     [TextArea(5, 30)]
     public string text;
 }

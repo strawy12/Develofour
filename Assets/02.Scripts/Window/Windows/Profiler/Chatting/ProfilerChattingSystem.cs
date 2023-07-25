@@ -69,7 +69,9 @@ public class ProfilerChattingSystem : TextSystem
             }
             else if(data.sprite != null)
             {
-                PrintImage(data.sprite, isSave);
+                Debug.Log(data.sizeY);
+                if(data.sizeY == 0) PrintImage(data.sprite, isSave);
+                else PrintImage(data.sprite, isSave, data.sizeY);
             }
             else
             {
@@ -117,9 +119,9 @@ public class ProfilerChattingSystem : TextSystem
         SendNotice(currentStr);
     }
 
-    private void PrintImage(Sprite sprite, bool isSave)
+    private void PrintImage(Sprite sprite, bool isSave, float sizeY = 100)
     {
-        EventManager.TriggerEvent(EProfilerEvent.ProfilerSendMessage, new object[] { sprite });
+        EventManager.TriggerEvent(EProfilerEvent.ProfilerSendMessage, new object[] { sprite, sizeY });
 
         if (isSave)
         {
