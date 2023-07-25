@@ -35,7 +35,13 @@ public partial class SOSettingWindow : EditorWindow
             for(int j = 0; j < decisions.Length; j++)
             {
                 if(!string.IsNullOrEmpty(decisions[j]))
+                {
+                    if (answerData.needInfoData == null)
+                    {
+                        answerData.needInfoData = new List<string>();
+                    }
                     answerData.needInfoData.Add(decisions[j]);
+                }
             }
 
             PinLockDataSO pinLockData = pinLockSOList.Find(x => x.id == id);

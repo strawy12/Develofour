@@ -130,7 +130,10 @@ public class ProfilerInfoPanel : MonoBehaviour
         if(!string.IsNullOrEmpty(currentData.defaultInfoID))
         {
             ProfilerInfoDataSO infoData = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(currentData.defaultInfoID);
-
+            if(infoData == null)
+            {
+                Debug.Log($"{currentData.defaultInfoID} == null");
+            }
             ProfilerInfoText infoText = Pop();
             infoText.Setting(infoData);
             infoText.Show();
