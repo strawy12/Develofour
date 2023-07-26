@@ -142,10 +142,16 @@ public class ProfilerInfoPanel : MonoBehaviour
 
         foreach (string infoID in currentData.infoIDList)
         {
-            ProfilerInfoDataSO infoData = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(infoID);
-
+            ProfilerInfoDataSO infoData = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(infoID.Trim());
+            if(infoData == null)
+            {
+                Debug.Log($"{infoID.Trim()} null Data");
+                continue;
+            }
+           
             ProfilerInfoText infoText = Pop();
             infoText.Setting(infoData);
+            Debug.Log(infoText.InfoData);
             if (DataManager.Inst.IsProfilerInfoData(infoText.InfoData.ID))
             {
                 infoText.Show();
