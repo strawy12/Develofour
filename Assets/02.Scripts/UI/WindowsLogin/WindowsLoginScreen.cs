@@ -70,7 +70,7 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.InputField.characterLimit = 4;
 
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
-        hintText.text = "힌트: 만우절 + 밸런타인 데이";
+        hintText.text = "만우절 + 밸런타인 데이 = XXXX";
         hintText.gameObject.SetActive(true);
 
         passwordField.InputField.onValueChanged.AddListener(CheckInputNumber);
@@ -91,6 +91,13 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void CheckInputNumber(string text)
     {
+        if (text.Length >= 5)
+        {
+            StopAllCoroutines();
+            StartCoroutine(MaxInputFourLength());
+            return;
+        }
+
         if (!int.TryParse(text, out _))
         {
             if (hintText.gameObject.activeSelf == false)
@@ -107,14 +114,22 @@ public class WindowsLoginScreen : MonoBehaviour
         }
     }
 
+    private IEnumerator MaxInputFourLength()
+    {
+        hintText.text = "최대 4자까지만 가능합니다";
+
+        yield return new WaitForSeconds(numberWrongDuration);
+
+        hintText.text = "만우절 + 밸런타인 데이 = XXXX";
+    }
+
     private IEnumerator InputOnlyNumberCoroutine()
     {
         hintText.text = "숫자만 입력 가능합니다";
 
         yield return new WaitForSeconds(numberWrongDuration);
 
-
-        hintText.text = "힌트: 만우절 + 밸런타인 데이";
+        hintText.text = "만우절 + 밸런타인 데이 = XXXX";
 
     }
 

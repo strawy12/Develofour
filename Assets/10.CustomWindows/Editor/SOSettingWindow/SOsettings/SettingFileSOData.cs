@@ -131,7 +131,13 @@ public partial class SOSettingWindow : EditorWindow
                     SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/DefaultFile/{id}_{fileName}.asset";
                 }
             }
-
+            if(columns.Length > 11)
+            {
+                if(columns[11] == "WHITE")
+                {
+                    file.iconColor = Color.white;
+                }
+            }
             if (isCreate)
             {
                 CreateFolder(SO_PATH);
