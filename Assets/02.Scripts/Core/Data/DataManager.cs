@@ -72,6 +72,11 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.aiChattingList.Add(aichat);
     }
 
+    public int AIChattingListCount()
+    {
+        return saveData.aiChattingList.Count;
+    }
+
     private void OnDestroy()
     {
         SaveToJson();

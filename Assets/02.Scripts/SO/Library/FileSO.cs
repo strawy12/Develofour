@@ -50,6 +50,8 @@ public class FileSO : ScriptableObject
 
     public WindowIconData propertyData;
 
+    public bool isAlarm
+
 
     #region GetFileData
 

@@ -42,6 +42,8 @@ public partial class SOSettingWindow : EditorWindow
             }
             Sprite iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpritePath.Forder);
             string spritePath = columns[8];
+            bool isAlarm;
+            bool.TryParse(columns[10], out isAlarm);
             switch (type)
             {
                 case EWindowType.ProfilerWindow:
@@ -114,6 +116,7 @@ public partial class SOSettingWindow : EditorWindow
                     parentNullFileList.Add(file);
                 }
             }
+            file.isAlarm = isAlarm;
             path = file.GetRealFileLocation();
 
             SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}_{fileName}.asset";

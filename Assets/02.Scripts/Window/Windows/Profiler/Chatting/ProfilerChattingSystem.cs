@@ -25,6 +25,8 @@ public class ProfilerChattingSystem : TextSystem
 
     public static bool isChatting;
 
+    public Sprite newSprite;
+
     private void Awake()
     {
         OnPlayChatList += StartChatting;
@@ -49,6 +51,9 @@ public class ProfilerChattingSystem : TextSystem
     public void StartChatting(AIChattingTextDataSO list, float delay, bool isSave)
     {
         currentChatData = list;
+
+        if(DataManager.Inst.AIChattingListCount() != 0)
+            PrintImage(newSprite, false, 300);
 
         StartCoroutine(ChattingCoroutine(delay, isSave));
     }

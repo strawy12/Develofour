@@ -260,6 +260,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void CallTutorial(object[] obj)
     {
+        DataManager.Inst.SetCallTutorial(true);
         GameManager.Inst.ChangeGameState(EGameState.Tutorial_Call);
         EventManager.StopListening(ETutorialEvent.GetAllInfo, CallTutorial);
         EventManager.StartListening(ETutorialEvent.OutGoingCall, TutorialEnd);
