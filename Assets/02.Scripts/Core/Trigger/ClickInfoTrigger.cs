@@ -91,6 +91,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     }
     private void ActiveLockImage(bool isActive)
     {
+        if (triggerData == null) return;
         if (triggerData.infoDataIDList == null || triggerData.infoDataIDList.Count == 0) return;
         if (triggerData.needInfoList == null || triggerData.needInfoList.Count <= 0) return;
         if (lockImage == null)

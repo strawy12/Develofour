@@ -112,6 +112,7 @@ public class ProfileOverlaySystem : MonoBehaviour
     {
         list.ForEach((trigger) =>
         {
+            if (trigger.TriggerData == null) return;
             triggerIDList.Add(trigger.TriggerData.id);
         });
         return triggerIDList;
