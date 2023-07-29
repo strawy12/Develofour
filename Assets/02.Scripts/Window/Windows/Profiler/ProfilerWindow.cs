@@ -119,6 +119,7 @@ public class ProfilerWindow : Window
             return;
         }
 
+
         beforeClickButton = aiChattingPanelBtn;
 
         ShowChattingPanel();

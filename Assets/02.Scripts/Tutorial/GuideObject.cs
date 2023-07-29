@@ -43,8 +43,6 @@ public class GuideObject : MonoBehaviour
         if (ps == null || (EGuideObject)ps[0] != objectName) return;
         if (!this.gameObject.activeSelf) return;
 
-        Debug.Log(objectName);
-
         GuideUISystem.OnGuide?.Invoke(transform as RectTransform);
         if(objectName == EGuideObject.CharacterTab || objectName == EGuideObject.IncidentTab)
         {

@@ -151,7 +151,6 @@ public class ProfilerInfoPanel : MonoBehaviour
            
             ProfilerInfoText infoText = Pop();
             infoText.Setting(infoData);
-            Debug.Log(infoText.InfoData);
             if (DataManager.Inst.IsProfilerInfoData(infoText.InfoData.ID))
             {
                 infoText.Show();

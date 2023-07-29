@@ -25,6 +25,7 @@ public class ProfilerChattingSystem : TextSystem
 
     public static bool isChatting;
 
+
     public Sprite newSprite;
 
     private void Awake()
@@ -51,9 +52,6 @@ public class ProfilerChattingSystem : TextSystem
     public void StartChatting(AIChattingTextDataSO list, float delay, bool isSave)
     {
         currentChatData = list;
-
-        if(DataManager.Inst.AIChattingListCount() != 0)
-            PrintImage(newSprite, false, 300);
 
         StartCoroutine(ChattingCoroutine(delay, isSave));
     }
@@ -82,6 +80,9 @@ public class ProfilerChattingSystem : TextSystem
             {
                 Debug.Log("ChatData Error");
             }
+
+            //알림 보내기
+            EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[] { EWindowType.ProfilerWindow });
 
             yield return new WaitForSeconds(delay);
 
@@ -135,6 +136,7 @@ public class ProfilerChattingSystem : TextSystem
 
         SendNotice(RECIEVE_IMAGE);
     }
+
 
     public void SendNotice(string body)
     {

@@ -29,9 +29,24 @@ public class ProfilerChatting : MonoBehaviour
     protected TMP_Text textPrefab;
     [SerializeField]
     protected GameObject imagePrefab;
+    [SerializeField]
+    protected NewAIChattingImage newImagePrefab;
 
     [SerializeField]
     protected Transform textParent;
+
+    public int ChattingCount
+    {
+        get
+        {
+            if (textParent.childCount <= 3)
+                return 0;
+            return textParent.childCount - 3;
+        }
+    }
+
+    public int saveChatCount;
+
     [SerializeField]
     protected ScrollRect scroll;
     [SerializeField]
@@ -40,6 +55,8 @@ public class ProfilerChatting : MonoBehaviour
     protected ContentSizeFitter contentSizeFitter;
     public void Init()
     {
+        saveChatCount = DataManager.Inst.AIChattingListCount();
+
         Hide();
     }
 
@@ -54,7 +71,7 @@ public class ProfilerChatting : MonoBehaviour
     public void Hide()
     {
         EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
-
+        ActiveNewImageUI(false);
         gameObject.SetActive(false);
     }
 
@@ -64,6 +81,8 @@ public class ProfilerChatting : MonoBehaviour
         {
             return;
         }
+
+        Debug.Log("saveChatCount = " + saveChatCount + '\n' + "ChattingCount = " + ChattingCount);
 
         if(ps[0] is string)
         {
@@ -85,6 +104,7 @@ public class ProfilerChatting : MonoBehaviour
             else
                 CreateImageUI(sprite, sizeY);
         }
+
     }
 
     private void AddSaveTexts()
@@ -104,8 +124,21 @@ public class ProfilerChatting : MonoBehaviour
         }
     }
 
+    private void CheckNewChatting()
+    {
+        if (saveChatCount == ChattingCount) //새로온 채팅인데
+        {
+            if (!newImagePrefab.gameObject.activeSelf)
+            {
+                ActiveNewImageUI(true);
+            }
+        }
+    }
+
     private TMP_Text CreateTextUI(string msg)
     {
+        CheckNewChatting();
+
         TMP_Text textUI = Instantiate(textPrefab, textParent);
         textUI.text = msg;
 
@@ -115,16 +148,19 @@ public class ProfilerChatting : MonoBehaviour
         textUI.gameObject.SetActive(true);
         SetLastWidth();
 
+        saveChatCount = ChattingCount;
+
         return textUI;
     }
 
 
     private void CreateImageUI(Sprite sprite, float YSize = 100)
     {
+        CheckNewChatting();
+
         GameObject imageUI = Instantiate(imagePrefab, textParent); //이미지 프리팹 생성
 
         Image image = imageUI.transform.GetChild(0).GetComponent<Image>(); //이미지 컴포넌트 가져오고
-        Debug.Log(sprite.bounds.size);
 
         float x = sprite.bounds.size.x;
         float y = sprite.bounds.size.y;
@@ -148,6 +184,17 @@ public class ProfilerChatting : MonoBehaviour
         SetScrollView();
         imageUI.gameObject.SetActive(true);
         SetLastWidth();
+
+        saveChatCount = ChattingCount;
+    }
+
+    private void ActiveNewImageUI(bool flag)
+    {
+        newImagePrefab.transform.SetAsLastSibling();
+        Debug.Log("asdf");
+        newImagePrefab.gameObject.SetActive(flag);
+        SetScrollView();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(((RectTransform)newImagePrefab.transform));
     }
 
     protected void SetScrollView()
