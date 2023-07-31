@@ -56,12 +56,12 @@ public class WindowPinLock : Window
         closeButton.onClick?.AddListener(CloseWindowPinLock);
     }
 
-    public override void WindowOpen()   
+    public override void WindowOpen(bool isNewWindow)   
     {
         PinOpen();
         SetAnswerDatas();
 
-        base.WindowOpen();
+        base.WindowOpen(isNewWindow);
     }
 
     private void PinOpen()

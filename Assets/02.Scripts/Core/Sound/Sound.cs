@@ -88,7 +88,7 @@ public partial class Sound : MonoBehaviour
 
     private void BGMStop(bool isAddLastList)
     {
-        var list = soundPlayerList.FindAll(x => x.AudioData.SoundPlayerType == ESoundPlayerType.BGM);
+        var list = soundPlayerList.FindAll(x => x.PlayerType == ESoundPlayerType.BGM);
         foreach (var player in list)
         {
             if (player.isPlaying)
@@ -106,8 +106,19 @@ public partial class Sound : MonoBehaviour
         CreateSoundPlayer(lastBGMAudioType);
     }
 
-    private void ImmediatelyStop(EAudioType type)
+    private void ImmediatelyStop(EAudioType type = EAudioType.None)
     {
+        if(type == EAudioType.None)
+        {
+            var soundEffectList = soundPlayerList.FindAll(x => x.PlayerType == ESoundPlayerType.Effect);
+            foreach (SoundPlayer player in soundEffectList)
+            {
+                player.ImmediatelyStop();
+                soundPlayerList.Remove(player);
+            }
+            return;
+        }
+
         var list = soundPlayerList.FindAll(x => x.AudioType == type);
 
         foreach (SoundPlayer player in list)

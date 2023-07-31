@@ -193,7 +193,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
         if (!window.IsSelected())
         {
-            window.WindowOpen();
+            window.WindowOpen(false);
         }
     }
 

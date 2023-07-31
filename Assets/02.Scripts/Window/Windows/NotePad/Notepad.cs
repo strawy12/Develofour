@@ -60,9 +60,9 @@ public class Notepad : Window
         SetText();
     }
 
-    public override void WindowOpen()
+    public override void WindowOpen(bool isNewWindow)
     {
-        base.WindowOpen();
+        base.WindowOpen(isNewWindow);
         notepadBody.inputField.textComponent.ForceMeshUpdate();
         notepadBody.SetTriggerPosition();
     }

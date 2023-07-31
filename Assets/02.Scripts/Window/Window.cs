@@ -25,7 +25,7 @@ public enum EWindowType // 확장자
     SoundPlayer,
     BGM,
     OutStarDM,
-    End 
+    End
 }
 
 [RequireComponent(typeof(GraphicRaycaster))]
@@ -193,7 +193,7 @@ public class Window : MonoUI, ISelectable
         }
     }
 
-    public virtual void WindowOpen()
+    public virtual void WindowOpen(bool isNewWindow)
     {
         WindowManager.Inst.SelectObject(this);
 
@@ -210,8 +210,13 @@ public class Window : MonoUI, ISelectable
         {
             rectTransform.localPosition = Constant.WINDOWMAXIMUMPOS;
         }
-        SizeDoTween();
+
+        if (isNewWindow)
+        {
+            SizeDoTween();
+        }
     }
+
     public virtual void SizeDoTween()
     {
         float minDuration = 0.16f;
@@ -287,7 +292,7 @@ public class Window : MonoUI, ISelectable
     //EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { type });
 
     protected virtual void OnDestroyWindow()
-    { 
+    {
         DOTween.Kill(gameObject, true);
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
