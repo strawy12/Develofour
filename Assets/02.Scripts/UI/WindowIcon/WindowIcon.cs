@@ -154,7 +154,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 else
                 {
-                    targetWindow.WindowOpen();
+                    targetWindow.WindowOpen(false);
                 }
                 UnSelect();
 

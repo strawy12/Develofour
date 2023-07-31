@@ -155,7 +155,7 @@ public class TextBox : MonoUI
                 Sound.OnPlaySound?.Invoke(EAudioType.MonologueTyping);
             }
 
-            if (currentDelay != 0f)
+            if (currentDelay  > 0f)
             {
                 yield return new WaitForSeconds(currentDelay);
                 currentDelay = 0f;

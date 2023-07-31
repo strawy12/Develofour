@@ -72,6 +72,7 @@ public class ProfilerChatting : MonoBehaviour
     {
         EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
         ActiveNewImageUI(false);
+
         gameObject.SetActive(false);
     }
 

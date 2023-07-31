@@ -53,7 +53,7 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void ShowWindow()
     {
-        targetWindow?.WindowOpen();
+        targetWindow?.WindowOpen(false);
     }
 
     public void WindowHide()

@@ -110,9 +110,9 @@ public class Library : Window
 
     [SerializeField]
     private Sprite lockLibrary;
-    public override void WindowOpen()
+    public override void WindowOpen(bool isNewWindow)
     {
-        base.WindowOpen();
+        base.WindowOpen(isNewWindow);
         if (DataManager.Inst.IsPlayingProfilerTutorial())
         {
             TutorialEvent();
