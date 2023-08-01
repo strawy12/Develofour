@@ -101,6 +101,7 @@ public class MonologSystem : TextSystem
             }
             Action onEndEvent = onEndMonologDictionary[currentTextData.ID];
             onEndEvent?.Invoke();
+            Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.None);
             onEndMonologDictionary.Remove(currentTextData.ID);
             DataManager.Inst.SetMonologShow(currentTextData.ID);
             currentTextData = null;

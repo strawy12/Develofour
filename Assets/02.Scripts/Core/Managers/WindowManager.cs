@@ -127,9 +127,10 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         Window targetWindow = null;
         targetWindow = GetWindow(file.windowType, file.ID);
-
+        bool isNewWindow = false;
         if (targetWindow == null)
         {
+            isNewWindow = true;
             PinLockDataSO windowLock = ResourceManager.Inst.GetResource<PinLockDataSO>(file.ID);
             bool isLock = false;
 
@@ -150,8 +151,7 @@ public class WindowManager : MonoSingleton<WindowManager>
                 targetWindow = CreateWindow(file.windowType, file);
             }
         }
-        targetWindow.WindowOpen();
-
+        targetWindow.WindowOpen(isNewWindow);
         return targetWindow;
     }
 
@@ -189,13 +189,14 @@ public class WindowManager : MonoSingleton<WindowManager>
         FileSO propertyFile = FileManager.Inst.GetDefaultFile(EWindowType.IconProperty);
 
         Window targetWindow = GetWindow(propertyFile.windowType, file.ID);
-
+        bool isNewWindow = false;
         if (targetWindow == null)
         {
+            isNewWindow = true;
             targetWindow = CreateWindow(EWindowType.IconProperty, file);
         }
 
-        targetWindow.WindowOpen();
+        targetWindow.WindowOpen(isNewWindow);
         DataManager.Inst.SaveData.isOnceOpenWindowProperty = true;
 
         return targetWindow;
@@ -299,16 +300,17 @@ public class WindowManager : MonoSingleton<WindowManager>
         FileSO popupFile = FileManager.Inst.GetDefaultFile(EWindowType.Popup);
 
         Window targetWindow = GetWindow(popupFile.windowType, file.ID);
-
+        bool isNewWindow = false;
         if (targetWindow == null)
         {
+            isNewWindow = true;
             targetWindow = CreateWindow(EWindowType.Popup, file);
         }
         PopupWindow popupWindow = targetWindow as PopupWindow;
 
         popupWindow.Setting(text, agreeAction, degreeAction);
 
-        targetWindow.WindowOpen();
+        targetWindow.WindowOpen(isNewWindow);
     }
 
 }

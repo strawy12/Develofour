@@ -11,6 +11,8 @@ public class ProfilerInfoPanel : MonoBehaviour
     [SerializeField]
     private TMP_Text titleText;
     [SerializeField]
+    private ProfilerTitle title;
+    [SerializeField]
     private Image categoryImage;
     [SerializeField]
     private RectTransform categoryImageParent;
@@ -125,6 +127,7 @@ public class ProfilerInfoPanel : MonoBehaviour
         ProfilerCategoryDataSO categoryData = ps[0] as ProfilerCategoryDataSO;
         currentData = categoryData;
         titleText.SetText(currentData.categoryName);
+        title.Setting(currentData.categoryName);
         SpriteSetting();
 
         if(!string.IsNullOrEmpty(currentData.defaultInfoID))

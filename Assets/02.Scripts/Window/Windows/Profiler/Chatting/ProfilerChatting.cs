@@ -83,8 +83,9 @@ public class ProfilerChatting : MonoBehaviour
 
     public void Hide()
     {
-        //EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
-        
+
+        EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
+        ActiveNewImageUI(false);
         gameObject.SetActive(false);
     }
 

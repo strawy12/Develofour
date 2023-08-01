@@ -171,7 +171,7 @@ public partial class Browser : Window
             }
         }
 
-        WindowOpen();
+        WindowOpen(false);
 
         Site beforeSite = usingSite;
 
