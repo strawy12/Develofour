@@ -21,6 +21,9 @@ public class ProfilerWindow : Window
     [SerializeField]
     private ProfilerCallingPanel profilerCallingPanel;
 
+    [SerializeField]
+    private ProfilerAIChatAlarm profilerAlarm;
+
     [Header("Buttons")]
     [SerializeField]
     private ProfilerPanelButton infoPanelBtn;
@@ -45,15 +48,18 @@ public class ProfilerWindow : Window
         profilerUsingDocuments.Init();
         profilerGuidePanel.Init();
         profilerCallingPanel.Init();
+        profilerAlarm.Init();
 
         #region 튜토리얼
         aiChattingPanelBtn.AddListening(ProfilerChattingSelected);
         EventManager.StartListening(ETutorialEvent.CheckTutorialState, CheckTutorialState);
         OnSelected += CheckChattingPanel;
+        OnSelected += CheckIsNewChatImage;
         #endregion
 
         infoPanelBtn.AddListening(OnClickShowProfiling);
         aiChattingPanelBtn.AddListening(OnClickShowChatting);
+        aiChattingPanelBtn.AddListening(CheckIsNewChatImage);
         callPanelBtn.AddListening(OnClickShowCalling);
         EventManager.StartListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StartListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
@@ -70,7 +76,20 @@ public class ProfilerWindow : Window
         if(profilerChatting.isActiveAndEnabled)
         {
             ProfilerChattingSelected();
+            profilerAlarm.CloseAlarm();
         }
+    }
+
+    private void CheckIsNewChatImage()
+    {
+        if (profilerChatting.isActiveAndEnabled)
+        {
+            if (profilerChatting.isUsingNewImage)
+            {
+                profilerChatting.isUsingNewImage = false;
+            }
+        }
+
     }
 
     private void CheckTutorialState(object[] obj)
@@ -119,6 +138,7 @@ public class ProfilerWindow : Window
             return;
         }
 
+        profilerAlarm.CloseAlarm();
 
         beforeClickButton = aiChattingPanelBtn;
 

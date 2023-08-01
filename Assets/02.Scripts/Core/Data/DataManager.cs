@@ -71,7 +71,6 @@ public partial class DataManager : MonoSingleton<DataManager>
         AIChat aichat = new AIChat();
         aichat.text = data;
         saveData.aiChattingList.Add(aichat);
-        Debug.Log(saveData.aiChattingList.Count);
     }
 
     public int AIChattingListCount()

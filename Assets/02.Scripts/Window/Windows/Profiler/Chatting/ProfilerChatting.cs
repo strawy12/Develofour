@@ -32,6 +32,8 @@ public class ProfilerChatting : MonoBehaviour
     [SerializeField]
     protected NewAIChattingImage newImagePrefab;
 
+    public bool isUsingNewImage;
+
     [SerializeField]
     protected Transform textParent;
 
@@ -53,25 +55,36 @@ public class ProfilerChatting : MonoBehaviour
     protected RectTransform scrollrectTransform;
     [SerializeField]
     protected ContentSizeFitter contentSizeFitter;
+
+    [SerializeField]
+    private ProfilerWindow profiler;
+
     public void Init()
     {
         saveChatCount = DataManager.Inst.AIChattingListCount();
-
+        EventManager.StartListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
+        AddSaveTexts();
         Hide();
     }
 
     public void Show()
     {
-        EventManager.StartListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
-        AddSaveTexts();
+        if(!isUsingNewImage)
+        {
+            ActiveNewImageUI(false);
+        }
+
         SetScrollView();//스크롤뷰 가장 밑으로 내리기;
+
+        Debug.Log(scroll.verticalNormalizedPosition = 0);
+
         gameObject.SetActive(true);
     }
 
     public void Hide()
     {
-        EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
-        ActiveNewImageUI(false);
+        //EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
+        
         gameObject.SetActive(false);
     }
 
@@ -81,8 +94,6 @@ public class ProfilerChatting : MonoBehaviour
         {
             return;
         }
-
-        Debug.Log("saveChatCount = " + saveChatCount + '\n' + "ChattingCount = " + ChattingCount);
 
         if(ps[0] is string)
         {
@@ -104,6 +115,8 @@ public class ProfilerChatting : MonoBehaviour
             else
                 CreateImageUI(sprite, sizeY);
         }
+        Debug.Log(scroll.verticalNormalizedPosition);
+        SetScrollView();
 
     }
 
@@ -126,13 +139,19 @@ public class ProfilerChatting : MonoBehaviour
 
     private void CheckNewChatting()
     {
-        if (saveChatCount == ChattingCount) //새로온 채팅인데
+        //현재 채팅 패널이 false 보단 현재 클릭되어 있는 오브젝트가 프로파일러이면서
+        if (profiler == null) return;
+
+        if((ISelectable)profiler != WindowManager.Inst.SelectedObject)
         {
-            if (!newImagePrefab.gameObject.activeSelf)
+            if (!isUsingNewImage)
             {
+                isUsingNewImage = true;
                 ActiveNewImageUI(true);
             }
         }
+
+        SetScrollView();//스크롤뷰 가장 밑으로 내리기;
     }
 
     private TMP_Text CreateTextUI(string msg)
@@ -154,7 +173,7 @@ public class ProfilerChatting : MonoBehaviour
     }
 
 
-    private void CreateImageUI(Sprite sprite, float YSize = 100)
+    private GameObject CreateImageUI(Sprite sprite, float YSize = 100)
     {
         CheckNewChatting();
 
@@ -170,7 +189,6 @@ public class ProfilerChatting : MonoBehaviour
         float spriteY = y * remain;
 
         Vector2 size = new Vector2(YSize, spriteY);
-        Debug.Log("Remain값 = " + remain + "   size 값 = " + size);
 
         image.GetComponent<RectTransform>().sizeDelta = size; //크기 맞춰주고
 
@@ -186,15 +204,17 @@ public class ProfilerChatting : MonoBehaviour
         SetLastWidth();
 
         saveChatCount = ChattingCount;
+
+        return imageUI;
     }
 
     private void ActiveNewImageUI(bool flag)
     {
+        if (ChattingCount == 0) return;
+
         newImagePrefab.transform.SetAsLastSibling();
-        Debug.Log("asdf");
         newImagePrefab.gameObject.SetActive(flag);
         SetScrollView();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(((RectTransform)newImagePrefab.transform));
     }
 
     protected void SetScrollView()
@@ -212,7 +232,7 @@ public class ProfilerChatting : MonoBehaviour
 
     protected IEnumerator ScrollCor()
     {
-        yield return new WaitForSeconds(0.025f);
+        yield return new WaitForSeconds(0.08f);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
         scroll.verticalNormalizedPosition = 0;
     }
