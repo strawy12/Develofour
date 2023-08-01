@@ -93,9 +93,9 @@ public class WindowManager : MonoSingleton<WindowManager>
 
     // TODO : 같은 이름의 윈도우를 실행 시켰을 때 키 값이 겹칠 수 있음. (나중에 구분 할 수 있는 코드 짜야함)
     // 다른 키값 하나가 더 있으야함
-    public Window GetWindow(EWindowType windowType, int fileId)
+    public Window GetWindow(EWindowType windowType, string fileId)
     {
-        return windowDictionary[windowType].Find(x => x.File.id == fileId);
+        return windowDictionary[windowType].Find(x => x.File.ID == fileId);
     }
 
     // 현재 윈도우 딕셔너리의 있는 windowType의 개수를 반환
@@ -126,27 +126,12 @@ public class WindowManager : MonoSingleton<WindowManager>
         }
 
         Window targetWindow = null;
-
-        if (file.windowType == EWindowType.SiteShortCut)
-        {
-            BrowserShortcutDataSO siteData = ResourceManager.Inst.GetBrowserShortcutData(file.id);
-            EventManager.TriggerEvent(EBrowserEvent.OnOpenSite, new object[] { siteData.eSiteLink, Constant.LOADING_DELAY });
-            return null;
-        }
-        else if (file.windowType == EWindowType.HarmonyShortCut)
-        {
-            HarmonyShortcutDataSO harmonydata = ResourceManager.Inst.GetHarmonyShortcutData(file.id);
-            EventManager.TriggerEvent(EDiscordEvent.OpenHarmony, new object[] { harmonydata.chattingName });
-            return null;
-        }
-        else
-        {
-            targetWindow = GetWindow(file.windowType, file.id);
-        }
-
+        targetWindow = GetWindow(file.windowType, file.ID);
+        bool isNewWindow = false;
         if (targetWindow == null)
         {
-            WindowLockDataSO windowLock = ResourceManager.Inst.GetFileLockData(file.id);
+            isNewWindow = true;
+            PinLockDataSO windowLock = ResourceManager.Inst.GetResource<PinLockDataSO>(file.ID);
             bool isLock = false;
 
             if (windowLock != null)
@@ -155,17 +140,18 @@ public class WindowManager : MonoSingleton<WindowManager>
             }
 
             // lock이 설정 되어있는 fileSO가 이미 락이 풀려있는지 체크
-            if (isLock && DataManager.Inst.IsFileLock(file.id))
+            if (isLock && DataManager.Inst.IsPinLock(file.ID))
             {
-                targetWindow = CreateWindow(EWindowType.WindowPinLock, file);
+                //FileSO lockFileWindowData = FileManager.Inst.GetFile(windowLock.lockWindowType);
+
+                targetWindow = CreateWindow(windowLock.lockWindowType, file); // file.ID(핀락, 미니게임, 파일), windowLock.lockWindowType
             }
             else
             {
                 targetWindow = CreateWindow(file.windowType, file);
             }
         }
-        targetWindow.WindowOpen();
-
+        targetWindow.WindowOpen(isNewWindow);
         return targetWindow;
     }
 
@@ -202,14 +188,15 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         FileSO propertyFile = FileManager.Inst.GetDefaultFile(EWindowType.IconProperty);
 
-        Window targetWindow = GetWindow(propertyFile.windowType, file.id);
-
+        Window targetWindow = GetWindow(propertyFile.windowType, file.ID);
+        bool isNewWindow = false;
         if (targetWindow == null)
         {
+            isNewWindow = true;
             targetWindow = CreateWindow(EWindowType.IconProperty, file);
         }
 
-        targetWindow.WindowOpen();
+        targetWindow.WindowOpen(isNewWindow);
         DataManager.Inst.SaveData.isOnceOpenWindowProperty = true;
 
         return targetWindow;
@@ -221,6 +208,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     }
 
     private ISelectable selectedObject = null;
+    public ISelectable SelectedObject => selectedObject;
 
     public void SelectObject(ISelectable target)
     {
@@ -272,7 +260,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     public bool IsOpenWindowType(EWindowType windowType)
     {
         return windowDictionary.ContainsKey(windowType);
-    } 
+    }
     void LateUpdate()
     {
         if (!DataLoadingScreen.completedDataLoad) return;
@@ -311,17 +299,18 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         FileSO popupFile = FileManager.Inst.GetDefaultFile(EWindowType.Popup);
 
-        Window targetWindow = GetWindow(popupFile.windowType, file.id);
-
+        Window targetWindow = GetWindow(popupFile.windowType, file.ID);
+        bool isNewWindow = false;
         if (targetWindow == null)
         {
+            isNewWindow = true;
             targetWindow = CreateWindow(EWindowType.Popup, file);
         }
         PopupWindow popupWindow = targetWindow as PopupWindow;
 
         popupWindow.Setting(text, agreeAction, degreeAction);
 
-        targetWindow.WindowOpen();
+        targetWindow.WindowOpen(isNewWindow);
     }
 
 }

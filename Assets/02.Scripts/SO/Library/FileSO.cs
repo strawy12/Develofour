@@ -5,6 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 [System.Serializable]
+public struct AdditionFile
+{
+    public string fileID;
+    public string directoryID;
+}
+
+[System.Serializable]
 public struct WindowIconData
 {
     public float bytes;
@@ -17,21 +24,34 @@ public struct WindowIconData
 [CreateAssetMenu(menuName = "SO/Library/fileSO")]
 public class FileSO : ScriptableObject
 {
-    public int id;
+    [SerializeField]
+    private string id;
+    public string ID
+    {
+        get => id;
+        set
+        {
+            if (!string.IsNullOrEmpty(id))
+                return;
 
+            id = value;
+        }
+    }
+
+    [HideInInspector]
+    public string parentID; //SO 세팅에서 부모 세팅해줄때 사용할거
     public DirectorySO parent;
     public string fileName; // Data 불러주거나 같은 Window끼리 구분하는 키 값
     public EWindowType windowType; // 확장자 -> 매칭 시켜놓자 (WindowManager)
-    public Sprite iconSprite;
-    public WindowIconData propertyData;
-    
-    public List<string> tags;
     public bool isHide;
-    public bool isCantFind;
-    [Header("Debug")]
-    public string splitString;
 
-    public Color color = Color.black;
+    public Sprite iconSprite;
+    public Color iconColor = Color.black;
+
+    public WindowIconData propertyData;
+
+    public bool isAlarm;
+
 
     #region GetFileData
 
@@ -41,12 +61,12 @@ public class FileSO : ScriptableObject
         string location = "";
         if (parent == null)
         {
-            location = this.name + '\\';
+            location = this.id + '\\';
 
             return location;
         }
 
-        location = string.Format("{0}{1}\\", parent.GetRealFileLocation(), this.name);
+        location = string.Format("{0}{1}\\", parent.GetRealFileLocation(), this.id);
 
         return location;
     }
@@ -71,18 +91,6 @@ public class FileSO : ScriptableObject
     [ContextMenu("GetFileLocation")]
     public string DebugGetFileLocation()
     {
-        string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
-        List<FileSO> fileSOList = new List<FileSO>();
-        foreach (string guid in guids)
-        {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            if(AssetDatabase.LoadAssetAtPath<FileSO>(path).id == 46)
-            {
-                Debug.Log(AssetDatabase.LoadAssetAtPath<FileSO>(path).name);
-            }
-        }
-
-
         string location = "";
         if (parent == null)
         {
@@ -97,14 +105,6 @@ public class FileSO : ScriptableObject
         Debug.Log(location);
 
         return location;
-    }
-    [ContextMenu("AddTag")]
-    public void EditorTagAdd()
-    {
-        string[] strings = splitString.Split(',');
-
-        tags = new List<string>();
-        tags.AddRange(strings);
     }
 
 #endif

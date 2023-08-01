@@ -155,7 +155,7 @@ public enum EProfilerEvent
     ProfilerSendMessage,
     ShowInfoPanel,
     HideInfoPanel,
-    FindInfoInProfiler,
+    RegisterInfo,
     ClickIncidentTab,
     ClickCharacterTab,
     AddGuideButton,
@@ -187,6 +187,15 @@ public enum ETutorialEvent
     LibraryEventTrigger,
     LibraryGuide,
     EndTutorial,
+    IncidentReportOpen,
+    GetCharacterInfo,
+    GetIncidentInfo,
+    CheckTutorialState,
+    ClickIncidentCategory,
+    ClickCharacterCategory,
+    CompleteEvent,
+    GetAllInfo,
+    OutGoingCall,
 }
 
 
@@ -220,8 +229,10 @@ public enum ECallEvent
 {
     None = -1,
     AddAutoCompleteCallBtn,
-    CallInit,
-    GetMonologSettingIncomingData,
+    // CallSystem
+    ClickSelectBtn,
+    // 상대가 전화를 받은 경우
+    RecivivedCall,
 }
 public enum ETimeEvent
 {

@@ -22,7 +22,8 @@ public static partial class Constant
     public const int NOWMONTH = 10;
     public const int NOWDAY = 23;
     public const float LOADING_DELAY = 0.75f;
-    public const float POLICE_REPLY_DELAY = 2f;
+    public const float INCOMMING_CHECK_DELAY = 8f;
+    public const float PHONECALLSOUND_DELAY = 1.5f;
 
     public static readonly System.DateTime DEFAULTDATE = new System.DateTime(2023, 10, 22, 7, 3, 0);
 
@@ -32,14 +33,15 @@ public static partial class Constant
     #region File
     public static class FileID
     {
-        public const int BACKGROUND = 1;
-        public const int USB = 6;
-        public const int MYPC = 7;
-        public const int DOWNLOAD = 10;
-        public const int PROFILER = 49;
-        public const int ZOOGLEPIN = 23;
-        public const int ZOOGLEPASSWORD = 24;
-        public const int CALLRECORDING = 89;
+        public const string MYPC = "F_DR_1";
+        public const string USB = "F_DR_4";
+        public const string BACKGROUND = "F_DR_6";
+        public const string DOWNLOAD = "F_DR_18";
+        public const string PROFILER = "F_PF_0";
+        public const string ZOOGLEPIN = "F_N_13";
+        public const string ZOOGLEPASSWORD = "F_N_12";
+        public const string CALLRECORDING = "F_DR_25";
+        public const string INCIDENT_REPORT = "F_IV_1";
     }
 
 
@@ -47,18 +49,18 @@ public static partial class Constant
     #region ProfilerInfoKey
     public static class ProfilerInfoKey
     {
-        public const int PARKJUYOUNG_NAME = 7;
-        public const int KIMYUJIN_NAME = 11;
-        public const int CRIMINAL_ACTION = 23;
-        public const int BAT_DETAIL = 40;
-        public const int CCTV_TIME = 47;
-        public const int CCTV_DETAIL = 48;
-        public const int KANGYOHAN_PHONENUMBER = 66;
-        public const int BRANCHID = 67;
-        public const int ZOOGLEPASSWORD = 68;
-        public const int HARMONY_PASSWORD = 69;
-        public const int INCIDENTREPORT_TITLE = 76;
-        public const int CCTV_UYOUNGWHEREABOUTS = 107;
+        public const string PARKJUYOUNG_NAME = "";
+        public const string KIMYUJIN_NAME = "";
+        public const string CRIMINAL_ACTION = "";
+        public const string BAT_DETAIL = "";
+        public const string CCTV_TIME = "";
+        public const string CCTV_DETAIL = "";
+        public const string KANGYOHAN_PHONENUMBER = "";
+        public const string BRANCHID = "";
+        public const string ZOOGLEPASSWORD = "";
+        public const string HARMONY_PASSWORD = "";
+        public const string INCIDENTREPORT_TITLE = "";
+        public const string CCTV_UYOUNGWHEREABOUTS = "";
     }
     #endregion
     #region SiteAddress
@@ -70,26 +72,33 @@ public static partial class Constant
     #region MonologKey
     public static class MonologKey
     {
-        public const int STARTCUTSCENE_1 = 108;
-        public const int STARTCUTSCENE_2 = 109;
-        public const int WINDOWS_LOGIN_COMPLETE = 110;
-        public const int PROFILER_INSTALL_COMPLETE = 111;
-        public const int END_PROFILER_TUTORIAL = 112;
-        public const int WINDOWS_LOGIN_SCREEN_OPEN = 113;
-        public const int LIBRARY_NOT_OPEN = 113;
-        public const int NEEDINFO = 131;
-        public const int TUTORIAL_NOT_FIND_INFO = 134;
-        public const int PETCAM_CUTSCENE_1 = 174;
-        public const int PETCAM_CUTSCENE_2 = 175;
-        public const int PETCAM_CUTSCENE_3 = 176;
-        public const int PETCAM_CUTSCENE_4 = 177;
-        public const int CCTV_CUTSCENE_00 = 181;
-        public const int CCTV_CUTSCENE_01 = 182;
-        public const int CCTV_CUTSCENE_02 = 183;
-        public const int CCTV_CUTSCENE_03 = 184;
-        public const int CCTV_CUTSCENE_04 = 185;
-        public const int FIRST_LOGIN_GUIDE = 214;
-        public const int COMPLETE_OVERLAY = 215;
+        public const string STARTCUTSCENE_1 = "T_CS_S_1";
+        public const string STARTCUTSCENE_2 = "T_CS_S_2";
+        public const string WINDOWS_LOGIN_COMPLETE = "T_CS_S_3";
+        public const string WINDOWS_LOGIN_SCREEN_OPEN = "T_CS_S_4";
+
+        public const string END_PROFILER_TUTORIAL = "T_CS_S_5";
+        public const string PROFILER_INSTALL_COMPLETE = "T_CS_S_6";
+        public const string LIBRARY_NOT_OPEN = "T_M_73";
+        public const string NEEDINFO = "T_M_88";
+        public const string TUTORIAL_NOT_FIND_INFO = "T_M_91";
+        public const string PETCAM_CUTSCENE_1 = "T_CS_P_1";
+        public const string PETCAM_CUTSCENE_2 = "T_CS_P_2";
+        public const string PETCAM_CUTSCENE_3 = "T_CS_P_3";
+        public const string PETCAM_CUTSCENE_4 = "T_CS_P_4";
+        public const string CCTV_CUTSCENE_00 = "T_CS_C_1";
+        public const string CCTV_CUTSCENE_01 = "T_CS_C_2";
+        public const string CCTV_CUTSCENE_02 = "T_CS_C_3";
+        public const string CCTV_CUTSCENE_03 = "T_CS_C_4";
+        public const string CCTV_CUTSCENE_04 = "T_CS_C_5";
+
+        public const string FIRST_LOGIN_GUIDE = "T_M_155";
+        public const string COMPLETE_OVERLAY = "T_M_156";
+
+        public const string TUTORIAL_CANNOT_GETINFO = "T_M_22";
+        public const string TUTORIAL_CANNOT_GETINFO_CALL = "T_M_23";
+
+        public const string TUTORIAL_CALL_ASSISTANT = "T_C_A_4";
     }
     #endregion
     #region MailKey
@@ -114,5 +123,17 @@ public static partial class Constant
         public const int HARMONY_YUZIN = -7;
         public const int HARMONY_JUYOUNG = -8;
         public const int HARMONY_UNKNOWN = -9;
+    }                
+
+    public static class CharacterKey
+    {
+        public const string ASSISTANT = "CD_AS";
+        public const string MISSING = "CD_MS";
     }
+
+    public static class ProfilerCategoryKey
+    {
+        public const string PETCAM = "IC_I_2";
+    }
+
 }

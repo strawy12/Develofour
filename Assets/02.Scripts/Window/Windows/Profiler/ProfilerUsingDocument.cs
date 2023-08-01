@@ -15,7 +15,7 @@ public class ProfilerUsingDocument : MonoBehaviour
 
     public void Init()
     {
-        if (DataManager.Inst.GetProfilerTutorialIdx() != -1)
+        if (DataManager.Inst.IsStartProfilerTutorial())
         {
             return;
         }

@@ -20,15 +20,12 @@ public enum EWindowType // 확장자
     MediaPlayer,
     IconProperty,
     Popup,
-    Calculator,
-    SiteShortCut,
-    HarmonyShortCut,
     Dummy,
     VideoPlayer,
     SoundPlayer,
-    BackgroundBGM,
-    OutStarGramDM,
-    End 
+    BGM,
+    OutStarDM,
+    End
 }
 
 [RequireComponent(typeof(GraphicRaycaster))]
@@ -36,9 +33,6 @@ public class Window : MonoUI, ISelectable
 {
     public static int windowMaxCnt;
     public static Window currentWindow;
-
-    private int openInt = 0;
-
 
     [Header("Window Data")]
     [SerializeField]
@@ -199,7 +193,7 @@ public class Window : MonoUI, ISelectable
         }
     }
 
-    public virtual void WindowOpen()
+    public virtual void WindowOpen(bool isNewWindow)
     {
         WindowManager.Inst.SelectObject(this);
 
@@ -216,8 +210,13 @@ public class Window : MonoUI, ISelectable
         {
             rectTransform.localPosition = Constant.WINDOWMAXIMUMPOS;
         }
-        SizeDoTween();
+
+        if (isNewWindow)
+        {
+            SizeDoTween();
+        }
     }
+
     public virtual void SizeDoTween()
     {
         float minDuration = 0.16f;
@@ -226,7 +225,7 @@ public class Window : MonoUI, ISelectable
         Sequence sequence = DOTween.Sequence();
         sequence.Join(rectTransform.DOScale(1, minDuration));
         sequence.AppendCallback(() => SetActive(true));
-        DataManager.Inst.AddLastAccessDateData(file.id, TimeSystem.TimeCount());
+        DataManager.Inst.AddLastAccessDateData(file.ID, TimeSystem.TimeCount());
     }
     public void CloseEventAdd()
     {
@@ -293,7 +292,7 @@ public class Window : MonoUI, ISelectable
     //EventManager.TriggerEvent(EWindowEvent.AlarmSend, new object[1] { type });
 
     protected virtual void OnDestroyWindow()
-    { 
+    {
         DOTween.Kill(gameObject, true);
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }

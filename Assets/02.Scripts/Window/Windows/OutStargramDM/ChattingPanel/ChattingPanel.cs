@@ -15,15 +15,15 @@ public partial class ChattingPanel : MonoBehaviour
 
     private void ChangeUserChatingData(object[] ps)
     {
-        if (!(ps[0] is OutStarCharacterDataSO)) { return; }
-        OutStarCharacterDataSO characterData = ps[0] as OutStarCharacterDataSO;
+        if (!(ps[0] is OutStarProfileDataSO)) { return; }
+        OutStarProfileDataSO characterData = ps[0] as OutStarProfileDataSO;
         
         ChangeUserData(characterData);
     }
 
-    private void ChangeUserData(OutStarCharacterDataSO data)
+    private void ChangeUserData(OutStarProfileDataSO data)
     {
-        CharacterInfoDataSO characterData = ResourceManager.Inst.GetCharacterDataSO(data.ID);
+        CharacterInfoDataSO characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(data.ID);
         userNameText.SetText(characterData.characterName);
     }
 

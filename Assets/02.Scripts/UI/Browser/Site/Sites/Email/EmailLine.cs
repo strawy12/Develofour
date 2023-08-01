@@ -48,8 +48,6 @@ public class EmailLine : MonoBehaviour
     public MailDataSO MailData => mail.MailData;
     public bool IsFavorited { get { return mail.MailData.isFavorited; } }
 
-    public ProfileOverlayOpenTrigger overlayTrigger;
-
     public void Init(Mail mail)
     {
         this.mail = mail;
@@ -77,7 +75,7 @@ public class EmailLine : MonoBehaviour
 
     public string GetMailTimeData()
     {
-        MailSaveData saveData = DataManager.Inst.GetMailSaveData(MailData.mailID);
+        MailSaveData saveData = DataManager.Inst.GetMailSaveData(MailData.id);
 
         if(saveData != null)
         {
@@ -94,26 +92,9 @@ public class EmailLine : MonoBehaviour
         }
     }
 
-    public void OverlayOpenEventAdd()
-    {
-        Browser.currentBrowser.OnSelected += OverlayOpen;
-    }
-
-    private void OverlayOpen()
-    {
-        if(mail.gameObject.activeSelf)
-        {
-            if(overlayTrigger != null)
-            {
-                overlayTrigger.Open();
-            }
-        }
-    }
-
     public void ShowMail()
     {
-        overlayTrigger.Open();
-        mail.ShowMail();
+        mail.OnOpenMail?.Invoke();
     }
  
     public void HideMail()

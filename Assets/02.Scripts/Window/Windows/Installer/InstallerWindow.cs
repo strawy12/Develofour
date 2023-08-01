@@ -73,8 +73,6 @@ public class InstallerWindow : Window
 
         DataManager.Inst.SaveData.isProfilerInstall = true;
         FileManager.Inst.AddFile(FileManager.Inst.GetAdditionalFile(Constant.FileID.PROFILER), Constant.FileID.BACKGROUND);
-
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.PROFILER_INSTALL_COMPLETE, 0f, true);
     }
 
     public void CheckOpenWindow(bool isWindowOpen)

@@ -66,11 +66,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         attributePanel.OnCloseWindow += CloseIcon;
         attributePanel.OnOpenWindow += ShowFirstWindow;
 
-        //if (windowFile.isAlarm)
-        //{
-        //    EventManager.StartListening(EWindowEvent.AlarmRecieve, Alarm);
-        //    EventManager.StartListening(EWindowEvent.AlarmCheck, AlarmCheck);
-        //}
+        if (windowFile.isAlarm)
+        {
+            EventManager.StartListening(EWindowEvent.AlarmRecieve, Alarm);
+            EventManager.StartListening(EWindowEvent.AlarmCheck, AlarmCheck);
+        }
     }
     
     private void IconException(FileSO windowFile)
@@ -99,11 +99,11 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         attributePanel.OnCloseWindow += CloseIcon;
         attributePanel.OnOpenWindow += ShowFirstWindow;
 
-        //if (windowFile.isAlarm)
-        //{
-        //    EventManager.StartListening(EWindowEvent.AlarmRecieve, Alarm);
-        //    EventManager.StartListening(EWindowEvent.AlarmCheck, AlarmCheck);
-        //}
+        if (windowFile.isAlarm)
+        {
+            EventManager.StartListening(EWindowEvent.AlarmRecieve, Alarm);
+            EventManager.StartListening(EWindowEvent.AlarmCheck, AlarmCheck);
+        }
     }
 
     public void SetIcon(Sprite sprite)
@@ -193,7 +193,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
         if (!window.IsSelected())
         {
-            window.WindowOpen();
+            window.WindowOpen(false);
         }
     }
 

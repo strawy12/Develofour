@@ -110,15 +110,14 @@ public class Library : Window
 
     [SerializeField]
     private Sprite lockLibrary;
-    public override void WindowOpen()
+    public override void WindowOpen(bool isNewWindow)
     {
-        base.WindowOpen();
-        Debug.Log(isNotFirstOpen + "1");
-        if (DataManager.Inst.IsProfilerTutorial())
+        base.WindowOpen(isNewWindow);
+        if (DataManager.Inst.IsPlayingProfilerTutorial())
         {
             TutorialEvent();
         }
-        if (!DataManager.Inst.GetIsClearTutorial())
+        if (!DataManager.Inst.IsClearTutorial())
         {
             OnSelected -= TutorialLibraryClick;
             OnSelected += TutorialLibraryClick;
@@ -126,19 +125,17 @@ public class Library : Window
     }
     public override void SizeDoTween()
     {
-        Debug.Log(isNotFirstOpen + "2");
         if(isNotFirstOpen)
         {
             SetActive(true);
-            DataManager.Inst.AddLastAccessDateData(file.id, TimeSystem.TimeCount());
+            DataManager.Inst.AddLastAccessDateData(file.ID, TimeSystem.TimeCount());
         }
         else
         {
-            Debug.Log("FalseCommand");
             base.SizeDoTween();
         }
         isNotFirstOpen = true;
-        Debug.Log(isNotFirstOpen + "3");
+
     }
     private void TutorialLibraryClick()
     {
@@ -188,7 +185,7 @@ public class Library : Window
 
     private void SetLibraryEvent(object[] obj)
     {
-        if (DataManager.Inst.IsProfilerTutorial())
+        if (DataManager.Inst.IsPlayingProfilerTutorial())
         {
             TutorialEvent();
         }
@@ -218,7 +215,7 @@ public class Library : Window
         //EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
 
-        if (DataManager.Inst.IsProfilerTutorial())
+        if (DataManager.Inst.IsPlayingProfilerTutorial())
         {
             TutorialEvent();
         }
@@ -226,21 +223,19 @@ public class Library : Window
 
     public void TutorialEvent()
     {
-        if (DataManager.Inst.IsProfilerTutorial() == false) return;
-        int idx = DataManager.Inst.GetProfilerTutorialIdx();
-        if (idx != 0 && idx != 2) return;
+        if (DataManager.Inst.IsPlayingProfilerTutorial() == false) return;
 
-        if (currentDirectory.id == Constant.FileID.MYPC)
+        if (currentDirectory.ID == Constant.FileID.MYPC)
         {
             EventManager.TriggerEvent(ETutorialEvent.USBTutorial);
         }
-        else if (currentDirectory.id == Constant.FileID.USB)
+        else if (currentDirectory.ID == Constant.FileID.USB)
         {
             EventManager.TriggerEvent(ETutorialEvent.ReportTutorial);
         }
         else
         {
-            TopFileButton button = fileAddressPanel.TopFileButtons.Find((x) => x.CurrentDirectory.id == Constant.FileID.MYPC);
+            TopFileButton button = fileAddressPanel.TopFileButtons.Find((x) => x.CurrentDirectory.ID == Constant.FileID.MYPC);
 
             //GuideUISystem.EndAllGuide?.Invoke();
             GuideUISystem.OnGuide(button.tutorialSelectImage.transform as RectTransform);
@@ -259,9 +254,9 @@ public class Library : Window
             icon.SetFileData(file); // icon마다의 startTrigger를 이 함수에 넣어야함
             if (file.windowType == EWindowType.Directory)
             {
-                if (DataManager.Inst.IsFileLock(file.id))
+                if (DataManager.Inst.IsPinLock(file.ID))
                 {
-                    icon.ChangeIcon(lockLibrary, file.color);
+                    icon.ChangeIcon(lockLibrary, file.iconColor);
                 }
             }
         }
@@ -384,8 +379,7 @@ public class Library : Window
         base.OnDestroyWindow();
         isNotFirstOpen = false;
         //GuideUISystem.EndAllGuide?.Invoke();
-        Debug.Log(DataManager.Inst.GetProfilerTutorialIdx());
-        if (DataManager.Inst.GetProfilerTutorialIdx() == 0 || DataManager.Inst.GetProfilerTutorialIdx() == 2)
+        if (DataManager.Inst.IsPlayingProfilerTutorial() && ProfilerTutorial.IsLibraryGuide)
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryGuide);
         }

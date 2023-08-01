@@ -7,20 +7,10 @@ using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
 
-[System.Serializable]
-public class DebugEvent
-{
-    public KeyCode keyCode;
-    public UnityEvent debugEvent;
-}
-
 public class Debugger : MonoBehaviour
 {
-    
-#if UNITY_EDITOR
 
-    [SerializeField]
-    private List<DebugEvent> debugEventList;
+#if UNITY_EDITOR
 
     [SerializeField]
     private FileSO todoFile;
@@ -51,52 +41,6 @@ public class Debugger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D))
         {
             MonologSystem.OnStopMonolog?.Invoke();
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            //디버그용 스킵 코드 이벤트까지 지워주기
-            if (GameManager.Inst.GameState == EGameState.Tutorial)
-                EventManager.TriggerEvent(EDebugSkipEvent.TutorialSkip);
-        }
-
-        foreach (DebugEvent e in debugEventList)
-        {
-            if (Input.GetKeyDown(e.keyCode))
-            {
-                e.debugEvent?.Invoke();
-            }
-        }
-
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            //FileManager.Inst.AddFile(300, 1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 77 });
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.KimYujinProfile, 11 });
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 36 });
-
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetProfile, 18 });
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log(DataManager.Inst.IsMonologShow(213));
-        }
-
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-
-            foreach (var temp in ResourceManager.Inst.GetProfileCategory(EProfilerCategory.ParkJuyoungProfile).infoTextList)
-            {
-                EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.ParkJuyoungProfile, temp.id });
-                //DataManager.Inst.AddProfilerSaveData(EProfilerCategory.ParkJuyoungProfile, temp.id);
-            }
         }
 
     }
@@ -146,19 +90,15 @@ public class Debugger : MonoBehaviour
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            FileSO so = AssetDatabase.LoadAssetAtPath<FileSO>(path); 
+            FileSO so = AssetDatabase.LoadAssetAtPath<FileSO>(path);
 
-             if (so.windowType == EWindowType.SiteShortCut)
-            {
-                so.color = UnityEngine.Color.white;
-            }
-            else if (so.windowType == EWindowType.Notepad)
+            if (so.windowType == EWindowType.Notepad)
             {
                 so.iconSprite = notepadSprite;
             }
             else if (so.windowType == EWindowType.ImageViewer)
             {
-                so.color = UnityEngine.Color.white;
+                so.iconColor = UnityEngine.Color.white;
             }
             else if (so.windowType == EWindowType.Directory)
             {
@@ -176,7 +116,7 @@ public class Debugger : MonoBehaviour
             {
                 so.iconSprite = InstallerSprite;
             }
-            else if (so.windowType == EWindowType.BackgroundBGM)
+            else if (so.windowType == EWindowType.BGM)
             {
                 so.iconSprite = backgroundBGMSprite;
             }

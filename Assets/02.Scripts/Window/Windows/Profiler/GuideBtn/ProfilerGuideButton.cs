@@ -47,7 +47,8 @@ public class ProfilerGuideButton : MonoBehaviour
 
     private void StartAiChatting()
     {
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(guideData.guideTextList, 1.5f, true);
+        AIChattingTextDataSO data = ResourceManager.Inst.GetResource<AIChattingTextDataSO>(guideData.guideTextID);
+        ProfilerChattingSystem.OnPlayChatList?.Invoke(data, 1.5f, true);
     } 
 
     private void EndGuide(object[] ps)

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using System.Linq;
 public class OutStarUserPanel : MonoBehaviour, IPointerClickHandler
 {
-    private OutStarCharacterDataSO outStarCharacterData;
+    private OutStarProfileDataSO outStarCharacterData;
     private CharacterInfoDataSO characterData;
 
     public string CharacterID { get => outStarCharacterData.ID; }
@@ -27,10 +27,10 @@ public class OutStarUserPanel : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private GameObject pointerPanel;
 
-    public void Init(OutStarCharacterDataSO characterData)
+    public void Init(OutStarProfileDataSO characterData)
     {
         outStarCharacterData = characterData;
-        this.characterData = ResourceManager.Inst.GetCharacterDataSO(characterData.ID);
+        this.characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(characterData.ID);
         SettingPanel();
     }
     
@@ -42,14 +42,14 @@ public class OutStarUserPanel : MonoBehaviour, IPointerClickHandler
         OutStarTimeChatDataSO lastTimeChat = null;
         foreach(var timeChatID in outStarCharacterData.timeChatIDList)
         {
-            OutStarTimeChatDataSO timeChat = ResourceManager.Inst.GetOutStarTimeChatResourceManager(timeChatID);
+            OutStarTimeChatDataSO timeChat = ResourceManager.Inst.GetResource<OutStarTimeChatDataSO>(timeChatID);
             timeChatList.Add(timeChat);
         }
 
         lastTimeChat = timeChatList.OrderBy(x => x.time).LastOrDefault();
         if(lastTimeChat != null && lastTimeChat.chatDataIDList != null)
         {
-            OutStarChatDataSO lastChatData = ResourceManager.Inst.GetOutStarChatResourceManager(lastTimeChat.chatDataIDList.LastOrDefault());
+            OutStarChatDataSO lastChatData = ResourceManager.Inst.GetResource<OutStarChatDataSO>(lastTimeChat.chatDataIDList.LastOrDefault());
             if(lastChatData != null)
             {
                 lastChatText.text = lastChatData.chatText;

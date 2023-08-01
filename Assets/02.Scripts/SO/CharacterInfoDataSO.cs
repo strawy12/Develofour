@@ -4,11 +4,21 @@ using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "SO/CharacterInfoDataSO")]
-public class CharacterInfoDataSO : ScriptableObject 
+public class CharacterInfoDataSO : ResourceSO 
 {
-    public string id;
     public string characterName;
     public string phoneNum;
     public Sprite profileIcon;
-    public ECharacterDataType characterType;
+
+    public string ID
+    {
+        get => id;
+        set
+        {
+            if (!string.IsNullOrEmpty(id))
+                return;
+
+            id = value;
+        }
+    }
 }

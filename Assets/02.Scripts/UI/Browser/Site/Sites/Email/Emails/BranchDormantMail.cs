@@ -31,7 +31,7 @@ public class BranchDormantMail : Mail
         base.HideMail();
     }
 
-    public override void DestroyMail()
+    protected override void DestroyMail()
     {
         base.DestroyMail();
     }

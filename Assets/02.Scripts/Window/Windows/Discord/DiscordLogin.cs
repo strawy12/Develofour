@@ -77,7 +77,7 @@ public class DiscordLogin : MonoBehaviour
 
     public void ShowIDAccountPanel()
     {
-        if(DataManager.Inst.IsMonologShow(212))
+        if(DataManager.Inst.IsMonologShow("T_CA_P_R_3"))
         {
             IDAccountPanel.gameObject.SetActive(true);
         }
@@ -85,7 +85,7 @@ public class DiscordLogin : MonoBehaviour
 
     public void ShowPWAccountPanel()
     {
-        if(DataManager.Inst.IsProfilerInfoData(66))
+        if(DataManager.Inst.IsProfilerInfoData("T_M_63"))
         {
             pwAccountPanel.gameObject.SetActive(true);
         }
@@ -134,14 +134,14 @@ public class DiscordLogin : MonoBehaviour
     public void SuccessLogin()
     {
         //성공을 알리는 이벤트
-        if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.KANGYOHAN_PHONENUMBER)) //id
+        if (DataManager.Inst.IsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.KANGYOHAN_PHONENUMBER)) //id
         {
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.InvisibleInformation, Constant.ProfilerInfoKey.KANGYOHAN_PHONENUMBER });
+            //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.InvisibleInformation, Constant.ProfilerInfoKey.KANGYOHAN_PHONENUMBER });
         }
 
-        if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.HARMONY_PASSWORD)) //password
+        if (DataManager.Inst.IsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.HARMONY_PASSWORD)) //password
         {
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.InvisibleInformation, Constant.ProfilerInfoKey.HARMONY_PASSWORD });
+           // EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.InvisibleInformation, Constant.ProfilerInfoKey.HARMONY_PASSWORD });
         }
 
         InputManager.Inst.RemoveKeyInput(KeyCode.Return, onKeyDown: OnClickLogin);

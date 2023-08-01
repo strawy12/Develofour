@@ -2,7 +2,6 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
@@ -75,7 +74,7 @@ public class MenuAttributeUI : MonoUI, IPointerEnterHandler, IPointerExitHandler
         rectTransform.sizeDelta = contractSize;
 
         SetActive(true);
-        overlayTrigger.fileID = Constant.OverlayID.START_ATTRIBUTE;
+        overlayTrigger.fileID = Constant.OverlayID.START_ATTRIBUTE.ToString();
         overlayTrigger.Open();
 
         DOTween.To(

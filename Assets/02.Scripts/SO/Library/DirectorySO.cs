@@ -20,7 +20,7 @@ public class DirectorySO : FileSO
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             FileSO so = AssetDatabase.LoadAssetAtPath<FileSO>(path);
-            Debug.Log($"ID: {so.id}");
+            Debug.Log($"ID: {so.ID}");
             Debug.Log($"FileName: {so.fileName}");
             Debug.Log($"WindowType: {so.windowType}");
 

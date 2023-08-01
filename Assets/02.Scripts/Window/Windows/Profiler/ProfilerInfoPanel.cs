@@ -11,6 +11,8 @@ public class ProfilerInfoPanel : MonoBehaviour
     [SerializeField]
     private TMP_Text titleText;
     [SerializeField]
+    private ProfilerTitle title;
+    [SerializeField]
     private Image categoryImage;
     [SerializeField]
     private RectTransform categoryImageParent;
@@ -89,20 +91,20 @@ public class ProfilerInfoPanel : MonoBehaviour
     }
 
 
-    public void ChangeValue(EProfilerCategory category, int id)
+    public void ChangeValue(string category, string infoID)
     {
         if(currentData == null)
         {
             return;
         }
-        if (category != currentData.category)
+        if (category != currentData.ID)
         {
             return;
         }
 
         foreach (var infoText in infoTextList)
         {
-            if (infoText.InfoData.id == id)
+            if (infoText.InfoData.ID == infoID)
             {
                 infoText.Show();
             }
@@ -117,7 +119,6 @@ public class ProfilerInfoPanel : MonoBehaviour
         {
             return;
         }
-
         EventManager.TriggerEvent(EProfilerEvent.HideInfoPanel);
         EventManager.StartListening(EProfilerEvent.Maximum, RefreshSize);
         EventManager.StartListening(EProfilerEvent.Minimum, RefreshSize);
@@ -126,22 +127,34 @@ public class ProfilerInfoPanel : MonoBehaviour
         ProfilerCategoryDataSO categoryData = ps[0] as ProfilerCategoryDataSO;
         currentData = categoryData;
         titleText.SetText(currentData.categoryName);
+        title.Setting(currentData.categoryName);
         SpriteSetting();
 
-        if(currentData.defaultInfoText != null)
+        if(!string.IsNullOrEmpty(currentData.defaultInfoID))
         {
+            ProfilerInfoDataSO infoData = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(currentData.defaultInfoID);
+            if(infoData == null)
+            {
+                Debug.Log($"{currentData.defaultInfoID} == null");
+            }
             ProfilerInfoText infoText = Pop();
-            infoText.Setting(currentData.defaultInfoText);
+            infoText.Setting(infoData);
             infoText.Show();
             infoText.gameObject.SetActive(true);
         }
 
-        foreach (var infoData in currentData.infoTextList)
+        foreach (string infoID in currentData.infoIDList)
         {
+            ProfilerInfoDataSO infoData = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(infoID.Trim());
+            if(infoData == null)
+            {
+                Debug.Log($"{infoID.Trim()} null Data");
+                continue;
+            }
+           
             ProfilerInfoText infoText = Pop();
             infoText.Setting(infoData);
-
-            if (DataManager.Inst.IsProfilerInfoData(infoText.InfoData.id))
+            if (DataManager.Inst.IsProfilerInfoData(infoText.InfoData.ID))
             {
                 infoText.Show();
                 infoText.gameObject.SetActive(true);
@@ -215,12 +228,12 @@ public class ProfilerInfoPanel : MonoBehaviour
         return true;
     }
 
-    public string SetInfoText(int id)
+    public string SetInfoText(string id)
     {
         string answer = "";
         foreach (var infoText in infoTextList)
         {
-            if (id == infoText.InfoData.id)
+            if (id == infoText.InfoData.ID)
             {
                 answer = infoText.InfoData.noticeText;
             }
@@ -236,11 +249,4 @@ public class ProfilerInfoPanel : MonoBehaviour
         EventManager.StopListening(EProfilerEvent.Minimum, RefreshSize);
 
     }
-    //private void FillPostItColor()
-    //{
-    //DOTween.To(
-    //    () => currentImage.material.GetFloat("_Dissolve"),
-    //    (v) => currentImage.material.SetFloat("_Dissolve", v),
-    //    1f, 3f);
-    //}
-}
+ }

@@ -55,7 +55,7 @@ public class FileManager : MonoSingleton<FileManager>
         {
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
-                int directoryID = DataManager.Inst.GetAdditionFileData(fileData.id).directoryID;
+                string directoryID = DataManager.Inst.GetAdditionFileData(fileData.ID).directoryID;
                 AddFile(fileData, directoryID);
             }
         }
@@ -70,21 +70,32 @@ public class FileManager : MonoSingleton<FileManager>
         FileSO file = defaultFileDictionary[windowType];
         return file;
     }
-
-    public FileSO GetAdditionalFile(int key)
+    public FileSO GetFile(string key)
     {
-        FileSO file = additionFileList.Find((x) => x.id == key);
+        List<FileSO> allFileList = GetALLUnLockFileList(rootDirectory, true);
+        allFileList.AddRange(defaultFileList);
+        FileSO file = allFileList.Find(x => x.ID == key);
+        if(file == null)
+        {
+            Debug.LogError($"{key}를 id로 가지고있는 파일이 존재하지않습니다.");
+        }
+        return file;
+    }
+    public FileSO GetAdditionalFile(string key)
+    {
+        FileSO file = additionFileList.Find((x) => x.ID == key);
         return file;
     }
 
-    public void AddFile(int file, int directoryID)
+    public void AddFile(string file, string directoryID)
     {
         AddFile(GetAdditionalFile(file),directoryID);
     }
-    public void AddFile(FileSO file, int directoryID)
+    public void AddFile(FileSO file, string directoryID)
     {
         List<FileSO> fileList = GetALLFileList();
-        DirectorySO directory = fileList.Find(x=>x.id == directoryID) as DirectorySO;
+        // 이분탐색 만들 때 Define에다 만들든 함수를 따로 빼서 작업해야해
+        DirectorySO directory = fileList.Find(x=>x.ID == directoryID) as DirectorySO;
 
         if (!directory.children.Contains(file))
         {
@@ -100,6 +111,7 @@ public class FileManager : MonoSingleton<FileManager>
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AddFile, 0.5f);
     }
+
     public List<FileSO> GetALLUnLockFileList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
         //fileList.Clear();
@@ -128,7 +140,7 @@ public class FileManager : MonoSingleton<FileManager>
                 {
                     continue;
                 }
-                if(DataManager.Inst.IsFileLock(file.id))
+                if(DataManager.Inst.IsPinLock(file.ID))
                 {
                     continue;
                 }
@@ -191,11 +203,11 @@ public class FileManager : MonoSingleton<FileManager>
         return fileList;
     }
 
-    public bool IsExistFile(int id)
+    public bool IsExistFile(string id)
     {
         List<FileSO> allFileList = GetALLFileList();
 
-        return allFileList.Find(x => x.id == id) == true;
+        return allFileList.Find(x => x.ID == id) == true;
     }
     public List<FileSO> SearchFile(string text, DirectorySO currentDirectory = null)
     {

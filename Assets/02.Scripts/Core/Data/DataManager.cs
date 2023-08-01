@@ -38,18 +38,19 @@ public partial class DataManager : MonoSingleton<DataManager>
     {
         saveData = new SaveData();
         saveData.additionFileData = new List<AdditionFileData>();
-        saveData.aiChattingList = new List<string>();
+        saveData.aiChattingList = new List<AIChat>();
         saveData.branchPostLockData = new List<string>();
         saveData.savePhoneNumber = new List<string>();
         saveData.branchPassword = "";
-        saveData.returnMonologData = new List<ReturnMonologData>();
+        saveData.returnCallData = new List<ReturnCallData>();
         saveData.lastAccessDateData = new List<LastAccessDateData>();
         saveData.profilerGuideBtnSaveData = new List<string>();
+        saveData.monologData = new List<MonologSaveData>();
+        saveData.profilerSaveData = new List<ProfilerSaveData>();
+        saveData.profilerTutorialData = new TutorialData();
         CreateLoginData();
-        ProfilerSaveData();
         CreateGuideSaveData();
-        CreateMonologData();
-        CreateFileLockData();
+        CreatePinLockData();
         CreateNoticeDataSave();
 
         SaveToJson();
@@ -57,9 +58,24 @@ public partial class DataManager : MonoSingleton<DataManager>
         debug_Data = saveData;
     }
 
-    public void AddAiChattingList(string data)
+    public void AddImageAiChattingList(Sprite data)
     {
-        saveData.aiChattingList.Add(data);
+        AIChat aichat = new AIChat();
+        aichat.sprite = data;
+        saveData.aiChattingList.Add(aichat);
+        Debug.Log(saveData.aiChattingList.Count);
+    }
+
+    public void AddTextAiChattingList(string data)
+    {
+        AIChat aichat = new AIChat();
+        aichat.text = data;
+        saveData.aiChattingList.Add(aichat);
+    }
+
+    public int AIChattingListCount()
+    {
+        return saveData.aiChattingList.Count;
     }
 
     private void OnDestroy()

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -137,7 +138,7 @@ public static class Define
         return FileManager.Inst.IsExistFile(Constant.FileID.PROFILER);
     }
 
-    public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<NeedInfoData> needInfoList, List<int> infoIDList)
+    public static CursorChangeSystem.ECursorState ChangeInfoCursor(List<NeedInfoData> needInfoList, List<string> infoIDList)
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
@@ -219,34 +220,21 @@ public static class Define
         image.rectTransform.sizeDelta = size * scale;
     }
 
-    public static bool MonologLockDecisionFlag(List<MonologLockDecision> list)
+    public static bool NeedInfoFlag(List<string> list)
     {
-        if (list == null) return true;
+        if (list == null) return false;
 
-        foreach (MonologLockDecision decision in list)
+        foreach (string infoID in list)
         {
-            switch (decision.decisionType)
+            if (!DataManager.Inst.IsProfilerInfoData(infoID))
             {
-                case MonologLockDecision.EDecisionType.Information:
-                    // 해당 정보 id를 비교하여 정보를 획득했는지 확인
-                    if (!DataManager.Inst.IsProfilerInfoData(decision.key))
-                    {
-                        return false;
-                    }
-                    break;
-
-                case MonologLockDecision.EDecisionType.Monolog:
-                    if (!DataManager.Inst.IsMonologShow(decision.key))
-                    {
-                        return false;
-                    }
-                    break;
+                return false;
             }
         }
 
         return true;
     }
-    
+
     public static string GetOutStarTimeText(DateTime dateTime)
     {
         string timeText = "";
@@ -276,7 +264,8 @@ public static class Define
         {
             foreach (TextTriggerData trigger in triggerList)
             {
-                Vector2 pos = text.textInfo.characterInfo[trigger.startIdx].topLeft; 
+
+                Vector2 pos = text.textInfo.characterInfo[trigger.startIdx].topLeft;
 
                 for (int i = trigger.startIdx + 1; i < text.text.Length; i++)
                 {
@@ -293,6 +282,7 @@ public static class Define
         }
     }
 
+
     public static void SetTiggerSize(TMP_Text text, List<TextTriggerData> triggerList)
     {
         text.ForceMeshUpdate();
@@ -300,7 +290,7 @@ public static class Define
         {
             foreach (TextTriggerData triggerData in triggerList)
             {
-      
+
                 RectTransform triggerRectTrm = (RectTransform)triggerData.trigger.transform;
                 Vector2 newSize = CalcTextMaxSize(triggerData.startIdx, triggerData.endIdx, text);
                 triggerRectTrm.sizeDelta = newSize;
@@ -339,5 +329,39 @@ public static class Define
         Vector2 newSize = new Vector2(bottomRight.x - topLeft.x, topLeft.y - bottomRight.y);
         return newSize;
     }
+
+    public static void CheckTutorialState(ISelectable myObj)
+    {
+        if(GameManager.Inst.GameState == EGameState.Tutorial_Chat)
+        {
+            //채팅이 끝나야함
+            //프로파일러 클릭
+            if((WindowManager.Inst.SelectedObject == myObj && !ProfilerChattingSystem.isChatting)
+                && TutorialFlagCheck() == false)
+            {
+                GameManager.Inst.ChangeGameState(EGameState.Tutorial_NotChat);
+            }
+        }
+    }
+
+    public static bool TutorialFlagCheck()
+    {
+        return ProfilerTutorial.IsExistCharacterTODO || ProfilerTutorial.IsExistIncidentTODO;
+    }
+
+#if UNITY_EDITOR
+    public static List<T> GuidsToList<T>(string filtter) where T : UnityEngine.Object
+    {
+        string[] guids = AssetDatabase.FindAssets(filtter, null);
+        List<T> SOList = new List<T>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            SOList.Add(AssetDatabase.LoadAssetAtPath<T>(path));
+        }
+
+        return SOList;
+    }
+#endif
 
 }

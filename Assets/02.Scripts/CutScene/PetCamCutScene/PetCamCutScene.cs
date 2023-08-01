@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using static Constant;
 
 public class PetCamCutScene : CutScene
 {
@@ -44,8 +45,9 @@ public class PetCamCutScene : CutScene
 
     private void QurrelMonologStart()
     {
-        MonologSystem.OnEndMonologEvent = ByTheCollarImageFadeIn;
-        StartMonolog(Constant.MonologKey.PETCAM_CUTSCENE_1);
+        string monologID = MonologKey.PETCAM_CUTSCENE_1;
+        MonologSystem.AddOnEndMonologEvent(monologID, ByTheCollarImageFadeIn);
+        StartMonolog(monologID);
     }
 
     private void ByTheCollarImageFadeIn()
@@ -57,9 +59,10 @@ public class PetCamCutScene : CutScene
 
     private void ByTheCollarMonologStart()
     {
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetCam, 41 });
-        MonologSystem.OnEndMonologEvent = PetKickImageFadeIn;
-        StartMonolog(Constant.MonologKey.PETCAM_CUTSCENE_2);
+        string monologID = MonologKey.PETCAM_CUTSCENE_2;
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { ProfilerCategoryKey.PETCAM, "" });
+        MonologSystem.AddOnEndMonologEvent(monologID, PetKickImageFadeIn);
+        StartMonolog(monologID);
     }
 
     private void PetKickImageFadeIn()
@@ -82,13 +85,14 @@ public class PetCamCutScene : CutScene
 
     private void PetKickMonologStart()
     {
-        MonologSystem.OnEndMonologEvent = FallenPetImageFadeIn;
-        StartMonolog(Constant.MonologKey.PETCAM_CUTSCENE_3);
+        string monologID = Constant.MonologKey.PETCAM_CUTSCENE_3;
+        MonologSystem.AddOnEndMonologEvent(monologID, FallenPetImageFadeIn);
+        StartMonolog(monologID);
     }
 
     private void FallenPetImageFadeIn()
     {
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetCam, 110 });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { ProfilerCategoryKey.PETCAM, "" });
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(fallenPetImage.DOFade(1, fallenPetImageFadeInDelay));
@@ -97,16 +101,17 @@ public class PetCamCutScene : CutScene
 
     private void FallenPetMonologStart()
     {
-        MonologSystem.OnEndMonologEvent = () => StartCoroutine(ExitSoundCoroutine());
-        StartMonolog(Constant.MonologKey.PETCAM_CUTSCENE_4);
+        string monologID = Constant.MonologKey.PETCAM_CUTSCENE_4;
+        MonologSystem.AddOnEndMonologEvent(monologID, () => StartCoroutine(ExitSoundCoroutine()));
+        StartMonolog(monologID);
     }
 
     private IEnumerator ExitSoundCoroutine()
     {
         float soundLength = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.ExitDoor);
         yield return new WaitForSeconds(soundLength + exitSoundAfterDelay);
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetCam, 111 });
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetCam, 112 });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { ProfilerCategoryKey.PETCAM, "" });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { ProfilerCategoryKey.PETCAM, "" });
         StopCutScene();
     }
 

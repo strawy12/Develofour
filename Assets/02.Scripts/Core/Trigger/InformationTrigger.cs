@@ -7,41 +7,31 @@ using static Constant.ProfilerInfoKey;
 [System.Serializable]
 public class NeedInfoData
 {
-    public int needInfoID;
-    public int monologID;
+    public string needInfoID;
+    public string monologID;
     // needInfoID를 충족하지 않더라도 즉시 정보를 획득
     public bool getInfo;
 }
 
 public class InformationTrigger : MonoBehaviour
 {
-    /// <summary>
-    /// 정보들 id들 넣는 곳입니다.
+    [SerializeField]
+    protected string triggerID;
+
     protected TriggerDataSO triggerData;
-    public int triggerID = 0;
-    public List<int> infoDataIDList;
-    public int fileID;
-    public List<NeedInfoData> needInfoList;
-    //public int fileID
-    [SerializeField] protected int monoLogType;
-    public int completeMonologType = 0;
-    public float delay;
-    public bool isFakeInfo;
+    public TriggerDataSO TriggerData => triggerData;
 
-    protected int playMonologType = 0;
+    protected string playMonologType = "";
 
-
-    public int MonologID
-    {
-        get
-        {
-            return monoLogType;
-        }
-        set
-        {
-            monoLogType = value;
-        }
-    }
+    //public string MonologID => triggerData.monoLogType;
+    //public List<int> infoDataIDList;
+    //public int fileID;
+    //public List<NeedInfoData> needInfoList;
+    ////public int fileID
+    //[SerializeField] protected int monoLogType;
+    //public int completeMonologType = 0;
+    //public float delay;
+    //public bool isFakeInfo;
 
     protected virtual void Awake()
     {
@@ -59,48 +49,38 @@ public class InformationTrigger : MonoBehaviour
     {
         if (triggerData == null)
         {
-            triggerData = ResourceManager.Inst.GetTriggerDataSOResources(triggerID.ToString());
+            triggerData = ResourceManager.Inst.GetResource<TriggerDataSO>(triggerID);
             if (triggerData == null)
             {
                 return;
             }
         }
-        infoDataIDList = triggerData.infoDataIDList;
-        fileID = triggerData.fileID;
-        needInfoList = triggerData.needInfoList;
-        monoLogType = triggerData.monoLogType;
-        completeMonologType = triggerData.completeMonologType;
-        delay = triggerData.delay;
-        isFakeInfo = triggerData.isFakeInfo;
     }
 
     public void FindInfo()
     {
         Bind();
+
+        if (GameManager.Inst.GameState == EGameState.Tutorial_Chat)
+        {
+            MonologSystem.OnStartMonolog(Constant.MonologKey.TUTORIAL_CANNOT_GETINFO, false);
+            return;
+        }
+        if (GameManager.Inst.GameState == EGameState.Tutorial_Call)
+        {
+            MonologSystem.OnStartMonolog(Constant.MonologKey.TUTORIAL_CANNOT_GETINFO_CALL, false);
+            return;
+        }
+
+
         if (!CheckAllInfoFound())
         {
             bool playMonolog = false;
 
-            foreach (var infoID in infoDataIDList)
+            foreach (var infoID in triggerData.infoDataIDList)
             {
-                if (!DataManager.Inst.GetIsClearTutorial())
-                {
-                    int idx = DataManager.Inst.GetProfilerTutorialIdx();
-                    if (
-                        (idx == 0 &&
-                        infoID == INCIDENTREPORT_TITLE)
-                        ||
-                        (idx == 2 &&
-                        (infoID == KIMYUJIN_NAME || infoID == PARKJUYOUNG_NAME))
-                    )
-                    {
-                        playMonolog = true;
-                    }
-                    else
-                        continue;
-                }
                 playMonolog = true;
-                if (!isFakeInfo)
+                if (!triggerData.isFakeInfo)
                 {
                     EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[1] { infoID });
                 }
@@ -108,35 +88,35 @@ public class InformationTrigger : MonoBehaviour
 
             if (!playMonolog)
             {
-                MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIAL_NOT_FIND_INFO, 0.1f, false);
+                MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.TUTORIAL_NOT_FIND_INFO, false);
                 return;
             }
         }
         else
         {
-            if (completeMonologType != 0)
+            if (!string.IsNullOrEmpty(triggerData.completeMonologType))
             {
-                playMonologType = completeMonologType;
+                playMonologType = triggerData.completeMonologType;
             }
         }
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.FindInfoTrigger);
-        MonologSystem.OnStartMonolog?.Invoke(playMonologType, delay, false);
+        MonologSystem.OnStartMonolog?.Invoke(playMonologType, false);
 
 
     }
 
     public void GetInfo()
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
+        if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
 
-        if (infoDataIDList.Count == 0 || infoDataIDList == null)
+        if (triggerData.infoDataIDList.Count == 0 || triggerData.infoDataIDList == null)
         {
-            MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, false);
+            MonologSystem.OnStartMonolog?.Invoke(triggerData.monoLogType, false);
             return;
         }
-        playMonologType = monoLogType;
+        playMonologType = triggerData.monoLogType;
 
-        foreach (NeedInfoData needData in needInfoList)
+        foreach (NeedInfoData needData in triggerData.needInfoList)
         {
             // 이것이 -1이라면 즉시 정보 획득을 하라는 의미
             if (needData.getInfo)
@@ -147,9 +127,9 @@ public class InformationTrigger : MonoBehaviour
 
             if (!DataManager.Inst.IsProfilerInfoData(needData.needInfoID))
             {
-                int id = needData.monologID == 0 ? Constant.MonologKey.NEEDINFO : needData.monologID;
+                string id = string.IsNullOrEmpty(needData.needInfoID) ? Constant.MonologKey.NEEDINFO : needData.monologID;
                 Debug.Log(id);
-                MonologSystem.OnStartMonolog?.Invoke(id, delay, false);
+                MonologSystem.OnStartMonolog?.Invoke(id, false);
                 Sound.OnPlaySound?.Invoke(Sound.EAudioType.LockInfoTrigger);
                 return;
             }
@@ -161,7 +141,7 @@ public class InformationTrigger : MonoBehaviour
 
     protected bool CheckAllInfoFound()
     {
-        foreach (var infoID in infoDataIDList)
+        foreach (var infoID in triggerData.infoDataIDList)
         {
             if (!DataManager.Inst.IsProfilerInfoData(infoID))  // 찾은 정보인지 확인
             {

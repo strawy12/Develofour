@@ -31,7 +31,7 @@ public class VolumeHandler : MonoBehaviour
 
             case EGameState.Game:
             case EGameState.CutScene:
-            case EGameState.Tutorial:
+            case EGameState.Tutorial_NotChat:
                 volume.profile = cutSceneData;
                 break;
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public partial class GuideManager : MonoBehaviour
+public partial class GuideSystem : MonoBehaviour
 {
     public static Action<EGuideTopicName, float> OnPlayGuide;
     public static Action<ProfilerGuideDataSO> OnPlayInfoGuide;
@@ -74,21 +74,21 @@ public partial class GuideManager : MonoBehaviour
         }
         FileSO file = (FileSO)ps[0];
 
-        if (file.id == Constant.FileID.ZOOGLEPIN)
+        if (file.ID == Constant.FileID.ZOOGLEPIN)
         {
             EventManager.TriggerEvent(EProfilerEvent.AddGuideButton, new object[1] { Constant.ZOOGLEPASSWORDGUIDE });
         }
     }
 
-    private void SendAiChattingGuide(string str, bool isSave)
-    {   
-        ProfilerChattingSystem.OnPlayChat?.Invoke(str, isSave, false);
-    }
+    //private void SendAiChattingGuide(string str, bool isSave)
+    //{   
+    //    ProfilerChattingSystem.OnPlayChat?.Invoke(str, isSave, false);
+    //}
 
-    private void SendAiChattingGuide(string[] strList, float delay, bool isSave)
-    {
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(strList.ToList(), delay, isSave);
-    }
+    //private void SendAiChattingGuide(string[] strList, float delay, bool isSave)
+    //{
+    //    ProfilerChattingSystem.OnPlayChatList?.Invoke(strList.ToList(), delay, isSave);
+    //}
 
     private void OnApplicationQuit()
     {

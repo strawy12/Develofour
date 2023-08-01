@@ -8,39 +8,31 @@ public enum EProfilerCategoryType
     None = 0,
     Info,
     Character,
+    Visiable,
 }
 
 [CreateAssetMenu(menuName = "SO/Profiler/ProfilerInfo/Category")]
-public class ProfilerCategoryDataSO : ScriptableObject
+public class ProfilerCategoryDataSO : ResourceSO
 {
-    [Header("Category")]
-    public EProfilerCategory category;
-    public EProfilerCategoryType categoryType;
-    public Sprite categorySprite;
-    public string categoryName;
-    [Header("Information")]
-    [SerializeField]
-    public List<ProfilerInfoTextDataSO> infoTextList;
-    public ProfilerInfoTextDataSO defaultInfoText;
-
-    public ProfilerInfoTextDataSO GetSaveData(int id)
+    public string ID
     {
-        ProfilerInfoTextDataSO data = null;
-
-        foreach(ProfilerInfoTextDataSO saveData in infoTextList)
+        get => id;
+        set
         {
-            if (saveData.id == id)
-            {
-                data = saveData;
-            }
+            if (!string.IsNullOrEmpty(value))
+                return;
+            id= value;
         }
-
-        if (data == null)
-        {
-            Debug.LogError($"해당 키: {id}에 대한 정보가 있지 않습니다. SO를 확인해보세요");
-        }
-        return data;
     }
 
+    public EProfilerCategoryType categoryType;
+    
+    public Sprite categorySprite;
+    public string categoryName;
+
+    [Header("Information")]
+    [SerializeField]
+    public List<string> infoIDList;
+    public string defaultInfoID;
 }
 

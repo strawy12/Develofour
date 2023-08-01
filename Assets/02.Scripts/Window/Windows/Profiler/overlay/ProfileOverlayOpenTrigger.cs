@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class ProfileOverlayOpenTrigger : MonoBehaviour
 {
-    public int fileID;
+    public string fileID;
 
     public List<InformationTrigger> triggerCount;
 
@@ -27,18 +27,9 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
             {
                 return;
             }
-
-            if(triggerCount.Count != 0)
-            {
-                fileID = triggerCount[0].fileID;
-            }
+            isSetting = true;
         }
         ProfileOverlaySystem.OnOpen?.Invoke(fileID, triggerCount);
-    }
-
-    public void OpenByIntList(int fileID, List<int> listInt)
-    {
-        ProfileOverlaySystem.OnOpenInt?.Invoke(fileID, listInt);
     }
 
     //private void CheckClose(object[] hits)

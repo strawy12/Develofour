@@ -65,7 +65,7 @@ public partial class MediaPlayer : Window
     {
         base.Init();
 
-        mediaPlayerData = ResourceManager.Inst.GetMediaPlayerData(file.id);
+        mediaPlayerData = ResourceManager.Inst.GetResource<MediaPlayerDataSO>(file.ID);
 
         if(mediaPlayerData.body != null)
         {
@@ -114,9 +114,9 @@ public partial class MediaPlayer : Window
         OverlayOpen();
     }
 
-    public override void WindowOpen()
+    public override void WindowOpen(bool isNewWindow)
     {
-        base.WindowOpen();
+        base.WindowOpen(isNewWindow);
         body.SetPosition();
     }
 

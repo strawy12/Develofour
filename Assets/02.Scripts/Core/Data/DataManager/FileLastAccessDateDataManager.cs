@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class DataManager
+public partial class DataManager : MonoSingleton<DataManager>
 {
-    public void AddLastAccessDateData(int id,DateTime dateTime)
+    public void AddLastAccessDateData(string id,DateTime dateTime)
     {
         LastAccessDateData data =  SaveData.lastAccessDateData.Find(x=> x.fileID == id);
         string dateData = $"{dateTime.Year}년 {dateTime.Month.ToString("D2")}월 {dateTime.Day.ToString("D2")}일";
@@ -19,7 +19,7 @@ public partial class DataManager
         data.date = dateData;
     }
 
-    public string GetLastAcccestDate(int id)
+    public string GetLastAcccestDate(string id)
     {
         LastAccessDateData data = SaveData.lastAccessDateData.Find(x => x.fileID == id);
         if(data == null)

@@ -65,8 +65,6 @@ public class EmailSite : Site
     private TextMeshProUGUI receiveMailCntText;
     private int receiveMailCnt = 0;
 
-    public Action miniGameClear;
-
     public override void Init()
     {
         receiveBtn.onClick.AddListener(() => ChangeAlignCategory(EEmailCategory.Receive));
@@ -91,13 +89,7 @@ public class EmailSite : Site
         {
             EmailLine emailLine = Instantiate(emailLinePrefab, emailLineParent);
             emailLine.Init(mail);
-            ProfileOverlayOpenTrigger trigger = mail.GetComponent<ProfileOverlayOpenTrigger>();
-            if(trigger != null)
-            {
-                emailLine.overlayTrigger = trigger;
-                mail.OnOverlayClose += emailLine.overlayTrigger.Close;
-                emailLine.OverlayOpenEventAdd();
-            }
+
             emailLine.gameObject.SetActive(false);
             mail.Init();
 
@@ -124,7 +116,7 @@ public class EmailSite : Site
             {
                 if(CheckCategoryData(mail, (int)EEmailCategory.Invisible))
                 {
-                    if(DataManager.Inst.GetMailSaveData(mail.MailData.mailID) == null)
+                    if(DataManager.Inst.GetMailSaveData(mail.MailData.id) == null)
                     {
                         continue;
                     }
@@ -158,13 +150,13 @@ public class EmailSite : Site
 
     private async void VisiableMail(object[] ps)
     {
-        if (ps == null || !(ps[0] is int))
+        if (ps == null || !(ps[0] is string))
         {
             return;
         }
-        int type = (int)ps[0];
+        string type = (string)ps[0];
 
-        EmailLine line = baseEmailLineList.Find(x => x.MailData.mailID == type);
+        EmailLine line = baseEmailLineList.Find(x => x.MailData.id == type);
         float delay = 0f;
         if(ps.Length == 2)
         {
@@ -206,7 +198,7 @@ public class EmailSite : Site
             bool flag2 = category.ContainMask((int)EEmailCategory.Invisible) == false;
             if(flag2 == false)
             {
-                flag2 = DataManager.Inst.GetMailSaveData(n.MailData.mailID) != null; 
+                flag2 = DataManager.Inst.GetMailSaveData(n.MailData.id) != null; 
             }
             bool flag3 = (currentCategory != EEmailCategory.Remove && category.ContainMask((int)EEmailCategory.Remove)) == false;
 

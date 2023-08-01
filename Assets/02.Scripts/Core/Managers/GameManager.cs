@@ -20,8 +20,9 @@ public class GameManager : MonoSingleton<GameManager>
     private GameObject cutSceneCanvas;
     public GameObject CutSceneCanvas => cutSceneCanvas;
 
-    public bool IsTutorial => gameState == EGameState.Tutorial;
+    public bool IsTutorial => gameState == EGameState.Tutorial_NotChat;
     public bool isApplicationQuit { get; private set; }
+
 
     public void Init()
     {

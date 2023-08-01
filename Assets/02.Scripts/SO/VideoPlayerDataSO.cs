@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Window/VideoPlayer/Data")]
-public class VideoPlayerDataSO : ScriptableObject
+public class VideoPlayerDataSO : ResourceSO
 {
-    public int fileId;
+    //id is fileID
+    public string FileID
+    {
+        get => id;
+        set
+        {
+            if (!string.IsNullOrEmpty(id))
+                return;
+
+            id = value;
+        }
+    }
+
     public Sprite sprite;
     public CutScene cutScene;
     public Vector2 imageSize;
 }
-    

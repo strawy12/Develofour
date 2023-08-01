@@ -70,7 +70,7 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.InputField.characterLimit = 4;
 
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
-        hintText.text = "힌트: 만우절 + 밸런타인 데이";
+        hintText.text = "만우절 + 밸런타인 데이 = XXXX";
         hintText.gameObject.SetActive(true);
 
         passwordField.InputField.onValueChanged.AddListener(CheckInputNumber);
@@ -91,6 +91,13 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void CheckInputNumber(string text)
     {
+        if (text.Length >= 5)
+        {
+            StopAllCoroutines();
+            StartCoroutine(MaxInputFourLength());
+            return;
+        }
+
         if (!int.TryParse(text, out _))
         {
             if (hintText.gameObject.activeSelf == false)
@@ -107,14 +114,22 @@ public class WindowsLoginScreen : MonoBehaviour
         }
     }
 
+    private IEnumerator MaxInputFourLength()
+    {
+        hintText.text = "최대 4자까지만 가능합니다";
+
+        yield return new WaitForSeconds(numberWrongDuration);
+
+        hintText.text = "만우절 + 밸런타인 데이 = XXXX";
+    }
+
     private IEnumerator InputOnlyNumberCoroutine()
     {
         hintText.text = "숫자만 입력 가능합니다";
 
         yield return new WaitForSeconds(numberWrongDuration);
 
-
-        hintText.text = "힌트: 만우절 + 밸런타인 데이";
+        hintText.text = "만우절 + 밸런타인 데이 = XXXX";
 
     }
 
@@ -177,14 +192,15 @@ public class WindowsLoginScreen : MonoBehaviour
     private void OpenLoginFailUI()
     {
         failedLoginCnt++;
-        if(failedLoginCnt == 1)
-        {
-            GuideManager.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 450);
-        }
-        if (failedLoginCnt >= 5)
-        {
-            GuideManager.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 1.5f);
-        }
+        //TODO
+        //if(failedLoginCnt == 1)
+        //{
+        //    GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 450);
+        //}
+        //if (failedLoginCnt >= 5)
+        //{
+        //    GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 1.5f);
+        //}
 
         loginFailUI.SetActive(true);
         loginInputUI.SetActive(false);
@@ -198,14 +214,15 @@ public class WindowsLoginScreen : MonoBehaviour
     private void StartMonolog()
     {
         //Sound.OnPlaySound(Sound.EAudioType.USBConnect);
-        MonologSystem.OnEndMonologEvent = USBNoticeFunc;
-        MonologSystem.OnStartMonolog(Constant.MonologKey.WINDOWS_LOGIN_COMPLETE, monologDelay, true);
+        string monologID = Constant.MonologKey.WINDOWS_LOGIN_COMPLETE;
+        MonologSystem.AddOnEndMonologEvent(monologID, USBNoticeFunc);
+        MonologSystem.OnStartMonolog(monologID, true);
     }
 
     private void USBNoticeFunc()
     {
         NoticeSystem.OnGeneratedNotice(ENoticeType.ConnectUSB, 0.5f);
 
-        GuideManager.OnPlayGuide(EGuideTopicName.LibraryOpenGuide, 40);
+        //GuideSystem.OnPlayGuide(EGuideTopicName.LibraryOpenGuide, 40);
     }
 }

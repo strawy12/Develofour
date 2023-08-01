@@ -105,12 +105,9 @@ public class ProfilerInventoryPanel : MonoBehaviour
         sceneCategoryList = new List<ProfilerCategoryDataSO>();
         characterCategoryList = new List<ProfilerCategoryDataSO>();
         categorysQueue = new Queue<ProfilerCategoryPrefab>();
-        sceneCategoryList = ResourceManager.Inst.GetProfilerCategoryList()
-            .Where(x => x.Value.categoryType == EProfilerCategoryType.Info)
-            .Select(x => x.Value).ToList();
-        characterCategoryList = ResourceManager.Inst.GetProfilerCategoryList()
-            .Where(x => x.Value.categoryType == EProfilerCategoryType.Character)
-            .Select(x => x.Value).ToList();
+        List<ProfilerCategoryDataSO> categoryDataList = ResourceManager.Inst.GetResourceList<ProfilerCategoryDataSO>();
+        sceneCategoryList = categoryDataList.Where(x => x.categoryType == EProfilerCategoryType.Info).ToList();
+        characterCategoryList = categoryDataList.Where(x => x.categoryType == EProfilerCategoryType.Character).ToList();
 
         categoryType = EProfilerCategoryType.None;
 
@@ -140,9 +137,9 @@ public class ProfilerInventoryPanel : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-    public void AddProfileCategoryPrefab(EProfilerCategory category)
+    public void AddProfileCategoryPrefab(string categoryID)
     {
-        if(category == EProfilerCategory.InvisibleInformation)
+        if(!categoryID.Contains("_V_"))
         {
             return;
         }
@@ -151,9 +148,9 @@ public class ProfilerInventoryPanel : MonoBehaviour
         {
             foreach (var data in characterCategoryList)
             {
-                if (data.category == category)
+                if (data.ID == categoryID)
                 {
-                    var prefab = categoryList.Find(x => x.CurrentData.category == category);
+                    var prefab = categoryList.Find(x => x.CurrentData.ID == categoryID);
                     prefab.Show(data);
                 }
             }
@@ -162,9 +159,9 @@ public class ProfilerInventoryPanel : MonoBehaviour
         {
             foreach (var data in sceneCategoryList)
             {
-                if (data.category == category)
+                if (data.ID == categoryID)
                 {
-                    var prefab = categoryList.Find(x => x.CurrentData.category == category);
+                    var prefab = categoryList.Find(x => x.CurrentData.ID == categoryID);
                     prefab.Show(data);
                 }
             }
@@ -216,9 +213,13 @@ public class ProfilerInventoryPanel : MonoBehaviour
         foreach (var data in characterCategoryList)
         {
             ProfilerCategoryPrefab categoryPrefab = Pop();
+            if(DataManager.Inst.IsPlayingProfilerTutorial())
+                categoryPrefab.GuideObj.ObjectName = EGuideObject.CharacterCategory;
             categoryPrefab.Show(data);
         }
+
     }
+
     public void ShowScenePanel()
     {
         PushAll();
@@ -228,8 +229,11 @@ public class ProfilerInventoryPanel : MonoBehaviour
         foreach (var data in sceneCategoryList)
         {
             ProfilerCategoryPrefab categoryPrefab = Pop();
+            if (DataManager.Inst.IsPlayingProfilerTutorial())
+                categoryPrefab.GuideObj.ObjectName = EGuideObject.IncidentCategory;
             categoryPrefab.Show(data);
         }
+
     }
 
     private void UnSelectAllPanel()

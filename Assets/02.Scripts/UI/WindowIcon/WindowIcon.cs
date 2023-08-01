@@ -71,6 +71,25 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         fileData = newFileData;
         iconNameText.text = fileData.fileName;
+
+        #region 튜토리얼 이벤트 세팅
+        if (ProfilerTutorial.IsLibraryGuide && fileData.ID == Constant.FileID.USB) //usb
+        {
+            EventManager.StartListening(ETutorialEvent.USBTutorial, YellowUI);
+        }
+
+        if (ProfilerTutorial.IsLibraryGuide && fileData.ID == Constant.FileID.INCIDENT_REPORT) //사건보고서
+        {
+            EventManager.StartListening(ETutorialEvent.ReportTutorial, YellowUI);
+        }
+
+
+        //데이터 매니저로 확인하고
+        //gamestate가 튜토리얼이라면
+        //library, usb, report에 각각 이벤트 넣어줘~
+        #endregion
+
+        #region IconSprite 세팅
         float x1, y1, x2, y2;
         if(newFileData.iconSprite == null)
         {
@@ -100,22 +119,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         iconImage.sprite = newFileData.iconSprite;
 
-        iconImage.color = newFileData.color;
-
-        if (fileData.id == 6 ) //usb
-        {
-            EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);
-            EventManager.StartListening(ETutorialEvent.USBTutorial, YellowUI);
-        }
-
-        if (fileData.id == 5 ) //사건보고서
-        {
-            EventManager.StopListening(ETutorialEvent.ReportTutorial, YellowUI);
-            EventManager.StartListening(ETutorialEvent.ReportTutorial, YellowUI);
-        }
-        //데이터 매니저로 확인하고
-        //gamestate가 튜토리얼이라면
-        //library, usb, report에 각각 이벤트 넣어줘~
+        iconImage.color = newFileData.iconColor;
+        #endregion 
     }
 
     public void ChangeIcon(Sprite icon, Color color)
@@ -127,6 +132,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void YellowUI(object[] obj)
     {
+        EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);
+        EventManager.StopListening(ETutorialEvent.ReportTutorial, YellowUI);
         GuideUISystem.EndAllGuide?.Invoke();
         GuideUISystem.OnGuide(this.rectTranstform);
     }
@@ -147,7 +154,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 else
                 {
-                    targetWindow.WindowOpen();
+                    targetWindow.WindowOpen(false);
                 }
                 UnSelect();
 
@@ -186,7 +193,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-        WindowLockDataSO windowLock = ResourceManager.Inst.GetFileLockData(fileData.id);
+        PinLockDataSO windowLock = ResourceManager.Inst.GetResource<PinLockDataSO>(fileData.ID);
         bool isLock = false;
 
         if (windowLock != null)
@@ -202,7 +209,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         if (fileData is DirectorySO && isBackground == false)
         {
-            if (isLock && DataManager.Inst.IsFileLock(fileData.id))
+            if (isLock && DataManager.Inst.IsPinLock(fileData.ID))
             {
                 targetWindow = WindowManager.Inst.WindowOpen(EWindowType.WindowPinLock, fileData);
             }

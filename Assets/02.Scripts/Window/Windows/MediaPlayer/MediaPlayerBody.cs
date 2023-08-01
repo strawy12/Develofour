@@ -117,7 +117,7 @@ public class MediaPlayerBody : MonoBehaviour
 
     public bool EndMediaInfoFlag()
     {
-        return (endMediaInfoTrigger != null) && (!DataManager.Inst.IsMonologShow(endMediaInfoTrigger.MonologID));
+        return (endMediaInfoTrigger != null) && (!DataManager.Inst.IsMonologShow(endMediaInfoTrigger.TriggerData.monoLogType));
     }
 
     private void Reset()

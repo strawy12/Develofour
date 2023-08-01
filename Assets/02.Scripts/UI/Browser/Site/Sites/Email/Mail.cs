@@ -45,6 +45,10 @@ public abstract class Mail : MonoBehaviour
 
     public Action OnOverlayClose;
 
+    public ProfileOverlayOpenTrigger overlayTrigger;
+
+    public Action OnOpenMail;
+
     [ContextMenu("BindBtns")]
     public void BindBtns()
     {
@@ -59,6 +63,13 @@ public abstract class Mail : MonoBehaviour
         mailCloseButton.OnClick +=(HideMail);
         mailDestroyButton.OnClick +=(DestroyMail);
         mailFavoriteButton.Init(mailData.isFavorited);
+        overlayTrigger = GetComponent<ProfileOverlayOpenTrigger>();
+        if(overlayTrigger != null)
+        {
+            OnOverlayClose += overlayTrigger.Close;
+            OverlayOpenEventAdd();
+        }
+        OnOpenMail += ShowMail;
     }
 
     public virtual void ShowMail()
@@ -67,7 +78,7 @@ public abstract class Mail : MonoBehaviour
         titleText.text = mailData.titleText;
         receiveText.text = mailData.receiveName + "¿¡°Ô";
         sendText.text = mailData.sendName;
-        MailSaveData saveData = DataManager.Inst.GetMailSaveData(mailData.mailID);
+        MailSaveData saveData = DataManager.Inst.GetMailSaveData(mailData.id);
         if (saveData != null)
         {
             timeText.text = $"{mailData.Year}. {saveData.month}. {saveData.day}. {saveData.hour}:{saveData.minute}";
@@ -76,6 +87,12 @@ public abstract class Mail : MonoBehaviour
         {
             timeText.text = mailData.TimeText;
         }
+
+        if (overlayTrigger != null)
+        {
+            overlayTrigger.Open();
+        }
+
         gameObject.SetActive(true);
     }
 
@@ -85,7 +102,7 @@ public abstract class Mail : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public virtual void DestroyMail()
+    protected virtual void DestroyMail()
     {
         mailData.mailCategory |= (int)EEmailCategory.Remove;
         OnChangeRemoveCatagory?.Invoke();
@@ -105,17 +122,33 @@ public abstract class Mail : MonoBehaviour
         }
     }
 
+    private void OverlayOpenEventAdd()
+    {
+        Browser.currentBrowser.OnSelected += OverlayOpen;
+    }
+
+    private void OverlayOpen()
+    {
+        if (this.gameObject.activeSelf)
+        {
+            if (overlayTrigger != null)
+            {
+                overlayTrigger.Open();
+            }
+        }
+    }
+
     public void DebugReset()
     {
         mailData.mailCategory = originMask;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         OnOverlayClose?.Invoke();
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         OnDisable();
     }

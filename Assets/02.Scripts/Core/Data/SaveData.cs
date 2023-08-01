@@ -1,26 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 [System.Serializable]
-public class FileLockData
+public class PinLockData
 {
-    public int id;
+    public string id;
     public bool isLock = true;
 }
 
 [System.Serializable]
 public class MonologSaveData
 {
-    public int monologType;
+    public string monologType;
     public bool isShow;
 }
 [System.Serializable]
 public class AdditionFileData
 {
-    public int fileID;
-    public int directoryID;
+    public string fileID;
+    public string directoryID;
 }
 [System.Serializable]
 public class GuideSaveData
@@ -33,9 +34,9 @@ public class GuideSaveData
 [System.Serializable]
 public class ProfilerSaveData
 {
-    public EProfilerCategory category;
+    public string categoryID;
     public bool isShowCategory;
-    public List<int> infoData;
+    public List<string> infoData;
 }
 
 
@@ -44,7 +45,7 @@ public class ProfilerSaveData
 public class MailSaveData
 {
     [BitMask(typeof(EEmailCategory))]
-    public int id;
+    public string id;
     public int month;
     public int day;
     public int hour;
@@ -53,25 +54,52 @@ public class MailSaveData
 [System.Serializable]
 public class LastAccessDateData
 {
-    public int fileID;
+    public string fileID;
     public string date;
 }
+
+[System.Serializable]
+public class ReturnCallData
+{
+    public string id;
+    [SerializeField]
+    private int endDelayTime;
+
+    public int EndDelayTime => endDelayTime;
+
+    public void SetEndDelayTime(int delay)
+    {
+        endDelayTime = DataManager.Inst.GetCurrentTime() + delay;
+    }
+}
+
+[System.Serializable]
+public class TutorialData
+{
+    public bool isPlayingTutorial; // 튜토리얼을 하고있는지?
+    public bool isStartTutorial; // 튜토리얼을 시작했는지?
+    public bool isClearTutorial; // 튜토리얼을 완료했는지
+    public bool isCanCallTutorial; //전화 튜토리얼까지 왔는지
+}
+
 [System.Serializable]
 public class SaveData
 {
-    public List<FileLockData> FileLockData;
+    public List<PinLockData> PinLockData;
     public List<MonologSaveData> monologData;
     public List<AdditionFileData> additionFileData;
     public List<GuideSaveData> guideSaveData;
     public List<ProfilerSaveData> profilerSaveData;
-    public List<string> aiChattingList;
+    public List<AIChat> aiChattingList;
     public List<NoticeData> saveNoticeData;
     public List<string> branchPostLockData;
     public List<string> savePhoneNumber;
     public List<MailSaveData> mailSaveData = new List<MailSaveData>();
-    public List<ReturnMonologData> returnMonologData;
+    public List<ReturnCallData> returnCallData;
     public List<LastAccessDateData> lastAccessDateData;
     public List<string> profilerGuideBtnSaveData;
+    public TutorialData profilerTutorialData;
+
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
     public bool isZooglePinHintNoteOpen;
@@ -85,9 +113,6 @@ public class SaveData
     public bool isOnceOpenWindowProperty;
 
     public int CurrentTimeData;
-
-    // 튜토리얼 중인지
-    public int tutorialDataIdx = -1;
 }
 
 

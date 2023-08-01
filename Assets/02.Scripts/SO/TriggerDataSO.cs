@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Trigger")]
-public class TriggerDataSO : ScriptableObject
+public class TriggerDataSO : ResourceSO
 {
-    public int triggerID = 0;
-    public List<int> infoDataIDList;
-    public int fileID;
-    public List<NeedInfoData> needInfoList;
-    public int monoLogType;
-    public int completeMonologType = 0;
-    public float delay;
-    public bool isFakeInfo;
+    [SerializeField]
+    public string MEMO;
 
-    protected int playMonologType = 0;
+    public List<string> infoDataIDList;
+    public List<NeedInfoData> needInfoList;
+    public string monoLogType;
+    public string completeMonologType = "";
+    public bool isFakeInfo;
 }

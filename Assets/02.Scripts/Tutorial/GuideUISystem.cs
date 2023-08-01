@@ -14,6 +14,7 @@ public class GuideUISystem : MonoBehaviour
     public static Action EndAllGuide;
     public static Action<RectTransform> EndGuide;
     public static Action<RectTransform> FullSizeGuide;
+    public static Action CenterSizeGuide;
 
     private RectTransform currentRectTransform;
 
@@ -26,6 +27,7 @@ public class GuideUISystem : MonoBehaviour
         EndAllGuide += StopGuideUICor;
         EndGuide += EndGuideThis;
         FullSizeGuide += ChangeFullSize;
+        CenterSizeGuide += ChangeCenterSize;
     }
 
     private void ChangeFullSize(RectTransform obj)
@@ -33,6 +35,13 @@ public class GuideUISystem : MonoBehaviour
         guideUI.rectTransform.anchoredPosition = Vector2.zero;
         guideUI.rectTransform.anchorMin = Vector2.zero;
         guideUI.rectTransform.anchorMax = Vector2.one;
+    }
+
+    private void ChangeCenterSize()
+    {
+        guideUI.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+        guideUI.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+        guideUI.rectTransform.pivot = new Vector2(0.5f, 0.5f);
     }
 
     private void StartGuide(RectTransform rect)

@@ -87,9 +87,9 @@ public abstract class TextSystem : MonoBehaviour
             case "CALL": //받을때
                 {
                     string[] cmdValueArray = cmdValue.Split(',');
-                    CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(cmdValueArray[0]);
-                    int monologData = int.Parse(cmdValueArray[1]);
-                    CallSystem.Inst.OnAnswerCall(data.characterType, monologData);
+                    CharacterInfoDataSO data = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(cmdValueArray[0]);
+                    string monologID = cmdValueArray[1];
+                    CallSystem.OnInComingCall(data.ID, monologID);
                 }
                 break;
 
@@ -97,7 +97,7 @@ public abstract class TextSystem : MonoBehaviour
             case "STACKCALL":
                 {
                     string[] cmdValueArray = cmdValue.Split(',');
-                    CharacterInfoDataSO data = ResourceManager.Inst.GetCharacterDataSO(cmdValueArray[0]);
+                    CharacterInfoDataSO data = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(cmdValueArray[0]);
                     int monologData = int.Parse(cmdValueArray[1]);
                     //  CallSystem.Inst.StackMonolog(data.characterType, ResourceManager.Inst.GetMonologTextData(monologData));
                 }
@@ -107,9 +107,7 @@ public abstract class TextSystem : MonoBehaviour
                 {
                     //키 값, 폴더 키 값
                     string[] cmdValueArray = cmdValue.Split(',');
-
-                    FileSO file = FileManager.Inst.GetAdditionalFile(int.Parse(cmdValueArray[0]));
-                    FileManager.Inst.AddFile(file, int.Parse(cmdValueArray[1]));
+                    FileManager.Inst.AddFile(cmdValueArray[0], cmdValueArray[1]);
                 }
                 break;
         }

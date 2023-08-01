@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 
 public class ProfileOverlaySystem : MonoBehaviour
 {
-    public static Action<int, List<InformationTrigger>> OnOpen; //fileid, completeCnt, wholeCnt
-    public static Action<int, List<int>> OnOpenInt; //fileid, completeCnt, wholeCnt
-    public static Action<int> OnAdd; //fileid , profileid
+    public static Action<string, List<InformationTrigger>> OnOpen; //fileid, completeCnt, wholeCnt
+    public static Action<string> OnAdd; //fileid , profileid
     public static Action OnClose;
 
     #region overlay
@@ -17,9 +17,9 @@ public class ProfileOverlaySystem : MonoBehaviour
     #endregion
 
     [SerializeField]
-    private List<int> profileIDList = new List<int>();
+    private List<string> triggerIDList = new List<string>();
 
-    private int currentFileID;
+    private string currentFileID;
     private int completeProfileCount;
     private int wholeProfileCount;
 
@@ -28,21 +28,8 @@ public class ProfileOverlaySystem : MonoBehaviour
         OnOpen += Open;
         OnAdd += Add;
         OnClose += Close;
-        OnOpenInt += OpenInt;
     }
 
-    private void OpenInt(int id, List<int> list)
-    {
-        Debug.Log(list.Count);
-        if (!DataManager.Inst.SaveData.isProfilerInstall) return;
-        ResetCount();
-        currentFileID = id;
-        profileIDList = list;
-
-        completeProfileCount = GetCompleteCount();
-        wholeProfileCount = GetWholeCount();
-        Setting(id);
-    }
 
     private void Close()
     {
@@ -54,23 +41,31 @@ public class ProfileOverlaySystem : MonoBehaviour
     {
         completeProfileCount = 0;
         wholeProfileCount = 0;
-        currentFileID = 0;
-        profileIDList.Clear();
+        currentFileID = string.Empty;
+        triggerIDList.Clear();
     }
 
-    public void Open(int id, List<InformationTrigger> triggerList)
+    public void Open(string id, List<InformationTrigger> triggerList)
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() == -1) return;
+        if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
+
         ResetCount();
         currentFileID = id;
-        GetProfileIDList(triggerList);
 
-        completeProfileCount = GetCompleteCount();
+        if(id == Constant.FileID.INCIDENT_REPORT)
+        {
+            EventManager.TriggerEvent(ETutorialEvent.IncidentReportOpen);
+        }
+
+        GetTriggerIDList(triggerList);
+
         wholeProfileCount = GetWholeCount();
+        completeProfileCount = GetCompleteCount();
+
         Setting(id);
     }
 
-    public void Add(int id)
+    public void Add(string id)
     {
         if (completeProfileCount == wholeProfileCount)
         {
@@ -81,28 +76,25 @@ public class ProfileOverlaySystem : MonoBehaviour
 
         if (completeProfileCount == wholeProfileCount)
         {
-            if (!MonologSystem.isEndMonolog)//독백중이면
+            //TODO 새로운 이펙트
+            Debug.Log("asdf");
+            if(DataManager.Inst.IsPlayingProfilerTutorial())
             {
-                Debug.Log(1);
-                MonologSystem.OnEndMonologEvent = () => { MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, 0.5f, false); };
-            }
-            else
-            {
-                Debug.Log(2);
-                MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, 1f, false);
+                Debug.Log("asdf22222222222222222");
+                EventManager.TriggerEvent(ETutorialEvent.GetAllInfo);
             }
         }
 
         Setting(id);
     }
 
-    public void Setting(int id)
+    public void Setting(string id)
     {
-        if (currentFileID != id) //fileID 체크
-        {
-            Debug.Log("현재 오버레이의 fileId와 다릅니다.");
-            return;
-        }
+        //if (currentFileID != id) //fileID 체크
+        //{
+        //    Debug.Log("현재 오버레이의 fileId와 다릅니다.");
+        //    return;
+        //}
 
         overlayText.text = GetCompleteCount() + " / " + GetWholeCount();
 
@@ -116,32 +108,37 @@ public class ProfileOverlaySystem : MonoBehaviour
         overlayPanel.SetActive(true);
     }
 
-    private List<int> GetProfileIDList(List<InformationTrigger> list)
+    private List<string> GetTriggerIDList(List<InformationTrigger> list)
     {
         list.ForEach((trigger) =>
         {
-            for (int i = 0; i < trigger.infoDataIDList.Count; i++)
-            {
-                if (!profileIDList.Contains(trigger.infoDataIDList[i]))
-                {
-                    profileIDList.Add(trigger.infoDataIDList[i]);
-                }
-            }
+            if (trigger.TriggerData == null) return;
+            triggerIDList.Add(trigger.TriggerData.id);
         });
-        return profileIDList;
+        return triggerIDList;
     }
 
     private int GetWholeCount()
     {
-        return profileIDList.Count;
+        return triggerIDList.Count;
     }
 
     private int GetCompleteCount()
     {
         int count = 0;
-        profileIDList.ForEach((id) =>
+        triggerIDList.ForEach((id) =>
         {
-            if (DataManager.Inst.IsProfilerInfoData(id))
+            TriggerDataSO data = ResourceManager.Inst.GetResource<TriggerDataSO>(id);
+            bool flag = false;
+            foreach(var infoID in data.infoDataIDList)
+            {
+                if(!DataManager.Inst.IsProfilerInfoData(infoID))
+                {
+                    flag = true;
+                }
+            }
+
+            if(!flag)
             {
                 count++;
             }

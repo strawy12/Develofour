@@ -2,10 +2,8 @@ using ExtenstionMethod;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Window/Mail/Data")]
-public class MailDataSO : ScriptableObject
+public class MailDataSO : ResourceSO
 {
-    public int mailID;
-
     public string receiveName;
     public string sendName;
     public string titleText;

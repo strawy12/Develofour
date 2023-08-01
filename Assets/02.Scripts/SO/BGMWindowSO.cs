@@ -3,8 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Window/BackgroundBGM")]
-public class BGMWindowSO : ScriptableObject
+public class BGMWindowSO : ResourceSO
 {
-    public int id;
+    //id is fileid
     public Sound.EAudioType audioType;
+
+    public string ID
+    {
+        get => id;
+        set
+        {
+            if (!string.IsNullOrEmpty(value))
+                return;
+            id = value;
+        }
+    }
 }

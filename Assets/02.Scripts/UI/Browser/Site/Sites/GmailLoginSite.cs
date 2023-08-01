@@ -65,9 +65,9 @@ public class GmailLoginSite : Site
     {
         // Sound.OnPlayEffectSound?.Invoke(Sound.EEffect.LoginSuccess);
 
-        if (DataManager.Inst.GetIsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.ZOOGLEPASSWORD))
+        if (DataManager.Inst.IsClearTutorial() && !DataManager.Inst.IsProfilerInfoData(Constant.ProfilerInfoKey.ZOOGLEPASSWORD))
         {
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.InvisibleInformation, Constant.ProfilerInfoKey.ZOOGLEPASSWORD });
+            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { "IC_V_0", Constant.ProfilerInfoKey.ZOOGLEPASSWORD });
         }
 
         DataManager.Inst.SetIsLogin(ELoginType.Zoogle, true);

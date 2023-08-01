@@ -1,18 +1,32 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:GroupBox tabindex="0" focusable="false" name="GroupBox" style="top: auto; align-items: flex-start; justify-content: flex-start; flex-direction: row; flex-wrap: wrap; height: 60px;">
-        <ui:Button text="FileSO" display-tooltip-when-elided="true" name="FileSOBtn" view-data-key="FileSOBtn" />
-        <ui:Button text="Monolog" display-tooltip-when-elided="true" name="MonologBtn" view-data-key="MonologBtn" />
-        <ui:Button text="ProfilerInfo" display-tooltip-when-elided="true" name="ProfilerInfoBtn" view-data-key="ProfilerInfoBtn" />
-        <ui:Button text="ProfilerGuide" display-tooltip-when-elided="true" name="ProfilerGuideBtn" view-data-key="ProfilerGuideBtn" />
-        <ui:Button text="Maiil" display-tooltip-when-elided="true" name="MailBtn" view-data-key="MailBtn" />
-        <ui:Button text="Trigger" display-tooltip-when-elided="true" name="TriggerPrfBtn" view-data-key="TriggerPrfBtn" style="-unity-text-align: middle-left;" />
-        <ui:Button text="FileLock" display-tooltip-when-elided="true" name="FileLockBtn" view-data-key="FileLockBtn" style="-unity-text-align: middle-left;" />
-        <ui:Button text="OutStar" display-tooltip-when-elided="true" name="OutStarProfileBtn" view-data-key="OutStarProfileBtn" style="-unity-text-align: middle-left;" />
-        <ui:Button text="Character" display-tooltip-when-elided="true" name="CharacterBtn" view-data-key="CharacterBtn" style="-unity-text-align: middle-left;" />
+    <ui:ScrollView style="height: 79px;">
+        <ui:GroupBox tabindex="0" focusable="false" name="GroupBox" style="top: auto; align-items: flex-start; justify-content: flex-start; flex-direction: row; flex-wrap: wrap; height: 72px;">
+            <ui:Button text="FileSO" display-tooltip-when-elided="true" name="FileSOBtn" view-data-key="FileSOBtn" />
+            <ui:Button text="Text" display-tooltip-when-elided="true" name="TextSOBtn" view-data-key="TextSOBtn" />
+            <ui:Button text="Maiil" display-tooltip-when-elided="true" name="MailBtn" view-data-key="MailBtn" />
+            <ui:Button text="Trigger" display-tooltip-when-elided="true" name="TriggerBtn" view-data-key="TriggerBtn" style="-unity-text-align: middle-left;" />
+            <ui:Button text="PinLock" display-tooltip-when-elided="true" name="PinLockBtn" view-data-key="PinLockBtn" style="-unity-text-align: middle-left;" />
+            <ui:Button text="CallProfileBtn" display-tooltip-when-elided="true" name="CallProfileBtn" view-data-key="CallProfileBtn" />
+            <ui:Button text="Character" display-tooltip-when-elided="true" name="CharacterBtn" view-data-key="CharacterBtn" style="-unity-text-align: middle-left;" />
+            <ui:Button text="AIChatting" display-tooltip-when-elided="true" name="AIChattingBtn" view-data-key="AIChattingBtn" style="-unity-text-align: middle-left;" />
+            <ui:Button text="ProfilerCategory" display-tooltip-when-elided="true" name="ProfilerCategoryBtn" view-data-key="ProfilerCategoryBtn" style="-unity-text-align: middle-left;" />
+            <ui:Button text="ProfilerInfo" display-tooltip-when-elided="true" name="ProfilerInfoBtn" view-data-key="ProfilerInfoBtn" />
+            <ui:Button text="ProfilerGuide" display-tooltip-when-elided="true" name="ProfilerGuideBtn" view-data-key="ProfilerGuideBtn" />
+            <ui:Button text="OutStarProfile" display-tooltip-when-elided="true" name="OutStarProfileBtn" view-data-key="OutStarProfileBtn" style="-unity-text-align: middle-left;" />
+            <ui:Button text="OutStarChat" display-tooltip-when-elided="true" name="OutStarChatBtn" view-data-key="OutStarChatBtn" style="-unity-text-align: middle-left;" />
+            <ui:Button text="OutStarTimeChat" display-tooltip-when-elided="true" name="OutStarTimeChatBtn" view-data-key="OutStarTimeChatBtn" style="-unity-text-align: middle-left;" />
+            <ui:Button text="CallOutGoingBtn" display-tooltip-when-elided="true" name="CallOutGoingBtn" view-data-key="CallOutGoingBtn" style="-unity-text-align: middle-left;" />
+            <ui:Button text="CallInComingBtn" display-tooltip-when-elided="true" name="CallInComingBtn" view-data-key="CallInComingBtn" style="-unity-text-align: middle-left;" />
+            <ui:Button text="CallReturnBtn" display-tooltip-when-elided="true" name="CallReturnBtn" view-data-key="CallReturnBtn" style="-unity-text-align: middle-left;" />
+        </ui:GroupBox>
+    </ui:ScrollView>
+    <ui:GroupBox name="GroupBox" style="flex-direction: row; flex-wrap: wrap; height: 40px;">
+        <ui:Label text="Gid" display-tooltip-when-elided="true" style="width: 52px; height: 15px;" />
+        <ui:Label display-tooltip-when-elided="true" name="GidText" view-data-key="GidText" style="width: 265px; flex-wrap: nowrap; height: 17px;" />
+        <ui:Label text="SoType" display-tooltip-when-elided="true" style="width: 50px; height: 14px;" />
+        <ui:Label display-tooltip-when-elided="true" name="SOTypeText" view-data-key="SOTypeText" style="width: 269px; height: 14px;" />
     </ui:GroupBox>
-    <ui:GroupBox style="top: auto; flex-direction: column-reverse; height: 45px;">
-        <ui:TextField picking-mode="Ignore" label="Gid" text="filler text" name="GidField" view-data-key="GidField" />
-        <ui:TextField picking-mode="Ignore" label="SOType" text="filler text" name="SOTypeField" view-data-key="SOTypeField" />
-        <ui:Button text="SO 세팅하기" display-tooltip-when-elided="true" name="SettingButton" class="SO_Settring" style="margin-top: 10px; scale: 1 1; position: absolute; height: 62px; width: 233px; top: 62px; left: 57px; font-size: 25px; flex-direction: column-reverse; justify-content: flex-end; align-items: center; flex-wrap: wrap-reverse; -unity-text-align: middle-center;" />
+    <ui:GroupBox style="justify-content: flex-start; align-items: center;">
+        <ui:Button text="SOSettingBtn" display-tooltip-when-elided="true" name="SOSettingBtn" view-data-key="SOSettingBtn" style="width: 300px; -unity-text-align: middle-center; white-space: nowrap;" />
     </ui:GroupBox>
 </ui:UXML>

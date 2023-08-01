@@ -7,8 +7,8 @@ using UnityEngine.EventSystems;
 public class OrderMailHyperLink : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public TMP_Text text;
-    public int fileId;
-    public int directoryId;
+    public string fileId;
+    public string directoryId;
 
     public void OnPointerClick(PointerEventData eventData)
     {

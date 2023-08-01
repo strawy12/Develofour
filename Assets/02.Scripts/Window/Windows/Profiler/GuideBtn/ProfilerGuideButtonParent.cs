@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,20 +13,20 @@ public class ProfilerGuideButtonParent : MonoBehaviour
     [SerializeField]
     private ProfilerGuideButton guideButtonPrefab;
 
-    private List<ProfilerGuideButton> guideButtonList;
-    private List<ProfilerGuideDataSO> guideDataList;
+    private List<ProfilerGuideButton> guideButtonList = new List<ProfilerGuideButton>();
+    private List<ProfilerGuideDataSO> guideDataList = new List<ProfilerGuideDataSO>();
 
     public void Init()
     {
         guideButtonList = new List<ProfilerGuideButton>();
-        guideDataList = ResourceManager.Inst.ProfilerGuideDataSOResourcesList.Select(x => x.Value).ToList();
+        guideDataList = ResourceManager.Inst.GetResourceList<ProfilerGuideDataSO>();
         EventManager.StartListening(EProfilerEvent.AddGuideButton, AddGuideButton);
         SaveSetting();
     }
     #region ButtonSetting
     private void SaveSetting()
     {
-        if (DataManager.Inst.GetIsClearTutorial())
+        if (DataManager.Inst.IsClearTutorial())
         {
             AddGuideButton();
         }
@@ -38,7 +38,7 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         {
             foreach (var data in guideDataList)
             {
-                if (data.isAddTutorial == false && DataManager.Inst.CheckGuideButtonSaveData(data.guideName) == false)
+                if (data.isAddGuideButton == false && DataManager.Inst.CheckGuideButtonSaveData(data.guideName) == false)
                 {
                     continue;
                 }
@@ -64,9 +64,9 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         button.Init(data);
         button.gameObject.SetActive(true);
         if (!DataManager.Inst.CheckGuideButtonSaveData(data.guideName))
-        {
-            string noticeBody = $"{data.guideName} °¡ÀÌµå ¹öÆ°ÀÌ Ãß°¡µÇ¾ú½À´Ï´Ù. ÇÁ·ÎÆÄÀÏ·¯ÀÇ °¡ÀÌµå ¹öÆ° ÆĞ³ÎÀ» µé¾î°¡ È®ÀÎÇØº¸¼¼¿ä";
-            NoticeSystem.OnNotice?.Invoke("°¡ÀÌµå ¹öÆ°ÀÌ Ãß°¡µÇ¾ú½À´Ï´Ù", noticeBody, 0.1f, false, profileSprite, Color.white, ENoticeTag.Profiler);
+        {   
+            string noticeBody = $"{data.guideName} ê°€ì´ë“œ ë²„íŠ¼ì´ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤. í”„ë¡œíŒŒì¼ëŸ¬ì˜ ê°€ì´ë“œ ë²„íŠ¼ íŒ¨ë„ì„ ë“¤ì–´ê°€ í™•ì¸í•´ë³´ì„¸ìš”";
+            NoticeSystem.OnNotice?.Invoke("ê°€ì´ë“œ ë²„íŠ¼ì´ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤", noticeBody, 0.1f, false, profileSprite, Color.white, ENoticeTag.Profiler);
         }
         DataManager.Inst.AddGuideButtonSaveData(data.guideName);
         guideButtonList.Add(button);

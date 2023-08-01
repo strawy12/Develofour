@@ -143,19 +143,19 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
         if (currentChatData.infoIDs.Count != 0 || currentChatData.monologID != 0)
         {
-            CursorChangeSystem.ECursorState state = Define.ChangeInfoCursor(currentChatData.needInformaitonList, currentChatData.infoIDs);
-            if(currentChatData.infoIDs.Count == 0)
-            {
-                state = CursorChangeSystem.ECursorState.FindInfo;
-            }
-                if (state == CursorChangeSystem.ECursorState.FindInfo || state == CursorChangeSystem.ECursorState.NeedInfo)
-            {
-                messageText.SetColor(Color.yellow);
-            }
-            else if (state == CursorChangeSystem.ECursorState.FoundInfo)
-            {
-                messageText.SetColor(Color.red);
-            }
+            //CursorChangeSystem.ECursorState state = Define.ChangeInfoCursor(currentChatData.needInformaitonList, currentChatData.infoIDs);
+            //if(currentChatData.infoIDs.Count == 0)
+            //{
+            //    state = CursorChangeSystem.ECursorState.FindInfo;
+            //}
+            //    if (state == CursorChangeSystem.ECursorState.FindInfo || state == CursorChangeSystem.ECursorState.NeedInfo)
+            //{
+            //    messageText.SetColor(Color.yellow);
+            //}
+            //else if (state == CursorChangeSystem.ECursorState.FoundInfo)
+            //{
+            //    messageText.SetColor(Color.red);
+            //}
         }
 
     }
@@ -170,39 +170,39 @@ public class DiscordMessagePanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            if (currentChatData.msgSpritePrefab != null)
-            {
-                EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSpritePrefab }); ;
-            }
-            if (currentChatData.needInformaitonList.Count != 0)
-            {
-                foreach (var needInfo in currentChatData.needInformaitonList)
-                {
-                    if (!DataManager.Inst.IsProfilerInfoData(needInfo.needInfoID))
-                    {
-                        MonologSystem.OnStartMonolog?.Invoke(needInfo.monologID, 0f, false);
-                        return;
-                    }
-                }
-            }
-            if (currentChatData.infoIDs.Count != 0)
-            {
-                foreach (var infoID in currentChatData.infoIDs)
-                {
-                    var infoData = ResourceManager.Inst.GetProfilerInfoData(infoID);
-                    EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { infoData.category, infoData.id});
-                    ProfileOverlaySystem.OnAdd?.Invoke(currentProfileData.overlayID);
-                }
+    //    if (eventData.button == PointerEventData.InputButton.Left)
+    //    {
+    //        if (currentChatData.msgSpritePrefab != null)
+    //        {
+    //            EventManager.TriggerEvent(EDiscordEvent.ShowImagePanel, new object[1] { currentChatData.msgSpritePrefab }); ;
+    //        }
+    //        if (currentChatData.needInformaitonList.Count != 0)
+    //        {
+    //            foreach (var needInfo in currentChatData.needInformaitonList)
+    //            {
+    //                if (!DataManager.Inst.IsProfilerInfoData(needInfo.needInfoID))
+    //                {
+    //                    MonologSystem.OnStartMonolog?.Invoke(needInfo.monologID, 0f, false);
+    //                    return;
+    //                }
+    //            }
+    //        }
+    //        if (currentChatData.infoIDs.Count != 0)
+    //        {
+    //            foreach (var infoID in currentChatData.infoIDs)
+    //            {
+    //                var infoData = ResourceManager.Inst.GetProfilerInfoData(infoID);
+    //                EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { infoData.category, infoData.id});
+    //                ProfileOverlaySystem.OnAdd?.Invoke(currentProfileData.overlayID);
+    //            }
 
-            }
-            if (currentChatData.monologID != 0)
-            {
-                MonologSystem.OnStartMonolog?.Invoke(currentChatData.monologID, 0f, false);
-            }
-        }
+    //        }
+    //        if (currentChatData.monologID != 0)
+    //        {
+    //            MonologSystem.OnStartMonolog?.Invoke(currentChatData.monologID, 0f, false);
+    //        }
+    //    }
 
-        OnPointerEnter(eventData);
+    //    OnPointerEnter(eventData);
     }
 }

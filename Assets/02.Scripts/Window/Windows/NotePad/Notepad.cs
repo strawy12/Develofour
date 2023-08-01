@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Notepad : Window
 {
@@ -19,7 +20,7 @@ public class Notepad : Window
     {
         base.Init();
  
-        currentData = ResourceManager.Inst.GetNotepadData(file.id);
+        currentData = ResourceManager.Inst.GetResource<NotepadDataSO>(file.ID);
 
         bool useDataBody = currentData.notepadBody != null;
         if (useDataBody)
@@ -32,6 +33,16 @@ public class Notepad : Window
         notepadBody.Init();
 
         notepadBody.inputField.readOnly = currentData.readOnly;
+
+        ColorBlock colorBlock = new ColorBlock();
+        colorBlock = ColorBlock.defaultColorBlock;
+
+        colorBlock.selectedColor = Color.white;
+        colorBlock.pressedColor = Color.white;
+        colorBlock.normalColor = Color.white;
+        colorBlock.highlightedColor = Color.white;
+        colorBlock.disabledColor = Color.white;
+        notepadBody.inputField.colors = colorBlock;
 
         OnSelected += notepadBody.inputField.ActivateInputField;
         OnUnSelected += () => notepadBody.inputField.DeactivateInputField();
@@ -49,9 +60,9 @@ public class Notepad : Window
         SetText();
     }
 
-    public override void WindowOpen()
+    public override void WindowOpen(bool isNewWindow)
     {
-        base.WindowOpen();
+        base.WindowOpen(isNewWindow);
         notepadBody.inputField.textComponent.ForceMeshUpdate();
         notepadBody.SetTriggerPosition();
     }

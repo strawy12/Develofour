@@ -17,12 +17,12 @@ public class BGMWindow : Window
     protected override void Init()
     {
         base.Init();
-        audioType = ResourceManager.Inst.GetBGMWindowDataResources(file.id).audioType;
+        audioType = ResourceManager.Inst.GetResource<BGMWindowSO>(file.ID).audioType;
     }
 
-    public override void WindowOpen()
+    public override void WindowOpen(bool isNewWindow)
     {
-        base.WindowOpen();
+        base.WindowOpen(isNewWindow);
 
         StartCoroutine(ChangeBGMCoroutine());
     }

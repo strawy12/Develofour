@@ -31,9 +31,9 @@ public class CutScene : MonoBehaviour
         MonologSystem.OnStopMonolog?.Invoke();
         Destroy(this.gameObject);
     }
-    protected void StartMonolog(int monoID, float delay = 0f)
+    protected void StartMonolog(string monologID)
     {
-        MonologSystem.OnStartMonolog?.Invoke(monoID, delay, true);
+        MonologSystem.OnStartMonolog?.Invoke(monologID, true);
     }
 
     public virtual void OnDestroy()
