@@ -69,7 +69,7 @@ public class ProfilerChatting : MonoBehaviour
 
     public void Show()
     {
-        if(!isUsingNewImage)
+        if (!isUsingNewImage)
         {
             ActiveNewImageUI(false);
         }
@@ -83,9 +83,8 @@ public class ProfilerChatting : MonoBehaviour
 
     public void Hide()
     {
+        //EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
 
-        EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
-        ActiveNewImageUI(false);
         gameObject.SetActive(false);
     }
 
@@ -96,13 +95,13 @@ public class ProfilerChatting : MonoBehaviour
             return;
         }
 
-        if(ps[0] is string)
+        if (ps[0] is string)
         {
             string msg = (ps[0] as string);
             CreateTextUI(msg);
         }
 
-        if(ps[0] is Sprite)
+        if (ps[0] is Sprite)
         {
             Sprite sprite = ps[0] as Sprite;
             float sizeY = 0;
@@ -127,11 +126,11 @@ public class ProfilerChatting : MonoBehaviour
 
         foreach (AIChat data in list)
         {
-            if(data.sprite == null && data.text != null)
+            if (data.sprite == null && data.text != null)
             {
                 CreateTextUI(data.text);
             }
-            else if(data.sprite != null)
+            else if (data.sprite != null)
             {
                 CreateImageUI(data.sprite);
             }
@@ -140,10 +139,11 @@ public class ProfilerChatting : MonoBehaviour
 
     private void CheckNewChatting()
     {
-        //현재 채팅 패널이 false 보단 현재 클릭되어 있는 오브젝트가 프로파일러이면서
         if (profiler == null) return;
 
-        if((ISelectable)profiler != WindowManager.Inst.SelectedObject)
+        Debug.Log((ISelectable)profiler != WindowManager.Inst.SelectedObject);
+        if ((ISelectable)profiler != WindowManager.Inst.SelectedObject 
+            || ((ISelectable)profiler == WindowManager.Inst.SelectedObject && this.gameObject.activeSelf == false))
         {
             if (!isUsingNewImage)
             {
@@ -241,7 +241,7 @@ public class ProfilerChatting : MonoBehaviour
     protected void SetLastWidth()
     {
         RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
-        if(rects[rects.Length - 1].gameObject.GetComponent<Image>() == null)
+        if (rects[rects.Length - 1].gameObject.GetComponent<Image>() == null)
         {
             rects[rects.Length - 1].sizeDelta = new Vector2(currentValue - 60, 0);
         }

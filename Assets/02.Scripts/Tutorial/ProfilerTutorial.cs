@@ -62,7 +62,7 @@ public class ProfilerTutorial : MonoBehaviour
     {
         ProfilerChattingSystem.OnChatEnd += () => EventManager.TriggerEvent(ETutorialEvent.CheckTutorialState);
         GameManager.Inst.ChangeGameState(EGameState.Tutorial_Chat);
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(tutorialTextList.tutorialChatData[textListIndex], 0.2f, true);
+        ProfilerChattingSystem.OnPlayChatList?.Invoke(tutorialTextList.tutorialChatData[textListIndex], 1.5f, true);
     }
 
     private IEnumerator StartProfilerTutorial()
