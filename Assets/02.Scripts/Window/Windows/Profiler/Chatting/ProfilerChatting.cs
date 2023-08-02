@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System;
 using TMPro;
-using Unity.VisualScripting;
 
 public enum EProfileChatting
 {
@@ -21,7 +20,7 @@ public struct ChatData
     public string script;
 };
 
-public class ProfilerChatting : MonoBehaviour
+public class ProfilerChatting : MonoUI
 {
     protected float currentValue;
 
@@ -76,16 +75,14 @@ public class ProfilerChatting : MonoBehaviour
 
         SetScrollView();//스크롤뷰 가장 밑으로 내리기;
 
-        Debug.Log(scroll.verticalNormalizedPosition = 0);
-
-        gameObject.SetActive(true);
+        SetActive(true);
     }
 
     public void Hide()
     {
         //EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
 
-        gameObject.SetActive(false);
+        SetActive(false);
     }
 
     private void PrintChat(object[] ps)
@@ -142,8 +139,8 @@ public class ProfilerChatting : MonoBehaviour
         if (profiler == null) return;
 
         Debug.Log((ISelectable)profiler != WindowManager.Inst.SelectedObject);
-        if ((ISelectable)profiler != WindowManager.Inst.SelectedObject 
-            || ((ISelectable)profiler == WindowManager.Inst.SelectedObject && this.gameObject.activeSelf == false))
+        if ((ISelectable)profiler != WindowManager.Inst.SelectedObject
+            || ((ISelectable)profiler == WindowManager.Inst.SelectedObject && canvasGroup.interactable == false))
         {
             if (!isUsingNewImage)
             {
@@ -220,20 +217,7 @@ public class ProfilerChatting : MonoBehaviour
 
     protected void SetScrollView()
     {
-        if (this.gameObject.activeInHierarchy)
-        {
-            StartCoroutine(ScrollCor());
-        }
-        else
-        {
-            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
-            scroll.verticalNormalizedPosition = 0;
-        }
-    }
-
-    protected IEnumerator ScrollCor()
-    {
-        yield return new WaitForSeconds(0.08f);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
         scroll.verticalNormalizedPosition = 0;
     }
