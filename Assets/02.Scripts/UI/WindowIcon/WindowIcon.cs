@@ -62,7 +62,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         isBackground = false;
         fileData = null;
     }
-    public void SetFileData(FileSO newFileData)
+    public void SetFileData(FileSO newFileData, float IconDefaultSize = 0f)
     {
         if (newFileData == null)
         {
@@ -90,6 +90,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         #endregion
 
         #region IconSprite 세팅
+        if(IconDefaultSize <= 0f)
+        {
+            IconDefaultSize = this.IconDefaultSize;
+        }
         float x1, y1, x2, y2;
         if(newFileData.iconSprite == null)
         {
@@ -195,7 +199,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         PinLockDataSO windowLock = ResourceManager.Inst.GetResource<PinLockDataSO>(fileData.ID);
         bool isLock = false;
-
+        EventManager.TriggerEvent(ELibraryEvent.AddLeftIcon, new object[1] { fileData });
         if (windowLock != null)
         {
             isLock = true;
