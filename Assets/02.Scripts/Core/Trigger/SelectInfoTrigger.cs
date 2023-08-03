@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static CursorChangeSystem;
 
-
-public class SelectInfoTrigger : InformationTrigger, IPointerClickHandler
+public class SelectInfoTrigger : InformationTrigger, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private string wrongMonologID;
@@ -48,4 +48,13 @@ public class SelectInfoTrigger : InformationTrigger, IPointerClickHandler
 
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { ECursorState.FindInfo });
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { ECursorState.Default });
+    }
 }
