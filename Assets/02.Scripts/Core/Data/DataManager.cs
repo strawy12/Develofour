@@ -40,6 +40,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.additionFileData = new List<AdditionFileData>();
         saveData.aiChattingList = new List<AIChat>();
         saveData.branchPostLockData = new List<string>();
+        saveData.libraryData = new List<string>();
         saveData.savePhoneNumber = new List<string>();
         saveData.branchPassword = "";
         saveData.returnCallData = new List<ReturnCallData>();

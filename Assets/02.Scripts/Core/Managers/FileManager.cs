@@ -202,7 +202,23 @@ public class FileManager : MonoSingleton<FileManager>
 
         return fileList;
     }
+    public List<FileSO> GetFileIDList(List<string> fileIDList) 
+    {
+        List<FileSO> allFileList = GetALLFileList();
+        List<FileSO> fileList = new List<FileSO>();
+        foreach(string fileID in fileIDList)
+        {
+            FileSO file = allFileList.Find(x => x.ID == fileID);
 
+            if(file == null)
+            {
+                continue;
+            }
+
+            fileList.Add(file);
+        }
+        return fileList;
+    }
     public bool IsExistFile(string id)
     {
         List<FileSO> allFileList = GetALLFileList();
