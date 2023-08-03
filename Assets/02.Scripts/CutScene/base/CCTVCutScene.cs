@@ -28,6 +28,9 @@ public class CCTVCutScene : CutScene
     [SerializeField]
     private TMP_Text timerText;
 
+    [SerializeField]
+    private SelectPuzzle selectPuzzle;
+
     public override void ShowCutScene()
     {
         base.ShowCutScene();
@@ -36,6 +39,8 @@ public class CCTVCutScene : CutScene
 
     private void CutScene0_Start()
     {
+        selectPuzzle.Init();
+
         string monologID = Constant.MonologKey.CCTV_CUTSCENE_00;
         MonologSystem.AddOnEndMonologEvent(monologID,CutScene1_Start);
         MonologSystem.OnStartMonolog?.Invoke(monologID, true); ;
@@ -131,6 +136,29 @@ public class CCTVCutScene : CutScene
         yield return new WaitForSeconds(3f);
         //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.Bat, Constant.ProfilerInfoKey.BAT_DETAIL });
         //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.CriminalInfomation, Constant.ProfilerInfoKey.CRIMINAL_ACTION });
+        StopCutScene();
+    }
+
+    private void CutScene5_Start()
+    {
+        StartCoroutine(CutScene5_StartCor());
+    }
+
+    private IEnumerator CutScene5_StartCor()
+    {
+        sprite.DOFade(0, 1);
+        yield return new WaitForSeconds(1f);
+
+        selectPuzzle.Fade(true);
+        yield return new WaitForSeconds(1f);
+
+        string monologData = "T_M_1";
+        MonologSystem.OnStartMonolog?.Invoke(monologData, true);
+
+        yield return new WaitUntil(() => selectPuzzle.selectInfoTrigger.isClear == true);
+        yield return new WaitForSeconds(1f);
+
+        //대강 독백 쓰고 
         StopCutScene();
     }
 
