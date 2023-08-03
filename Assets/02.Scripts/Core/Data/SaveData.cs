@@ -99,7 +99,7 @@ public class SaveData
     public List<LastAccessDateData> lastAccessDateData;
     public List<string> profilerGuideBtnSaveData;
     public TutorialData profilerTutorialData;
-
+    public List<string> libraryData;
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
     public bool isZooglePinHintNoteOpen;

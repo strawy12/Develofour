@@ -38,7 +38,8 @@ public class Library : Window
     private TMP_InputField searchInputField;
     [SerializeField]
     private Button searchBtn;
-
+    [SerializeField]
+    private LibraryLeftPanel leftPanel;
     [Header("FuctionBar")]
     #region UI
     [SerializeField]
@@ -156,10 +157,9 @@ public class Library : Window
         FileManager.Inst.GetALLFileList(currentDirectory);
 
         fileAddressPanel.Init();
+        leftPanel.Init();
         SetHighlightImage();
         SetLibrary();
-
-        EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StartListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StartListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
@@ -167,6 +167,7 @@ public class Library : Window
         EventManager.StartListening(ELibraryEvent.ResetRedoStack, RedoStackReset);
         EventManager.StartListening(ETutorialEvent.LibraryEventTrigger, SetLibraryEvent);
         EventManager.StartListening(ELibraryEvent.AddFile, Refresh);
+        EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
 
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
 
@@ -208,12 +209,12 @@ public class Library : Window
 
     public void SetLibrary()
     {
-        WindowManager.Inst.SetWindowOrder(this);
         windowBar.SetNameText(currentDirectory.fileName);
         fileAddressPanel.SetButtons(currentDirectory);
         CreateChildren();
         //EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
+        WindowManager.Inst.SetWindowOrder(this);
 
         if (DataManager.Inst.IsPlayingProfilerTutorial())
         {
