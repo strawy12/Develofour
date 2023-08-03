@@ -12,20 +12,22 @@ public class SelectPuzzle : MonoBehaviour
 
     public void Init()
     {
-        Fade(false);
+        Fade(false, 0);
     }
 
-    public void Fade(bool value)
+    public void Fade(bool value, float time)
     {
         if(value)
         {
-            canvasGroup.DOFade(1, 1);
-            canvasGroup.blocksRaycasts = false;
+            canvasGroup.DOFade(1, time);
+            canvasGroup.blocksRaycasts = true;
+            canvasGroup.interactable = true;
         }
         else
         {
-            canvasGroup.DOFade(0, 1);
-            canvasGroup.blocksRaycasts = true;
+            canvasGroup.DOFade(0, time);
+            canvasGroup.blocksRaycasts = false;
+            canvasGroup.interactable = false;
         }
     }
 }

@@ -21,6 +21,8 @@ public class CCTVCutScene : CutScene
     [SerializeField]
     private Sprite cutSceneSprite04;
 
+    [SerializeField]
+    private Image backgroundImage;
 
     [SerializeField]
     private Image sprite;
@@ -120,10 +122,37 @@ public class CCTVCutScene : CutScene
         yield return new WaitForSeconds(1f);
 
         string monologData = CCTV_CUTSCENE_04;
-        MonologSystem.AddOnEndMonologEvent(monologData, DelayStart);
+        MonologSystem.AddOnEndMonologEvent(monologData, CutScene5_Start);
         MonologSystem.AddOnEndMonologEvent(monologData, () => GetProfilerInfo(CCTV_UYOUNGWHEREABOUTS));
         MonologSystem.OnStartMonolog?.Invoke(monologData, true);
     }
+
+
+    private void CutScene5_Start()
+    {
+        StartCoroutine(CutScene5_StartCor());
+    }
+
+    private IEnumerator CutScene5_StartCor()
+    {
+        backgroundImage.gameObject.SetActive(false);
+        sprite.DOFade(0, 1);
+        yield return new WaitForSeconds(1.25f);
+
+        selectPuzzle.Fade(true, 1f);
+
+        yield return new WaitForSeconds(1.25f);
+
+        string monologData = "T_M_10";
+        MonologSystem.OnStartMonolog?.Invoke(monologData, true);
+
+        yield return new WaitUntil(() => selectPuzzle.selectInfoTrigger.isClear == true);
+        yield return new WaitForSeconds(1f);
+
+        //대강 독백 쓰고 
+        StopCutScene();
+    }
+
 
     private void DelayStart()
     {
@@ -136,29 +165,6 @@ public class CCTVCutScene : CutScene
         yield return new WaitForSeconds(3f);
         //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.Bat, Constant.ProfilerInfoKey.BAT_DETAIL });
         //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[] { EProfilerCategory.CriminalInfomation, Constant.ProfilerInfoKey.CRIMINAL_ACTION });
-        StopCutScene();
-    }
-
-    private void CutScene5_Start()
-    {
-        StartCoroutine(CutScene5_StartCor());
-    }
-
-    private IEnumerator CutScene5_StartCor()
-    {
-        sprite.DOFade(0, 1);
-        yield return new WaitForSeconds(1f);
-
-        selectPuzzle.Fade(true);
-        yield return new WaitForSeconds(1f);
-
-        string monologData = "T_M_1";
-        MonologSystem.OnStartMonolog?.Invoke(monologData, true);
-
-        yield return new WaitUntil(() => selectPuzzle.selectInfoTrigger.isClear == true);
-        yield return new WaitForSeconds(1f);
-
-        //대강 독백 쓰고 
         StopCutScene();
     }
 

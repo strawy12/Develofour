@@ -19,6 +19,7 @@ public class SelectInfoTrigger : InformationTrigger, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log(eventData.pointerCurrentRaycast.gameObject);
         GameObject obj = eventData.pointerCurrentRaycast.gameObject;
         if (obj == wholeObj)
         {
