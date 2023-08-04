@@ -21,12 +21,17 @@ public class CCTVCutScene : CutScene
     [SerializeField]
     private Sprite cutSceneSprite04;
 
+    [SerializeField]
+    private Image backgroundImage;
 
     [SerializeField]
     private Image sprite;
 
     [SerializeField]
     private TMP_Text timerText;
+
+    [SerializeField]
+    private SelectPuzzle selectPuzzle;
 
     public override void ShowCutScene()
     {
@@ -36,9 +41,11 @@ public class CCTVCutScene : CutScene
 
     private void CutScene0_Start()
     {
+        selectPuzzle.Init();
+
         string monologID = Constant.MonologKey.CCTV_CUTSCENE_00;
         MonologSystem.AddOnEndMonologEvent(monologID,CutScene1_Start);
-        MonologSystem.OnStartMonolog?.Invoke(monologID, true); ;
+        MonologSystem.OnStartMonolog?.Invoke(monologID, false); ;
     }
 
     private void CutScene1_Start()
@@ -58,7 +65,7 @@ public class CCTVCutScene : CutScene
         string monologID = CCTV_CUTSCENE_01;
         MonologSystem.AddOnEndMonologEvent(monologID, CutScene2_Start);
         MonologSystem.AddOnEndMonologEvent(monologID, () => GetProfilerInfo(CCTV_TIME));
-        MonologSystem.OnStartMonolog?.Invoke(monologID, true);
+        MonologSystem.OnStartMonolog?.Invoke(monologID, false);
     }
 
     private void CutScene2_Start()
@@ -77,7 +84,7 @@ public class CCTVCutScene : CutScene
 
         string monologID = CCTV_CUTSCENE_02;
         MonologSystem.AddOnEndMonologEvent(monologID, CutScene3_Start);
-        MonologSystem.OnStartMonolog?.Invoke(monologID, true);
+        MonologSystem.OnStartMonolog?.Invoke(monologID, false);
     }
 
     private void CutScene3_Start()
@@ -97,7 +104,7 @@ public class CCTVCutScene : CutScene
 
         MonologSystem.AddOnEndMonologEvent(monologID, CutScene4_Start);
         MonologSystem.AddOnEndMonologEvent(monologID, () => GetProfilerInfo(CCTV_DETAIL));
-        MonologSystem.OnStartMonolog?.Invoke(monologID, true);
+        MonologSystem.OnStartMonolog?.Invoke(monologID, false);
     }
 
     private void CutScene4_Start()
@@ -115,10 +122,38 @@ public class CCTVCutScene : CutScene
         yield return new WaitForSeconds(1f);
 
         string monologData = CCTV_CUTSCENE_04;
-        MonologSystem.AddOnEndMonologEvent(monologData, DelayStart);
+        MonologSystem.AddOnEndMonologEvent(monologData, CutScene5_Start);
         MonologSystem.AddOnEndMonologEvent(monologData, () => GetProfilerInfo(CCTV_UYOUNGWHEREABOUTS));
-        MonologSystem.OnStartMonolog?.Invoke(monologData, true);
+        MonologSystem.OnStartMonolog?.Invoke(monologData, false);
     }
+
+
+    private void CutScene5_Start()
+    {
+        StartCoroutine(CutScene5_StartCor());
+    }
+
+    private IEnumerator CutScene5_StartCor()
+    {
+        isCanStop = false;
+        backgroundImage.gameObject.SetActive(false);
+        sprite.DOFade(0, 1);
+        yield return new WaitForSeconds(1.25f);
+
+        selectPuzzle.Fade(true, 1f);
+
+        yield return new WaitForSeconds(1.25f);
+
+        string monologData = "T_M_10";
+        MonologSystem.OnStartMonolog?.Invoke(monologData, false);
+
+        yield return new WaitUntil(() => selectPuzzle.selectInfoTrigger.isClear == true);
+        yield return new WaitForSeconds(1f);
+
+        //대강 독백 쓰고 
+        StopCutScene();
+    }
+
 
     private void DelayStart()
     {
@@ -136,6 +171,7 @@ public class CCTVCutScene : CutScene
 
     public override void StopCutScene()
     {
+        isCanStop = true;
         StopAllCoroutines();
         MonologSystem.OnStopMonolog?.Invoke();
         base.StopCutScene();
