@@ -99,10 +99,10 @@ public class DiscordLogin : MonoBehaviour
         
 #endif
         //현재 내 윈도우가 가장 위에있는지 확인
-        if (WindowManager.Inst != null && !WindowManager.Inst.IsTopWindow(EWindowType.Discord))
-        {
-            return;
-        }
+        //if (WindowManager.Inst != null && !WindowManager.Inst.IsTopWindow(EWindowType.Discord))
+        //{
+        //    return;
+        //}
 
         if(IDInputField.text == answerID && passwordInputField.text == answerPassword)
         {

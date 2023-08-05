@@ -72,6 +72,7 @@ public class TextBox : MonoUI
             return;
         }
 
+
         for (int i = 0; i < currentText.Length; i++)
         {
             if (triggerDictionary.ContainsKey(i))
@@ -120,7 +121,6 @@ public class TextBox : MonoUI
 
         messageText.maxVisibleCharacters = 0;
         messageText.SetText(msg);
-
 
         for (int i = 0; i < msg.Length; i++)
         {

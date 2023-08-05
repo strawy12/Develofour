@@ -64,9 +64,6 @@ public partial class SOSettingWindow : EditorWindow
                 case EWindowType.Installer:
                     iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpritePath.Installer);
                     break;
-                case EWindowType.BGM:
-                    iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpritePath.BGM);
-                    break;
                 default:
                     if (spritePath != "")
                         iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
