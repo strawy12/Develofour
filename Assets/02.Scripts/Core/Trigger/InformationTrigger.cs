@@ -23,15 +23,6 @@ public class InformationTrigger : MonoBehaviour
 
     protected string playMonologType = "";
 
-    //public string MonologID => triggerData.monoLogType;
-    //public List<int> infoDataIDList;
-    //public int fileID;
-    //public List<NeedInfoData> needInfoList;
-    ////public int fileID
-    //[SerializeField] protected int monoLogType;
-    //public int completeMonologType = 0;
-    //public float delay;
-    //public bool isFakeInfo;
 
     protected virtual void Awake()
     {
