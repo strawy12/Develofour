@@ -43,16 +43,12 @@ public abstract class TextSystem : MonoBehaviour
                 {
                     Sound.EAudioType audioType = (Sound.EAudioType)Enum.Parse(typeof(Sound.EAudioType), cmdValue);
                     Sound.OnPlaySound?.Invoke(audioType);
-
                     break;
                 }
 
             case "PSDL":
                 {
-                    Sound.EAudioType audioType = (Sound.EAudioType)Enum.Parse(typeof(Sound.EAudioType), cmdValue);
-                    float? delayNull = Sound.OnPlaySound?.Invoke(audioType);
-                    float delay = delayNull != null ? (float)delayNull : 0f;
-                    SetDelay(delay);
+                    Debug.LogError("Text so의 PSDL를 PS로 바꿔주세요");
                     break;
                 }
 

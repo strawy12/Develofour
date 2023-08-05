@@ -108,18 +108,12 @@ public class Debugger : MonoBehaviour
             {
                 so.iconSprite = mediaPlayerSprite;
             }
-            else if (so.windowType == EWindowType.Discord)
-            {
-                so.iconSprite = harmonySprite;
-            }
+
             else if (so.windowType == EWindowType.ProfilerWindow)
             {
                 so.iconSprite = InstallerSprite;
             }
-            else if (so.windowType == EWindowType.BGM)
-            {
-                so.iconSprite = backgroundBGMSprite;
-            }
+
             AssetDatabase.Refresh();
             AssetDatabase.SaveAssets();
             EditorUtility.SetDirty(so);

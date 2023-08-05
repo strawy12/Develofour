@@ -29,7 +29,6 @@ public class WindowManager : MonoSingleton<WindowManager>
     private void Start()
     {
         EventManager.StartListening(EBrowserEvent.OnOpenSite, CheckBrowserWindow);
-        EventManager.StartListening(EDiscordEvent.OpenHarmony, CheckHarmonyWindow);
     }
 
     private void InitDictionary()
@@ -70,26 +69,26 @@ public class WindowManager : MonoSingleton<WindowManager>
         Browser.currentBrowser?.ChangeSite(link, delay, isAddUndo);
     }
 
-    public void CheckHarmonyWindow(object[] ps)
-    {
-        if (!windowDictionary.ContainsKey(EWindowType.Discord))
-        {
-            Debug.LogError("Browser Type이 Dictionary에 들어가있지않습니다");
-            return;
-        }
+    //public void CheckHarmonyWindow(object[] ps)
+    //{
+    //    if (!windowDictionary.ContainsKey(EWindowType.OutStarDM))
+    //    {
+    //        Debug.LogError("Browser Type이 Dictionary에 들어가있지않습니다");
+    //        return;
+    //    }
 
-        string name = (string)ps[0];
+    //    string name = (string)ps[0];
 
-        if (windowDictionary[EWindowType.Discord].Count == 0)
-        {
-            // Browser가 존재하지않을 때 하나를 새로 생성시킨다
-            // 여기서 생성이 되면 자동으로 Browser.currentBrowser로 지정된다
-            CreateWindow(EWindowType.Discord);
-        }
+    //    if (windowDictionary[EWindowType.OutStarDM].Count == 0)
+    //    {
+    //        // Browser가 존재하지않을 때 하나를 새로 생성시킨다
+    //        // 여기서 생성이 되면 자동으로 Browser.currentBrowser로 지정된다
+    //        CreateWindow(EWindowType.OutStarDM);
+    //    }
 
-        Discord.currentDiscord.OpenChattingRoom(name);
-        WindowOpen(EWindowType.Discord);
-    }
+    //    Discord.currentDiscord.OpenChattingRoom(name);
+    //    WindowOpen(EWindowType.OutStarDM);
+    //}
 
     // TODO : 같은 이름의 윈도우를 실행 시켰을 때 키 값이 겹칠 수 있음. (나중에 구분 할 수 있는 코드 짜야함)
     // 다른 키값 하나가 더 있으야함

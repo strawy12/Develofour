@@ -13,6 +13,7 @@ public partial class Sound : MonoBehaviour
     public static Action<bool> OnStopBGM { get; private set; }
     public static Action OnPlayLastBGM { get; private set; }
 
+
     [SerializeField]
     private SoundPlayer soundPlayerPrefab;
 

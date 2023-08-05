@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Sound;
 
 public class MonologSystem : TextSystem
 {
@@ -126,6 +127,8 @@ public class MonologSystem : TextSystem
             EndMonolog();
             return;
         }
+
+        Sound.OnImmediatelyStop?.Invoke(EAudioType.None);
 
         TextData textData = currentTextData[currentTextDataIdx];
         string text = RemoveCommandText(textData.text, true);
