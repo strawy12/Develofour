@@ -86,7 +86,7 @@ public class Library : Window
         }
         icon.Release();
         //GuideUISystem.EndGuide?.Invoke(icon.rectTranstform);
-       
+
         icon.transform.SetParent(poolParent);
         icon.gameObject.SetActive(false);
     }
@@ -126,7 +126,7 @@ public class Library : Window
     }
     public override void SizeDoTween()
     {
-        if(isNotFirstOpen)
+        if (isNotFirstOpen)
         {
             SetActive(true);
             DataManager.Inst.AddLastAccessDateData(file.ID, TimeSystem.TimeCount());
@@ -154,13 +154,14 @@ public class Library : Window
 
         undoStack = new Stack<DirectorySO>();
         redoStack = new Stack<DirectorySO>();
+        undoStack.Clear();
         FileManager.Inst.GetALLFileList(currentDirectory);
 
         fileAddressPanel.Init();
         leftPanel.Init();
         SetHighlightImage();
         SetLibrary();
-        EventManager.StartListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
+
         EventManager.StartListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
         EventManager.StartListening(ELibraryEvent.AddUndoStack, UndoStackPush);
@@ -301,31 +302,23 @@ public class Library : Window
         //count가 0이면 알파값 내리는게 맞을듯
         if (redoStack.Count == 0) return;
         DirectorySO data = redoStack.Pop();
-        undoStack.Push(currentDirectory);
+        UndoStackPush();
         OnFileOpen(new object[1] { data });
     }
     private void OnClickIcon(object[] ps)
     {
-        if (redoStack.Count != 0)
-        {
-            redoStack.Pop();
-        }
-        else
-        {
-            undoStack.Push(currentDirectory);
-        }
-
-        RedoStackReset(ps);
+        UndoStackPush();
+        RedoStackReset();
         OnFileOpen(ps);
 
     }
 
-    public void UndoStackPush(object[] ps)
+    public void UndoStackPush(object[] ps = null)
     {
         undoStack.Push(currentDirectory);
     }
 
-    public void RedoStackReset(object[] ps)
+    public void RedoStackReset(object[] ps = null)
     {
         redoStack.Clear();
     }
@@ -334,9 +327,9 @@ public class Library : Window
     {
         if (ps[0] is DirectorySO)
         {
-            SetHighlightImage();
             currentDirectory = ps[0] as DirectorySO;
             SetLibrary();
+            SetHighlightImage();
         }
     }
 
@@ -387,7 +380,6 @@ public class Library : Window
 
         OnSelected -= TutorialLibraryClick;
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
-        EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
         EventManager.StopListening(ELibraryEvent.AddUndoStack, UndoStackPush);
