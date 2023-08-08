@@ -63,11 +63,9 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
     private void OpenFile()
     {
-        EventManager.TriggerEvent(ELibraryEvent.AddUndoStack);
-        EventManager.TriggerEvent(ELibraryEvent.ResetRedoStack);
         object[] ps = new object[1] { currentDirectory };
 
-        EventManager.TriggerEvent(ELibraryEvent.ButtonOpenFile, ps);
+        EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, ps);
         
     }
 

@@ -69,7 +69,6 @@ public enum ELibraryEvent
 {
     None = -1,
     IconClickOpenFile,
-    ButtonOpenFile,
     AddFile,
     SelectIcon,
     SelectNull,
