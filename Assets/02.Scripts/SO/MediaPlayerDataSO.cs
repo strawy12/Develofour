@@ -16,8 +16,6 @@ public class MediaPlayerDataSO : ResourceSO
     public string textData;
 
     public float endlineDelay;
-    public List<int> infoID;
-
     [ContextMenu("SetScripts")]
     public void SetScripts()
     {
