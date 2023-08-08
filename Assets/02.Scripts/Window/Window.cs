@@ -12,7 +12,6 @@ public enum EWindowType // 확장자
     Notepad,
     Browser,
     ImageViewer,
-    Discord,
     Directory,
     Installer,
     ProfilerWindow,
@@ -23,7 +22,6 @@ public enum EWindowType // 확장자
     Dummy,
     VideoPlayer,
     SoundPlayer,
-    BGM,
     OutStarDM,
     End
 }

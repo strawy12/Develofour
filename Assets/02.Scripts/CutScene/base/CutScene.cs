@@ -6,6 +6,7 @@ using UnityEngine;
 public class CutScene : MonoBehaviour
 {
     protected bool isPlaying;
+    protected bool isCanStop = true;
 
     private EGameState saveState;
     public GameObject cutSceneCoverPanel;
@@ -17,15 +18,23 @@ public class CutScene : MonoBehaviour
         saveState = GameManager.Inst.GameState;
         Sound.OnStopBGM?.Invoke(true);
         isPlaying = true;
-        InputManager.Inst.AddKeyInput(KeyCode.Escape, onKeyDown: StopCutScene);
+        InputManager.Inst.AddKeyInput(KeyCode.Escape, onKeyDown: ClickESC);
     }
+
+    private void ClickESC()
+    {
+        if (isCanStop == false) return;
+
+        StopCutScene();
+    }
+
     public virtual void StopCutScene()
     {
         if (!isPlaying) return;
         cutSceneCoverPanel.SetActive(false);
         GameManager.Inst.ChangeGameState(saveState);
         isPlaying = false;
-        InputManager.Inst.RemoveKeyInput(KeyCode.Escape, onKeyDown: StopCutScene);
+        InputManager.Inst.RemoveKeyInput(KeyCode.Escape, onKeyDown: ClickESC);
         StopAllCoroutines();
         Sound.OnPlayLastBGM?.Invoke();
         MonologSystem.OnStopMonolog?.Invoke();
