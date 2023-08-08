@@ -3,6 +3,7 @@ using System;
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 [System.Serializable]
 public struct AdditionFile
@@ -62,12 +63,12 @@ public class FileSO : ScriptableObject
         if (parent == null)
         {
             location = this.id + '\\';
-
+            Debug.Log($"{location}");
             return location;
         }
 
         location = string.Format("{0}{1}\\", parent.GetRealFileLocation(), this.id);
-
+        Debug.Log($"{location}");
         return location;
     }
 #endif
