@@ -5,20 +5,43 @@ using UnityEngine;
 public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _inst = null;
+    private static bool shuttingDown = false;
+    private static object locker = new object();
+
     public static T Inst
     {
         get
         {
-            if (_inst == null)
+            if (shuttingDown)
             {
-                _inst = FindObjectOfType<T>();
+                Debug.LogWarning("[Singleton] Instance " + typeof(T) + " already destroyed. Returning null.");
+            }
+
+            lock (locker)
+            {
                 if (_inst == null)
                 {
-                    _inst = new GameObject(typeof(T).ToString()).AddComponent<T>();
+                    _inst = FindObjectOfType<T>();
+                    if (_inst == null)
+                    {
+                        _inst = new GameObject(typeof(T).ToString()).AddComponent<T>();
 
+                    }
                 }
+                return _inst;
             }
-            return _inst;
+
         }
     }
+
+    private void OnDestroy()
+    {
+        shuttingDown = true;
+    }
+
+    private void OnApplicationQuit()
+    {
+        shuttingDown = true;
+    }
+
 }
