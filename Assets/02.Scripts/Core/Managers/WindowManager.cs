@@ -142,7 +142,7 @@ public class WindowManager : MonoSingleton<WindowManager>
             if (isLock && DataManager.Inst.IsPinLock(file.ID))
             {
                 //FileSO lockFileWindowData = FileManager.Inst.GetFile(windowLock.lockWindowType);
-
+                Debug.Log("fdafasd");
                 targetWindow = CreateWindow(windowLock.lockWindowType, file); // file.ID(핀락, 미니게임, 파일), windowLock.lockWindowType
             }
             else
