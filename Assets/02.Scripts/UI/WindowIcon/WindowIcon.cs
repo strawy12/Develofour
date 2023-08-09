@@ -200,6 +200,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         PinLockDataSO windowLock = ResourceManager.Inst.GetResource<PinLockDataSO>(fileData.ID);
         bool isLock = false;
         EventManager.TriggerEvent(ELibraryEvent.AddLeftIcon, new object[1] { fileData });
+
         if (windowLock != null)
         {
             isLock = true;
