@@ -212,6 +212,20 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             return;
         }
 
+        if (!DataManager.Inst.IsStartProfilerTutorial())
+        {
+            if (fileData.ID != Constant.FileID.MYPC && 
+                fileData.ID != Constant.FileID.USB && 
+                fileData.ID != Constant.FileID.PROFILER &&
+                fileData.ID != Constant.FileID.INSTALL)
+            {
+                MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.NOW_USB_CHECK, false);
+                return;
+            }
+        }
+
+        EventManager.TriggerEvent(ELibraryEvent.CreateLeftPanel, new object[] { fileData });
+
         if (fileData is DirectorySO && isBackground == false)
         {
             if (isLock && DataManager.Inst.IsPinLock(fileData.ID))
