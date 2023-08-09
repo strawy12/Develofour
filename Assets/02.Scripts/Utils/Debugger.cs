@@ -95,6 +95,7 @@ public class Debugger : MonoBehaviour
             if (so.windowType == EWindowType.Notepad)
             {
                 so.iconSprite = notepadSprite;
+                so.iconColor = UnityEngine.Color.black;
             }
             else if (so.windowType == EWindowType.ImageViewer)
             {
@@ -103,15 +104,38 @@ public class Debugger : MonoBehaviour
             else if (so.windowType == EWindowType.Directory)
             {
                 so.iconSprite = DirectorySprite;
+                so.iconColor = UnityEngine.Color.black;
             }
             else if (so.windowType == EWindowType.MediaPlayer)
             {
                 so.iconSprite = mediaPlayerSprite;
+                so.iconColor = UnityEngine.Color.black;
             }
 
             else if (so.windowType == EWindowType.ProfilerWindow)
             {
                 so.iconSprite = InstallerSprite;
+                so.iconColor = UnityEngine.Color.white;
+            }
+
+            else if (so.windowType == EWindowType.Browser)
+            {
+                so.iconColor = UnityEngine.Color.white;
+            }
+
+            else if (so.windowType == EWindowType.VideoPlayer)
+            {
+                so.iconColor = UnityEngine.Color.black;
+            }
+
+            else if (so.windowType == EWindowType.SoundPlayer)
+            {
+                so.iconColor = UnityEngine.Color.black;
+            }
+
+            else if (so.windowType == EWindowType.OutStarDM)
+            {
+                so.iconColor = UnityEngine.Color.white;
             }
 
             AssetDatabase.Refresh();

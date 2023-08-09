@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ProfilerAIChatAlarm : MonoBehaviour
 {
+    public GameObject background;
     public TMP_Text alarmText;
 
     private int alarmCount = 0;
@@ -18,6 +19,7 @@ public class ProfilerAIChatAlarm : MonoBehaviour
     public void CloseAlarm()
     {
         alarmCount = 0;
+        background.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
     }
 
@@ -38,6 +40,7 @@ public class ProfilerAIChatAlarm : MonoBehaviour
         alarmCount += 1;
 
         alarmText.text = alarmCount.ToString();
+        background.gameObject.SetActive(true);
         this.gameObject.SetActive(true);
     }
 }
