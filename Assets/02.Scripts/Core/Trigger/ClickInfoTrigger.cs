@@ -23,6 +23,10 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
         {
             backgroundImageList = GetComponentsInChildren<Image>().ToList();
         }
+        foreach(var image in backgroundImageList)
+        {
+            image.color = new Color(0, 0, 0, 0);
+        }
         tempColor = new Color(0,0,0,0);
         base.Bind();
     }
