@@ -34,6 +34,8 @@ public static partial class Constant
     public static class FileID
     {
         public const string MYPC = "F_DR_1";
+        public const string C = "F_DR_2";
+        public const string D = "F_DR_3";
         public const string USB = "F_DR_4";
         public const string BACKGROUND = "F_DR_6";
         public const string DOWNLOAD = "F_DR_18";
@@ -42,6 +44,7 @@ public static partial class Constant
         public const string ZOOGLEPASSWORD = "F_N_12";
         public const string CALLRECORDING = "F_DR_25";
         public const string INCIDENT_REPORT = "F_IV_1";
+        public const string INSTALL = "F_IN_0";
     }
 
 
@@ -99,6 +102,8 @@ public static partial class Constant
         public const string TUTORIAL_CANNOT_GETINFO_CALL = "T_M_23";
 
         public const string TUTORIAL_CALL_ASSISTANT = "T_C_A_4";
+
+        public const string NOW_USB_CHECK = "T_M_96";
     }
     #endregion
     #region MailKey

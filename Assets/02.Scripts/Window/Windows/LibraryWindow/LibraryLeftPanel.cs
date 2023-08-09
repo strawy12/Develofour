@@ -18,7 +18,7 @@ public class LibraryLeftPanel : MonoBehaviour
 
     public void Init()
     {
-        EventManager.StartListening(ELibraryEvent.AddLeftIcon, AddIcon);
+        EventManager.StartListening(ELibraryEvent.CreateLeftPanel, AddIcon);
         windowIconList = new List<WindowIcon>();
         List<string> fileIDList = DataManager.Inst.SaveData.libraryData;
         List<FileSO> fileList = FileManager.Inst.GetFileIDList(fileIDList);
@@ -35,6 +35,7 @@ public class LibraryLeftPanel : MonoBehaviour
             return;
         }
         FileSO file = ps[0] as FileSO;
+
         if (ps[0] is string)
         {
             string fileId = ps[0] as string;
@@ -81,7 +82,7 @@ public class LibraryLeftPanel : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.StopListening(ELibraryEvent.AddLeftIcon, AddIcon);
+        EventManager.StopListening(ELibraryEvent.CreateLeftPanel, AddIcon);
 
     }
 }
