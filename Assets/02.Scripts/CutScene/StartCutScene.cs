@@ -61,7 +61,6 @@ public class StartCutScene : MonoBehaviour
     private IEnumerator PlayCutSceneCoroutine()
     {
         GameManager.Inst.OnChangeGameState?.Invoke(EGameState.CutScene);
-        EventManager.TriggerEvent(ECoreEvent.OpenVolume, new object[] { true });
         float? delay = Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutSceneScream);
         isScreamSound = true;
         yield return new WaitForSeconds(delay == null ? 5f : (float)delay);
