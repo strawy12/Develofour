@@ -9,7 +9,10 @@ public class BackgroundIcon : WindowIcon, ISelectable
     public Action OnSelected { get; set; }
     public Action OnUnSelected { get; set; }
 
-
+    public override void Init(bool isBackground = false)
+    {
+        base.Init(isBackground);
+    }
     public bool IsSelected(GameObject hitObject)
     {
         bool flag1 = hitObject == gameObject;
@@ -20,11 +23,13 @@ public class BackgroundIcon : WindowIcon, ISelectable
     {
         Debug.Log("Select");
         WindowManager.Inst.SelectObject(this);
+        isSelected = true;
     }
     protected override void UnSelect()
     {
-        Debug.Log($"Unselect{fileData.fileName}");
+        clickCount = 0;
         WindowManager.Inst.SelectedObjectNull();
+        isSelected = false;
     }
 
 }
