@@ -14,7 +14,7 @@ public class WifiPanels : MonoUI
     private float expendSizeY = 0f;
 
     private bool isShow =false;
-
+    private bool isComplete = true;
 
     private void Awake()
     {
@@ -33,23 +33,25 @@ public class WifiPanels : MonoUI
     public void Show()
     {
         if (isShow) return;
+        if (isComplete == false) return;
         isShow = true; 
-
         SetActive(true);
+        isComplete = false;
         rectTransform.sizeDelta *= Vector2.right;
         DOTween.To(
             () => rectTransform.sizeDelta.y,
             (value) => rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, value),
             expendSizeY,
             0.2f
-        ).SetEase(Ease.InCubic);
+        ).SetEase(Ease.InCubic).Complete(isComplete = true);
+        
     }
 
     private void TryHide(object[] hits)
     {
         if (isShow == false) return;
 
-        if (Define.ExistInHits(gameObject, hits[0]) == false)
+        if (Define.ExistInHits(gameObject, hits[0]) == false && Define.ExistInHits(wifiBtn.gameObject, hits[0]) == false)
         {
             Hide();
         }
