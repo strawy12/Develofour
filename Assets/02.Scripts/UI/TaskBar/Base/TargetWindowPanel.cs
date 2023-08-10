@@ -29,7 +29,7 @@ public class TargetWindowPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void Init(Window window)
     {
         windowIcon.sprite = window.File.iconSprite;
-        windowTitle.text = $"{window.File.name} - ";
+        windowTitle.text = $"{window.File.fileName} - ";
 
         showBtn.onClick.AddListener(ClickPanel);
         closeBtn.onClick.AddListener(window.WindowClose);
