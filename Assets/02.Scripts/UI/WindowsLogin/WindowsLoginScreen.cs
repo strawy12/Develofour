@@ -69,6 +69,7 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.InputField.contentType = TMP_InputField.ContentType.Password;
         passwordField.InputField.characterLimit = 4;
 
+
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
         hintText.text = "만우절 + 밸런타인 데이 = XXXX";
         hintText.gameObject.SetActive(true);
