@@ -23,7 +23,7 @@ public class BackgroundIcon : WindowIcon, ISelectable
     }
     protected override void UnSelect()
     {
-        Debug.Log("Unselect");
+        Debug.Log($"Unselect{fileData.fileName}");
         WindowManager.Inst.SelectedObjectNull();
     }
 

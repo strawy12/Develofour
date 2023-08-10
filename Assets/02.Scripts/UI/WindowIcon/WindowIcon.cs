@@ -18,7 +18,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Window targetWindow = null;
 
     [SerializeField]
-    private FileSO fileData;
+    protected FileSO fileData;
 
     [SerializeField]
     private Image iconImage;
