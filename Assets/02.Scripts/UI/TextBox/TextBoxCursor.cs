@@ -40,8 +40,10 @@ public class TextBoxCursor : MonoBehaviour
         while(isTurnOn)
         {
             currentImage.DOFade(1f, duration);
+            yield return new WaitForSeconds(duration);
             yield return new WaitForSeconds(delay);
             currentImage.DOFade(0f, duration);
+            yield return new WaitForSeconds(duration);
             yield return new WaitForSeconds(delay);
         }
     }
