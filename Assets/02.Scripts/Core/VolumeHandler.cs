@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+
+
 [RequireComponent(typeof(Volume))]
 public class VolumeHandler : MonoBehaviour
 {
@@ -13,11 +15,17 @@ public class VolumeHandler : MonoBehaviour
     private VolumeProfile cutSceneData;
     private Volume volume;
 
+    void Start()
+    {
+        GameManager.Inst.OnStartCallback += Init;
+        this.gameObject.SetActive(false);
+    }
 
-    private void Start()
+    private void Init()
     {
         volume = GetComponent<Volume>();
         GameManager.Inst.OnChangeGameState += ChangeVolumeData;
+        Debug.Log("ASdfsdafsdaf");
         EventManager.StartListening(ECoreEvent.OpenVolume, ChangeVolumeData);
     }
 
@@ -39,15 +47,15 @@ public class VolumeHandler : MonoBehaviour
 
     private void ChangeVolumeData(object[] ps)
     {
-        if (ps != null && !(ps[0] is bool) && ps.Length > 1 && !(ps[1] is bool))
+        Debug.Log("sadfsdafasdf");
+        if (!(ps[0] is bool))
             return;
 
         bool isOpen = (bool)ps[0];
 
         if (isOpen)
         {
-            bool isTitle = (ps.Length > 1) ? (bool)ps[1] : false;
-            volume.profile = isTitle ? titleData : cutSceneData;
+            volume.profile = cutSceneData;
         }
 
         volume.gameObject.SetActive(isOpen);
