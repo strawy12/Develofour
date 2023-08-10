@@ -9,7 +9,8 @@ public class TextBoxCursor : MonoBehaviour
     private Image currentImage;
     [SerializeField]
     private float duration;
-
+    [SerializeField]
+    private float delay = 0.3f; 
     private bool isTurnOn;
 
     public void Init()
@@ -39,9 +40,9 @@ public class TextBoxCursor : MonoBehaviour
         while(isTurnOn)
         {
             currentImage.DOFade(1f, duration);
-            yield return new WaitForSeconds(duration);
+            yield return new WaitForSeconds(delay);
             currentImage.DOFade(0f, duration);
-            yield return new WaitForSeconds(duration);
+            yield return new WaitForSeconds(delay);
         }
     }
 }

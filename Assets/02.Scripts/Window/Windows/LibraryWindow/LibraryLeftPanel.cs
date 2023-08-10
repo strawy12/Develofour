@@ -73,7 +73,7 @@ public class LibraryLeftPanel : MonoBehaviour
 
         var windowIcon = Instantiate(iconPrefab, leftIconParent);
         windowIcon.Init();
-        windowIcon.SetFileData(file, 30f);
+        windowIcon.SetFileData(file, 25f);
          
         windowIcon.gameObject.SetActive(true);
         windowIconList.Add(windowIcon);
