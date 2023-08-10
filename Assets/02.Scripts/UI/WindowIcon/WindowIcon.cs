@@ -12,7 +12,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 {
     public RectTransform rectTranstform { get; set; }
 
-    private int clickCount = 0;
+    protected int clickCount = 0;
     protected bool isSelected = false;
 
     private Window targetWindow = null;
@@ -43,7 +43,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         rectTranstform = GetComponent<RectTransform>();
     }
 
-    public void Init(bool isBackground = false)
+    public virtual void Init(bool isBackground = false)
     {
         if (isInit) return;
         isInit = true;
