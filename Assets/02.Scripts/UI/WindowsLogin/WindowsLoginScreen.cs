@@ -74,6 +74,8 @@ public class WindowsLoginScreen : MonoBehaviour
         hintText.text = "만우절 + 밸런타인 데이 = XXXX";
         hintText.gameObject.SetActive(true);
 
+        InputManager.Inst.AddAnyKeyInput(CheckMaxInputLength);
+
         passwordField.InputField.onValueChanged.AddListener(CheckInputNumber);
     }
 
@@ -92,13 +94,6 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void CheckInputNumber(string text)
     {
-        if (text.Length >= 5)
-        {
-            StopAllCoroutines();
-            StartCoroutine(MaxInputFourLength());
-            return;
-        }
-
         if (!int.TryParse(text, out _))
         {
             if (hintText.gameObject.activeSelf == false)
@@ -112,6 +107,16 @@ public class WindowsLoginScreen : MonoBehaviour
 
             StopAllCoroutines();
             StartCoroutine(InputOnlyNumberCoroutine());
+        }
+    }
+
+    private void CheckMaxInputLength()
+    {
+        if(passwordField.InputField.text.Length >= 4)
+        {
+            StopAllCoroutines();
+            StartCoroutine(MaxInputFourLength());
+            return;
         }
     }
 
@@ -210,6 +215,7 @@ public class WindowsLoginScreen : MonoBehaviour
     private void EndLogin()
     {
         EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.FirstLoginGuide });
+        InputManager.Inst.RemoveAnyKeyInput(CheckMaxInputLength);
     }
 
     private void StartMonolog()
