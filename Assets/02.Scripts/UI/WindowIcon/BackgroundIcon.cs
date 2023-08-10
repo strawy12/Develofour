@@ -18,10 +18,12 @@ public class BackgroundIcon : WindowIcon, ISelectable
         
     protected override void Select() 
     {
+        Debug.Log("Select");
         WindowManager.Inst.SelectObject(this);
     }
     protected override void UnSelect()
     {
+        Debug.Log("Unselect");
         WindowManager.Inst.SelectedObjectNull();
     }
 
