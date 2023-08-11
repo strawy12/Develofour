@@ -21,6 +21,8 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     protected Image activeImage;
     [SerializeField]
+    protected Image redActiveImage;
+    [SerializeField]
     protected Image highlightedImage;
 
     protected FileSO file;
@@ -384,7 +386,7 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             return;
         }
 
-        activeImage.gameObject.SetActive(true);
+        redActiveImage.gameObject.SetActive(true);
         if (alarmCount < 9)
             alarmCount += 1;
         alarmText.text = alarmCount.ToString();
@@ -393,10 +395,12 @@ public class TaskIcon : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void AlarmCheck(object[] ps)
     {
+
         if (windowTypeCheck(ps) == false)
         {
             return;
         }
+        redActiveImage.gameObject.SetActive(false);
         alarmCount = 0;
         alarm.SetActive(false);
     }

@@ -80,6 +80,7 @@ public class MonologSystem : TextSystem
 
     private void EndMonolog()
     {
+        Debug.Log("끝");
         if (currentTextData == null)
             return;
 
@@ -101,11 +102,11 @@ public class MonologSystem : TextSystem
                 return;
             }
             Action onEndEvent = onEndMonologDictionary[currentTextData.ID];
-            onEndEvent?.Invoke();
             Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.None);
             onEndMonologDictionary.Remove(currentTextData.ID);
             DataManager.Inst.SetMonologShow(currentTextData.ID);
             currentTextData = null;
+            onEndEvent?.Invoke();
         }
     }
 
