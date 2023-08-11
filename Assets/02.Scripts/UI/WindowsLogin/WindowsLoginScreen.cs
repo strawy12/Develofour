@@ -50,7 +50,7 @@ public class WindowsLoginScreen : MonoBehaviour
     private float numberWrongDuration = 3f;
 
     private bool isFirst = true;
-
+   
     private void Start()
     {
         Init();
@@ -112,11 +112,13 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void CheckMaxInputLength()
     {
+        if (passwordField.isLogin) return;
+
+
         if(passwordField.InputField.text.Length >= 4)
         {
             StopAllCoroutines();
             StartCoroutine(MaxInputFourLength());
-            return;
         }
     }
 
@@ -143,6 +145,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
+            Debug.Log("Login");
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             if (isFirst)
             {
@@ -159,6 +162,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
+            Debug.Log("Fail");
             hintText.text = "힌트: 만우절 + 밸런타인 데이";
 
             if (hintText.gameObject.activeSelf == false)
