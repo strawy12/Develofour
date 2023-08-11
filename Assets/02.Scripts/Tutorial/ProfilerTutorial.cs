@@ -20,6 +20,8 @@ public class ProfilerTutorial : MonoBehaviour
 
     private string ASSISTANT_CALL_DATA_ID = "C_A_I_1";
     private string ASSISTANT_CALL_PROFILE_ID = "CD_AS";
+
+    private string PROFILER_MESSAGE_CHECK = "T_M_97";
     #endregion
 
     private string popupText = "튜토리얼을 시작하시겠습니까?";
@@ -112,12 +114,20 @@ public class ProfilerTutorial : MonoBehaviour
         //라이브러리가 오픈될 때 가 아니라 select가 될때
     }
 
+    private void ProfilerCheckMonolog()
+    {
+        MonologSystem.AddOnEndMonologEvent(PROFILER_MESSAGE_CHECK, (() => GameManager.Inst.ChangeGameState(EGameState.Tutorial_Chat)));
+        MonologSystem.OnStartMonolog?.Invoke(PROFILER_MESSAGE_CHECK, false);
+    }
+
+
     #region Overlay Event
     private void OpenIncidentReport(object[] obj)
     {
         EventManager.StopListening(ETutorialEvent.IncidentReportOpen, OpenIncidentReport);
         IsLibraryGuide = false;
         GuideUISystem.EndAllGuide?.Invoke();
+        ProfilerCheckMonolog();
         StartChatting(OVERLAY_TUTORIAL);
     }
     #endregion
@@ -147,13 +157,14 @@ public class ProfilerTutorial : MonoBehaviour
 
     public void GetCharacterInfoEvent(object[] ps)
     {
-        if(ps[0] is bool && (bool)ps[0] == true)
+        if (ps[0] is bool && (bool)ps[0] == true)
         {
             StartChatting(CHARACTER_TUTORIAL);
         }
         else
-        {
+        { 
             MonologSystem.AddOnEndMonologEvent(CharacterID, (() => StartChatting(CHARACTER_TUTORIAL)));
+            MonologSystem.AddOnEndMonologEvent(CharacterID, (() => ProfilerCheckMonolog()));
         }     
 
         ProfilerChattingSystem.OnChatEnd +=
@@ -165,7 +176,6 @@ public class ProfilerTutorial : MonoBehaviour
     private void ClickedCharacterTab(object[] obj)
     {
         EventManager.StopListening(EProfilerEvent.ClickCharacterTab, ClickedCharacterTab);
-        Debug.Log("saaf");
         GuideUISystem.EndAllGuide?.Invoke();
         EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.CharacterCategory });
         EventManager.StartListening(ETutorialEvent.ClickCharacterCategory, ClickedCharacterCategory);
@@ -219,6 +229,7 @@ public class ProfilerTutorial : MonoBehaviour
         else
         {
             MonologSystem.AddOnEndMonologEvent(IncidentID, (() => StartChatting(INCIDENT_TUTORIAL)));
+            MonologSystem.AddOnEndMonologEvent(IncidentID, (() => ProfilerCheckMonolog()));
         }
 
         ProfilerChattingSystem.OnChatEnd +=

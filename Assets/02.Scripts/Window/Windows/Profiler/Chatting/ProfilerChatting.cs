@@ -112,7 +112,7 @@ public class ProfilerChatting : MonoUI
             else
                 CreateImageUI(sprite, sizeY);
         }
-        Debug.Log(scroll.verticalNormalizedPosition);
+
         SetScrollView();
 
     }
@@ -138,7 +138,6 @@ public class ProfilerChatting : MonoUI
     {
         if (profiler == null) return;
 
-        Debug.Log((ISelectable)profiler != WindowManager.Inst.SelectedObject);
         if ((ISelectable)profiler != WindowManager.Inst.SelectedObject
             || ((ISelectable)profiler == WindowManager.Inst.SelectedObject && canvasGroup.interactable == false))
         {
