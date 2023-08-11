@@ -213,6 +213,8 @@ public class Window : MonoUI, ISelectable
         {
             SizeDoTween();
         }
+
+        SetActive(true);
     }
 
     public virtual void SizeDoTween()
