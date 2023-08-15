@@ -79,20 +79,6 @@ public class ProfileOverlaySystem : MonoBehaviour
 
         completeProfileCount = GetCompleteCount();
 
-        if (completeProfileCount == wholeProfileCount)
-        {
-            if (!MonologSystem.isEndMonolog)//독백중이면
-            {
-                Debug.Log(1);
-                MonologSystem.OnEndMonologEvent = () => { MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, 0.5f, false); };
-            }
-            else
-            {
-                Debug.Log(2);
-                MonologSystem.OnStartMonolog(Constant.MonologKey.COMPLETE_OVERLAY, 1f, false);
-            }
-        }
-
         Setting(id);
     }
 
