@@ -12,7 +12,7 @@ public class WifiPanelSpawner : MonoBehaviour
     [SerializeField]
     private WifiDataListSO wifiDataList;
 
-    private void Start()
+    public void Start()
     {
         for(int i = 0; i < wifiDataList.Count; i++)
         {

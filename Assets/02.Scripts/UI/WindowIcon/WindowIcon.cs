@@ -178,6 +178,15 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
+    public void Release()
+    {
+        UnSelect();
+        fileData = null;
+        iconImage.sprite = null;
+        targetWindow = null;
+        
+    }
+
     private void OpenWindow()
     {
         WindowLockDataSO windowLock = ResourceManager.Inst.GetFileLockData(fileData.id);
@@ -233,7 +242,10 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             clickCount = 0;
         }
-
+        else
+        {
+            pointerStayImage.gameObject.SetActive(false);
+        }
         this.isSelected = isSelected;
         selectedImage.gameObject.SetActive(isSelected);
     }
@@ -256,6 +268,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if(isSelected)
+        {
+            pointerStayImage.gameObject.SetActive(false);
+            return;
+        }
         pointerStayImage.gameObject.SetActive(true);
     }
 

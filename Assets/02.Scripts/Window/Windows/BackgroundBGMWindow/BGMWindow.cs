@@ -23,13 +23,16 @@ public class BGMWindow : Window
     public override void WindowOpen()
     {
         base.WindowOpen();
-
         StartCoroutine(ChangeBGMCoroutine());
     }
 
     private IEnumerator ChangeBGMCoroutine()
     {
-        if (isChanged) yield break;
+        if (isChanged) {
+            WindowClose();
+            yield break;
+        }
+
         isChanged = true;
         yield return new WaitForSeconds(playSoundDelay);
         Sound.OnPlaySound?.Invoke(audioType);
