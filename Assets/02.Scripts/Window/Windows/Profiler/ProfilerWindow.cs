@@ -61,7 +61,7 @@ public class ProfilerWindow : Window
         aiChattingPanelBtn.AddListening(OnClickShowChatting);
         aiChattingPanelBtn.AddListening(CheckIsNewChatImage);
         callPanelBtn.AddListening(OnClickShowCalling);
-        EventManager.StartListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
+        //EventManager.StartListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StartListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
   
         beforeClickButton = infoPanelBtn;
@@ -107,13 +107,13 @@ public class ProfilerWindow : Window
 
     #endregion
 
-    private void CheckProfilerOnOff(object[] emptyPs)
-    {
-        if (profilerPanel.gameObject.activeSelf == false)
-        {
-            OnClickShowProfiling();
-        }
-    }
+    //private void CheckProfilerOnOff(object[] emptyPs)
+    //{
+    //    if (profilerPanel.gameObject.activeSelf == false)
+    //    {
+    //        OnClickShowProfiling();
+    //    }
+    //}
 
     private void OnClickShowProfiling()
     {
@@ -205,7 +205,7 @@ public class ProfilerWindow : Window
     private void OnDestroy()
     {
         HidePanel();
-        EventManager.StopListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
+        //EventManager.StopListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StopListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
         EventManager.StopListening(ETutorialEvent.CheckTutorialState, CheckTutorialState);
 
@@ -214,7 +214,7 @@ public class ProfilerWindow : Window
     private void OnApplicationQuit()
     {
         HidePanel();
-        EventManager.StopListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
+        //EventManager.StopListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
         EventManager.StopListening(EProfilerEvent.ClickGuideButton, OnClickShowChatting);
         EventManager.StopListening(ETutorialEvent.CheckTutorialState, CheckTutorialState);
     }

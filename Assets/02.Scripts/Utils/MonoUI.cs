@@ -6,6 +6,8 @@ using UnityEngine;
 public class MonoUI : MonoBehaviour
 {
     protected CanvasGroup canvasGroup = null;
+    [HideInInspector]
+    public bool isFlag = false;
 
     public void SetActive(bool isActive)
     {
@@ -19,6 +21,7 @@ public class MonoUI : MonoBehaviour
         canvasGroup.alpha = isActive ? 1f : 0f;
         canvasGroup.interactable = isActive;
         canvasGroup.blocksRaycasts = isActive;
+        isFlag = isActive;
     }
 
     [ContextMenu("SetActiveTrue")]

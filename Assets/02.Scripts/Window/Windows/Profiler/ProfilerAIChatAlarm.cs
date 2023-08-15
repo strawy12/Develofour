@@ -8,6 +8,8 @@ public class ProfilerAIChatAlarm : MonoBehaviour
     public GameObject background;
     public TMP_Text alarmText;
 
+    public ProfilerChatting aiChatPanel;
+
     private int alarmCount = 0;
 
     public void Init()
@@ -26,6 +28,11 @@ public class ProfilerAIChatAlarm : MonoBehaviour
     public void AlarmCheck(object[] ps)
     {
         if (!(ps[0] is EWindowType))
+        {
+            return;
+        }
+
+        if(aiChatPanel.isFlag == true)
         {
             return;
         }
