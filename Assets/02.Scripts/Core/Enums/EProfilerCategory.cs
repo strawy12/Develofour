@@ -45,5 +45,6 @@ public enum EProfilerCategory
     YohanPavoriteIdol,
     YohansPet,
     JuyoungYohanDate,
+    Map,
     Count,
 }
