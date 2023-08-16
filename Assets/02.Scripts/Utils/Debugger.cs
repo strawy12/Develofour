@@ -83,7 +83,8 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PetProfile, 18 });
+            FileManager.Inst.AddFile(165, 1);
+            FileManager.Inst.AddFile(166, 1);
         }
 
         if (Input.GetKeyDown(KeyCode.L))

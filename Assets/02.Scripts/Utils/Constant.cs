@@ -90,6 +90,20 @@ public static partial class Constant
         public const int CCTV_CUTSCENE_04 = 185;
         public const int FIRST_LOGIN_GUIDE = 214;
         public const int COMPLETE_OVERLAY = 215;
+        public const int CCTV_1_1 = 224;
+        public const int CCTV_1_2 = 225;
+        public const int CCTV_1_3 = 226;
+        public const int CCTV_1_4 = 227;
+        public const int CCTV_1_5 = 228;
+        public const int CCTV_1_6 = 229;
+        public const int CCTV_1_7 = 237;
+        public const int CCTV_2_1 = 230;
+        public const int CCTV_2_2 = 231;
+        public const int CCTV_2_3 = 232;
+        public const int CCTV_2_4 = 233;
+        public const int CCTV_2_5 = 234;
+        public const int CCTV_2_6 = 235;
+        public const int CCTV_2_7 = 236;
     }
     #endregion
     #region MailKey
