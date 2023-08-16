@@ -43,16 +43,17 @@ public abstract class TextSystem : MonoBehaviour
                 {
                     Sound.EAudioType audioType = (Sound.EAudioType)Enum.Parse(typeof(Sound.EAudioType), cmdValue);
                     Sound.OnPlaySound?.Invoke(audioType);
-
+                    MonologSystem.currentTextSoundType = audioType;
                     break;
                 }
 
             case "PSDL":
                 {
+                    Debug.LogError("현재 독백에 PSDL을 지워주세요.");
+
                     Sound.EAudioType audioType = (Sound.EAudioType)Enum.Parse(typeof(Sound.EAudioType), cmdValue);
-                    float? delayNull = Sound.OnPlaySound?.Invoke(audioType);
-                    float delay = delayNull != null ? (float)delayNull : 0f;
-                    SetDelay(delay);
+                    Sound.OnPlaySound?.Invoke(audioType);
+                    MonologSystem.currentTextSoundType = audioType;
                     break;
                 }
 

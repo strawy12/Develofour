@@ -82,19 +82,54 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     }
     private void ActiveLockImage(bool isActive)
     {
-        if (infoDataIDList == null || infoDataIDList.Count == 0) return;
-        if (needInfoList == null || needInfoList.Count <= 0) return;
+        if (triggerData == null) return;
+        if (triggerData.infoDataIDList == null || triggerData.infoDataIDList.Count == 0) return;
+        if (triggerData.needInfoList == null || triggerData.needInfoList.Count <= 0) return;
         if (lockImage == null)
         {
             lockImage = ResourceManager.Inst.GetLockImage();
             lockImage.transform.SetParent(transform);
             lockImage.transform.rotation = transform.rotation;
         }
-        
-        lockImage.transform.localScale = Vector3.one;
+
+        Vector2 thisSizeDelta = ((RectTransform)transform).sizeDelta;
+        if (thisSizeDelta == Vector2.zero)
+        {
+            RectTransform rect = transform.parent as RectTransform;
+            thisSizeDelta = rect.sizeDelta;
+        }
+        if (thisSizeDelta == Vector2.zero)
+        {
+            return;
+        }
+
+        Debug.Log(thisSizeDelta);
+
+        RectTransform lockRect = (lockImage.transform as RectTransform);
+        Debug.Log(lockRect.sizeDelta);
+        if (thisSizeDelta.x < thisSizeDelta.y)
+        {
+            lockRect.sizeDelta = new Vector2(thisSizeDelta.x * 0.75f, thisSizeDelta.x);
+        }
+        else
+        {
+            lockRect.sizeDelta = new Vector2(thisSizeDelta.y * 0.75f, thisSizeDelta.y);
+        }
+
+        Debug.Log(lockRect.sizeDelta);
+
+        Vector2 maxSizeDelta = new Vector2(150, 200);
+
+        if (lockRect.sizeDelta.x > maxSizeDelta.x)
+        {
+            lockRect.sizeDelta = maxSizeDelta;
+        }
+
+        lockRect.localPosition = Vector3.zero;
+        lockRect.localScale = Vector3.one;
+
         lockImage.gameObject.SetActive(isActive);
     }
-
     private void OnDestroy()
     {
         if (GameManager.Inst.isApplicationQuit) return;
