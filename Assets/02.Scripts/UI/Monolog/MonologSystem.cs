@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Sound;
 
 public partial class MonologSystem : TextSystem
 {
@@ -16,6 +17,7 @@ public partial class MonologSystem : TextSystem
     public static bool isEndMonolog { get; private set; }
 
     private static Action onEndMonologEvent;
+
     public static Action OnEndMonologEvent
     {
         set
@@ -39,6 +41,8 @@ public partial class MonologSystem : TextSystem
     {
         onEndMonologEvent -= action;
     }
+
+    public static EAudioType currentTextSoundType = EAudioType.None;
 
     [SerializeField]
     private TextBox textBox;
@@ -140,6 +144,9 @@ public partial class MonologSystem : TextSystem
 
     private void PrintText()
     {
+        Sound.OnImmediatelyStop?.Invoke(currentTextSoundType);
+        currentTextSoundType = EAudioType.None;
+
         if (currentTextData == null)
         {
             EndMonolog();

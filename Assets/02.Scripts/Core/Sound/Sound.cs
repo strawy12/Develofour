@@ -108,6 +108,7 @@ public partial class Sound : MonoBehaviour
 
     private void ImmediatelyStop(EAudioType type)
     {
+        if (type == EAudioType.None) return;
         var list = soundPlayerList.FindAll(x => x.AudioType == type);
 
         foreach (SoundPlayer player in list)
