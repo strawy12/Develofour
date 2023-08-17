@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,9 +9,9 @@ using static CursorChangeSystem;
 
 public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    
+
     [SerializeField]
-    protected Image backgroundImage;
+    protected List<Image> backgroundImageList;
 
     protected Color yellowColor = new Color(1f, 1f, 0f, 0.4f);
     protected Color redColor = new Color(1f, 0f, 0f, 0.4f);
@@ -19,11 +20,15 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     protected override void Bind()
     {
-        if (backgroundImage == null)
+        if (backgroundImageList == null || backgroundImageList.Count == 0)
         {
-            backgroundImage = GetComponent<Image>();
-            tempColor = backgroundImage.color;
+            backgroundImageList = GetComponentsInChildren<Image>().ToList();
         }
+        foreach (var image in backgroundImageList)
+        {
+            image.color = new Color(0, 0, 0, 0);
+        }   
+        tempColor = new Color(0, 0, 0, 0);
         base.Bind();
     }
 
@@ -36,22 +41,24 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     private void ChangeCursor(ECursorState state)
     {
+        if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() > 0) return;
+        Debug.Log(state);
         switch (state)
         {
             case ECursorState.Default:
-                backgroundImage.color = tempColor;
+                backgroundImageList.ForEach(x => x.color = tempColor);
                 ActiveLockImage(false);
                 break;
             case ECursorState.NeedInfo:
-                backgroundImage.color = yellowColor;
+                backgroundImageList.ForEach(x => x.color = yellowColor);
                 ActiveLockImage(true);
                 break;
             case ECursorState.FindInfo:
-                backgroundImage.color = yellowColor;
+                backgroundImageList.ForEach(x => x.color = yellowColor);
                 ActiveLockImage(false);
                 break;
             case ECursorState.FoundInfo:
-                backgroundImage.color = redColor;
+                backgroundImageList.ForEach(x => x.color = redColor);
                 ActiveLockImage(false);
                 break;
         }
@@ -141,7 +148,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 #if UNITY_EDITOR
     private void Reset()
     {
-        backgroundImage = GetComponent<Image>();
+        backgroundImageList = GetComponentsInChildren<Image>().ToList();
     }
 #endif
 }
