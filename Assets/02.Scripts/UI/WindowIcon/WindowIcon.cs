@@ -252,6 +252,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void CloseTargetWindow(string a)
     {
+        if (targetWindow == null) return;
         targetWindow.OnClosed -= CloseTargetWindow;
         targetWindow = null;
     }

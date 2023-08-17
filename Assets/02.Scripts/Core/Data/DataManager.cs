@@ -34,7 +34,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         }
     }
 
-    private void CreateSaveData()
+    public void CreateSaveData()
     {
         saveData = new SaveData();
         saveData.additionFileData = new List<AdditionFileData>();

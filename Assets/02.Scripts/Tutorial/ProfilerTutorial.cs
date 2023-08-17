@@ -30,17 +30,54 @@ public class ProfilerTutorial : MonoBehaviour
 
     void Start()
     {
-        EventManager.StartListening(ETutorialEvent.TutorialStart, CreatePopUp);
+        EventManager.StartListening(ETutorialEvent.TutorialStart, CheckState);
         EventManager.StartListening(ETutorialEvent.LibraryGuide, LibraryRect);
     }
 
-    private void CreatePopUp(object[] ps)
+    private void CheckState(object[] ps)
     {
-#if UNITY_EDITOR
-        WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), () => StartCompleteProfilerTutorial());
-#else
-        WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), null);
-#endif
+        if(DataManager.Inst.GetProfilerTutorialState() == TutorialState.NotStart) // 맨 처음 시작
+        {
+        #if UNITY_EDITOR
+            WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), () => StartCompleteProfilerTutorial());
+        #else
+            WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), null);
+        #endif
+        }
+        else if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo)
+        {
+            if(DataManager.Inst.IsProfilerInfoData(targetIncidentID))
+            {
+                ProfilerChattingSystem.OnChatEnd += IncidentTabGuide;
+                StartChatting(TutorialState.ClickIncidentTab);
+            }
+            else
+            {
+                StartTutorialSetting();
+                GetIncidentInfoEvent();
+            }
+        }
+        else if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentTab)
+        {
+            IncidentTabGuide();
+        }
+        else if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickCharacterInfo)
+        {
+            if (DataManager.Inst.IsProfilerInfoData(targetCharID1) || DataManager.Inst.IsProfilerInfoData(targetCharID2))
+            {
+                ProfilerChattingSystem.OnChatEnd += CharacterTabGuide;
+                StartChatting(TutorialState.ClickCharacterTab);
+            }
+            else
+            {
+                StartTutorialSetting();
+                GetCharacterInfoEvent();
+            }
+        }
+        else if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickCharacterTab)
+        {
+            CharacterTabGuide();
+        }
     }
 
     private void StartTutorial(object[] ps)
@@ -48,10 +85,10 @@ public class ProfilerTutorial : MonoBehaviour
         StartCoroutine(StartProfilerTutorial());
     }
 
-    public void StartChatting(int textListIndex)
+    public void StartChatting(TutorialState state)
     {
-        ProfilerChattingSystem.OnChatEnd += () => DataManager.Inst.SetProfilerTutorialIdx();
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(profilerTutorialTextData.tutorialTexts[textListIndex].data, 1.5f, true);
+        ProfilerChattingSystem.OnChatEnd += () => DataManager.Inst.SetProfilerTutorialState(state);
+        ProfilerChattingSystem.OnPlayChatList?.Invoke(profilerTutorialTextData.tutorialTexts[(int)state].data, 1.5f, true);
     }
 
     private IEnumerator StartProfilerTutorial()
@@ -62,7 +99,7 @@ public class ProfilerTutorial : MonoBehaviour
 
         GetIncidentInfoEvent();
         EventManager.StartListening(ETutorialEvent.SelectLibrary, OpenLibrary);
-        StartChatting(0);
+        StartChatting(TutorialState.ClickIncidentInfo);
     }
 
     private void StartTutorialSetting()
@@ -93,7 +130,7 @@ public class ProfilerTutorial : MonoBehaviour
         {
             EventManager.StopListening(EProfilerEvent.FindInfoText, GetCharacterInfo);
             ProfilerChattingSystem.OnChatEnd += CharacterTabGuide;
-            StartChatting(3);
+            StartChatting(TutorialState.ClickCharacterTab);
         }
     }
 
@@ -109,7 +146,7 @@ public class ProfilerTutorial : MonoBehaviour
         {
             EventManager.StopListening(EProfilerEvent.FindInfoText, GetIncidentInfo);
             ProfilerChattingSystem.OnChatEnd += IncidentTabGuide;
-            StartChatting(1);
+            StartChatting(TutorialState.ClickIncidentTab);
         }
     }
 
@@ -130,7 +167,7 @@ public class ProfilerTutorial : MonoBehaviour
         GuideUISystem.EndAllGuide?.Invoke();
         ProfilerChattingSystem.OnChatEnd += StartTutorialSetting;
         GetCharacterInfoEvent();
-        StartChatting(2);
+        StartChatting(TutorialState.ClickCharacterInfo);
     }
 
     private void CharacterTabGuide()
@@ -148,7 +185,7 @@ public class ProfilerTutorial : MonoBehaviour
 
         GuideUISystem.EndAllGuide?.Invoke();
         TutorialEnd();
-        StartChatting(4);
+        StartChatting(TutorialState.EndTutorial);
     }
 
     private void TutorialEnd()
@@ -180,7 +217,6 @@ public class ProfilerTutorial : MonoBehaviour
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.AssistantProfile, 115 });
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PoliceProfile, 116 });
 
-        DataManager.Inst.SetProfilerTutorialIdx(5);
         StopAllCoroutines();
 
     }

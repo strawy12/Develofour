@@ -7,22 +7,24 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public bool IsProfilerTutorial()
     {
-        return 0 <= saveData.tutorialDataIdx && saveData.tutorialDataIdx <= 3;
+        return (int)TutorialState.NotStart 
+            < (int)saveData.tutorialDataState && (int)saveData.tutorialDataState <
+            (int)TutorialState.EndTutorial;
     }
     
-    public int GetProfilerTutorialIdx()
+    public TutorialState GetProfilerTutorialState()
     {
-        return saveData.tutorialDataIdx;
+        return saveData.tutorialDataState;
     }
 
-    public void SetProfilerTutorialIdx(int value = 1)
+    public void SetProfilerTutorialState(TutorialState state)
     {
-        if (saveData.tutorialDataIdx > 5) return;
-        saveData.tutorialDataIdx+= value;
+        if ((int)saveData.tutorialDataState > (int)state) return; //현재의 스테이트보다 과거의 스테이트가 올때
+        saveData.tutorialDataState = state;
     }
 
     public bool GetIsClearTutorial()
     {
-        return saveData.tutorialDataIdx > 3;
+        return saveData.tutorialDataState == TutorialState.EndTutorial;
     }
 }
