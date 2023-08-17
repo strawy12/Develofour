@@ -12,7 +12,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 {
     public RectTransform rectTranstform { get; set; }
 
-    private int clickCount = 0;
+    protected int clickCount = 0;
     protected bool isSelected = false;
 
     private Window targetWindow = null;
