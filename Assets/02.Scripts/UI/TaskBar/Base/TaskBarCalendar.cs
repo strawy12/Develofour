@@ -10,14 +10,12 @@ public enum EMeridiems
     PM
 }
 
-public class TaskBarCalendar : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TaskBarCalendar : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text timeText;
     [SerializeField]
     private TMP_Text dayText;
-    [SerializeField]
-    private Image highlightImage;
     private System.DateTime dateTime;
     private string meridiemText;
     private EMeridiems meridiem;
@@ -75,15 +73,5 @@ public class TaskBarCalendar : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         timeText.text = $"{meridiemText}  {hourText}:{minuteText}";
         dayText.text = $"{dateTime.Year}-{dateTime.Month}-{dateTime.Day}";
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        highlightImage.gameObject.SetActive(false);
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        highlightImage.gameObject.SetActive(true);
     }
 }
