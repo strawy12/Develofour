@@ -17,7 +17,12 @@ public partial class DataManager : MonoSingleton<DataManager>
     private void LoadFromJson()
     {
         if (isInit == false) return;
-       
+
+#if UNITY_EDITOR
+        CreateSaveData();
+        Debug.LogWarning("PlayerData 실행 시 매번 초기화 되는 디버깅 코드가 존재합니다.");
+        return;
+#else
         if (File.Exists(SAVE_PATH + SAVE_FILE))
         {
             string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
@@ -33,11 +38,6 @@ public partial class DataManager : MonoSingleton<DataManager>
         }
         return;
 
-        //#if UNITY_EDITOR
-        //        CreateSaveData();
-        //        Debug.LogWarning("PlayerData 실행 시 매번 초기화 되는 디버깅 코드가 존재합니다.");
-        //        return;
-        //#else
         //                if (File.Exists(SAVE_PATH + SAVE_FILE))
         //                {
         //                    string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
@@ -47,6 +47,6 @@ public partial class DataManager : MonoSingleton<DataManager>
         //                {
         //                    CreateSaveData();
         //                }
-        //#endif
+#endif
     }
 }
