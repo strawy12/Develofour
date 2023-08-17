@@ -16,6 +16,7 @@ public class ProfilerTutorial : MonoBehaviour
     [SerializeField]
     private RectTransform libraryRect;
 
+    [SerializeField]
     public static EGuideObject guideObjectName;
 
     [SerializeField]
@@ -98,6 +99,7 @@ public class ProfilerTutorial : MonoBehaviour
         ProfilerChattingSystem.OnChatEnd += StartTutorialSetting;
 
         GetIncidentInfoEvent();
+        EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
         EventManager.StartListening(ETutorialEvent.SelectLibrary, OpenLibrary);
         StartChatting(TutorialState.ClickIncidentInfo);
     }
@@ -120,6 +122,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void GetCharacterInfoEvent()
     {
+        EventManager.StopListening(EProfilerEvent.FindInfoText, GetCharacterInfo);
         EventManager.StartListening(EProfilerEvent.FindInfoText, GetCharacterInfo);
     }
 
@@ -136,6 +139,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void GetIncidentInfoEvent()
     {
+        EventManager.StopListening(EProfilerEvent.FindInfoText, GetIncidentInfo);
         EventManager.StartListening(EProfilerEvent.FindInfoText, GetIncidentInfo);
     }
 
@@ -153,6 +157,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void IncidentTabGuide()
     {
+        EventManager.StopListening(EProfilerEvent.ClickIncidentTab, ClickedIncidentTab);
         EventManager.StartListening(EProfilerEvent.ClickIncidentTab, ClickedIncidentTab);
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookIncidentTab, 2f);
         guideObjectName = EGuideObject.IncidentTab;
@@ -164,14 +169,15 @@ public class ProfilerTutorial : MonoBehaviour
     private void ClickedIncidentTab(object[] obj)
     {
         EventManager.StopListening(EProfilerEvent.ClickIncidentTab, ClickedIncidentTab);
-        GuideUISystem.EndAllGuide?.Invoke();
         ProfilerChattingSystem.OnChatEnd += StartTutorialSetting;
+        GuideUISystem.OnEndAllGuide?.Invoke();
         GetCharacterInfoEvent();
         StartChatting(TutorialState.ClickCharacterInfo);
     }
 
     private void CharacterTabGuide()
     {
+        EventManager.StopListening(EProfilerEvent.ClickCharacterTab, ClickedCharacterTab);
         EventManager.StartListening(EProfilerEvent.ClickCharacterTab, ClickedCharacterTab);
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookCharacterTab, 2f);
         guideObjectName = EGuideObject.CharacterTab;
@@ -183,7 +189,7 @@ public class ProfilerTutorial : MonoBehaviour
     private void ClickedCharacterTab(object[] obj)
     {
 
-        GuideUISystem.EndAllGuide?.Invoke();
+        GuideUISystem.OnEndAllGuide?.Invoke();
         TutorialEnd();
         StartChatting(TutorialState.EndTutorial);
     }
@@ -192,7 +198,7 @@ public class ProfilerTutorial : MonoBehaviour
     {
         EventManager.StopListening(EProfilerEvent.ClickCharacterTab, ClickedCharacterTab);
         GameManager.Inst.ChangeGameState(EGameState.Game);
-        GuideUISystem.EndAllGuide?.Invoke();
+        GuideUISystem.OnEndAllGuide?.Invoke();
         if (library != null)
         {
             library.TutorialLibraryClickRemoveEvent();
@@ -213,7 +219,7 @@ public class ProfilerTutorial : MonoBehaviour
         ProfilerChattingSystem.OnImmediatelyEndChat?.Invoke();
         ProfilerChattingSystem.OnChatEnd = null;
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
-        GuideUISystem.EndAllGuide?.Invoke();
+        GuideUISystem.OnEndAllGuide?.Invoke();
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.AssistantProfile, 115 });
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PoliceProfile, 116 });
 

@@ -121,7 +121,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void YellowUI(object[] obj)
     {
-        GuideUISystem.EndAllGuide?.Invoke();
+        GuideUISystem.OnEndAllGuide?.Invoke();
         GuideUISystem.OnGuide(this.rectTranstform);
     }
 

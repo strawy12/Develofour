@@ -1,100 +1,124 @@
 ﻿using DG.Tweening;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.UI;
-public class GuideUISystem : MonoBehaviour 
+public class GuideUISystem : MonoBehaviour
 {
     [SerializeField]
-    private Image guideUI;
+    private GuideUI guideUITemp;
 
-    private bool isSign;
+    private Dictionary<RectTransform, GuideUI> guideUIList;
+    private Stack<GuideUI> guideUIPool;
+
 
     public static Action<RectTransform> OnGuide;
-    public static Action EndAllGuide;
-    public static Action<RectTransform> EndGuide;
-    public static Action<RectTransform> FullSizeGuide;
-
-    private RectTransform currentRectTransform;
+    public static Action OnEndAllGuide;
+    public static Action<RectTransform> OnEndGuide;
+    public static Action<RectTransform> OnFullSizeGuide;
+    public static Action<RectTransform> OnCenterSizeGuide;
 
 
     private void Start()
     {
-        guideUI.gameObject.SetActive(false);
+        guideUIList = new Dictionary<RectTransform, GuideUI>();
+        guideUIPool = new Stack<GuideUI>();
 
         OnGuide += StartGuide;
-        EndAllGuide += StopGuideUICor;
-        EndGuide += EndGuideThis;
-        FullSizeGuide += ChangeFullSize;
+        OnEndAllGuide += StopGuideUICor;
+        OnEndGuide += StopGuide;
+        OnFullSizeGuide += ChangeFullSize;
+        OnCenterSizeGuide += ChangeCenterSize;
     }
 
-    private void ChangeFullSize(RectTransform obj)
+    private GuideUI GetGuideUI(RectTransform parent)
     {
-        guideUI.rectTransform.anchoredPosition = Vector2.zero;
-        guideUI.rectTransform.anchorMin = Vector2.zero;
-        guideUI.rectTransform.anchorMax = Vector2.one;
+        if (guideUIList.ContainsKey(parent))
+        {
+            return null;
+        }
+
+        GuideUI guideUI = null;
+        if (!guideUIPool.TryPeek(out guideUI))
+        {
+            guideUI = Instantiate(guideUITemp, parent);
+            guideUI.OnObjectDestroy += DestroyObject;
+        }
+        Debug.Log($"============={guideUI}_{parent}==============");
+        guideUI.transform.SetParent(parent);
+        guideUI.transform.SetAsFirstSibling();
+
+        guideUIList.Add(parent, guideUI);
+
+        return guideUI;
     }
+
 
     private void StartGuide(RectTransform rect)
     {
-        StopGuideUICor();
-        StartCoroutine(GuideSignCor(rect));
+        if (rect == null) return;
+        if (!rect.gameObject.activeSelf) return;
+        GuideUI ui = GetGuideUI(rect);
+        if (ui == null) return;
+
+        ui.Show(rect);
     }
-
-    private IEnumerator GuideSignCor(RectTransform rect)
-    {
-        if(rect == null)
-        {
-            Debug.Log("rect is null");
-            yield break;
-        }
-      
-        guideUI.rectTransform.SetParent(rect);
-        guideUI.rectTransform.anchorMin = rect.anchorMin;
-        guideUI.rectTransform.anchorMax = rect.anchorMax;
-        guideUI.rectTransform.pivot = rect.pivot;
-        guideUI.rectTransform.localPosition = Vector2.zero;
-        guideUI.rectTransform.sizeDelta = rect.sizeDelta * 1.1f;
-        guideUI.gameObject.SetActive(true);
-
-        currentRectTransform = rect;
-
-        isSign = true;
-
-        while (isSign)
-        {
-            guideUI.DOFade(0.3f, 2f);
-            yield return new WaitForSeconds(2f);
-            guideUI.DOFade( 0.6f, 2f);
-            yield return new WaitForSeconds(2f);
-        }
-    }
-
-    private void EndGuideThis(RectTransform rect)
-    {
-        if(currentRectTransform == null)
-        {
-            return;
-        }
-
-        if(rect.root == currentRectTransform.root)
-        {
-            StopGuideUICor();
-        }
-        else
-        {
-        }
-        return;
-    }
-
 
     private void StopGuideUICor()
     {
-        currentRectTransform = null;
-        guideUI.transform.SetParent(transform);
-        isSign = false;
-        StopAllCoroutines();
-        guideUI.gameObject.SetActive(false);
-        guideUI.DOKill();
+        foreach (GuideUI guideUI in guideUIList.Values)
+        {
+            guideUI.Hide();
+            guideUIPool.Push(guideUI);
+        }
+
+        guideUIList.Clear();
+    }
+
+    private void StopGuide(RectTransform rectTrm)
+    {
+        if (guideUIList.TryGetValue(rectTrm, out GuideUI ui))
+        {
+            ui.Hide();
+            guideUIPool.Push(ui);
+        }
+    }
+
+    private void ChangeFullSize(RectTransform rect)
+    {
+        if (guideUIList.TryGetValue(rect, out GuideUI ui))
+        {
+            ui.ChangeFullSize();
+        }
+    }
+
+    private void ChangeCenterSize(RectTransform rect)
+    {
+        if (guideUIList.TryGetValue(rect, out GuideUI ui))
+        {
+            ui.ChangeCenterSize();
+        }
+    }
+
+    private void DestroyObject(GuideUI ui)
+    {
+        if (guideUIList == null) return;
+        guideUIList.Remove(ui.targetRectTrm);
+        if(guideUIPool.Contains(ui))
+        {
+            var list = guideUIPool.ToList();
+            guideUIPool.Clear();
+
+            foreach(var guideUI in list)
+            {
+                if(guideUI != ui)
+                {
+                    guideUIPool.Push(guideUI);
+                }
+            }
+        }
     }
 }

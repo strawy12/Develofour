@@ -230,7 +230,7 @@ public class Library : Window
             
             //GuideUISystem.EndAllGuide?.Invoke();
             GuideUISystem.OnGuide(button.tutorialSelectImage.transform as RectTransform);
-            GuideUISystem.FullSizeGuide?.Invoke(button.tutorialSelectImage.transform as RectTransform);
+            GuideUISystem.OnFullSizeGuide?.Invoke(button.tutorialSelectImage.transform as RectTransform);
         }
 
     }
