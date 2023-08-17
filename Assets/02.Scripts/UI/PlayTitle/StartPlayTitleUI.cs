@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Threading.Tasks;
 
 public class StartPlayTitleUI : MonoBehaviour
 {
@@ -29,11 +30,18 @@ public class StartPlayTitleUI : MonoBehaviour
         exitButton.onClick?.AddListener(ExitGame);
         popupClose.onClick?.AddListener(() => creditPopup.SetActive(false));
         showCredit.onClick?.AddListener(() => { creditPopup.SetActive(false); creditPanel.StartCredit(); });
+        GameManager.Inst.OnStartCallback += delayBGM;
     }
 
+    private async void delayBGM()
+    {
+        await Task.Delay(2000);
+        Sound.OnPlaySound?.Invoke(Sound.EAudioType.AfterDiscordMail);
+    }
     private void StartplayGame()
     {
         StartCutScene.OnPlayCutScene?.Invoke();
+        Sound.OnStopBGM?.Invoke(false);
         this.gameObject.SetActive(false);
     }
     
