@@ -22,6 +22,7 @@ public class TextBoxCursor : MonoBehaviour
     {
         if (isTurnOn) return;
 
+        currentImage.DOFade(0f, 0.01f);
         gameObject.SetActive(true);
         isTurnOn = true;
         StartCoroutine(FadeEffect());
