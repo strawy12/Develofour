@@ -14,6 +14,12 @@ public class StartPlayTitleUI : MonoBehaviour
     private Button exitButton;
     [SerializeField]
     private CreditPanel creditPanel;
+    [SerializeField]
+    private GameObject creditPopup;
+    [SerializeField]
+    private Button popupClose;
+    [SerializeField]
+    private Button showCredit;
     private void Start()
     {
         gameObject.SetActive(true);
@@ -21,6 +27,8 @@ public class StartPlayTitleUI : MonoBehaviour
         startPlayButton.onClick?.AddListener(StartplayGame);
         creditButton.onClick?.AddListener(OnCreditButton);
         exitButton.onClick?.AddListener(ExitGame);
+        popupClose.onClick?.AddListener(() => creditPopup.SetActive(false));
+        showCredit.onClick?.AddListener(() => { creditPopup.SetActive(false); creditPanel.StartCredit(); });
     }
 
     private void StartplayGame()
@@ -31,7 +39,7 @@ public class StartPlayTitleUI : MonoBehaviour
     
     private void OnCreditButton()
     {
-        creditPanel.StartCredit();
+        creditPopup.SetActive(true);
     }
     
     private void ExitGame()
