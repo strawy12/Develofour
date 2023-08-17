@@ -14,7 +14,7 @@ public partial class DataManager : MonoSingleton<DataManager>
     private const string SAVE_FILE = "Data.Json";
 
     public SaveData debug_Data;
-
+    public int DemoVersion = 1;
     private bool isInit;
 
     public void Init()
@@ -28,6 +28,7 @@ public partial class DataManager : MonoSingleton<DataManager>
     private void CheckDirectory()
     {
         if (isInit == false) return;
+
         if (!Directory.Exists(SAVE_PATH))
         {
             Directory.CreateDirectory(SAVE_PATH);
@@ -36,6 +37,8 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     private void CreateSaveData()
     {
+
+        Debug.Log("New Save Data");
         saveData = new SaveData();
         saveData.additionFileData = new List<AdditionFileData>();
         saveData.aiChattingList = new List<string>();
@@ -44,7 +47,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.branchPassword = "";
         saveData.returnMonologData = new List<ReturnMonologData>();
         saveData.lastAccessDateData = new List<LastAccessDateData>();
-
+        saveData.version = DemoVersion;
         CreateLoginData();
         ProfilerSaveData();
         CreateGuideSaveData();

@@ -57,6 +57,8 @@ public class LastAccessDateData
 [System.Serializable]
 public class SaveData
 {
+    public int version;
+    
     public List<FileLockData> FileLockData;
     public List<MonologSaveData> monologData;
     public List<AdditionFileData> additionFileData;
