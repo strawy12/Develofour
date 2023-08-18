@@ -97,7 +97,7 @@ public class ProfileGuidePanel : MonoBehaviour
 
     private void GuideMoveButton(object[] ps)
     {
-        GuideUISystem.EndAllGuide?.Invoke();
+        GuideUISystem.OnEndAllGuide?.Invoke();
 
         if (currentValue == hideValue)
         {

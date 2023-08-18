@@ -21,7 +21,7 @@ public class GuideObject : MonoBehaviour
         if (DataLoadingScreen.completedDataLoad == false) return;
         if (DataManager.Inst.IsProfilerTutorial() && ProfilerTutorial.guideObjectName == objectName)
         {
-            OnGuide(null);
+            OnGuide(new object[] { objectName });
         }
 
     }
@@ -29,12 +29,19 @@ public class GuideObject : MonoBehaviour
     private void OnGuide(object[] ps)
     {
         if (ps == null || (EGuideObject)ps[0] != objectName) return;
-
+        Debug.Log(this.gameObject.name);
+        if (transform == null) return;
         GuideUISystem.OnGuide?.Invoke(transform as RectTransform);
         if(objectName == EGuideObject.CharacterTab || objectName == EGuideObject.IncidentTab)
         {
-            GuideUISystem.FullSizeGuide?.Invoke(transform as RectTransform);
+            GuideUISystem.OnFullSizeGuide?.Invoke(transform as RectTransform);
         }
         EventManager.StopListening(ETutorialEvent.GuideObject, OnGuide);
     }
+
+    void OnDestroy()
+    {
+        EventManager.StopListening(ETutorialEvent.GuideObject, OnGuide);
+    }
+
 }

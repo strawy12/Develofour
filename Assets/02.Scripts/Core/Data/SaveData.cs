@@ -85,7 +85,17 @@ public class SaveData
     public int CurrentTimeData;
 
     // 튜토리얼 중인지
-    public int tutorialDataIdx = -1;
+    public TutorialState tutorialDataState = TutorialState.NotStart;
+}
+
+public enum TutorialState
+{
+    NotStart = -1, //시작 안함
+    ClickIncidentInfo, //사건 이름 클릭하기 0
+    ClickIncidentTab, //프로파일러 사건 탭 클릭 1
+    ClickCharacterInfo, //인물 이름 클릭하기 2
+    ClickCharacterTab, //프로파일러 인물 탭 클릭 3
+    EndTutorial, //튜토리얼이 끝나고 전화가 옴 4
 }
 
 

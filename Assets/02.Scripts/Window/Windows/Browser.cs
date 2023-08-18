@@ -140,7 +140,6 @@ public partial class Browser : Window
 
         if (TryGetSitePrefab(eSiteLink, out sitePrefab))
         {
-            Debug.Log(addUndo);
             ChangeSite(sitePrefab, loadDelay, addUndo, true);
         }
         else
@@ -205,7 +204,6 @@ public partial class Browser : Window
 
         if (addUndo && beforeSite != null)
         {
-            Debug.Log("트리거");
             usingSite.SetUndoSite(beforeSite);
         }
         //else if (usingSite.SiteLink != ESiteLink.Chrome &&beforeSite.undoSite != null)

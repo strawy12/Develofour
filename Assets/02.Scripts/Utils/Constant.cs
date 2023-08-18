@@ -33,6 +33,7 @@ public static partial class Constant
     public static class FileID
     {
         public const int BACKGROUND = 1;
+        public const int INCIDENTREPORT = 5;
         public const int USB = 6;
         public const int MYPC = 7;
         public const int DOWNLOAD = 10;

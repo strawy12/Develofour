@@ -213,8 +213,8 @@ public class Library : Window
     public void TutorialEvent()
     {
         if (DataManager.Inst.IsProfilerTutorial() == false) return;
-        int idx = DataManager.Inst.GetProfilerTutorialIdx();
-        if (idx != 0 && idx != 2) return;
+        TutorialState state = DataManager.Inst.GetProfilerTutorialState();
+        if (state != TutorialState.ClickIncidentInfo && state != TutorialState.ClickCharacterInfo) return;
 
         if (currentDirectory.id == Constant.FileID.MYPC)
         {
@@ -230,7 +230,7 @@ public class Library : Window
             
             //GuideUISystem.EndAllGuide?.Invoke();
             GuideUISystem.OnGuide(button.tutorialSelectImage.transform as RectTransform);
-            GuideUISystem.FullSizeGuide?.Invoke(button.tutorialSelectImage.transform as RectTransform);
+            GuideUISystem.OnFullSizeGuide?.Invoke(button.tutorialSelectImage.transform as RectTransform);
         }
 
     }
@@ -377,8 +377,8 @@ public class Library : Window
         base.OnDestroyWindow();
         isFirstOpen = false;
         //GuideUISystem.EndAllGuide?.Invoke();
-        Debug.Log(DataManager.Inst.GetProfilerTutorialIdx());
-        if (DataManager.Inst.GetProfilerTutorialIdx() == 0 || DataManager.Inst.GetProfilerTutorialIdx() == 2)
+        Debug.Log(DataManager.Inst.GetProfilerTutorialState());
+        if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo || DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo)
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryGuide);
         }

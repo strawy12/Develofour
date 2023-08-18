@@ -72,7 +72,6 @@ public partial class MonologSystem : TextSystem
                 return;
             }
         }
-        Debug.Log(textDataType);
         StartCoroutine(StartMonologCor(textDataType, beforeDelay));
     }
 

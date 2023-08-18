@@ -35,7 +35,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         }
     }
 
-    private void CreateSaveData()
+    public void CreateSaveData()
     {
 
         Debug.Log("New Save Data");

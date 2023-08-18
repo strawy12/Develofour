@@ -84,12 +84,12 @@ public class InformationTrigger : MonoBehaviour
             {
                 if (!DataManager.Inst.GetIsClearTutorial())
                 {
-                    int idx = DataManager.Inst.GetProfilerTutorialIdx();
+                    TutorialState state = DataManager.Inst.GetProfilerTutorialState();
                     if (
-                        (idx == 0 &&
+                        (state == TutorialState.ClickIncidentInfo &&
                         infoID == INCIDENTREPORT_TITLE)
                         ||
-                        (idx == 2 &&
+                        (state == TutorialState.ClickCharacterInfo &&
                         (infoID == KIMYUJIN_NAME || infoID == PARKJUYOUNG_NAME))
                     )
                     {

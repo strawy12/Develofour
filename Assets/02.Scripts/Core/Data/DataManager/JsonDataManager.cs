@@ -38,15 +38,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         }
         return;
 
-        //                if (File.Exists(SAVE_PATH + SAVE_FILE))
-        //                {
-        //                    string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
-        //                    saveData = JsonUtility.FromJson<SaveData>(data);
-        //                }
-        //                else
-        //                {
-        //                    CreateSaveData();
-        //                }
+
 #endif
     }
 }

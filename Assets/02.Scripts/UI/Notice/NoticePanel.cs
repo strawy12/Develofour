@@ -99,7 +99,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         headText.SetText(head);
         bodyText.SetText(body);
 
-        if (icon != null)
+        if (icon != null && iconImage != null)
         {
             iconImage.gameObject.SetActive(true);
             iconImage.sprite = icon;
