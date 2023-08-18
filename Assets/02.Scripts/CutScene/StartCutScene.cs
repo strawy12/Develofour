@@ -48,7 +48,7 @@ public class StartCutScene : MonoBehaviour
         {
             EndRequestCutScene();
             GameManager.Inst.ChangeGameState(EGameState.Game);
-            Destroy(this.gameObject);
+
         }
         else
         {
@@ -133,7 +133,7 @@ public class StartCutScene : MonoBehaviour
         cutSceneCoverPanel.SetActive(false);
         GameManager.Inst.ChangeGameState(EGameState.Game);
         EventManager.TriggerEvent(ECutSceneEvent.EndStartCutScene);
-        Sound.OnPlaySound(Sound.EAudioType.StartMainBGM);
+        Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartMainBGM);
 
         SetActiveThisObject();
     }
@@ -141,7 +141,7 @@ public class StartCutScene : MonoBehaviour
     private void SetActiveThisObject()
     {
         cutSceneCoverPanel.SetActive(false);
-        Destroy(gameObject);
+        Destroy(this.gameObject);
     }
 
 }

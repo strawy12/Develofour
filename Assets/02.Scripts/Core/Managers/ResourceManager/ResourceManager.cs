@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,42 +7,52 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
     [SerializeField]
     private Transform poolParent;
+
+    public Action OnCompleted;
+    public int cnt {get; private set; }
     public void Start()
     {
-        StartCoroutine(StartGetData());
+        cnt = 20;
         DataLoadingScreen.OnShowLoadingScreen?.Invoke();
+
+        StartCoroutine(StartGetData());
     }
     private IEnumerator StartGetData()
     {
-        int cnt = 20;
+        LoadAudioAssets(LoadComplete);
+        LoadNoticeDatas(LoadComplete);
+        LoadAIChattingTextDataSOAssets(LoadComplete);
+        LoadMonologTextDataAssets(LoadComplete);
+        LoadImageViewerDataAssets(LoadComplete);
 
-        LoadAudioAssets(() => cnt--);
-        LoadNoticeDatas(() => cnt--);
-        LoadAIChattingTextDataSOAssets(() => cnt--);
-        LoadMonologTextDataAssets(() => cnt--);
-        LoadImageViewerDataAssets(() => cnt--);
+        LoadNotepadDataAssets(LoadComplete);
+        LoadMediaPlayerDataAssets(LoadComplete);
+        LoadProfilerCategoryResourcesAssets(LoadComplete);
+        LoadCharacterDataDataSOAssets(LoadComplete);
+        LoadBrowserShortcutDataResourcesAssets(LoadComplete);
 
-        LoadNotepadDataAssets(() => cnt--);
-        LoadMediaPlayerDataAssets(() => cnt--);
-        LoadProfilerCategoryResourcesAssets(() => cnt--);
-        LoadCharacterDataDataSOAssets(() => cnt--);
-        LoadBrowserShortcutDataResourcesAssets(() => cnt--);
+        LoadHarmonyShortcutDataResourcesAssets(LoadComplete);
+        LoadMailDataAssets(LoadComplete);
+        LoadVideoPlayercDataAssets(LoadComplete);
+        LoadRequestCallDataAssets(LoadComplete);
+        LoadIncomingCallDataAssets(LoadComplete);
 
-        LoadHarmonyShortcutDataResourcesAssets(() => cnt--);
-        LoadMailDataAssets(() => cnt--);
-        LoadVideoPlayercDataAssets(() => cnt--);
-        LoadRequestCallDataAssets(() => cnt--);
-        LoadIncomingCallDataAssets(() => cnt--);
-
-        LoadProfilerInfoDataAssets(() => cnt--);
-        LoadLockImage(() => cnt--);
-        LoadBackgroundBGMWindowDataResourcesAssets(() => cnt--);
-        LoadFileLockDataAssets(() => cnt--);
-        LoadTriggerDataSOResourcesAssets(()=>cnt--);
+        LoadProfilerInfoDataAssets(LoadComplete);
+        LoadLockImage(LoadComplete);
+        LoadBackgroundBGMWindowDataResourcesAssets(LoadComplete);
+        LoadFileLockDataAssets(LoadComplete);
+        LoadTriggerDataSOResourcesAssets(LoadComplete);
 
         yield return new WaitUntil(() => cnt <= 0);
+        yield return new WaitForSeconds(2f);
 
         GameManager.Inst.Init();
+    }
+
+    public void LoadComplete()
+    {
+        cnt--;
+        OnCompleted?.Invoke();
     }
 
 }
