@@ -28,13 +28,19 @@ public class GuideObject : MonoBehaviour
 
     private void OnGuide(object[] ps)
     {
-        Debug.Log("∞°¿ÃµÂ : " + objectName + "    " + (EGuideObject)ps[0]);
         if (ps == null || (EGuideObject)ps[0] != objectName) return;
+        Debug.Log(this.gameObject.name);
+        if (transform == null) return;
         GuideUISystem.OnGuide?.Invoke(transform as RectTransform);
         if(objectName == EGuideObject.CharacterTab || objectName == EGuideObject.IncidentTab)
         {
             GuideUISystem.OnFullSizeGuide?.Invoke(transform as RectTransform);
         }
+        EventManager.StopListening(ETutorialEvent.GuideObject, OnGuide);
+    }
+
+    void OnDestroy()
+    {
         EventManager.StopListening(ETutorialEvent.GuideObject, OnGuide);
     }
 

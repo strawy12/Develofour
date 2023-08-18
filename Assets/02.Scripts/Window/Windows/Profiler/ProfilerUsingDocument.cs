@@ -23,7 +23,6 @@ public class ProfilerUsingDocument : MonoBehaviour
             }
             return;
         }
-        Debug.Log("프로파일 문서 열림");
         gameObject.SetActive(true);
         usingDocuments.SetActive(false);
 

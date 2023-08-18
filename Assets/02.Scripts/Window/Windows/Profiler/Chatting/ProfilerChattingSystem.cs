@@ -22,6 +22,8 @@ public class ProfilerChattingSystem : TextSystem
 
     private float currentDataIndex;
 
+    private bool isChatting;
+
     private void Awake()
     {
         OnPlayChatList += StartChatting;
@@ -45,6 +47,11 @@ public class ProfilerChattingSystem : TextSystem
     // delay = 채팅 간격 시간
     public void StartChatting(List<string> list, float delay, bool isSave)
     {
+        if(isChatting)
+        {
+            StopAllCoroutines();
+            isChatting = false;
+        }
         textDataList = list;
 
         StartCoroutine(ChattingCoroutine(delay, isSave));
@@ -57,6 +64,9 @@ public class ProfilerChattingSystem : TextSystem
 
     private IEnumerator ChattingCoroutine(float delay, bool isSave)
     {
+
+        isChatting = true;
+
         foreach (string data in textDataList)
         {
             currentTextData = data;
@@ -78,6 +88,7 @@ public class ProfilerChattingSystem : TextSystem
 
     private void EndChatting()
     {
+        isChatting = false;
         OnChatEnd?.Invoke();
 
         OnChatEnd = null;

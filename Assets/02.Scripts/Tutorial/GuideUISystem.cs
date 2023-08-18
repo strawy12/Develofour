@@ -36,23 +36,43 @@ public class GuideUISystem : MonoBehaviour
 
     private GuideUI GetGuideUI(RectTransform parent)
     {
+
         if (guideUIList.ContainsKey(parent))
         {
             return null;
         }
 
-        GuideUI guideUI = null;
-        if (!guideUIPool.TryPeek(out guideUI))
-        {
-            guideUI = Instantiate(guideUITemp, parent);
-            guideUI.OnObjectDestroy += DestroyObject;
-        }
-        Debug.Log($"============={guideUI}_{parent}==============");
+
+        GuideUI guideUI = GetStackUI(parent);
+
+        Debug.Log(parent.transform);
+        Debug.Log(guideUI.transform);
+       
         guideUI.transform.SetParent(parent);
         guideUI.transform.SetAsFirstSibling();
 
         guideUIList.Add(parent, guideUI);
 
+        return guideUI;
+    }
+
+    private GuideUI GetStackUI(RectTransform parent)
+    {
+        GuideUI guideUI = null;
+        if (!guideUIPool.TryPeek(out guideUI)) // 스택 확인
+        {
+            guideUI = Instantiate(guideUITemp, parent); //없으니까 생성
+            guideUI.OnObjectDestroy += DestroyObject;
+        }
+        else
+        {
+            guideUI = guideUIPool.Pop(); //있으니까 팝
+            if(guideUI == null)
+            {
+                //재귀 
+                return GetStackUI(parent);
+            }
+        }
         return guideUI;
     }
 
@@ -106,7 +126,11 @@ public class GuideUISystem : MonoBehaviour
     private void DestroyObject(GuideUI ui)
     {
         if (guideUIList == null) return;
+        if (ui.targetRectTrm == null) return;
+        if (guideUIList.Values == null) return;
+
         guideUIList.Remove(ui.targetRectTrm);
+
         if(guideUIPool.Contains(ui))
         {
             var list = guideUIPool.ToList();

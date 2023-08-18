@@ -71,6 +71,7 @@ public class ProfilerTutorial : MonoBehaviour
             }
             else
             {
+                GuideUISystem.OnEndAllGuide?.Invoke();
                 StartTutorialSetting();
                 GetCharacterInfoEvent();
             }
@@ -169,9 +170,11 @@ public class ProfilerTutorial : MonoBehaviour
     private void ClickedIncidentTab(object[] obj)
     {
         EventManager.StopListening(EProfilerEvent.ClickIncidentTab, ClickedIncidentTab);
+        guideObjectName = EGuideObject.None;
         ProfilerChattingSystem.OnChatEnd += StartTutorialSetting;
         GuideUISystem.OnEndAllGuide?.Invoke();
         GetCharacterInfoEvent();
+        DataManager.Inst.SetProfilerTutorialState(TutorialState.ClickCharacterInfo);
         StartChatting(TutorialState.ClickCharacterInfo);
     }
 

@@ -30,6 +30,7 @@ public class GuideUI : MonoBehaviour
 
     public void Hide()
     {
+        if (this.targetRectTrm == null) return;
         isSign = false;
         targetRectTrm = null;
         StopAllCoroutines();
