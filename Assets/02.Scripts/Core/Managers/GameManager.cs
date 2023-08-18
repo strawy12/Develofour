@@ -21,7 +21,7 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject CutSceneCanvas => cutSceneCanvas;
 
     public bool IsTutorial => gameState == EGameState.Tutorial;
-    public bool isApplicationQuit { get; private set; }
+    public static bool isApplicationQuit { get; private set; }
 
     [SerializeField]
     private DemoEndScene demoEndScene;
