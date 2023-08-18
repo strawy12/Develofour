@@ -41,7 +41,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     private void ChangeCursor(ECursorState state)
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() > 0) return;
+        if (!DataManager.Inst.SaveData.isProfilerInstall || (int)DataManager.Inst.GetProfilerTutorialState() > (int)(TutorialState.NotStart)) return;
         Debug.Log(state);
         switch (state)
         {
