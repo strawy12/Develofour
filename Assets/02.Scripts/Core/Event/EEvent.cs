@@ -75,6 +75,7 @@ public enum ELibraryEvent
     SelectNull,
     AddUndoStack,
     ResetRedoStack,
+    CreateLeftPanel,
 }
 
 public enum EBrowserEvent
