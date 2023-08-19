@@ -41,8 +41,13 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     private void ChangeCursor(ECursorState state)
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() > 0) return;
+        if (!DataManager.Inst.SaveData.isProfilerInstall || DataManager.Inst.GetProfilerTutorialIdx() > 0)
+        {
+            return;
+        }
+
         Debug.Log(state);
+        
         switch (state)
         {
             case ECursorState.Default:
@@ -87,11 +92,13 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     {
         ChangeCursor(ECursorState.Default);
     }
+
     private void ActiveLockImage(bool isActive)
     {
         if (triggerData == null) return;
         if (triggerData.infoDataIDList == null || triggerData.infoDataIDList.Count == 0) return;
         if (triggerData.needInfoList == null || triggerData.needInfoList.Count <= 0) return;
+        
         if (lockImage == null)
         {
             lockImage = ResourceManager.Inst.GetLockImage();
@@ -137,6 +144,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
         lockImage.gameObject.SetActive(isActive);
     }
+
     private void OnDestroy()
     {
         if (GameManager.Inst.isApplicationQuit) return;
