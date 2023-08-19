@@ -207,6 +207,28 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             return;
         }
 
+        if(DataManager.Inst.SaveData.isProfilerInstall == false) //튜토리얼 체크
+        {
+            if(fileData.windowType != EWindowType.Directory 
+                && fileData.windowType != EWindowType.ProfilerWindow 
+                && fileData.windowType != EWindowType.Installer)
+            {
+                MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.NOTPROFILERINSTALL, 0, false);
+                return;
+            }
+            Debug.Log("중간 포인트");
+            if(fileData.windowType == EWindowType.Directory)
+            {
+                if (fileData.id != Constant.FileID.MYPC
+                    && fileData.id != Constant.FileID.USB
+                    && fileData.id != Constant.FileID.BACKGROUND)
+                {
+                    MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.NOTPROFILERINSTALL, 0, false);
+                    return;
+                }
+            }
+        }
+
         if (fileData is DirectorySO && isBackground == false)
         {
             if (isLock && DataManager.Inst.IsFileLock(fileData.id))

@@ -31,7 +31,7 @@ public class StartPlayTitleUI : MonoBehaviour
 
         startPlayButton.onClick?.AddListener(() => StartplayGame(true));
 
-        if (!DataManager.Inst.SaveData.isNewStart)
+        if (DataManager.Inst.SaveData != null)
         {
             reStartBtn.interactable = true;
             reStartBtn.onClick?.AddListener(() => StartplayGame(false));
@@ -43,6 +43,7 @@ public class StartPlayTitleUI : MonoBehaviour
         showCredit.onClick?.AddListener(() => { creditPopup.SetActive(false); creditPanel.StartCredit(); });
         GameManager.Inst.OnStartCallback += delayBGM;
     }
+
 
     private async void delayBGM()
     {
