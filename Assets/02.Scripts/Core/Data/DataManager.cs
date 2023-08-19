@@ -48,6 +48,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.returnMonologData = new List<ReturnMonologData>();
         saveData.lastAccessDateData = new List<LastAccessDateData>();
         saveData.version = DemoVersion;
+        saveData.libraryData = new List<int>();
         CreateLoginData();
         ProfilerSaveData();
         CreateGuideSaveData();

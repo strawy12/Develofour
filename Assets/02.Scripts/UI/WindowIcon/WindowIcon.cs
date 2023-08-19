@@ -56,13 +56,17 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         selectedImage.gameObject.SetActive(false);
     }
 
-    public void SetFileData(FileSO newFileData)
+    public void SetFileData(FileSO newFileData, float size = 0f)
     {
         if (newFileData == null)
         {
             return;
         }
 
+        if(size == 0f)
+        {
+            size = IconDefaultSize;
+        }
         fileData = newFileData;
         iconNameText.text = fileData.fileName;
         float x1, y1, x2, y2;
@@ -76,18 +80,18 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             y1 = newFileData.iconSprite.rect.height;
             if (x1 > y1)
             {
-                x2 = IconDefaultSize;
+                x2 = size;
                 y2 = y1 * x2 / x1;
             }
             else
             {
-                y2 = IconDefaultSize;
+                y2 = size;
                 x2 = x1 * y2 / y1;
             }
         }
         else
         {
-            x2 = y2 = IconDefaultSize;
+            x2 = y2 = size;
         }
 
         iconImage.rectTransform.sizeDelta = new Vector2(x2, y2);

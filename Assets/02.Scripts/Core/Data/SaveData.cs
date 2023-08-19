@@ -71,6 +71,7 @@ public class SaveData
     public List<MailSaveData> mailSaveData = new List<MailSaveData>();
     public List<ReturnMonologData> returnMonologData;
     public List<LastAccessDateData> lastAccessDateData;
+    public List<int> libraryData;
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
     public bool isZooglePinHintNoteOpen;
