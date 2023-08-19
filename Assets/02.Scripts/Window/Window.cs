@@ -189,12 +189,11 @@ public class Window : MonoUI, ISelectable
         }
     }
 
-    public virtual void WindowOpen()
+    public virtual void WindowOpen(bool isNewOpen)
     {
         WindowManager.Inst.SelectObject(this);
 
         SetCurrentWindow(this);
-
         windowBar.OnClose?.AddListener(CloseEventAdd);
 
         if (!windowAlteration.isMaximum)
@@ -210,6 +209,10 @@ public class Window : MonoUI, ISelectable
 
         rectTransform.sizeDelta = windowAlteration.size;
 
+        if(isNewOpen)
+        {
+            SizeDoTween();
+        }
         DataManager.Inst.AddLastAccessDateData(file.id, TimeSystem.TimeCount());
 
         SetActive(true);
@@ -292,7 +295,16 @@ public class Window : MonoUI, ISelectable
     {
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckSelected);
     }
+    public virtual void SizeDoTween()
+    {
+        float minDuration = 0.16f;
+        rectTransform.localScale = new Vector2(0.9f, 0.9f);
 
+        Sequence sequence = DOTween.Sequence();
+        sequence.Join(rectTransform.DOScale(1, minDuration));
+        sequence.AppendCallback(() => SetActive(true));
+        DataManager.Inst.AddLastAccessDateData(file.id, TimeSystem.TimeCount());
+    }
 #if UNITY_EDITOR
     public void Reset()
     {

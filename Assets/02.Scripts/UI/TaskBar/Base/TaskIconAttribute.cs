@@ -79,7 +79,7 @@ public class TaskIconAttribute : MonoBehaviour
     public void WindowClone()
     {
         Window window = WindowManager.Inst.CreateWindow(file.windowType, file);
-        window.WindowOpen();
+        window.WindowOpen(true);
     }
     public void WindowCreateOrigin()
     {

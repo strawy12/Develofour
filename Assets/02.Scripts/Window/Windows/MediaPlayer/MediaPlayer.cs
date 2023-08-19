@@ -114,9 +114,9 @@ public partial class MediaPlayer : Window
         OverlayOpen();
     }
 
-    public override void WindowOpen()
+    public override void WindowOpen(bool isNewOpen)
     {
-        base.WindowOpen();
+        base.WindowOpen(isNewOpen);
         body.SetPosition();
     }
 

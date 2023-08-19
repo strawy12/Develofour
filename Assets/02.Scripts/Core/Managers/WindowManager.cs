@@ -124,7 +124,7 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             file = FileManager.Inst.GetDefaultFile(windowType);
         }
-
+        bool isNewOpen = false;
         Window targetWindow = null;
 
         if (file.windowType == EWindowType.SiteShortCut)
@@ -148,8 +148,8 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             WindowLockDataSO windowLock = ResourceManager.Inst.GetFileLockData(file.id);
             bool isLock = false;
-
-            if(windowLock != null)
+            isNewOpen = true;
+            if (windowLock != null)
             {
                 isLock = true;
             }
@@ -165,7 +165,7 @@ public class WindowManager : MonoSingleton<WindowManager>
             }
         }
 
-        targetWindow.WindowOpen();
+        targetWindow.WindowOpen(isNewOpen);
         return targetWindow;
     }
 
@@ -185,7 +185,7 @@ public class WindowManager : MonoSingleton<WindowManager>
                 SetWindowOpenInt(windowType, fileExplore);
                 windowDictionary[windowType].Add(fileExplore);
                 fileExplore.OnClosed += (s) => windowOrderList.Remove(fileExplore); ;
-                fileExplore.WindowOpen();
+                fileExplore.WindowOpen(true);
             }
             Window directory = windowDictionary[windowType][0];
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[] { file });
@@ -230,15 +230,16 @@ public class WindowManager : MonoSingleton<WindowManager>
     public Window OpenIconProperty(FileSO file)
     {
         FileSO propertyFile = FileManager.Inst.GetDefaultFile(EWindowType.IconProperty);
-
+        bool isNewOpen = false;
         Window targetWindow = GetWindow(propertyFile.windowType, file.id);
 
         if (targetWindow == null)
         {
+            isNewOpen = true;
             targetWindow = CreateWindow(EWindowType.IconProperty, file);
         }
 
-        targetWindow.WindowOpen();
+        targetWindow.WindowOpen(isNewOpen);
         DataManager.Inst.SaveData.isOnceOpenWindowProperty = true;
 
         return targetWindow;
@@ -339,9 +340,11 @@ public class WindowManager : MonoSingleton<WindowManager>
         FileSO popupFile = FileManager.Inst.GetDefaultFile(EWindowType.Popup);
 
         Window targetWindow = GetWindow(popupFile.windowType, file.id);
+        bool isNewOpen = false;
 
         if (targetWindow == null)
         {
+            isNewOpen = true;
             targetWindow = CreateWindow(EWindowType.Popup, file);
         }
 
@@ -349,7 +352,7 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         popupWindow.Setting(text, agreeAction, degreeAction);
 
-        targetWindow.WindowOpen();
+        targetWindow.WindowOpen(isNewOpen);
 
     }
 

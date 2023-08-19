@@ -106,15 +106,19 @@ public class Library : Window
     #endregion
 
     private bool isSetLibrary = false;
-    private bool isNotFirstOpen = false;
+    private bool isNotFirstOpen = true;
     private Queue<WindowIcon> poolQueue = new Queue<WindowIcon>();
     private List<WindowIcon> iconList = new List<WindowIcon>();
 
     [SerializeField]
     private Sprite lockLibrary;
-    public override void WindowOpen()
+    public override void WindowOpen(bool isNewOpen)
     {
-        base.WindowOpen();
+        if (!isNotFirstOpen) isNewOpen = false;
+
+        isNotFirstOpen = false;
+
+        base.WindowOpen(isNewOpen);
         if (DataManager.Inst.IsProfilerTutorial())
         {
             TutorialEvent();
