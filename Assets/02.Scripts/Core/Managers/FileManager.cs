@@ -147,6 +147,24 @@ public class FileManager : MonoSingleton<FileManager>
 
         return fileList;
     }
+
+    public List<FileSO> GetFileIDList(List<int> fileIDList)
+    {
+        List<FileSO> fileList = new List<FileSO>();
+        List<FileSO> allFileList = GetALLUnLockFileList(rootDirectory, true);
+        foreach (int id in fileIDList)
+        {
+            if (id == 0 || id == 7) continue;
+            FileSO file = fileList.Find(x => x.id == id);
+            if(file != null)
+            {
+                fileList.Add(file);
+            }
+        }
+        Debug.Log(fileList.Count); 
+        return fileList;
+    }
+
     public List<FileSO> GetALLFileList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
         //fileList.Clear();
@@ -217,7 +235,13 @@ public class FileManager : MonoSingleton<FileManager>
 
         return searchFileList;
     }
+    public FileSO GetFile(int fileID)
+    {
+        List<FileSO> fileList = GetALLUnLockFileList(rootDirectory);
+        FileSO file = fileList.Find(x => x.id == fileID);
 
+        return file;
+    }
     //public List<FileSO> ProfileSearchFile(string text, DirectorySO currentDirectory = null)
     //{
     //    List<FileSO> allFileList = GetALLFileList(currentDirectory);

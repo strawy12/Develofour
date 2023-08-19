@@ -50,6 +50,8 @@ public class Library : Window
     [SerializeField]
     private TextMeshProUGUI redoText;
     #endregion
+    [SerializeField]
+    private LibraryLeftPanel leftPanel;
 
     private WindowIcon selectIcon;
     #region pooling
@@ -83,8 +85,9 @@ public class Library : Window
         {
             poolQueue.Enqueue(icon);
         }
-        //GuideUISystem.EndGuide?.Invoke(icon.rectTranstform);
         icon.Release();
+        //GuideUISystem.EndGuide?.Invoke(icon.rectTranstform);
+
         icon.transform.SetParent(poolParent);
         icon.gameObject.SetActive(false);
     }
@@ -103,8 +106,7 @@ public class Library : Window
     #endregion
 
     private bool isSetLibrary = false;
-    private bool isFirstOpen = false;
-
+    private bool isNotFirstOpen = false;
     private Queue<WindowIcon> poolQueue = new Queue<WindowIcon>();
     private List<WindowIcon> iconList = new List<WindowIcon>();
 
@@ -112,14 +114,12 @@ public class Library : Window
     private Sprite lockLibrary;
     public override void WindowOpen()
     {
-
         base.WindowOpen();
         if (DataManager.Inst.IsProfilerTutorial())
         {
             TutorialEvent();
         }
-
-        if(!DataManager.Inst.GetIsClearTutorial())
+        if (!DataManager.Inst.GetIsClearTutorial())
         {
             OnSelected -= TutorialLibraryClick;
             OnSelected += TutorialLibraryClick;
@@ -142,23 +142,26 @@ public class Library : Window
 
         undoStack = new Stack<DirectorySO>();
         redoStack = new Stack<DirectorySO>();
+        undoStack.Clear();
         FileManager.Inst.GetALLFileList(currentDirectory);
 
         fileAddressPanel.Init();
+        leftPanel.Init();
         SetHighlightImage();
         SetLibrary();
 
-        EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
-        EventManager.StartListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StartListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StartListening(ELibraryEvent.SelectNull, SelectNull);
         EventManager.StartListening(ELibraryEvent.AddUndoStack, UndoStackPush);
         EventManager.StartListening(ELibraryEvent.ResetRedoStack, RedoStackReset);
         EventManager.StartListening(ETutorialEvent.LibraryEventTrigger, SetLibraryEvent);
         EventManager.StartListening(ELibraryEvent.AddFile, Refresh);
+        EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
+       
+
 
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
-        
+
         searchInputField.onSubmit.AddListener(SearchFunction);
         searchBtn.onClick.AddListener(SearchFunction);
         undoBtn.onClick.AddListener(UndoFile);
@@ -186,7 +189,7 @@ public class Library : Window
         List<FileSO> fileList = FileManager.Inst.SearchFile(text, currentDirectory);
         ShowFoundFile(fileList);
     }
-        
+
     private void SearchFunction()
     {
         if (searchInputField.text.Length < 2) return;
@@ -197,12 +200,12 @@ public class Library : Window
 
     public void SetLibrary()
     {
-        WindowManager.Inst.SetWindowOrder(this);
         windowBar.SetNameText(currentDirectory.fileName);
         fileAddressPanel.SetButtons(currentDirectory);
         CreateChildren();
         //EventManager.TriggerEvent(EMonologEvent.MonologException, new object[1] { currentDirectory });
         searchInputField.text = "";
+        WindowManager.Inst.SetWindowOrder(this);
 
         if (DataManager.Inst.IsProfilerTutorial())
         {
@@ -212,7 +215,6 @@ public class Library : Window
 
     public void TutorialEvent()
     {
-        if (DataManager.Inst.IsProfilerTutorial() == false) return;
         TutorialState state = DataManager.Inst.GetProfilerTutorialState();
         if (state != TutorialState.ClickIncidentInfo && state != TutorialState.ClickCharacterInfo) return;
 
@@ -227,12 +229,11 @@ public class Library : Window
         else
         {
             TopFileButton button = fileAddressPanel.TopFileButtons.Find((x) => x.CurrentDirectory.id == Constant.FileID.MYPC);
-            
+
             //GuideUISystem.EndAllGuide?.Invoke();
             GuideUISystem.OnGuide(button.tutorialSelectImage.transform as RectTransform);
             GuideUISystem.OnFullSizeGuide?.Invoke(button.tutorialSelectImage.transform as RectTransform);
         }
-
     }
 
     private void CreateChildren()
@@ -244,17 +245,14 @@ public class Library : Window
             WindowIcon icon = Pop();
             icon.PointerStayImage.gameObject.SetActive(false);
             icon.SetFileData(file); // icon마다의 startTrigger를 이 함수에 넣어야함
-            if(file.windowType == EWindowType.Directory)
+            if (file.windowType == EWindowType.Directory)
             {
-                if(DataManager.Inst.IsFileLock(file.id))
-                {
-                    icon.ChangeIcon(lockLibrary, file.color);
-                }
+                icon.ChangeIcon(lockLibrary, file.color);
             }
         }
         isSetLibrary = false;
     }
-    
+
     private void CheckSearchInputTextLength(string text)
     {
         if (isSetLibrary) return;
@@ -276,7 +274,6 @@ public class Library : Window
         fileAddressPanel.SetEmptyBtn();
     }
 
-
     public void UndoFile(object[] emptyParam) => UndoFile();
     public void UndoFile()
     {
@@ -293,36 +290,24 @@ public class Library : Window
         //count가 0이면 알파값 내리는게 맞을듯
         if (redoStack.Count == 0) return;
         DirectorySO data = redoStack.Pop();
-        undoStack.Push(currentDirectory);
+        UndoStackPush();
         OnFileOpen(new object[1] { data });
     }
     private void OnClickIcon(object[] ps)
     {
-
-        if (redoStack.Count != 0)
-        {
-            redoStack.Pop();
-        }
-
-        if(!isFirstOpen)
-        {
-            isFirstOpen = true;
-        }
-        else
-        {
-            undoStack.Push(currentDirectory);
-        }
-
-        RedoStackReset(ps);
+        //튜토리얼 시작 안하고 다른 곳 못가게 막기
+        UndoStackPush();
+        RedoStackReset();
         OnFileOpen(ps);
+
     }
 
-    public void UndoStackPush(object[] ps)
+    public void UndoStackPush(object[] ps = null)
     {
         undoStack.Push(currentDirectory);
     }
 
-    public void RedoStackReset(object[] ps)
+    public void RedoStackReset(object[] ps = null)
     {
         redoStack.Clear();
     }
@@ -331,9 +316,9 @@ public class Library : Window
     {
         if (ps[0] is DirectorySO)
         {
-            SetHighlightImage();
             currentDirectory = ps[0] as DirectorySO;
             SetLibrary();
+            SetHighlightImage();
         }
     }
 
@@ -375,7 +360,7 @@ public class Library : Window
     protected override void OnDestroyWindow()
     {
         base.OnDestroyWindow();
-        isFirstOpen = false;
+        isNotFirstOpen = false;
         //GuideUISystem.EndAllGuide?.Invoke();
         Debug.Log(DataManager.Inst.GetProfilerTutorialState());
         if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo || DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo)
@@ -385,7 +370,6 @@ public class Library : Window
 
         OnSelected -= TutorialLibraryClick;
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
-        EventManager.StopListening(ELibraryEvent.ButtonOpenFile, OnFileOpen);
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
         EventManager.StopListening(ELibraryEvent.AddUndoStack, UndoStackPush);
