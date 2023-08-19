@@ -306,9 +306,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private void OnDestroy()
     {
         StopAllCoroutines();
-
-        if (GameManager.Inst.isApplicationQuit) return;
-        //GuideUISystem.EndGuide?.Invoke(rectTranstform);
     }
 }
 

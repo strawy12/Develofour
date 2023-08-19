@@ -147,22 +147,25 @@ public class FileManager : MonoSingleton<FileManager>
 
         return fileList;
     }
+
     public List<FileSO> GetFileIDList(List<int> fileIDList)
     {
         List<FileSO> fileList = new List<FileSO>();
-        fileList = GetALLUnLockFileList(rootDirectory, true);
-        
+        List<FileSO> allFileList = GetALLUnLockFileList(rootDirectory, true);
+        allFileList.Remove(rootDirectory);
         foreach (int id in fileIDList)
         {
+            if (id == 0) continue;
             FileSO file = fileList.Find(x => x.id == id);
             if(file != null)
             {
                 fileList.Add(file);
             }
         }
-        Debug.Log(fileList.Count);
+        Debug.Log(fileList.Count); 
         return fileList;
     }
+
     public List<FileSO> GetALLFileList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
         //fileList.Clear();

@@ -293,7 +293,6 @@ public class Library : Window
     private void OnClickIcon(object[] ps)
     {
         //튜토리얼 시작 안하고 다른 곳 못가게 막기
-
         UndoStackPush();
         RedoStackReset();
         OnFileOpen(ps);

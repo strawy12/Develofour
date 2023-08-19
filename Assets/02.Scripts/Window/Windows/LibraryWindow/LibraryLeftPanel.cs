@@ -20,6 +20,7 @@ public class LibraryLeftPanel : MonoBehaviour
         EventManager.StartListening(ELibraryEvent.CreateLeftPanel, AddIcon);
         windowIconList = new List<WindowIcon>();
         List<int> fileIDList = DataManager.Inst.SaveData.libraryData;
+        Debug.Log(fileIDList.Count);
         List<FileSO> fileList = FileManager.Inst.GetFileIDList(fileIDList);
         
         foreach (var file in fileList)
