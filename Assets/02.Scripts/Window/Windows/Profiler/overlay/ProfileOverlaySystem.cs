@@ -84,11 +84,11 @@ public class ProfileOverlaySystem : MonoBehaviour
 
     public void Setting(int id)
     {
-        if (currentFileID != id) //fileID 체크
-        {
-            Debug.Log("현재 오버레이의 fileId와 다릅니다.");
-            return;
-        }
+        //if (currentFileID != id) //fileID 체크
+        //{
+        //    Debug.Log("현재 오버레이의 fileId와 다릅니다.");
+        //    return;
+        //}
 
         overlayText.text = GetCompleteCount() + " / " + GetWholeCount();
 
