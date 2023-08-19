@@ -190,10 +190,12 @@ public class WindowManager : MonoSingleton<WindowManager>
             Window directory = windowDictionary[windowType][0];
             EventManager.TriggerEvent(ELibraryEvent.IconClickOpenFile, new object[] { file });
             EventManager.TriggerEvent(ELibraryEvent.CreateLeftPanel, new object[] { file });
+
             SetWindowOrder(directory);
             return directory;
         }
 
+        EventManager.TriggerEvent(ELibraryEvent.CreateLeftPanel, new object[] { file });
         Window window = GetWindowPrefab(windowType);
         window.CreatedWindow(file);
         SetWindowOpenInt(windowType, window);

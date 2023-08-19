@@ -152,10 +152,9 @@ public class FileManager : MonoSingleton<FileManager>
     {
         List<FileSO> fileList = new List<FileSO>();
         List<FileSO> allFileList = GetALLUnLockFileList(rootDirectory, true);
-        allFileList.Remove(rootDirectory);
         foreach (int id in fileIDList)
         {
-            if (id == 0) continue;
+            if (id == 0 || id == 7) continue;
             FileSO file = fileList.Find(x => x.id == id);
             if(file != null)
             {

@@ -157,6 +157,8 @@ public class Library : Window
         EventManager.StartListening(ETutorialEvent.LibraryEventTrigger, SetLibraryEvent);
         EventManager.StartListening(ELibraryEvent.AddFile, Refresh);
         EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
+       
+
 
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
 
