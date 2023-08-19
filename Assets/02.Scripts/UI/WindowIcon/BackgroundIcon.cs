@@ -18,6 +18,7 @@ public class BackgroundIcon : WindowIcon, ISelectable
         
     protected override void Select() 
     {
+        base.Select();
         WindowManager.Inst.SelectObject(this);
         isSelected = true;
     }
