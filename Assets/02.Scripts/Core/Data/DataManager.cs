@@ -37,9 +37,8 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public void CreateSaveData()
     {
-
-        Debug.Log("New Save Data");
         saveData = new SaveData();
+        saveData.isNewStart = true;
         saveData.additionFileData = new List<AdditionFileData>();
         saveData.aiChattingList = new List<string>();
         saveData.branchPostLockData = new List<string>();

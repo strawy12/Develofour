@@ -80,6 +80,8 @@ public class SaveData
     // List<bool> (int)type
     public List<bool> loginData;
 
+    public bool isNewStart = true;
+
     public string branchPassword;
     public bool isOnceOpenWindowProperty;
 

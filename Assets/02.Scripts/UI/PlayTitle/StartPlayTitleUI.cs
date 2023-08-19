@@ -21,11 +21,22 @@ public class StartPlayTitleUI : MonoBehaviour
     private Button popupClose;
     [SerializeField]
     private Button showCredit;
+
+    [SerializeField]
+    private Button reStartBtn;
+
     private void Start()
     {
         gameObject.SetActive(true);
 
-        startPlayButton.onClick?.AddListener(StartplayGame);
+        startPlayButton.onClick?.AddListener(() => StartplayGame(true));
+
+        if (!DataManager.Inst.SaveData.isNewStart)
+        {
+            reStartBtn.interactable = true;
+            reStartBtn.onClick?.AddListener(() => StartplayGame(false));
+        }
+
         creditButton.onClick?.AddListener(OnCreditButton);
         exitButton.onClick?.AddListener(ExitGame);
         popupClose.onClick?.AddListener(() => creditPopup.SetActive(false));
@@ -38,18 +49,23 @@ public class StartPlayTitleUI : MonoBehaviour
         await Task.Delay(2000);
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.AfterDiscordMail);
     }
-    private void StartplayGame()
+    private void StartplayGame(bool isNewStart)
     {
+        if (isNewStart)
+        {
+            DataManager.Inst.CreateSaveData();
+        }
+
         StartCutScene.OnPlayCutScene?.Invoke();
         Sound.OnStopBGM?.Invoke(false);
         this.gameObject.SetActive(false);
     }
-    
+
     private void OnCreditButton()
     {
         creditPopup.SetActive(true);
     }
-    
+
     private void ExitGame()
     {
         GameManager.Inst.GameQuit();
