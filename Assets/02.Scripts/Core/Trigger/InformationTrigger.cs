@@ -128,7 +128,6 @@ public class InformationTrigger : MonoBehaviour
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall) return;
 
-
         if (infoDataIDList.Count == 0 || infoDataIDList == null)
         {
             MonologSystem.OnStartMonolog?.Invoke(monoLogType, delay, false);

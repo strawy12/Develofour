@@ -156,6 +156,7 @@ public static class Define
                 }
             }
         }
+
         foreach (var infoID in infoIDList)
         {
             if (DataManager.Inst.IsProfilerInfoData(infoID))
@@ -172,6 +173,7 @@ public static class Define
         EventManager.TriggerEvent(ECoreEvent.CursorChange, new object[] { state });
         return state;
     }
+
     public static bool CheckTodayDate(int day)
     {
         if (Constant.NOWDAY == day)
