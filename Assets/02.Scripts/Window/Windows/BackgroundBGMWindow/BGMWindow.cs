@@ -20,9 +20,9 @@ public class BGMWindow : Window
         audioType = ResourceManager.Inst.GetBGMWindowDataResources(file.id).audioType;
     }
 
-    public override void WindowOpen()
+    public override void WindowOpen(bool isNewOpen)
     {
-        base.WindowOpen();
+        base.WindowOpen(isNewOpen);
         StartCoroutine(ChangeBGMCoroutine());
     }
 

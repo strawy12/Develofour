@@ -49,9 +49,9 @@ public class Notepad : Window
         SetText();
     }
 
-    public override void WindowOpen()
+    public override void WindowOpen(bool isNewOpen)
     {
-        base.WindowOpen();
+        base.WindowOpen(isNewOpen);
         notepadBody.inputField.textComponent.ForceMeshUpdate();
         notepadBody.SetTriggerPosition();
     }
