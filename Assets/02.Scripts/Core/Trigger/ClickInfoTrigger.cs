@@ -147,7 +147,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     private void OnDestroy()
     {
-        if (GameManager.Inst.isApplicationQuit) return;
+       // if (GameManager.Inst.isApplicationQuit) return;
 
         if (lockImage != null)
             ResourceManager.Inst.PushLockImage(lockImage);
