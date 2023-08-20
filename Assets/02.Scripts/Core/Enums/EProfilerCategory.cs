@@ -48,5 +48,6 @@ public enum EProfilerCategory
     Map,
     CCTV_1,
     CCTV_2,
+    Testimony,
     Count,
 }
