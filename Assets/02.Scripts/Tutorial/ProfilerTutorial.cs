@@ -225,7 +225,7 @@ public class ProfilerTutorial : MonoBehaviour
         GuideUISystem.OnEndAllGuide?.Invoke();
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.AssistantProfile, 115 });
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PoliceProfile, 116 });
-
+        DataManager.Inst.SetProfilerTutorialState(TutorialState.EndTutorial);
         StopAllCoroutines();
 
     }

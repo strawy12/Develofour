@@ -18,6 +18,7 @@ public class CallSystem : MonoSingleton<CallSystem>
     private List<CallSelectButton> buttonList = new List<CallSelectButton>();
     //Call Stack(전화 쌓이는거) 저장 해야함.
 
+    [SerializeField]
     private List<IncomingCallDataSO> incomingCallDataList = new List<IncomingCallDataSO>();
 
     [Header("CallUI")]
@@ -49,9 +50,11 @@ public class CallSystem : MonoSingleton<CallSystem>
     {
         while (true)
         {
-            yield return new WaitForSeconds(deflaultDelayTime);
+            yield return new WaitForSeconds(deflaultDelayTime / 2);
             DecisionCheck();
-            if(callCoverPanel.activeSelf && !isCalling)
+            yield return new WaitForSeconds(deflaultDelayTime / 2);
+            IncomingCheck(null);
+            if (callCoverPanel.activeSelf && !isCalling)
             {
                 callCoverPanel.SetActive(false);
             }
@@ -63,8 +66,8 @@ public class CallSystem : MonoSingleton<CallSystem>
         answerBtn.gameObject.SetActive(false);
         spectrumUI.gameObject.SetActive(false);
 
-        EventManager.StartListening(EMonologEvent.MonologEnd, IncomingCheck);
-        EventManager.StartListening(EProfilerEvent.FindInfoInProfiler, IncomingCheck);
+        //EventManager.StartListening(EMonologEvent.MonologEnd, IncomingCheck);
+        //EventManager.StartListening(EProfilerEvent.FindInfoInProfiler, IncomingCheck);
 
         //EventManager.StartListening(EMonologEvent.MonologEnd, DecisionCheck);
         //EventManager.StartListening(EProfilerEvent.FindInfoInProfiler, DecisionCheck);
@@ -137,7 +140,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         if (DataManager.Inst.IsSavePhoneNumber(charSO.phoneNum) == false)
         {
             Debug.Log(charSO.characterName);
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.InvisibleInformation, charSO.phoneNumberInfoID });
+            MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.InvisibleInformation, charSO.phoneNumberInfoID });
             EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { charSO.phoneNum });
         }
         Show();
