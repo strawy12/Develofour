@@ -29,6 +29,7 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         fileImage.sprite = null;
         fileImage.color = Color.black;
         currentDirectory = null;
+        transform.localScale = Vector3.one;
     }
 
     private void Bind()
@@ -59,6 +60,7 @@ public class TopFileButton : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         currentDirectory = directoryData;
         fileName.text = directoryData.fileName;
         fileImage.sprite = directoryData.iconSprite;
+        rectTransform.localScale = Vector3.one;
     }
 
     private void OpenFile()
