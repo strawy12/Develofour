@@ -54,6 +54,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
+        rectTranstform.localScale = Vector3.one;
+        Debug.Log(rectTranstform.localScale.z);
     }
 
     public void SetFileData(FileSO newFileData, float size = 0f)
@@ -95,8 +97,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             x2 = y2 = size;
         }
 
-        iconImage.rectTransform.sizeDelta = new Vector2(x2, y2);
-
+        iconImage.rectTransform.sizeDelta = new Vector3(x2, y2, 1);
         iconImage.sprite = newFileData.iconSprite;
 
         iconImage.color = newFileData.color;
@@ -115,6 +116,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //데이터 매니저로 확인하고
         //gamestate가 튜토리얼이라면
         //library, usb, report에 각각 이벤트 넣어줘~
+        rectTranstform.localScale = Vector3.one;
+        Debug.Log(rectTranstform.localScale.z);
     }
 
     public void ChangeIcon(Sprite icon, Color color)
@@ -186,10 +189,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void Release()
     {
         UnSelect();
+
         fileData = null;
         iconImage.sprite = null;
         targetWindow = null;
-        
+        iconNameText.text = "";
     }
 
     private void OpenWindow()

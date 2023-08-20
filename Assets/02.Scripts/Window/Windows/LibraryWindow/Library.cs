@@ -249,9 +249,11 @@ public class Library : Window
             WindowIcon icon = Pop();
             icon.PointerStayImage.gameObject.SetActive(false);
             icon.SetFileData(file); // icon마다의 startTrigger를 이 함수에 넣어야함
+
             if (file.windowType == EWindowType.Directory)
             {
-                icon.ChangeIcon(lockLibrary, file.color);
+                if(DataManager.Inst.IsFileLock(file.id)) 
+                    icon.ChangeIcon(lockLibrary, file.color);
             }
         }
         isSetLibrary = false;
