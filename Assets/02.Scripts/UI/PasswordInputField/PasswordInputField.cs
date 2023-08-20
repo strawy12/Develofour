@@ -21,6 +21,9 @@ public class PasswordInputField : MonoBehaviour
     [SerializeField]
     private string password;
 
+    public bool isLogin = false;
+
+
     public TMP_InputField InputField => passwordField;
 
     public void Init()
@@ -48,6 +51,7 @@ public class PasswordInputField : MonoBehaviour
 #if UNITY_EDITOR
         if (passwordField.text == password || passwordField.text == "11")
         {
+            isLogin = true;
             if (passwordField.text == "11")
             {
                 Debug.LogError($"{gameObject.name} Login를 Trigger를 사용하여 클리어 했습니다. 빌드 전에 해당 Trigger를 삭제하세요");
@@ -59,6 +63,7 @@ public class PasswordInputField : MonoBehaviour
 #else
         if (passwordField.text == password)
         {
+        isLogin = true;
         OnSuccessLogin?.Invoke();
         }
 #endif
