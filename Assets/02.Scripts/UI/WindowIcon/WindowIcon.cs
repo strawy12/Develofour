@@ -67,8 +67,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             size = IconDefaultSize;
         }
-        fileData = newFileData;
         iconNameText.text = fileData.fileName;
+        fileData = newFileData;
         float x1, y1, x2, y2;
         if(newFileData.iconSprite == null)
         {
