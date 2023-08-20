@@ -106,6 +106,7 @@ public static partial class Constant
         public const int CCTV_2_6 = 235;
         public const int CCTV_2_7 = 236;
         public const int NOTPROFILERINSTALL = 238;
+        public const int DemoDiscordEnter = 241;
     }
     #endregion
     #region MailKey

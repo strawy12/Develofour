@@ -89,6 +89,10 @@ public class SaveData
 
     // 튜토리얼 중인지
     public TutorialState tutorialDataState = TutorialState.NotStart;
+
+
+    //데모용
+    public bool isWatchDemoEnd;
 }
 
 public enum TutorialState

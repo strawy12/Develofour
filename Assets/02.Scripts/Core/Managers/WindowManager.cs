@@ -111,6 +111,18 @@ public class WindowManager : MonoSingleton<WindowManager>
         windowDictionary[windowType].Remove(window);
     }
 
+    public void RemoveAllWindow(EWindowType windowType)
+    {
+        Debug.Log(windowType.ToString() + "의 윈도우 개수는 " + windowDictionary[windowType].Count);
+        int num = windowDictionary[windowType].Count;
+
+        for (int i = 0; i < num; i++)
+        {
+            windowDictionary[windowType].RemoveAt(0);
+        }
+        Debug.Log(windowType.ToString() + "의 윈도우 개수는 " + windowDictionary[windowType].Count);
+    }
+
     // 다른 키 값 하나가 더 있어야 구분 가능
     // 메모장1, 메모장2 구별
     public bool IsExistWindow(EWindowType windowType)
@@ -137,6 +149,12 @@ public class WindowManager : MonoSingleton<WindowManager>
         {
             HarmonyShortcutDataSO harmonydata = ResourceManager.Inst.GetHarmonyShortcutData(file.id);
             EventManager.TriggerEvent(EDiscordEvent.OpenHarmony, new object[] { harmonydata.chattingName });
+            return null;
+        }
+        //데모용
+        else if(file.windowType == EWindowType.Discord && DataManager.Inst.SaveData.isWatchDemoEnd)
+        {
+            MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.DemoDiscordEnter, 0, false);
             return null;
         }
         else

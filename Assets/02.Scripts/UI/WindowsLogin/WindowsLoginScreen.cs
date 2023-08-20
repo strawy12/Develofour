@@ -74,7 +74,7 @@ public class WindowsLoginScreen : MonoBehaviour
         hintText.text = "만우절 + 밸런타인 데이 = XXXX";
         hintText.gameObject.SetActive(true);
 
-        InputManager.Inst.AddAnyKeyInput(CheckMaxInputLength);
+        //InputManager.Inst.AddAnyKeyInput(CheckMaxInputLength);
 
         passwordField.InputField.onValueChanged.AddListener(CheckInputNumber);
     }

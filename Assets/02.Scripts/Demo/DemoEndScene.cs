@@ -29,7 +29,7 @@ public class DemoEndScene : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.Append(text.DOFade(1f, duration));
         sequence.AppendCallback(() => EnableExitButton());
-
+        Discord.currentDiscord.WindowClose();
     }
 
     private void EnableExitButton()
@@ -44,6 +44,9 @@ public class DemoEndScene : MonoBehaviour
         exitBtn.gameObject.SetActive(false);
         Sequence sequence = DOTween.Sequence();
         sequence.Append(quitPanel.DOFade(1f, endDuration));
-        sequence.AppendCallback(() => { GameManager.Inst.GameQuit(); });
+        sequence.AppendCallback(() => 
+        {
+            this.gameObject.SetActive(false); 
+        });
     }
 }

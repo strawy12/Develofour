@@ -68,6 +68,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void DemoEnd()
     {
+        DataManager.Inst.SaveData.isWatchDemoEnd = true;
         demoEndScene.Open();
     }
 }
