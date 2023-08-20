@@ -46,5 +46,7 @@ public enum EProfilerCategory
     YohansPet,
     JuyoungYohanDate,
     Map,
+    CCTV_1,
+    CCTV_2,
     Count,
 }

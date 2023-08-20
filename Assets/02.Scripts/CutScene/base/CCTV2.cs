@@ -81,8 +81,26 @@ public class CCTV2 : CutScene
         sprite.DOFade(1, 1);
         yield return new WaitForSeconds(1f);
 
-        MonologSystem.OnEndMonologEvent = CutScene4_Start;
+        MonologSystem.OnEndMonologEvent = CutScene4_NewStart;
+        MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.CCTV_2, 171 });
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_2_3, 0, true);
+    }
+
+    private void CutScene4_NewStart()
+    {
+        StartCoroutine(CutScene4_New_StartCor());
+
+    }
+
+    private IEnumerator CutScene4_New_StartCor()
+    {
+        sprite.DOFade(0, 1);
+        yield return new WaitForSeconds(1f);
+        sprite.sprite = cutSceneSprite03;
+        timerText.text = "[2023.10.20 01:52]";
+        sprite.DOFade(1, 1);
+        MonologSystem.OnEndMonologEvent = CutScene4_Start;
+        MonologSystem.OnStartMonolog?.Invoke(242, 0, true);
     }
 
     private void CutScene4_Start()
@@ -92,12 +110,6 @@ public class CCTV2 : CutScene
 
     private IEnumerator CutScene4_StartCor()
     {
-        sprite.DOFade(0, 1);
-        yield return new WaitForSeconds(1f);
-        sprite.sprite = cutSceneSprite03;
-        timerText.text = "[2023.10.20 01:52]";
-        sprite.DOFade(1, 1);
-        yield return new WaitForSeconds(cutdelay_4);
         sprite.DOFade(0, 1);
         yield return new WaitForSeconds(1f);
         sprite.sprite = cutSceneSprite04;
@@ -111,6 +123,8 @@ public class CCTV2 : CutScene
         sprite.DOFade(1, 1);
         yield return new WaitForSeconds(1f);
         MonologSystem.OnEndMonologEvent = CutScene5_Start;
+        MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.CCTV_2, 172 });
+
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_2_4, 0, true);
     }
 
@@ -158,6 +172,7 @@ public class CCTV2 : CutScene
         sprite.sprite = cutSceneSprite01;
         timerText.text = "[2023.10.20 02:10]";
         MonologSystem.OnEndMonologEvent = StopCutScene;
+        MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.CCTV_2, 173 });
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_2_7, 0, true);
     }
     public override void StopCutScene()
