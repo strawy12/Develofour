@@ -275,7 +275,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
         this.isSelected = isSelected;
         selectedImage.gameObject.SetActive(isSelected);
-        Debug.Log("SelectedImage의 bool값은 " + selectedImage.gameObject.activeSelf + "     기본 값 " + isSelected);
+        //Debug.Log("SelectedImage의 bool값은 " + selectedImage.gameObject.activeSelf + "     기본 값 " + isSelected);
     }
 
     public void CloseTargetWindow(string a)
