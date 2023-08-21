@@ -59,8 +59,7 @@ public abstract class TextSystem : MonoBehaviour
 
             case "DL":
                 {
-                    float delay = float.Parse(cmdValue);
-                    SetDelay(delay);
+
                     break;
                 }
             case "SN":

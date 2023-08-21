@@ -53,6 +53,7 @@ public class ProfilerWindow : Window
 
         profileChatting.Init();
         profilePanel.Init();
+       
         profilerUsingDocuments.Init();
         //fileSearchPanel.Init();
 

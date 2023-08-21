@@ -72,9 +72,9 @@ public class GuideUI : MonoBehaviour
 
         while (isSign)
         {
-            currentImage.DOFade(0.3f, 2f);
+            currentImage.DOFade(0.5f, 2f);
             yield return new WaitForSeconds(2f);
-            currentImage.DOFade(0.6f, 2f);
+            currentImage.DOFade(0.8f, 2f);
             yield return new WaitForSeconds(2f);
         }
     }
