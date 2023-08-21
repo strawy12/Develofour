@@ -63,7 +63,6 @@ public class LibraryLeftPanel : MonoBehaviour
 
     private void AddIcon(FileSO file)
     {
-        Debug.Log("1");
         if (file.id == 7) return;
         if (windowIconList.Count >= iconMaxNum)
         {

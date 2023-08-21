@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +28,9 @@ public class ProfileGuidePanel : MonoBehaviour
     protected float moveDuration;
     protected bool isMoving;
     protected RectTransform movePanelRect;
+
+    [SerializeField]
+    private TMP_Text guideText; 
 
     [Header("가이드 관련")]
     [SerializeField]
@@ -64,6 +68,7 @@ public class ProfileGuidePanel : MonoBehaviour
             hideImage.SetActive(false);
             isMoving = false;
             loadingPanel.SetActive(false);
+            guideText.gameObject.SetActive(false);
         });
     }
 
@@ -85,6 +90,7 @@ public class ProfileGuidePanel : MonoBehaviour
             hideImage.SetActive(true);
             isMoving = false;
             loadingPanel.SetActive(false);
+            guideText.gameObject.SetActive(true);
             guideParent.UpdateButton();
         });
     }
