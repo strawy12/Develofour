@@ -77,7 +77,6 @@ public class Notepad : Window
 
     private void OverlayOpen()
     {
-
         if (overlayTrigger == null) // 없다면 찾아와
         {
             overlayTrigger = notepadBody.GetComponent<ProfileOverlayOpenTrigger>();

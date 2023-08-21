@@ -104,15 +104,19 @@ public class ProfilerInfoSystem : MonoBehaviour
     }
     private void SendCategoryNotice(EProfilerCategory category)
     {
-        string head = "새로운 카테고리가 추가되었습니다";
+        string head = "";
         string body = "";
         if (category != EProfilerCategory.InvisibleInformation)
         {
+            head = "새로운 카테고리가 추가되었습니다"; 
             body = $"새 카테고리 {infoList[category].categoryName}가 추가되었습니다.";
-
             NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
         }
-
+        else
+        {
+            NoticeSystem.OnNotice?.Invoke("Profiler 정보가 확인되었습니다!", "새로운 정보가 확인되었습니다.", 0f, false, null, Color.white, ENoticeTag.Profiler);
+        }
+       
 
     }
 }
