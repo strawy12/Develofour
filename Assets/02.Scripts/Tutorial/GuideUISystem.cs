@@ -45,9 +45,6 @@ public class GuideUISystem : MonoBehaviour
 
         GuideUI guideUI = GetStackUI(parent);
 
-        Debug.Log(parent.transform);
-        Debug.Log(guideUI.transform);
-       
         guideUI.transform.SetParent(parent);
         guideUI.transform.SetAsFirstSibling();
 

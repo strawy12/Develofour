@@ -47,8 +47,6 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
             return;
         } 
 
-        Debug.Log(state);
-        
         switch (state)
         {
             case ECursorState.Default:

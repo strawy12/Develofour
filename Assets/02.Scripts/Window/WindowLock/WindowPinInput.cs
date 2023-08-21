@@ -81,7 +81,6 @@ public class WindowPinInput : Window
             return;
         }
 
-        Debug.Log(windowLockData.answerData.answer);
         if (windowLockData.answerData.answer == "")
         {
             return;

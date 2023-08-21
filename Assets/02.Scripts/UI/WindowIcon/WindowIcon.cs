@@ -55,7 +55,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
         rectTranstform.localScale = Vector3.one;
-        Debug.Log(rectTranstform.localScale.z);
     }
 
     public void SetFileData(FileSO newFileData, float size = 0f)
@@ -220,7 +219,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.NOTPROFILERINSTALL, 0, false);
                 return;
             }
-            Debug.Log("중간 포인트");
             if(fileData.windowType == EWindowType.Directory)
             {
                 if (fileData.id != Constant.FileID.MYPC

@@ -161,7 +161,6 @@ public class FileManager : MonoSingleton<FileManager>
                 fileList.Add(file);
             }
         }
-        Debug.Log(fileList.Count); 
         return fileList;
     }
 

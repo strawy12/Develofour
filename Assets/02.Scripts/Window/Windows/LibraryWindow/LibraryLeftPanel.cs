@@ -55,7 +55,6 @@ public class LibraryLeftPanel : MonoBehaviour
         if (removeIcon != null)
         {
             windowIconList.Remove(removeIcon);
-            Debug.Log($"{file.fileName}아이콘 제거");
             Destroy(removeIcon.gameObject);
         }
         AddIcon(file);

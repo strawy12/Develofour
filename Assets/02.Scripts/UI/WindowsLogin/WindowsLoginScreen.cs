@@ -145,7 +145,6 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            Debug.Log("Login");
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             if (isFirst)
             {
@@ -162,7 +161,6 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            Debug.Log("Fail");
             hintText.text = "힌트: 만우절 + 밸런타인 데이";
 
             if (hintText.gameObject.activeSelf == false)

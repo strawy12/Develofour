@@ -106,7 +106,6 @@ public class ProfilerInfoSystem : MonoBehaviour
     {
         string head = "새로운 카테고리가 추가되었습니다";
         string body = "";
-        Debug.Log(infoList.Count);
         if (category != EProfilerCategory.InvisibleInformation)
         {
             body = $"새 카테고리 {infoList[category].categoryName}가 추가되었습니다.";

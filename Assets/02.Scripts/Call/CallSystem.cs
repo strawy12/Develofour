@@ -362,7 +362,6 @@ public class CallSystem : MonoSingleton<CallSystem>
         {
             foreach (ReturnMonologData data in incomingCallData.incomingMonologList) //한 캐릭의 리턴 독백마다
             {
-                Debug.Log(data.MonologID);
                 if (DataManager.Inst.IsMonologShow(data.MonologID))//이미 본 독백이면
                 {
                     continue;//넘어가
