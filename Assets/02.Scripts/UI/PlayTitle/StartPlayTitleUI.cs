@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Threading.Tasks;
+using System;
 
 public class StartPlayTitleUI : MonoBehaviour
 {
@@ -27,11 +28,16 @@ public class StartPlayTitleUI : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Inst.OnStartCallback += StartCallBack;
+    }
+
+    private void StartCallBack()
+    {
         gameObject.SetActive(true);
 
         startPlayButton.onClick?.AddListener(() => StartplayGame(true));
 
-        if (DataManager.Inst.SaveData != null)
+        if (!DataManager.Inst.SaveData.isNewStart)
         {
             reStartBtn.interactable = true;
             reStartBtn.onClick?.AddListener(() => StartplayGame(false));
@@ -44,7 +50,6 @@ public class StartPlayTitleUI : MonoBehaviour
         GameManager.Inst.OnStartCallback += delayBGM;
     }
 
-
     private async void delayBGM()
     {
         await Task.Delay(2000);
@@ -56,6 +61,7 @@ public class StartPlayTitleUI : MonoBehaviour
         {
             DataManager.Inst.CreateSaveData();
         }
+        DataManager.Inst.SaveData.isNewStart = false;
 
         StartCutScene.OnPlayCutScene?.Invoke();
         Sound.OnStopBGM?.Invoke(false);
