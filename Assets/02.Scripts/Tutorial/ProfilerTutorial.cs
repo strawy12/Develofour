@@ -165,6 +165,7 @@ public class ProfilerTutorial : MonoBehaviour
         EventManager.StartListening(EProfilerEvent.ClickIncidentTab, ClickedIncidentTab);
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookIncidentTab, 2f);
         guideObjectName = EGuideObject.IncidentTab;
+        GuideUISystem.OnEndAllGuide?.Invoke();
         EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.IncidentTab });
 
         // 사건 탭이 클릭되는 이벤트 듣고
@@ -187,6 +188,7 @@ public class ProfilerTutorial : MonoBehaviour
         EventManager.StartListening(EProfilerEvent.ClickCharacterTab, ClickedCharacterTab);
         NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.LookCharacterTab, 2f);
         guideObjectName = EGuideObject.CharacterTab;
+        GuideUISystem.OnEndAllGuide?.Invoke();
         EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { EGuideObject.CharacterTab });
         
         // 인물 탭이 클릭되는 이벤트 듣고

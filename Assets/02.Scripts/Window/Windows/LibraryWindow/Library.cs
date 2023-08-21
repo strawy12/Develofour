@@ -221,7 +221,7 @@ public class Library : Window
     {
         TutorialState state = DataManager.Inst.GetProfilerTutorialState();
         if (state != TutorialState.ClickIncidentInfo && state != TutorialState.ClickCharacterInfo) return;
-
+        GuideUISystem.OnEndAllGuide?.Invoke();
         if (currentDirectory.id == Constant.FileID.MYPC)
         {
             EventManager.TriggerEvent(ETutorialEvent.USBTutorial);
