@@ -73,10 +73,8 @@ public class ProfilerInfoPanel : MonoBehaviour
 
     //private Image currentImage;
 
-
     public void Init()
     {
-
         infoTextQueue = new Queue<ProfilerInfoText>();
         infoTextList = new List<ProfilerInfoText>();
         //currentImage = GetComponent<Image>();

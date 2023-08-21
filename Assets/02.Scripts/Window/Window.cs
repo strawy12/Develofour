@@ -41,7 +41,7 @@ public class Window : MonoUI, ISelectable
 
     [Header("Window Data")]
     [SerializeField]
-    public WindowAlterationSO originWindowAlteration; // 위도우 위치 크기 정보
+    private WindowAlterationSO originWindowAlteration; // 위도우 위치 크기 정보
 
     protected WindowAlterationSO windowAlteration;
 
@@ -49,6 +49,8 @@ public class Window : MonoUI, ISelectable
 
     [SerializeField]
     public WindowBar windowBar;
+
+    public bool IsMaximum => windowAlteration != null ? windowAlteration.isMaximum : false;
 
     protected bool isSelected;
 
