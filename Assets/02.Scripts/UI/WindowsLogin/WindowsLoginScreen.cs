@@ -49,6 +49,7 @@ public class WindowsLoginScreen : MonoBehaviour
     [SerializeField]
     private float numberWrongDuration = 3f;
 
+    private bool isLoding = false;
     private bool isFirst = true;
 
     private void Start()
@@ -94,6 +95,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void CheckInputNumber(string text)
     {
+        if (isLoding) return;
         if (!int.TryParse(text, out _))
         {
             if (hintText.gameObject.activeSelf == false)
@@ -112,6 +114,8 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void CheckMaxInputLength()
     {
+        if (isLoding) return;
+
         if (passwordField.InputField.text.Length >= 4)
         {
             StartCoroutine(MaxInputFourLength());
@@ -174,6 +178,9 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private IEnumerator LoadingCoroutine(Action callBack)
     {
+        if (isLoding) yield break;
+
+        isLoding = true;
         coverPanel.SetActive(true);
         float delay = Random.Range(0.7f, 2f);
         loadingIcon.gameObject.SetActive(true);
@@ -185,6 +192,7 @@ public class WindowsLoginScreen : MonoBehaviour
         }
 
         coverPanel.SetActive(false);
+        isLoding = false;
         loadingIcon.gameObject.SetActive(false);
         callBack?.Invoke();
     }
