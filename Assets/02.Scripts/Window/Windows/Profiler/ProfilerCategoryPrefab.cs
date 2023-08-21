@@ -129,5 +129,9 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         selectImage.gameObject.SetActive(false);
 
     }
-
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EProfilerEvent.Maximum, SetSize);
+        EventManager.StopListening(EProfilerEvent.Minimum, SetSize);
+    }
 }
