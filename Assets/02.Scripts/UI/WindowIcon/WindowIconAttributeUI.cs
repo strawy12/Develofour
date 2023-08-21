@@ -13,6 +13,9 @@ public class WindowIconAttributeUI : MonoUI
     private Button openPropertyBtn;
 
     public RectTransform rectTransform;
+    
+    [SerializeField]
+    public Button openBtn;
 
     private FileSO windowPropertyData;
     private bool isOpen = false;
@@ -60,9 +63,10 @@ public class WindowIconAttributeUI : MonoUI
         mousePos += offset;
 
         rectTransform.anchoredPosition = mousePos;
-
+        
         SetActive(true);
         windowPropertyData = fileData;
+        openBtn.onClick.AddListener(OpenFile);
         isOpen = true;
     }
 
@@ -71,6 +75,12 @@ public class WindowIconAttributeUI : MonoUI
         SetActive(false);
         windowPropertyData = null;
         isOpen = false;
+    }
+
+    public void OpenFile()
+    {
+        WindowManager.Inst.WindowOpen(windowPropertyData.windowType, windowPropertyData);
+        CloseMenu();
     }
 
     public void CreateProperty()

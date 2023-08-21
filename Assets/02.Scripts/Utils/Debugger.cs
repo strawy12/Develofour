@@ -68,25 +68,6 @@ public class Debugger : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            FileManager.Inst.AddFile(152, 1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 68 });
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.KimYujinProfile, 11 });
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 36 });
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            FileManager.Inst.AddFile(165, 1);
-            FileManager.Inst.AddFile(166, 1);
-        }
-
         if (Input.GetKeyDown(KeyCode.L))
         {
             EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 68 });
