@@ -89,19 +89,19 @@ public class WindowPinInput : Window
 
         autoPinAnswerFiled.autoAnswerDatas.Add(windowLockData.answerData);
 
-        if (windowLockData.answerData != null)
-        {
-            List<MonologLockDecision> infoDatas = windowLockData.answerData.infoData;
-            foreach (MonologLockDecision infoData in infoDatas)
-            {
-                int infoID = infoData.key;
+        //if (windowLockData.answerData != null)
+        //{
+        //    List<MonologLockDecision> infoDatas = windowLockData.answerData.infoData;
+        //    foreach (MonologLockDecision infoData in infoDatas)
+        //    {
+        //        int infoID = infoData.key;
 
-                if(DataManager.Inst.IsProfilerInfoData(infoID))
-                {
-                    autoPinAnswerFiled.inputSystem.ShowPanel(autoPinAnswerFiled.inputField, autoPinAnswerFiled.autoAnswerDatas);
-                }
-            }
-        }
+        //        if(DataManager.Inst.IsProfilerInfoData(infoID))
+        //        {
+        //            autoPinAnswerFiled.inputSystem.ShowPanel(autoPinAnswerFiled.inputField, autoPinAnswerFiled.autoAnswerDatas);
+        //        }
+        //    }
+        //}
 
     }
 
