@@ -39,6 +39,10 @@ public class FileManager : MonoSingleton<FileManager>
     private Dictionary<EWindowType, FileSO> defaultFileDictionary = new Dictionary<EWindowType, FileSO>();
     private List<string> currentFileNameWord;
     //List<FileWeight> foundFileWeights;
+
+    [SerializeField]
+    private Sprite addFileNoticeSprite;
+
     private void Awake()
     {
         //foundFileWeights = new List<FileWeight>();
@@ -98,7 +102,7 @@ public class FileManager : MonoSingleton<FileManager>
             DataManager.Inst.AddNewFileData(file, directory);
         }
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AddFile, 0.5f);
+        NoticeSystem.OnNotice?.Invoke("새로운 파일이 추가되었습니다!",$"{file.fileName}이 {directory.fileName} 위치에 다운로드가 되었습니다.",0.5f,true, addFileNoticeSprite, Color.white, ENoticeTag.AddFile);
     }
     public List<FileSO> GetALLUnLockFileList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
