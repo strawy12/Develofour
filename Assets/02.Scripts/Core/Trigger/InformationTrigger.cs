@@ -127,7 +127,7 @@ public class InformationTrigger : MonoBehaviour
 
     public void GetInfo()
     {
-        if (!DataManager.Inst.SaveData.isProfilerInstall) return;
+        if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.SaveData.isProfilerDocument) return;
 
         if (infoDataIDList.Count == 0 || infoDataIDList == null)
         {
