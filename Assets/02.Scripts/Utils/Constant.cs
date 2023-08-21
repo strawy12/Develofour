@@ -51,6 +51,8 @@ public static partial class Constant
         public const int PARKJUYOUNG_NAME = 7;
         public const int KIMYUJIN_NAME = 11;
         public const int CRIMINAL_ACTION = 23;
+        public const int PARKJUYOUNG_INCIDENT = 33;
+        public const int KIMYUJIN_INCIDENT = 35;
         public const int BAT_DETAIL = 40;
         public const int CCTV_TIME = 47;
         public const int CCTV_DETAIL = 48;

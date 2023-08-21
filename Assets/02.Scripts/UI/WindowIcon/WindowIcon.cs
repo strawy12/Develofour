@@ -117,7 +117,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //gamestate가 튜토리얼이라면
         //library, usb, report에 각각 이벤트 넣어줘~
         rectTranstform.localScale = Vector3.one;
-        Debug.Log(rectTranstform.localScale.z);
     }
 
     public void ChangeIcon(Sprite icon, Color color)

@@ -22,10 +22,10 @@ public class ProfilerTutorial : MonoBehaviour
     [SerializeField]
     private int targetIncidentID = Constant.ProfilerInfoKey.INCIDENTREPORT_TITLE;
 
-    [SerializeField]
-    private int targetCharID1 = Constant.ProfilerInfoKey.PARKJUYOUNG_NAME;
-    [SerializeField]
-    private int targetCharID2 = Constant.ProfilerInfoKey.KIMYUJIN_NAME;
+    private int targetCharID1_1 = Constant.ProfilerInfoKey.PARKJUYOUNG_NAME;
+    private int targetCharID1_2 = Constant.ProfilerInfoKey.PARKJUYOUNG_INCIDENT;
+    private int targetCharID2_1 = Constant.ProfilerInfoKey.KIMYUJIN_NAME;
+    private int targetCharID2_2 = Constant.ProfilerInfoKey.KIMYUJIN_INCIDENT;
 
     private Library library;
 
@@ -64,7 +64,10 @@ public class ProfilerTutorial : MonoBehaviour
         }
         else if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickCharacterInfo)
         {
-            if (DataManager.Inst.IsProfilerInfoData(targetCharID1) || DataManager.Inst.IsProfilerInfoData(targetCharID2))
+            if (DataManager.Inst.IsProfilerInfoData(targetCharID1_1) 
+                || DataManager.Inst.IsProfilerInfoData(targetCharID2_1)
+                || DataManager.Inst.IsProfilerInfoData(targetCharID1_2)
+                || DataManager.Inst.IsProfilerInfoData(targetCharID2_2))
             {
                 ProfilerChattingSystem.OnChatEnd += CharacterTabGuide;
                 StartChatting(TutorialState.ClickCharacterTab);
@@ -130,7 +133,7 @@ public class ProfilerTutorial : MonoBehaviour
     public void GetCharacterInfo(object[] ps)
     {
         int id = (int)ps[0];
-        if (id == targetCharID1 || id == targetCharID2)
+        if (id == targetCharID1_1 || id == targetCharID1_2 || id == targetCharID2_1 || id == targetCharID2_2)
         {
             EventManager.StopListening(EProfilerEvent.FindInfoText, GetCharacterInfo);
             ProfilerChattingSystem.OnChatEnd += CharacterTabGuide;

@@ -90,7 +90,8 @@ public class InformationTrigger : MonoBehaviour
                         infoID == INCIDENTREPORT_TITLE)
                         ||
                         (state == TutorialState.ClickCharacterInfo &&
-                        (infoID == KIMYUJIN_NAME || infoID == PARKJUYOUNG_NAME))
+                        (infoID == KIMYUJIN_NAME || infoID == PARKJUYOUNG_NAME ||
+                         infoID == KIMYUJIN_INCIDENT || infoID == PARKJUYOUNG_INCIDENT))
                     )
                     {
                         playMonolog = true;
