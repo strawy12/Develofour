@@ -42,7 +42,6 @@ public partial class DataManager : MonoSingleton<DataManager>
         Debug.Log(id);
         foreach(var categoryData in saveData.profilerSaveData)
         {
-            Debug.Log(categoryData);
             if(categoryData.infoData.Contains(id))
             {
                 return true;

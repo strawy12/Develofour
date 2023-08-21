@@ -159,7 +159,7 @@ public class FileManager : MonoSingleton<FileManager>
         foreach (int id in fileIDList)
         {
             if (id == 0 || id == 7) continue;
-            FileSO file = fileList.Find(x => x.id == id);
+            FileSO file = allFileList.Find(x => x.id == id);
             if(file != null)
             {
                 fileList.Add(file);
