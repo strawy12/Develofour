@@ -99,6 +99,7 @@ public class InformationTrigger : MonoBehaviour
                     else
                         continue;
                 }
+
                 playMonolog = true;
                 if (!isFakeInfo)
                 {

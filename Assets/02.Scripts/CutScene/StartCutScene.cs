@@ -23,6 +23,9 @@ public class StartCutScene : MonoBehaviour
     private Image backgroundImagePanel;
 
     [SerializeField]
+    private TMP_Text fiction;
+
+    [SerializeField]
     private LoadingIcon loadingIcon;
 
     [SerializeField]
@@ -37,12 +40,27 @@ public class StartCutScene : MonoBehaviour
 
     private void Awake()
     {
-        OnPlayCutScene += CutSceneStart;
+        OnPlayCutScene += StartAlram;
+    }
+
+    private void StartAlram()
+    {
+        StartCoroutine(AlramPanelCor());
+    }
+
+    private IEnumerator AlramPanelCor()
+    {
+        OnPlayCutScene -= StartAlram;
+        cutSceneCoverPanel.SetActive(true);
+        fiction.DOFade(1, 1);
+        yield return new WaitForSeconds(3f);
+        fiction.DOFade(0, 1);
+        yield return new WaitForSeconds(1f);
+        CutSceneStart();
     }
 
     private void CutSceneStart()
     {
-        OnPlayCutScene -= CutSceneStart;
         cutSceneCoverPanel.SetActive(true);
         if (DataManager.Inst.SaveData.isWatchStartCutScene)
         {
