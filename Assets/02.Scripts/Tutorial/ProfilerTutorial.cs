@@ -54,6 +54,7 @@ public class ProfilerTutorial : MonoBehaviour
             }
             else
             {
+                GuideUISystem.OnEndAllGuide?.Invoke();
                 StartTutorialSetting();
                 GetIncidentInfoEvent();
             }
