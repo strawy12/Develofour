@@ -224,7 +224,8 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         //Sound.OnPlaySound(Sound.EAudioType.USBConnect);
         int monologID = Constant.MonologKey.WINDOWS_LOGIN_COMPLETE;
-        MonologSystem.OnEndMonologEvent = USBNoticeFunc;
+        if(!DataManager.Inst.SaveData.isProfilerInstall)
+            MonologSystem.OnEndMonologEvent = USBNoticeFunc;
         MonologSystem.OnStartMonolog?.Invoke(monologID, 0.1f, true);
     }
 
