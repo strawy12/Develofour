@@ -98,7 +98,7 @@ public class WindowPinInput : Window
 
                 if(DataManager.Inst.IsProfilerInfoData(infoID))
                 {
-                    autoPinAnswerFiled.inputSystem.ShowPanel(autoPinAnswerFiled.inputField, autoPinAnswerFiled.autoAnswerDatas);
+                    autoPinAnswerFiled.inputSystem.SettingPanel(autoPinAnswerFiled.inputField, autoPinAnswerFiled.autoAnswerDatas);
                 }
             }
         }
