@@ -99,7 +99,7 @@ public class ProfilerInfoSystem : MonoBehaviour
         {
             text = temp + " 정보가 확인되었습니다.";
             NoticeSystem.OnNotice.Invoke("Profiler 정보가 확인되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
-        }
+        }   
         
     }
     private void SendCategoryNotice(EProfilerCategory category)
@@ -109,8 +109,10 @@ public class ProfilerInfoSystem : MonoBehaviour
         if (category != EProfilerCategory.InvisibleInformation)
         {
             body = $"새 카테고리 {infoList[category].categoryName}가 추가되었습니다.";
+
+            NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
         }
 
-        NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
+
     }
 }
