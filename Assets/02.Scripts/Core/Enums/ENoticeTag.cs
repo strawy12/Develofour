@@ -10,4 +10,5 @@ public enum ENoticeTag
     AIAlarm,
     Profiler,
     Computer,
+    AddFile,
 }

@@ -146,12 +146,19 @@ public class Debugger : MonoBehaviour
     public void SS()
     {
         string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
+        int maxidx = 0;
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            FileSO so = AssetDatabase.LoadAssetAtPath<FileSO>(path); 
+            FileSO so = AssetDatabase.LoadAssetAtPath<FileSO>(path);
 
-             if (so.windowType == EWindowType.SiteShortCut)
+            if (so.id > maxidx)
+            {
+                maxidx = so.id;
+            }
+            continue;
+
+            if (so.windowType == EWindowType.SiteShortCut)
             {
                 so.color = UnityEngine.Color.white;
             }
@@ -187,7 +194,9 @@ public class Debugger : MonoBehaviour
             AssetDatabase.SaveAssets();
             EditorUtility.SetDirty(so);
         }
+        Debug.Log(maxidx);
     }
+
 
 #endif
 
