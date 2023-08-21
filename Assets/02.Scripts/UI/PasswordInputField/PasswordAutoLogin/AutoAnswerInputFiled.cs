@@ -24,6 +24,7 @@ public class AutoAnswerInputFiled : MonoBehaviour, IPointerClickHandler
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        inputSystem.ShowPanel(inputField, autoAnswerDatas);
+        inputSystem.SettingPanel(inputField, autoAnswerDatas);
+        inputSystem.ShowPanel();
     }
 }

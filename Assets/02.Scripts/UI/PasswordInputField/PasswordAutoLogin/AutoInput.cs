@@ -17,7 +17,7 @@ public class AutoInput : MonoBehaviour
 
     private bool isCanShowPanel;
 
-    public void ShowPanel(TMP_InputField inputField, List<AutoAnswerData> answerDatas)
+    public void SettingPanel(TMP_InputField inputField, List<AutoAnswerData> answerDatas)
     {
         if(answerDatas == null)
         {
@@ -35,20 +35,24 @@ public class AutoInput : MonoBehaviour
                 isCanShowPanel = true;
             }
         }
+
+        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
+    }
+
+    public void ShowPanel()
+    {
         if (!isCanShowPanel)
         {
             return;
         }
+
         gameObject.SetActive(true);
         isOpen = true;
-        EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
-    public void ShowPanel(TMP_InputField inputField, string answer)
+    public void SettingPanel(TMP_InputField inputField, string answer)
     {
         autoInputPanelList[0].Setting(inputField, answer);
-        gameObject.SetActive(true);
-        isOpen = true;
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
     private void CheckClose(object[] hits)

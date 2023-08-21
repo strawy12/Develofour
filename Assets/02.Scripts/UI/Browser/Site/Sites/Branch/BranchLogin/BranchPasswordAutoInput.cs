@@ -12,6 +12,7 @@ public class BranchPasswordAutoInput : AutoAnswerInputFiled
             return;
         }
 
-        inputSystem.ShowPanel(inputField, DataManager.Inst.SaveData.branchPassword);
+        inputSystem.SettingPanel(inputField, DataManager.Inst.SaveData.branchPassword);
+        inputSystem.ShowPanel();
     }
 }

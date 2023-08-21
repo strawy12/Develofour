@@ -45,6 +45,7 @@ public class StartCutScene : MonoBehaviour
 
     private void StartAlram()
     {
+        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.AfterDiscordMail);
         StartCoroutine(AlramPanelCor());
     }
 

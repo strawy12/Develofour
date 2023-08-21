@@ -88,7 +88,6 @@ public class WindowPinInput : Window
         }
 
         autoPinAnswerFiled.autoAnswerDatas.Add(windowLockData.answerData);
-
         //if (windowLockData.answerData != null)
         //{
         //    List<MonologLockDecision> infoDatas = windowLockData.answerData.infoData;
@@ -102,7 +101,6 @@ public class WindowPinInput : Window
         //        }
         //    }
         //}
-
     }
 
     private void CheckPinPassword()

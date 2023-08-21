@@ -129,7 +129,7 @@ public class Library : Window
             OnSelected += TutorialLibraryClick;
         }
     }
-
+    
     private void TutorialLibraryClick()
     {
         EventManager.TriggerEvent(ETutorialEvent.SelectLibrary, new object[] { this });
@@ -161,8 +161,9 @@ public class Library : Window
         EventManager.StartListening(ETutorialEvent.LibraryEventTrigger, SetLibraryEvent);
         EventManager.StartListening(ELibraryEvent.AddFile, Refresh);
         EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
-       
 
+        InputManager.Inst.AddKeyInput(KeyCode.Mouse3, UndoFile);
+        InputManager.Inst.AddKeyInput(KeyCode.Mouse4, RedoFile);
 
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
 
@@ -284,6 +285,7 @@ public class Library : Window
     public void UndoFile()
     {
         //count가 0이면 알파값 내리는게 맞을듯
+        if (!isSelected) return; 
         if (undoStack.Count == 0) return;
         DirectorySO data = undoStack.Pop();
         redoStack.Push(currentDirectory);
@@ -294,6 +296,8 @@ public class Library : Window
     public void RedoFile()
     {
         //count가 0이면 알파값 내리는게 맞을듯
+        if (!isSelected) return;
+
         if (redoStack.Count == 0) return;
         DirectorySO data = redoStack.Pop();
         UndoStackPush();
@@ -375,6 +379,10 @@ public class Library : Window
         }
 
         OnSelected -= TutorialLibraryClick;
+
+        InputManager.Inst.RemoveKeyInput(KeyCode.Mouse4, UndoFile);
+        InputManager.Inst.RemoveKeyInput(KeyCode.Mouse5, RedoFile);
+
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);
