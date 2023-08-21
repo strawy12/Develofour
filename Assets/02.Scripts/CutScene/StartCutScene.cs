@@ -45,6 +45,11 @@ public class StartCutScene : MonoBehaviour
 
     private void StartAlram()
     {
+        if (DataManager.Inst.SaveData.isWatchStartCutScene)
+        {
+            EndRequestCutScene();
+            GameManager.Inst.ChangeGameState(EGameState.Game);
+        }
         Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.AfterDiscordMail);
         StartCoroutine(AlramPanelCor());
     }

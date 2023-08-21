@@ -138,9 +138,8 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
             lockRect.sizeDelta = maxSizeDelta;
         }
 
-        lockRect.localPosition = Vector3.zero;
         lockRect.localScale = Vector3.one;
-
+        lockRect.anchoredPosition = Vector3.zero;
         lockImage.gameObject.SetActive(isActive);
     }
 
