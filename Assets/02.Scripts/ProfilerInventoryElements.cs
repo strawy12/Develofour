@@ -12,34 +12,33 @@ public class ProfilerInventoryElements : MonoBehaviour
 
     private HorizontalLayoutGroup hlg;
     private Action<object[]> OnProfilerMaximum;
-    private Action<object[]> OnProfilerMinimum;
 
     public void Start()
     {
         hlg = GetComponent<HorizontalLayoutGroup>();
 
-        OnProfilerMaximum = (a) => SetElementSize(true);
-        OnProfilerMinimum = (a) => SetElementSize(false);
+        OnProfilerMaximum = (a) => SetElementSize();
 
         EventManager.StartListening(EProfilerEvent.Maximum, OnProfilerMaximum);
-        EventManager.StartListening(EProfilerEvent.Minimum, OnProfilerMinimum);
     }
 
-    public void SetElementSize(bool isMaximum)
+    public void SetElementSize()
     {
         foreach (RectTransform child in transform)
         {
-            if (isMaximum)
+            if (ProfilerWindow.CurrentProfiler.IsMaximum)
             {
+                Debug.Log("Max");
                 child.sizeDelta = childMaxSize;
             }
             else
             {
+                Debug.Log("Min");
                 child.sizeDelta = childMaxSize / 1.5f;
             }
         }
 
-        if (isMaximum)
+        if (ProfilerWindow.CurrentProfiler.IsMaximum)
             hlg.spacing = 30;
         else
             hlg.spacing = 20;
@@ -48,6 +47,5 @@ public class ProfilerInventoryElements : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.StopListening(EProfilerEvent.Maximum, OnProfilerMaximum);
-        EventManager.StopListening(EProfilerEvent.Minimum, OnProfilerMinimum);
     }
 }

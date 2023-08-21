@@ -41,6 +41,10 @@ public class ProfilerWindow : Window
     private bool isPanelOpen;
     private bool isMoving;
 
+    private static ProfilerWindow currentProfiler;
+    public static ProfilerWindow CurrentProfiler => currentProfiler;
+
+
     //DataManager
     private ProfilerPanelButton beforeClickButton;
 
@@ -59,6 +63,8 @@ public class ProfilerWindow : Window
 
         OnSelected += ProfilerSelected;
 
+        OnClosed += (a) => ResetProfiler();
+
         infoPanelBtn.button.onClick?.AddListener(OnClickShowProfiling);
         //searchPanelBtn.button.onClick?.AddListener(OnClickShowFileSearch);
 
@@ -68,14 +74,20 @@ public class ProfilerWindow : Window
         //EventManager.StartListening(ETutorialEvent.SearchBtnGuide, GuideSearchButton);
         EventManager.StartListening(EProfilerEvent.FindInfoText, CheckProfilerOnOff);
 
-
         beforeClickButton = infoPanelBtn;
 
         ButtonBlackSetting();
     }
 
+    private void ResetProfiler()
+    {
+        currentProfiler = null; 
+    }
+
     private void ProfilerSelected()
     {
+        currentProfiler = this;
+
         if (DataManager.Inst.GetIsClearTutorial())
         {
             EventManager.TriggerEvent(EGuideButtonTutorialEvent.TutorialStart);

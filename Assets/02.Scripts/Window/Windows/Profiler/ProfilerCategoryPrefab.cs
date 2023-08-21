@@ -24,13 +24,15 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
     private Image categoryImage;
     [SerializeField]
     private Image selectImage;
-    private Vector2 maxSize;
+
+    private Vector2 defaultMinSize;
+
     public bool isSelected { get; private set; }
 
     private Action OnClick;
     public void Init(Action clickAction)
     {
-        maxSize = categoryImage.rectTransform.sizeDelta;
+        defaultMinSize = categoryImage.rectTransform.sizeDelta;
         isSelected = false;
         OnClick = null;
         OnClick += clickAction;
@@ -67,27 +69,34 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         {
             return;
         }
-        if (currentData.categorySprite.rect.width != currentData.categorySprite.rect.height)
+        if(!ProfilerWindow.CurrentProfiler.IsMaximum)
         {
-            x1 = currentData.categorySprite.rect.width;
-            y1 = currentData.categorySprite.rect.height;
-            if (x1 > y1)
-            {
-                x2 = maxSize;
-                y2 = y1 * x2 / x1;
-            }
-            else
-            {
-                y2 = maxSize;
-                x2 = x1 * y2 / y1;
-            }
+            categoryImage.rectTransform.sizeDelta = defaultMinSize;
         }
         else
         {
-            x2 = y2 = maxSize;
-        }
+            if (currentData.categorySprite.rect.width != currentData.categorySprite.rect.height)
+            {
+                x1 = currentData.categorySprite.rect.width;
+                y1 = currentData.categorySprite.rect.height;
+                if (x1 > y1)
+                {
+                    x2 = maxSize;
+                    y2 = y1 * x2 / x1;
+                }
+                else
+                {
+                    y2 = maxSize;
+                    x2 = x1 * y2 / y1;
+                }
+            }
+            else
+            {
+                x2 = y2 = maxSize;
+            }
 
-        categoryImage.rectTransform.sizeDelta = new Vector2(x2, y2);
+            categoryImage.rectTransform.sizeDelta = new Vector2(x2, y2);
+        }
     }
 
     public void Hide()
@@ -96,7 +105,7 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         EventManager.StopListening(EProfilerEvent.Minimum, SetSize);
         gameObject.SetActive(false);
         UnSelect();
-        categoryImage.rectTransform.sizeDelta = maxSize;
+        categoryImage.rectTransform.sizeDelta = defaultMinSize;
     }
     #endregion 
     #region EventSystem
@@ -127,7 +136,5 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         }
         isSelected = false;
         selectImage.gameObject.SetActive(false);
-
     }
-
 }
