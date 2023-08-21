@@ -21,10 +21,11 @@ public class LibraryLeftPanel : MonoBehaviour
         windowIconList = new List<WindowIcon>();
         List<int> fileIDList = DataManager.Inst.SaveData.libraryData;
         List<FileSO> fileList = FileManager.Inst.GetFileIDList(fileIDList);
-        
+        Debug.Log(fileList.Count);
         foreach (var file in fileList)
         {
             if (file == null) continue;
+            Debug.Log(file.fileName);
             AddIcon(file);
         }
     }
@@ -63,12 +64,12 @@ public class LibraryLeftPanel : MonoBehaviour
     private void AddIcon(FileSO file)
     {
         if (file.id == 7) return;
-        if (windowIconList.Count >= iconMaxNum)
+        if (windowIconList.Count > iconMaxNum)
         {
             DataManager.Inst.SaveData.libraryData.RemoveAt(0);
             var removeIcon = windowIconList[0];
-            Destroy(removeIcon.gameObject);
             windowIconList.RemoveAt(0);
+            Destroy(removeIcon.gameObject);
         }
 
         var windowIcon = Instantiate(iconPrefab, leftIconParent);
