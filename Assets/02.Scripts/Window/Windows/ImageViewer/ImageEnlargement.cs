@@ -18,6 +18,8 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public float zoomSpeed = 0.1f;
 
+    public float scale =0f;
+
     private Image currentImage;
 
     private TMP_Text imagePercentText;
@@ -28,7 +30,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     private bool isEnlargement = false;
 
-    private readonly Vector2 MAXSIZE = new Vector2(1280f, 670f);
+    private readonly Vector2 MAXSIZE = new Vector2(1080f, 670f);
 
     public bool isDiscord;
 
@@ -86,8 +88,14 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public void SetImageSizeReset()
     {
-        Vector2 size = currentImage.sprite.rect.size;
+        if (this.scale != 0f) {
 
+            transform.localScale = Vector3.one * this.scale;
+            imageScale = transform.localScale.x;
+            return; 
+        }
+        Vector2 size = currentImage.sprite.rect.size;
+        
         SetImageSizeDelta();
 
         float scale = 1f;
