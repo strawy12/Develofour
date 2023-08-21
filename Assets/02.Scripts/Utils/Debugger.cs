@@ -75,7 +75,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 77 });
+            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 68 });
             EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.KimYujinProfile, 11 });
             EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 36 });
 
@@ -89,7 +89,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            Debug.Log(DataManager.Inst.IsMonologShow(213));
+            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 68 });
         }
 
         if(Input.GetKeyDown(KeyCode.P))
