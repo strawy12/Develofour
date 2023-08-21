@@ -23,11 +23,15 @@ public class ProfilerUsingDocument : MonoBehaviour
             }
             return;
         }
-        gameObject.SetActive(true);
-        usingDocuments.SetActive(false);
+        if(!DataManager.Inst.SaveData.isProfilerDocument)
+        {
+            gameObject.SetActive(true);
+            usingDocuments.SetActive(false);
 
-        documentsOpenBtn.onClick?.AddListener(DocumentsOpen);
-        profilerOpenBtn.onClick?.AddListener(ProfilerOpen);
+            documentsOpenBtn.onClick?.AddListener(DocumentsOpen);
+            profilerOpenBtn.onClick?.AddListener(ProfilerOpen);
+        }
+        
     }
 
     private void DocumentsOpen()
@@ -41,7 +45,7 @@ public class ProfilerUsingDocument : MonoBehaviour
 
         gameObject.SetActive(false);
         usingDocuments.SetActive(false);
-
+        DataManager.Inst.SaveData.isProfilerDocument = true;
         EventManager.TriggerEvent(ETutorialEvent.TutorialStart);
     }
 }
