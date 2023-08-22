@@ -90,7 +90,8 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         {
             foreach (var data in guideDataList)
             {
-                AddButton(data);
+                if(data.isAddTutorial)
+                    AddButton(data);
             }
         }
         else
