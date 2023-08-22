@@ -54,6 +54,12 @@ public class Notepad : Window
         base.WindowOpen(isNewOpen);
         notepadBody.inputField.textComponent.ForceMeshUpdate();
         notepadBody.SetTriggerPosition();
+
+        if(file.id == 23) // 주글 비밀번호
+        {
+            EventManager.TriggerEvent(EProfilerEvent.AddGuideButton, new object[] { "주글비밀번호가이드" });
+        }
+
     }
 
     public void SetText()
