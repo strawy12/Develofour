@@ -131,6 +131,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         CharacterInfoDataSO charSO = ResourceManager.Inst.GetCharacterDataSO(characterType);
         SetCallUI(charSO);
 
+        StopCoroutine(PhoneSoundCor());
         StartCoroutine(PhoneSoundCor());
 
         ShowSpectrumUI(false);

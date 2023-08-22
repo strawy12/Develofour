@@ -108,6 +108,10 @@ public class MediaPlayerBody : MonoBehaviour
         if (EndMediaInfoFlag())
         {
             endMediaInfoTrigger.GetInfo();
+            for(int i = 0; i < endMediaInfoTrigger.infoDataIDList.Count; i++)
+            {
+                ProfileOverlaySystem.OnAdd?.Invoke(endMediaInfoTrigger.infoDataIDList[i]);
+            }
 
             if(ownerPlayer != null)
                 ownerPlayer.OnEnd -= EndMediaTrigger;
