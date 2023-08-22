@@ -126,56 +126,56 @@ public class Debugger : MonoBehaviour
     public Sprite backgroundBGMSprite;
 
     [ContextMenu("SetSOSprite")]
-    public void SS()
+    public void SS() 
     {
-        string[] guids = AssetDatabase.FindAssets("t:FileSO", null);
+        string[] guids = AssetDatabase.FindAssets("t:MonologTextDataSO", null);
         int maxidx = 0;
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            FileSO so = AssetDatabase.LoadAssetAtPath<FileSO>(path);
+            MonologTextDataSO so = AssetDatabase.LoadAssetAtPath<MonologTextDataSO>(path);
 
-            if (so.id > maxidx)
+            if (so.TextDataType > maxidx)
             {
-                maxidx = so.id;
+                maxidx = so.TextDataType;
             }
             continue;
 
-            if (so.windowType == EWindowType.SiteShortCut)
-            {
-                so.color = UnityEngine.Color.white;
-            }
-            else if (so.windowType == EWindowType.Notepad)
-            {
-                so.iconSprite = notepadSprite;
-            }
-            else if (so.windowType == EWindowType.ImageViewer)
-            {
-                so.color = UnityEngine.Color.white;
-            }
-            else if (so.windowType == EWindowType.Directory)
-            {
-                so.iconSprite = DirectorySprite;
-            }
-            else if (so.windowType == EWindowType.MediaPlayer)
-            {
-                so.iconSprite = mediaPlayerSprite;
-            }
-            else if (so.windowType == EWindowType.Discord)
-            {
-                so.iconSprite = harmonySprite;
-            }
-            else if (so.windowType == EWindowType.ProfilerWindow)
-            {
-                so.iconSprite = InstallerSprite;
-            }
-            else if (so.windowType == EWindowType.BackgroundBGM)
-            {
-                so.iconSprite = backgroundBGMSprite;
-            }
-            AssetDatabase.Refresh();
-            AssetDatabase.SaveAssets();
-            EditorUtility.SetDirty(so);
+            //if (so.windowType == EWindowType.SiteShortCut)
+            //{
+            //    so.color = UnityEngine.Color.white;
+            //}
+            //else if (so.windowType == EWindowType.Notepad)
+            //{
+            //    so.iconSprite = notepadSprite;
+            //}
+            //else if (so.windowType == EWindowType.ImageViewer)
+            //{
+            //    so.color = UnityEngine.Color.white;
+            //}
+            //else if (so.windowType == EWindowType.Directory)
+            //{
+            //    so.iconSprite = DirectorySprite;
+            //}
+            //else if (so.windowType == EWindowType.MediaPlayer)
+            //{
+            //    so.iconSprite = mediaPlayerSprite;
+            //}
+            //else if (so.windowType == EWindowType.Discord)
+            //{
+            //    so.iconSprite = harmonySprite;
+            //}
+            //else if (so.windowType == EWindowType.ProfilerWindow)
+            //{
+            //    so.iconSprite = InstallerSprite;
+            //}
+            //else if (so.windowType == EWindowType.BackgroundBGM)
+            //{
+            //    so.iconSprite = backgroundBGMSprite;
+            //}
+            //AssetDatabase.Refresh();
+            //AssetDatabase.SaveAssets();
+            //EditorUtility.SetDirty(so);
         }
         Debug.Log(maxidx);
     }
