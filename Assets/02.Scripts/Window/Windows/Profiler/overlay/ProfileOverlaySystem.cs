@@ -96,14 +96,14 @@ public class ProfileOverlaySystem : MonoBehaviour
             return;
         }
 
-        if (GetCompleteCount() == GetWholeCount())
-        {
-            overlayPanel.Setting(true);
-        }
-        else
-        {
-            overlayPanel.Setting(false);
-        }
+        //if (GetCompleteCount() == GetWholeCount())
+        //{
+        //    overlayPanel.Setting(true);
+        //}
+        //else
+        //{
+        //    overlayPanel.Setting(false);
+        //}
 
         overlayPanel.SetActive(true);
     }
