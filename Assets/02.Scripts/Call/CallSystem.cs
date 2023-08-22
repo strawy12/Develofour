@@ -183,7 +183,7 @@ public class CallSystem : MonoSingleton<CallSystem>
         for (int i = 0; i < callData.monologLockList.Count; i++)
         {
             if (!Define.MonologLockDecisionFlag(callData.monologLockList[i].decisions)) continue;
-
+            if (FileManager.Inst.IsExistFile((int)(callData.monologLockList[i].additionFiles[0].x))) continue;
             int num = i;
             MonologLockData lockData = callData.monologLockList[i];
 
