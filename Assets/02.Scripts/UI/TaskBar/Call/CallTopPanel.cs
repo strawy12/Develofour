@@ -17,7 +17,7 @@ public class CallTopPanel : MonoBehaviour
     [SerializeField]
     private PhoneCallUI phoneCallUI;
     private List<CharacterInfoDataSO> characterDataList;
-
+    private List<CharacterInfoDataSO> characterList;
     private List<string> phoneNumberList;
 
     private int currentIdx = 0;
@@ -28,6 +28,7 @@ public class CallTopPanel : MonoBehaviour
         beforeBtn.onClick.AddListener(OnClickBeforeBtn);
         autoCompleteBtn.onClick.AddListener(OnClickAutoBtn);
         characterDataList = ResourceManager.Inst.GetCharacterDataSOList();
+        characterList = new List<CharacterInfoDataSO>();
         EventManager.StartListening(ECallEvent.AddAutoCompleteCallBtn, AddNewAutoPhoneNumber);
         currentIdx = 0;
 
@@ -36,13 +37,13 @@ public class CallTopPanel : MonoBehaviour
             if (DataManager.Inst.IsSavePhoneNumber(data.phoneNum))
             {
                 phoneNumberList.Add(data.phoneNum);
+                characterList.Add(data);
             }
         }
 
         if(phoneNumberList.Count != 0 )
         {
-            nameText.text = characterDataList[currentIdx].characterName;
-
+            nameText.text = characterList[currentIdx].characterName;
         }
         else
         {
@@ -63,10 +64,14 @@ public class CallTopPanel : MonoBehaviour
         if (!phoneNumberList.Contains(number))
         {
             phoneNumberList.Add(number);
+
+            CharacterInfoDataSO character =  characterDataList.Find(x => x.phoneNum == number);
+
+            characterList.Add(character);
         }
         gameObject.SetActive(true);
 
-        nameText.text = characterDataList[currentIdx].characterName;
+        nameText.text = characterList[currentIdx].characterName;
     }
 
 
@@ -80,7 +85,7 @@ public class CallTopPanel : MonoBehaviour
         if (currentIdx + 1 < phoneNumberList.Count)
         {
             currentIdx += 1;
-            nameText.text = characterDataList[currentIdx].characterName;
+            nameText.text = characterList[currentIdx].characterName;
         }
     }
 
@@ -94,7 +99,7 @@ public class CallTopPanel : MonoBehaviour
         if (currentIdx - 1 >= 0)
         {
             currentIdx -= 1;
-            nameText.text = characterDataList[currentIdx].characterName;
+            nameText.text = characterList[currentIdx].characterName;
         }
     }
 
