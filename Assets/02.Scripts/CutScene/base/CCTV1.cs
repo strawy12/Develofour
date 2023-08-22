@@ -53,7 +53,7 @@ public class CCTV1 : CutScene
         sprite.DOFade(1, 1);
         yield return new WaitForSeconds(1f);
         MonologSystem.OnEndMonologEvent = CutScene2_Start;
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_1, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_1, 0, false);
     }
 
     private void CutScene2_Start()
@@ -71,7 +71,7 @@ public class CCTV1 : CutScene
         yield return new WaitForSeconds(1f);
         MonologSystem.OnEndMonologEvent = CutScene3_Start;
         MonologSystem.OnEndMonologEvent = ()=>EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.CCTV_1, 168});
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_2, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_2, 0, false);
     }
 
     private void CutScene3_Start()
@@ -98,7 +98,7 @@ public class CCTV1 : CutScene
         sprite.DOFade(1, 1);
         yield return new WaitForSeconds(1f);
         MonologSystem.OnEndMonologEvent = CutScene4_Start;
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_3, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_3, 0, false);
 
 
     }
@@ -117,7 +117,7 @@ public class CCTV1 : CutScene
         sprite.DOFade(1, 1);
         yield return new WaitForSeconds(1f);
         MonologSystem.OnEndMonologEvent = CutScene5_Start;
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_4, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_4, 0, false);
     }
 
     private void CutScene5_Start()
@@ -137,7 +137,7 @@ public class CCTV1 : CutScene
         MonologSystem.OnEndMonologEvent = CutScene6_Start;
         MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.CCTV_1, 169});
 
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_5, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_5, 0, false);
     }
 
     private void CutScene6_Start()
@@ -152,7 +152,7 @@ public class CCTV1 : CutScene
         sprite.sprite = cutSceneSprite01;
         timerText.text = "[2023.10.20 01:23]";
         MonologSystem.OnEndMonologEvent = DelayStart;
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_6, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_6, 0, false);
     }
 
     private void DelayStart()
@@ -169,7 +169,7 @@ public class CCTV1 : CutScene
         }
         MonologSystem.OnEndMonologEvent = StopCutScene;
         MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.CCTV_1, 170 });
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_7, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_7, 0, false);
     }
 
     public override void StopCutScene()

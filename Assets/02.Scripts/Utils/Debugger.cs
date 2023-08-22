@@ -75,14 +75,17 @@ public class Debugger : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.P))
         {
-
             foreach (var temp in ResourceManager.Inst.GetProfileCategory(EProfilerCategory.ParkJuyoungProfile).infoTextList)
             {
                 EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.ParkJuyoungProfile, temp.id });
                 //DataManager.Inst.AddProfilerSaveData(EProfilerCategory.ParkJuyoungProfile, temp.id);
             }
         }
-
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            FileManager.Inst.AddFile(165, 1);
+            FileManager.Inst.AddFile(166, 1);
+        }
     }
 
     private void ActiveDebug()

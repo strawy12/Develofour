@@ -104,6 +104,25 @@ public class FileManager : MonoSingleton<FileManager>
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
         NoticeSystem.OnNotice?.Invoke("새로운 파일이 추가되었습니다!",$"{file.fileName}(이)가 {directory.fileName} 위치에 다운로드가 되었습니다.",0.5f,true, addFileNoticeSprite, Color.white, ENoticeTag.AddFile);
     }
+    public void ResetAdditionalFile()
+    {
+        List<FileSO> allFileList = GetALLUnLockFileList(rootDirectory);
+
+        foreach(var file in allFileList)
+        {
+            if(file is DirectorySO)
+            {
+                foreach(var addfile in additionFileList)
+                {
+                    DirectorySO directory = file as DirectorySO;
+                    if(directory.children.Contains(addfile))
+                    {
+                        directory.children.Remove(addfile);
+                    }
+                }
+            }
+        }
+    }
     public List<FileSO> GetALLUnLockFileList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
         //fileList.Clear();
