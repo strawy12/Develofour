@@ -83,8 +83,7 @@ public class Debugger : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.A))
         {
-            FileManager.Inst.AddFile(165, 1);
-            FileManager.Inst.AddFile(166, 1);
+            FileManager.Inst.AddFile(167, 1);
         }
     }
 
