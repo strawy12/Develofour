@@ -18,7 +18,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public float zoomSpeed = 0.1f;
 
-    public float scale =0f;
+    public float selectScale =0f;
 
     private Image currentImage;
 
@@ -30,7 +30,7 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     private bool isEnlargement = false;
 
-    private readonly Vector2 MAXSIZE = new Vector2(1080f, 670f);
+    private readonly Vector2 MAXSIZE = new Vector2(1280f, 670f);
 
     public bool isDiscord;
 
@@ -88,11 +88,11 @@ public class ImageEnlargement : MonoBehaviour, IPointerClickHandler, IScrollHand
 
     public void SetImageSizeReset()
     {
-        if (this.scale != 0f) {
-
-            transform.localScale = Vector3.one * this.scale;
+        if (selectScale > 0f)
+        {
+            transform.localScale = Vector3.one * selectScale;
             imageScale = transform.localScale.x;
-            return; 
+            return;
         }
         Vector2 size = currentImage.sprite.rect.size;
         
