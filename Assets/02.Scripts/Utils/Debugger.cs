@@ -70,7 +70,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.IncidentReport, 68 });
+            FileManager.Inst.AddFile(149, 1);
         }
 
         if(Input.GetKeyDown(KeyCode.P))
