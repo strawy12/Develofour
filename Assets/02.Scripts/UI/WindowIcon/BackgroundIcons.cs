@@ -17,7 +17,7 @@ public class BackgroundIcons : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Inst.OnStartCallback += Init;
+        GameManager.Inst.OnGameStartCallback += Init;
     }
     public void Init()
     {
