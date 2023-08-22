@@ -31,6 +31,8 @@ public class FileManager : MonoSingleton<FileManager>
     //새롭게 추가된 파일은 fileList에 등록된다.
     [SerializeField]
     private List<FileSO> defaultFileList = new List<FileSO>();
+    [SerializeField]
+    private BackgroundIcons backgroundIcons;
     //[Header("Profiler FileSearch")]
     //private const float findNameScore = 30f;
     //private const float findTagScore = 20f;
@@ -122,6 +124,8 @@ public class FileManager : MonoSingleton<FileManager>
                 }
             }
         }
+
+        backgroundIcons.Init();
     }
     public List<FileSO> GetALLUnLockFileList(DirectorySO currentDirectory = null, bool isAdditional = false)
     {
