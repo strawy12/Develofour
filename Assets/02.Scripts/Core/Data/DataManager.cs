@@ -54,7 +54,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         CreateMonologData();
         CreateFileLockData();
         CreateNoticeDataSave();
-
+        FileManager.Inst.ResetAdditionalFile();
         SaveToJson();
 
         debug_Data = saveData;
