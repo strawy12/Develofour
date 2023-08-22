@@ -16,7 +16,7 @@ public class CallPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     void Start()
     {
-        GameManager.Inst.OnStartCallback += StartEvent;
+        GameManager.Inst.OnGameStartCallback += StartEvent;
     }
 
     private void StartEvent()

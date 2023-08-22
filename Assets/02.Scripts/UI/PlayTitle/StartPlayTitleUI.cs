@@ -47,7 +47,7 @@ public class StartPlayTitleUI : MonoBehaviour
         exitButton.onClick?.AddListener(ExitGame);
         popupClose.onClick?.AddListener(() => creditPopup.SetActive(false));
         showCredit.onClick?.AddListener(() => { creditPopup.SetActive(false); creditPanel.StartCredit(); });
-        GameManager.Inst.OnStartCallback += delayBGM;
+        delayBGM();
     }
 
     private async void delayBGM()
@@ -65,6 +65,7 @@ public class StartPlayTitleUI : MonoBehaviour
 
         StartCutScene.OnPlayCutScene?.Invoke();
         Sound.OnStopBGM?.Invoke(false);
+        GameManager.Inst.OnGameStartCallback?.Invoke();
         this.gameObject.SetActive(false);
     }
 
