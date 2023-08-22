@@ -57,14 +57,19 @@ public class StartPlayTitleUI : MonoBehaviour
     }
     private void StartplayGame(bool isNewStart)
     {
+        Sound.OnStopBGM?.Invoke(false);
         if (isNewStart)
         {
             DataManager.Inst.CreateSaveData();
         }
+        else
+        {
+            Sound.OnImmediatelyStop(Sound.EAudioType.AfterDiscordMail);
+            Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartMainBGM);
+        }
         DataManager.Inst.SaveData.isNewStart = false;
 
         StartCutScene.OnPlayCutScene?.Invoke();
-        Sound.OnStopBGM?.Invoke(false);
         GameManager.Inst.OnGameStartCallback?.Invoke();
         this.gameObject.SetActive(false);
     }
