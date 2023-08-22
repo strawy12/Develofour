@@ -50,5 +50,6 @@ public enum EProfilerCategory
     CCTV_2,
     Testimony,
     WitnessStatement,
+    WoundImage,
     Count,
 }
