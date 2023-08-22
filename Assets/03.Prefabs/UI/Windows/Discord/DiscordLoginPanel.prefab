@@ -54,12 +54,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 437eda626e3c43fa912a4baa7024b55c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  identificationAnswerText: answer
-  PINAnswerText: answer
-  PINHidePanel: {fileID: 3058049491858853923}
   identificationInputfield: {fileID: 6031476576365719809}
-  PINInputfield: {fileID: 3654257106838844835}
+  identificationTextmove: {fileID: 0}
   loginPanel: {fileID: 0}
+  loginBtn: {fileID: 0}
+  wrongText: {fileID: 0}
+  romePuzzle: {fileID: 0}
 --- !u!1 &508892936476179314
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d20390a20da42be9f081a78012e4dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 2292167332367369521}
+  text: {fileID: 0}
 --- !u!1 &785375751708942899
 GameObject:
   m_ObjectHideFlags: 0
@@ -3572,17 +3572,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   answerID: id
   answerPassword: pass
-  IDInputField: {fileID: 1195601506522666387}
-  passwordInputField: {fileID: 2559595112640596710}
+  identificationAnswerText: 
+  IDInputField: {fileID: 0}
+  passwordInputField: {fileID: 0}
   loginButton: {fileID: 1362120100640649565}
   wrongIDInputFieldText: {fileID: 4176011551520288180}
   wrongPasswordInputFieldText: {fileID: 4512120259978605655}
   currentIdInputFieldText: {fileID: 6331793681706054168}
   currentPasswordInputFieldText: {fileID: 844058225925779478}
-  IDAccountPanel: {fileID: 7503179129299083483}
-  pwAccountPanel: {fileID: 7286720521702718954}
+  background: {fileID: 0}
   identificationPanel: {fileID: 1409164836787282611}
   loginPanel: {fileID: 0}
+  IDAccountPanel: {fileID: 0}
+  pwAccountPanel: {fileID: 0}
 --- !u!1 &5649668352089505158
 GameObject:
   m_ObjectHideFlags: 0
@@ -4006,7 +4008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d20390a20da42be9f081a78012e4dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 3688238039661344480}
+  text: {fileID: 0}
 --- !u!1 &6080166515655206379
 GameObject:
   m_ObjectHideFlags: 0
@@ -5335,7 +5337,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC774\uBA54\uC77C \uB610\uB294 \uC804\uD654\uBC88\uD638"
+  m_text: "\uC804\uD654\uBC88\uD638"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
   m_sharedMaterial: {fileID: -2560004193487277870, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}

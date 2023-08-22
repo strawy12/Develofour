@@ -9,7 +9,8 @@ public class BackgroundIcons : MonoBehaviour
     private BackgroundIcon iconPrefab;
     [SerializeField]
     private DirectorySO backgroundDirectory;
-
+    [SerializeField]
+    private BackgroundIcon libraryIcon;
     private List<BackgroundIcon> iconList;
 
 
@@ -18,7 +19,7 @@ public class BackgroundIcons : MonoBehaviour
     {
         GameManager.Inst.OnStartCallback += Init;
     }
-    private void Init()
+    public void Init()
     {
         IconListInit();
 
@@ -27,9 +28,24 @@ public class BackgroundIcons : MonoBehaviour
     }
     private void IconListInit()
     {
+        if(iconList != null)
+        {
+            int cnt = 0;
+            while(iconList.Count != 0)
+            {
+                cnt++;
+                if(cnt > 100)
+                {
+                    Debug.LogWarning("while ¹® ¹Ýº¹");
+                    break;
+                }
+                BackgroundIcon icon = iconList[0];
+                iconList.RemoveAt(0);
+                Destroy(icon.gameObject);
+            }
+        }
+
         iconList = new List<BackgroundIcon>();
-        BackgroundIcon[] icons = GetComponentsInChildren<BackgroundIcon>();
-        iconList.AddRange(icons);
         iconList.ForEach(x => x.Init(true));
     }
 
