@@ -93,6 +93,15 @@ public class ProfilerWindow : Window
             EventManager.TriggerEvent(EGuideButtonTutorialEvent.TutorialStart);
             OnSelected -= ProfilerSelected;
         }
+        else
+        {
+            if (ProfilerTutorial.guideObjectName == EGuideObject.CharacterTab
+            || ProfilerTutorial.guideObjectName == EGuideObject.IncidentTab)
+            {
+                EGuideObject obj = ProfilerTutorial.guideObjectName;
+                EventManager.TriggerEvent(ETutorialEvent.GuideObject, new object[] { obj });
+            }
+        }
     }
 
     private void CheckProfilerOnOff(object[] emptyPs)

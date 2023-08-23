@@ -30,12 +30,14 @@ public class GuideObject : MonoBehaviour
     {
         if (ps == null || (EGuideObject)ps[0] != objectName) return;
         if (transform == null) return;
+        if ((objectName == EGuideObject.CharacterTab || objectName == EGuideObject.IncidentTab)
+            && (EGuideObject)ps[0] == EGuideObject.Explore) return;
         GuideUISystem.OnGuide?.Invoke(transform as RectTransform);
         if(objectName == EGuideObject.CharacterTab || objectName == EGuideObject.IncidentTab)
         {
             GuideUISystem.OnFullSizeGuide?.Invoke(transform as RectTransform);
         }
-        EventManager.StopListening(ETutorialEvent.GuideObject, OnGuide);
+        //EventManager.StopListening(ETutorialEvent.GuideObject, OnGuide);
     }
 
     void OnDestroy()
