@@ -103,6 +103,10 @@ public class FileManager : MonoSingleton<FileManager>
         {
             DataManager.Inst.AddNewFileData(file, directory);
         }
+        else
+        {
+            return;
+        } 
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
         NoticeSystem.OnNotice?.Invoke("새로운 파일이 추가되었습니다!",$"{file.fileName}(이)가 {directory.fileName} 위치에 다운로드가 되었습니다.",0.5f,true, addFileNoticeSprite, Color.white, ENoticeTag.AddFile);
     }
