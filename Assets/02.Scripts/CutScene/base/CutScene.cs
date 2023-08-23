@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CutScene : MonoBehaviour
 {
@@ -26,8 +27,10 @@ public class CutScene : MonoBehaviour
         GameManager.Inst.ChangeGameState(saveState);
         isPlaying = false;
         InputManager.Inst.RemoveKeyInput(KeyCode.Escape, onKeyDown: StopCutScene);
+        DOTween.KillAll();
         StopAllCoroutines();
         Sound.OnPlayLastBGM?.Invoke();
+        MonologSystem.ResetEndMonologEvent();
         MonologSystem.OnStopMonolog?.Invoke();
         Destroy(this.gameObject);
     }

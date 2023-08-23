@@ -174,7 +174,6 @@ public class CCTV1 : CutScene
 
     public override void StopCutScene()
     {
-        StopAllCoroutines();
         base.StopCutScene();
     }
 }

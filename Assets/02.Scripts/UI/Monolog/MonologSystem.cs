@@ -37,6 +37,11 @@ public partial class MonologSystem : TextSystem
         }
     }
 
+    public static void ResetEndMonologEvent()
+    {
+        onEndMonologEvent = null;
+    }
+
     public static void RemoveEndMonologEvent(Action action)
     {
         onEndMonologEvent -= action;
