@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7862930490387574311}
   - component: {fileID: 5952263403658533682}
   - component: {fileID: 6950571531352124228}
-  - component: {fileID: 8048553545201493057}
   m_Layer: 5
   m_Name: info123_162_0
   m_TagString: Untagged
@@ -77,30 +76,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8048553545201493057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2985273467208601128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7d941773a4243e3ac22c91d3ccbd041, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerID: 1
-  infoDataIDList: 7b000000
-  fileID: 163
-  needInfoList:
-  - needInfoID: 48
-    monologID: 161
-    getInfo: 0
-  monoLogType: 162
-  completeMonologType: 0
-  delay: 0
-  isFakeInfo: 0
-  backgroundImage: {fileID: 6950571531352124228}
 --- !u!1 &8454321266748870906
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,6 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxImageScale: 4
   zoomSpeed: 0.1
+  selectScale: 0
   isDiscord: 0
 --- !u!114 &8051523755304602131
 MonoBehaviour:
@@ -222,4 +198,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fileID: 163
   triggerCount:
-  - {fileID: 8048553545201493057}
+  - {fileID: 0}
