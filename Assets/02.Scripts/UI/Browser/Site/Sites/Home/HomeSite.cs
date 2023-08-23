@@ -21,7 +21,7 @@ public class HomeSite : Site , IPointerClickHandler
         favoriteBar.Init();
 
         profilePanel.Init();
-        SeacrhPanel.onClick.AddListener(ShowRecordPanel);
+        //SeacrhPanel.onClick.AddListener(ShowRecordPanel);
 
         base.Init();
     }
