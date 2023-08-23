@@ -31,7 +31,6 @@ public class ProfileOverlaySystem : MonoBehaviour
 
     private void OpenInt(int id, List<int> list)
     {
-        Debug.Log(list.Count);
         if (!DataManager.Inst.SaveData.isProfilerInstall) return;
         ResetCount();
         currentFileID = id;
@@ -96,14 +95,14 @@ public class ProfileOverlaySystem : MonoBehaviour
             return;
         }
 
-        //if (GetCompleteCount() == GetWholeCount())
-        //{
-        //    overlayPanel.Setting(true);
-        //}
-        //else
-        //{
-        //    overlayPanel.Setting(false);
-        //}
+        if (GetCompleteCount() == GetWholeCount())
+        {
+            overlayPanel.Setting(true);
+        }
+        else
+        {
+            overlayPanel.Setting(false);
+        }
 
         overlayPanel.SetActive(true);
     }
