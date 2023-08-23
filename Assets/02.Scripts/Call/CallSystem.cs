@@ -43,7 +43,7 @@ public class CallSystem : MonoSingleton<CallSystem>
 
     public void Start()
     {
-        GameManager.Inst.OnStartCallback += Init;
+        GameManager.Inst.OnGameStartCallback += Init;
     }
 
     private IEnumerator RepeatCheckReturnCall()
