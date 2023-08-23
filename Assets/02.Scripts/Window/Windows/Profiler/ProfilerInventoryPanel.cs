@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -17,6 +17,9 @@ public class ProfilerInventoryPanel : MonoBehaviour
     private ProfilerCategoryPrefab categoryTemp;
     [SerializeField]
     private Transform categoryParent;
+
+    [SerializeField]
+    private ProfilerInventoryElements inventoryElements;
 
     private Queue<ProfilerCategoryPrefab> categorysQueue;
 
@@ -218,6 +221,8 @@ public class ProfilerInventoryPanel : MonoBehaviour
             ProfilerCategoryPrefab categoryPrefab = Pop();
             categoryPrefab.Show(data);
         }
+
+        inventoryElements.SetElementSize();
     }
     public void ShowScenePanel()
     {
@@ -230,6 +235,8 @@ public class ProfilerInventoryPanel : MonoBehaviour
             ProfilerCategoryPrefab categoryPrefab = Pop();
             categoryPrefab.Show(data);
         }
+
+        inventoryElements.SetElementSize();
     }
 
     private void UnSelectAllPanel()

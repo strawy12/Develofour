@@ -39,7 +39,6 @@ public partial class DataManager : MonoSingleton<DataManager>
     }
     public bool IsProfilerInfoData(int id)
     {
-        Debug.Log(id);
         foreach(var categoryData in saveData.profilerSaveData)
         {
             if(categoryData.infoData.Contains(id))

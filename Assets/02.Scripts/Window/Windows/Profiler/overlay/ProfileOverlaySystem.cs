@@ -31,7 +31,6 @@ public class ProfileOverlaySystem : MonoBehaviour
 
     private void OpenInt(int id, List<int> list)
     {
-        Debug.Log(list.Count);
         if (!DataManager.Inst.SaveData.isProfilerInstall) return;
         ResetCount();
         currentFileID = id;
