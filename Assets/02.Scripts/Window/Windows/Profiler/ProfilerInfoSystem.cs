@@ -114,7 +114,7 @@ public class ProfilerInfoSystem : MonoBehaviour
         }
         else
         {
-            NoticeSystem.OnNotice?.Invoke("Profiler 정보가 확인되었습니다!", "새로운 정보가 확인되었습니다.", 0f, false, null, Color.white, ENoticeTag.Profiler);
+            //NoticeSystem.OnNotice?.Invoke("Profiler 정보가 확인되었습니다!", "새로운 정보가 확인되었습니다.", 0f, false, null, Color.white, ENoticeTag.Profiler);
         }
        
 
