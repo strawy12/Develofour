@@ -278,10 +278,9 @@ public class NoticeSystem : MonoUI
         NoticePanel panel = noticePanel = GetPanel(true);
         panel.OnCompeleted += IncludePanel;
         panel.OnClosed += PushPanel;
-        noticeOutline.StartOutline();
-
         currentTag = noticeTag;
 
+        noticeOutline.StartOutline();
         if (!isOpen)
         {
             panel.Notice(head, body, icon, color, false);

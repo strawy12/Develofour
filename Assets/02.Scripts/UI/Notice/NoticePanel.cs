@@ -145,7 +145,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
             return;
         }
 
-        EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
+       // EventManager.TriggerEvent(ENoticeEvent.GeneratedNotice);
 
         NoticeUXEmphasis();
 

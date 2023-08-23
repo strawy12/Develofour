@@ -63,7 +63,6 @@ public class DiscordLogin : MonoBehaviour
         //IDInputField.OnShowAccount += ShowIDAccountPanel;
         //passwordInputField.OnShowAccount += ShowPWAccountPanel;
         loginButton.onClick.AddListener(OnClickLogin);
-        Debug.Log("온클릭 시작");
         InputManager.Inst.AddKeyInput(KeyCode.Return, onKeyDown: OnClickLogin);
     }
 
@@ -94,11 +93,6 @@ public class DiscordLogin : MonoBehaviour
 
     public void OnClickLogin()
     {
-#if UNITY_EDITOR
-
-            SuccessLogin();
-        
-#endif
         //현재 내 윈도우가 가장 위에있는지 확인
         if (WindowManager.Inst != null && !WindowManager.Inst.IsTopWindow(EWindowType.Discord))
         {

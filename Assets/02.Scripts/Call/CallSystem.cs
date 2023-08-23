@@ -156,10 +156,8 @@ public class CallSystem : MonoSingleton<CallSystem>
         if (!DataManager.Inst.IsExistReturnData(data.characterType))
         {
             RequestCallDataSO callData = ResourceManager.Inst.GetRequestCallData(data.characterType);
-            Debug.Log($"{callData.characterType}, {callData.defaultMonologID}");
             if (callData != null && Define.MonologLockDecisionFlag(callData.defaultDecisions))
             {
-                Debug.Log("1");
                 MonologSystem.OnEndMonologEvent = () => SetMonologSelector(callData);
                 result = callData.defaultMonologID;
             }

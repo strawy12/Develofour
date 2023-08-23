@@ -169,7 +169,7 @@ public class CCTV1 : CutScene
         }
         MonologSystem.OnEndMonologEvent = StopCutScene;
         MonologSystem.OnEndMonologEvent = () => EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.CCTV_1, 170 });
-        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_7, 0, false);
+        MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.CCTV_1_7, 0, false);   
     }
 
     public override void StopCutScene()

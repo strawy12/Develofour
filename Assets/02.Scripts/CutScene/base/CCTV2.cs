@@ -102,7 +102,7 @@ public class CCTV2 : CutScene
         timerText.text = "[2023.10.20 01:52]";
         sprite.DOFade(1, 1);
         MonologSystem.OnEndMonologEvent = CutScene4_Start;
-        MonologSystem.OnStartMonolog?.Invoke(242, 0, true);
+        MonologSystem.OnStartMonolog?.Invoke(242, 0, false);
     }
 
     private void CutScene4_Start()

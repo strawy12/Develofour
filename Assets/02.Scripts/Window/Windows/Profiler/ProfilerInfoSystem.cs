@@ -63,6 +63,12 @@ public class ProfilerInfoSystem : MonoBehaviour
             if (!DataManager.Inst.IsCategoryShow(category))
             {
                 DataManager.Inst.SetCategoryData(category, true);
+                ProfilerInfoTextDataSO defaultData = ResourceManager.Inst.GetProfileCategory(category).defaultInfoText;
+                if(defaultData != null)
+                {
+                    DataManager.Inst.AddProfilerSaveData(category, defaultData.id);
+                }
+
                 EventManager.TriggerEvent(ECallEvent.GetMonologSettingIncomingData, new object[] { id });
                 SendCategoryNotice(category);
             }
