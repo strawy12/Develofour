@@ -92,8 +92,16 @@ public class SaveData
     public TutorialState tutorialDataState = TutorialState.NotStart;
 
 
+
     //데모용
     public bool isWatchDemoEnd;
+}
+
+public class DefaultSaveData
+{
+    public float BGMSoundValue = 0.6f;
+    public float EffectSoundValue = 0.6f;
+    //윈도우 크기? 전체화면?
 }
 
 public enum TutorialState

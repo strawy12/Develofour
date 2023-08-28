@@ -18,16 +18,17 @@ public class SoundSlider : MonoBehaviour
 
     public string nameStr;
 
-    public int saveSound; //나중에 Json으로 빼서 저장하겠지
+    public float saveSound; //나중에 Json으로 빼서 저장하겠지
 
     private bool isMute; //ismute가 true면 소리는 0으로
 
     public AudioMixer audioMixer;
     public ESoundPlayerType soundType;
 
-    public void Init()
+    public void Init(float _saveSound)
     {
-        slider.value = (float)saveSound / 100f;
+        saveSound = _saveSound;
+        slider.value = saveSound;
         SetMixGroup();
         SetValueText(slider);
         SetSoundImage(slider, soundImage);
@@ -45,6 +46,14 @@ public class SoundSlider : MonoBehaviour
         SetSoundImage(slider, soundImage);
         SetSoundImage(slider, soundTaskbarImage);
         SetMixGroup();
+        if(soundType.ToString() == "BGM")
+        {
+            DataManager.Inst.SaveBGMSoundValue(slider.value);
+        }
+        else
+        {
+            DataManager.Inst.SaveEffectSoundValue(slider.value);
+        }
     }
 
     public void SetMixGroup()
