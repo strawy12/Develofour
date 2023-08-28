@@ -197,7 +197,7 @@ public class CallSystem : MonoSingleton<CallSystem>
             MakeCallTextDataBtn(lockData.monologID, lockData);
             spawnCnt++;
         }
-        Debug.Log(spawnCnt);
+
         if (spawnCnt <= 0)
         {
             StartMonolog(callData.notExistMonoLogID);

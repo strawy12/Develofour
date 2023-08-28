@@ -29,7 +29,7 @@ public class GameManager : MonoSingleton<GameManager>
     public void Init()
     {
         DataManager.Inst.Init();
-        FileManager.Inst.Init();
+        
         OnStartCallback?.Invoke();
     }
 

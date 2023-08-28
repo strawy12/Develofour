@@ -49,6 +49,7 @@ public class FileManager : MonoSingleton<FileManager>
     {
         //foundFileWeights = new List<FileWeight>();
         currentFileNameWord = new List<string>();
+        GameManager.Inst.OnGameStartCallback += Init;
         foreach (FileSO file in defaultFileList)
         {
             defaultFileDictionary.Add(file.windowType, file);
