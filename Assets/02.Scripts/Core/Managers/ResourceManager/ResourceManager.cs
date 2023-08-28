@@ -46,6 +46,8 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         yield return new WaitUntil(() => cnt <= 0);
         yield return new WaitForSeconds(2f);
 
+        DataManager.Inst.D_CheckDirectory();
+
         GameManager.Inst.Init();
     }
 

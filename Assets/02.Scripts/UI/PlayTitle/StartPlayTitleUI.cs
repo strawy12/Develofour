@@ -26,6 +26,9 @@ public class StartPlayTitleUI : MonoBehaviour
     [SerializeField]
     private Button reStartBtn;
 
+    [SerializeField]
+    private SoundPanel soundPanel;
+
     private void Start()
     {
         GameManager.Inst.OnStartCallback += StartCallBack;
@@ -47,6 +50,9 @@ public class StartPlayTitleUI : MonoBehaviour
         exitButton.onClick?.AddListener(ExitGame);
         popupClose.onClick?.AddListener(() => creditPopup.SetActive(false));
         showCredit.onClick?.AddListener(() => { creditPopup.SetActive(false); creditPanel.StartCredit(); });
+
+        soundPanel.Init();
+
         delayBGM();
     }
 

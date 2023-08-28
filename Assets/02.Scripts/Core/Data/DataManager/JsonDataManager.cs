@@ -12,6 +12,9 @@ public partial class DataManager : MonoSingleton<DataManager>
 
         string data = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(SAVE_PATH + SAVE_FILE, data);
+
+        string d_data = JsonUtility.ToJson(defaultSaveData, true);
+        File.WriteAllText(D_SAVE_PATH + D_SAVE_FILE, d_data);
     }
 
     private void LoadFromJson()
@@ -31,6 +34,20 @@ public partial class DataManager : MonoSingleton<DataManager>
         {
             CreateSaveData();
         }
+
+
+        if (File.Exists(D_SAVE_PATH + D_SAVE_FILE))
+        {
+            Debug.Log("asdf");
+            string data = File.ReadAllText(D_SAVE_PATH + D_SAVE_FILE);
+            defaultSaveData = JsonUtility.FromJson<DefaultSaveData>(data);
+        }
+        else
+        {
+            Debug.Log("asdf222");
+            CreateDefaultSaveData();
+        }
+
         return;
 
 

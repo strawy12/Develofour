@@ -25,8 +25,17 @@ public class SoundPanel : MonoUI
         bgm.SetMixGroup();
         effect.SetMixGroup();
 
-        bgm.Init();
-        effect.Init();
+        if(DataManager.Inst.DefaultSaveData == null)
+        {
+            bgm.Init(0.6f);
+            effect.Init(0.6f);
+        }
+        else
+        {
+            bgm.Init(DataManager.Inst.DefaultSaveData.BGMSoundValue);
+            effect.Init(DataManager.Inst.DefaultSaveData.EffectSoundValue);
+        }
+
         effect.gameObject.SetActive(false);
         changePanel.Init();
         selectPanel.Init();
