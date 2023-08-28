@@ -32,6 +32,7 @@ public class CCTV2 : CutScene
     private float cutdelay_4 = 3f;
     public override void ShowCutScene()
     {
+
         base.ShowCutScene();
         CutScene1_Start();
     }

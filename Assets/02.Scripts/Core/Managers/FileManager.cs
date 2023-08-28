@@ -49,6 +49,7 @@ public class FileManager : MonoSingleton<FileManager>
     {
         //foundFileWeights = new List<FileWeight>();
         currentFileNameWord = new List<string>();
+        GameManager.Inst.OnGameStartCallback += Init;
         foreach (FileSO file in defaultFileList)
         {
             defaultFileDictionary.Add(file.windowType, file);
@@ -85,12 +86,12 @@ public class FileManager : MonoSingleton<FileManager>
 
     public void AddFile(int file, int directoryID)
     {
-        AddFile(GetAdditionalFile(file),directoryID);
+        AddFile(GetAdditionalFile(file), directoryID);
     }
     public void AddFile(FileSO file, int directoryID)
     {
         List<FileSO> fileList = GetALLFileList();
-        DirectorySO directory = fileList.Find(x=>x.id == directoryID) as DirectorySO;
+        DirectorySO directory = fileList.Find(x => x.id == directoryID) as DirectorySO;
 
         if (!directory.children.Contains(file))
         {
@@ -106,22 +107,25 @@ public class FileManager : MonoSingleton<FileManager>
         else
         {
             return;
-        } 
+        }
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
-        NoticeSystem.OnNotice?.Invoke("새로운 파일이 추가되었습니다!",$"{file.fileName}(이)가 {directory.fileName} 위치에 다운로드가 되었습니다.",0.5f,true, addFileNoticeSprite, Color.white, ENoticeTag.AddFile);
+        if (directoryID != 89)
+        {
+            NoticeSystem.OnNotice?.Invoke("새로운 파일이 추가되었습니다!", $"{file.fileName}(이)가 {directory.fileName} 위치에 다운로드가 되었습니다.", 0.5f, true, addFileNoticeSprite, Color.white, ENoticeTag.AddFile);
+        }
     }
     public void ResetAdditionalFile()
     {
         List<FileSO> allFileList = GetALLUnLockFileList(rootDirectory);
 
-        foreach(var file in allFileList)
+        foreach (var file in allFileList)
         {
-            if(file is DirectorySO)
+            if (file is DirectorySO)
             {
-                foreach(var addfile in additionFileList)
+                foreach (var addfile in additionFileList)
                 {
                     DirectorySO directory = file as DirectorySO;
-                    if(directory.children.Contains(addfile))
+                    if (directory.children.Contains(addfile))
                     {
                         directory.children.Remove(addfile);
                     }
@@ -159,7 +163,7 @@ public class FileManager : MonoSingleton<FileManager>
                 {
                     continue;
                 }
-                if(DataManager.Inst.IsFileLock(file.id))
+                if (DataManager.Inst.IsFileLock(file.id))
                 {
                     continue;
                 }
@@ -187,7 +191,7 @@ public class FileManager : MonoSingleton<FileManager>
         {
             if (id == 0 || id == 7) continue;
             FileSO file = allFileList.Find(x => x.id == id);
-            if(file != null)
+            if (file != null)
             {
                 fileList.Add(file);
             }
@@ -465,7 +469,6 @@ public class FileManager : MonoSingleton<FileManager>
     //}
 
 #if UNITY_EDITOR
-
     private void OnDestroy()
     {
         foreach (var dd in debugAdditionFileList)

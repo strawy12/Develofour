@@ -35,9 +35,6 @@ public class CCTV1 : CutScene
         CutScene1_Start();
     }
 
-    private void CutScene0_Start()
-    {
-    }
 
     private void CutScene1_Start()
     {

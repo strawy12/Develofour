@@ -15,6 +15,7 @@ public class CutScene : MonoBehaviour
     {
         if (isPlaying) return;
         cutSceneCoverPanel.SetActive(true);
+        StopAllCoroutines();
         saveState = GameManager.Inst.GameState;
         Sound.OnStopBGM?.Invoke(true);
         isPlaying = true;
