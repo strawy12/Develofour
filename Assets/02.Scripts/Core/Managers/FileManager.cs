@@ -58,6 +58,8 @@ public class FileManager : MonoSingleton<FileManager>
 
     public void Init()
     {
+        if (DataManager.Inst.SaveData == null) return;
+
         foreach (var fileData in additionFileList)
         {
             if (DataManager.Inst.AdditionalFileContain(fileData))
@@ -86,10 +88,16 @@ public class FileManager : MonoSingleton<FileManager>
 
     public void AddFile(int file, int directoryID)
     {
+       
         AddFile(GetAdditionalFile(file), directoryID);
     }
     public void AddFile(FileSO file, int directoryID)
     {
+        if(file == null)
+        {
+            Debug.Log("file == null");
+            return;
+        }
         List<FileSO> fileList = GetALLFileList();
         DirectorySO directory = fileList.Find(x => x.id == directoryID) as DirectorySO;
 
