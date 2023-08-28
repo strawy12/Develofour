@@ -128,7 +128,7 @@ public class FileManager : MonoSingleton<FileManager>
                 }
             }
         }
-
+        
         backgroundIcons.Init();
     }
     public List<FileSO> GetALLUnLockFileList(DirectorySO currentDirectory = null, bool isAdditional = false)
@@ -465,7 +465,6 @@ public class FileManager : MonoSingleton<FileManager>
     //}
 
 #if UNITY_EDITOR
-
     private void OnDestroy()
     {
         foreach (var dd in debugAdditionFileList)
