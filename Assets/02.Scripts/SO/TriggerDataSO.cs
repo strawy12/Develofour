@@ -15,4 +15,5 @@ public class TriggerDataSO : ScriptableObject
     public bool isFakeInfo;
 
     protected int playMonologType = 0;
+
 }
