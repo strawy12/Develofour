@@ -115,11 +115,11 @@ public class ProfilerTutorial : MonoBehaviour
     }
     private void OpenLibrary(object[] ps)
     {
-        if (ps[0] is Library)
-        {
-            library = ps[0] as Library;
-            library.SetLibrary();
-        }
+        //if (ps[0] is Library)
+        //{
+        //    library = ps[0] as Library;
+        //    library.SetLibrary();
+        //}
 
         //EventManager.TriggerEvent(ETutorialEvent.LibraryEventTrigger);
         //라이브러리가 오픈될 때 가 아니라 select가 될때
@@ -239,7 +239,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void LibraryRect(object[] ps)
     {
-        GuideUISystem.OnGuide(libraryRect);
+        GuideUISystem.OnGuide?.Invoke(libraryRect);
         Debug.Log(libraryRect);
     }
 }
