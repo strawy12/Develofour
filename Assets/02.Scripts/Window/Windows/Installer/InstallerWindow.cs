@@ -61,7 +61,7 @@ public class InstallerWindow : Window
 
     public void UnInteractableCancelBtn()
     {
-        windowBar.CloseBtn.interactable = false;
+        //windowBar.CloseBtn.interactable = false;
         cancelBtn.interactable = false;
     }
 
