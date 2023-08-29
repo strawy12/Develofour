@@ -17,7 +17,14 @@ public partial class DataManager : MonoSingleton<DataManager>
     public bool AdditionalFileContain(FileSO file)
     {
         AdditionFileData fileData = saveData.additionFileData.Find(x => x.fileID == file.id);
-
+        if(saveData == null)
+        {
+            Debug.Log("saveData is null");
+        }
+        else if(saveData.additionFileData == null)
+        {
+            Debug.Log(saveData.additionFileData);
+        }
         if (fileData != null)
         {
             return true;
