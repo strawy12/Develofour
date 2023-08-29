@@ -72,6 +72,8 @@ public class SaveData
     public List<ReturnMonologData> returnMonologData;
     public List<LastAccessDateData> lastAccessDateData;
     public List<int> libraryData;
+    public List<ProfilerGuide> profilerGuideData;
+
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
     public bool isZooglePinHintNoteOpen;
@@ -91,8 +93,6 @@ public class SaveData
     // 튜토리얼 중인지
     public TutorialState tutorialDataState = TutorialState.NotStart;
 
-
-
     //데모용
     public bool isWatchDemoEnd;
 }
@@ -102,6 +102,13 @@ public class DefaultSaveData
     public float BGMSoundValue = 0.6f;
     public float EffectSoundValue = 0.6f;
     //윈도우 크기? 전체화면?
+}
+
+[System.Serializable]
+public class ProfilerGuide
+{
+    public bool isAdd;
+    public string guideName;
 }
 
 public enum TutorialState

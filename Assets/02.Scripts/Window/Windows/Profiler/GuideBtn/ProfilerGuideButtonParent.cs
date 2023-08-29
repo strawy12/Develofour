@@ -37,6 +37,7 @@ public class ProfilerGuideButtonParent : MonoBehaviour
 
     public void Init(List<ProfilerGuideDataSO> guideDataSOs)
     {
+        Debug.Log("Asdf");
         guideButtonList = new List<ProfilerGuideButton>();
         poolQueue = new Queue<ProfilerGuideButton>();
         guideDataList = guideDataSOs;
@@ -86,12 +87,19 @@ public class ProfilerGuideButtonParent : MonoBehaviour
 
     private void AddGuideButton(object[] ps = null)
     {
-        if(ps == null)
+        guideDataList.Clear();
+        foreach(var guide in DataManager.Inst.SaveData.profilerGuideData)
+        {
+            if(guide.isAdd == true)
+            {
+                guideDataList.Add(ResourceManager.Inst.GetProfilerGuideDataSO(guide.guideName));
+            }
+        }
+        if (ps == null)
         {
             foreach (var data in guideDataList)
             {
-                if(data.isAddTutorial)
-                    AddButton(data);
+                AddButton(data);
             }
         }
         else

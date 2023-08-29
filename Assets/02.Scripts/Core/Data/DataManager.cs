@@ -84,6 +84,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         CreateMonologData();
         CreateFileLockData();
         CreateNoticeDataSave();
+        CreateProfilerGuideData();
         FileManager.Inst.ResetAdditionalFile();
         SaveToJson();
 
@@ -95,6 +96,30 @@ public partial class DataManager : MonoSingleton<DataManager>
         defaultSaveData = new DefaultSaveData();
         defaultSaveData.BGMSoundValue = 0.6f;
         defaultSaveData.EffectSoundValue = 0.6f;
+    }
+
+    private void CreateProfilerGuideData()
+    {
+        saveData.profilerGuideData = new List<ProfilerGuide>();
+
+        foreach(var guide in ResourceManager.Inst.ProfilerGuideDataSOList)
+        {
+            ProfilerGuide profilerGuide = new ProfilerGuide();
+            profilerGuide.isAdd = guide.Value.isAddTutorial;
+            profilerGuide.guideName = guide.Value.guideName;
+            saveData.profilerGuideData.Add(profilerGuide);
+        }
+    }
+
+    public void SaveProfilerGuideData(string name, bool flag)
+    {
+        foreach(var guide in saveData.profilerGuideData)
+        {
+            if(guide.guideName == name)
+            {
+                guide.isAdd = flag;
+            }
+        }
     }
 
     public void SaveBGMSoundValue(float value)

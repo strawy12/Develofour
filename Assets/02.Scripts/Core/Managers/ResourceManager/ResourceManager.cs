@@ -12,7 +12,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     public int cnt {get; private set; }
     public void Start()
     {
-        cnt = 20;
+        cnt = 21;
         DataLoadingScreen.OnShowLoadingScreen?.Invoke();
 
         StartCoroutine(StartGetData());
@@ -42,6 +42,8 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         LoadBackgroundBGMWindowDataResourcesAssets(LoadComplete);
         LoadFileLockDataAssets(LoadComplete);
         LoadTriggerDataSOResourcesAssets(LoadComplete);
+
+        LoadProfilerGuideDataSOAssets(LoadComplete);
 
         yield return new WaitUntil(() => cnt <= 0);
         yield return new WaitForSeconds(2f);
