@@ -43,7 +43,7 @@ public class NoticeSystem : MonoUI
 
     [SerializeField]
     private ProfileOverlayOpenTrigger overlayTrigger;
-
+    public bool isPlaying = false; 
     private void Awake()
     {
         Bind();
@@ -115,7 +115,7 @@ public class NoticeSystem : MonoUI
 
     public void Open()
     {
-        if (isOpen) return;
+        if (isOpen|| isPlaying) return;
 
         if(overlayTrigger != null)
         {
@@ -124,24 +124,28 @@ public class NoticeSystem : MonoUI
         }
 
         isOpen = true;
-
+        isPlaying = true;
         EventManager.TriggerEvent(ENoticeEvent.OpenNoticeSystem);
 
         SetActive(true);
 
         rectTransform.DOKill();
-        rectTransform.DOAnchorPosX(0f, Constant.NOTICE_DURATION);
+        rectTransform.DOAnchorPosX(0f, Constant.NOTICE_DURATION).OnComplete(()=> {
+            isPlaying = false;
+        });
     }
 
     public void Close()
     {
-        if (!isOpen) return;
+        if (!isOpen || isPlaying) return;
         overlayTrigger.Close();
         isOpen = false;
         rectTransform.DOKill();
+        isPlaying = true;
         rectTransform.DOAnchorPosX(rectTransform.rect.width, Constant.NOTICE_DURATION).OnComplete(() =>
         {
             SetActive(false);
+            isPlaying = false;
         });
     }
 

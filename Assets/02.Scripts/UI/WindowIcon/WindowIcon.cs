@@ -128,19 +128,21 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private void YellowUI(object[] obj)
     {
         GuideUISystem.OnEndAllGuide?.Invoke();
-        GuideUISystem.OnGuide(this.rectTranstform);
+        GuideUISystem.OnGuide?.Invoke(this.rectTranstform);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("click Icon");
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             if (clickCount != 0)
             {
+                
                 EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
                 // 여기에서 이벤트 쏨
                 clickCount = 0;
-
+                Debug.Log("open file");
                 if (targetWindow == null)
                 {
                     OpenWindow();
@@ -155,11 +157,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             else
             {
                 Select();
+                Debug.Log("add click");
                 clickCount++;
                 EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
                 EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
             }
-
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
