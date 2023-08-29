@@ -73,6 +73,9 @@ public class StartPlayTitleUI : MonoBehaviour
             Sound.OnImmediatelyStop(Sound.EAudioType.AfterDiscordMail);
             Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartMainBGM);
         }
+
+        DataManager.Inst.SaveDefaultJson();
+
         DataManager.Inst.SaveData.isNewStart = false;
 
         StartCutScene.OnPlayCutScene?.Invoke();

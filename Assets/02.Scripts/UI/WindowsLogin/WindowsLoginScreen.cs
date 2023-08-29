@@ -48,6 +48,8 @@ public class WindowsLoginScreen : MonoBehaviour
     private float monologDelay = 0.3f;
     [SerializeField]
     private float numberWrongDuration = 3f;
+    [SerializeField]
+    private SoundPanel taskbarSoundPanel;
 
     private bool isLoding = false;
     private bool isFirst = true;
@@ -151,6 +153,7 @@ public class WindowsLoginScreen : MonoBehaviour
                 StartMonolog();
             }
             isFirst = false;
+            taskbarSoundPanel.Init();
             EndLogin();
 
             windowLoginCanvas.SetActive(false);

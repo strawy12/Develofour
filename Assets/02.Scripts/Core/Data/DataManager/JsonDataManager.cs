@@ -13,6 +13,13 @@ public partial class DataManager : MonoSingleton<DataManager>
         string data = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(SAVE_PATH + SAVE_FILE, data);
 
+        SaveDefaultJson();
+    }
+
+    public void SaveDefaultJson()
+    {
+        if (isInit == false) return;
+        D_CheckDirectory();
         string d_data = JsonUtility.ToJson(defaultSaveData, true);
         File.WriteAllText(D_SAVE_PATH + D_SAVE_FILE, d_data);
     }

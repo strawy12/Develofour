@@ -14,11 +14,11 @@ public class SoundPanel : MonoUI
 
     private bool isOpen;
 
-    void Start()
-    {
-        Init();
-        this.SetActive(false);
-    }
+    //void Start()
+    //{
+    //    Init();
+    //    this.SetActive(false);
+    //}
 
     public void Init()
     {
@@ -32,8 +32,9 @@ public class SoundPanel : MonoUI
         }
         else
         {
-            bgm.Init(DataManager.Inst.DefaultSaveData.BGMSoundValue);
+            Debug.Log(DataManager.Inst.DefaultSaveData.BGMSoundValue);
             effect.Init(DataManager.Inst.DefaultSaveData.EffectSoundValue);
+            bgm.Init(DataManager.Inst.DefaultSaveData.BGMSoundValue);
         }
 
         effect.gameObject.SetActive(false);
