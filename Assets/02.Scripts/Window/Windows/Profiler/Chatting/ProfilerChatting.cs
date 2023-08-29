@@ -241,7 +241,8 @@ public class ProfilerChatting : MonoBehaviour
 
     protected void OnDestroy()
     {
-        EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintText);
+        EventManager.StopListening(EProfilerEvent.
+            ProfilerSendMessage, PrintText);
         EventManager.StopListening(EProfilerEvent.ClickGuideToggleButton, SetChattingHeight);
 
     }

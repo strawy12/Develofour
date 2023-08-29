@@ -39,6 +39,16 @@ public class ProfileGuidePanel : MonoBehaviour
     private List<ProfilerGuideDataSO> guideDataList;
     public void Init()
     {
+        //세이브에서 isAdd가 true인 놈들만 가져오기
+        guideDataList.Clear();
+        foreach(var guide in DataManager.Inst.SaveData.profilerGuideData)
+        {
+            if(guide.isAdd == true)
+            {
+                guideDataList.Add(ResourceManager.Inst.GetProfilerGuideDataSO(guide.guideName));
+            }
+        }
+
         currentValue = GetComponent<RectTransform>().sizeDelta.x;
         //스크롤뷰 가장 밑으로 내리기;
         moveButton.onClick.AddListener(ShowPanel);
