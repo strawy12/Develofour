@@ -50,8 +50,6 @@ public class Library : Window
     [SerializeField]
     private TextMeshProUGUI redoText;
     #endregion
-    [SerializeField]
-    private LibraryLeftPanel leftPanel;
 
     private WindowIcon selectIcon;
     #region pooling
@@ -150,7 +148,6 @@ public class Library : Window
         FileManager.Inst.GetALLFileList(currentDirectory);
 
         fileAddressPanel.Init();
-        leftPanel.Init();
         SetHighlightImage();
         SetLibrary();
 

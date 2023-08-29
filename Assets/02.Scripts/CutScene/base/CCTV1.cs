@@ -35,7 +35,6 @@ public class CCTV1 : CutScene
         CutScene1_Start();
     }
 
-
     private void CutScene1_Start()
     {
         StartCoroutine(CutScene1_StartCor());
