@@ -21,6 +21,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     public void Start()
     {
         resourceComponets = new Dictionary<Type, ResourcesComponent>();
+        DataManager.Inst.D_CheckDirectory();
         StartCoroutine(StartGetData());
         DataLoadingScreen.OnShowLoadingScreen?.Invoke();
     }
@@ -38,6 +39,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
             resource.LoadResources(() => LoadComplete());
         }
         yield return new WaitUntil(() => maxCnt <= 0);
+
         GameManager.Inst.Init();
     }
 
