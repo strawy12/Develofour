@@ -54,7 +54,10 @@ public class VideoPlayer : Window
 
     public void StartCutScene()
     {
-        //esc ´©¸£¸é stop
+        if (instanceCutScene != null) instanceCutScene.StopCutScene();
+
+        Destroy(instanceCutScene);
+
         instanceCutScene = Instantiate(cutScene, GameManager.Inst.CutSceneCanvas.transform);
         instanceCutScene.ShowCutScene();
     }

@@ -70,7 +70,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            FileManager.Inst.AddFile(149, 1);
+            FileManager.Inst.AddFile(167, 1);
         }
 
         if(Input.GetKeyDown(KeyCode.P))
