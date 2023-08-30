@@ -85,6 +85,7 @@ public class TutorialData
 [System.Serializable]
 public class SaveData
 {
+    public int version = 1;
     public List<PinLockData> PinLockData;
     public List<MonologSaveData> monologData;
     public List<AdditionFileData> additionFileData;
@@ -113,6 +114,13 @@ public class SaveData
     public bool isOnceOpenWindowProperty;
 
     public int CurrentTimeData;
+}
+
+public class DefaultSaveData
+{
+    public float BGMSoundValue = 0.6f;
+    public float EffectSoundValue = 0.6f;
+    //윈도우 크기? 전체화면?
 }
 
 
