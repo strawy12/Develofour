@@ -49,6 +49,9 @@ public class WindowsLoginScreen : MonoBehaviour
     [SerializeField]
     private float numberWrongDuration = 3f;
 
+    [SerializeField]
+    private SoundPanel soundPanel;
+
     private bool isFirst = true;
    
     private void Start()
@@ -146,6 +149,8 @@ public class WindowsLoginScreen : MonoBehaviour
         StartCoroutine(LoadingCoroutine(() =>
         {
             Debug.Log("Login");
+
+            soundPanel.Init();
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             if (isFirst)
             {
