@@ -59,4 +59,9 @@ public class GameManager : MonoSingleton<GameManager>
     {
         isApplicationQuit = true;
     }
+
+    public void GameQuit()
+    {
+        Application.Quit();
+    }
 }

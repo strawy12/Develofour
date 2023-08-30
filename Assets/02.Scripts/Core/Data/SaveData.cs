@@ -105,6 +105,7 @@ public class SaveData
     public bool isZooglePinHintNoteOpen;
     public bool isProfilerInstall;
     public bool isOutStarLogin;
+    public bool isNewStart;
     // ENUM으로 타입을 나눠서 튜토리얼 타입
     // List<bool> (int)type
     public List<bool> loginData;
