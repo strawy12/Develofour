@@ -13,7 +13,8 @@ public class StartCutScene : MonoBehaviour
 
     [SerializeField]
     private Image titleLogo;
-
+    [SerializeField]
+    private TMP_Text fictionText;
     [SerializeField]
     private Image interrogationRoomSprite;
 
@@ -38,12 +39,12 @@ public class StartCutScene : MonoBehaviour
 
     private void Awake()
     {
-        OnPlayCutScene += CutSceneStart;
+        OnPlayCutScene += ShowFiction;
     }
 
-    private void CutSceneStart()
+    private void ShowFiction()
     {
-        OnPlayCutScene -= CutSceneStart;
+        OnPlayCutScene -= ShowFiction;
         cutSceneCoverPanel.SetActive(true);
         if (DataManager.Inst.SaveData.isWatchStartCutScene)
         {
@@ -54,13 +55,25 @@ public class StartCutScene : MonoBehaviour
         else
         {
             this.gameObject.SetActive(true);
-            StartCoroutine(PlayCutSceneCoroutine());
+            StartCoroutine(FictionCor());
         }
+
+
+    }
+
+    private IEnumerator FictionCor()
+    {
+        GameManager.Inst.OnChangeGameState?.Invoke(EGameState.CutScene);
+        fictionText.DOFade(1, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
+        fictionText.DOFade(0, 1f);
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(PlayCutSceneCoroutine());
     }
 
     private IEnumerator PlayCutSceneCoroutine()
     {
-        GameManager.Inst.OnChangeGameState?.Invoke(EGameState.CutScene);
         float? delay = Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutSceneScream);
         isScreamSound = true;
         yield return new WaitForSeconds(delay == null ? 5f : (float)delay);

@@ -14,6 +14,10 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
 
     private Dictionary<Type, ResourcesComponent> resourceComponets;
 
+    public Action OnCompleted;
+
+    public int maxCnt = 0;
+
     public void Start()
     {
         resourceComponets = new Dictionary<Type, ResourcesComponent>();
@@ -24,18 +28,23 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     private IEnumerator StartGetData()
     {
         var list = GetComponentsInChildren<ResourcesComponent>();
-        int cnt = list.Length + 3;
-
-        LoadNoticeDatas(()=> cnt--);
-        LoadLockImage(() => cnt--);
-        LoadAudioAssets(() => cnt--);
+        maxCnt = list.Length + 3;
+        LoadNoticeDatas(() => LoadComplete());
+        LoadLockImage(() => LoadComplete());
+        LoadAudioAssets(() => LoadComplete());
 
         foreach (var resource in list)
         {
-            resource.LoadResources(() => cnt--);
+            resource.LoadResources(() => LoadComplete());
         }
-        yield return new WaitUntil(() => cnt <= 0);
+        yield return new WaitUntil(() => maxCnt <= 0);
         GameManager.Inst.Init();
+    }
+
+    private void LoadComplete()
+    {
+        maxCnt--;
+        OnCompleted?.Invoke();
     }
 
     public void AddResourcesComponent(Type resourceType, ResourcesComponent component)

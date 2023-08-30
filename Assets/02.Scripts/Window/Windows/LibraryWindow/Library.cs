@@ -48,6 +48,10 @@ public class Library : Window
     private Button redoBtn;
     [SerializeField]
     private TextMeshProUGUI redoText;
+    [SerializeField]
+    private Button upBtn;
+    [SerializeField]
+    private TextMeshProUGUI upText;
     #endregion
 
     private WindowIcon selectIcon;
@@ -173,6 +177,7 @@ public class Library : Window
         searchBtn.onClick.AddListener(SearchFunction);
         undoBtn.onClick.AddListener(UndoFile);
         redoBtn.onClick.AddListener(RedoFile);
+        upBtn.onClick.AddListener(ClickParentBtn);
 
         EventManager.TriggerEvent(EGuideEventType.ClearGuideType, new object[1] { EGuideTopicName.LibraryOpenGuide });
     }
@@ -203,6 +208,14 @@ public class Library : Window
 
         List<FileSO> fileList = FileManager.Inst.SearchFile(searchInputField.text, currentDirectory);
         ShowFoundFile(fileList);
+    }
+
+    private void ClickParentBtn()
+    {
+        if (currentDirectory.parent != null)
+        {
+            OnFileOpen(new object[1] { currentDirectory.parent });
+        }
     }
 
     public void SetLibrary()
@@ -343,6 +356,10 @@ public class Library : Window
             redoText.color = new Color32(50, 50, 50, 120);
         else
             redoText.color = new Color32(50, 50, 50, 255);
+        if (currentDirectory.parent == null)
+            upText.color = new Color32(50, 50, 50, 120);
+        else
+            upText.color = new Color32(50, 50, 50, 255);
     }
 
     public void SelectIcon(object[] ps)
