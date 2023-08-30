@@ -38,8 +38,6 @@ public class Library : Window
     private TMP_InputField searchInputField;
     [SerializeField]
     private Button searchBtn;
-    [SerializeField]
-    private LibraryLeftPanel leftPanel;
     [Header("FuctionBar")]
     #region UI
     [SerializeField]
@@ -158,7 +156,6 @@ public class Library : Window
         FileManager.Inst.GetALLFileList(currentDirectory);
 
         fileAddressPanel.Init();
-        leftPanel.Init();
         SetHighlightImage();
         SetLibrary();
 
