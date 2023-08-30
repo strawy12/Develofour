@@ -39,6 +39,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
         }
         yield return new WaitUntil(() => maxCnt <= 0);
         GameManager.Inst.Init();
+        yield return new WaitForSeconds(1.5f);
     }
 
     private void LoadComplete()
