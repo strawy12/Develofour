@@ -50,7 +50,7 @@ public partial class DataManager : MonoSingleton<DataManager>
 
         if (!Directory.Exists(D_SAVE_PATH))
         {
-            Directory.CreateDirectory(D_SAVE_PATH);
+            D_CheckDirectory();
         }
     }
 
@@ -124,11 +124,22 @@ public partial class DataManager : MonoSingleton<DataManager>
 
     public void SaveBGMSoundValue(float value)
     {
+        Debug.Log(defaultSaveData);
+        if(defaultSaveData == null)
+        {
+            string data = File.ReadAllText(D_SAVE_PATH + D_SAVE_FILE);
+            defaultSaveData = JsonUtility.FromJson<DefaultSaveData>(data);
+        }
         defaultSaveData.BGMSoundValue = value;
     }
 
     public void SaveEffectSoundValue(float value)
     {
+        if (defaultSaveData == null)
+        {
+            string data = File.ReadAllText(D_SAVE_PATH + D_SAVE_FILE);
+            defaultSaveData = JsonUtility.FromJson<DefaultSaveData>(data);
+        }
         defaultSaveData.EffectSoundValue = value;
     }
 
