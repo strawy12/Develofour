@@ -57,7 +57,7 @@ public class Notepad : Window
 
         if(file.id == 23) // 주글 비밀번호
         {
-            DataManager.Inst.SaveProfilerGuideData("주글비밀번호가이드", true);
+   
             EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
         }
 

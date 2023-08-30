@@ -76,6 +76,7 @@ public partial class GuideManager : MonoBehaviour
 
         if (file.id == Constant.FileID.ZOOGLEPIN)
         {
+            DataManager.Inst.SaveProfilerGuideData("주글비밀번호가이드", true);
             EventManager.TriggerEvent(EProfilerEvent.AddGuideButton, new object[1] { Constant.ZOOGLEPASSWORDGUIDE });
         }
     }

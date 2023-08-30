@@ -27,6 +27,11 @@ public class ProfilerGuideButton : MonoBehaviour
     
     public void Init(ProfilerGuideDataSO data)
     {
+        if(data == null)
+        {
+            Debug.Log("guide data is null");
+            return;
+        }
         guideData = data;
         guideBtn.onClick.AddListener(PlayGuide);
         infoNameText.text = data.guideName;
