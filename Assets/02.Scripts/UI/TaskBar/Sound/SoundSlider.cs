@@ -46,6 +46,7 @@ public class SoundSlider : MonoBehaviour
         SetSoundImage(slider, soundImage);
         SetSoundImage(slider, soundTaskbarImage);
         SetMixGroup();
+
         if(soundType.ToString() == "BGM")
         {
             DataManager.Inst.SaveBGMSoundValue(slider.value);

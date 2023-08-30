@@ -92,7 +92,10 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         {
             if(guide.isAdd == true)
             {
-                guideDataList.Add(ResourceManager.Inst.GetProfilerGuideDataSO(guide.guideName));
+                if(ResourceManager.Inst.GetProfilerGuideDataSO(guide.guideName) != null)
+                {
+                    guideDataList.Add(ResourceManager.Inst.GetProfilerGuideDataSO(guide.guideName));
+                }
             }
         }
         if (ps == null)
@@ -112,6 +115,9 @@ public class ProfilerGuideButtonParent : MonoBehaviour
 
     public void AddButton(ProfilerGuideDataSO data)
     {
+        if (data == null)
+            return;
+
         ProfilerGuideButton button = guideButtonList.Find(x => x.GuideData == data);
         if (button != null)
         {

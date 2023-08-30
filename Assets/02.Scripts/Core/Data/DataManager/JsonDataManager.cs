@@ -45,9 +45,12 @@ public partial class DataManager : MonoSingleton<DataManager>
 
         if (File.Exists(D_SAVE_PATH + D_SAVE_FILE))
         {
-            Debug.Log("asdf");
             string data = File.ReadAllText(D_SAVE_PATH + D_SAVE_FILE);
             defaultSaveData = JsonUtility.FromJson<DefaultSaveData>(data);
+            if(defaultSaveData == null)
+            {
+                CreateDefaultSaveData();
+            }
         }
         else
         {
