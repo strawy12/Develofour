@@ -5,11 +5,21 @@ using UnityEngine;
 public partial class DataManager : MonoSingleton<DataManager>
 {
 
-    public bool IsProfilerTutorial()
+    public bool IsPlayingProfilerTutorial()
     {
         return (int)TutorialState.NotStart
             < (int)saveData.tutorialDataState && (int)saveData.tutorialDataState <
             (int)TutorialState.EndTutorial;
+    }
+
+    public bool IsStartProfilerTutorial()
+    {
+        return GetProfilerTutorialState() != TutorialState.NotStart ? true : false;
+    }
+
+    public bool IsClearTutorial()
+    {
+        return saveData.tutorialDataState == TutorialState.EndTutorial;
     }
 
     public TutorialState GetProfilerTutorialState()
@@ -23,8 +33,4 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.tutorialDataState = state;
     }
 
-    public bool GetIsClearTutorial()
-    {
-        return saveData.tutorialDataState == TutorialState.EndTutorial;
-    }
 }

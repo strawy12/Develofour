@@ -52,8 +52,9 @@ public static partial class Constant
     #region ProfilerInfoKey
     public static class ProfilerInfoKey
     {
-        public const string PARKJUYOUNG_NAME = "";
-        public const string KIMYUJIN_NAME = "";
+        public const string PARKJUYOUNG_NAME = "I_C_2_1";
+        public const string PARKJUYOUNG_INCIDENT = "I_I_1_3";
+        public const string KIMYUJIN_NAME = "I_C_3_1";
         public const string CRIMINAL_ACTION = "";
         public const string BAT_DETAIL = "";
         public const string CCTV_TIME = "";
@@ -62,7 +63,7 @@ public static partial class Constant
         public const string BRANCHID = "";
         public const string ZOOGLEPASSWORD = "";
         public const string HARMONY_PASSWORD = "";
-        public const string INCIDENTREPORT_TITLE = "";
+        public const string INCIDENTREPORT_TITLE = "I_I_1_1";
         public const string CCTV_UYOUNGWHEREABOUTS = "";
     }
     #endregion

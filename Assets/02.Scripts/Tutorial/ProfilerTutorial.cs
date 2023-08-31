@@ -30,12 +30,11 @@ public class ProfilerTutorial : MonoBehaviour
     public static EGuideObject guideObjectName;
 
     [SerializeField]
-    private int targetIncidentID = Constant.ProfilerInfoKey.INCIDENTREPORT_TITLE;
-
-    private int targetCharID1_1 = Constant.ProfilerInfoKey.PARKJUYOUNG_NAME;
-    private int targetCharID1_2 = Constant.ProfilerInfoKey.PARKJUYOUNG_INCIDENT;
-    private int targetCharID2_1 = Constant.ProfilerInfoKey.KIMYUJIN_NAME;
-    private int targetCharID2_2 = Constant.ProfilerInfoKey.KIMYUJIN_INCIDENT;
+    private string targetIncidentID = Constant.ProfilerInfoKey.INCIDENTREPORT_TITLE;
+            
+    private string targetCharID1_1 = Constant.ProfilerInfoKey.PARKJUYOUNG_NAME;
+    private string targetCharID1_2 = Constant.ProfilerInfoKey.PARKJUYOUNG_INCIDENT;
+    private string targetCharID2_1 = Constant.ProfilerInfoKey.KIMYUJIN_NAME;
 
     private string popupText = "튜토리얼을 시작하시겠습니까?";
 
@@ -80,8 +79,7 @@ public class ProfilerTutorial : MonoBehaviour
         {
             if (DataManager.Inst.IsProfilerInfoData(targetCharID1_1)
                 || DataManager.Inst.IsProfilerInfoData(targetCharID2_1)
-                || DataManager.Inst.IsProfilerInfoData(targetCharID1_2)
-                || DataManager.Inst.IsProfilerInfoData(targetCharID2_2))
+                || DataManager.Inst.IsProfilerInfoData(targetCharID1_2))
             {
                 ProfilerChattingSystem.OnChatEnd += CharacterTabGuide;
                 StartChatting(TutorialState.ClickCharacterTab);
@@ -107,7 +105,7 @@ public class ProfilerTutorial : MonoBehaviour
     public void StartChatting(TutorialState state)
     {
         ProfilerChattingSystem.OnChatEnd += () => DataManager.Inst.SetProfilerTutorialState(state);
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(profilerTutorialTextData.tutorialTexts[(int)state].data, 1.5f, true);
+        ProfilerChattingSystem.OnPlayChatList?.Invoke(profilerTutorialTextData.tutorialChatData[(int)state], 1.5f, true);
     }
 
     private IEnumerator StartProfilerTutorial()
@@ -146,8 +144,8 @@ public class ProfilerTutorial : MonoBehaviour
 
     public void GetCharacterInfo(object[] ps)
     {
-        int id = (int)ps[0];
-        if (id == targetCharID1_1 || id == targetCharID1_2 || id == targetCharID2_1 || id == targetCharID2_2)
+        string id = (string)ps[0];
+        if (id == targetCharID1_1 || id == targetCharID1_2 || id == targetCharID2_1)
         {
             EventManager.StopListening(EProfilerEvent.FindInfoText, GetCharacterInfo);
             ProfilerChattingSystem.OnChatEnd += CharacterTabGuide;
@@ -163,7 +161,7 @@ public class ProfilerTutorial : MonoBehaviour
 
     public void GetIncidentInfo(object[] ps)
     {
-        int id = (int)ps[0];
+        string id = (string)ps[0];
         if (id == targetIncidentID)
         {
             EventManager.StopListening(EProfilerEvent.FindInfoText, GetIncidentInfo);

@@ -46,11 +46,11 @@ public class GuideObject : MonoBehaviour
         GuideUISystem.OnGuide?.Invoke(transform as RectTransform);
         if(objectName == EGuideObject.CharacterTab || objectName == EGuideObject.IncidentTab)
         {
-            GuideUISystem.FullSizeGuide?.Invoke(transform as RectTransform);
+            GuideUISystem.OnFullSizeGuide?.Invoke(transform as RectTransform);
         }
         if (objectName == EGuideObject.CharacterCategory || objectName == EGuideObject.IncidentCategory)
         {
-            GuideUISystem.CenterSizeGuide?.Invoke();
+            GuideUISystem.OnCenterSizeGuide?.Invoke(transform as RectTransform);
         }
 
         EventManager.StopListening(ETutorialEvent.GuideObject, OnGuide);
