@@ -129,12 +129,6 @@ public class ProfilerWindow : Window
             return;
         }
 
-        if(DataManager.Inst.IsCallTutorial() == false)
-        {
-            MonologSystem.OnStartMonolog?.Invoke("T_M_95", false);
-            return;
-        }
-
         beforeClickButton = callPanelBtn;
         ShowCallingPanel();
         ButtonBlackSetting();

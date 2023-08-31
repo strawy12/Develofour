@@ -30,6 +30,7 @@ public static partial class Constant
     public const string ZOOGLEPASSWORDGUIDE = "주글비밀번호가이드";
 
     //public const int NEED_INFO_MONOLOG_ID = 131;
+
     #region File
     public static class FileID
     {
@@ -46,6 +47,7 @@ public static partial class Constant
         public const string INCIDENT_REPORT = "F_IV_1";
         public const string INSTALL = "F_IN_0";
     }
+        public const string NOW_USB_CHECK = "T_M_96";
 
 
     #endregion
