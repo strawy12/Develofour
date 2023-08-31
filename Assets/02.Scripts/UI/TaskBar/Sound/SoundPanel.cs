@@ -74,7 +74,6 @@ public class SoundPanel : MonoUI
                 Close();
             }
         }
-       
     }
     
     public void Close()
