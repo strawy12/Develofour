@@ -46,6 +46,7 @@ public class SoundSlider : MonoBehaviour
         SetSoundImage(slider, soundImage);
         SetSoundImage(slider, soundTaskbarImage);
         SetMixGroup();
+        DataManager.Inst.SaveDefaultJson();
     }
 
     public void SetMixGroup()
