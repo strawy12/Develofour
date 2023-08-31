@@ -22,8 +22,36 @@ public struct ChatData
 
 public class ProfilerChatting : MonoUI
 {
-    protected float currentValue;
 
+
+    [Header("움직임 관련")]
+    [SerializeField]
+    protected Button OpenCloseButton;
+    [SerializeField]
+    protected GameObject showImage;
+    [SerializeField]
+    protected GameObject hideImage;
+    [SerializeField]
+    protected float showWeightValue;
+    [SerializeField]
+    protected float hideWeightValue;
+    [SerializeField]
+    protected float showHeightValue;
+    [SerializeField]
+    protected float hideHeightValue;
+    [SerializeField]
+    private ProfileGuidePanel profileGuidePanel;
+    private float defaultOffsetMinY;
+    [SerializeField]
+    protected GameObject loadingPanel;
+
+
+    [SerializeField]
+    protected float moveDuration;
+    protected bool isMoving;
+    protected RectTransform movePanelRect;
+
+    protected float currentValue;
     [SerializeField]
     protected TMP_Text textPrefab;
     [SerializeField]
@@ -63,28 +91,63 @@ public class ProfilerChatting : MonoUI
         saveChatCount = DataManager.Inst.AIChattingListCount();
         EventManager.StartListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
         AddSaveTexts();
-        Hide();
+        currentValue = GetComponent<RectTransform>().sizeDelta.x;
+        OpenCloseButton.onClick.AddListener(HidePanel);
+        movePanelRect = GetComponent<RectTransform>();
+        profileGuidePanel.Init();
+        SetScrollView();
+
+        ShowPanel();
+        defaultOffsetMinY = scrollrectTransform.offsetMax.y;
     }
 
-    public void Show()
+    protected virtual void ShowPanel()
     {
-        if (!isUsingNewImage)
+        if (isMoving) return;
+        isMoving = true;
+        loadingPanel.SetActive(true);
+        movePanelRect.DOSizeDelta(new Vector2(showWeightValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
         {
-            ActiveNewImageUI(false);
-        }
-
-        SetScrollView();//스크롤뷰 가장 밑으로 내리기;
-
-        SetActive(true);
+            currentValue = showWeightValue;
+            OpenCloseButton.onClick.RemoveAllListeners();
+            OpenCloseButton.onClick.AddListener(HidePanel);
+            SetWidths();
+            SetScrollView();
+            hideImage.SetActive(true);
+            showImage.SetActive(false);
+            profileGuidePanel.SetGuideParentWeight(true);
+            isMoving = false;
+            loadingPanel.SetActive(false);
+        });
     }
 
-    public void Hide()
+    protected virtual void HidePanel()
     {
-        //EventManager.StopListening(EProfilerEvent.ProfilerSendMessage, PrintChat);
-
-        SetActive(false);
+        if (isMoving) return;
+        isMoving = true;
+        loadingPanel.SetActive(true);
+        movePanelRect.DOSizeDelta(new Vector2(hideWeightValue, 0), moveDuration).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            currentValue = hideWeightValue;
+            OpenCloseButton.onClick.RemoveAllListeners();
+            OpenCloseButton.onClick.AddListener(ShowPanel);
+            SetWidths();
+            SetScrollView();
+            hideImage.SetActive(false);
+            showImage.SetActive(true);
+            profileGuidePanel.SetGuideParentWeight(false);
+            isMoving = false;
+            loadingPanel.SetActive(false);
+        });
     }
-
+    protected void SetWidths()
+    {
+        RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
+        foreach (var temp in rects)
+        {
+            temp.sizeDelta = new Vector2(currentValue - 60, 0);
+        }
+    }
     private void PrintChat(object[] ps)
     {
         if (ps[0] == null)

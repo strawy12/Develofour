@@ -164,6 +164,7 @@ public enum EProfilerEvent
     Maximum,
     Minimum,
     ClickGuideButton,
+    ClickGuideToggleButton,
 }
 public enum EGuideEventType
 {

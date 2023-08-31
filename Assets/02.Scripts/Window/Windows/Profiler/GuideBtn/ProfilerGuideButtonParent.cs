@@ -16,6 +16,8 @@ public class ProfilerGuideButtonParent : MonoBehaviour
     private List<ProfilerGuideButton> guideButtonList = new List<ProfilerGuideButton>();
     private List<ProfilerGuideDataSO> guideDataList = new List<ProfilerGuideDataSO>();
 
+    public bool isWeightSizeUp;
+
     public void Init()
     {
         guideButtonList = new List<ProfilerGuideButton>();
@@ -70,6 +72,15 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         }
         DataManager.Inst.AddGuideButtonSaveData(data.guideName);
         guideButtonList.Add(button);
+    }
+
+    public void SetActiveBtn(bool isActive)
+    {
+        foreach(var btn in guideButtonList)
+        {
+            btn.gameObject.SetActive(false);
+        }
+
     }
 
     private void OnDestroy()
