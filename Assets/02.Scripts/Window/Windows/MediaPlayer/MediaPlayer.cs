@@ -203,7 +203,8 @@ public partial class MediaPlayer : Window
             yield return new WaitForSeconds(1f);
         }
 
-        isRePlaying = true; 
+        isRePlaying = true;
+        mediaDetailText.maxVisibleCharacters = mediaDetailText.text.Length;
         OnEnd?.Invoke();
         mediaPlayerDownBar.StopButtonClick?.Invoke();
 

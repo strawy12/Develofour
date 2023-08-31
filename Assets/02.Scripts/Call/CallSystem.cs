@@ -87,7 +87,9 @@ public class CallSystem : MonoSingleton<CallSystem>
         //디시전 체크 // 몇초마다 반복됨
 
         if (isCalling) return; //전화중이라면 리턴
-        if (GameManager.Inst.GameState == EGameState.PlayTitle || GameManager.Inst.GameState == EGameState.DataLoading) return;
+        if (GameManager.Inst.GameState == EGameState.PlayTitle
+            || GameManager.Inst.GameState == EGameState.DataLoading
+            || GameManager.Inst.GameState == EGameState.CutScene) return;
         //현재 AddReturnData 함수를 사용해 추가된 return data들을 받아와
         //구조를 변경할때는 특정 타입만 확인해주는게 아니라 모든 캐릭터의 return data를 확인해줘야함
         //현재는 경찰만 확인중
@@ -356,7 +358,9 @@ public class CallSystem : MonoSingleton<CallSystem>
     private void IncomingCheck(object[] ps)
     {
         if (isCalling) return;
-        if (GameManager.Inst.GameState == EGameState.PlayTitle || GameManager.Inst.GameState == EGameState.DataLoading) return;
+        if (GameManager.Inst.GameState == EGameState.PlayTitle
+            || GameManager.Inst.GameState == EGameState.DataLoading
+            || GameManager.Inst.GameState == EGameState.CutScene) return;
 
         foreach (var incomingCallData in incomingCallDataList) //캐릭마다
         {
