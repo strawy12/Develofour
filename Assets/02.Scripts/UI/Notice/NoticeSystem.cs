@@ -30,6 +30,8 @@ public class NoticeSystem : MonoUI
     private NoticePanel noticePanel;
 
     private bool isOpen = false;
+    private bool isPlaying = false; 
+
 
     private ENoticeTag currentTag;
 
@@ -49,7 +51,7 @@ public class NoticeSystem : MonoUI
 
     private void Start()
     {
-        GameManager.Inst.OnStartCallback += Init;
+        GameManager.Inst.OnGameStartCallback += Init;
     }
 
     private void Bind()
@@ -112,7 +114,7 @@ public class NoticeSystem : MonoUI
 
     public void Open()
     {
-        if (isOpen) return;
+        if (isOpen || isPlaying) return;
 
         if(overlayTrigger != null)
         {
@@ -121,24 +123,26 @@ public class NoticeSystem : MonoUI
         }
 
         isOpen = true;
-
+        isPlaying = true;
         EventManager.TriggerEvent(ENoticeEvent.OpenNoticeSystem);
 
         SetActive(true);
 
         rectTransform.DOKill();
-        rectTransform.DOAnchorPosX(0f, Constant.NOTICE_DURATION);
+        rectTransform.DOAnchorPosX(0f, Constant.NOTICE_DURATION).OnComplete(() => isPlaying = false);
     }
 
     public void Close()
     {
-        if (!isOpen) return;
+        if (!isOpen || isPlaying) return;
         overlayTrigger.Close();
         isOpen = false;
+        isPlaying = true;
         rectTransform.DOKill();
         rectTransform.DOAnchorPosX(rectTransform.rect.width, Constant.NOTICE_DURATION).OnComplete(() =>
         {
             SetActive(false);
+            isPlaying = false;
         });
     }
 

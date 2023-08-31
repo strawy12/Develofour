@@ -26,7 +26,7 @@ public class CallSystem : MonoBehaviour
 
     public void Start()
     {
-        GameManager.Inst.OnStartCallback += Init;
+        GameManager.Inst.OnGameStartCallback += Init;
     }
 
     private void Init()

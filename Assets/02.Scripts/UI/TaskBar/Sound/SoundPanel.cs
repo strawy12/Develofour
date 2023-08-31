@@ -14,19 +14,19 @@ public class SoundPanel : MonoUI
 
     private bool isOpen;
 
-    void Start()
-    {
-        Init();
-        this.SetActive(false);
-    }
+    //void Start()
+    //{
+    //    Init();
+    //    this.SetActive(false);
+    //}
 
     public void Init()
     {
         bgm.SetMixGroup();
         effect.SetMixGroup();
 
-        bgm.Init();
-        effect.Init();
+        bgm.Init(DataManager.Inst.DefaultSaveData.BGMSoundValue);
+        effect.Init(DataManager.Inst.DefaultSaveData.BGMSoundValue);
         effect.gameObject.SetActive(false);
         changePanel.Init();
         selectPanel.Init();

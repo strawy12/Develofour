@@ -12,26 +12,51 @@ public partial class DataManager : MonoSingleton<DataManager>
 
         string data = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(SAVE_PATH + SAVE_FILE, data);
+
+        SaveDefaultJson();
+    }
+
+    public void SaveDefaultJson()
+    {
+        if (isInit == false) return;
+        D_CheckDirectory();
+        string d_data = JsonUtility.ToJson(defaultSaveData, true);
+        File.WriteAllText(D_SAVE_PATH + D_SAVE_FILE, d_data);
     }
 
     private void LoadFromJson()
     {
         if (isInit == false) return;
 
-#if UNITY_EDITOR
-        CreateSaveData();
-        Debug.LogWarning("PlayerData 실행 시 매번 초기화 되는 디버깅 코드가 존재합니다.");
+        if (File.Exists(SAVE_PATH + SAVE_FILE))
+        {
+            string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
+            saveData = JsonUtility.FromJson<SaveData>(data);
+            if (saveData.version != 1)
+            {
+                CreateSaveData();
+            }
+        }
+        else
+        {
+            CreateSaveData();
+        }
+
+
+        if (File.Exists(D_SAVE_PATH + D_SAVE_FILE))
+        {
+            Debug.Log("asdf");
+            string data = File.ReadAllText(D_SAVE_PATH + D_SAVE_FILE);
+            defaultSaveData = JsonUtility.FromJson<DefaultSaveData>(data);
+        }
+        else
+        {
+            Debug.Log("asdf222");
+            CreateDefaultSaveData();
+        }
+
         return;
-#else
-                if (File.Exists(SAVE_PATH + SAVE_FILE))
-                {
-                    string data = File.ReadAllText(SAVE_PATH + SAVE_FILE);
-                    saveData = JsonUtility.FromJson<SaveData>(data);
-                }
-                else
-                {
-                    CreateSaveData();
-                }
-#endif
+
+
     }
 }

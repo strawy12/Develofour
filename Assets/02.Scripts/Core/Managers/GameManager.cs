@@ -9,6 +9,8 @@ public class GameManager : MonoSingleton<GameManager>
 
 
     public Action OnStartCallback;
+    public Action OnGameStartCallback;
+
     public Action<EGameState> OnChangeGameState;
 
     [SerializeField]
@@ -27,7 +29,6 @@ public class GameManager : MonoSingleton<GameManager>
     public void Init()
     {
         DataManager.Inst.Init();
-        FileManager.Inst.Init();
         OnStartCallback?.Invoke();
     }
 
@@ -56,5 +57,10 @@ public class GameManager : MonoSingleton<GameManager>
     private void OnApplicationQuit()
     {
         isApplicationQuit = true;
+    }
+
+    public void GameQuit()
+    {
+        Application.Quit();
     }
 }
