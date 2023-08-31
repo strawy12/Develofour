@@ -117,7 +117,6 @@ public class WindowsLoginScreen : MonoBehaviour
 
         if(passwordField.InputField.text.Length >= 4)
         {
-            StopAllCoroutines();
             StartCoroutine(MaxInputFourLength());
         }
     }

@@ -57,8 +57,6 @@ public class StartCutScene : MonoBehaviour
             this.gameObject.SetActive(true);
             StartCoroutine(FictionCor());
         }
-
-
     }
 
     private IEnumerator FictionCor()
