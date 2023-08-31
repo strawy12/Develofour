@@ -11,10 +11,12 @@ public class ProfilerUserCallPanel : MonoBehaviour, IPointerClickHandler
 
     [SerializeField]
     private TMP_Text userName;
-    [SerializeField]
-    private TMP_Text phoneNumText;
+
     [SerializeField]
     private Image userImage;
+
+    [SerializeField]
+    private Button callBtn;
 
     private ProfilerCallKeyPad keyPad;
 
@@ -23,14 +25,24 @@ public class ProfilerUserCallPanel : MonoBehaviour, IPointerClickHandler
         this.keyPad = keyPad;
         characterData = ResourceManager.Inst.FindCharacterPhoneNumber(characterNumber);
 
-        phoneNumText.SetText(characterData.phoneNum);
         userName.SetText(characterData.characterName);
         userImage.sprite = characterData.profileIcon;
         gameObject.SetActive(true);
+
+        callBtn.onClick.AddListener(CallStart);
+
     }
+
+    private void CallStart()
+    {
+        CallSystem.OnOutGoingCall?.Invoke(characterData.id);
+    }
+
 
     public void OnPointerClick(PointerEventData eventData)
     {
         keyPad.SetNumberText(characterData.phoneNum);
     }
+
+
 }
