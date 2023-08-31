@@ -164,6 +164,7 @@ public enum EProfilerEvent
     Maximum,
     Minimum,
     ClickGuideButton,
+    ClickGuideToggleButton,
 }
 public enum EGuideEventType
 {
@@ -219,6 +220,7 @@ public enum EGuideButtonTutorialEvent
     OpenPopup,
     TutorialStart,
     ClickAnyBtn,
+    GuideMoveBtn,
 }
 public enum EMonologEvent
 {
