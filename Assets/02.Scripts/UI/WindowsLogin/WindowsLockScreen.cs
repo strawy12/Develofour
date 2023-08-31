@@ -36,7 +36,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private void Start()
     {
-        GameManager.Inst.OnStartCallback += Init;
+        GameManager.Inst.OnGameStartCallback += Init;
 
     }
 

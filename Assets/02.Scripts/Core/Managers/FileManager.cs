@@ -38,6 +38,8 @@ public class FileManager : MonoSingleton<FileManager>
     //private bool isSearchByFileName = false;
     private Dictionary<EWindowType, FileSO> defaultFileDictionary = new Dictionary<EWindowType, FileSO>();
     private List<string> currentFileNameWord;
+    [SerializeField]
+    private BackgroundIcons backgroundIcons;
     //List<FileWeight> foundFileWeights;
     private void Awake()
     {
@@ -49,7 +51,13 @@ public class FileManager : MonoSingleton<FileManager>
         }
     }
 
-    public void Init()
+    private void Start()
+    {
+        GameManager.Inst.OnGameStartCallback += Init;
+    }
+
+
+    private void Init()
     {
         foreach (var fileData in additionFileList)
         {
@@ -246,6 +254,27 @@ public class FileManager : MonoSingleton<FileManager>
         return searchFileList;
     }
 
+    public void ResetAdditionalFile()
+    {
+        List<FileSO> allFileList = GetALLUnLockFileList(rootDirectory);
+
+        foreach (var file in allFileList)
+        {
+            if (file is DirectorySO)
+            {
+                foreach (var addfile in additionFileList)
+                {
+                    DirectorySO directory = file as DirectorySO;
+                    if (directory.children.Contains(addfile))
+                    {
+                        directory.children.Remove(addfile);
+                    }
+                }
+            }
+        }
+
+        backgroundIcons.Init();
+    }
     //public List<FileSO> ProfileSearchFile(string text, DirectorySO currentDirectory = null)
     //{
     //    List<FileSO> allFileList = GetALLFileList(currentDirectory);

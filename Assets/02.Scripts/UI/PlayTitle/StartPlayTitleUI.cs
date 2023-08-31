@@ -56,9 +56,8 @@ public class StartPlayTitleUI : MonoBehaviour
         delayBGM();
     }
 
-    private async void delayBGM()
+    private void delayBGM()
     {
-        await Task.Delay(2000);
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.AfterDiscordMail);
     }
     private void StartplayGame(bool isNewStart)
