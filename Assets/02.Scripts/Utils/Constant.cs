@@ -142,6 +142,16 @@ public static partial class Constant
     public static class ProfilerCategoryKey
     {
         public const string PETCAM = "IC_I_2";
+
+        public static bool CheckInvisible(string id)
+        {
+            string[] arr = id.Split('_');
+            if(arr[1] == "v")
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
 }

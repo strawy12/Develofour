@@ -37,6 +37,8 @@ public class ProfilerWindow : Window
     //DataManager
     private ProfilerPanelButton beforeClickButton;
 
+    public static ProfilerWindow CurrentProfiler;
+
     protected override void Init()
     {
         base.Init();
