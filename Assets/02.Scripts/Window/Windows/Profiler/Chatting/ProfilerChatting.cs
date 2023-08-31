@@ -201,15 +201,15 @@ public class ProfilerChatting : MonoUI
     {
         if (profiler == null) return;
 
-        if ((ISelectable)profiler != WindowManager.Inst.SelectedObject
-            || ((ISelectable)profiler == WindowManager.Inst.SelectedObject && canvasGroup.interactable == false))
-        {
-            if (!isUsingNewImage)
-            {
-                isUsingNewImage = true;
-                ActiveNewImageUI(true);
-            }
-        }
+        //if ((ISelectable)profiler != WindowManager.Inst.SelectedObject
+        //    || ((ISelectable)profiler == WindowManager.Inst.SelectedObject && canvasGroup.interactable == false))
+        //{
+        //    if (!isUsingNewImage)
+        //    {
+        //        isUsingNewImage = true;
+        //        ActiveNewImageUI(true);
+        //    }
+        //}
 
         SetScrollView();//스크롤뷰 가장 밑으로 내리기;
     }

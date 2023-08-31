@@ -34,6 +34,11 @@ public class ProfileGuidePanel : MonoBehaviour
     public void Init()
     {
         guideParent.Init();
+        moveButton.onClick.AddListener(ShowPanel);
+        movePanelRect = GetComponent<RectTransform>();
+        EventManager.StartListening(EGuideButtonTutorialEvent.GuideMoveBtn, GuideMoveButton);
+        guideParent.OnClickGuideButton += ShowPanel;
+        SetGuideParentWeight(true);
     }
 
     #region 이동관련
@@ -82,6 +87,8 @@ public class ProfileGuidePanel : MonoBehaviour
     public void SetGuideParentWeight(bool value)
     {
         guideParent.isWeightSizeUp = value;
+        guideParent.UpdateButton();
+
     }
 
     private void GuideMoveButton(object[] ps)
@@ -92,4 +99,9 @@ public class ProfileGuidePanel : MonoBehaviour
         }
     }
     #endregion
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EGuideButtonTutorialEvent.GuideMoveBtn, GuideMoveButton);
+    }
 }

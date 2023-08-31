@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class ProfilerGuideButtonParent : MonoBehaviour
 {
+    public Action OnClickGuideButton;
+
     [SerializeField]
     private Sprite profileSprite;
 
@@ -17,12 +19,18 @@ public class ProfilerGuideButtonParent : MonoBehaviour
     private List<ProfilerGuideDataSO> guideDataList = new List<ProfilerGuideDataSO>();
 
     public bool isWeightSizeUp;
-
+    [SerializeField]
+    private Button nextBtn;
+    [SerializeField]
+    private Button prevBtn;
+    private int currentIndex = 0;
     public void Init()
     {
         guideButtonList = new List<ProfilerGuideButton>();
         guideDataList = ResourceManager.Inst.GetResourceList<ProfilerGuideDataSO>();
         EventManager.StartListening(EProfilerEvent.AddGuideButton, AddGuideButton);
+        prevBtn.onClick.AddListener(ClickPrev);
+        nextBtn.onClick.AddListener(ClickNext);
         SaveSetting();
     }
     #region ButtonSetting
@@ -74,14 +82,100 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         guideButtonList.Add(button);
     }
 
-    public void SetActiveBtn(bool isActive)
+    public void SetActiveBtn(bool value)
     {
-        foreach(var btn in guideButtonList)
+        nextBtn.gameObject.SetActive(value);
+        prevBtn.gameObject.SetActive(value);
+    }
+    #region Page
+    public void UpdateButton()
+    {
+        if (guideButtonList.Count == 0)
         {
-            btn.gameObject.SetActive(false);
+            return;
         }
 
+        if (currentIndex >= guideButtonList.Count)
+        {
+            currentIndex = currentIndex <= 0 ? 0 : guideButtonList.Count - 1;
+        }
+
+        if (isWeightSizeUp == false)
+        {
+            for (int i = 0; i < guideButtonList.Count; i++)
+            {
+                guideButtonList[i].gameObject.SetActive(false);
+            }
+            if (guideButtonList.Count != 0)
+            {
+                guideButtonList[currentIndex].gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < guideButtonList.Count; i++)
+            {
+                guideButtonList[i].gameObject.SetActive(false);
+            }
+            guideButtonList[currentIndex].gameObject.SetActive(true);
+            int tempIndex = currentIndex;
+            for (int i = 0; i < 2; i++)
+            {
+                tempIndex++;
+                if (tempIndex >= guideButtonList.Count)
+                {
+                    break;
+                }
+                guideButtonList[tempIndex].gameObject.SetActive(true);
+            }
+        }
     }
+    private void ClickNext()
+    {
+        if (currentIndex + 1 >= guideButtonList.Count)
+        {
+            return;
+        }
+        if (isWeightSizeUp)
+        {
+            currentIndex += 3;
+            if (currentIndex >= guideButtonList.Count)
+            {
+                int value = (currentIndex) % 3;
+                currentIndex = currentIndex - (3 - value);
+            }
+        }
+        else
+        {
+            currentIndex++;
+        }
+
+
+        UpdateButton();
+    }
+    private void ClickPrev()
+    {
+        if (currentIndex - 1 < 0)
+        {
+            return;
+        }
+        if (isWeightSizeUp)
+        {
+            currentIndex -= 3;
+            if (currentIndex < 0)
+            {
+                currentIndex = 0;
+            }
+        }
+        else
+        {
+            currentIndex--;
+
+        }
+
+        UpdateButton();
+    }
+    #endregion
 
     private void OnDestroy()
     {

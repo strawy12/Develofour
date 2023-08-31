@@ -220,6 +220,7 @@ public enum EGuideButtonTutorialEvent
     OpenPopup,
     TutorialStart,
     ClickAnyBtn,
+    GuideMoveBtn,
 }
 public enum EMonologEvent
 {
