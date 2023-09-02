@@ -171,6 +171,10 @@ public class Library : Window
         EventManager.StartListening(ELibraryEvent.AddFile, Refresh);
         EventManager.StartListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
 
+
+        InputManager.Inst.AddKeyInput(KeyCode.Mouse3, UndoFile);
+        InputManager.Inst.AddKeyInput(KeyCode.Mouse4, RedoFile);
+
         searchInputField.onValueChanged.AddListener(CheckSearchInputTextLength);
 
         searchInputField.onSubmit.AddListener(SearchFunction);
@@ -251,7 +255,7 @@ public class Library : Window
 
             //GuideUISystem.EndAllGuide?.Invoke();
             GuideUISystem.OnGuide(button.tutorialSelectImage.transform as RectTransform);
-            GuideUISystem.FullSizeGuide?.Invoke(button.tutorialSelectImage.transform as RectTransform);
+            GuideUISystem.OnFullSizeGuide?.Invoke(button.tutorialSelectImage.transform as RectTransform);
         }
     }
 
@@ -389,12 +393,17 @@ public class Library : Window
         base.OnDestroyWindow();
         isNotFirstOpen = false;
         //GuideUISystem.EndAllGuide?.Invoke();
-        if (DataManager.Inst.IsPlayingProfilerTutorial() && ProfilerTutorial.IsLibraryGuide)
+        Debug.Log(DataManager.Inst.GetProfilerTutorialState());
+        if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo || DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo)
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryGuide);
         }
 
         OnSelected -= TutorialLibraryClick;
+
+        InputManager.Inst.RemoveKeyInput(KeyCode.Mouse3, UndoFile);
+        InputManager.Inst.RemoveKeyInput(KeyCode.Mouse4, RedoFile);
+
         EventManager.StopListening(ELibraryEvent.IconClickOpenFile, OnClickIcon);
         EventManager.StopListening(ELibraryEvent.SelectIcon, SelectIcon);
         EventManager.StopListening(ELibraryEvent.SelectNull, SelectNull);

@@ -22,11 +22,6 @@ public class ProfilerInfoSystem : MonoBehaviour
 
     private void ChangeValue(object[] ps) 
     {
-        if (GameManager.Inst.GameState == EGameState.Tutorial_Chat)
-        {
-            MonologSystem.OnStartMonolog(Constant.MonologKey.TUTORIAL_CANNOT_GETINFO, false);
-            return;
-        }
 
         if (!DataManager.Inst.SaveData.isProfilerInstall)
         {

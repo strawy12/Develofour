@@ -73,13 +73,14 @@ public class ReturnCallData
     }
 }
 
-[System.Serializable]
-public class TutorialData
+public enum TutorialState
 {
-    public bool isPlayingTutorial; // 튜토리얼을 하고있는지?
-    public bool isStartTutorial; // 튜토리얼을 시작했는지?
-    public bool isClearTutorial; // 튜토리얼을 완료했는지
-    public bool isCanCallTutorial; //전화 튜토리얼까지 왔는지
+    NotStart = -1, //시작 안함
+    ClickIncidentInfo, //사건 이름 클릭하기 0
+    ClickIncidentTab, //프로파일러 사건 탭 클릭 1
+    ClickCharacterInfo, //인물 이름 클릭하기 2
+    ClickCharacterTab, //프로파일러 인물 탭 클릭 3
+    EndTutorial, //튜토리얼이 끝나고 전화가 옴 4
 }
 
 [System.Serializable]
@@ -99,7 +100,6 @@ public class SaveData
     public List<ReturnCallData> returnCallData;
     public List<LastAccessDateData> lastAccessDateData;
     public List<string> profilerGuideBtnSaveData;
-    public TutorialData profilerTutorialData;
     public List<string> libraryData;
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
@@ -113,6 +113,8 @@ public class SaveData
 
     public string branchPassword;
     public bool isOnceOpenWindowProperty;
+
+    public TutorialState tutorialDataState = TutorialState.NotStart;
 
     public int CurrentTimeData;
 }

@@ -30,6 +30,7 @@ public static partial class Constant
     public const string ZOOGLEPASSWORDGUIDE = "주글비밀번호가이드";
 
     //public const int NEED_INFO_MONOLOG_ID = 131;
+
     #region File
     public static class FileID
     {
@@ -46,14 +47,16 @@ public static partial class Constant
         public const string INCIDENT_REPORT = "F_IV_1";
         public const string INSTALL = "F_IN_0";
     }
+        public const string NOW_USB_CHECK = "T_M_96";
 
 
     #endregion
     #region ProfilerInfoKey
     public static class ProfilerInfoKey
     {
-        public const string PARKJUYOUNG_NAME = "";
-        public const string KIMYUJIN_NAME = "";
+        public const string PARKJUYOUNG_NAME = "I_C_2_1";
+        public const string PARKJUYOUNG_INCIDENT = "I_I_1_3";
+        public const string KIMYUJIN_NAME = "I_C_3_1";
         public const string CRIMINAL_ACTION = "";
         public const string BAT_DETAIL = "";
         public const string CCTV_TIME = "";
@@ -62,7 +65,7 @@ public static partial class Constant
         public const string BRANCHID = "";
         public const string ZOOGLEPASSWORD = "";
         public const string HARMONY_PASSWORD = "";
-        public const string INCIDENTREPORT_TITLE = "";
+        public const string INCIDENTREPORT_TITLE = "I_I_1_1";
         public const string CCTV_UYOUNGWHEREABOUTS = "";
     }
     #endregion
@@ -139,6 +142,16 @@ public static partial class Constant
     public static class ProfilerCategoryKey
     {
         public const string PETCAM = "IC_I_2";
+
+        public static bool CheckInvisible(string id)
+        {
+            string[] arr = id.Split('_');
+            if(arr[1] == "v")
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
 }
