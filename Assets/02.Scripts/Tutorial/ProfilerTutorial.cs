@@ -103,7 +103,7 @@ public class ProfilerTutorial : MonoBehaviour
     public void StartChatting(TutorialState state)
     {
         ProfilerChattingSystem.OnChatEnd += () => DataManager.Inst.SetProfilerTutorialState(state);
-        ProfilerChattingSystem.OnPlayChatList?.Invoke(profilerTutorialTextData.tutorialChatData[(int)state], 1.5f, true);
+        ProfilerChattingSystem.OnPlayChatList?.Invoke(profilerTutorialTextData.tutorialTexts[(int)state], 1.5f, true);
     }
 
     private IEnumerator StartProfilerTutorial()
