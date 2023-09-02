@@ -29,9 +29,7 @@ public class ProfilerTutorial : MonoBehaviour
     [SerializeField]
     public static EGuideObject guideObjectName;
 
-    [SerializeField]
     private string targetIncidentID = Constant.ProfilerInfoKey.INCIDENTREPORT_TITLE;
-            
     private string targetCharID1_1 = Constant.ProfilerInfoKey.PARKJUYOUNG_NAME;
     private string targetCharID1_2 = Constant.ProfilerInfoKey.PARKJUYOUNG_INCIDENT;
     private string targetCharID2_1 = Constant.ProfilerInfoKey.KIMYUJIN_NAME;
