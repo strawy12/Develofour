@@ -198,7 +198,8 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OpenWindow()
     {
-        WindowLockDataSO windowLock = ResourceManager.Inst.GetFileLockData(fileData.id);
+        PinLockDataSO windowLock = ResourceManager.Inst.GetResource<PinLockDataSO>(fileData.ID);
+        //WindowLockDataSO windowLock = ResourceManager.Inst.GetFileLockData(fileData.id);
         bool isLock = false;
 
         if (windowLock != null)
@@ -235,7 +236,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         if (fileData is DirectorySO && isBackground == false)
         {
-            if (isLock && DataManager.Inst.IsFileLock(fileData.id))
+            if (isLock && DataManager.Inst.IsPinLock(fileData.ID))
             {
                 targetWindow = WindowManager.Inst.WindowOpen(EWindowType.WindowPinLock, fileData);
             }

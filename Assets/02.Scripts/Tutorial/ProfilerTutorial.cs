@@ -224,11 +224,10 @@ public class ProfilerTutorial : MonoBehaviour
             library.TutorialLibraryClickRemoveEvent();
         }
 
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.AssistantProfile, 115 });
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PoliceProfile, 116 });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "I_C_10_1" });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "I_C_11_1" });
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
-        MonologSystem.OnEndMonologEvent = () => FileManager.Inst.AddFile(164, 6);
-        CallSystem.Inst.OnAnswerCall(ECharacterDataType.Assistant, Constant.MonologKey.END_PROFILER_TUTORIAL);
+        //CallSystem.OnInComingCall?.Invoke("CD_AS", ) 전화 오게 시키기
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
     }
 
@@ -240,8 +239,8 @@ public class ProfilerTutorial : MonoBehaviour
         ProfilerChattingSystem.OnChatEnd = null;
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
         GuideUISystem.OnEndAllGuide?.Invoke();
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.AssistantProfile, 115 });
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { EProfilerCategory.PoliceProfile, 116 });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "I_C_10_1" });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "I_C_11_1" });
         DataManager.Inst.SetProfilerTutorialState(TutorialState.EndTutorial);
         StopAllCoroutines();
 

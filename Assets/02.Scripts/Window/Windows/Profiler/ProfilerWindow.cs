@@ -95,10 +95,10 @@ public class ProfilerWindow : Window
 
     private void ProfilerChattingSelected()
     {
-        if (!DataManager.Inst.IsClearTutorial())
-        {
-            Define.CheckTutorialState(this);
-        }
+        //if (!DataManager.Inst.IsClearTutorial())
+        //{
+        //    Define.CheckTutorialState(this);
+        //}
     }
 
     #endregion
