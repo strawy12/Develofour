@@ -38,6 +38,11 @@ public class Window : MonoUI, ISelectable
 
     protected WindowAlterationSO windowAlteration;
 
+    public bool isMaximum
+    {
+        get => windowAlteration.isMaximum;
+    }
+
     public Vector2 WindowSize
     {
         get

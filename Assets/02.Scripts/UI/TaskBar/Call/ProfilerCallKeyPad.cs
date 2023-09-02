@@ -70,6 +70,7 @@ public class ProfilerCallKeyPad : MonoBehaviour
     {
         currentNumber += value.ToString();
         phoneNumberText.SetText(currentNumber);
+
         SettingProfile();
     }
 
@@ -116,6 +117,7 @@ public class ProfilerCallKeyPad : MonoBehaviour
         {
             btn.OnClick -= OnClickBtn;
         }
+        SettingProfile();
     }
 
     private void OnClickBtn(string data)
@@ -128,6 +130,8 @@ public class ProfilerCallKeyPad : MonoBehaviour
         currentNumber += data;
 
         phoneNumberText.SetText(currentNumber);
+
+        SettingProfile();
     }
 
     public void Close()
@@ -195,7 +199,7 @@ public class ProfilerCallKeyPad : MonoBehaviour
     {
         CharacterInfoDataSO data = ResourceManager.Inst.FindCharacterPhoneNumber(phoneNumberText.text);
 
-        if (data == null)
+        if (data == null || data.id == "CD_MS")
         {
             charNameText.SetText("");
             rollText.SetText("");

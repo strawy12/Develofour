@@ -31,7 +31,7 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
 
     private GuideObject guideObj;
     public GuideObject GuideObj => guideObj;
-
+    private Vector2 defaultMinSize;
     public void Init(Action clickAction)
     {
         maxSize = categoryImage.rectTransform.sizeDelta;
@@ -97,29 +97,35 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         {
             return;
         }
-        if (currentData.categorySprite.rect.width != currentData.categorySprite.rect.height)
+        if (!ProfilerWindow.currentProfiler.isMaximum)
         {
-            x1 = currentData.categorySprite.rect.width;
-            y1 = currentData.categorySprite.rect.height;
-            if (x1 > y1)
-            {
-                x2 = maxSize;
-                y2 = y1 * x2 / x1;
-            }
-            else
-            {
-                y2 = maxSize;
-                x2 = x1 * y2 / y1;
-            }
+            categoryImage.rectTransform.sizeDelta = defaultMinSize;
         }
         else
         {
-            x2 = y2 = maxSize;
+            if (currentData.categorySprite.rect.width != currentData.categorySprite.rect.height)
+            {
+                x1 = currentData.categorySprite.rect.width;
+                y1 = currentData.categorySprite.rect.height;
+                if (x1 > y1)
+                {
+                    x2 = maxSize;
+                    y2 = y1 * x2 / x1;
+                }
+                else
+                {
+                    y2 = maxSize;
+                    x2 = x1 * y2 / y1;
+                }
+            }
+            else
+            {
+                x2 = y2 = maxSize;
+            }
+
+            categoryImage.rectTransform.sizeDelta = new Vector2(x2, y2);
         }
-
-        categoryImage.rectTransform.sizeDelta = new Vector2(x2, y2);
     }
-
     public void Hide()
     {
         EventManager.StopListening(EProfilerEvent.Maximum, SetSize);
