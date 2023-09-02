@@ -70,34 +70,36 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         {
             return;
         }
-        if (!ProfilerWindow.CurrentProfiler.originWindowAlteration.isMaximum)
+
+        if (currentData.categorySprite.rect.width != currentData.categorySprite.rect.height)
         {
-            categoryImage.rectTransform.sizeDelta = defaultMinSize;
-        }
-        else
-        {
-            if (currentData.categorySprite.rect.width != currentData.categorySprite.rect.height)
+            x1 = currentData.categorySprite.rect.width;
+            y1 = currentData.categorySprite.rect.height;
+            if (x1 > y1)
             {
-                x1 = currentData.categorySprite.rect.width;
-                y1 = currentData.categorySprite.rect.height;
-                if (x1 > y1)
-                {
-                    x2 = maxSize;
-                    y2 = y1 * x2 / x1;
-                }
-                else
-                {
-                    y2 = maxSize;
-                    x2 = x1 * y2 / y1;
-                }
+                x2 = maxSize;
+                y2 = y1 * x2 / x1;
             }
             else
             {
-                x2 = y2 = maxSize;
+                y2 = maxSize;
+                x2 = x1 * y2 / y1;
             }
-
-            categoryImage.rectTransform.sizeDelta = new Vector2(x2, y2);
         }
+        else
+        {
+            x2 = y2 = maxSize;
+        }
+
+        categoryImage.rectTransform.sizeDelta = new Vector2(x2, y2);
+        //if (!ProfilerWindow.CurrentProfiler.originWindowAlteration.isMaximum)
+        //{
+        //    categoryImage.rectTransform.sizeDelta = defaultMinSize;
+        //}
+        //else
+        //{
+
+        //}
     }
 
     public void Hide()
