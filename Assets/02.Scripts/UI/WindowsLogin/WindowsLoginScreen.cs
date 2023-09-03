@@ -181,6 +181,9 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private IEnumerator LoadingCoroutine(Action callBack)
     {
+        if (isLoading) yield break;
+
+        isLoading = true;
         coverPanel.SetActive(true);
         float delay = Random.Range(0.7f, 2f);
         loadingIcon.gameObject.SetActive(true);
@@ -193,6 +196,8 @@ public class WindowsLoginScreen : MonoBehaviour
 
         coverPanel.SetActive(false);
         loadingIcon.gameObject.SetActive(false);
+        isLoading = false;
+            
         callBack?.Invoke();
     }
 
