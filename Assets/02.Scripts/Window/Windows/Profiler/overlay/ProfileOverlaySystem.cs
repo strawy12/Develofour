@@ -12,7 +12,7 @@ public class ProfileOverlaySystem : MonoBehaviour
     public static Action OnClose;
 
     #region overlay
-    public GameObject overlayPanel;
+    public OverlayPanel overlayPanel;
     public TMP_Text overlayText;
     #endregion
 
@@ -103,7 +103,14 @@ public class ProfileOverlaySystem : MonoBehaviour
             OnClose?.Invoke();
             return;
         }
-            
+        if (GetCompleteCount() == GetWholeCount())
+        {
+            overlayPanel.Setting(true);
+        }
+        else
+        {
+            overlayPanel.Setting(false);
+        }
 
         overlayPanel.SetActive(true);
     }

@@ -48,12 +48,11 @@ public class WindowsLoginScreen : MonoBehaviour
     private float monologDelay = 0.3f;
     [SerializeField]
     private float numberWrongDuration = 3f;
-
     [SerializeField]
     private SoundPanel soundPanel;
 
     private bool isFirst = true;
-   
+    private bool isLoading = false;
     private void Start()
     {
         Init();
@@ -97,6 +96,8 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void CheckInputNumber(string text)
     {
+        if (isLoading) return;
+
         if (!int.TryParse(text, out _))
         {
             if (hintText.gameObject.activeSelf == false)
@@ -115,7 +116,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void CheckMaxInputLength()
     {
-        if (passwordField.isLogin) return;
+        if (passwordField.isLogin || isLoading) return;
 
 
         if(passwordField.InputField.text.Length >= 4)
@@ -147,8 +148,6 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            Debug.Log("Login");
-
             soundPanel.Init();
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             if (isFirst)
@@ -206,15 +205,11 @@ public class WindowsLoginScreen : MonoBehaviour
     private void OpenLoginFailUI()
     {
         failedLoginCnt++;
-        //TODO
-        //if(failedLoginCnt == 1)
-        //{
-        //    GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 450);
-        //}
-        //if (failedLoginCnt >= 5)
-        //{
-        //    GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 1.5f);
-        //}
+
+        if (failedLoginCnt >= 5)
+        {
+            //MonologSystem.OnStartMonolog?.Invoke(214, 0f, true); // 바꿔야함
+        }
 
         loginFailUI.SetActive(true);
         loginInputUI.SetActive(false);
