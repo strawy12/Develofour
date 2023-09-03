@@ -24,31 +24,18 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
     private Image categoryImage;
     [SerializeField]
     private Image selectImage;
-    private Vector2 maxSize;
+
+    private Vector2 defaultMinSize;
+
     public bool isSelected { get; private set; }
 
     private Action OnClick;
-
-    private GuideObject guideObj;
-    public GuideObject GuideObj => guideObj;
-
-    private Vector2 defaultMinSize;
     public void Init(Action clickAction)
     {
-        defaultMinSize = ((RectTransform)transform).sizeDelta;
-        maxSize = categoryImage.rectTransform.sizeDelta;
+        defaultMinSize = categoryImage.rectTransform.sizeDelta;
         isSelected = false;
         OnClick = null;
         OnClick += clickAction;
-        if(guideObj == null)
-        {
-            guideObj = GetComponent<GuideObject>();
-            if (guideObj == null) Debug.LogError("가이드 오브젝트가 NULL입니다");
-        }
-
-        if (guideObj != null)
-            guideObj.Init();
-
         EventManager.StartListening(EProfilerEvent.Maximum, SetSize);
         EventManager.StartListening(EProfilerEvent.Minimum, SetSize);
     }
@@ -57,26 +44,10 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
     {
         currentData = categoryData;
 
-        if (!DataManager.Inst.IsCategoryShow(categoryData.ID) || categoryData.categoryType == EProfilerCategoryType.Visiable)
+        if (!DataManager.Inst.IsCategoryShow(categoryData.id) 
+            || Constant.ProfilerCategoryKey.CheckInvisible(categoryData.id))
         {
-            return;   
-        }
-
-        Debug.Log("프로파일 카테고리 프리팹 쇼 " + categoryData.categoryType);
-
-        if(DataManager.Inst.IsPlayingProfilerTutorial())
-        {
-            if(categoryData.categoryType == EProfilerCategoryType.Character)
-            {
-                Debug.Log("프로파일 카테고리 프리팹 character bool false");
-                ProfilerTutorial.IsExistCharacterTODO = false;
-
-            }
-            if (categoryData.categoryType == EProfilerCategoryType.Info) 
-            {
-                Debug.Log("프로파일 카테고리 프리팹 incidnet bool false");
-                ProfilerTutorial.IsExistIncidentTODO = false;
-            }
+            return;
         }
 
         gameObject.SetActive(true);
@@ -99,8 +70,8 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         {
             return;
         }
-        
-        if (!ProfilerWindow.currentProfiler.isMaximum)
+
+        if (currentData.categorySprite.rect.width != currentData.categorySprite.rect.height)
         {
             categoryImage.rectTransform.sizeDelta = defaultMinSize;
             return;
@@ -129,6 +100,15 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
 
             categoryImage.rectTransform.sizeDelta = new Vector2(x2, y2);
         }
+        categoryImage.rectTransform.sizeDelta = new Vector2(x2, y2);
+        //if (!ProfilerWindow.CurrentProfiler.originWindowAlteration.isMaximum)
+        //{
+        //    categoryImage.rectTransform.sizeDelta = defaultMinSize;
+        //}
+        //else
+        //{
+
+        //}
     }
     public void Hide()
     {
@@ -136,7 +116,7 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         EventManager.StopListening(EProfilerEvent.Minimum, SetSize);
         gameObject.SetActive(false);
         UnSelect();
-        categoryImage.rectTransform.sizeDelta = maxSize;
+        categoryImage.rectTransform.sizeDelta = defaultMinSize;
     }
     #endregion 
     #region EventSystem
@@ -154,7 +134,6 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
             return;
         }
         OnClick?.Invoke();
-        TutorialClickCheck();
         selectImage.gameObject.SetActive(true);
         isSelected = true;
         EventManager.TriggerEvent(EProfilerEvent.ShowInfoPanel, new object[1] { currentData });
@@ -168,22 +147,11 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         }
         isSelected = false;
         selectImage.gameObject.SetActive(false);
-
     }
 
-    public void TutorialClickCheck()
+    private void OnDestroy()
     {
-        if(DataManager.Inst.IsPlayingProfilerTutorial())
-        {
-            if (currentData.categoryType == EProfilerCategoryType.Character)
-            {
-                EventManager.TriggerEvent(ETutorialEvent.ClickCharacterCategory);
-            }
-            else if (currentData.categoryType == EProfilerCategoryType.Info)
-            {
-                EventManager.TriggerEvent(ETutorialEvent.ClickIncidentCategory);
-            }
-        }
+        EventManager.StopListening(EProfilerEvent.Maximum, SetSize);
+        EventManager.StopListening(EProfilerEvent.Minimum, SetSize);
     }
-
 }

@@ -18,13 +18,13 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Window targetWindow = null;
 
     [SerializeField]
-    protected FileSO fileData;
+    private FileSO fileData;
 
     [SerializeField]
     private Image iconImage;
     [SerializeField]
     private Image selectedImage;
-    
+
     [SerializeField]
     private Image pointerStayImage;
     public Image PointerStayImage => pointerStayImage;
@@ -54,77 +54,68 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         pointerStayImage.gameObject.SetActive(false);
         selectedImage.gameObject.SetActive(false);
+        rectTranstform.localScale = Vector3.one;
     }
-    public void Release()
-    {
-        iconImage.sprite = null;
-        iconNameText.SetText("");
-        isBackground = false;
-        fileData = null;
-    }
-    public void SetFileData(FileSO newFileData, float IconDefaultSize = 0f)
+
+    public void SetFileData(FileSO newFileData, float size = 0f)
     {
         if (newFileData == null)
         {
             return;
         }
 
+        if (size == 0f)
+        {
+            size = IconDefaultSize;
+        }
+
         fileData = newFileData;
         iconNameText.text = fileData.fileName;
-
-        #region 튜토리얼 이벤트 세팅
-        if (ProfilerTutorial.IsLibraryGuide && fileData.ID == Constant.FileID.USB) //usb
-        {
-            EventManager.StartListening(ETutorialEvent.USBTutorial, YellowUI);
-        }
-
-        if (ProfilerTutorial.IsLibraryGuide && fileData.ID == Constant.FileID.INCIDENT_REPORT) //사건보고서
-        {
-            EventManager.StartListening(ETutorialEvent.ReportTutorial, YellowUI);
-        }
-
-
-        //데이터 매니저로 확인하고
-        //gamestate가 튜토리얼이라면
-        //library, usb, report에 각각 이벤트 넣어줘~
-        #endregion
-
-        #region IconSprite 세팅
-        if(IconDefaultSize <= 0f)
-        {
-            IconDefaultSize = this.IconDefaultSize;
-        }
         float x1, y1, x2, y2;
-        if(newFileData.iconSprite == null)
+        if (newFileData.iconSprite == null)
         {
             return;
-        } 
+        }
         if (newFileData.iconSprite.rect.width != newFileData.iconSprite.rect.height)
         {
             x1 = newFileData.iconSprite.rect.width;
             y1 = newFileData.iconSprite.rect.height;
             if (x1 > y1)
             {
-                x2 = IconDefaultSize;
+                x2 = size;
                 y2 = y1 * x2 / x1;
             }
             else
             {
-                y2 = IconDefaultSize;
+                y2 = size;
                 x2 = x1 * y2 / y1;
             }
         }
         else
         {
-            x2 = y2 = IconDefaultSize;
+            x2 = y2 = size;
         }
 
-        iconImage.rectTransform.sizeDelta = new Vector2(x2, y2);
-
+        iconImage.rectTransform.sizeDelta = new Vector3(x2, y2, 1);
         iconImage.sprite = newFileData.iconSprite;
 
         iconImage.color = newFileData.iconColor;
-        #endregion 
+
+        if (fileData.ID == "F_DR_4") //usb
+        {
+            EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);
+            EventManager.StartListening(ETutorialEvent.USBTutorial, YellowUI);
+        }
+
+        if (fileData.ID == "F_IV_1") //사건보고서
+        {
+            EventManager.StopListening(ETutorialEvent.ReportTutorial, YellowUI);
+            EventManager.StartListening(ETutorialEvent.ReportTutorial, YellowUI);
+        }
+        //데이터 매니저로 확인하고
+        //gamestate가 튜토리얼이라면
+        //library, usb, report에 각각 이벤트 넣어줘~
+        rectTranstform.localScale = Vector3.one;
     }
 
     public void ChangeIcon(Sprite icon, Color color)
@@ -136,22 +127,22 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void YellowUI(object[] obj)
     {
-        EventManager.StopListening(ETutorialEvent.USBTutorial, YellowUI);
-        EventManager.StopListening(ETutorialEvent.ReportTutorial, YellowUI);
-        GuideUISystem.EndAllGuide?.Invoke();
-        GuideUISystem.OnGuide(this.rectTranstform);
+        GuideUISystem.OnEndAllGuide?.Invoke();
+        GuideUISystem.OnGuide?.Invoke(this.rectTranstform);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("click Icon");
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             if (clickCount != 0)
             {
+
                 EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
                 // 여기에서 이벤트 쏨
                 clickCount = 0;
-
+                Debug.Log("open file");
                 if (targetWindow == null)
                 {
                     OpenWindow();
@@ -166,11 +157,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             else
             {
                 Select();
+                Debug.Log("add click");
                 clickCount++;
                 EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
                 EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
             }
-
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
@@ -195,11 +186,21 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
     }
 
+    public void Release()
+    {
+        UnSelect();
+
+        fileData = null;
+        iconImage.sprite = null;
+        targetWindow = null;
+        iconNameText.text = "";
+    }
+
     private void OpenWindow()
     {
         PinLockDataSO windowLock = ResourceManager.Inst.GetResource<PinLockDataSO>(fileData.ID);
+        //WindowLockDataSO windowLock = ResourceManager.Inst.GetFileLockData(fileData.id);
         bool isLock = false;
-        EventManager.TriggerEvent(ELibraryEvent.AddLeftIcon, new object[1] { fileData });
 
         if (windowLock != null)
         {
@@ -212,19 +213,26 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             return;
         }
 
-        if (!DataManager.Inst.IsStartProfilerTutorial())
+        if (DataManager.Inst.SaveData.isProfilerInstall == false) //튜토리얼 체크
         {
-            if (fileData.ID != Constant.FileID.MYPC && 
-                fileData.ID != Constant.FileID.USB && 
-                fileData.ID != Constant.FileID.PROFILER &&
-                fileData.ID != Constant.FileID.INSTALL)
+            if (fileData.windowType != EWindowType.Directory
+                && fileData.windowType != EWindowType.ProfilerWindow
+                && fileData.windowType != EWindowType.Installer)
             {
                 MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.NOW_USB_CHECK, false);
                 return;
             }
+            if (fileData.windowType == EWindowType.Directory)
+            {
+                if (fileData.ID != Constant.FileID.MYPC
+                    && fileData.ID != Constant.FileID.USB
+                    && fileData.ID != Constant.FileID.BACKGROUND)
+                {
+                    MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.NOW_USB_CHECK, false);
+                    return;
+                }
+            }
         }
-
-        EventManager.TriggerEvent(ELibraryEvent.CreateLeftPanel, new object[] { fileData });
 
         if (fileData is DirectorySO && isBackground == false)
         {
@@ -235,7 +243,7 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             else
             {
                 Library window;
-                if(WindowManager.Inst.CurrentWindowCount(EWindowType.Directory) == 0)
+                if (WindowManager.Inst.CurrentWindowCount(EWindowType.Directory) == 0)
                 {
                     window = WindowManager.Inst.CreateWindow(EWindowType.Directory, fileData) as Library;
 
@@ -265,13 +273,18 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             clickCount = 0;
         }
-
+        else
+        {
+            pointerStayImage.gameObject.SetActive(false);
+        }
         this.isSelected = isSelected;
         selectedImage.gameObject.SetActive(isSelected);
+        //Debug.Log("SelectedImage의 bool값은 " + selectedImage.gameObject.activeSelf + "     기본 값 " + isSelected);
     }
 
     public void CloseTargetWindow(string a)
     {
+        if (targetWindow == null) return;
         targetWindow.OnClosed -= CloseTargetWindow;
         targetWindow = null;
     }
@@ -288,6 +301,11 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (isSelected)
+        {
+            pointerStayImage.gameObject.SetActive(false);
+            return;
+        }
         pointerStayImage.gameObject.SetActive(true);
     }
 
@@ -295,7 +313,9 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         pointerStayImage.gameObject.SetActive(false);
     }
+
     private bool isSign;
+
 
     protected virtual void Select()
     {
@@ -316,8 +336,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         StopAllCoroutines();
 
-        if (GameManager.Inst.isApplicationQuit) return;
-        //GuideUISystem.EndGuide?.Invoke(rectTranstform);
     }
 }
 

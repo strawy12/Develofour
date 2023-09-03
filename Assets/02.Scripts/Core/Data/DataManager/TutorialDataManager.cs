@@ -4,14 +4,33 @@ using UnityEngine;
 
 public partial class DataManager : MonoSingleton<DataManager>
 {
-    public bool IsStartProfilerTutorial() { return saveData.profilerTutorialData.isStartTutorial; }
-    public void SetStartProfilerTutorial(bool value) { saveData.profilerTutorialData.isStartTutorial = value; }
-    public bool IsCallTutorial() { return saveData.profilerTutorialData.isCanCallTutorial; }
-    public void SetCallTutorial(bool value) { saveData.profilerTutorialData.isCanCallTutorial = value; }
 
-    public bool IsPlayingProfilerTutorial() { return saveData.profilerTutorialData.isPlayingTutorial; }
-    public void SetPlayingProfilerTutorial(bool value) { saveData.profilerTutorialData.isPlayingTutorial = value; }
+    public bool IsPlayingProfilerTutorial()
+    {
+        return (int)TutorialState.NotStart
+            < (int)saveData.tutorialDataState && (int)saveData.tutorialDataState <
+            (int)TutorialState.EndTutorial;
+    }
 
-    public bool IsClearTutorial() { return saveData.profilerTutorialData.isClearTutorial; }
-    public void SetIsClearTutorial(bool value) { saveData.profilerTutorialData.isClearTutorial = value; }
+    public bool IsStartProfilerTutorial()
+    {
+        return GetProfilerTutorialState() != TutorialState.NotStart ? true : false;
+    }
+
+    public bool IsClearTutorial()
+    {
+        return saveData.tutorialDataState == TutorialState.EndTutorial;
+    }
+
+    public TutorialState GetProfilerTutorialState()
+    {
+        return saveData.tutorialDataState;
+    }
+
+    public void SetProfilerTutorialState(TutorialState state)
+    {
+        if ((int)saveData.tutorialDataState > (int)state) return; //현재의 스테이트보다 과거의 스테이트가 올때
+        saveData.tutorialDataState = state;
+    }
+
 }

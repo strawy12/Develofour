@@ -39,6 +39,8 @@ public class ProfilerWindow : Window
     //DataManager
     private ProfilerPanelButton beforeClickButton;
 
+    public static ProfilerWindow CurrentProfiler;
+
     protected override void Init()
     {
         base.Init();
@@ -95,10 +97,10 @@ public class ProfilerWindow : Window
 
     private void ProfilerChattingSelected()
     {
-        if (!DataManager.Inst.IsClearTutorial())
-        {
-            Define.CheckTutorialState(this);
-        }
+        //if (!DataManager.Inst.IsClearTutorial())
+        //{
+        //    Define.CheckTutorialState(this);
+        //}
     }
 
     #endregion
@@ -128,12 +130,6 @@ public class ProfilerWindow : Window
     {
         if (beforeClickButton == callPanelBtn)
         {
-            return;
-        }
-
-        if(DataManager.Inst.IsCallTutorial() == false)
-        {
-            MonologSystem.OnStartMonolog?.Invoke("T_M_95", false);
             return;
         }
 

@@ -52,18 +52,6 @@ public class InformationTrigger : MonoBehaviour
     {
         Bind();
 
-        if (GameManager.Inst.GameState == EGameState.Tutorial_Chat)
-        {
-            MonologSystem.OnStartMonolog(Constant.MonologKey.TUTORIAL_CANNOT_GETINFO, false);
-            return;
-        }
-        if (GameManager.Inst.GameState == EGameState.Tutorial_Call)
-        {
-            MonologSystem.OnStartMonolog(Constant.MonologKey.TUTORIAL_CANNOT_GETINFO_CALL, false);
-            return;
-        }
-
-
         if (!CheckAllInfoFound())
         {
             bool playMonolog = false;

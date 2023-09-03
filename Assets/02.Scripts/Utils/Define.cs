@@ -332,22 +332,22 @@ public static class Define
 
     public static void CheckTutorialState(ISelectable myObj)
     {
-        if(GameManager.Inst.GameState == EGameState.Tutorial_Chat)
-        {
-            //채팅이 끝나야함
-            //프로파일러 클릭
-            if((WindowManager.Inst.SelectedObject == myObj && !ProfilerChattingSystem.isChatting)
-                && TutorialFlagCheck() == false)
-            {
-                GameManager.Inst.ChangeGameState(EGameState.Tutorial_NotChat);
-            }
-        }
+        //if(GameManager.Inst.GameState == EGameState.Tutorial_Chat)
+        //{
+        //    //채팅이 끝나야함
+        //    //프로파일러 클릭
+        //    if((WindowManager.Inst.SelectedObject == myObj && !ProfilerChattingSystem.isChatting)
+        //        && TutorialFlagCheck() == false)
+        //    {
+        //        GameManager.Inst.ChangeGameState(EGameState.Tutorial_NotChat);
+        //    }
+        //}
     }
 
-    public static bool TutorialFlagCheck()
-    {
-        return ProfilerTutorial.IsExistCharacterTODO || ProfilerTutorial.IsExistIncidentTODO;
-    }
+    //public static bool TutorialFlagCheck()
+    //{
+    //    return ProfilerTutorial.IsExistCharacterTODO || ProfilerTutorial.IsExistIncidentTODO;
+    //}
 
 #if UNITY_EDITOR
     public static List<T> GuidsToList<T>(string filtter) where T : UnityEngine.Object
