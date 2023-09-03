@@ -9,8 +9,6 @@ using System.Linq.Expressions;
 
 public class ProfilerWindow : Window
 {
-    public static ProfilerWindow currentProfiler;
-
     [Header("Panels")]
     [SerializeField]
     private ProfilerUsingDocument profilerUsingDocuments;
@@ -44,7 +42,7 @@ public class ProfilerWindow : Window
     protected override void Init()
     {
         base.Init();
-        currentProfiler = this;
+        CurrentProfiler = this;
         profilerChatting.Init();
         profilerPanel.Init();
         profilerUsingDocuments.Init();
@@ -151,10 +149,6 @@ public class ProfilerWindow : Window
     {
         HidePanel();
         profilerCallingPanel.Show();
-    }
-    private void ShowChattingPanel()
-    {
-        HidePanel();
     }
 
     private void HidePanel()

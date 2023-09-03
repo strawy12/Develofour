@@ -71,7 +71,7 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
             return;
         }
 
-        if (currentData.categorySprite.rect.width != currentData.categorySprite.rect.height)
+        if (ProfilerWindow.CurrentProfiler.isMaximum)
         {
             categoryImage.rectTransform.sizeDelta = defaultMinSize;
             return;
