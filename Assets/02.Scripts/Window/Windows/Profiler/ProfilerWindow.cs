@@ -170,11 +170,13 @@ public class ProfilerWindow : Window
     public override void WindowMinimum()
     {
         base.WindowMinimum();
+
         EventManager.TriggerEvent(EProfilerEvent.Minimum);
     }
     public override void WindowMaximum()
     {
         base.WindowMaximum();
+
         EventManager.TriggerEvent(EProfilerEvent.Maximum);
     }
 

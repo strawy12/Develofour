@@ -31,9 +31,11 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
 
     private GuideObject guideObj;
     public GuideObject GuideObj => guideObj;
+
     private Vector2 defaultMinSize;
     public void Init(Action clickAction)
     {
+        defaultMinSize = ((RectTransform)transform).sizeDelta;
         maxSize = categoryImage.rectTransform.sizeDelta;
         isSelected = false;
         OnClick = null;
@@ -97,9 +99,11 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         {
             return;
         }
+        
         if (!ProfilerWindow.currentProfiler.isMaximum)
         {
             categoryImage.rectTransform.sizeDelta = defaultMinSize;
+            return;
         }
         else
         {
