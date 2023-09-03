@@ -58,6 +58,12 @@ public class InformationTrigger : MonoBehaviour
 
             foreach (var infoID in triggerData.infoDataIDList)
             {
+                //튜토리얼
+                if(GameManager.Inst.GameState == EGameState.Tutorial)
+                {
+
+                }
+                
                 playMonolog = true;
                 if (!triggerData.isFakeInfo)
                 {
