@@ -42,7 +42,7 @@ public class ProfilerWindow : Window
     protected override void Init()
     {
         base.Init();
-
+        CurrentProfiler = this;
         profilerChatting.Init();
         profilerPanel.Init();
         profilerUsingDocuments.Init();
@@ -150,10 +150,6 @@ public class ProfilerWindow : Window
         HidePanel();
         profilerCallingPanel.Show();
     }
-    private void ShowChattingPanel()
-    {
-        HidePanel();
-    }
 
     private void HidePanel()
     {
@@ -164,11 +160,13 @@ public class ProfilerWindow : Window
     public override void WindowMinimum()
     {
         base.WindowMinimum();
+
         EventManager.TriggerEvent(EProfilerEvent.Minimum);
     }
     public override void WindowMaximum()
     {
         base.WindowMaximum();
+
         EventManager.TriggerEvent(EProfilerEvent.Maximum);
     }
 

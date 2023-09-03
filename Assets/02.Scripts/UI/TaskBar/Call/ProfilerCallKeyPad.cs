@@ -17,6 +17,15 @@ public class ProfilerCallKeyPad : MonoBehaviour
     [SerializeField]
     private Button clearButton;
 
+    [Header("CharacterPanel")]
+    [SerializeField]
+    private TMP_Text charNameText;
+    [SerializeField]
+    private TMP_Text rollText;
+    [SerializeField]
+    private Image profileImage;
+    [SerializeField]
+    private Sprite defaultProfileSprite;
     private string currentNumber;
 
     public Func<bool> OnCloseIngnoreFlag;
@@ -61,6 +70,8 @@ public class ProfilerCallKeyPad : MonoBehaviour
     {
         currentNumber += value.ToString();
         phoneNumberText.SetText(currentNumber);
+
+        SettingProfile();
     }
 
     private void KeyboardEventRemove()
@@ -106,6 +117,7 @@ public class ProfilerCallKeyPad : MonoBehaviour
         {
             btn.OnClick -= OnClickBtn;
         }
+        SettingProfile();
     }
 
     private void OnClickBtn(string data)
@@ -118,6 +130,8 @@ public class ProfilerCallKeyPad : MonoBehaviour
         currentNumber += data;
 
         phoneNumberText.SetText(currentNumber);
+
+        SettingProfile();
     }
 
     public void Close()
@@ -138,6 +152,7 @@ public class ProfilerCallKeyPad : MonoBehaviour
         currentNumber = EraseText;
 
         phoneNumberText.SetText(currentNumber);
+        SettingProfile();
     }
     private void ClearButton()
     {
@@ -171,10 +186,30 @@ public class ProfilerCallKeyPad : MonoBehaviour
     {
         currentNumber = number;
         phoneNumberText.SetText(currentNumber);
+        SettingProfile();
     }
     private void AllEraseText()
     {
         currentNumber = "";
         phoneNumberText.SetText(currentNumber);
+        SettingProfile();
+    }
+
+    private void SettingProfile()
+    {
+        CharacterInfoDataSO data = ResourceManager.Inst.FindCharacterPhoneNumber(phoneNumberText.text);
+
+        if (data == null || data.id == "CD_MS")
+        {
+            charNameText.SetText("");
+            rollText.SetText("");
+            profileImage.sprite = defaultProfileSprite;
+        }
+        else
+        {
+            charNameText.SetText(data.characterName);
+            rollText.SetText(data.rollText);
+            profileImage.sprite = data.profileIcon;
+        }
     }
 }
