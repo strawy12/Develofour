@@ -11,7 +11,7 @@ using static Constant;
 using System.Diagnostics.Contracts;
 using System.Linq.Expressions;
 
-public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
+public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public float noticeAlphalightly = 1f;
 
@@ -36,6 +36,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     [SerializeField]
     private bool canDeleted = true;
 
+    private string fileID = null;
+
     public Action<NoticePanel> OnCompeleted;
     public Action<NoticePanel> OnClosed;
 
@@ -49,7 +51,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     private bool isEnter;
     private bool isOpen;
     private bool isEmpahasis;
-
+    private bool isEndNotice;
     private bool isCompleted = false;
 
     private Canvas canvas;
@@ -74,13 +76,13 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     {
         Bind();
 
-        if(!canDeleted)
+        if (!canDeleted)
         {
             EnableTouchDragNotice(false);
             SetActive(true);
             return;
         }
-        
+
         canDeleted = canDelete;
         OnCompeleted += (x) => Compelete();
         sameTagText.gameObject.SetActive(false);
@@ -92,24 +94,25 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
     public void Notice(NoticeDataSO data, bool isOpenSystem)
     {
         sameTagText.text = data.sameTextString;
+        fileID = data.noticeData.fileID;
         Notice(data.Head, data.Body, data.Icon, data.noticeData.color, isOpenSystem);
     }
     private void NoticeSetting(string head, string body, Sprite icon, Color color)
     {
         headText.SetText(head);
         bodyText.SetText(body);
-        DateTime time  = TimeSystem.TimeCount();
+        DateTime time = TimeSystem.TimeCount();
 
         string timeText = "";
-        if(time.Hour > 12)
+        if (time.Hour > 12)
         {
             timeText = $"오후 {time.Hour - 12:00}:{time.Minute:00}";
         }
-        else if(time.Hour == 12)
+        else if (time.Hour == 12)
         {
             timeText = $"오후 {time.Hour}:{time.Minute:00}";
         }
-        else if(time.Hour == 0)
+        else if (time.Hour == 0)
         {
             timeText = $"오전 {12}:{time.Minute:00}";
         }
@@ -146,14 +149,17 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
     }
-    public void Notice(string head, string body, Sprite icon, Color color, bool isOpenSystem)
+    public void Notice(string head, string body, Sprite icon, Color color, bool isOpenSystem, string fileid = null)
     {
         NoticeSetting(head, body, icon, color);
 
         Vector2 pos = new Vector2(rectTransform.rect.width, NOTICE_POS.y);
         rectTransform.anchoredPosition = pos;
         rectTransform.localScale = Vector3.one;
-
+        if (fileid != null)
+        {
+            fileID = fileid;
+        }
         SetActive(true);
 
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
@@ -172,7 +178,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         stopDelayCoroutine = StartCoroutine(NoticeCoroutine());
     }
 
-    public void LoadNotice(NoticeData data) 
+    public void LoadNotice(NoticeData data)
     {
         NoticeSetting(data.head, data.body, data.icon, data.color);
     }
@@ -250,7 +256,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         data.body = bodyText.text;
         data.icon = iconImage.sprite;
         data.canDeleted = true;
-        data.delay = 0; 
+        data.fileID = fileID;
+        data.delay = 0;
         OnCompeleted?.Invoke(this);
         EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }
@@ -265,7 +272,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         if (isEnter)
         {
             backgroundImage.DOColor(new Color(0f, 0f, 0f), 0.1f);
-            rectTransform.DOScale(Vector3.one,0.1f);
+            rectTransform.DOScale(Vector3.one, 0.1f);
             isEnter = false;
         }
 
@@ -279,8 +286,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
         {
             EnableTouchDragNotice(false);
         }
-        
-        if(isOpen)
+
+        if (isOpen)
         {
             isOpen = false;
         }
@@ -295,7 +302,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
         //yield return new WaitForSeconds(addTime);
 
-        if(isNoticeExtend)
+        if (isNoticeExtend)
         {
             isNoticeExtend = false;
             ExtendNotice();
@@ -314,6 +321,8 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private IEnumerator NoticeCoroutineEnd()
     {
+        if (isEndNotice) yield break;
+        isEndNotice = true;
         rectTransform.DOAnchorPosX(rectTransform.rect.width, NOTICE_DURATION);
         yield return new WaitForSeconds(NOTICE_DURATION);
         NoticeSystem.OnTagReset?.Invoke();
@@ -402,11 +411,24 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler
 
     private void OnDisable()
     {
-        EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent); 
+        EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
     }
 
     private void OnDestroy()
     {
         EventManager.StopListening(ENoticeEvent.OpenNoticeSystem, NoticeStopEvent);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (string.IsNullOrEmpty(fileID)) return;
+        FileSO file = FileManager.Inst.GetFile(fileID);
+        if (file != null)
+        {
+            WindowManager.Inst.WindowOpen(file.windowType, file);
+        }
+
+        StartCoroutine(NoticeCoroutineEnd());
+
     }
 }

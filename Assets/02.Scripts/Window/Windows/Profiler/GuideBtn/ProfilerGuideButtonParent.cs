@@ -76,7 +76,7 @@ public class ProfilerGuideButtonParent : MonoBehaviour
         if (!DataManager.Inst.CheckGuideButtonSaveData(data.guideName))
         {   
             string noticeBody = $"{data.guideName} 가이드 버튼이 추가되었습니다. 프로파일러의 가이드 버튼 패널을 들어가 확인해보세요";
-            NoticeSystem.OnNotice?.Invoke("가이드 버튼이 추가되었습니다", noticeBody, 0.1f, false, profileSprite, Color.white, ENoticeTag.Profiler);
+            NoticeSystem.OnNotice?.Invoke("가이드 버튼이 추가되었습니다", noticeBody, 0.1f, false, profileSprite, Color.white, ENoticeTag.Profiler, Constant.FileID.PROFILER);
         }
         DataManager.Inst.AddGuideButtonSaveData(data.guideName);
         guideButtonList.Add(button);

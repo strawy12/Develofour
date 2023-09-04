@@ -24,7 +24,10 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
     private Image categoryImage;
     [SerializeField]
     private Image selectImage;
-
+    [SerializeField]
+    private GameObject pullNamePanel;
+    [SerializeField]
+    private TMP_Text pullNameText;
     private Vector2 defaultMinSize;
 
     public bool isSelected { get; private set; }
@@ -44,7 +47,7 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
     {
         currentData = categoryData;
 
-        if (!DataManager.Inst.IsCategoryShow(categoryData.id) 
+        if (!DataManager.Inst.IsCategoryShow(categoryData.id)
             || Constant.ProfilerCategoryKey.CheckInvisible(categoryData.id))
         {
             return;
@@ -53,11 +56,15 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         gameObject.SetActive(true);
 
         titleName.SetText(categoryData.categoryName);
-
+        if (pullNamePanel != null)
+        {
+            pullNameText.SetText(categoryData.categoryName);
+        }
         EventManager.StartListening(EProfilerEvent.Maximum, SetSize);
         EventManager.StartListening(EProfilerEvent.Minimum, SetSize);
 
         categoryImage.sprite = currentData.categorySprite;
+
         SetSize();
     }
 
@@ -154,4 +161,14 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         EventManager.StopListening(EProfilerEvent.Maximum, SetSize);
         EventManager.StopListening(EProfilerEvent.Minimum, SetSize);
     }
+
+    //public void OnPointerEnter(PointerEventData eventData)
+    //{
+    //    pullNamePanel.SetActive(true);
+    //}
+
+    //public void OnPointerExit(PointerEventData eventData)
+    //{
+    //    pullNamePanel.SetActive(false);
+    //}
 }

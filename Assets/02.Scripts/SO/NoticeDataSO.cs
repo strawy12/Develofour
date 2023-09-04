@@ -18,7 +18,7 @@ public class NoticeData
 
     public Sprite icon;
     public Color color;
-
+    public string fileID;
     public ENoticeTag tag = ENoticeTag.None;
 }
 
@@ -39,7 +39,6 @@ public class NoticeDataSO : ScriptableObject
     public float Delay => noticeData.delay;
     public Sprite Icon => noticeData.icon;
     public bool CanDeleted => noticeData.canDeleted;
-
     public void SetNoticeData(NoticeData data)
     {
         noticeDataType = (ENoticeType)(int)ENoticeType.End;

@@ -14,7 +14,7 @@ public class NoticeSystem : MonoUI
     public static Action<ENoticeType, float> OnGeneratedNotice;
     public static Action OnTagReset;
     //public static Action<Decision, float> OnDecisionPanel;
-    public static System.Action<string, string, float, bool, Sprite,Color, ENoticeTag> OnNotice;
+    public static System.Action<string, string, float, bool, Sprite,Color, ENoticeTag, string> OnNotice;
 
     [SerializeField]
     private NoticePanel noticePanelTemp;
@@ -257,7 +257,7 @@ public class NoticeSystem : MonoUI
         return panel;
     }
 
-    private void Notice(string head, string body, float delay, bool canDelete, Sprite icon, Color color, ENoticeTag noticeTag)
+    private void Notice(string head, string body, float delay, bool canDelete, Sprite icon, Color color, ENoticeTag noticeTag, string fileID = null)
     {
         if (noticeTag == currentTag && noticeTag != ENoticeTag.None && noticePanel != null)
         {
@@ -285,11 +285,11 @@ public class NoticeSystem : MonoUI
 
         if (!isOpen)
         {
-            panel.Notice(head, body, icon, color, false);
+            panel.Notice(head, body, icon, color, false, fileID);
         }
         else
         {
-            panel.Notice(head, body, icon, color, true);
+            panel.Notice(head, body, icon, color, true, fileID);
         }
 
         NoticeData data = new NoticeData();
@@ -299,6 +299,7 @@ public class NoticeSystem : MonoUI
         data.canDeleted = canDelete;
         data.delay = delay;
         data.tag = noticeTag;
+        data.fileID = fileID;
         //so에 있는 노티스태그 데이타에도 넣어
 
         saveNoticeList.Add(data);
