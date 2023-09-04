@@ -49,11 +49,11 @@ public class ProfilerTutorial : MonoBehaviour
     {
         if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.NotStart) // 맨 처음 시작
         {
-            #if UNITY_EDITOR
-                WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), () => StartCompleteProfilerTutorial());
-            #else
+#if UNITY_EDITOR
+            WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), () => StartCompleteProfilerTutorial());
+#else
                 WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), null);
-            #endif
+#endif
         }
         else if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo)
         {
@@ -97,6 +97,8 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void StartTutorial(object[] ps)
     {
+        if (ProfilerWindow.CurrentProfiler != null)
+            WindowManager.Inst.SelectObject(ProfilerWindow.CurrentProfiler);
         StartCoroutine(StartProfilerTutorial());
     }
 

@@ -33,6 +33,7 @@ public class PopupWindow : Window
 
     public void Setting(string text, Action agreeAction, Action degreeAction)
     {
+
         proposalText.text = text;
 
         AgreeAction += agreeAction;
@@ -53,6 +54,8 @@ public class PopupWindow : Window
     private void Close()
     {
         DegreeAction?.Invoke();
+
+
         //EventManager.TriggerEvent(EProfileSearchTutorialEvent.EndTutorial);
         WindowClose();
     }
@@ -60,6 +63,7 @@ public class PopupWindow : Window
     private void Agree()
     {
         AgreeAction?.Invoke();
+
         //EventManager.TriggerEvent(EProfileSearchTutorialEvent.TutorialStart);
         WindowClose();
     }
