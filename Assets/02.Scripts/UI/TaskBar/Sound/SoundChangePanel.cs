@@ -35,13 +35,13 @@ public class SoundChangePanel : MonoBehaviour
         {
             BGMSlider.gameObject.SetActive(true);
             EffectSlider.gameObject.SetActive(false);
-            BGMSlider.Setting();
+            BGMSlider.Setting(DataManager.Inst.DefaultSaveData.BGMSoundValue);
         }
         if(currentText.text == EffectSlider.nameStr)
         {
             BGMSlider.gameObject.SetActive(false);
             EffectSlider.gameObject.SetActive(true);
-            EffectSlider.Setting();
+            EffectSlider.Setting(DataManager.Inst.DefaultSaveData.EffectSoundValue);
         }
         coverPanel.SetActive(false);
     }

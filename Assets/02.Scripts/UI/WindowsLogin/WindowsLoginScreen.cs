@@ -48,12 +48,14 @@ public class WindowsLoginScreen : MonoBehaviour
     private float monologDelay = 0.3f;
     [SerializeField]
     private float numberWrongDuration = 3f;
-
     [SerializeField]
     private SoundPanel soundPanel;
+    [Header("After Login")]
+    [SerializeField]
+    private SoundPanel loginSoundPanel;
 
     private bool isFirst = true;
-   
+    private bool isLoading = false;
     private void Start()
     {
         Init();
@@ -72,6 +74,7 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.InputField.contentType = TMP_InputField.ContentType.Password;
         passwordField.InputField.characterLimit = 4;
 
+        soundPanel.Init();
 
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
         hintText.text = "만우절 + 밸런타인 데이 = XXXX";
@@ -97,6 +100,8 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void CheckInputNumber(string text)
     {
+        if (isLoading) return;
+
         if (!int.TryParse(text, out _))
         {
             if (hintText.gameObject.activeSelf == false)
@@ -115,7 +120,7 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private void CheckMaxInputLength()
     {
-        if (passwordField.isLogin) return;
+        if (passwordField.isLogin || isLoading) return;
 
 
         if(passwordField.InputField.text.Length >= 4)
@@ -147,9 +152,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            Debug.Log("Login");
-
-            soundPanel.Init();
+            loginSoundPanel.Init();
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             if (isFirst)
             {
@@ -182,6 +185,9 @@ public class WindowsLoginScreen : MonoBehaviour
 
     private IEnumerator LoadingCoroutine(Action callBack)
     {
+        if (isLoading) yield break;
+
+        isLoading = true;
         coverPanel.SetActive(true);
         float delay = Random.Range(0.7f, 2f);
         loadingIcon.gameObject.SetActive(true);
@@ -194,6 +200,8 @@ public class WindowsLoginScreen : MonoBehaviour
 
         coverPanel.SetActive(false);
         loadingIcon.gameObject.SetActive(false);
+        isLoading = false;
+            
         callBack?.Invoke();
     }
 
@@ -206,15 +214,11 @@ public class WindowsLoginScreen : MonoBehaviour
     private void OpenLoginFailUI()
     {
         failedLoginCnt++;
-        //TODO
-        //if(failedLoginCnt == 1)
-        //{
-        //    GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 450);
-        //}
-        //if (failedLoginCnt >= 5)
-        //{
-        //    GuideSystem.OnPlayGuide(EGuideTopicName.FirstLoginGuide, 1.5f);
-        //}
+
+        if (failedLoginCnt >= 5)
+        {
+            //MonologSystem.OnStartMonolog?.Invoke(214, 0f, true); // 바꿔야함
+        }
 
         loginFailUI.SetActive(true);
         loginInputUI.SetActive(false);

@@ -29,6 +29,9 @@ public class StartPlayTitleUI : MonoBehaviour
     [SerializeField]
     private SoundPanel soundPanel;
 
+    [SerializeField]
+    private WindowsLockScreen lockScreen;
+
     private void Start()
     {
         GameManager.Inst.OnStartCallback += StartCallBack;
@@ -52,7 +55,7 @@ public class StartPlayTitleUI : MonoBehaviour
         showCredit.onClick?.AddListener(() => { creditPopup.SetActive(false); creditPanel.StartCredit(); });
 
         soundPanel.Init();
-
+        lockScreen.Init();
         delayBGM();
     }
 

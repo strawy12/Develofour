@@ -237,6 +237,7 @@ public enum ECallEvent
     ClickSelectBtn,
     // 상대가 전화를 받은 경우
     RecivivedCall,
+    AddCallEvent,
 }
 public enum ETimeEvent
 {

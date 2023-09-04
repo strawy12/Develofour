@@ -59,8 +59,7 @@ public class WindowPinLock : Window
     public override void WindowOpen(bool isNewWindow)   
     {
         PinOpen();
-        SetAnswerDatas();
-
+        pinInputField.onSelect.AddListener(SetAnswerDatas);
         base.WindowOpen(isNewWindow);
     }
 
@@ -74,9 +73,11 @@ public class WindowPinLock : Window
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
     }
 
-    private void SetAnswerDatas()
+    private void SetAnswerDatas(string str)
     {
-        if(!DataManager.Inst.SaveData.isProfilerInstall)
+        pinInputField.onSelect.RemoveListener(SetAnswerDatas);
+
+        if (!DataManager.Inst.SaveData.isProfilerInstall)
         {
             return;
         }

@@ -18,7 +18,7 @@ public partial class SOSettingWindow : EditorWindow
             string name = columns[1];
             Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(columns[2]);
             string phoneNumber = columns[3].Trim();
-            
+            string rollText = columns[5].Trim();
             CharacterInfoDataSO characterData = characterDataSOList.Find(x => x.id == id);
             bool isCreate = false;
 
@@ -32,6 +32,7 @@ public partial class SOSettingWindow : EditorWindow
             characterData.characterName = name;
             characterData.profileIcon = sprite;
             characterData.phoneNum = phoneNumber;
+            characterData.rollText = rollText;
             string SO_PATH = $"Assets/07.ScriptableObjects/CharacterData/{columns[0]}.asset";
 
             if (isCreate)

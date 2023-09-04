@@ -12,7 +12,7 @@ public class ProfileOverlaySystem : MonoBehaviour
     public static Action OnClose;
 
     #region overlay
-    public GameObject overlayPanel;
+    public OverlayPanel overlayPanel;
     public TMP_Text overlayText;
     #endregion
 
@@ -101,18 +101,26 @@ public class ProfileOverlaySystem : MonoBehaviour
             OnClose?.Invoke();
             return;
         }
-            
-        //튜토리얼 체크
-        if(DataManager.Inst.IsPlayingProfilerTutorial())
+
+        if (DataManager.Inst.IsPlayingProfilerTutorial())
         {
-            if(currentFileID == Constant.FileID.INCIDENT_REPORT) //사건 보고서 이면서
+            if (currentFileID == Constant.FileID.INCIDENT_REPORT) //사건 보고서 이면서
             {
-                if(GetCompleteCount() == GetWholeCount())
+                if (GetCompleteCount() == GetWholeCount())
                 {
                     Debug.Log("모든 정보 획득");
                     EventManager.TriggerEvent(EProfilerEvent.GetAllInfo);
                 }
             }
+        }
+
+        if (GetCompleteCount() == GetWholeCount())
+        {
+            overlayPanel.Setting(true);
+        }
+        else
+        {
+            overlayPanel.Setting(false);
         }
 
         overlayPanel.SetActive(true);

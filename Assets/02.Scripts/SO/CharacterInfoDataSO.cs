@@ -8,6 +8,7 @@ public class CharacterInfoDataSO : ResourceSO
 {
     public string characterName;
     public string phoneNum;
+    public string rollText;
     public Sprite profileIcon;
 
     public string ID

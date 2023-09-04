@@ -18,18 +18,18 @@ public class ProfilerInventoryElements : MonoBehaviour
     {
         hlg = GetComponent<HorizontalLayoutGroup>();
 
-        OnProfilerMaximum = (a) => SetElementSize(true);
-        OnProfilerMinimum = (a) => SetElementSize(false);
+        OnProfilerMaximum = (a) => SetElementSize();
+        OnProfilerMinimum = (a) => SetElementSize();
 
         EventManager.StartListening(EProfilerEvent.Maximum, OnProfilerMaximum);
         EventManager.StartListening(EProfilerEvent.Minimum, OnProfilerMinimum);
     }
 
-    public void SetElementSize(bool isMaximum)
+    public void SetElementSize()
     {
         foreach (RectTransform child in transform)
         {
-            if (isMaximum)
+            if (ProfilerWindow.CurrentProfiler.isMaximum)
             {
                 child.sizeDelta = childMaxSize;
             }
@@ -39,7 +39,7 @@ public class ProfilerInventoryElements : MonoBehaviour
             }
         }
 
-        if (isMaximum)
+        if (ProfilerWindow.CurrentProfiler.isMaximum)
             hlg.spacing = 30;
         else
             hlg.spacing = 20;
