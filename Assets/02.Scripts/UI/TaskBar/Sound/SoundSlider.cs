@@ -7,7 +7,7 @@ using TMPro;
 using System;
 using UnityEngine.Audio;
 
-public class SoundSlider : MonoBehaviour    
+public class SoundSlider : MonoBehaviour
 {
     public Slider slider;
 
@@ -29,6 +29,7 @@ public class SoundSlider : MonoBehaviour
     {
         saveSound = _saveSound;
         slider.value = saveSound;
+
         SetMixGroup();
         SetValueText(slider);
         SetSoundImage(slider, soundImage);
@@ -36,23 +37,31 @@ public class SoundSlider : MonoBehaviour
         slider.onValueChanged.AddListener(Setting);
     }
 
-    public void Setting(float temp = 0)
+    public void Setting(float temp)
     {
         if (isMute)
         {
             return;
         }
-        SetValueText(slider); 
+        SetValueText(slider);
         SetSoundImage(slider, soundImage);
         SetSoundImage(slider, soundTaskbarImage);
         SetMixGroup();
+        if (soundType == ESoundPlayerType.BGM)
+        {
+            DataManager.Inst.SaveBGMSoundValue(temp);
+        }
+        else
+        {
+            DataManager.Inst.SaveEffectSoundValue(temp);
+        }
         DataManager.Inst.SaveDefaultJson();
     }
 
     public void SetMixGroup()
     { // -20 - 10
 
-        if(slider.value == 0)
+        if (slider.value == 0)
         {
             audioMixer.SetFloat(soundType.ToString(), -80);
             return;
@@ -70,11 +79,11 @@ public class SoundSlider : MonoBehaviour
     private void SetSoundImage(Slider slider, SoundPanelImage soundImage)
     {
         float value = slider.value * 100;
-        if(value == 0)
+        if (value == 0)
         {
             soundImage.ChangeCondition(ESoundCondition.X);
         }
-        else if(value > 66)
+        else if (value > 66)
         {
             soundImage.ChangeCondition(ESoundCondition.Big);
         }
@@ -90,7 +99,7 @@ public class SoundSlider : MonoBehaviour
 
     public void Mute()
     {
-        if(!isMute)
+        if (!isMute)
         {
             isMute = true;
             SetMuteSoundImage(slider, soundImage);
@@ -98,7 +107,7 @@ public class SoundSlider : MonoBehaviour
         else
         {
             isMute = false;
-            Setting();
+            Setting(0);
         }
     }
 

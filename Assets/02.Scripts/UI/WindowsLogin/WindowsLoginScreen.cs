@@ -50,6 +50,9 @@ public class WindowsLoginScreen : MonoBehaviour
     private float numberWrongDuration = 3f;
     [SerializeField]
     private SoundPanel soundPanel;
+    [Header("After Login")]
+    [SerializeField]
+    private SoundPanel loginSoundPanel;
 
     private bool isFirst = true;
     private bool isLoading = false;
@@ -71,6 +74,7 @@ public class WindowsLoginScreen : MonoBehaviour
         passwordField.InputField.contentType = TMP_InputField.ContentType.Password;
         passwordField.InputField.characterLimit = 4;
 
+        soundPanel.Init();
 
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
         hintText.text = "만우절 + 밸런타인 데이 = XXXX";
@@ -148,7 +152,7 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         StartCoroutine(LoadingCoroutine(() =>
         {
-            soundPanel.Init();
+            loginSoundPanel.Init();
             EventManager.TriggerEvent(EWindowEvent.WindowsSuccessLogin);
             if (isFirst)
             {

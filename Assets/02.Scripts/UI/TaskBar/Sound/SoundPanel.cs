@@ -26,7 +26,7 @@ public class SoundPanel : MonoUI
         effect.SetMixGroup();
 
         bgm.Init(DataManager.Inst.DefaultSaveData.BGMSoundValue);
-        effect.Init(DataManager.Inst.DefaultSaveData.BGMSoundValue);
+        effect.Init(DataManager.Inst.DefaultSaveData.EffectSoundValue);
         effect.gameObject.SetActive(false);
         changePanel.Init();
         selectPanel.Init();
