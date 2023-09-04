@@ -35,7 +35,7 @@ public class ProfilerUserCallPanel : MonoBehaviour, IPointerClickHandler
 
     private void CallStart()
     {
-        CallSystem.OnOutGoingCall?.Invoke(characterData.id);
+        CallSystem.OnOutGoingCall?.Invoke(characterData.id); 
     }
 
 
