@@ -49,6 +49,10 @@ public class ImageViewer : Window
         reductionButton.onClick?.AddListener(ReductionButton);
 
         OnSelected += OverlayOpen;
+        if(DataManager.Inst.IsPlayingProfilerTutorial() && file.ID == Constant.FileID.INCIDENT_REPORT)
+        {
+            OnSelected += () => GuideUISystem.OnEndAllGuide?.Invoke();
+        }
         OnUnSelected += OverlayClose;
         OverlayOpen();
     }
@@ -88,6 +92,7 @@ public class ImageViewer : Window
     {
         base.OnDestroyWindow();
         OnSelected -= OverlayOpen;
+        OnSelected = null;
         OnUnSelected -= OverlayClose;
     }
 }

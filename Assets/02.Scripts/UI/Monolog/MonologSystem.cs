@@ -80,7 +80,6 @@ public class MonologSystem : TextSystem
 
     private void EndMonolog()
     {
-        Debug.Log("끝");
         if (currentTextData == null)
             return;
 

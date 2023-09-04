@@ -138,15 +138,18 @@ public class WindowManager : MonoSingleton<WindowManager>
                 isLock = true;
             }
 
+            Debug.Log("방금 연 윈도우의 핀락은 " + windowLock);
+
             // lock이 설정 되어있는 fileSO가 이미 락이 풀려있는지 체크
             if (isLock && DataManager.Inst.IsPinLock(file.ID))
             {
                 //FileSO lockFileWindowData = FileManager.Inst.GetFile(windowLock.lockWindowType);
-
+                Debug.Log("1234");
                 targetWindow = CreateWindow(windowLock.lockWindowType, file); // file.ID(핀락, 미니게임, 파일), windowLock.lockWindowType
             }
             else
             {
+                Debug.Log("4321");
                 targetWindow = CreateWindow(file.windowType, file);
             }
         }

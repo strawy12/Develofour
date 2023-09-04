@@ -145,7 +145,10 @@ public class ProfilerChatting : MonoUI
         RectTransform[] rects = textParent.GetComponentsInChildren<RectTransform>();
         foreach (var temp in rects)
         {
-            temp.sizeDelta = new Vector2(currentValue - 60, 0);
+            if(temp.gameObject.GetComponent<Image>() == null)
+            {
+                temp.sizeDelta = new Vector2(currentValue - 60, 0);
+            }
         }
     }
     private void PrintChat(object[] ps)

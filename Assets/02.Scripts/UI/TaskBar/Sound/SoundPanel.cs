@@ -36,6 +36,7 @@ public class SoundPanel : MonoUI
             effect.Init(0.6f);
             DataManager.Inst.CreateDefaultSaveData();
         }
+
         effect.gameObject.SetActive(false);
         changePanel.Init();
         selectPanel.Init();

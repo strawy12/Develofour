@@ -83,6 +83,7 @@ public class WindowPinLock : Window
         }
 
         Debug.Log(windowLockData.answerData.answer);
+
         if (windowLockData.answerData.answer == "")
         {
             return;
@@ -112,9 +113,11 @@ public class WindowPinLock : Window
         string[] answerArr = windowLockData.windowPin.Split(',');
         // 파일 정답 목록들 구분 해서 들고 옴
 
+
         foreach (string answerText in answerArr)
         {
-            if (inputText == answerText)
+            string replaceText = answerText.Replace(" ", "");
+            if (inputText == answerText || inputText == replaceText) 
             {
                 StartCoroutine(PinAnswerTextChange());
                 pinInputField.text = "";

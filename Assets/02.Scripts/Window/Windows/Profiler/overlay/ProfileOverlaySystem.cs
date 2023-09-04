@@ -77,10 +77,8 @@ public class ProfileOverlaySystem : MonoBehaviour
         if (completeProfileCount == wholeProfileCount)
         {
             //TODO 새로운 이펙트
-            Debug.Log("asdf");
             if(DataManager.Inst.IsPlayingProfilerTutorial())
             {
-                Debug.Log("asdf22222222222222222");
                 EventManager.TriggerEvent(ETutorialEvent.GetAllInfo);
             }
         }
@@ -103,6 +101,19 @@ public class ProfileOverlaySystem : MonoBehaviour
             OnClose?.Invoke();
             return;
         }
+
+        if (DataManager.Inst.IsPlayingProfilerTutorial())
+        {
+            if (currentFileID == Constant.FileID.INCIDENT_REPORT) //사건 보고서 이면서
+            {
+                if (GetCompleteCount() == GetWholeCount())
+                {
+                    Debug.Log("모든 정보 획득");
+                    EventManager.TriggerEvent(EProfilerEvent.GetAllInfo);
+                }
+            }
+        }
+
         if (GetCompleteCount() == GetWholeCount())
         {
             overlayPanel.Setting(true);
