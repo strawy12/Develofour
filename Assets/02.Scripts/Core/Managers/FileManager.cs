@@ -129,7 +129,9 @@ public class FileManager : MonoSingleton<FileManager>
             DataManager.Inst.AddNewFileData(file, directory);
         }
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
-        NoticeSystem.OnGeneratedNotice?.Invoke(ENoticeType.AddFile, 0.5f);
+        string str = $"{file.GetFileLocation()}폴더를 확인해 주세요";
+        NoticeSystem.OnNotice.Invoke(file.fileName + "파일이 다운로드 되었습니다.", str, 0.1f, true, null, Color.white, ENoticeTag.None, file.parent.ID);
+
     }
 
     public List<FileSO> GetALLUnLockFileList(DirectorySO currentDirectory = null, bool isAdditional = false)

@@ -106,12 +106,12 @@ public class ProfilerInfoSystem : MonoBehaviour
         if (categoryData != null && categoryData.categoryType != EProfilerCategoryType.Visiable)
         {
             text =  temp + "정보가 업데이트 되었습니다.";
-            NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
+            NoticeSystem.OnNotice.Invoke("Profiler 정보가 업데이트가 되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler, Constant.FileID.PROFILER);
         }
         else
         {
             text = temp + " 정보가 확인되었습니다.";
-            NoticeSystem.OnNotice.Invoke("Profiler 정보가 확인되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler);
+            NoticeSystem.OnNotice.Invoke("Profiler 정보가 확인되었습니다!", text, 0, true, profileSprite, Color.white, ENoticeTag.Profiler, Constant.FileID.PROFILER);
         }
         
     }
@@ -127,6 +127,6 @@ public class ProfilerInfoSystem : MonoBehaviour
             body = $"새 카테고리 {data.categoryName}가 추가되었습니다.";
         }
 
-        NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler);
+        NoticeSystem.OnNotice?.Invoke(head, body, 0f, false, null, Color.white, ENoticeTag.Profiler, Constant.FileID.PROFILER);
     }
 }

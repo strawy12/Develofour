@@ -140,6 +140,7 @@ public class ProfilerChattingSystem : TextSystem
 
     public void SendNotice(string body)
     {
+
         if(ProfilerWindow.CurrentProfiler != null)
         {
             if (WindowManager.Inst.SelectedObject == (ISelectable)ProfilerWindow.CurrentProfiler)
@@ -148,7 +149,8 @@ public class ProfilerChattingSystem : TextSystem
             }
         }
 
-        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", body, 0, true, null, Color.white, ENoticeTag.AIAlarm);
+        NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", body, 0, true, null, Color.white, ENoticeTag.AIAlarm, Constant.FileID.PROFILER);
+
     }
 
     public override void SetDelay(float value)

@@ -5,6 +5,5 @@ public enum ENoticeType
 	LookBackground,
     LookIncidentTab,
     LookCharacterTab,
-	AddFile,
     End
 }
