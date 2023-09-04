@@ -34,16 +34,17 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         originPos = rectTransform.anchoredPosition;
     }
 
-    private void Start()
+    public void Init()
     {
-        GameManager.Inst.OnGameStartCallback += Init;
-
-    }
-
-    private void Init()
-    {
-        EventManager.StartListening(ECutSceneEvent.EndStartCutScene, AnyKeyUp);
-        EventManager.StartListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
+        if(DataManager.Inst.SaveData.isWatchStartCutScene)
+        {
+            EventManager.StartListening(ECutSceneEvent.EndStartCutScene, AnyKeyUp);
+            EventManager.StartListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
+        }else
+        {
+            AnyKeyUp(null);
+            TurnInteractable(null);
+        }
         isTutorialEnd = DataManager.Inst.SaveData.isClearStartCutScene;
     }
 
