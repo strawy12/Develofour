@@ -145,19 +145,7 @@ public class CallSystem : MonoBehaviour
         if (ps.Length != 1 || !(ps[0] is CallDataSO)) return;
 
         CallDataSO callData = (CallDataSO)ps[0];
-        string monologID = callData.monologID;
         currentCallData = callData;
-
-        MonologSystem.AddOnEndMonologEvent(monologID, EndCall);
-
-        #region 튜토리얼 체크
-        if (DataManager.Inst.IsPlayingProfilerTutorial() && monologID == Constant.MonologKey.TUTORIAL_CALL_ASSISTANT)
-        {
-            MonologSystem.AddOnEndMonologEvent(monologID, (() => EventManager.TriggerEvent(ETutorialEvent.OutGoingCall))); ;
-        }
-        #endregion
-
-        MonologSystem.OnStartMonolog?.Invoke(monologID, false);
     }
 
     private void AddFiles(List<AdditionFile> additionFiles)

@@ -23,6 +23,7 @@ public enum EWindowType // 확장자
     VideoPlayer,
     SoundPlayer,
     OutStarDM,
+    CallWindow,
     End
 }
 

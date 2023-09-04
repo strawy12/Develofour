@@ -18,8 +18,9 @@ public class CallDataSO : ResourceSO
     public float delay;
 
     // 실행시킬 아이디
-    public string monologID;
+
     public string returnCallID;
+    public CallScreen callScreen;
 
     public List<string> needInfoIDList;
     public List<AdditionFile> additionFileIDList;

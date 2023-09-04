@@ -59,8 +59,8 @@ public class CallSystemUI : MonoBehaviour
 
         buttonList.ForEach(x =>
         {
-            if(x.gameObject != null)
-            Destroy(x.gameObject);
+            if (x.gameObject != null)
+                Destroy(x.gameObject);
         });
 
         buttonList.Clear();
@@ -151,17 +151,13 @@ public class CallSystemUI : MonoBehaviour
             CallDataSO callData = ResourceManager.Inst.GetResource<CallDataSO>(callOption.outGoingCallID);
             if (callData == null) continue;
 
-            if (!DataManager.Inst.IsMonologShow(callData.monologID))
+            if (Define.NeedInfoFlag(callData.needInfoIDList))
             {
-                if (Define.NeedInfoFlag(callData.needInfoIDList))
-                {
-                    MakeSelectBtn(callData, callOption.decisionName);
-                }
+                MakeSelectBtn(callData, callOption.decisionName);
             }
         }
 
         CallDataSO notExistCallData = new CallDataSO();
-        notExistCallData.monologID = currentCallProfileData.notExistCallID;
         MakeSelectBtn(notExistCallData, "통화 종료");
     }
     private void MakeSelectBtn(CallDataSO callData, string btnText)
@@ -185,7 +181,7 @@ public class CallSystemUI : MonoBehaviour
     {
         MonologTextDataSO textData = ResourceManager.Inst.GetResource<MonologTextDataSO>(currentCallProfileData.defaultCallID);
         MonologSystem.AddOnEndMonologEvent(textData.ID, SetSelectBtns);
-        MonologSystem.OnStartMonolog?.Invoke(textData.ID, false);
+        MonologSystem.OnStartMonolog?.Invoke(textData.ID, false); // 변경 예정
     }
 
     private void ShowAnswerButton(bool isShow)
