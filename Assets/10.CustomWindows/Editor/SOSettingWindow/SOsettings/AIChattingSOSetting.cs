@@ -26,7 +26,10 @@ public partial class SOSettingWindow : EditorWindow
                 if(textList[j][0] == '%') //Image
                 {
                     string[] divide = textList[j].Trim().Split('&');
-                    string spritePath = textList[j].Substring(1, divide[0].Length);
+
+                    divide[0] = divide[0].Replace("%","");
+                    Debug.Log(divide[0]);
+                    string spritePath = divide[0];
                     if(divide.Length == 2)
                     {
                         float sizeY = float.Parse(divide[1]);

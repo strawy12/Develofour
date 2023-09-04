@@ -241,6 +241,12 @@ public class Library : Window
     {
         if (DataManager.Inst.IsPlayingProfilerTutorial() == false) return;
 
+        if(DataManager.Inst.GetProfilerTutorialState() != TutorialState.ClickCharacterInfo &&
+           DataManager.Inst.GetProfilerTutorialState() != TutorialState.ClickIncidentInfo)
+        {
+            return;
+        }
+
         if (currentDirectory.ID == Constant.FileID.MYPC)
         {
             EventManager.TriggerEvent(ETutorialEvent.USBTutorial);
@@ -264,6 +270,7 @@ public class Library : Window
         PushAll();
         foreach (FileSO file in currentDirectory.children)
         {
+            if (file == null) { continue; }
             if (file.isHide) { continue; }
             WindowIcon icon = Pop();
             icon.PointerStayImage.gameObject.SetActive(false);
@@ -394,7 +401,7 @@ public class Library : Window
         isNotFirstOpen = false;
         //GuideUISystem.EndAllGuide?.Invoke();
         Debug.Log(DataManager.Inst.GetProfilerTutorialState());
-        if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo || DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo)
+        if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo || DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickCharacterInfo)
         {
             EventManager.TriggerEvent(ETutorialEvent.LibraryGuide);
         }

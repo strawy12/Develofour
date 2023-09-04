@@ -25,6 +25,7 @@ public class SoundPanel : MonoUI
         bgm.SetMixGroup();
         effect.SetMixGroup();
 
+        if(DataManager.Inst.DefaultSaveData == null) { DataManager.Inst.CreateDefaultSaveData(); }
         bgm.Init(DataManager.Inst.DefaultSaveData.BGMSoundValue);
         effect.Init(DataManager.Inst.DefaultSaveData.BGMSoundValue);
         effect.gameObject.SetActive(false);

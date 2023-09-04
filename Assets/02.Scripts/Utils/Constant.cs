@@ -46,6 +46,7 @@ public static partial class Constant
         public const string CALLRECORDING = "F_DR_25";
         public const string INCIDENT_REPORT = "F_IV_1";
         public const string INSTALL = "F_IN_0";
+        public const string Test = "F_DR_64";
     }
         public const string NOW_USB_CHECK = "T_M_96";
 
@@ -87,7 +88,7 @@ public static partial class Constant
         public const string PROFILER_INSTALL_COMPLETE = "T_CS_S_6";
         public const string LIBRARY_NOT_OPEN = "T_M_73";
         public const string NEEDINFO = "T_M_88";
-        public const string TUTORIAL_NOT_FIND_INFO = "T_M_91";
+        public const string TUTORIAL_NOT_FIND_INFO = "T_M_98";
         public const string PETCAM_CUTSCENE_1 = "T_CS_P_1";
         public const string PETCAM_CUTSCENE_2 = "T_CS_P_2";
         public const string PETCAM_CUTSCENE_3 = "T_CS_P_3";

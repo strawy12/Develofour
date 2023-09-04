@@ -159,6 +159,7 @@ public enum EProfilerEvent
     RegisterInfo,
     ClickIncidentTab,
     ClickCharacterTab,
+    GetAllInfo,
     AddGuideButton,
     EndGuide,
     Maximum,
