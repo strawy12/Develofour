@@ -61,6 +61,7 @@ public class ProfilerCallUserListPanel : MonoBehaviour
     }
     private void CreateCallProfile(string number)
     {
+        if (ProfilerWindow.CurrentProfiler == null) return;
         ProfilerUserCallPanel userCallPanel = Instantiate(userCallPanelTemp, userCallParent);
         userCallPanel.Init(number, keyPad);
         userCallPanel.gameObject.SetActive(true);

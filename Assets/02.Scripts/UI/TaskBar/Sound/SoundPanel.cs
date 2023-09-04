@@ -25,8 +25,17 @@ public class SoundPanel : MonoUI
         bgm.SetMixGroup();
         effect.SetMixGroup();
 
-        bgm.Init(DataManager.Inst.DefaultSaveData.BGMSoundValue);
-        effect.Init(DataManager.Inst.DefaultSaveData.EffectSoundValue);
+        if (DataManager.Inst.DefaultSaveData != null)
+        {
+            bgm.Init(DataManager.Inst.DefaultSaveData.BGMSoundValue);
+            effect.Init(DataManager.Inst.DefaultSaveData.EffectSoundValue);
+        }
+        else
+        {
+            bgm.Init(0.6f);
+            effect.Init(0.6f);
+            DataManager.Inst.CreateDefaultSaveData();
+        }
         effect.gameObject.SetActive(false);
         changePanel.Init();
         selectPanel.Init();
@@ -51,7 +60,7 @@ public class SoundPanel : MonoUI
 
         if (selectPanel.gameObject.activeSelf)
         {
-            if (Define.ExistInHits(gameObject, hits[0]) == false && Define.ExistInHits(selectPanel.gameObject, hits[0]) == false 
+            if (Define.ExistInHits(gameObject, hits[0]) == false && Define.ExistInHits(selectPanel.gameObject, hits[0]) == false
                 && Define.ExistInHits(changePanel.gameObject, hits[0]) == false && Define.ExistInHits(taskbarSoundImage, hits[0]) == false)
             {
                 Close();
@@ -59,14 +68,14 @@ public class SoundPanel : MonoUI
         }
         else
         {
-            if(Define.ExistInHits(gameObject, hits[0]) == false)
+            if (Define.ExistInHits(gameObject, hits[0]) == false)
             {
                 Close();
             }
         }
-       
+
     }
-    
+
     public void Close()
     {
         EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
