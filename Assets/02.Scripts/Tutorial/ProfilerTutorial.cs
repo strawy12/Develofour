@@ -20,8 +20,6 @@ public class ProfilerTutorial : MonoBehaviour
     [SerializeField]
     private TutorialTextSO profilerTutorialTextData;
     [SerializeField]
-    private float findNameGuideDelay = 60f;
-    [SerializeField]
     private FileSO profiler;
     [SerializeField]
     private RectTransform libraryRect;
@@ -208,15 +206,61 @@ public class ProfilerTutorial : MonoBehaviour
 
     private void ClickedCharacterTab(object[] obj)
     {
-
+        EventManager.StopListening(EProfilerEvent.ClickCharacterTab, ClickedCharacterTab);
+        ProfilerTutorial.guideObjectName = EGuideObject.None;
         GuideUISystem.OnEndAllGuide?.Invoke();
+        ProfilerChattingSystem.OnChatEnd += OverlayTutorial;
+        StartChatting(TutorialState.Overlay);
+    }
+
+    private void OverlayTutorial() //모든 정보 획득
+    {
+        GuideUISystem.OnEndAllGuide?.Invoke();
+        //라이브러리 가이드
+        EventManager.StopListening(EProfilerEvent.GetAllInfo, GetAllInfo);
+        EventManager.StartListening(EProfilerEvent.GetAllInfo, GetAllInfo);
+    }
+    
+    private void GetAllInfo(object[] obj)
+    {
+        //모든 정보를 얻으면
+        EventManager.StopListening(EProfilerEvent.GetAllInfo, GetAllInfo);
+        GuideUISystem.OnEndAllGuide?.Invoke();
+        StartChatting(TutorialState.FileLock);
+        ProfilerChattingSystem.OnChatEnd += FileAdd;
+
+        EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FileOpenCheck);
+        EventManager.StartListening(ELibraryEvent.IconClickOpenFile, FileOpenCheck);
+        //해당 폴더 라이브러리 열었을때 이벤트
+    }
+
+    private void FileAdd()
+    {
+        FileManager.Inst.AddFile(Constant.FileID.Test, Constant.FileID.USB);
+        //테스트 폴더 추가
+    }
+
+    private void FileOpenCheck(object[] ps)
+    {
+        if((ps[0] is FileSO) == true)
+        {
+            FileSO file = ps[0] as FileSO;
+            if(file.ID == Constant.FileID.Test)
+            {
+                EventManager.StopListening(ELibraryEvent.IconClickOpenFile, FileOpenCheck);
+                FileOpen();
+            }
+        }
+    }
+
+    private void FileOpen()
+    {
         TutorialEnd();
         StartChatting(TutorialState.EndTutorial);
     }
 
     private void TutorialEnd()
     {
-        EventManager.StopListening(EProfilerEvent.ClickCharacterTab, ClickedCharacterTab);
         GameManager.Inst.ChangeGameState(EGameState.Game);
         GuideUISystem.OnEndAllGuide?.Invoke();
         if (library != null)
@@ -224,8 +268,8 @@ public class ProfilerTutorial : MonoBehaviour
             library.TutorialLibraryClickRemoveEvent();
         }
 
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "I_C_10_1" });
-        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "I_C_11_1" });
+        //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "I_C_10_1" });
+        //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "I_C_11_1" });
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
         //CallSystem.OnInComingCall?.Invoke("CD_AS", ) 전화 오게 시키기
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);

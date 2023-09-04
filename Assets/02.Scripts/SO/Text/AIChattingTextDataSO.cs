@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
 
 [Serializable]
@@ -41,10 +37,24 @@ public class AIChattingTextDataSO : ResourceSO
     }
 
 #if UNITY_EDITOR
+    
     public void TextListSetting(List<AIChat> stringList)
     {
         aiChatList = stringList;
     }
+
+    [ContextMenu("DebugTool")]
+    public void DebugTool()
+    {
+        string str = string.Empty;
+        for(int i = 0; i < aiChatList.Count; i++)
+        {
+            str += aiChatList[i].text;
+            str += "#";
+        }
+        Debug.Log(str);
+    }
+
 #endif
 
 }

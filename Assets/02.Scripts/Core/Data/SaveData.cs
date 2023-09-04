@@ -80,7 +80,9 @@ public enum TutorialState
     ClickIncidentTab, //프로파일러 사건 탭 클릭 1
     ClickCharacterInfo, //인물 이름 클릭하기 2
     ClickCharacterTab, //프로파일러 인물 탭 클릭 3
-    EndTutorial, //튜토리얼이 끝나고 전화가 옴 4
+    Overlay, // 오버레이 튜토리얼 모든 정보 획득 4
+    FileLock, // 파일 락 해금 해야함 5
+    EndTutorial, //튜토리얼이 끝나고 전화가 오지만 일단는 전화는 안함
 }
 
 [System.Serializable]

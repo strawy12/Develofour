@@ -58,6 +58,23 @@ public class InformationTrigger : MonoBehaviour
 
             foreach (var infoID in triggerData.infoDataIDList)
             {
+                //튜토리얼
+                if (DataManager.Inst.IsPlayingProfilerTutorial())
+                {
+                    TutorialState state = DataManager.Inst.GetProfilerTutorialState();
+                    if(state == TutorialState.ClickCharacterInfo || state == TutorialState.ClickIncidentInfo)
+                    {
+                        if ((state == TutorialState.ClickIncidentInfo && infoID == INCIDENTREPORT_TITLE)
+                            ||
+                            (state == TutorialState.ClickCharacterInfo &&
+                            (infoID == KIMYUJIN_NAME || infoID == PARKJUYOUNG_NAME || infoID == PARKJUYOUNG_INCIDENT)))
+                        {
+                            playMonolog = true;
+                        }
+                        else
+                            continue;
+                    }
+                }
                 playMonolog = true;
                 if (!triggerData.isFakeInfo)
                 {

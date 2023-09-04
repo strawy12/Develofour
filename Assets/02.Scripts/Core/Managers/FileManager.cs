@@ -68,6 +68,12 @@ public class FileManager : MonoSingleton<FileManager>
             }
         }
     }
+
+    public List<FileSO> GetAllAdditionalFile()
+    {
+        return additionFileList;
+    }
+
     public FileSO GetDefaultFile(EWindowType windowType)
     {
         if (!defaultFileDictionary.ContainsKey(windowType))
@@ -92,6 +98,10 @@ public class FileManager : MonoSingleton<FileManager>
     public FileSO GetAdditionalFile(string key)
     {
         FileSO file = additionFileList.Find((x) => x.ID == key);
+        if(file == null)
+        {
+            Debug.LogError("추가파일이 Null입니다.");
+        }
         return file;
     }
 
@@ -108,6 +118,8 @@ public class FileManager : MonoSingleton<FileManager>
         if (!directory.children.Contains(file))
         {
             directory.children.Add(file);
+            Debug.Log(file);
+            Debug.Log(directory);
             file.parent = directory;
             debugAdditionFileList.Add(file);
         }
