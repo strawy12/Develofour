@@ -21,7 +21,7 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField]
     private GameObject cutSceneCanvas;
     public GameObject CutSceneCanvas => cutSceneCanvas;
-
+    
     public bool isApplicationQuit { get; private set; }
 
 

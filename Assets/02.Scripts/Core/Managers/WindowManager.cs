@@ -314,5 +314,5 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         targetWindow.WindowOpen(isNewWindow);
     }
-
+    
 }

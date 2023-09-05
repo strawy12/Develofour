@@ -15,15 +15,7 @@ public class CallSystemUI : MonoBehaviour
 
     [SerializeField]
     private Button answerBtn;
-    [SerializeField]
-    private AudioSpectrumUI spectrumUI;
 
-    [SerializeField]
-    private Transform selectButtonParent;
-    [SerializeField]
-    private CallSelectButton selectButton;
-
-    private List<CallSelectButton> buttonList = new List<CallSelectButton>();
     private CallProfileDataSO currentCallProfileData;
     private bool isRecieveCall;
 
@@ -31,7 +23,7 @@ public class CallSystemUI : MonoBehaviour
 
     public void Init()
     {
-        spectrumUI.Init();
+        
     }
 
     public void Show()
@@ -48,22 +40,6 @@ public class CallSystemUI : MonoBehaviour
 
         StopAllCoroutines();
         transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
-        spectrumUI.StopSpectrum();
-
-        HideSelectBtns();
-    }
-
-    private void HideSelectBtns()
-    {
-        if (buttonList == null) return;
-
-        buttonList.ForEach(x =>
-        {
-            if(x.gameObject != null)
-            Destroy(x.gameObject);
-        });
-
-        buttonList.Clear();
     }
 
 
@@ -88,7 +64,6 @@ public class CallSystemUI : MonoBehaviour
         InitCallUI();
 
         ShowAnswerButton(true);
-        ShowSpectrumUI(false);
 
         isRecieveCall = false;
 
@@ -104,11 +79,9 @@ public class CallSystemUI : MonoBehaviour
         InitCallUI();
 
         ShowAnswerButton(false);
-        ShowSpectrumUI(true);
 
         Show();
         StartCoroutine(PlayPhoneCallSound(currentCallProfileData.delay));
-
     }
 
     private IEnumerator PlayPhoneCallSound(float delay)
@@ -144,48 +117,12 @@ public class CallSystemUI : MonoBehaviour
         isRecieveCall = false;
     }
 
-    private void SetSelectBtns()
-    {
-        foreach (CallOption callOption in currentCallProfileData.outGoingCallOptionList)
-        {
-            CallDataSO callData = ResourceManager.Inst.GetResource<CallDataSO>(callOption.outGoingCallID);
-            if (callData == null) continue;
-
-            if (!DataManager.Inst.IsMonologShow(callData.monologID))
-            {
-                if (Define.NeedInfoFlag(callData.needInfoIDList))
-                {
-                    MakeSelectBtn(callData, callOption.decisionName);
-                }
-            }
-        }
-
-        CallDataSO notExistCallData = new CallDataSO();
-        notExistCallData.monologID = currentCallProfileData.notExistCallID;
-        MakeSelectBtn(notExistCallData, "통화 종료");
-    }
-    private void MakeSelectBtn(CallDataSO callData, string btnText)
-    {
-        if (callData == null) return;
-
-        CallSelectButton instance = Instantiate(selectButton, selectButton.transform.parent);
-        instance.btnText.text = btnText;
-        buttonList.Add(instance);
-
-        //instance.btnText.text = textData.monologName;s
-        instance.btn.onClick.AddListener(() =>
-        {
-            HideSelectBtns();
-            EventManager.TriggerEvent(ECallEvent.ClickSelectBtn, new object[] { callData });
-        });
-        instance.gameObject.SetActive(true);
-    }
-
     private void RecivivedCall()
     {
-        MonologTextDataSO textData = ResourceManager.Inst.GetResource<MonologTextDataSO>(currentCallProfileData.defaultCallID);
-        MonologSystem.AddOnEndMonologEvent(textData.ID, SetSelectBtns);
-        MonologSystem.OnStartMonolog?.Invoke(textData.ID, false);
+        CallWindow window = WindowManager.Inst.WindowOpen(EWindowType.CallWindow) as CallWindow;
+
+        window.Setting(currentCallProfileData);
+        Hide();
     }
 
     private void ShowAnswerButton(bool isShow)
@@ -201,7 +138,6 @@ public class CallSystemUI : MonoBehaviour
 
     private void ClickAnswerBtn()
     {
-        ShowSpectrumUI(true);
         ShowAnswerButton(false);
         isRecieveCall = true;
 
@@ -210,20 +146,7 @@ public class CallSystemUI : MonoBehaviour
 
         // 추후 문제가 생길 경우 변경을 시켜야한다
         OnClickAnswerBtn = null;
-    }
-
-    private void ShowSpectrumUI(bool isShow)
-    {
-        spectrumUI.gameObject.SetActive(isShow);
-
-        if (isShow)
-        {
-            spectrumUI.StartSpectrum();
-        }
-        else
-        {
-            spectrumUI.StopSpectrum();
-        }
+        Hide();
     }
 
 }

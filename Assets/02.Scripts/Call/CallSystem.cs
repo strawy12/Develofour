@@ -31,10 +31,10 @@ public class CallSystem : MonoBehaviour
 
     private void Init()
     {
-        EventManager.StartListening(EProfilerEvent.RegisterInfo, CallDataCheck);
+        EventManager.StartListening(EProfilerEvent.RegisterInfo, IncomingCallDataCheck);
         EventManager.StartListening(ECallEvent.ClickSelectBtn, StartCallMonolog);
         EventManager.StartListening(ECallEvent.RecivivedCall, StartCallMonolog);
-
+        EventManager.StartListening(ECallEvent.EndCall, EndCall);
         OnOutGoingCall += StartOutGoingCall;
         OnInComingCall += StartInComingCall;
         callSystemUI.Init();
@@ -49,16 +49,17 @@ public class CallSystem : MonoBehaviour
         while (true)
         {
             yield return waitTime;
-            CallDataCheck(null);
+            IncomingCallDataCheck(null);
         }
     }
 
-    private void CallDataCheck(object[] ps)
+    private void IncomingCallDataCheck(object[] ps)
     {
         var callDataList = ResourceManager.Inst.GetResourceList<CallDataSO>().Where(x => x.callDataType == ECallDataType.InComing).ToList();
 
         foreach (CallDataSO callData in callDataList)
         {
+            if (DataManager.Inst.IsSaveCallData(callData.id)) continue;
             if (!Define.NeedInfoFlag(callData.needInfoIDList)) continue;
             ReturnCallData returnData = DataManager.Inst.GetReturnData(callData.ID);
             if (returnData != null && returnData.EndDelayTime <= DataManager.Inst.GetCurrentTime())
@@ -80,8 +81,8 @@ public class CallSystem : MonoBehaviour
         isCalling = true;
 
         CallProfileDataSO callProfileData = ResourceManager.Inst.GetResource<CallProfileDataSO>(callProfileID);
-        if (callProfileData == null) return;
 
+        if (callProfileData == null) return;
         CharacterInfoDataSO characterInfoData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(callProfileID);
         if (DataManager.Inst.IsSavePhoneNumber(characterInfoData.phoneNum) == false)
         {
@@ -120,20 +121,28 @@ public class CallSystem : MonoBehaviour
         callSystemUI.OutGoingCall(data);
     }
 
-    private void EndCall()
+    private void EndCall(object[] ps)
     {
+        Debug.Log("EndCall");
+
         callSystemUI.Hide();
         isCalling = false;
 
         if (currentCallData != null)
         {
+            Debug.Log("notNull");
+
             AddFiles(currentCallData.additionFileIDList);
 
             if (!string.IsNullOrEmpty(currentCallData.returnCallID))
             {
-                CallDataSO returnCallData = ResourceManager.Inst.GetResource<CallDataSO>(currentCallData.returnCallID);
-                if(returnCallData != null)
-                    DataManager.Inst.AddReturnCallData(returnCallData.ID, (int)returnCallData.delay);
+                if (DataManager.Inst.GetReturnData(currentCallData.returnCallID) == null)
+                {
+                    Debug.Log("Retrun");
+                    CallDataSO returnCallData = ResourceManager.Inst.GetResource<CallDataSO>(currentCallData.returnCallID);
+                    if (returnCallData != null)
+                        DataManager.Inst.AddReturnCallData(returnCallData.ID, (int)returnCallData.delay);
+                }
             }
 
             currentCallData = null;
@@ -145,22 +154,13 @@ public class CallSystem : MonoBehaviour
         if (ps.Length != 1 || !(ps[0] is CallDataSO)) return;
 
         CallDataSO callData = (CallDataSO)ps[0];
-        string monologID = callData.monologID;
         currentCallData = callData;
-
-        MonologSystem.AddOnEndMonologEvent(monologID, EndCall);
-
-        #region 튜토리얼 체크
-        if (DataManager.Inst.IsPlayingProfilerTutorial() && monologID == Constant.MonologKey.TUTORIAL_CALL_ASSISTANT)
-        {
-            MonologSystem.AddOnEndMonologEvent(monologID, (() => EventManager.TriggerEvent(ETutorialEvent.OutGoingCall))); ;
-        }
-        #endregion
-
-        MonologSystem.OnStartMonolog?.Invoke(monologID, false);
+        CallWindow window = WindowManager.Inst.WindowOpen(EWindowType.CallWindow) as CallWindow;
+        window.Setting(callData.id);
     }
 
-    private void AddFiles(List<AdditionFile> additionFiles)
+    //이제 각자 CallScreen에서 추가해야함
+    public void AddFiles(List<AdditionFile> additionFiles)
     {
         if (additionFiles == null) return;
 

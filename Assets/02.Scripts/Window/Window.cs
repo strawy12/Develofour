@@ -23,6 +23,7 @@ public enum EWindowType // 확장자
     VideoPlayer,
     SoundPlayer,
     OutStarDM,
+    CallWindow,
     End
 }
 
@@ -150,7 +151,7 @@ public class Window : MonoUI, ISelectable
         isSelected = windowSelected;
     }
 
-    public void WindowClose()
+    public virtual void WindowClose()
     {
         if (canNotClosed) return;
         CloseEventAdd();
