@@ -85,15 +85,14 @@ public class CallScreen : MonoBehaviour
             if (x.gameObject != null)
                 Destroy(x.gameObject);
         });
-
         buttonList.Clear();
     }
 
     protected void SelectBtnCallAction(CallDataSO callData)
     {
         HideSelectBtns();
-        EventManager.TriggerEvent(ECallEvent.ClickSelectBtn, new object[] { callData });
         StopCall(false);
+        EventManager.TriggerEvent(ECallEvent.ClickSelectBtn, new object[] { callData });
     }
 
     public virtual void OnDestroy()
