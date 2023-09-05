@@ -16,7 +16,7 @@ public partial class GuideSystem : MonoBehaviour
                 }
             case EGuideTopicName.FirstLoginGuide:
                 {
-                    MonologSystem.OnStartMonolog.Invoke(Constant.MonologKey.FIRST_LOGIN_GUIDE, true);
+                    MonologSystem.OnStartMonolog.Invoke(Constant.MonologKey.Lock_HINT, true);
                     DataManager.Inst.SetGuide(guideTopic, true);
                     break;
                 }

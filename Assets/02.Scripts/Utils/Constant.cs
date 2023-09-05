@@ -99,11 +99,13 @@ public static partial class Constant
         public const string CCTV_CUTSCENE_03 = "T_CS_C_4";
         public const string CCTV_CUTSCENE_04 = "T_CS_C_5";
 
-        public const string FIRST_LOGIN_GUIDE = "T_M_155";
-        public const string COMPLETE_OVERLAY = "T_M_156";
+        //public const string FIRST_LOGIN_GUIDE = "T_M_155";
+        //public const string COMPLETE_OVERLAY = "T_M_156";
 
         public const string TUTORIAL_CANNOT_GETINFO = "T_M_22";
         public const string TUTORIAL_CANNOT_GETINFO_CALL = "T_M_23";
+
+        public const string Lock_HINT = "T_M_99";
 
         public const string TUTORIAL_CALL_ASSISTANT = "T_C_A_4";
 

@@ -6,7 +6,7 @@ using UnityEngine;
 public class GuideData
 {
     public EGuideTopicName topicName;
-    public string[] guideTexts;
+    public string monologID;
 }
 
 [CreateAssetMenu(menuName ="SO/GuideData")]
