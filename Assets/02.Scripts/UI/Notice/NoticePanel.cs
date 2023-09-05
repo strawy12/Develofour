@@ -51,7 +51,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler, IP
     private bool isEnter;
     private bool isOpen;
     private bool isEmpahasis;
-    private bool isEndNotice;
+    public bool isEndNotice;
     private bool isCompleted = false;
 
     private Canvas canvas;
@@ -95,12 +95,14 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler, IP
     {
         sameTagText.text = data.sameTextString;
         fileID = data.noticeData.fileID;
-        Notice(data.Head, data.Body, data.Icon, data.noticeData.color, isOpenSystem);
+        Notice(data.Head, data.Body, data.Icon, data.noticeData.color, isOpenSystem, data.noticeData.fileID);
     }
-    private void NoticeSetting(string head, string body, Sprite icon, Color color)
+    private void NoticeSetting(string head, string body, Sprite icon, Color color, string fileID = null)
     {
         headText.SetText(head);
         bodyText.SetText(body);
+
+        this.fileID = fileID;
         DateTime time = TimeSystem.TimeCount();
 
         string timeText = "";
@@ -146,20 +148,22 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler, IP
         rectTransform.pivot = new Vector2(1f, 0f);
         rectTransform.localScale = Vector3.one;
 
+        if(fileID != null)
+        {
+
+        }
+
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
     }
     public void Notice(string head, string body, Sprite icon, Color color, bool isOpenSystem, string fileid = null)
     {
-        NoticeSetting(head, body, icon, color);
+        NoticeSetting(head, body, icon, color, fileid);
 
         Vector2 pos = new Vector2(rectTransform.rect.width, NOTICE_POS.y);
         rectTransform.anchoredPosition = pos;
         rectTransform.localScale = Vector3.one;
-        if (fileid != null)
-        {
-            fileID = fileid;
-        }
+
         SetActive(true);
 
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.Notice);
@@ -180,7 +184,7 @@ public class NoticePanel : MonoUI, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void LoadNotice(NoticeData data)
     {
-        NoticeSetting(data.head, data.body, data.icon, data.color);
+        NoticeSetting(data.head, data.body, data.icon, data.color, data.fileID);
     }
 
     public void NoticeUXEmphasis()

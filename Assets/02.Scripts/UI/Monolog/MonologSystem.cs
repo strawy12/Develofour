@@ -82,7 +82,6 @@ public class MonologSystem : TextSystem
     {
         if (currentTextData == null)
             return;
-
         textBox.HideBox();
 
         InputManager.Inst.RemoveAnyKeyInput(onKeyDown: PrintText);
@@ -96,17 +95,16 @@ public class MonologSystem : TextSystem
 
         if (currentTextData != null)
         {
-            if(!onEndMonologDictionary.ContainsKey(currentTextData.ID))
+            if (onEndMonologDictionary.ContainsKey(currentTextData.ID))
             {
-                return;
+                Action onEndEvent = onEndMonologDictionary[currentTextData.ID];
+                onEndMonologDictionary.Remove(currentTextData.ID);
+                onEndEvent?.Invoke();
             }
-            Action onEndEvent = onEndMonologDictionary[currentTextData.ID];
-            Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.None);
-            onEndMonologDictionary.Remove(currentTextData.ID);
-            DataManager.Inst.SetMonologShow(currentTextData.ID);
-            currentTextData = null;
-            onEndEvent?.Invoke();
         }
+        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.None);
+        DataManager.Inst.SetMonologShow(currentTextData.ID);
+        currentTextData = null;
     }
 
     private void PrintText()

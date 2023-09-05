@@ -70,7 +70,7 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.returnCallData = new List<ReturnCallData>();
         saveData.lastAccessDateData = new List<LastAccessDateData>();
         saveData.profilerGuideBtnSaveData = new List<string>();
-        saveData.monologData = new List<MonologSaveData>();
+        saveData.monologData = new List<string>();
         saveData.profilerSaveData = new List<ProfilerSaveData>();
         saveData.callSaveData = new List<string>();
         CreateLoginData();

@@ -326,6 +326,7 @@ public class NoticeSystem : MonoUI
             panel.OnClosed += PushPanel;
             panel.LoadNotice(data);
             panel.SetActive(true);
+            panel.isEndNotice = true;
         }
     }
 }

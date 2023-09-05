@@ -12,12 +12,6 @@ public class PinLockData
 }
 
 [System.Serializable]
-public class MonologSaveData
-{
-    public string monologType;
-    public bool isShow;
-}
-[System.Serializable]
 public class AdditionFileData
 {
     public string fileID;
@@ -91,7 +85,7 @@ public class SaveData
 {
     public int version = 1;
     public List<PinLockData> PinLockData;
-    public List<MonologSaveData> monologData;
+    public List<string> monologData;
     public List<AdditionFileData> additionFileData;
     public List<GuideSaveData> guideSaveData;
     public List<ProfilerSaveData> profilerSaveData;
