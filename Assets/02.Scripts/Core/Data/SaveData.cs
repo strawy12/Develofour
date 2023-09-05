@@ -73,6 +73,7 @@ public class ReturnCallData
     }
 }
 
+
 public enum TutorialState
 {
     NotStart = -1, //시작 안함
@@ -103,6 +104,7 @@ public class SaveData
     public List<LastAccessDateData> lastAccessDateData;
     public List<string> profilerGuideBtnSaveData;
     public List<string> libraryData;
+    public List<string> callSaveData;
     public bool isWatchStartCutScene;
     public bool isClearStartCutScene;
     public bool isZooglePinHintNoteOpen;

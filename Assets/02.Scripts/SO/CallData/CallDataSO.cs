@@ -12,18 +12,6 @@ public enum ECallDataType
 
 public class CallDataSO : ResourceSO
 {
-    public string callProfileID;
-
-    public ECallDataType callDataType = ECallDataType.None;
-    public float delay;
-
-    // 실행시킬 아이디
-    public string monologID;
-    public string returnCallID;
-
-    public List<string> needInfoIDList;
-    public List<AdditionFile> additionFileIDList;
-    
     public string ID
     {
         get { return id; }
@@ -35,4 +23,14 @@ public class CallDataSO : ResourceSO
         }
     }
 
+    public string callProfileID; // 캐릭터 ID;
+     
+    public ECallDataType callDataType = ECallDataType.None;
+    public float delay;
+
+    public CallScreen callScreen; // 해당 통화의 스크린 Prefab. 
+    public string returnCallID; //돌아오는 통화 ID
+
+    public List<string> needInfoIDList;
+    public List<AdditionFile> additionFileIDList;
 }

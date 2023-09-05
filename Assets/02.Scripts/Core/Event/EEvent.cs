@@ -238,6 +238,7 @@ public enum ECallEvent
     // 상대가 전화를 받은 경우
     RecivivedCall,
     AddCallEvent,
+    EndCall,
 }
 public enum ETimeEvent
 {
@@ -250,3 +251,4 @@ public enum EOutStarEvent
     None = -1,
     ClickFriendPanel,
 }
+
