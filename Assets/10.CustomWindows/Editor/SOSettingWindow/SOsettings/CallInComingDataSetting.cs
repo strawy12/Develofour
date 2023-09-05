@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -22,7 +22,7 @@ public partial class SOSettingWindow : EditorWindow
             CallScreen callPrefab = null;
             callPrefab = AssetDatabase.LoadAssetAtPath<CallScreen>(callScreenPath + $"{id}.prefab");
             if (callPrefab == null)
-                Debug.Log($"{id}ÀÎ PrefabÀÌ Á¸ÀçÇÏÁö¾Ê°Å³ª {callScreenPath}{id}.prefabÀÇ ÁÖ¼Ò°¡ Àß¸øµÇ¾ú½À´Ï´Ù");
+                Debug.Log($"{id}ì¸ Prefabì´ ì¡´ìž¬í•˜ì§€ì•Šê±°ë‚˜ {callScreenPath}{id}.prefabì˜ ì£¼ì†Œê°€ ìž˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤");
             string[] needInfoIDList = null;
             if (columns.Length >= 2 && !string.IsNullOrEmpty(columns[1]))
             {
