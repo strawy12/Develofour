@@ -5,28 +5,17 @@ using UnityEngine;
 
 public partial class DataManager : MonoSingleton<DataManager>
 {
-    public bool IsMonologShow(string type)
+    public bool IsMonologShow(string id)
     {
-        MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);
-        if (data == null)
-        {
-            Debug.Log("Json에 존재하지않는 텍스트 데이터 입니다.");
-            return false;
-
-        }
-        return data.isShow;
+        return saveData.monologData.Contains(id);
     }
 
-    public void SetMonologShow(string type)
+    public void SetMonologShow(string id)
     {
-        MonologSaveData data = saveData.monologData.Find(x => x.monologType == type);
-        if (data == null)
+        if (!saveData.monologData.Contains(id))
         {
-            data = new MonologSaveData();
-            data.monologType = type;
-            saveData.monologData.Add(data);
+            saveData.monologData.Add(id);
         }
-        data.isShow = true;
     }
 
 }
