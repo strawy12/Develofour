@@ -19,7 +19,7 @@ public class ProfilerTitle : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Show();
+        //Show();
     }
 
     public void OnPointerExit(PointerEventData eventData)
