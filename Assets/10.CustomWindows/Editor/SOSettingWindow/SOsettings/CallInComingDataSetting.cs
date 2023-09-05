@@ -18,21 +18,25 @@ public partial class SOSettingWindow : EditorWindow
             string[] columns = rows[i].Split('\t');
 
             string id = columns[0].Trim();
-            string textDataID = columns[1].Trim();
+            string callScreenPath = "Assets/03.Prefabs/CallWindow/CallScreen/";
+            CallScreen callPrefab = null;
+            callPrefab = AssetDatabase.LoadAssetAtPath<CallScreen>(callScreenPath + $"{id}.prefab");
+            if (callPrefab == null)
+                Debug.Log($"{id}인 Prefab이 존재하지않거나 {callScreenPath}{id}.prefab의 주소가 잘못되었습니다");
             string[] needInfoIDList = null;
-            if (columns.Length >= 3 && !string.IsNullOrEmpty(columns[2]))
+            if (columns.Length >= 2 && !string.IsNullOrEmpty(columns[1]))
             {
-                needInfoIDList = columns[2].Split('/');
+                needInfoIDList = columns[1].Split('/');
             }
             string[] AdditionalFileStrList = null;
-            if (columns.Length >= 4 && !string.IsNullOrEmpty(columns[3]))
+            if (columns.Length >= 3 && !string.IsNullOrEmpty(columns[2]))
             {
-                AdditionalFileStrList = columns[3].Split('/');
+                AdditionalFileStrList = columns[2].Split('/');
             }
             string returnCallID = "";
-            if (columns.Length >= 5)
+            if (columns.Length >= 4)
             {
-                returnCallID = columns[4].Trim();
+                returnCallID = columns[3].Trim();
             }
 
             List<AdditionFile> additionFileDataList = new List<AdditionFile>();
@@ -64,12 +68,12 @@ public partial class SOSettingWindow : EditorWindow
             {
                 callData.callProfileID = callProfileDataSOList.Where(x =>
                 {
-                if (x.inCommingCallIDList == null) return false;
-                return x.inCommingCallIDList.Contains(id);
+                    if (x.inCommingCallIDList == null) return false;
+                    return x.inCommingCallIDList.Contains(id);
                 }).FirstOrDefault().id;
             }
             callData.callDataType = ECallDataType.InComing;
-
+            callData.callScreen = callPrefab;
             string SO_PATH = $"Assets/07.ScriptableObjects/CallData/InComingData/{columns[0]}.asset";
 
             string[] idChars = columns[0].Split('_');

@@ -20,27 +20,36 @@ public partial class SOSettingWindow : EditorWindow
             if (columns[0] == "") continue;
 
             string id = columns[0].Trim();
-            string textDataID = columns[1].Trim();
             string[] needInfoIDList = null;
+
+            string callScreenPath = "Assets/03.Prefabs/CallWindow/CallScreen/";
+            CallScreen callPrefab = null;
+
+            callPrefab = AssetDatabase.LoadAssetAtPath<CallScreen>(callScreenPath + $"{id}.prefab");
+            if (callPrefab == null)
+                Debug.Log($"{id}인 Prefab이 존재하지않거나 {callScreenPath}{id}.prefab의 주소가 잘못되었습니다");
+
+
+
             float delay = 0f;
 
-            if (columns.Length >= 3 && !string.IsNullOrEmpty(columns[2]))
+            if (columns.Length >= 2 && !string.IsNullOrEmpty(columns[1]))
             {
-                needInfoIDList = columns[2].Split('/');
+                needInfoIDList = columns[1].Split('/');
             }
             string[] AdditionalFileStrList = null;
-            if (columns.Length >= 4 && !string.IsNullOrEmpty(columns[3]))
+            if (columns.Length >= 3 && !string.IsNullOrEmpty(columns[2]))
             {
-                AdditionalFileStrList = columns[3].Split('/');
+                AdditionalFileStrList = columns[2].Split('/');
             }
             string returnCallID = "";
+            if (columns.Length >= 4)
+            {
+                returnCallID = columns[3].Trim();
+            }
             if (columns.Length >= 5)
             {
-                returnCallID = columns[4].Trim();
-            }
-            if (columns.Length >= 6)
-            {
-                float.TryParse(columns[5], out delay);
+                float.TryParse(columns[4], out delay);
             }
             List<AdditionFile> additionFileDataList = new List<AdditionFile>();
             if (AdditionalFileStrList != null)
@@ -73,6 +82,7 @@ public partial class SOSettingWindow : EditorWindow
             }
             callData.callDataType = ECallDataType.Return;
             callData.delay = delay;
+            callData.callScreen = callPrefab;
             if (callData == null)
             {
                 callData = CreateInstance<CallDataSO>();

@@ -18,21 +18,26 @@ public partial class SOSettingWindow : EditorWindow
             string[] columns = rows[i].Split('\t');
 
             string id = columns[0].Trim();
-            string textDataID = columns[1].Trim();
+            string callScreenPath = "Assets/03.Prefabs/CallWindow/CallScreen/";
+            CallScreen callPrefab = null;
+
+            callPrefab = AssetDatabase.LoadAssetAtPath<CallScreen>(callScreenPath + $"{id}.prefab");
+            if (callPrefab == null)
+                Debug.Log($"{id}인 Prefab이 존재하지않거나 {callScreenPath}{id}.prefab의 주소가 잘못되었습니다");
             string[] needInfoIDList = null;
-            if (columns.Length >= 3 && !string.IsNullOrEmpty(columns[2]))
+            if (columns.Length >= 2 && !string.IsNullOrEmpty(columns[1]))
             {
-                needInfoIDList = columns[2].Split('/');
+                needInfoIDList = columns[1].Split('/');
             }
             string[] AdditionalFileStrList = null;
-            if (columns.Length >= 4 && !string.IsNullOrEmpty(columns[3]))
+            if (columns.Length >= 3 && !string.IsNullOrEmpty(columns[2]))
             {
-                AdditionalFileStrList = columns[3].Split('/');
+                AdditionalFileStrList = columns[2].Split('/');
             }
             string returnCallID = "";
-            if (columns.Length >= 5)
+            if (columns.Length >= 4)
             {
-                returnCallID = columns[4].Trim();
+                returnCallID = columns[3].Trim();
             }
 
             List<AdditionFile> additionFileDataList = new List<AdditionFile>();
@@ -63,12 +68,13 @@ public partial class SOSettingWindow : EditorWindow
                 callData.needInfoIDList = needInfoIDList.ToList();
             }
             callData.callDataType = ECallDataType.OutGoing;
+            callData.callScreen = callPrefab;
             if (callProfileDataSOList != null)
             {
                 var profileData = callProfileDataSOList.Where(x =>
                 {
                     if (x.outGoingCallOptionList == null) return false;
-                    List<string> optionIDList = x.outGoingCallOptionList.Select(y=>y.outGoingCallID).ToList();
+                    List<string> optionIDList = x.outGoingCallOptionList.Select(y => y.outGoingCallID).ToList();
                     return optionIDList.Contains(id);
                 }).FirstOrDefault();
                 if (profileData != null) callData.callProfileID = profileData.id;
