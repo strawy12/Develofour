@@ -17,7 +17,7 @@ public class ProfilerPanel : MonoBehaviour
 
     public void Init()
     {
-        infoPanel.Init();
+        infoPanel.Init(false);
         typePanel.Init();
         characterBtn.onClick.AddListener(OnClickCharacterPanelBtn);
         sceneBtn.onClick.AddListener(OnClickIncidentPanelBtn);

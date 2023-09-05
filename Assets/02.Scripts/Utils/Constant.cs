@@ -110,8 +110,21 @@ public static partial class Constant
         public const string TUTORIAL_CALL_ASSISTANT = "T_C_A_4";
 
         public const string NOW_USB_CHECK = "T_M_96";
+
     }
     #endregion
+
+    public static class CallScreenMonologID
+    {
+        public const string POLICE_UNIVERSITY_CALLSCREEN_START = "T_C_P_7_1";
+        public const string POLICE_UNIVERSITY_CALLSCREEN_PRESENT = "T_C_P_7_2";
+        public const string POLICE_UNIVERSITY_CALLSCREEN_WRONG = "T_C_P_7_3";
+        public const string POLICE_UNIVERSITY_CALLSCREEN_WRONG_HINT = "T_C_P_7_4";
+        public const string POLICE_UNIVERSITY_CALLSCREEN_ANSWER = "T_C_P_7_5";
+
+    }
+
+
     #region MailKey
 
     public static class MailKey
@@ -145,7 +158,7 @@ public static partial class Constant
     public static class ProfilerCategoryKey
     {
         public const string PETCAM = "IC_I_2";
-
+        public const string INCIDENT = "IC_I_1";
         public static bool CheckInvisible(string id)
         {
             string[] arr = id.Split('_');

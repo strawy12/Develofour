@@ -30,6 +30,8 @@ public class Debugger : MonoBehaviour
     [SerializeField]
     private MonologTextDataSO testTextData;
 
+    public CallDataSO test;
+
     private void Update()
     {
         if (!isLoad) return;
@@ -41,6 +43,11 @@ public class Debugger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D))
         {
             MonologSystem.OnStopMonolog?.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            CallSystem.OnInComingCall?.Invoke("CD_PL", "Test");
         }
 
     }

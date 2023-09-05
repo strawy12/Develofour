@@ -44,14 +44,27 @@ public class ProfilerInfoText : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private Toggle toggle;
+    public Toggle Toggle => toggle;
+    public bool isSelected => toggle.isOn;
+
     public void Init()
     {
         rectTransform ??= GetComponent<RectTransform>();
+        toggle.onValueChanged.AddListener((x)=> { OnToggleClick(); });
     }
 
-    public void Setting(ProfilerInfoDataSO infoData)
+    private void OnToggleClick()
+    {
+        EventManager.TriggerEvent(EEvidencePanelEvent.ClickToggle, new object[] { this });
+    }
+
+    public void Setting(ProfilerInfoDataSO infoData, bool isEvidence)
     {
         currentInfoData = infoData;
+        if (isEvidence) { toggle.isOn = false; }
+        else { toggle.isOn = false; }
     }
 
     public void Show()

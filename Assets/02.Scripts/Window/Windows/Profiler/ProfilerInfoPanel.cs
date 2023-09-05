@@ -24,6 +24,7 @@ public class ProfilerInfoPanel : MonoBehaviour
     private Transform infoTextParent;
     private Queue<ProfilerInfoText> infoTextQueue;
 
+    public List<ProfilerInfoText> InfoTextList => InfoTextList;
     private List<ProfilerInfoText> infoTextList;
 
     #region Pool
@@ -76,20 +77,49 @@ public class ProfilerInfoPanel : MonoBehaviour
     //private Image currentImage;
 
 
-    public void Init()
+    public void Init(bool isEvidencePanel)
     {
-
         infoTextQueue = new Queue<ProfilerInfoText>();
         infoTextList = new List<ProfilerInfoText>();
         //currentImage = GetComponent<Image>();
         //currentImage.material = Instantiate(currentImage.material);
         CreatePool();
+
         EventManager.StartListening(EProfilerEvent.ShowInfoPanel, Show);
         EventManager.StartListening(EProfilerEvent.HideInfoPanel, Hide);
+
+        if (isEvidencePanel)
+        {
+            EventManager.StartListening(EEvidencePanelEvent.ClickToggle, TurnOffAllToogle);
+
+            ProfilerCategoryDataSO incidentCategory =
+                ResourceManager.Inst.GetResource<ProfilerCategoryDataSO>(Constant.ProfilerCategoryKey.INCIDENT);
+            if(incidentCategory == null)
+            {
+                Debug.LogError("사건보고서 카테고리가 없음");
+                return;
+            }
+           
+        }
 
         Hide();
     }
 
+    private void TurnOffAllToogle(object[] ps)
+    {
+        if (!(ps[0] is ProfilerInfoText)) return;
+        foreach(var infoText in infoTextList)
+        {
+            //일단 모든 토글 끄고
+            infoText.Toggle.isOn = false;
+            //이벤트에서 보내준 자신은 켜줌
+            if(infoText == ps[0] is ProfilerInfoText)
+            {
+                infoText.Toggle.isOn = true;
+            }
+        }
+
+    }
 
     public void ChangeValue(string category, string infoID)
     {
@@ -130,7 +160,13 @@ public class ProfilerInfoPanel : MonoBehaviour
         title.Setting(currentData.categoryName);
         SpriteSetting();
 
-        if(!string.IsNullOrEmpty(currentData.defaultInfoID))
+        bool isEvidence = false;
+        if (ps.Length == 2)
+        {
+            isEvidence = (bool)ps[1];
+        }
+
+        if (!string.IsNullOrEmpty(currentData.defaultInfoID))
         {
             ProfilerInfoDataSO infoData = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(currentData.defaultInfoID);
             if(infoData == null)
@@ -138,7 +174,7 @@ public class ProfilerInfoPanel : MonoBehaviour
                 Debug.Log($"{currentData.defaultInfoID} == null");
             }
             ProfilerInfoText infoText = Pop();
-            infoText.Setting(infoData);
+            infoText.Setting(infoData, isEvidence);
             infoText.Show();
             infoText.gameObject.SetActive(true);
         }
@@ -153,13 +189,14 @@ public class ProfilerInfoPanel : MonoBehaviour
             }
            
             ProfilerInfoText infoText = Pop();
-            infoText.Setting(infoData);
+            infoText.Setting(infoData, isEvidence);
             if (DataManager.Inst.IsProfilerInfoData(infoText.InfoData.ID))
             {
                 infoText.Show();
                 infoText.gameObject.SetActive(true);
             }
         }
+
         StartCoroutine(RefreshSizeCoroutine());
 
     }
@@ -247,6 +284,6 @@ public class ProfilerInfoPanel : MonoBehaviour
         EventManager.StopListening(EProfilerEvent.HideInfoPanel, Hide);
         EventManager.StopListening(EProfilerEvent.Maximum, RefreshSize);
         EventManager.StopListening(EProfilerEvent.Minimum, RefreshSize);
-
+        EventManager.StopListening(EEvidencePanelEvent.ClickToggle, TurnOffAllToogle);
     }
  }
