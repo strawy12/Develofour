@@ -30,7 +30,7 @@ public class WindowIconAttributeUI : MonoUI
         EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);
         OnCreateMenu += CreateMenu;
 
-        openPropertyBtn.onClick?.AddListener(CreateProperty);
+        //openPropertyBtn.onClick?.AddListener(CreateProperty);
     }
 
     private void CheckClose(object[] hits)
@@ -77,5 +77,6 @@ public class WindowIconAttributeUI : MonoUI
     {
         WindowManager.Inst.OpenIconProperty(windowPropertyData);
         CloseMenu();
+        
     }
 }
