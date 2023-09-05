@@ -31,7 +31,7 @@ public class CallSystem : MonoBehaviour
 
     private void Init()
     {
-        EventManager.StartListening(EProfilerEvent.RegisterInfo, CallDataCheck);
+        EventManager.StartListening(EProfilerEvent.RegisterInfo, IncomingCallDataCheck);
         EventManager.StartListening(ECallEvent.ClickSelectBtn, StartCallMonolog);
         EventManager.StartListening(ECallEvent.RecivivedCall, StartCallMonolog);
 
@@ -49,16 +49,17 @@ public class CallSystem : MonoBehaviour
         while (true)
         {
             yield return waitTime;
-            CallDataCheck(null);
+            IncomingCallDataCheck(null);
         }
     }
 
-    private void CallDataCheck(object[] ps)
+    private void IncomingCallDataCheck(object[] ps)
     {
         var callDataList = ResourceManager.Inst.GetResourceList<CallDataSO>().Where(x => x.callDataType == ECallDataType.InComing).ToList();
 
         foreach (CallDataSO callData in callDataList)
         {
+            if (DataManager.Inst.IsSaveCallData(callData.id)) continue;
             if (!Define.NeedInfoFlag(callData.needInfoIDList)) continue;
             ReturnCallData returnData = DataManager.Inst.GetReturnData(callData.ID);
             if (returnData != null && returnData.EndDelayTime <= DataManager.Inst.GetCurrentTime())
@@ -145,7 +146,9 @@ public class CallSystem : MonoBehaviour
         if (ps.Length != 1 || !(ps[0] is CallDataSO)) return;
 
         CallDataSO callData = (CallDataSO)ps[0];
-        currentCallData = callData;
+
+        CallWindow window = WindowManager.Inst.WindowOpen(EWindowType.CallWindow) as CallWindow;
+        window.Setting(callData.id);
     }
 
     private void AddFiles(List<AdditionFile> additionFiles)

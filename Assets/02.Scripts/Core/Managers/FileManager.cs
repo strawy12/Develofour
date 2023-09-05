@@ -64,7 +64,8 @@ public class FileManager : MonoSingleton<FileManager>
             if (DataManager.Inst.AdditionalFileContain(fileData))
             {
                 string directoryID = DataManager.Inst.GetAdditionFileData(fileData.ID).directoryID;
-                AddFile(fileData, directoryID);
+
+                AddFile(fileData, directoryID, false);
             }
         }
     }
@@ -89,7 +90,7 @@ public class FileManager : MonoSingleton<FileManager>
         List<FileSO> allFileList = GetALLUnLockFileList(rootDirectory, true);
         allFileList.AddRange(defaultFileList);
         FileSO file = allFileList.Find(x => x.ID == key);
-        if(file == null)
+        if (file == null)
         {
             Debug.LogError($"{key}를 id로 가지고있는 파일이 존재하지않습니다.");
         }
@@ -98,7 +99,7 @@ public class FileManager : MonoSingleton<FileManager>
     public FileSO GetAdditionalFile(string key)
     {
         FileSO file = additionFileList.Find((x) => x.ID == key);
-        if(file == null)
+        if (file == null)
         {
             Debug.LogError("추가파일이 Null입니다.");
         }
@@ -107,13 +108,13 @@ public class FileManager : MonoSingleton<FileManager>
 
     public void AddFile(string file, string directoryID)
     {
-        AddFile(GetAdditionalFile(file),directoryID);
+        AddFile(GetAdditionalFile(file), directoryID);
     }
-    public void AddFile(FileSO file, string directoryID)
+    public void AddFile(FileSO file, string directoryID, bool isNotice = true)
     {
         List<FileSO> fileList = GetALLFileList();
         // 이분탐색 만들 때 Define에다 만들든 함수를 따로 빼서 작업해야해
-        DirectorySO directory = fileList.Find(x=>x.ID == directoryID) as DirectorySO;
+        DirectorySO directory = fileList.Find(x => x.ID == directoryID) as DirectorySO;
 
         if (!directory.children.Contains(file))
         {
@@ -129,8 +130,11 @@ public class FileManager : MonoSingleton<FileManager>
             DataManager.Inst.AddNewFileData(file, directory);
         }
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
-        string str = $"{file.GetFileLocation()}폴더를 확인해 주세요";
-        NoticeSystem.OnNotice.Invoke(file.fileName + "파일이 다운로드 되었습니다.", str, 0.1f, true, null, Color.white, ENoticeTag.None, file.parent.ID);
+        if (isNotice)
+        {
+            string str = $"{file.GetFileLocation()}폴더를 확인해 주세요";
+            NoticeSystem.OnNotice.Invoke(file.fileName + "파일이 다운로드 되었습니다.", str, 0.1f, true, null, Color.white, ENoticeTag.None, file.parent.ID);
+        }
 
     }
 
@@ -162,7 +166,7 @@ public class FileManager : MonoSingleton<FileManager>
                 {
                     continue;
                 }
-                if(DataManager.Inst.IsPinLock(file.ID))
+                if (DataManager.Inst.IsPinLock(file.ID))
                 {
                     continue;
                 }
@@ -224,15 +228,15 @@ public class FileManager : MonoSingleton<FileManager>
 
         return fileList;
     }
-    public List<FileSO> GetFileIDList(List<string> fileIDList) 
+    public List<FileSO> GetFileIDList(List<string> fileIDList)
     {
         List<FileSO> allFileList = GetALLFileList();
         List<FileSO> fileList = new List<FileSO>();
-        foreach(string fileID in fileIDList)
+        foreach (string fileID in fileIDList)
         {
             FileSO file = allFileList.Find(x => x.ID == fileID);
 
-            if(file == null)
+            if (file == null)
             {
                 continue;
             }

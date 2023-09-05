@@ -151,7 +151,7 @@ public class Window : MonoUI, ISelectable
         isSelected = windowSelected;
     }
 
-    public void WindowClose()
+    public virtual void WindowClose()
     {
         if (canNotClosed) return;
         CloseEventAdd();

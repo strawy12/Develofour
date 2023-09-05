@@ -49,7 +49,6 @@ public partial class SOSettingWindow : EditorWindow
 
             profileData.id = id;
             profileData.defaultCallID = defaultTextId;
-            profileData.notExistCallID = notExistCallTextID;
             profileData.outGoingCallOptionList = callOptionList;
             if (inComingCallStrList[0] != "")
                 profileData.inCommingCallIDList = inComingCallStrList.ToList();

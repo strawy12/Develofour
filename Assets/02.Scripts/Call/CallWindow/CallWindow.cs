@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,23 +12,61 @@ public class CallWindow : Window
     private string callID;
 
     [SerializeField]
-    private Transform callScreenTrm;
+    private RectTransform callScreenTrm;
 
+    [SerializeField]
+    private DefaultCallScreen defaultCallScreen;
+    [SerializeField]
+    private RectTransform selectBtnsParent;
     protected override void Init()
     {
         base.Init();
+        EventManager.StartListening(ECallEvent.EndCall, EndCall);
+    }
+    /// <summary>
+    /// 거는 통화
+    /// </summary>
+    /// <param name="callProfileData"></param>
+    public void Setting(CallProfileDataSO callProfileData)
+    {
+        InstantiateCallScreen = Instantiate(defaultCallScreen, callScreenTrm);
+        defaultCallScreen.Init(selectBtnsParent);
+        defaultCallScreen.Setting(callProfileData);
     }
 
+    /// <summary>
+    /// 오는 통화
+    /// </summary>
+    /// <param name="callID"></param>
     public void Setting(string callID)
     {
-        this.callID = callID;
         CallDataSO callData = ResourceManager.Inst.GetResource<CallDataSO>(callID);
+        if (callData.callScreen == null) return;
+        this.callID = callID;
+        
         currentCallScreen = callData.callScreen;
     }
 
     public void StartCall()
     {
-        InstantiateCallScreen = Instantiate(currentCallScreen, GameManager.Inst.CutSceneCanvas.transform);
-        currentCallScreen.StartCall();
+        if (currentCallScreen == null) return;
+        if(InstantiateCallScreen != null)
+        {
+            Destroy(InstantiateCallScreen.gameObject);
+        }
+
+        InstantiateCallScreen = Instantiate(currentCallScreen, callScreenTrm);
+        InstantiateCallScreen.Init(selectBtnsParent);
+        InstantiateCallScreen.StartCall();
+    }
+
+    private void EndCall(object[] ps = null)
+    {
+        EndCall();
+    }
+    public void EndCall()
+    {
+        StopAllCoroutines();
+        WindowClose();
     }
 }
