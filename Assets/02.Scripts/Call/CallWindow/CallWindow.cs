@@ -45,6 +45,7 @@ public class CallWindow : Window
         this.callID = callID;
         
         currentCallScreen = callData.callScreen;
+        StartCall();
     }
 
     public void StartCall()
@@ -66,7 +67,12 @@ public class CallWindow : Window
     }
     public void EndCall()
     {
-        StopAllCoroutines();
+        StopAllCoroutines(); 
         WindowClose();
+        EventManager.StopListening(ECallEvent.EndCall, EndCall);
+    }
+    private void OnDestroy()
+    {
+        EventManager.StopListening(ECallEvent.EndCall, EndCall);
     }
 }

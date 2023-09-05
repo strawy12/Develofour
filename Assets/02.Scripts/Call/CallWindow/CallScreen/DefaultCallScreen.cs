@@ -26,7 +26,6 @@ public class DefaultCallScreen : CallScreen
     }
     private void SetSelectBtns()
     {
-        Debug.Log("Start");
         SetSelectBtns(callProfileData);
     }
 
@@ -53,11 +52,5 @@ public class DefaultCallScreen : CallScreen
             HideSelectBtns();
             StopCall(true);
         });
-    }
-
-
-    public override void StopCall(bool isClose)
-    {
-        base.StopCall(isClose);
     }
 }

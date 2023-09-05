@@ -146,6 +146,7 @@ public class CallSystemUI : MonoBehaviour
 
         // 추후 문제가 생길 경우 변경을 시켜야한다
         OnClickAnswerBtn = null;
+        Hide();
     }
 
 }

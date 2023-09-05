@@ -58,16 +58,9 @@ public class CallScreen : MonoBehaviour
         GameManager.Inst.ChangeGameState(saveState);
         isPlaying = false;
         StopAllCoroutines();
-        MonologSystem.OnStopMonolog?.Invoke();
-
-        Debug.Log(isClose);
         if (isClose)
         {
             EventManager.TriggerEvent(ECallEvent.EndCall);
-        }
-        else
-        {
-            Destroy(this.gameObject);
         }
     }
 
