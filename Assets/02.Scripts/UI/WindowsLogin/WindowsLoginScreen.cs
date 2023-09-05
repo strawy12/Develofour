@@ -215,9 +215,19 @@ public class WindowsLoginScreen : MonoBehaviour
     {
         failedLoginCnt++;
 
+        if(failedLoginCnt == 1)
+        {
+            GuideSystem.OnPlayGuide?.Invoke(EGuideTopicName.FirstLoginGuide, 30);
+        }
+
         if (failedLoginCnt >= 5)
         {
-            //MonologSystem.OnStartMonolog?.Invoke(214, 0f, true); // 바꿔야함
+            if (DataManager.Inst.IsGuideUse(EGuideTopicName.FirstLoginGuide))
+            {
+                return;
+            }
+            MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.Lock_HINT, true); // 바꿔야함
+            DataManager.Inst.SetGuide(EGuideTopicName.FirstLoginGuide, true);
         }
 
         loginFailUI.SetActive(true);
