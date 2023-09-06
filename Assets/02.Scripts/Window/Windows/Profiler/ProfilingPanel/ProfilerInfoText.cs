@@ -123,5 +123,5 @@ public class ProfilerInfoText : MonoBehaviour
         StopCoroutine(RefreshSizeCoroutine());
         gameObject.SetActive(false);
     }
-
+        
 }
