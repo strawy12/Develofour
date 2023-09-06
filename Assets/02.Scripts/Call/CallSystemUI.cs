@@ -101,7 +101,9 @@ public class CallSystemUI : MonoBehaviour
         Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.PhoneCall);
         if(currentCallProfileData.id == Constant.CharacterKey.MISSING)
         {
+            EventManager.TriggerEvent(ECallEvent.EndCall);
             Hide();
+            yield break;
         }
         RecivivedCall();
     }
