@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -46,4 +47,11 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
     }
 
     //다른거 누를때 꺼지게하는거
+#if UNITY_EDITOR
+    [ContextMenu("FindChildTrigger")]
+    public void FindChildTriggerDebug()
+    {
+        triggerCount = GetComponentsInChildren<InformationTrigger>().ToList();
+    }
+#endif
 }
