@@ -252,3 +252,10 @@ public enum EOutStarEvent
     ClickFriendPanel,
 }
 
+public enum EEvidencePanelEvent
+{
+    None = -1,
+    Answer,
+    ClickToggle,
+}
+

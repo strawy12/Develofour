@@ -82,8 +82,19 @@ public class CallSystem : MonoBehaviour
 
         CallProfileDataSO callProfileData = ResourceManager.Inst.GetResource<CallProfileDataSO>(callProfileID);
 
-        if (callProfileData == null) return;
+        if (callProfileData == null)
+        {
+            isCalling = false;
+            Debug.Log("adddddddddddddddddddddddddddddd");
+            return;
+        }
         CharacterInfoDataSO characterInfoData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(callProfileID);
+        if(characterInfoData == null)
+        {
+            Debug.Log("asfafdsafsdafdsafdsafasdfsdafsafas");
+            isCalling = false;
+            return;
+        }
         if (DataManager.Inst.IsSavePhoneNumber(characterInfoData.phoneNum) == false)
         {
             EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { characterInfoData.phoneNum });
