@@ -114,7 +114,6 @@ public class CallSystem : MonoBehaviour
         if (isCalling) return;
         isCalling = true;
 
-
         CallProfileDataSO data = ResourceManager.Inst.GetResource<CallProfileDataSO>(characterID);
         if (data == null)
         {
@@ -122,6 +121,7 @@ public class CallSystem : MonoBehaviour
             isCalling = false;
             return;
         }
+
         CharacterInfoDataSO characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(characterID);
 
         if (characterData != null)

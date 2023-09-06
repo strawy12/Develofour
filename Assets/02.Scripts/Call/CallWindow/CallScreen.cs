@@ -80,11 +80,19 @@ public class CallScreen : MonoBehaviour
     {
         if (buttonList == null) return;
 
-        buttonList.ForEach(x =>
+        int cnt = 0;
+        while (buttonList.Count != 0)
         {
-            if (x.gameObject != null)
-                Destroy(x.gameObject);
-        });
+            cnt++;
+            if(cnt > 100)
+            {
+                Debug.Log("while");
+                break;
+            }
+            var btn = buttonList[0];
+            buttonList.RemoveAt(0);
+            Destroy(btn.gameObject);
+        }
         buttonList.Clear();
     }
 

@@ -16,14 +16,15 @@ public class DefaultCallScreen : CallScreen
 
         StartCall();
     }
+
     public override void StartCall()
     {
         base.StartCall();
 
         MonologSystem.AddOnEndMonologEvent(callProfileData.defaultCallID, SetSelectBtns);
         MonologSystem.OnStartMonolog?.Invoke(callProfileData.defaultCallID, false);
-
     }
+
     private void SetSelectBtns()
     {
         SetSelectBtns(callProfileData);

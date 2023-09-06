@@ -10,6 +10,7 @@ public enum ECallDataType
     Return
 }
 
+[CreateAssetMenu(menuName ="SO/CallData")]
 public class CallDataSO : ResourceSO
 {
     public string ID
