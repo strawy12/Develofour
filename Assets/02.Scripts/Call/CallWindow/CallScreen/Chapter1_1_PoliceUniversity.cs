@@ -32,7 +32,6 @@ public class Chapter1_1_PoliceUniversity : CallScreen
 
     private void GetAnswer(object[] obj)
     {
-        Debug.Log("asdf");
         EventManager.StopListening(EEvidencePanelEvent.Answer, GetAnswer);
         MonologSystem.OnStartMonolog?.Invoke(Constant.CallScreenMonologID.POLICE_UNIVERSITY_CALLSCREEN_ANSWER, false);
         MonologSystem.AddOnEndMonologEvent(Constant.CallScreenMonologID.POLICE_UNIVERSITY_CALLSCREEN_ANSWER, () => StopCall(true));
