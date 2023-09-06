@@ -98,8 +98,11 @@ public class CallSystemUI : MonoBehaviour
 
             delay -= soundSecond;
         }
-
         Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.PhoneCall);
+        if(currentCallProfileData.id == Constant.CharacterKey.MISSING)
+        {
+            Hide();
+        }
         RecivivedCall();
     }
 
