@@ -29,6 +29,10 @@ public class CallWindow : Window
     /// <param name="callProfileData"></param>
     public void Setting(CallProfileDataSO callProfileData)
     {
+        if(callProfileData.id == Constant.CharacterKey.MISSING)
+        {
+        }
+        
         InstantiateCallScreen = Instantiate(defaultCallScreen, callScreenTrm);
         defaultCallScreen.Init(selectBtnsParent);
         defaultCallScreen.Setting(callProfileData);
@@ -38,6 +42,7 @@ public class CallWindow : Window
     /// 오는 통화
     /// </summary>
     /// <param name="callID"></param>
+  
     public void Setting(string callID)
     {
         CallDataSO callData = ResourceManager.Inst.GetResource<CallDataSO>(callID);
@@ -47,7 +52,7 @@ public class CallWindow : Window
         currentCallScreen = callData.callScreen;
         StartCall();
     }
-
+    
     public void StartCall()
     {
         if (currentCallScreen == null) return;
@@ -65,12 +70,14 @@ public class CallWindow : Window
     {
         EndCall();
     }
+
     public void EndCall()
     {
-        StopAllCoroutines(); 
+        StopAllCoroutines();
         WindowClose();
         EventManager.StopListening(ECallEvent.EndCall, EndCall);
     }
+
     private void OnDestroy()
     {
         EventManager.StopListening(ECallEvent.EndCall, EndCall);
