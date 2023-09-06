@@ -44,27 +44,56 @@ public class ProfilerInfoText : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    private Toggle toggle;
-    public Toggle Toggle => toggle;
-    public bool isSelected => toggle.isOn;
+    public bool isChecked;
+    public Button toggleButton;
+    public Image checkImage;
+
 
     public void Init()
     {
         rectTransform ??= GetComponent<RectTransform>();
-        toggle.onValueChanged.AddListener((x)=> { OnToggleClick(); });
+        toggleButton.onClick.AddListener(toggleBtnClick);
     }
 
-    private void OnToggleClick()
+    private void toggleBtnClick()
     {
-        EventManager.TriggerEvent(EEvidencePanelEvent.ClickToggle, new object[] { this });
+        if (isChecked)
+        {
+            isChecked = false;
+        }
+        else
+        {
+            Transform parent = this.transform.parent;
+            ProfilerInfoText[] texts = parent.GetComponentsInChildren<ProfilerInfoText>(true);
+            foreach(var text in texts)
+            {
+                Debug.Log(text.gameObject.activeSelf);
+                text.isChecked = false;
+                text.SetImage();
+            }
+            isChecked = true;
+        }
+        SetImage();
     }
+
+    public void SetImage()
+    {
+        if(isChecked)
+        {
+            checkImage.gameObject.SetActive(true);
+        }
+        else
+        {
+            checkImage.gameObject.SetActive(false);
+        }
+    }
+
 
     public void Setting(ProfilerInfoDataSO infoData, bool isEvidence)
     {
         currentInfoData = infoData;
-        if (isEvidence) { toggle.isOn = false; }
-        else { toggle.isOn = false; }
+        if (isEvidence) { isChecked = false; SetImage(); toggleButton.gameObject.SetActive(true); }
+        else { toggleButton.gameObject.SetActive(false); }
     }
 
     public void Show()

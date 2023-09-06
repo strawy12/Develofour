@@ -24,7 +24,7 @@ public class ProfilerInfoPanel : MonoBehaviour
     private Transform infoTextParent;
     private Queue<ProfilerInfoText> infoTextQueue;
 
-    public List<ProfilerInfoText> InfoTextList => InfoTextList;
+    public List<ProfilerInfoText> InfoTextList => infoTextList;
     private List<ProfilerInfoText> infoTextList;
 
     #region Pool
@@ -99,7 +99,7 @@ public class ProfilerInfoPanel : MonoBehaviour
                 Debug.LogError("사건보고서 카테고리가 없음");
                 return;
             }
-           
+            
         }
 
         Hide();
@@ -111,12 +111,13 @@ public class ProfilerInfoPanel : MonoBehaviour
         foreach(var infoText in infoTextList)
         {
             //일단 모든 토글 끄고
-            infoText.Toggle.isOn = false;
+            
             //이벤트에서 보내준 자신은 켜줌
-            if(infoText == ps[0] is ProfilerInfoText)
+            if(infoText != ps[0] is ProfilerInfoText)
             {
-                infoText.Toggle.isOn = true;
+                infoText.isChecked = false; 
             }
+            infoText.SetImage();
         }
 
     }

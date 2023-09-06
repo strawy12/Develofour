@@ -31,6 +31,9 @@ public class EvidencePanel : MonoBehaviour
     private string answerInfoID;
     private EvidenceType currentEvidenceType;
 
+    [SerializeField]
+    private GameObject evidenceCoverPanel;
+
     [Header("디버그용")]
     [SerializeField]
     private ProfilerInfoText selectedInfoText;
@@ -52,12 +55,13 @@ public class EvidencePanel : MonoBehaviour
         answerInfoID = _answerInfoID;
         currentEvidenceType = evidenceType;
         infoPanel.Init(true);
-        typePanel.Init();
+        typePanel.Init(true);
         characterBtn.onClick.AddListener(OnClickCharacterPanelBtn);
         sceneBtn.onClick.AddListener(OnClickIncidentPanelBtn);
         presentButton.onClick.AddListener(TryAnswer);
         InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyDown: TryAnswer);
 
+        this.evidenceCoverPanel.SetActive(true);
         this.gameObject.SetActive(true);
     }
 
@@ -96,7 +100,7 @@ public class EvidencePanel : MonoBehaviour
         bool one = false;
         foreach(var infoText in infoPanel.InfoTextList)
         {
-            if (infoText.isSelected)
+            if (infoText.isChecked)
             {
                 if (one) { Debug.LogError("선택되있는 인포텍스트가 두개에요"); continue; }
                 selectedInfoText = infoText;
@@ -123,6 +127,8 @@ public class EvidencePanel : MonoBehaviour
     {
         EventManager.TriggerEvent(EEvidencePanelEvent.Answer);
         InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyDown: TryAnswer);
+
+        this.evidenceCoverPanel.SetActive(false);
         this.gameObject.SetActive(false);
     }
 

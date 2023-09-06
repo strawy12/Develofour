@@ -57,12 +57,12 @@ public class ProfilerInventoryPanel : MonoBehaviour
     #endif
 
     #region Pool
-    private void CreatePool()
+    private void CreatePool(bool isEvidence)
     {
         for (int i = 0; i < 20; i++)
         {
             ProfilerCategoryPrefab infoText = Instantiate(categoryTemp, categoryParent);
-            infoText.Init(UnSelectAllPanel);
+            infoText.Init(UnSelectAllPanel, isEvidence);
             infoText.Hide();
             categorysQueue.Enqueue(infoText);
         }
@@ -72,7 +72,7 @@ public class ProfilerInventoryPanel : MonoBehaviour
     {
         if (categorysQueue.Count == 0)
         {
-            CreatePool();
+            CreatePool(false);
         }
 
         ProfilerCategoryPrefab infoText = categorysQueue.Dequeue();
@@ -99,7 +99,7 @@ public class ProfilerInventoryPanel : MonoBehaviour
         categoryList.Clear();
     }
     #endregion
-    public void Init()
+    public void Init(bool isEvidence)
     {
         categoryList = new List<ProfilerCategoryPrefab>();
         sceneCategoryList = new List<ProfilerCategoryDataSO>();
@@ -111,7 +111,7 @@ public class ProfilerInventoryPanel : MonoBehaviour
 
         categoryType = EProfilerCategoryType.None;
 
-        CreatePool();
+        CreatePool(isEvidence);
     }
     public void Show()
     {

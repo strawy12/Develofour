@@ -32,11 +32,14 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
 
     public bool isSelected { get; private set; }
 
+    private bool isEvidence;
+
     private Action OnClick;
-    public void Init(Action clickAction)
+    public void Init(Action clickAction, bool _isEvidence)
     {
         defaultMinSize = categoryImage.rectTransform.sizeDelta;
         isSelected = false;
+        isEvidence = _isEvidence;
         OnClick = null;
         OnClick += clickAction;
         EventManager.StartListening(EProfilerEvent.Maximum, SetSize);
@@ -143,7 +146,10 @@ public class ProfilerCategoryPrefab : MonoBehaviour, IPointerClickHandler
         OnClick?.Invoke();
         selectImage.gameObject.SetActive(true);
         isSelected = true;
-        EventManager.TriggerEvent(EProfilerEvent.ShowInfoPanel, new object[1] { currentData });
+        if(!isEvidence)
+            EventManager.TriggerEvent(EProfilerEvent.ShowInfoPanel, new object[1] { currentData });
+        else
+            EventManager.TriggerEvent(EProfilerEvent.ShowInfoPanel, new object[2] { currentData, true });
     }
 
     public void UnSelect()
