@@ -70,11 +70,10 @@ public class EvidencePanel : MonoBehaviour
         //인포 텍스트 가 answerID랑 같다면
         if(GetIsSelected())
         {
-            MonologSystem.OnStartMonolog?.Invoke(currentEvidenceType.selectMonolog, false);
-
             if (selectedInfoText.InfoData.ID == answerInfoID)
             {
                 Answer();
+                return;
             }
             else
             {
@@ -90,6 +89,7 @@ public class EvidencePanel : MonoBehaviour
                     { MonologSystem.OnStartMonolog?.Invoke(currentEvidenceType.wrongMonolog, false); });
                 }
             }
+            MonologSystem.OnStartMonolog?.Invoke(currentEvidenceType.selectMonolog, false);
         }
     }
 

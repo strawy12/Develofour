@@ -67,7 +67,6 @@ public class ProfilerInfoText : MonoBehaviour
             ProfilerInfoText[] texts = parent.GetComponentsInChildren<ProfilerInfoText>(true);
             foreach(var text in texts)
             {
-                Debug.Log(text.gameObject.activeSelf);
                 text.isChecked = false;
                 text.SetImage();
             }

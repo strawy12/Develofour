@@ -50,6 +50,14 @@ public class Debugger : MonoBehaviour
             CallSystem.OnInComingCall?.Invoke("CD_PL", "Test");
         }
 
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            MonologSystem.AddOnEndMonologEvent("T_M_1", () =>
+            { MonologSystem.OnStartMonolog?.Invoke("T_M_2", false); });
+            MonologSystem.OnStartMonolog?.Invoke("T_M_1", false);
+
+        }
+
     }
 
     private void ActiveDebug()
