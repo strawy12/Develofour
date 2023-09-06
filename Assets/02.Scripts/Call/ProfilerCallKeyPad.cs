@@ -170,7 +170,7 @@ public class ProfilerCallKeyPad : MonoBehaviour
         string callProfileID;
         if (data == null)
         {
-            callProfileID = "CD_MS";
+            callProfileID = Constant.CharacterKey.MISSING;
             data = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(callProfileID);
             data.phoneNum = phoneNumberText.text;
         }
