@@ -80,8 +80,6 @@ public class MonologSystem : TextSystem
 
     private void EndMonolog()
     {
-        if (currentTextData == null)
-            return;
         textBox.HideBox();
 
         InputManager.Inst.RemoveAnyKeyInput(onKeyDown: PrintText);
@@ -93,18 +91,24 @@ public class MonologSystem : TextSystem
 
         isPlayMonolog = false;
 
-        if (currentTextData != null)
-        {
-            if (onEndMonologDictionary.ContainsKey(currentTextData.ID))
-            {
-                Action onEndEvent = onEndMonologDictionary[currentTextData.ID];
-                onEndMonologDictionary.Remove(currentTextData.ID);
-                onEndEvent?.Invoke();
-            }
-        }
         Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.None);
+        if (currentTextData == null) return;
         DataManager.Inst.SetMonologShow(currentTextData.ID);
-        currentTextData = null;
+
+        //두가지 방법 save 해두고 save랑 다를시 안바꿔
+        MonologTextDataSO save = currentTextData;
+
+        if (onEndMonologDictionary.ContainsKey(currentTextData.ID))
+        {
+            Action onEndEvent = onEndMonologDictionary[currentTextData.ID];
+            onEndMonologDictionary.Remove(currentTextData.ID);
+            onEndEvent?.Invoke();
+        }
+
+        if(currentTextData == save)
+        {
+            currentTextData = null;
+        }
     }
 
     private void PrintText()
