@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,11 +26,8 @@ public class EvidencePanel : MonoBehaviour
     [SerializeField]
     private GameObject evidenceCoverPanel;
 
-    [Header("µğ¹ö±×¿ë")]
-    [SerializeField]
     private ProfilerInfoText selectedInfoText;
 
-    [SerializeField]
     private int wrongCnt;
 
     public void Awake()
@@ -61,7 +58,7 @@ public class EvidencePanel : MonoBehaviour
 
     private void TryAnswer()
     {
-        //ÀÎÆ÷ ÅØ½ºÆ® °¡ answerID¶û °°´Ù¸é
+        //ì¸í¬ í…ìŠ¤íŠ¸ ê°€ answerIDë‘ ê°™ë‹¤ë©´
         if (GetIsSelected())
         {
             if (selectedInfoText.InfoData.ID == answerInfoID)
@@ -96,7 +93,7 @@ public class EvidencePanel : MonoBehaviour
         {
             if (infoText.isChecked)
             {
-                if (one) { Debug.LogError("¼±ÅÃµÇÀÖ´Â ÀÎÆ÷ÅØ½ºÆ®°¡ µÎ°³¿¡¿ä"); continue; }
+                if (one) { Debug.LogError("ì„ íƒë˜ìˆëŠ” ì¸í¬í…ìŠ¤íŠ¸ê°€ ë‘ê°œì—ìš”"); continue; }
                 selectedInfoText = infoText;
                 one = true;
                 flag = true;
