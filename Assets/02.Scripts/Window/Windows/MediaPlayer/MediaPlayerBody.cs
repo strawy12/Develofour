@@ -36,7 +36,7 @@ public class MediaPlayerBody : MonoBehaviour
     [SerializeField]
     private InformationTrigger endMediaInfoTrigger;
 
-    private MediaPlayer ownerPlayer; 
+    private MediaPlayer ownerPlayer;
 
 
 #if UNITY_EDITOR
@@ -68,7 +68,6 @@ public class MediaPlayerBody : MonoBehaviour
         mediaPlayerTriggerList.Clear();
     }
 #endif
-
     public void Init(MediaPlayer player)
     {
         _mediaDetailText ??= transform.Find("Viewport/MediaDetailText").GetComponent<TMP_Text>();
@@ -86,7 +85,20 @@ public class MediaPlayerBody : MonoBehaviour
             }
         }
     }
-
+    public void CheckShowTrigger(int showIdx)
+    {
+        foreach (var trigger in mediaPlayerTriggerList)
+        {
+            if (showIdx > trigger.startIdx)
+            {
+                trigger.trigger.gameObject.SetActive(true);
+            }
+            else
+            {
+                trigger.trigger.gameObject.SetActive(false);
+            }
+        }
+    }
     public void SetPosition()
     {
         int idx = mediaDetailText.maxVisibleCharacters;
@@ -110,7 +122,7 @@ public class MediaPlayerBody : MonoBehaviour
         {
             endMediaInfoTrigger.GetInfo();
 
-            if(ownerPlayer != null)
+            if (ownerPlayer != null)
                 ownerPlayer.OnEnd -= EndMediaTrigger;
         }
     }

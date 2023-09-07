@@ -40,6 +40,7 @@ public class ProfilerCallUserListPanel : MonoBehaviour
         }
 
         string number = ps[0] as string;
+
         if(ResourceManager.Inst.FindCharacterPhoneNumber(number).id == Constant.CharacterKey.MISSING)
         {
             return;

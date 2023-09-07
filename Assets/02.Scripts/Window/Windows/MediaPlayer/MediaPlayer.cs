@@ -166,7 +166,7 @@ public partial class MediaPlayer : Window
         for (int i = mediaDetailText.maxVisibleCharacters; i < delayList.Count; i++)
         {
             mediaDetailText.maxVisibleCharacters++;
-
+            body.CheckShowTrigger(mediaDetailText.maxVisibleCharacters);
             TMP_CharacterInfo charInfo = mediaDetailText.textInfo.characterInfo[i];
 
             float height = (charInfo.bottomRight.y * -1f) - mediaDetailText.rectTransform.anchoredPosition.y;
@@ -226,6 +226,7 @@ public partial class MediaPlayer : Window
         //mediaDetailText.text = notCommandString.Substring(0, TimeToIndex(time));
         mediaDetailText.maxVisibleCharacters = TimeToIndex(time);
         body.SetPosition();
+        body.CheckShowTrigger(mediaDetailText.maxVisibleCharacters);
 
         minuteTimer = (int)(time / 60f);
         secondTimer = (int)(time % 60f);
