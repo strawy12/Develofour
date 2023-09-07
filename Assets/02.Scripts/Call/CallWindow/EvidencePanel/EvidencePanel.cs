@@ -1,59 +1,50 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EvidenceType
-{
-    public int maxCount; // ¸î¹ø Æ²·Á¾ßÁö Á¤´äÀ» ¾Ë·ÁÁÙ°Ç°¡  0 == ¾È¾Ë·ÁÁÜ
-    public string selectMonolog; // Á¦½ÃÇßÀ»¶§ ³ª¿À´Â µ¶¹é
-    public string wrongMonolog; // Æ²·ÈÀ»¶§ ³ª¿À´Â µ¶¹é
-    public string wrongHintMonolog; //Æ²·È°í Maxcount°¡ Ã¡À»‹š ³ª¿À´Â µ¶¹é
-}
-
 public class EvidencePanel : MonoBehaviour
 {
-    public static EvidencePanel evidencePanel;
+    private static EvidencePanel inst;
+
+    public static EvidencePanel Inst { get =>  inst;  }
 
     public ProfilerInfoPanel infoPanel;
-
     [SerializeField]
     private ProfilerInventoryPanel typePanel;
     [SerializeField]
     private Button sceneBtn;
     [SerializeField]
     private Button characterBtn;
-
     [SerializeField]
     private Button presentButton;
 
     private string answerInfoID;
-    private EvidenceType currentEvidenceType;
+    private EvidenceTypeSO currentEvidenceData;
 
     [SerializeField]
     private GameObject evidenceCoverPanel;
 
-    [Header("µğ¹ö±×¿ë")]
-    [SerializeField]
     private ProfilerInfoText selectedInfoText;
 
-    [SerializeField]
     private int wrongCnt;
 
     public void Awake()
     {
-        evidencePanel = this;
+        inst = this;
         this.gameObject.SetActive(false);
-        Debug.Log(evidencePanel);
+        Debug.Log(Inst);
     }
 
-    public void Init(string _answerInfoID, EvidenceType evidenceType)
+    public void Init(string evidenceID)
     {
         ReSetting();
         wrongCnt = 0;
-        answerInfoID = _answerInfoID;
-        currentEvidenceType = evidenceType;
+        EvidenceTypeSO evidenceData = ResourceManager.Inst.GetResource<EvidenceTypeSO>(evidenceID);
+        answerInfoID = evidenceData.answerInfoID;
+        currentEvidenceData = evidenceData;
+
         infoPanel.Init(true);
         typePanel.Init(true);
         characterBtn.onClick.AddListener(OnClickCharacterPanelBtn);
@@ -67,8 +58,8 @@ public class EvidencePanel : MonoBehaviour
 
     private void TryAnswer()
     {
-        //ÀÎÆ÷ ÅØ½ºÆ® °¡ answerID¶û °°´Ù¸é
-        if(GetIsSelected())
+        //ì¸í¬ í…ìŠ¤íŠ¸ ê°€ answerIDë‘ ê°™ë‹¤ë©´
+        if (GetIsSelected())
         {
             if (selectedInfoText.InfoData.ID == answerInfoID)
             {
@@ -78,18 +69,18 @@ public class EvidencePanel : MonoBehaviour
             else
             {
                 wrongCnt++;
-                if(wrongCnt >= currentEvidenceType.maxCount)
+                if (wrongCnt >= currentEvidenceData.maxCount)
                 {
-                    MonologSystem.AddOnEndMonologEvent(currentEvidenceType.selectMonolog, () =>
-                    { MonologSystem.OnStartMonolog?.Invoke(currentEvidenceType.wrongHintMonolog, false); });
+                    MonologSystem.AddOnEndMonologEvent(currentEvidenceData.selectMonolog, () =>
+                    { MonologSystem.OnStartMonolog?.Invoke(currentEvidenceData.wrongHintMonolog, false); });
                 }
                 else
                 {
-                    MonologSystem.AddOnEndMonologEvent(currentEvidenceType.selectMonolog, () =>
-                    { MonologSystem.OnStartMonolog?.Invoke(currentEvidenceType.wrongMonolog, false); });
+                    MonologSystem.AddOnEndMonologEvent(currentEvidenceData.selectMonolog, () =>
+                    { MonologSystem.OnStartMonolog?.Invoke(currentEvidenceData.wrongMonolog, false); });
                 }
             }
-            MonologSystem.OnStartMonolog?.Invoke(currentEvidenceType.selectMonolog, false);
+            MonologSystem.OnStartMonolog?.Invoke(currentEvidenceData.selectMonolog, false);
         }
     }
 
@@ -98,11 +89,11 @@ public class EvidencePanel : MonoBehaviour
         bool flag = false;
 
         bool one = false;
-        foreach(var infoText in infoPanel.InfoTextList)
+        foreach (var infoText in infoPanel.InfoTextList)
         {
             if (infoText.isChecked)
             {
-                if (one) { Debug.LogError("¼±ÅÃµÇÀÖ´Â ÀÎÆ÷ÅØ½ºÆ®°¡ µÎ°³¿¡¿ä"); continue; }
+                if (one) { Debug.LogError("ì„ íƒë˜ìˆëŠ” ì¸í¬í…ìŠ¤íŠ¸ê°€ ë‘ê°œì—ìš”"); continue; }
                 selectedInfoText = infoText;
                 one = true;
                 flag = true;
