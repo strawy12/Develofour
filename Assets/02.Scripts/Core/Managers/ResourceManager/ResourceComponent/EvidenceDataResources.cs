@@ -7,6 +7,6 @@ public class EvidenceDataResources : ResourcesComponent
 {
     public override void LoadResources(Action callBack)
     {
-        LoadResourceDataAssets<CharacterInfoDataSO>(callBack);
+        LoadResourceDataAssets<EvidenceTypeSO>(callBack);
     }
 }
