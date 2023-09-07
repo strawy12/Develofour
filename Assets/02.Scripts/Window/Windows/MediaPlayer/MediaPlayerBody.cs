@@ -35,6 +35,7 @@ public class MediaPlayerBody : MonoBehaviour
     [SerializeField]
     private InformationTrigger endMediaInfoTrigger;
 
+
     private MediaPlayer ownerPlayer; 
 
 
@@ -67,7 +68,20 @@ public class MediaPlayerBody : MonoBehaviour
         mediaPlayerTriggerList.Clear();
     }
 #endif
-
+    public void ShowTrigger(int showIdx)
+    {
+        foreach(var triggerData in mediaPlayerTriggerList)
+        {
+            if(showIdx > triggerData.id)
+            {
+                triggerData.trigger.gameObject.SetActive(true);
+            }
+            else
+            {
+                triggerData.trigger.gameObject.SetActive(false);
+            }
+        }
+    } 
     public void Init(MediaPlayer player)
     {
         _mediaDetailText ??= transform.Find("Viewport/MediaDetailText").GetComponent<TMP_Text>();
@@ -91,7 +105,7 @@ public class MediaPlayerBody : MonoBehaviour
         int idx = mediaDetailText.maxVisibleCharacters;
 
         Define.SetTriggerPosition(mediaDetailText, mediaPlayerTriggerList);
-
+        
         TMP_CharacterInfo charInfo = mediaDetailText.textInfo.characterInfo[Mathf.Min(idx, mediaDetailText.textInfo.characterInfo.Length - 1)];
         SetPositionCoverImage(charInfo);
     }
