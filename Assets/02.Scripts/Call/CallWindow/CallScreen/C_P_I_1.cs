@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chapter1_1_PoliceUniversity : CallScreen
+public class C_P_I_1 : CallScreen
 {
     public override void StartCall()
     {
@@ -21,13 +21,9 @@ public class Chapter1_1_PoliceUniversity : CallScreen
     {
         EventManager.StartListening(EEvidencePanelEvent.Answer, GetAnswer);
         yield return new WaitForSeconds(0.4f);
-        EvidenceType type = new EvidenceType();
-        type.maxCount = 3;
-        type.selectMonolog = Constant.CallScreenMonologID.POLICE_UNIVERSITY_CALLSCREEN_PRESENT;
-        type.wrongHintMonolog = Constant.CallScreenMonologID.POLICE_UNIVERSITY_CALLSCREEN_WRONG_HINT;
-        type.wrongMonolog = Constant.CallScreenMonologID.POLICE_UNIVERSITY_CALLSCREEN_WRONG;
 
-        EvidencePanel.evidencePanel.Init("I_I_1_1", type);
+
+        EvidencePanel.Inst.Init("E_P_1");
     }
 
     private void GetAnswer(object[] obj)

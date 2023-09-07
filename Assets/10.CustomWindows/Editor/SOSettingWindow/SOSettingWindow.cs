@@ -40,6 +40,7 @@ public partial class SOSettingWindow : EditorWindow
         CallInComing,
         CallReturn,
         PinLock,
+        Evidence,
     }
 
     private struct SpritePath
@@ -71,6 +72,8 @@ public partial class SOSettingWindow : EditorWindow
     private Button pinLockBtn;
     private Button callInComingBtn;
     private Button callReturnBtn;
+    private Button evidenceBtn;
+
 
     private Label gidText;
     private Label soTypeText;
@@ -103,6 +106,7 @@ public partial class SOSettingWindow : EditorWindow
         callOutGoingBtn = rootVisualElement.Q<Button>("CallOutGoingBtn");
         callInComingBtn = rootVisualElement.Q<Button>("CallInComingBtn");
         callReturnBtn = rootVisualElement.Q<Button>("CallReturnBtn");
+        evidenceBtn = rootVisualElement.Q<Button>("EdivenceBtn");
 
         settingButton.RegisterCallback<MouseUpEvent>(x => Setting());
         fileSOBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.File));
@@ -121,6 +125,7 @@ public partial class SOSettingWindow : EditorWindow
         pinLockBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.PinLock));
         callInComingBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallInComing));
         callReturnBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.CallReturn));
+        evidenceBtn.RegisterCallback<MouseUpEvent>(x => AutoComplete(ESOType.Evidence));
     }
 
     private void AutoComplete(ESOType type)
@@ -192,6 +197,10 @@ public partial class SOSettingWindow : EditorWindow
                 gidText.text = "2051581446";
                 soTypeText.text = "CallReturnDataSO";
                 break;
+            case ESOType.Evidence:
+                gidText.text = "1435168368";
+                soTypeText.text = "EvidenceTypeSO";
+                break;
         }
     }
 
@@ -261,6 +270,9 @@ public partial class SOSettingWindow : EditorWindow
                 break;
             case "CallReturnDataSO":
                 SettingCallReturnData(add);
+                break;
+            case "EvidenceTypeSO":
+                SettingEvidenceData(add);
                 break;
         }
     }

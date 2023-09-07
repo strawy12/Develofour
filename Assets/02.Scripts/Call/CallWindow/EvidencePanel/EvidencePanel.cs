@@ -4,32 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EvidenceType
-{
-    public int maxCount; // 몇번 틀려야지 정답을 알려줄건가  0 == 안알려줌
-    public string selectMonolog; // 제시했을때 나오는 독백
-    public string wrongMonolog; // 틀렸을때 나오는 독백
-    public string wrongHintMonolog; //틀렸고 Maxcount가 찼을떄 나오는 독백
-}
-
 public class EvidencePanel : MonoBehaviour
 {
-    public static EvidencePanel evidencePanel;
+    private static EvidencePanel inst;
+
+    public static EvidencePanel Inst { get =>  inst;  }
 
     public ProfilerInfoPanel infoPanel;
-
     [SerializeField]
     private ProfilerInventoryPanel typePanel;
     [SerializeField]
     private Button sceneBtn;
     [SerializeField]
     private Button characterBtn;
-
     [SerializeField]
     private Button presentButton;
 
     private string answerInfoID;
-    private EvidenceType currentEvidenceType;
+    private EvidenceTypeSO currentEvidenceData;
 
     [SerializeField]
     private GameObject evidenceCoverPanel;
@@ -43,17 +35,19 @@ public class EvidencePanel : MonoBehaviour
 
     public void Awake()
     {
-        evidencePanel = this;
+        inst = this;
         this.gameObject.SetActive(false);
-        Debug.Log(evidencePanel);
+        Debug.Log(Inst);
     }
 
-    public void Init(string _answerInfoID, EvidenceType evidenceType)
+    public void Init(string evidenceID)
     {
         ReSetting();
         wrongCnt = 0;
-        answerInfoID = _answerInfoID;
-        currentEvidenceType = evidenceType;
+        EvidenceTypeSO evidenceData = ResourceManager.Inst.GetResource<EvidenceTypeSO>(evidenceID);
+        answerInfoID = evidenceData.answerInfoID;
+        currentEvidenceData = evidenceData;
+
         infoPanel.Init(true);
         typePanel.Init(true);
         characterBtn.onClick.AddListener(OnClickCharacterPanelBtn);
@@ -68,7 +62,7 @@ public class EvidencePanel : MonoBehaviour
     private void TryAnswer()
     {
         //인포 텍스트 가 answerID랑 같다면
-        if(GetIsSelected())
+        if (GetIsSelected())
         {
             if (selectedInfoText.InfoData.ID == answerInfoID)
             {
@@ -78,18 +72,18 @@ public class EvidencePanel : MonoBehaviour
             else
             {
                 wrongCnt++;
-                if(wrongCnt >= currentEvidenceType.maxCount)
+                if (wrongCnt >= currentEvidenceData.maxCount)
                 {
-                    MonologSystem.AddOnEndMonologEvent(currentEvidenceType.selectMonolog, () =>
-                    { MonologSystem.OnStartMonolog?.Invoke(currentEvidenceType.wrongHintMonolog, false); });
+                    MonologSystem.AddOnEndMonologEvent(currentEvidenceData.selectMonolog, () =>
+                    { MonologSystem.OnStartMonolog?.Invoke(currentEvidenceData.wrongHintMonolog, false); });
                 }
                 else
                 {
-                    MonologSystem.AddOnEndMonologEvent(currentEvidenceType.selectMonolog, () =>
-                    { MonologSystem.OnStartMonolog?.Invoke(currentEvidenceType.wrongMonolog, false); });
+                    MonologSystem.AddOnEndMonologEvent(currentEvidenceData.selectMonolog, () =>
+                    { MonologSystem.OnStartMonolog?.Invoke(currentEvidenceData.wrongMonolog, false); });
                 }
             }
-            MonologSystem.OnStartMonolog?.Invoke(currentEvidenceType.selectMonolog, false);
+            MonologSystem.OnStartMonolog?.Invoke(currentEvidenceData.selectMonolog, false);
         }
     }
 
@@ -98,7 +92,7 @@ public class EvidencePanel : MonoBehaviour
         bool flag = false;
 
         bool one = false;
-        foreach(var infoText in infoPanel.InfoTextList)
+        foreach (var infoText in infoPanel.InfoTextList)
         {
             if (infoText.isChecked)
             {
