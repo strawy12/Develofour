@@ -22,7 +22,7 @@ public partial class SOSettingWindow : EditorWindow
             string id = columns[0].Trim();
             string[] needInfoIDList = null;
 
-            string callScreenPath = "Assets/03.Prefabs/CallWindow/CallScreen/";
+            string callScreenPath = "Assets/03.Prefabs/CallWindow/CallScreen/Return/";
             CallScreen callPrefab = null;
 
             callPrefab = AssetDatabase.LoadAssetAtPath<CallScreen>(callScreenPath + $"{id}.prefab");
@@ -64,7 +64,11 @@ public partial class SOSettingWindow : EditorWindow
 
             bool isCreate = false;
             CallDataSO callData = callDataSOList.Find(x => x.id == id);
-
+            if (callData == null)
+            {
+                callData = CreateInstance<CallDataSO>();
+                isCreate = true;
+            }
             callData.id = id;
             callData.additionFileIDList = additionFileDataList;
 
@@ -83,11 +87,7 @@ public partial class SOSettingWindow : EditorWindow
             callData.callDataType = ECallDataType.Return;
             callData.delay = delay;
             callData.callScreen = callPrefab;
-            if (callData == null)
-            {
-                callData = CreateInstance<CallDataSO>();
-                isCreate = true;
-            }
+ 
             string SO_PATH = $"Assets/07.ScriptableObjects/CallData/ReturnCallData/{columns[0]}.asset";
 
             string[] idChars = columns[0].Split('_');

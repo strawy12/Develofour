@@ -47,7 +47,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            CallSystem.OnInComingCall?.Invoke("CD_PL", "Test");
+            CallSystem.OnInComingCall?.Invoke("CD_PL", "C_P_I_1");
         }
 
         if(Input.GetKeyDown(KeyCode.K))
