@@ -22,7 +22,7 @@ public partial class SOSettingWindow : EditorWindow
             string id = columns[0].Trim();
             string[] needInfoIDList = null;
 
-            string callScreenPath = "Assets/03.Prefabs/CallWindow/CallScreen/";
+            string callScreenPath = "Assets/03.Prefabs/CallWindow/CallScreen/Return/";
             CallScreen callPrefab = null;
 
             callPrefab = AssetDatabase.LoadAssetAtPath<CallScreen>(callScreenPath + $"{id}.prefab");
