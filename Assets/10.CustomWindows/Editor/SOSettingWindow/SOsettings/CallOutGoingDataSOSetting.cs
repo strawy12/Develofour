@@ -18,7 +18,7 @@ public partial class SOSettingWindow : EditorWindow
             string[] columns = rows[i].Split('\t');
 
             string id = columns[0].Trim();
-            string callScreenPath = "Assets/03.Prefabs/CallWindow/CallScreen/";
+            string callScreenPath = "Assets/03.Prefabs/CallWindow/CallScreen/Outgoing/";
             CallScreen callPrefab = null;
 
             callPrefab = AssetDatabase.LoadAssetAtPath<CallScreen>(callScreenPath + $"{id}.prefab");
