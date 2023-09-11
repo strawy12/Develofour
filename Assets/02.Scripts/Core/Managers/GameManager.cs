@@ -9,7 +9,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public Action OnStartCallback;
     public Action OnGameStartCallback;
-
+    public Action OnReset;
     public Action<EGameState> OnChangeGameState;
 
     [SerializeField]
@@ -22,7 +22,8 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject CutSceneCanvas => cutSceneCanvas;
     
     public bool isApplicationQuit { get; private set; }
-
+    [SerializeField]
+    private WindowsLockScreen lockScreen;
 
     public void Init()
     {
@@ -60,5 +61,11 @@ public class GameManager : MonoSingleton<GameManager>
     public void GameQuit()
     {
         Application.Quit();
+    }
+
+    public void WindowReset()
+    {
+        OnReset?.Invoke();
+        lockScreen.LockReset();
     }
 }

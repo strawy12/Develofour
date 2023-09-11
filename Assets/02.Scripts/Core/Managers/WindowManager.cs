@@ -29,6 +29,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     private void Start()
     {
         EventManager.StartListening(EBrowserEvent.OnOpenSite, CheckBrowserWindow);
+        GameManager.Inst.OnReset += CloseAllWindow;
     }
 
     private void InitDictionary()
@@ -262,6 +263,38 @@ public class WindowManager : MonoSingleton<WindowManager>
     public bool IsOpenWindowType(EWindowType windowType)
     {
         return windowDictionary.ContainsKey(windowType);
+    }
+
+    public void CloseAllWindow()
+    {
+        List<List<Window>> windowTypeList = windowDictionary.Select(x => x.Value).ToList();
+        int cnt = 0;
+        while (windowTypeList.Count != 0)
+        {
+            cnt++;
+            if (cnt > 100)
+            {
+                Debug.Log("While error");
+                break;
+            }
+
+            var windowList = windowTypeList[0];
+            while (windowList.Count != 0)
+            {
+                cnt++;
+                if (cnt > 100)
+                {
+                    Debug.Log("While error");
+                    break;
+                }
+                var window = windowList[0];
+                windowList.RemoveAt(0);
+                window.WindowClose();
+            }
+            windowTypeList.RemoveAt(0);
+        }
+        windowDictionary.Clear();
+        windowOrderList.Clear();
     }
     void LateUpdate()
     {

@@ -105,6 +105,11 @@ public partial class DataManager : MonoSingleton<DataManager>
         saveData.aiChattingList.Add(aichat);
     }
 
+    public void AIChattingReset()
+    {
+        saveData.aiChattingList.Clear();
+    }
+
     public int AIChattingListCount()
     {
         return saveData.aiChattingList.Count;

@@ -22,6 +22,8 @@ public class NoticeSystem : MonoUI
     private NoticeOutline noticeOutline;
     [SerializeField]
     private Transform noticePanelParant;
+    [SerializeField]
+    private NoticePanel celebrationNotice;
 
     private Stack<NoticePanel> noticePanelPool;
 
@@ -52,8 +54,16 @@ public class NoticeSystem : MonoUI
     private void Start()
     {
         GameManager.Inst.OnGameStartCallback += Init;
+        GameManager.Inst.OnReset += NoticeReset;
     }
-
+    private void NoticeReset()
+    {
+        saveNoticeList.Clear();
+        DataManager.Inst.SaveData.saveNoticeData.Clear();
+        List<NoticePanel> noticePanels = noticePanelParant.GetComponentsInChildren<NoticePanel>().ToList();
+        noticePanels.Remove(celebrationNotice);
+        noticePanels.ForEach(x => Destroy(x.gameObject));
+    }
     private void Bind()
     {
         noticePanelPool = new Stack<NoticePanel>();

@@ -62,10 +62,17 @@ public class WindowsLoginScreen : MonoBehaviour
 
         Subscribe();
     }
-
+    public void LoginReset()
+    {
+        isLoading = false;
+        failedLoginCnt = 0;
+        gameObject.SetActive(true);
+        Init();
+    }
     private void Init()
     {
         passwordField.Init();
+        passwordField.InputField.text = "";
         passwordField.SetPassword(password);
         passwordField.OnSuccessLogin += SuccessLogin;
         passwordField.OnFailLogin += FailLogin;
