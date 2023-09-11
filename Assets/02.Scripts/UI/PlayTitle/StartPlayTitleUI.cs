@@ -55,7 +55,6 @@ public class StartPlayTitleUI : MonoBehaviour
         showCredit.onClick?.AddListener(() => { creditPopup.SetActive(false); creditPanel.StartCredit(); });
 
         soundPanel.Init();
-        lockScreen.Init();
         delayBGM();
     }
 
@@ -79,7 +78,7 @@ public class StartPlayTitleUI : MonoBehaviour
         //DataManager.Inst.SaveDefaultJson();
 
         DataManager.Inst.SaveData.isNewStart = false;
-
+        lockScreen.Init();
         StartCutScene.OnPlayCutScene?.Invoke();
         GameManager.Inst.OnGameStartCallback?.Invoke();
         this.gameObject.SetActive(false);

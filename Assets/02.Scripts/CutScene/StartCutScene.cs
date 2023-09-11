@@ -36,7 +36,7 @@ public class StartCutScene : MonoBehaviour
     [Header("디버그용")]
     public bool isScreamSound;
     public bool isSkip;
-
+    
     private void Awake()
     {
         OnPlayCutScene += ShowFiction;
@@ -150,7 +150,6 @@ public class StartCutScene : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Game);
         EventManager.TriggerEvent(ECutSceneEvent.EndStartCutScene);
         Sound.OnPlaySound(Sound.EAudioType.StartMainBGM);
-
         SetActiveThisObject();
     }
 

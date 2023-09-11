@@ -35,7 +35,11 @@ public class ProfilerChattingSystem : TextSystem
 
         OnImmediatelyEndChat += ImmediateEndChat;
     }
-
+    protected override void Start()
+    {
+        base.Start();
+        GameManager.Inst.OnReset += ChattingReset;
+    }
     //public void StartChatting(string data, bool isSave, bool isEnd)
     //{
     //    currentTextData = data;
@@ -151,6 +155,11 @@ public class ProfilerChattingSystem : TextSystem
 
         NoticeSystem.OnNotice.Invoke("AI에게서 메세지가 도착했습니다!", body, 0, true, null, Color.white, ENoticeTag.AIAlarm, Constant.FileID.PROFILER);
 
+    }
+
+    private void ChattingReset()
+    {
+        DataManager.Inst.AIChattingReset();
     }
 
     public override void SetDelay(float value)

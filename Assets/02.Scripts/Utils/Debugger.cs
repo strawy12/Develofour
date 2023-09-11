@@ -57,8 +57,11 @@ public class Debugger : MonoBehaviour
             MonologSystem.OnStartMonolog?.Invoke("T_M_1", false);
 
         }
-
-    }
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            GameManager.Inst.WindowReset();
+        }
+     }
 
     private void ActiveDebug()
     {
@@ -83,6 +86,7 @@ public class Debugger : MonoBehaviour
                     Sound.OnImmediatelyStop(Sound.EAudioType.StartCutSceneScream);
                 EventManager.TriggerEvent(ECoreEvent.OpenVolume, new object[] { false });
                 cutScene.StartLoading();
+
             }
         }
 

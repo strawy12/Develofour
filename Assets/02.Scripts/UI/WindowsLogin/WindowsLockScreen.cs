@@ -9,7 +9,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [SerializeField]
-    private GameObject loginScreen;
+    private WindowsLoginScreen loginScreen;
 
     [SerializeField]
     private float targetMovementY;
@@ -26,7 +26,8 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private bool isTutorialEnd;
     private bool holdingDown;
     private bool anyKeyUp;
-
+    [SerializeField]
+    private GameObject loginCanvas;
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -36,7 +37,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     public void Init()
     {
-        if(DataManager.Inst.SaveData.isWatchStartCutScene)
+        if(!DataManager.Inst.SaveData.isWatchStartCutScene)
         {
             EventManager.StartListening(ECutSceneEvent.EndStartCutScene, AnyKeyUp);
             EventManager.StartListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
@@ -47,7 +48,15 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         }
         isTutorialEnd = DataManager.Inst.SaveData.isClearStartCutScene;
     }
-
+    public void LockReset()
+    {
+        gameObject.SetActive(true);
+        loginScreen.gameObject.SetActive(false);
+        rectTransform.anchoredPosition = originPos;
+        anyKeyUp = false;
+        loginCanvas.SetActive(true);
+        Init();
+    }
     private void AnyKeyUp(object[] ps)
     {
         StartCoroutine(KeyUpCor());
@@ -110,7 +119,7 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private void OpenLoginScreen()
     {
-        loginScreen.SetActive(true);
+        loginScreen.LoginReset();
         MonologSystem.OnStartMonolog?.Invoke(Constant.MonologKey.WINDOWS_LOGIN_SCREEN_OPEN, true);
         gameObject.SetActive(false);
     }
