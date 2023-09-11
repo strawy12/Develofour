@@ -41,6 +41,11 @@ public class ProfilerTutorial : MonoBehaviour
     {
         EventManager.StartListening(ETutorialEvent.TutorialStart, CheckState);
         EventManager.StartListening(ETutorialEvent.LibraryGuide, LibraryRect);
+
+        if(profiler == null)
+        {
+            profiler = FileManager.Inst.GetFile(Constant.FileID.PROFILER);
+        }
     }
 
     private void CheckState(object[] ps)
