@@ -146,7 +146,7 @@ public class WindowManager : MonoSingleton<WindowManager>
             {
                 //FileSO lockFileWindowData = FileManager.Inst.GetFile(windowLock.lockWindowType);
                 Debug.Log("1234");
-                targetWindow = CreateWindow(windowLock.lockWindowType, file); // file.ID(핀락, 미니게임, 파일), windowLock.lockWindowType
+                targetWindow = CreateWindow(EWindowType.WindowPinLock, file); // file.ID(핀락, 미니게임, 파일), windowLock.lockWindowType
             }
             else
             {

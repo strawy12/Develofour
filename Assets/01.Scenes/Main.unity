@@ -8554,7 +8554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66d4ea55a9c4c47b97f2e227da5de81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: NoticeData
+  label: NotepadData
 --- !u!1 &1057861564
 GameObject:
   m_ObjectHideFlags: 0
@@ -9476,6 +9476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameState: 0
   cutSceneCanvas: {fileID: 267761860}
+  lockScreen: {fileID: 0}
 --- !u!1 &1229724216
 GameObject:
   m_ObjectHideFlags: 0
@@ -9735,9 +9736,11 @@ MonoBehaviour:
   additionFileList:
   - {fileID: 11400000, guid: 57569c1970f6f3a48b5c4223120e151e, type: 2}
   - {fileID: 11400000, guid: 8f9b7a68a265daf498947a7cbfd1f8ed, type: 2}
-  - {fileID: 11400000, guid: e9133ba6970410347a302d96fe9e79fe, type: 2}
+  - {fileID: 11400000, guid: 397c981b2757da64ca5a72c7a92b1277, type: 2}
+  - {fileID: 11400000, guid: 20f20b8cbaf336a45ac862358a6c23f9, type: 2}
   - {fileID: 11400000, guid: a2f64b034f342914286bb3d75e162199, type: 2}
-  - {fileID: 11400000, guid: c90c2814d638c1144a962fd77e520003, type: 2}
+  - {fileID: 11400000, guid: bf18b44eb473cff4193c112ad63d9758, type: 2}
+  - {fileID: 11400000, guid: e5cfcff6e27e1dd45be3cb4c82a10d90, type: 2}
   - {fileID: 11400000, guid: 85ccb86c6569cad4e92500626ead8e3d, type: 2}
   - {fileID: 11400000, guid: d943bf28db25f7245bdc7d613c631c41, type: 2}
   - {fileID: 11400000, guid: daba88de053c8a84b9ce7ae21bebbeb5, type: 2}
@@ -9748,13 +9751,22 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7ac628833f258e94c82b8e2c0c0fa4ee, type: 2}
   - {fileID: 11400000, guid: bdec9c6b2e9f9e345a4efbda14db551a, type: 2}
   - {fileID: 11400000, guid: a59d812f35d7549408fce5402743b568, type: 2}
+  - {fileID: 11400000, guid: 8c11cbdcee83af044acf3fa6d08bec1a, type: 2}
+  - {fileID: 11400000, guid: 43445ee111b43e34d86b3bb5c22a3241, type: 2}
+  - {fileID: 11400000, guid: bab0785614813d34889de7f0cbf5f29e, type: 2}
+  - {fileID: 11400000, guid: 27baa01e6e1257c4bb15fa3c7f98dde5, type: 2}
+  - {fileID: 11400000, guid: 5a20d548b77375841be5f06c24bc6bdc, type: 2}
+  - {fileID: 11400000, guid: 3d418afe720722a498f3f74b1c9b2d95, type: 2}
+  - {fileID: 11400000, guid: d6c73a4873fce07438d26080ea19614d, type: 2}
+  - {fileID: 11400000, guid: 35ee0aa235e633045894ff1d26b56dd1, type: 2}
+  - {fileID: 11400000, guid: 58003be2ed2ed8443a54e813b60cb247, type: 2}
+  - {fileID: 11400000, guid: 72d84196ec11de44c9a2c3624f9fa45c, type: 2}
   - {fileID: 11400000, guid: 0c715df332a1f124597cc4c80a2dfe13, type: 2}
   - {fileID: 11400000, guid: ce1155d394bb48943b9b12012625260d, type: 2}
   defaultFileList:
-  - {fileID: 11400000, guid: b959f76dac993614b9dfed26c9254c4f, type: 2}
+  - {fileID: 11400000, guid: 5c0e4b5395983374ba8f5b3cc210123f, type: 2}
   - {fileID: 11400000, guid: e04e18c9308e5444486c11f925248a11, type: 2}
   - {fileID: 11400000, guid: 52d3e851b4a9aa543b3f31915ddab3d1, type: 2}
-  - {fileID: 11400000, guid: 670d295c3427bb24d9fb513192918a5b, type: 2}
   - {fileID: 11400000, guid: 8ac3c742caf68c74a9769130a45bfdfa, type: 2}
   - {fileID: 11400000, guid: d564c385388fad24e8c8fc0e0a8f8c8f, type: 2}
   backgroundIcons: {fileID: 1753673295}
@@ -10449,6 +10461,7 @@ MonoBehaviour:
   noticePanelTemp: {fileID: 4493819025310840817, guid: 1300226643084bd0803717e4b462559a, type: 3}
   noticeOutline: {fileID: 990546319}
   noticePanelParant: {fileID: 1120884905}
+  celebrationNotice: {fileID: 0}
   saveNoticeList: []
   maxExtend: 3
   overlayTrigger: {fileID: 1395410948}
@@ -11835,7 +11848,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 471829026}
   m_HandleRect: {fileID: 471829025}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12733,7 +12746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconPrefab: {fileID: 2143538916}
-  backgroundDirectory: {fileID: 0}
+  backgroundDirectory: {fileID: 11400000, guid: 05e87e6e6d3ab994b808500c4ceb08d1, type: 2}
 --- !u!1 &1761625756
 GameObject:
   m_ObjectHideFlags: 0
@@ -14331,9 +14344,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979f258974a9440b84695c6e570eaa04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginScreen: {fileID: 1723180407}
+  loginScreen: {fileID: 1723180409}
   targetMovementY: 1000
   offset: 300
+  loginCanvas: {fileID: 924957042}
 --- !u!114 &1928151445
 MonoBehaviour:
   m_ObjectHideFlags: 0
