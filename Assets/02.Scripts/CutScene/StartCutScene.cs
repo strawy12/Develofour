@@ -90,9 +90,11 @@ public class StartCutScene : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.InterrogationRoom);
 
-        string monologID = Constant.MonologKey.STARTCUTSCENE_1;
-        MonologSystem.AddOnEndMonologEvent(monologID, FadeInterrogationRoomSprite);
-        MonologSystem.OnStartMonolog?.Invoke(monologID, false);
+
+        FadeInterrogationRoomSprite();
+        //string monologID = Constant.MonologKey.STARTCUTSCENE_1;
+        //MonologSystem.AddOnEndMonologEvent(monologID, FadeInterrogationRoomSprite);
+        //MonologSystem.OnStartMonolog?.Invoke(monologID, false);
     }
 
     private void FadeInterrogationRoomSprite()
@@ -119,9 +121,10 @@ public class StartCutScene : MonoBehaviour
         backgroundImagePanel.DOFade(1, 1.5f).OnComplete(() =>
         {
             Debug.Log("asdf");
-            string monologID = Constant.MonologKey.STARTCUTSCENE_2;
-            MonologSystem.AddOnEndMonologEvent(monologID, StartLoading);
-            MonologSystem.OnStartMonolog?.Invoke(monologID, false);
+            StartLoading();
+            //string monologID = Constant.MonologKey.STARTCUTSCENE_2;
+            //MonologSystem.AddOnEndMonologEvent(monologID, StartLoading);
+            //MonologSystem.OnStartMonolog?.Invoke(monologID, false);
         });
     }
 
