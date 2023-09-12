@@ -14,10 +14,12 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
 
     public void Open()
     {
+        Debug.Log("Open");
         if (!isSetting)
         {
+            Debug.Log("Setting");
             InformationTrigger[] triggerArray = GetComponentsInChildren<InformationTrigger>();
-
+            Debug.Log($"{triggerArray.Length} 트리거 수");
             triggerCount.Clear();
             for(int i = 0; i < triggerArray.Length; i++)
             {

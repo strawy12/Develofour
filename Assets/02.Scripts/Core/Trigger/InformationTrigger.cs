@@ -36,7 +36,7 @@ public class InformationTrigger : MonoBehaviour
         }
     }
 
-    protected virtual void Bind()
+    public virtual void Bind()
     {
         if (triggerData == null)
         {

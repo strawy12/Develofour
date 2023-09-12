@@ -17,7 +17,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
     protected Color tempColor;
     private GameObject lockImage;
 
-    protected override void Bind()
+    public override void Bind()
     {
         if (backgroundImageList == null || backgroundImageList.Count == 0)
         {
