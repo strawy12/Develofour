@@ -139,7 +139,6 @@ public class ProfileOverlaySystem : MonoBehaviour
 
     private int GetWholeCount()
     {
-        Debug.Log(triggerIDList.Count);
         return triggerIDList.Count;
     }
 
