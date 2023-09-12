@@ -37,7 +37,6 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private void Start()
     {
         GameManager.Inst.OnStartCallback += Init;
-
     }
 
     private void Init()
@@ -72,8 +71,6 @@ public class WindowsLockScreen : MonoBehaviour, IDragHandler, IBeginDragHandler,
         DataManager.Inst.SaveData.isClearStartCutScene = true; 
         EventManager.StopListening(ECutSceneEvent.EndStartCutScene, TurnInteractable);
     }
-
-
 
     public void OnBeginDrag(PointerEventData eventData)
     {

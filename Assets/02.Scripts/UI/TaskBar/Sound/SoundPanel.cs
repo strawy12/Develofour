@@ -8,7 +8,7 @@ public class SoundPanel : MonoUI
 
     public SoundSlider bgm;
     public SoundSlider effect;
-    public SoundChangePanel changePanel;
+    public SoundChangePanel changePanel;    
     public SoundSelectPanel selectPanel;
     public GameObject taskbarSoundImage;
 
