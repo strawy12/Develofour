@@ -49,8 +49,6 @@ public class ProfileOverlaySystem : MonoBehaviour
     {
         if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
 
-        Debug.Log("OverlaySystem Open");
-
         ResetCount();
         currentFileID = id;
 
@@ -133,10 +131,9 @@ public class ProfileOverlaySystem : MonoBehaviour
         list.ForEach((trigger) =>
         {
             trigger.Bind();
-            if (trigger.TriggerData == null) { Debug.Log("trugger is null"); return; }
+            if (trigger.TriggerData == null) { return; }
             triggerIDList.Add(trigger.TriggerData.id);
         });
-        Debug.Log($"{triggerIDList.Count}");
         return triggerIDList;
     }
 

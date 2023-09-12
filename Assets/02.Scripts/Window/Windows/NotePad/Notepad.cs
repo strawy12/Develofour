@@ -93,7 +93,6 @@ public class Notepad : Window
             overlayTrigger = notepadBody.GetComponent<ProfileOverlayOpenTrigger>();
             if (overlayTrigger == null) { return; }
         }
-        Debug.Log("OverayOpen");
         overlayTrigger.Open();
     }
 
