@@ -53,9 +53,10 @@ public class ProfilerChatting : MonoUI
 
     protected float currentValue;
     [SerializeField]
-    protected TMP_Text textPrefab;
+    protected ProfilerAIText textPrefab;
     [SerializeField]
     protected GameObject imagePrefab;
+
     [SerializeField]
     protected NewAIChattingImage newImagePrefab;
 
@@ -85,6 +86,8 @@ public class ProfilerChatting : MonoUI
 
     [SerializeField]
     private ProfilerWindow profiler;
+
+    private bool isFirstChat;
 
     public void Init()
     {
@@ -148,6 +151,10 @@ public class ProfilerChatting : MonoUI
             if(temp.gameObject.GetComponent<Image>() == null)
             {
                 temp.sizeDelta = new Vector2(currentValue - 60, 0);
+            }
+            else if (temp.gameObject.name == "Line")
+            {
+                temp.sizeDelta = new Vector2(700, 1);
             }
         }
     }
@@ -219,20 +226,32 @@ public class ProfilerChatting : MonoUI
 
     private TMP_Text CreateTextUI(string msg)
     {
+
         CheckNewChatting();
 
-        TMP_Text textUI = Instantiate(textPrefab, textParent);
-        textUI.text = msg;
+        ProfilerAIText textUI = Instantiate(textPrefab, textParent);
+        textUI.text.text = msg;
+
 
         SetLastWidth();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(textUI.rectTransform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(textUI.text.rectTransform);
         SetScrollView();
         textUI.gameObject.SetActive(true);
         SetLastWidth();
 
+
+        if (!isFirstChat)
+        {
+            isFirstChat = true;
+        }
+        else
+        {
+            textUI.line.SetActive(true);
+        }
+
         saveChatCount = ChattingCount;
 
-        return textUI;
+        return textUI.text;
     }
 
 
