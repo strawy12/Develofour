@@ -79,7 +79,7 @@ public static partial class Constant
     #region MonologKey
     public static class MonologKey
     {
-        public const string STARTCUTSCENE_1 = "T_CS_S_1";
+        public const string STARTCUTSCENE_1 = "T_CS_ST_1";
         public const string STARTCUTSCENE_2 = "T_CS_S_2";
         public const string WINDOWS_LOGIN_COMPLETE = "T_CS_S_3";
         public const string WINDOWS_LOGIN_SCREEN_OPEN = "T_CS_S_4";

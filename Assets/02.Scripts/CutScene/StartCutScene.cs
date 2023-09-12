@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using DG.Tweening;
-using UnityEngine.Rendering;
+
 
 public class StartCutScene : MonoBehaviour
 {
@@ -33,10 +33,13 @@ public class StartCutScene : MonoBehaviour
     [SerializeField]
     private GameObject cutSceneCoverPanel;
 
-    [Header("디버그용")]
-    public bool isScreamSound;
-    public bool isSkip;
-    
+    [SerializeField]
+    private List<Image> cutSceneImages;
+
+#if UNITY_EDITOR
+    public bool isSkip = false;
+#endif
+
     private void Awake()
     {
         OnPlayCutScene += ShowFiction;
@@ -70,12 +73,16 @@ public class StartCutScene : MonoBehaviour
         StartCoroutine(PlayCutSceneCoroutine());
     }
 
+
     private IEnumerator PlayCutSceneCoroutine()
     {
-        float? delay = Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutSceneScream);
-        isScreamSound = true;
-        yield return new WaitForSeconds(delay == null ? 5f : (float)delay);
-        isScreamSound = false;
+        float? delay = Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutSceneBGM);
+        yield return new WaitForSeconds(0.8f);
+
+        StartScene_1();
+
+        /*
+
         Sound.OnPlaySound?.Invoke(Sound.EAudioType.StartCutScenePoint);
         titleLogo.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
@@ -93,26 +100,77 @@ public class StartCutScene : MonoBehaviour
         string monologID = Constant.MonologKey.STARTCUTSCENE_1;
         MonologSystem.AddOnEndMonologEvent(monologID, FadeInterrogationRoomSprite);
         MonologSystem.OnStartMonolog?.Invoke(monologID, false);
+        */
     }
 
-    private void FadeInterrogationRoomSprite()
+    #region StartScene_1
+
+    private void StartScene_1()
     {
-        StartCoroutine(FadeInterrogationRoomSpriteCor());
+        string monologID = $"{Constant.MonologKey.STARTCUTSCENE_1}_{1}";
+        MonologSystem.AddOnEndMonologEvent(monologID, () => StartCoroutine(ChangeImage_1_1()));
+        MonologSystem.OnStartMonolog?.Invoke(monologID, false);
     }
 
-    private IEnumerator FadeInterrogationRoomSpriteCor()
+     private IEnumerator ChangeImage_1_1()
     {
-        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.InterrogationRoom);
+        float? delay = Sound.OnPlaySound?.Invoke(Sound.EAudioType.WomanWalk);
+        backgroundImagePanel = cutSceneImages[0];
+        backgroundImagePanel.color = Define.FadeColor;
 
-        interrogationRoomSprite.DOFade(0, 1.5f);
+        backgroundImagePanel.DOFade(1f, 1f);
+        float delayTime = (delay==null?3f:delay.Value) + 3f;
+        yield return new WaitForSeconds(delayTime);
+
+        backgroundImagePanel.color = Define.FadeColor;
+        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.WomanWalk);
+
+        string monologID = $"{Constant.MonologKey.STARTCUTSCENE_1}_{2}";
+        MonologSystem.AddOnEndMonologEvent(monologID, () => StartCoroutine(ChangeImage_1_2()));
+        MonologSystem.OnStartMonolog?.Invoke(monologID, false);
+    }
+
+    private IEnumerator ChangeImage_1_2()
+    {
+        float? delay = Sound.OnPlaySound?.Invoke(Sound.EAudioType.ManWalk);
+        backgroundImagePanel = cutSceneImages[1];
+        backgroundImagePanel.color = Define.FadeColor;
+        backgroundImagePanel.DOFade(1f, 1f);
+        float delayTime = (delay == null ? 3f : delay.Value) + 3f;
+        yield return new WaitForSeconds(delayTime);
+
+        backgroundImagePanel.color = Define.FadeColor;
+        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.ManWalk);
+
+        string monologID = $"{Constant.MonologKey.STARTCUTSCENE_1}_{3}";
+        MonologSystem.AddOnEndMonologEvent(monologID, () => StartCoroutine(ChangeImage_1_3()));
+        MonologSystem.OnStartMonolog?.Invoke(monologID, false);
+    }
+    private IEnumerator ChangeImage_1_3()
+    {
+        float? delay = Sound.OnPlaySound?.Invoke(Sound.EAudioType.FastWalk);
+        float delayTime = (delay == null ? 3f : delay.Value);
+        yield return new WaitForSeconds(delayTime);
+
+        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.FastWalk);
+
+        backgroundImagePanel = cutSceneImages[2];
+        backgroundImagePanel.color = Define.FadeColor;
+        backgroundImagePanel.rectTransform.anchoredPosition = new Vector2(480f, 0f);
+        backgroundImagePanel.DOFade(1f, 1f);
         yield return new WaitForSeconds(2f);
+        backgroundImagePanel.rectTransform.DOAnchorPosX(-480f, 5f);
+        yield return new WaitForSeconds(5f);
+        // 대기
 
-        Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
-        yield return new WaitForSeconds(3.3f);
-
-        Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneReceive);
-        StartRequest();
+        string monologID = $"{Constant.MonologKey.STARTCUTSCENE_1}_{4}";
+        //MonologSystem.AddOnEndMonologEvent(monologID, () => StartCoroutine(ChangeImage_1_3()));
+        // AddOnEndEvent => 취조실로 넘어감
+        MonologSystem.OnStartMonolog?.Invoke(monologID, false);
     }
+
+
+    #endregion
 
     private void StartRequest()
     {

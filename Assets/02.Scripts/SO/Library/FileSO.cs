@@ -60,15 +60,16 @@ public class FileSO : ScriptableObject
     public string GetRealFileLocation()
     {
         string location = "";
+        Debug.Log($"{id}, {(parent  == null? "X" : parent.id)}");
         if (parent == null)
         {
             location = this.id + '\\';
-            Debug.Log($"{location}");
+            //Debug.Log($"{location}");
             return location;
         }
 
         location = string.Format("{0}{1}\\", parent.GetRealFileLocation(), this.id);
-        Debug.Log($"{location}");
+       //Debug.Log($"{location}");
         return location;
     }
 #endif

@@ -11,6 +11,8 @@ using UnityEngine.UI;
 using UnityRandom = UnityEngine.Random;
 public static class Define
 {
+    public static readonly Color FadeColor = new Color(1f, 1f, 1f, 0f);
+
     public static Vector2 MaxWindowSize
     {
         get

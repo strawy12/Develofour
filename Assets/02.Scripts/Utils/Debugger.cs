@@ -82,8 +82,7 @@ public class Debugger : MonoBehaviour
             {
                 cutScene.isSkip = true;
                 cutScene.DOKill(false);
-                if (cutScene.isScreamSound)
-                    Sound.OnImmediatelyStop(Sound.EAudioType.StartCutSceneScream);
+                    Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.StartCutSceneScream);
                 EventManager.TriggerEvent(ECoreEvent.OpenVolume, new object[] { false });
                 cutScene.StartLoading();
 

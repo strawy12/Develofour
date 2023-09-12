@@ -81,7 +81,7 @@ public partial class SOSettingWindow : EditorWindow
                 case "G":
                     idDivision.Add("GuideText");
                     break;
-                case "S":
+                case "ST":
                     idDivision.Add("StartCutSceneText");
                     break;
                 default:
