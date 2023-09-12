@@ -23,9 +23,9 @@ public partial class SOSettingWindow : EditorWindow
 
             List<string> infoIDList = new List<string>();
             string[] infoIDs = columns[2].Trim().Split(',');
-            for(int j = 0; j < infoIDs.Length; j++)
+            for (int j = 0; j < infoIDs.Length; j++)
             {
-                if(!string.IsNullOrEmpty(infoIDs[j]))
+                if (!string.IsNullOrEmpty(infoIDs[j]))
                 {
                     string str = infoIDs[j].Trim();
                     infoIDList.Add(str);
@@ -35,17 +35,20 @@ public partial class SOSettingWindow : EditorWindow
 
             List<NeedInfoData> needInfoList = new List<NeedInfoData>();
             string[] needDatas = columns[3].Trim().Split('/');
-            if(needDatas.Length > 0 && !string.IsNullOrEmpty(columns[3]))
+            if (needDatas.Length > 0 && !string.IsNullOrEmpty(columns[3]))
             {
                 for (int j = 0; j < needDatas.Length; j++)
                 {
                     Debug.Log(needDatas[j]);
                     string[] needInfo = needDatas[j].Trim().Split(',');
-                    
+
                     NeedInfoData needData = new NeedInfoData();
                     needData.needInfoID = needInfo[0].Trim();
                     needData.monologID = needInfo[1].Trim();
-                    needData.getInfo = bool.Parse(needInfo[2].Trim());
+                    if (needInfo.Length > 3)
+                    {
+                        needData.getInfo = bool.Parse(needInfo[2].Trim());
+                    }
                     needInfoList.Add(needData);
                 }
             }
@@ -57,9 +60,9 @@ public partial class SOSettingWindow : EditorWindow
             {
                 isFakeInfo = bool.Parse(columns[5]);
             }
-            
+
             string memo = string.Empty;
-            if(columns.Length > 6)
+            if (columns.Length > 6)
             {
                 memo = columns[6];
             }
