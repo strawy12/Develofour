@@ -130,7 +130,8 @@ public class ProfileOverlaySystem : MonoBehaviour
     {
         list.ForEach((trigger) =>
         {
-            if (trigger.TriggerData == null) return;
+            trigger.Bind();
+            if (trigger.TriggerData == null) { return; }
             triggerIDList.Add(trigger.TriggerData.id);
         });
         return triggerIDList;
@@ -138,6 +139,7 @@ public class ProfileOverlaySystem : MonoBehaviour
 
     private int GetWholeCount()
     {
+        Debug.Log(triggerIDList.Count);
         return triggerIDList.Count;
     }
 

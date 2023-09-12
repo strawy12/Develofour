@@ -47,9 +47,6 @@ public class Notepad : Window
         OnSelected += notepadBody.inputField.ActivateInputField;
         OnUnSelected += () => notepadBody.inputField.DeactivateInputField();
 
-        OnSelected += OverlayOpen;
-        OnUnSelected += OverlayClose;
-        OverlayOpen();
 
         windowBar.OnMaximum.AddListener(notepadBody.SetTriggerPosition);
 
@@ -57,6 +54,9 @@ public class Notepad : Window
 
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
 
+        OnSelected += OverlayOpen;
+        OnUnSelected += OverlayClose;
+        OverlayOpen();
         SetText();
     }
 
@@ -88,7 +88,6 @@ public class Notepad : Window
 
     private void OverlayOpen()
     {
-
         if (overlayTrigger == null) // 없다면 찾아와
         {
             overlayTrigger = notepadBody.GetComponent<ProfileOverlayOpenTrigger>();

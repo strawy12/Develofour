@@ -50,13 +50,6 @@ public class Debugger : MonoBehaviour
             CallSystem.OnInComingCall?.Invoke("CD_PL", "C_P_I_1");
         }
 
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            MonologSystem.AddOnEndMonologEvent("T_M_1", () =>
-            { MonologSystem.OnStartMonolog?.Invoke("T_M_2", false); });
-            MonologSystem.OnStartMonolog?.Invoke("T_M_1", false);
-
-        }
         if(Input.GetKeyDown(KeyCode.H))
         {
             GameManager.Inst.WindowReset();
