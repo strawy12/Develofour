@@ -22,7 +22,7 @@ public partial class Sound : MonoBehaviour
         MouseDown,
         MouseUp,
         USBConnect,
-        StartCutSceneScream,
+        FastWalk,
         StartCutScenePoint,
         StartCutSceneLightPull,
         PhoneAlarm,
@@ -39,7 +39,6 @@ public partial class Sound : MonoBehaviour
         FallenDownObject,
         WomanWalk,
         ManWalk,
-        FastWalk,
         End
     }
 
