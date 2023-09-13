@@ -132,7 +132,7 @@ public class FileManager : MonoSingleton<FileManager>
         EventManager.TriggerEvent(ELibraryEvent.AddFile);
         if (isNotice)
         {
-            string str = $"{file.GetFileLocation()}폴더를 확인해 주세요";
+            string str = $"{file.GetFileLocationToSlash().TrimEnd('/')} 폴더를 확인해 주세요";
             NoticeSystem.OnNotice.Invoke(file.fileName + "파일이 다운로드 되었습니다.", str, 0.1f, true, null, Color.white, ENoticeTag.None, file.parent.ID);
         }
 
