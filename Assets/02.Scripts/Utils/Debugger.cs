@@ -50,6 +50,11 @@ public class Debugger : MonoBehaviour
             CallSystem.OnInComingCall?.Invoke("CD_PL", "C_P_I_1");
         }
 
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            FileManager.Inst.AddFile("F_DR_71", Constant.FileID.USB);
+        }
+
         if(Input.GetKeyDown(KeyCode.H))
         {
             GameManager.Inst.WindowReset();
