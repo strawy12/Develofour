@@ -47,6 +47,7 @@ public static partial class Constant
         public const string INCIDENT_REPORT = "F_IV_1";
         public const string INSTALL = "F_IN_0";
         public const string Test = "F_DR_64";
+        public const string INCIDENT_MAP = "F_IV_4";
     }
         public const string NOW_USB_CHECK = "T_M_96";
 

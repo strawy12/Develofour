@@ -278,6 +278,7 @@ public class ProfilerTutorial : MonoBehaviour
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
         CallSystem.OnInComingCall?.Invoke("CD_AS", "C_A_I_1");
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
+
     }
 
 #if UNITY_EDITOR
@@ -288,6 +289,7 @@ public class ProfilerTutorial : MonoBehaviour
         ProfilerChattingSystem.OnChatEnd = null;
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
         GuideUISystem.OnEndAllGuide?.Invoke();
+        FileManager.Inst.AddFile(Constant.FileID.INCIDENT_MAP, Constant.FileID.USB);
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "I_C_10_1" });
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "I_C_11_1" });
         DataManager.Inst.SetProfilerTutorialState(TutorialState.EndTutorial);
