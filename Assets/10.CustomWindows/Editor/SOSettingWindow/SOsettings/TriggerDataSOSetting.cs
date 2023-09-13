@@ -25,7 +25,7 @@ public partial class SOSettingWindow : EditorWindow
             string[] infoIDs = columns[2].Trim().Split(',');
             for (int j = 0; j < infoIDs.Length; j++)
             {
-                if (!string.IsNullOrEmpty(infoIDs[j]))
+                if (!string.IsNullOrEmpty(infoIDs[j]) && infoIDs[j] != "X")
                 {
                     string str = infoIDs[j].Trim();
                     infoIDList.Add(str);
