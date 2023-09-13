@@ -24,7 +24,7 @@ public class ProfilerChattingSystem : TextSystem
     private string RECIEVE_IMAGE = "이미지가 전송되었습니다.";
 
     public static bool isChatting;
-
+    public static bool isFirstChatting;
 
     public Sprite newSprite;
 
@@ -68,6 +68,7 @@ public class ProfilerChattingSystem : TextSystem
     private IEnumerator ChattingCoroutine(float delay, bool isSave)
     {
         isChatting = true;
+        isFirstChatting = false;
         foreach (AIChat data in currentChatData.AIChatList)
         {
             if(data.sprite == null && data.text != null) // 텍스트
@@ -95,6 +96,7 @@ public class ProfilerChattingSystem : TextSystem
                 yield return new WaitForSeconds(currentDelay);
                 currentDelay = 0f;
             }
+            isFirstChatting = true;
         }
 
         EndChatting();
