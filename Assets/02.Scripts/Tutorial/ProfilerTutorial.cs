@@ -272,9 +272,9 @@ public class ProfilerTutorial : MonoBehaviour
         {
             library.TutorialLibraryClickRemoveEvent();
         }
-
-        //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "I_C_10_1" });
-        //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "I_C_11_1" });
+        EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { "01023459876" });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "I_C_10_1" });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "I_C_11_1" });
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
         CallSystem.OnInComingCall?.Invoke("CD_AS", "C_A_I_1");
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
