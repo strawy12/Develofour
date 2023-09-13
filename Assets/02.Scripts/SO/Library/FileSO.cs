@@ -88,6 +88,21 @@ public class FileSO : ScriptableObject
         return location;
     }
 
+    public string GetFileLocationToSlash()
+    {
+        string location = "";
+        if (parent == null)
+        {
+            location = this.fileName + '/';
+
+            return location;
+        }
+
+        location = string.Format("{0}{1}/", parent.GetFileLocationToSlash(), this.fileName);
+
+        return location;
+    }
+
 #if UNITY_EDITOR
     [ContextMenu("GetFileLocation")]
     public string DebugGetFileLocation()
