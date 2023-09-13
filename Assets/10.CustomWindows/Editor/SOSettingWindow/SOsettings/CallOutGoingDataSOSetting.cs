@@ -62,7 +62,7 @@ public partial class SOSettingWindow : EditorWindow
 
             callData.id = id;
             callData.additionFileIDList = additionFileDataList;
-
+            callData.returnCallID = returnCallID;
             if (needInfoIDList != null)
             {
                 callData.needInfoIDList = needInfoIDList.ToList();

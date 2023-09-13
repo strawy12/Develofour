@@ -41,8 +41,8 @@ public static partial class Constant
         public const string BACKGROUND = "F_DR_6";
         public const string DOWNLOAD = "F_DR_18";
         public const string PROFILER = "F_PF_0";
-        public const string ZOOGLEPIN = "F_N_13";
-        public const string ZOOGLEPASSWORD = "F_N_12";
+        public const string ZOOGLEPIN = "";
+        public const string ZOOGLEPASSWORD = "";
         public const string CALLRECORDING = "F_DR_25";
         public const string INCIDENT_REPORT = "F_IV_1";
         public const string INSTALL = "F_IN_0";
