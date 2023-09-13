@@ -74,6 +74,10 @@ public class InformationTrigger : MonoBehaviour
                         else
                             continue;
                     }
+                    else if(state == TutorialState.ClickCharacterTab || state == TutorialState.ClickIncidentTab)
+                    {
+                        continue;
+                    }
                 }
                 playMonolog = true;
                 if (!triggerData.isFakeInfo)

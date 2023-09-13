@@ -246,7 +246,10 @@ public class ProfilerChatting : MonoUI
         }
         else
         {
-            textUI.line.SetActive(true);
+            if(!ProfilerChattingSystem.isFirstChatting)
+            {
+                textUI.line.SetActive(true);
+            }
         }
 
         saveChatCount = ChattingCount;
