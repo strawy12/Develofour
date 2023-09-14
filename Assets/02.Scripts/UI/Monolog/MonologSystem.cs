@@ -63,7 +63,7 @@ public class MonologSystem : TextSystem
 
         isPlayMonolog = true;
         beforeGameState = GameManager.Inst.GameState;
-        GameManager.Inst.ChangeGameState(EGameState.CutScene);
+        GameManager.Inst.ChangeGameState(EGameState.Text);
 
         currentTextDataIdx = 0;
 

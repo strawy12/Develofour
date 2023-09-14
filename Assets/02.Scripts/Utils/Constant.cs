@@ -80,8 +80,11 @@ public static partial class Constant
     public static class MonologKey
     {
         public const string STARTCUTSCENE_1 = "T_CS_ST_1";
-        public const string STARTCUTSCENE_2 = "T_CS_S_2";
-        public const string WINDOWS_LOGIN_COMPLETE = "T_CS_S_3";
+        public const string STARTCUTSCENE_2 = "T_CS_ST_2";
+        public const string STARTCUTSCENE_3 = "T_CS_ST_3";
+        public const string STARTCUTSCENE_4 = "T_CS_ST_4";
+        public const string STARTCUTSCENE_5 = "T_CS_ST_5";
+        public const string WINDOWS_LOGIN_COMPLETE = "T_CS_ST_3";
         public const string WINDOWS_LOGIN_SCREEN_OPEN = "T_CS_S_4";
 
         public const string END_PROFILER_TUTORIAL = "T_CS_S_5";

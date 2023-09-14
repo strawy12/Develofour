@@ -213,6 +213,8 @@ public enum ETextboxEvent
     None = -1,
     Shake,
     Delay,
+    EndPrintText,
+    StartPrintText,
 }
 
 public enum EGuideButtonTutorialEvent

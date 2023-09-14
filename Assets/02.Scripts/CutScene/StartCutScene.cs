@@ -147,7 +147,6 @@ public class StartCutScene : MonoBehaviour
 
     private void EndScene_1()
     {
-        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.StartCutSceneBGM);
         StartCoroutine(StartScene_2());
     }
 
@@ -156,10 +155,10 @@ public class StartCutScene : MonoBehaviour
     #region Other Scenes
 
     private IEnumerator StartScene_2()
-    {
+    { 
         backgroundImagePanel.DOFade(0f, 3f);
         yield return new WaitForSeconds(3f);
-
+        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.StartCutSceneBGM);
         Sound.OnPlaySound.Invoke(Sound.EAudioType.StartCutSceneLightPull);
         EventManager.TriggerEvent(ECoreEvent.OpenVolume, new object[] { true });
         backgroundImagePanel = cutSceneImages[3];
@@ -205,6 +204,7 @@ public class StartCutScene : MonoBehaviour
 
     private IEnumerator StartLoadingCor()
     {
+        yield return new WaitForSeconds(1.5f);
         EventManager.TriggerEvent(ECoreEvent.OpenVolume, new object[] { false });
         blackImagePanel.gameObject.SetActive(true);
         blackImagePanel.DOFade(0f, 2f);

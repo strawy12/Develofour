@@ -37,24 +37,6 @@ public class CharacterAnimator : MonoBehaviour
     private bool isBlink = false;
     private bool isTalk = false;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            PlayBlink();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            PlayTalk();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            isBlink = false;
-            isTalk = false;
-        }
-    }
     public void PlayBlink()
     {
         if (isBlink) return;

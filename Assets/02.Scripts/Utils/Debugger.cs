@@ -40,6 +40,15 @@ public class Debugger : MonoBehaviour
             SkipScene();
         }
 
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Time.timeScale = 5f;
+        }
+        if (Input.GetKeyUp(KeyCode.V))
+        {
+            Time.timeScale = 1f;
+        }
+
         if (Input.GetKeyDown(KeyCode.D))
         {
             MonologSystem.OnStopMonolog?.Invoke();

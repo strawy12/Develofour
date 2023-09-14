@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -21,18 +22,21 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     {
         characterPrefabDictionary = new Dictionary<ECharacterType, CharacterAnimator>();
 
-        var handle = Addressables.LoadResourceLocationsAsync("CharacterPrefab", typeof(CharacterAnimator));
+        var handle = Addressables.LoadResourceLocationsAsync("CharacterPrefab");
         await handle.Task;
+        Debug.Log(handle.Result);
+
         for (int i = 0; i < handle.Result.Count; i++)
         {
-            var task = Addressables.LoadAssetAsync<CharacterAnimator>(handle.Result[i]).Task;
+            var task = Addressables.LoadAssetAsync<GameObject>(handle.Result[i]).Task;
             await task;
+            Debug.Log(task.Result);
             if (task.Result == null)
-            {
-                Debug.Log("null");
+            { 
                 continue;
             }
-            characterPrefabDictionary.Add(task.Result.Type, task.Result);
+            CharacterAnimator result = task.Result.GetComponent<CharacterAnimator>();
+            characterPrefabDictionary.Add(result.Type, result);
         }
         Addressables.Release(handle);
 
