@@ -192,4 +192,10 @@ public class FinderCallWindow : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.Join(transform.DOScale(1, minDuration));
     }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(ETextboxEvent.StartPrintText, StartTalk);
+        EventManager.StopListening(ETextboxEvent.EndPrintText, EndTalk);
+    }
 }
