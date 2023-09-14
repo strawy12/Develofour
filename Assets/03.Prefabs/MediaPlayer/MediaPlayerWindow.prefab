@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29711d728a364aee99c6982a3120563e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openInt: 0
+  isFlag: 0
   originWindowAlteration: {fileID: 11400000, guid: 72ed205aba9441ac81676a2c4599d714, type: 2}
   windowBar: {fileID: 4429123201608326530}
   mediaPlaySlider: {fileID: 9198880328999702303}
@@ -223,6 +223,7 @@ MonoBehaviour:
   mediaPlayerDownBar: {fileID: 6678981797651827186}
   cdPlayMedia: {fileID: 4449251099334866747}
   mediaPlayerData: {fileID: 0}
+  overlayTrigger: {fileID: 0}
   wordSizeY: 0
 --- !u!114 &2949198790470043550
 MonoBehaviour:
@@ -3102,6 +3103,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DefaultMediaBody
       objectReference: {fileID: 0}
+    - target: {fileID: 825148919393762346, guid: 70e2e2aebcb345d4a1f78a595d8a27ef, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1235928798604091029, guid: 70e2e2aebcb345d4a1f78a595d8a27ef, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3156,15 +3161,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1235928798604091029, guid: 70e2e2aebcb345d4a1f78a595d8a27ef, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1235928798604091029, guid: 70e2e2aebcb345d4a1f78a595d8a27ef, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1235928798604091029, guid: 70e2e2aebcb345d4a1f78a595d8a27ef, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1235928798604091029, guid: 70e2e2aebcb345d4a1f78a595d8a27ef, type: 3}
       propertyPath: m_AnchoredPosition.x

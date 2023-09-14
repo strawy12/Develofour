@@ -264,9 +264,8 @@ public static class Define
         {
             foreach (TextTriggerData trigger in triggerList)
             {
-
                 Vector2 pos = text.textInfo.characterInfo[trigger.startIdx].topLeft;
-
+                Debug.Log(text.textInfo.characterInfo[trigger.startIdx].character);
                 for (int i = trigger.startIdx + 1; i < text.text.Length; i++)
                 {
                     if (text.text[i] == ' ') break;
@@ -281,7 +280,6 @@ public static class Define
             }
         }
     }
-
 
     public static void SetTiggerSize(TMP_Text text, List<TextTriggerData> triggerList)
     {
