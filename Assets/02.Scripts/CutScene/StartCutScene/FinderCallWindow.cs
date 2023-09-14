@@ -30,9 +30,9 @@ public class FinderCallWindow : MonoBehaviour
     [SerializeField]
     private Transform otherCharacterParent;
     [SerializeField]
-    private TalkSticks myTalkSticks;
+    private GameObject myTalkGuideUI;
     [SerializeField]
-    private TalkSticks otherTalkSticks;
+    private GameObject otherTalkGuideUI;
 
     private CharacterAnimator otherCharacter;
     public void Show()
@@ -111,14 +111,12 @@ public class FinderCallWindow : MonoBehaviour
         if (color != Color.white)
         {
             otherCharacter.PlayTalk();
-            otherTalkSticks.PlayEffect();
-            myTalkSticks.StopEffect();
+            otherTalkGuideUI.SetActive(true);
         }
 
         else
         {
-            myTalkSticks.PlayEffect();
-            otherTalkSticks.StopEffect();
+            myTalkGuideUI.SetActive(true);
         }
     }
 
@@ -128,6 +126,15 @@ public class FinderCallWindow : MonoBehaviour
         {
             otherCharacter.StopTalk();
         }
+
+        StartCoroutine(HideTalkGuideUI());
+    }
+
+    private IEnumerator HideTalkGuideUI()
+    {
+        yield return new WaitForSeconds(1f);
+        myTalkGuideUI.SetActive(false);
+        otherTalkGuideUI.SetActive(false);
     }
 
     private void SizeDoTween()
