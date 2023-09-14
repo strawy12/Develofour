@@ -11,16 +11,22 @@ public class ProfilerPanel : MonoBehaviour
     [SerializeField]
     private ProfilerInventoryPanel typePanel;
     [SerializeField]
-    private Button sceneBtn;
+    private Button incidentBtn;
+    [SerializeField]
+    private GameObject incidentHighlightPanel;
     [SerializeField]
     private Button characterBtn;
+    [SerializeField]
+    private GameObject characterHighlightPanel;
 
     public void Init()
     {
         infoPanel.Init(false);
         typePanel.Init(false);
         characterBtn.onClick.AddListener(OnClickCharacterPanelBtn);
-        sceneBtn.onClick.AddListener(OnClickIncidentPanelBtn);
+        incidentBtn.onClick.AddListener(OnClickIncidentPanelBtn);
+        incidentHighlightPanel.SetActive(false);
+        characterHighlightPanel.SetActive(false);
         EventManager.StartListening(EProfilerEvent.RegisterInfo, ChangeValue);
 
         Show();
@@ -66,6 +72,8 @@ public class ProfilerPanel : MonoBehaviour
             typePanel.ShowCharacterPanel();
 
         EventManager.TriggerEvent(EProfilerEvent.ClickCharacterTab);
+        incidentHighlightPanel.SetActive(false);
+        characterHighlightPanel.SetActive(true);
     }
 
     private void OnClickIncidentPanelBtn()
@@ -74,6 +82,8 @@ public class ProfilerPanel : MonoBehaviour
             typePanel.ShowScenePanel();
 
         EventManager.TriggerEvent(EProfilerEvent.ClickIncidentTab);
+        incidentHighlightPanel.SetActive(true);
+        characterHighlightPanel.SetActive(false);
     }
     private void OnDestroy()
     {
