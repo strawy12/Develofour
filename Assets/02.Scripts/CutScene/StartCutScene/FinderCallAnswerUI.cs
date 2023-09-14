@@ -24,6 +24,7 @@ public class FinderCallAnswerUI : MonoBehaviour
 
     public void Show()
     {
+        transform.localScale = Vector3.zero;
         gameObject.SetActive(true);
     }
 
@@ -64,6 +65,8 @@ public class FinderCallAnswerUI : MonoBehaviour
 
     private IEnumerator PlayPhoneSoundAndShake()
     {
+        transform.DOScale(Vector3.one, 0.7f).SetEase(Ease.OutCubic);
+        yield return new WaitForSeconds(0.7f);
         while (!isRecieveCall)
         {
             transform.DOKill(true);
