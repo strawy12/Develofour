@@ -60,7 +60,7 @@ public class CallScreen : MonoBehaviour
         StopAllCoroutines();
         if (isClose)
         {
-            EventManager.TriggerEvent(ECallEvent.EndCall);
+            EventManager.TriggerEvent(ECallEvent.EndCall);  
         }
     }
 

@@ -39,6 +39,7 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
+        if (isHide) return;
         if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
        
 
@@ -50,6 +51,8 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     private void ChangeCursor(ECursorState state)
     {
+        if (isHide) return;
+
         if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
         Debug.Log(state);
         switch (state)
@@ -77,6 +80,8 @@ public class ClickInfoTrigger : InformationTrigger, IPointerClickHandler, IPoint
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
+        if (isHide) return;
+
         if (!DataManager.Inst.SaveData.isProfilerInstall || !DataManager.Inst.IsStartProfilerTutorial()) return;
 
         if (triggerData.infoDataIDList == null || triggerData.infoDataIDList.Count == 0)
