@@ -59,16 +59,16 @@ public class Debugger : MonoBehaviour
             CallSystem.OnInComingCall?.Invoke("CD_PL", "C_P_I_1");
         }
 
-        if(Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             FileManager.Inst.AddFile("F_DR_71", Constant.FileID.USB);
         }
 
-        if(Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H))
         {
             GameManager.Inst.WindowReset();
         }
-     }
+    }
 
     private void ActiveDebug()
     {
@@ -85,13 +85,9 @@ public class Debugger : MonoBehaviour
 
         if (cutScene != null)
         {
-            if (!cutScene.isSkip)
-            {
-                cutScene.isSkip = true;
-                cutScene.DOKill(false);
-                cutScene.StopAllCoroutines();
-                cutScene.EndScene_3();
-            }
+            cutScene.StopAllCoroutines();
+            MonologSystem.OnStopMonolog.Invoke();
+            cutScene.Skip();
         }
 
     }

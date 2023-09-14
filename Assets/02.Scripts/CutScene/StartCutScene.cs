@@ -33,9 +33,6 @@ public class StartCutScene : MonoBehaviour
     [SerializeField]
     private FinderWindows finderWindows;
 
-#if UNITY_EDITOR
-    public bool isSkip = false;
-#endif
 
     private void Awake()
     {
@@ -61,7 +58,7 @@ public class StartCutScene : MonoBehaviour
 
     private IEnumerator FictionCor()
     {
-        GameManager.Inst.OnChangeGameState?.Invoke(EGameState.CutScene);
+        GameManager.Inst.ChangeGameState(EGameState.CutScene);
         fictionText.DOFade(1, 0.5f);
         yield return new WaitForSeconds(0.5f);
         yield return new WaitForSeconds(1f);
@@ -189,6 +186,10 @@ public class StartCutScene : MonoBehaviour
 
         finderWindows.OnCompleted += EndScene_3;
         finderWindows.StartScene();
+    }
+    public void Skip()
+    {
+        EndRequestCutScene();
     }
     public void EndScene_3()
     {
