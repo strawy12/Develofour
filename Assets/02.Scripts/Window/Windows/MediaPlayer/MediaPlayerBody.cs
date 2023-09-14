@@ -57,6 +57,7 @@ public class MediaPlayerBody : MonoBehaviour
         foreach (TextTriggerData data in mediaPlayerTriggerList)
         {
             data.startIdx = mediaDetailText.text.IndexOf(data.text);
+            data.trigger.isHide = true;
         }
     }
     public void AddTextTriggerData(TextTriggerData textData)
@@ -91,11 +92,11 @@ public class MediaPlayerBody : MonoBehaviour
         {
             if (showIdx > trigger.startIdx)
             {
-                trigger.trigger.gameObject.SetActive(true);
+                trigger.trigger.isHide = false;
             }
             else
             {
-                trigger.trigger.gameObject.SetActive(false);
+                trigger.trigger.isHide = true;
             }
         }
     }

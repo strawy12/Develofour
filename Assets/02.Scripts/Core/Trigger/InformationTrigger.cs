@@ -23,6 +23,7 @@ public class InformationTrigger : MonoBehaviour
 
     protected string playMonologType = "";
 
+    public bool isHide = false;
 
     protected virtual void Awake()
     {
