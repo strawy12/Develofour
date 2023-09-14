@@ -71,7 +71,8 @@ public class FinderWindows : MonoBehaviour
 
     private void EndCallAssistant()
     {
-        callWindowPanel.AddChacter(ECharacterType.Assistant, TalkAssistant_1);
+        callWindowPanel.ignoreTextGuideCnt++;
+        callWindowPanel.DeleteCharacter();
     }
 
     private void AddPolice()

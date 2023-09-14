@@ -35,6 +35,9 @@ public class FinderCallWindow : MonoBehaviour
     private GameObject otherTalkGuideUI;
 
     private bool isPlayEffect = false;
+    public int ignoreTextGuideCnt = 0;
+
+    private Coroutine hideTalkGuideUICoroutine;
 
     private CharacterAnimator otherCharacter;
     public void Show()
@@ -88,7 +91,7 @@ public class FinderCallWindow : MonoBehaviour
 
     private IEnumerator AddCharacterEffect(Action callback)
     {
-        yield return new WaitUntil(() => isPlayEffect);
+        yield return new WaitUntil(() => !isPlayEffect);
         isPlayEffect = true;
 
         otherCallBox.transform.localScale = Vector3.zero;
@@ -106,7 +109,7 @@ public class FinderCallWindow : MonoBehaviour
 
     private IEnumerator DeleteCharacterEffect(Action callback)
     {
-        yield return new WaitUntil(() => isPlayEffect);
+        yield return new WaitUntil(() => !isPlayEffect);
         isPlayEffect = true;
 
         otherCallBox.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.OutCubic);
@@ -126,14 +129,32 @@ public class FinderCallWindow : MonoBehaviour
         if (ps.Length == 0) return;
 
         Color color = (Color)ps[0];
+
+        if (hideTalkGuideUICoroutine != null)
+        {
+            StopCoroutine(hideTalkGuideUICoroutine);
+            hideTalkGuideUICoroutine = null;
+        }
+
         if (color != Color.white)
         {
             otherCharacter.PlayTalk();
+
+            myTalkGuideUI.SetActive(false);
+            if (ignoreTextGuideCnt >0)
+            {
+                ignoreTextGuideCnt--;
+            }
             otherTalkGuideUI.SetActive(true);
         }
 
         else
         {
+            otherTalkGuideUI.SetActive(false);
+            if (ignoreTextGuideCnt > 0)
+            {
+                ignoreTextGuideCnt--;
+            } 
             myTalkGuideUI.SetActive(true);
         }
     }
@@ -145,7 +166,13 @@ public class FinderCallWindow : MonoBehaviour
             otherCharacter.StopTalk();
         }
 
-        StartCoroutine(HideTalkGuideUI());
+        if (hideTalkGuideUICoroutine != null)
+        {
+            StopCoroutine(hideTalkGuideUICoroutine);
+            hideTalkGuideUICoroutine = null;
+        }
+
+        hideTalkGuideUICoroutine = StartCoroutine(HideTalkGuideUI());
     }
 
     private IEnumerator HideTalkGuideUI()
@@ -153,6 +180,7 @@ public class FinderCallWindow : MonoBehaviour
         yield return new WaitForSeconds(1f);
         myTalkGuideUI.SetActive(false);
         otherTalkGuideUI.SetActive(false);
+        hideTalkGuideUICoroutine = null;
     }
 
     private void SizeDoTween()

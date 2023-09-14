@@ -65,8 +65,8 @@ public class FinderCallAnswerUI : MonoBehaviour
 
     private IEnumerator PlayPhoneSoundAndShake()
     {
-        transform.DOScale(Vector3.one, 0.7f).SetEase(Ease.OutCubic);
-        yield return new WaitForSeconds(0.7f);
+        transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);
+        yield return new WaitForSeconds(0.3f);
         while (!isRecieveCall)
         {
             transform.DOKill(true);
