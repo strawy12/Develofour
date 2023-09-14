@@ -10,6 +10,7 @@ public partial class Sound : MonoBehaviour
         AfterDiscordMail,
         ComputerNoise,
         InterrogationRoom,
+        StartCutSceneBGM,
         BGMEnd,
 
         Notice = 1001,
@@ -21,7 +22,7 @@ public partial class Sound : MonoBehaviour
         MouseDown,
         MouseUp,
         USBConnect,
-        StartCutSceneScream,
+        FastWalk,
         StartCutScenePoint,
         StartCutSceneLightPull,
         PhoneAlarm,
@@ -36,6 +37,8 @@ public partial class Sound : MonoBehaviour
         WomanSigh,
         WomanBreath,
         FallenDownObject,
+        WomanWalk,
+        ManWalk,
         End
     }
 

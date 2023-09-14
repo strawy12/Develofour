@@ -40,6 +40,15 @@ public class Debugger : MonoBehaviour
             SkipScene();
         }
 
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Time.timeScale = 5f;
+        }
+        if (Input.GetKeyUp(KeyCode.V))
+        {
+            Time.timeScale = 1f;
+        }
+
         if (Input.GetKeyDown(KeyCode.D))
         {
             MonologSystem.OnStopMonolog?.Invoke();
@@ -80,11 +89,8 @@ public class Debugger : MonoBehaviour
             {
                 cutScene.isSkip = true;
                 cutScene.DOKill(false);
-                if (cutScene.isScreamSound)
-                    Sound.OnImmediatelyStop(Sound.EAudioType.StartCutSceneScream);
-                EventManager.TriggerEvent(ECoreEvent.OpenVolume, new object[] { false });
-                cutScene.StartLoading();
-
+                cutScene.StopAllCoroutines();
+                cutScene.EndScene_3();
             }
         }
 

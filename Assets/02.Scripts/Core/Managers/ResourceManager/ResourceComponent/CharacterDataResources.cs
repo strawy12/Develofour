@@ -19,6 +19,21 @@ public partial class CharacterDataResources : ResourcesComponent
 
         return null;
     }
+
+    public CharacterInfoDataSO GetCharacter(ECharacterType type)
+    {
+        foreach (var data in resourceDictionary.Values)
+        {
+            CharacterInfoDataSO infoData = data as CharacterInfoDataSO;
+            if (infoData.type == type)
+            {
+                return infoData;
+            }
+        }
+
+        return null;
+    }
+
     public List<CharacterInfoDataSO> GetCharacterDataList()
     {
         List<CharacterInfoDataSO> list = new List<CharacterInfoDataSO>();

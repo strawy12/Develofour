@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
+
 public partial class SOSettingWindow : EditorWindow
 {
     private void SettingCharacterData(string dataText) 
@@ -18,6 +20,7 @@ public partial class SOSettingWindow : EditorWindow
             string name = columns[1];
             Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(columns[2]);
             string phoneNumber = columns[3].Trim();
+            ECharacterType type = (ECharacterType)Enum.Parse(typeof(ECharacterType), columns[4]);
             string rollText = columns[5].Trim();
             CharacterInfoDataSO characterData = characterDataSOList.Find(x => x.id == id);
             bool isCreate = false;
@@ -33,6 +36,7 @@ public partial class SOSettingWindow : EditorWindow
             characterData.profileIcon = sprite;
             characterData.phoneNum = phoneNumber;
             characterData.rollText = rollText;
+            characterData.type = type;
             string SO_PATH = $"Assets/07.ScriptableObjects/CharacterData/{columns[0]}.asset";
 
             if (isCreate)

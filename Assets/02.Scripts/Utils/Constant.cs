@@ -80,13 +80,13 @@ public static partial class Constant
     #region MonologKey
     public static class MonologKey
     {
-        //public const string STARTCUTSCENE_1 = "T_CS_S_1";
-        //public const string STARTCUTSCENE_2 = "T_CS_S_2";
-        //public const string WINDOWS_LOGIN_COMPLETE = "T_CS_S_3";
-        //public const string WINDOWS_LOGIN_SCREEN_OPEN = "T_CS_S_4";
+        public const string STARTCUTSCENE_1 = "T_CS_ST_1";
+        public const string STARTCUTSCENE_2 = "T_CS_ST_2";
+        public const string STARTCUTSCENE_3 = "T_CS_ST_3";
+        public const string STARTCUTSCENE_4 = "T_CS_ST_4";
+        public const string STARTCUTSCENE_5 = "T_CS_ST_5";
+        public const string WINDOWS_LOGIN_SCREEN_OPEN = "T_CS_ST_6";
 
-        //public const string END_PROFILER_TUTORIAL = "T_CS_S_5";
-        //public const string PROFILER_INSTALL_COMPLETE = "T_CS_S_6";
         public const string LIBRARY_NOT_OPEN = "T_M_73";
         public const string NEEDINFO = "T_M_88";
         public const string TUTORIAL_NOT_FIND_INFO = "T_M_98";
@@ -124,7 +124,6 @@ public static partial class Constant
         public const string POLICE_UNIVERSITY_CALLSCREEN_ANSWER = "T_C_P_7_5";
 
     }
-
 
     #region MailKey
 

@@ -51,7 +51,6 @@ public class LoadingGauge : MonoBehaviour
     {
         guageList = new List<Image>();
         maxCnt = ResourceManager.Inst.maxCnt;
-        Debug.Log(maxCnt);
         cnt = 0;
         for (int i = 0; i < maxCnt; i++)
         {

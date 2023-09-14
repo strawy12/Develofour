@@ -98,10 +98,10 @@ public class SoundPlayer : MonoBehaviour
             StartCoroutine(DelayCoroutine(delay));
         }
     }
+
     private IEnumerator DelayCoroutine(float delay)
     {
         yield return new WaitForSeconds(delay + 0.3f);
-
         OnCompeleted?.Invoke(this);
     }
 

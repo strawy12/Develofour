@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using System.IO;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
 
@@ -28,10 +26,9 @@ public partial class SOSettingWindow : EditorWindow
             Color characterColor = Color.white;
             Color character2Color = Color.white;
             UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[3], out characterColor);
-            UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[4], out character2Color);
-            if (characterColor != Color.white)
+            if (columns.Length != 4)
             {
-                Debug.Log(characterColor);
+                UnityEngine.ColorUtility.TryParseHtmlString('#' + columns[4], out character2Color);
             }
             MonologTextDataSO monologData = monologSOList.Find(x => x.id == id);
             bool isCreate = false;
@@ -81,7 +78,7 @@ public partial class SOSettingWindow : EditorWindow
                 case "G":
                     idDivision.Add("GuideText");
                     break;
-                case "S":
+                case "ST":
                     idDivision.Add("StartCutSceneText");
                     break;
                 default:

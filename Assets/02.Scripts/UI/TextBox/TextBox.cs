@@ -96,6 +96,7 @@ public class TextBox : MonoUI
         }
 
         isTextPrinting = true;
+        EventManager.TriggerEvent(ETextboxEvent.StartPrintText, new object[] { currentColor});
         StartCoroutine(PrintMonologTextCoroutine());
     }
 
@@ -182,6 +183,9 @@ public class TextBox : MonoUI
         Sound.OnImmediatelyStop?.Invoke(EAudioType.MonologueTyping);
         isSkip = false;
         textBoxCursor.TurnOn();
+
+        EventManager.TriggerEvent(ETextboxEvent.EndPrintText);
+
         OnEnd?.Invoke();
         OnEnd = null;
     }

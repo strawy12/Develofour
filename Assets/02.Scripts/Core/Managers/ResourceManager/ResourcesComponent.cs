@@ -43,7 +43,6 @@ public abstract class ResourcesComponent : MonoBehaviour
 
     public Dictionary<string, ResourceSO> GetRsourceDictionary()
     {
-        Debug.Log(gameObject.name);
         return resourceDictionary;
     }
 }
