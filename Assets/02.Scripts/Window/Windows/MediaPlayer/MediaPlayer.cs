@@ -177,9 +177,9 @@ public partial class MediaPlayer : Window
                 pos.y += Mathf.Abs(parentHeight - height);
                 mediaDetailText.rectTransform.anchoredPosition = pos;
             }
-            
-            body.SetPositionCoverImage(charInfo);
 
+            body.SetPositionCoverImage(charInfo);
+            
             yield return new WaitForSeconds(delayList[i]);
         }
 
@@ -224,8 +224,8 @@ public partial class MediaPlayer : Window
 
 
         //mediaDetailText.text = notCommandString.Substring(0, TimeToIndex(time));
-        mediaDetailText.maxVisibleCharacters = TimeToIndex(time);
         body.SetPosition();
+        mediaDetailText.maxVisibleCharacters = TimeToIndex(time);
         body.CheckShowTrigger(mediaDetailText.maxVisibleCharacters);
 
         minuteTimer = (int)(time / 60f);

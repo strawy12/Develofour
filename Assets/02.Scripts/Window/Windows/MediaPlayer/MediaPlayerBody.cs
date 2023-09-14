@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -100,13 +101,14 @@ public class MediaPlayerBody : MonoBehaviour
             }
         }
     }
+    [ContextMenu("posDebug")]
     public void SetPosition()
     {
-        int idx = mediaDetailText.maxVisibleCharacters;
+        int idx = _mediaDetailText.maxVisibleCharacters;
+        _mediaDetailText.ForceMeshUpdate();
+        Define.SetTriggerPosition(_mediaDetailText, mediaPlayerTriggerList);
 
-        Define.SetTriggerPosition(mediaDetailText, mediaPlayerTriggerList);
-
-        TMP_CharacterInfo charInfo = mediaDetailText.textInfo.characterInfo[Mathf.Min(idx, mediaDetailText.textInfo.characterInfo.Length - 1)];
+        TMP_CharacterInfo charInfo = _mediaDetailText.textInfo.characterInfo[Mathf.Min(idx, _mediaDetailText.textInfo.characterInfo.Length - 1)];
         SetPositionCoverImage(charInfo);
     }
 

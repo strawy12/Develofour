@@ -150,7 +150,6 @@ public class WindowManager : MonoSingleton<WindowManager>
             }
             else
             {
-                Debug.Log("4321");
                 targetWindow = CreateWindow(file.windowType, file);
             }
         }
