@@ -7,8 +7,6 @@ using UnityEngine.Experimental.GlobalIllumination;
 
 public partial class ResourceManager : MonoSingleton<ResourceManager>
 {
-
-
     [SerializeField]
     private Transform poolParent;
 
@@ -29,10 +27,11 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     private IEnumerator StartGetData()
     {
         var list = GetComponentsInChildren<ResourcesComponent>();
-        maxCnt = list.Length + 3;
+        maxCnt = list.Length + 4;
         LoadNoticeDatas(() => LoadComplete());
         LoadLockImage(() => LoadComplete());
         LoadAudioAssets(() => LoadComplete());
+        LoadCharacterprefabs(() => LoadComplete());
 
         foreach (var resource in list)
         {

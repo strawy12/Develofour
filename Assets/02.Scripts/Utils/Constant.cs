@@ -124,7 +124,6 @@ public static partial class Constant
 
     }
 
-
     #region MailKey
 
     public static class MailKey

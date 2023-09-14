@@ -8,17 +8,16 @@ using UnityEngine.UI;
 public class FinderWindows : MonoBehaviour
 {
     [SerializeField]
-    private GameObject callAnswerPanel;
+    private FinderCallAnswerUI callAnswerPanel;
     [SerializeField]
-    private RectTransform callWindowPanel;
+    private FinderCallWindow callWindowPanel;
 
-    [SerializeField]
-    private Button callAnswerBtn;
+
 
     [SerializeField]
     private CanvasGroup canvasGroup;
 
-    private bool isRecieveCall;
+
 
     public Action OnCompleted;
 
@@ -37,28 +36,6 @@ public class FinderWindows : MonoBehaviour
         callAnswerBtn.onClick.AddListener(OnClickBtn);
     }
 
-    private IEnumerator PlayPhoneSoundAndShake()
-    {
-        yield return new WaitForSeconds(0.8f);
-        while (!isRecieveCall)
-        {
-            callAnswerPanel.transform.DOKill(true);
-            callAnswerPanel.transform.DOShakePosition(2.5f, 5);
-            float soundSecond = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
-            yield return new WaitForSeconds(soundSecond + Constant.PHONECALLSOUND_DELAY);
-        }
-        isRecieveCall = false;
-    }
-
-    public virtual void SizeDoTween()
-    {
-        float minDuration = 0.16f;
-        callWindowPanel.localScale = new Vector2(0.9f, 0.9f);
-        callWindowPanel.gameObject.SetActive(true);
-
-        Sequence sequence = DOTween.Sequence();
-        sequence.Join(callWindowPanel.DOScale(1, minDuration));
-    }
 
     private void OnClickBtn()
     {
@@ -66,7 +43,7 @@ public class FinderWindows : MonoBehaviour
         callAnswerPanel.SetActive(false);
         Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.PhoneAlarm);
         StopAllCoroutines();
-        SizeDoTween();
+        callWindowPanel.SizeDoTween();
 
         
 

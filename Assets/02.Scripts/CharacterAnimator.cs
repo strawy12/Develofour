@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class CharacterAnimator : MonoBehaviour
 {
     [SerializeField]
+    private ECharacterType characterType;
+    public ECharacterType Type => characterType;
+
+    [SerializeField]
     private List<Sprite> eyesSprites;
 
     [SerializeField]
@@ -27,6 +31,8 @@ public class CharacterAnimator : MonoBehaviour
     private float blinkDelay = 0.2f;
     [SerializeField]
     private float talkDelay = 0.4f;
+
+
 
     private bool isBlink = false;
     private bool isTalk = false;
@@ -73,6 +79,7 @@ public class CharacterAnimator : MonoBehaviour
 
                 yield return new WaitForSeconds(blinkDuration);
             }
+            yield return new WaitForSeconds(blinkDelay);
         }
 
         eyesImage.sprite = eyesSprites[0];
@@ -102,6 +109,7 @@ public class CharacterAnimator : MonoBehaviour
 
                 yield return new WaitForSeconds(talkDuration);
             }
+            yield return new WaitForSeconds(talkDelay);
         }
 
         mouthImage.sprite = mouthSprites[0];
