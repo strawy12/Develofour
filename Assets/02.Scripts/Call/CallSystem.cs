@@ -55,7 +55,7 @@ public class CallSystem : MonoBehaviour
 
     private void IncomingCallDataCheck(object[] ps)
     {
-        var callDataList = ResourceManager.Inst.GetResourceList<CallDataSO>().Where(x => x.callDataType == ECallDataType.InComing).ToList();
+        var callDataList = ResourceManager.Inst.GetResourceList<CallDataSO>().Where(x => x.callDataType == ECallDataType.InComing || x.callDataType == ECallDataType.Return).ToList();
 
         foreach (CallDataSO callData in callDataList)
         {

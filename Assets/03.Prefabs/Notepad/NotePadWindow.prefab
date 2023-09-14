@@ -622,11 +622,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5d38bb7ed84480adaf3cbba1d73c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openInt: 0
+  isFlag: 0
   originWindowAlteration: {fileID: 11400000, guid: f37823f37ca44a66bfb2594576a6db49, type: 2}
   windowBar: {fileID: 4042465900453613036}
   notepadBody: {fileID: 4005743122239851577}
   scrollValue: 7
+  overlayTrigger: {fileID: 0}
 --- !u!225 &2236512058593766894
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1584,7 +1585,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1651,14 +1652,10 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: '[ Google ]
-
-    e-mail: writer1111@gmail.com
-
-    password: writerPassword123!'
+  m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
-  m_ReadOnly: 1
+  m_ReadOnly: 0
   m_RichText: 1
   m_GlobalFontAsset: {fileID: 11400000, guid: 52387c83284547d4db85bfde5d99661b, type: 2}
   m_OnFocusSelectAll: 0
@@ -1733,7 +1730,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "[ Google ]\ne-mail: writer1111@gmail.com\npassword: writerPassword123!\u200B"
+  m_text: "\n\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}
   m_sharedMaterial: {fileID: -2560004193487277870, guid: cb4c6eb9e47944c4a44cb433da6cfc36, type: 2}

@@ -272,12 +272,13 @@ public class ProfilerTutorial : MonoBehaviour
         {
             library.TutorialLibraryClickRemoveEvent();
         }
-
-        //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "I_C_10_1" });
-        //EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "I_C_11_1" });
+        EventManager.TriggerEvent(ECallEvent.AddAutoCompleteCallBtn, new object[1] { "01023459876" });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "I_C_10_1" });
+        EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "I_C_11_1" });
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
-        //CallSystem.OnInComingCall?.Invoke("CD_AS", ) 전화 오게 시키기
+        CallSystem.OnInComingCall?.Invoke("CD_AS", "C_A_I_1");
         EventManager.StopListening(ETutorialEvent.SelectLibrary, OpenLibrary);
+
     }
 
 #if UNITY_EDITOR
@@ -288,6 +289,7 @@ public class ProfilerTutorial : MonoBehaviour
         ProfilerChattingSystem.OnChatEnd = null;
         EventManager.TriggerEvent(EProfilerEvent.AddGuideButton);
         GuideUISystem.OnEndAllGuide?.Invoke();
+        FileManager.Inst.AddFile(Constant.FileID.INCIDENT_MAP, Constant.FileID.USB);
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_10", "I_C_10_1" });
         EventManager.TriggerEvent(EProfilerEvent.FindInfoText, new object[2] { "IC_C_11", "I_C_11_1" });
         DataManager.Inst.SetProfilerTutorialState(TutorialState.EndTutorial);
@@ -296,7 +298,7 @@ public class ProfilerTutorial : MonoBehaviour
     }
 #endif
 
-    private void LibraryRect(object[] ps)
+    private void LibraryRect(object[] ps) 
     {
         GuideUISystem.OnGuide?.Invoke(libraryRect);
         Debug.Log(libraryRect);

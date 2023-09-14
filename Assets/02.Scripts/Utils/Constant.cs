@@ -41,12 +41,13 @@ public static partial class Constant
         public const string BACKGROUND = "F_DR_6";
         public const string DOWNLOAD = "F_DR_18";
         public const string PROFILER = "F_PF_0";
-        public const string ZOOGLEPIN = "F_N_13";
-        public const string ZOOGLEPASSWORD = "F_N_12";
+        public const string ZOOGLEPIN = "";
+        public const string ZOOGLEPASSWORD = "";
         public const string CALLRECORDING = "F_DR_25";
         public const string INCIDENT_REPORT = "F_IV_1";
         public const string INSTALL = "F_IN_0";
         public const string Test = "F_DR_64";
+        public const string INCIDENT_MAP = "F_IV_4";
     }
         public const string NOW_USB_CHECK = "T_M_96";
 
@@ -84,11 +85,8 @@ public static partial class Constant
         public const string STARTCUTSCENE_3 = "T_CS_ST_3";
         public const string STARTCUTSCENE_4 = "T_CS_ST_4";
         public const string STARTCUTSCENE_5 = "T_CS_ST_5";
-        public const string WINDOWS_LOGIN_COMPLETE = "T_CS_ST_3";
-        public const string WINDOWS_LOGIN_SCREEN_OPEN = "T_CS_S_4";
+        public const string WINDOWS_LOGIN_SCREEN_OPEN = "T_CS_ST_6";
 
-        public const string END_PROFILER_TUTORIAL = "T_CS_S_5";
-        public const string PROFILER_INSTALL_COMPLETE = "T_CS_S_6";
         public const string LIBRARY_NOT_OPEN = "T_M_73";
         public const string NEEDINFO = "T_M_88";
         public const string TUTORIAL_NOT_FIND_INFO = "T_M_98";

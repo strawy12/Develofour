@@ -23,6 +23,7 @@ public class InformationTrigger : MonoBehaviour
 
     protected string playMonologType = "";
 
+    public bool isHide = false;
 
     protected virtual void Awake()
     {
@@ -36,7 +37,7 @@ public class InformationTrigger : MonoBehaviour
         }
     }
 
-    protected virtual void Bind()
+    public virtual void Bind()
     {
         if (triggerData == null)
         {
@@ -73,6 +74,10 @@ public class InformationTrigger : MonoBehaviour
                         }
                         else
                             continue;
+                    }
+                    else if(state == TutorialState.ClickCharacterTab || state == TutorialState.ClickIncidentTab)
+                    {
+                        continue;
                     }
                 }
                 playMonolog = true;

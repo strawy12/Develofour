@@ -34,6 +34,8 @@ public class FinderCallWindow : MonoBehaviour
     [SerializeField]
     private GameObject otherTalkGuideUI;
 
+    private bool isPlayEffect = false;
+
     private CharacterAnimator otherCharacter;
     public void Show()
     {
@@ -41,6 +43,14 @@ public class FinderCallWindow : MonoBehaviour
         EventManager.StartListening(ETextboxEvent.StartPrintText, StartTalk);
         EventManager.StartListening(ETextboxEvent.EndPrintText, EndTalk);
         SizeDoTween();
+    }
+
+    public void DeleteCharacter()
+    {
+        if (otherCallBox.gameObject.activeSelf)
+        {
+            StartCoroutine(DeleteCharacterEffect(null));
+        }
     }
 
     public void AddChacter(ECharacterType type, Action callback)
@@ -78,6 +88,9 @@ public class FinderCallWindow : MonoBehaviour
 
     private IEnumerator AddCharacterEffect(Action callback)
     {
+        yield return new WaitUntil(() => isPlayEffect);
+        isPlayEffect = true;
+
         otherCallBox.transform.localScale = Vector3.zero;
         otherCallBox.gameObject.SetActive(true);
         myCallBox.DOAnchorPosX(200f, 0.7f).SetEase(Ease.OutCubic);
@@ -88,10 +101,14 @@ public class FinderCallWindow : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         callback?.Invoke();
         otherCharacter.PlayBlink();
+        isPlayEffect = false;
     }
 
     private IEnumerator DeleteCharacterEffect(Action callback)
     {
+        yield return new WaitUntil(() => isPlayEffect);
+        isPlayEffect = true;
+
         otherCallBox.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.OutCubic);
         yield return new WaitForSeconds(0.3f);
         myCallBox.DOAnchorPosX(0f, 0.7f).SetEase(Ease.OutCubic);
@@ -100,6 +117,7 @@ public class FinderCallWindow : MonoBehaviour
         Destroy(otherCharacter.gameObject);
         yield return new WaitForSeconds(0.5f);
         callback?.Invoke();
+        isPlayEffect = false;
     }
 
     private void StartTalk(object[] ps)

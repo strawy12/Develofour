@@ -19,52 +19,57 @@ public class Notepad : Window
     protected override void Init()
     {
         base.Init();
- 
+
         currentData = ResourceManager.Inst.GetResource<NotepadDataSO>(file.ID);
 
-        bool useDataBody = currentData.notepadBody != null;
-        if (useDataBody)
+        if (currentData != null)
         {
-            Transform parent = notepadBody.transform.parent;
-            Destroy(notepadBody.gameObject);
-            notepadBody = Instantiate(currentData.notepadBody, parent);
+            bool useDataBody = currentData.notepadBody != null;
+            if (useDataBody)
+            {
+                Transform parent = notepadBody.transform.parent;
+                Destroy(notepadBody.gameObject);
+                notepadBody = Instantiate(currentData.notepadBody, parent);
+            }
+            notepadBody.Init();
+
+            notepadBody.inputField.readOnly = currentData.readOnly;
+
+            ColorBlock colorBlock = new ColorBlock();
+            colorBlock = ColorBlock.defaultColorBlock;
+
+            colorBlock.selectedColor = Color.white;
+            colorBlock.pressedColor = Color.white;
+            colorBlock.normalColor = Color.white;
+            colorBlock.highlightedColor = Color.white;
+            colorBlock.disabledColor = Color.white;
+            notepadBody.inputField.colors = colorBlock;
+
+            OnSelected += notepadBody.inputField.ActivateInputField;
+            OnUnSelected += () => notepadBody.inputField.DeactivateInputField();
+
+
+            windowBar.OnMaximum.AddListener(notepadBody.SetTriggerPosition);
+
+            notepadBody.inputField.scrollSensitivity = scrollValue;
+
+            OnSelected += OverlayOpen;
+            OnUnSelected += OverlayClose;
+            OverlayOpen();
         }
 
-        notepadBody.Init();
-
-        notepadBody.inputField.readOnly = currentData.readOnly;
-
-        ColorBlock colorBlock = new ColorBlock();
-        colorBlock = ColorBlock.defaultColorBlock;
-
-        colorBlock.selectedColor = Color.white;
-        colorBlock.pressedColor = Color.white;
-        colorBlock.normalColor = Color.white;
-        colorBlock.highlightedColor = Color.white;
-        colorBlock.disabledColor = Color.white;
-        notepadBody.inputField.colors = colorBlock;
-
-        OnSelected += notepadBody.inputField.ActivateInputField;
-        OnUnSelected += () => notepadBody.inputField.DeactivateInputField();
-
-        OnSelected += OverlayOpen;
-        OnUnSelected += OverlayClose;
-        OverlayOpen();
-
-        windowBar.OnMaximum.AddListener(notepadBody.SetTriggerPosition);
-
-        notepadBody.inputField.scrollSensitivity = scrollValue;
-
         EventManager.TriggerEvent(EGuideEventType.GuideConditionCheck, new object[] { file });
-
         SetText();
     }
 
     public override void WindowOpen(bool isNewWindow)
     {
         base.WindowOpen(isNewWindow);
-        notepadBody.inputField.textComponent.ForceMeshUpdate();
-        notepadBody.SetTriggerPosition();
+        if (currentData != null)
+        {
+            notepadBody.inputField.textComponent.ForceMeshUpdate();
+            notepadBody.SetTriggerPosition();
+        }
     }
 
     public void SetText()
@@ -88,7 +93,6 @@ public class Notepad : Window
 
     private void OverlayOpen()
     {
-
         if (overlayTrigger == null) // 없다면 찾아와
         {
             overlayTrigger = notepadBody.GetComponent<ProfileOverlayOpenTrigger>();

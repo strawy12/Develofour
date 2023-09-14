@@ -65,7 +65,13 @@ public class FinderWindows : MonoBehaviour
         callAnswerPanel.PlayCall();
 
         string monologID = $"{Constant.MonologKey.STARTCUTSCENE_3}_{2}";
+        MonologSystem.AddOnEndMonologEvent(monologID, EndCallAssistant);
         MonologSystem.OnStartMonolog?.Invoke(monologID, false);
+    }
+
+    private void EndCallAssistant()
+    {
+        callWindowPanel.AddChacter(ECharacterType.Assistant, TalkAssistant_1);
     }
 
     private void AddPolice()

@@ -17,7 +17,6 @@ public class ProfileOverlayOpenTrigger : MonoBehaviour
         if (!isSetting)
         {
             InformationTrigger[] triggerArray = GetComponentsInChildren<InformationTrigger>();
-
             triggerCount.Clear();
             for(int i = 0; i < triggerArray.Length; i++)
             {

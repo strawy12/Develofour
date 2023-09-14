@@ -27,12 +27,12 @@ public partial class SOSettingWindow : EditorWindow
             string[] needInfoIDList = null;
             if (columns.Length >= 2 && !string.IsNullOrEmpty(columns[1]))
             {
-                needInfoIDList = columns[1].Split('/');
+                needInfoIDList = columns[1].Trim().Split('/');
             }
             string[] AdditionalFileStrList = null;
             if (columns.Length >= 3 && !string.IsNullOrEmpty(columns[2]))
             {
-                AdditionalFileStrList = columns[2].Split('/');
+                AdditionalFileStrList = columns[2].Trim().Split('/');
             }
             string returnCallID = "";
             if (columns.Length >= 4)
@@ -62,7 +62,7 @@ public partial class SOSettingWindow : EditorWindow
 
             callData.id = id;
             callData.additionFileIDList = additionFileDataList;
-
+            callData.returnCallID = returnCallID;
             if (needInfoIDList != null)
             {
                 callData.needInfoIDList = needInfoIDList.ToList();

@@ -269,6 +269,7 @@ public class WindowManager : MonoSingleton<WindowManager>
     {
         List<List<Window>> windowTypeList = windowDictionary.Select(x => x.Value).ToList();
         int cnt = 0;
+        SelectedObjectNull();
         while (windowTypeList.Count != 0)
         {
             cnt++;
