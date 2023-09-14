@@ -19,6 +19,7 @@ public partial class SOSettingWindow : EditorWindow
         List<FileSO> fileSOList = GuidsToSOList<FileSO>("t:FileSO");
         List<FileSO> temp = fileSOList.ToList();
         List<FileSO> parentNullFileList = new List<FileSO>();
+
         for (int i = 0; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split('\t');
@@ -99,18 +100,26 @@ public partial class SOSettingWindow : EditorWindow
                 file.propertyData.lastAccessDate = lastAccessDate;
                 file.propertyData.lastFixDate = lastFixDate;
             }
-            if (!(file.parentID == "" || string.IsNullOrEmpty(file.parentID)))
+            if (columns.Length > 11)
             {
-                DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == file.parentID));
+                if (columns[11] == "WHITE")
+                {
+                    file.iconColor = Color.white;
+                }
+            }
+            if (!(string.IsNullOrEmpty(file.parentID)))
+            {
+                DirectorySO directory = (DirectorySO)(fileSOList.Find(x => x.ID == parentID));
                 if (directory != null)
                 {
-                    fileSOList[i].parent = directory;
+                    file.parent = directory;
                     if (!directory.children.Contains(file))
                         directory.children.Add(file);
                 }
                 else
                 {
                     parentNullFileList.Add(file);
+                    continue;
                 }
             }
             file.isAlarm = isAlarm;
@@ -131,13 +140,7 @@ public partial class SOSettingWindow : EditorWindow
                     SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/DefaultFile/{id}_{fileName}.asset";
                 }
             }
-            if(columns.Length > 11)
-            {
-                if(columns[11] == "WHITE")
-                {
-                    file.iconColor = Color.white;
-                }
-            }
+ 
             if (isCreate)
             {
                 CreateFolder(SO_PATH);
@@ -174,10 +177,10 @@ public partial class SOSettingWindow : EditorWindow
                     directory.children.Add(parentNullFileList[i]);
             }
             path = parentNullFileList[i].GetRealFileLocation();
+            path = path.Replace("\\", "/");
 
             SO_PATH = $"Assets/07.ScriptableObjects/DirectorySO/{path.Remove(path.Length - 1)}_{parentNullFileList[i].fileName}.asset";
-            SO_PATH = SO_PATH.Replace("\\", "/");
-            Debug.Log(SO_PATH);
+
             CreateFolder(SO_PATH);
             AssetDatabase.MoveAsset(AssetDatabase.GetAssetPath(parentNullFileList[i]), SO_PATH);
             EditorUtility.SetDirty(parentNullFileList[i]);
