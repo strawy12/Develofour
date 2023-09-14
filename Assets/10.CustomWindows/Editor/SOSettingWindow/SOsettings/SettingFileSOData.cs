@@ -121,6 +121,9 @@ public partial class SOSettingWindow : EditorWindow
                     parentNullFileList.Add(file);
                     continue;
                 }
+            }else
+            {
+                file.parent = null;
             }
             file.isAlarm = isAlarm;
             path = file.GetRealFileLocation();
