@@ -27,8 +27,8 @@ public class EvidencePanel : MonoBehaviour
     private string answerInfoID;
     private EvidenceTypeSO currentEvidenceData;
 
-    //[SerializeField]
-    //private GameObject evidenceCoverPanel;
+    [SerializeField]
+    private GameObject evidenceCoverPanel;
 
     private ProfilerInfoText selectedInfoText;
 
@@ -57,7 +57,7 @@ public class EvidencePanel : MonoBehaviour
         InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyDown: TryAnswer);
         sceneHighlightImage.SetActive(false);
         characterHighlightImage.SetActive(false);
-        //this.evidenceCoverPanel.SetActive(true);
+        this.evidenceCoverPanel.SetActive(true);
         this.gameObject.SetActive(true);
     }
 
@@ -132,7 +132,7 @@ public class EvidencePanel : MonoBehaviour
         EventManager.TriggerEvent(EEvidencePanelEvent.Answer);
         InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyDown: TryAnswer);
 
-        //this.evidenceCoverPanel.SetActive(false);
+        this.evidenceCoverPanel.SetActive(false);
         this.gameObject.SetActive(false);
     }
 
