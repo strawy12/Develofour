@@ -18,13 +18,17 @@ public class EvidencePanel : MonoBehaviour
     [SerializeField]
     private Button characterBtn;
     [SerializeField]
+    private GameObject sceneHighlightImage;
+    [SerializeField]
+    private GameObject characterHighlightImage;
+    [SerializeField]
     private Button presentButton;
 
     private string answerInfoID;
     private EvidenceTypeSO currentEvidenceData;
 
-    [SerializeField]
-    private GameObject evidenceCoverPanel;
+    //[SerializeField]
+    //private GameObject evidenceCoverPanel;
 
     private ProfilerInfoText selectedInfoText;
 
@@ -51,8 +55,9 @@ public class EvidencePanel : MonoBehaviour
         sceneBtn.onClick.AddListener(OnClickIncidentPanelBtn);
         presentButton.onClick.AddListener(TryAnswer);
         InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyDown: TryAnswer);
-
-        this.evidenceCoverPanel.SetActive(true);
+        sceneHighlightImage.SetActive(false);
+        characterHighlightImage.SetActive(false);
+        //this.evidenceCoverPanel.SetActive(true);
         this.gameObject.SetActive(true);
     }
 
@@ -105,13 +110,21 @@ public class EvidencePanel : MonoBehaviour
     private void OnClickCharacterPanelBtn()
     {
         if (typePanel.CheckCurrentType(EProfilerCategoryType.Character) == false)
+        {
+            sceneHighlightImage.SetActive(false);
+            characterHighlightImage.SetActive(true);
             typePanel.ShowCharacterPanel();
+        }
     }
 
     private void OnClickIncidentPanelBtn()
     {
         if (typePanel.CheckCurrentType(EProfilerCategoryType.Info) == false)
+        {
+            sceneHighlightImage.SetActive(true);
+            characterHighlightImage.SetActive(false);
             typePanel.ShowScenePanel();
+        }
     }
 
     private void Answer()
@@ -119,7 +132,7 @@ public class EvidencePanel : MonoBehaviour
         EventManager.TriggerEvent(EEvidencePanelEvent.Answer);
         InputManager.Inst.RemoveKeyInput(KeyCode.Space, onKeyDown: TryAnswer);
 
-        this.evidenceCoverPanel.SetActive(false);
+        //this.evidenceCoverPanel.SetActive(false);
         this.gameObject.SetActive(false);
     }
 
