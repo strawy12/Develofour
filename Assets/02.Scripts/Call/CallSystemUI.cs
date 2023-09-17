@@ -21,6 +21,8 @@ public class CallSystemUI : MonoBehaviour
 
     public Action OnClickAnswerBtn;
 
+    public static bool isCanClick = true;
+
     public void Init()
     {
         
@@ -143,6 +145,9 @@ public class CallSystemUI : MonoBehaviour
 
     private void ClickAnswerBtn()
     {
+        if (!isCanClick)
+            return;
+
         ShowAnswerButton(false);
         isRecieveCall = true;
 
