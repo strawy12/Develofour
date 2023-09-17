@@ -27,6 +27,7 @@ public class ProfilerWindow : Window
     [Header("Buttons")]
     [SerializeField]
     private ProfilerPanelButton infoPanelBtn;
+
     [SerializeField]
     private ProfilerPanelButton callPanelBtn;
 
@@ -118,6 +119,7 @@ public class ProfilerWindow : Window
             return;
         }
 
+
         beforeClickButton = infoPanelBtn;
 
         ShowProfilePanel();
@@ -138,6 +140,7 @@ public class ProfilerWindow : Window
     private void ButtonBlackSetting()
     {
         infoPanelBtn.Setting(beforeClickButton);
+        callPanelBtn.Setting(beforeClickButton);
     }
 
     private void ShowProfilePanel()
