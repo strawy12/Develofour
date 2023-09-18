@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -74,9 +74,9 @@ public class FinderCallWindow : MonoBehaviour
         ((RectTransform)otherCharacter.transform).anchoredPosition = new Vector2(0f, -50f);
 
         if (type == ECharacterType.Assistant)
-            otherNameText.text = "Á¶¼ö";
+            otherNameText.text = "ì¡°ìˆ˜";
         else
-            otherNameText.text = "Çü»ç";
+            otherNameText.text = "í˜•ì‚¬";
 
         if (!otherCallBox.gameObject.activeSelf)
         {
@@ -117,8 +117,8 @@ public class FinderCallWindow : MonoBehaviour
         myCallBox.DOAnchorPosX(0f, 0.7f).SetEase(Ease.OutCubic);
         yield return new WaitForSeconds(0.2f);
         otherCallBox.gameObject.SetActive(false);
-        Destroy(otherCharacter.gameObject);
         yield return new WaitForSeconds(0.5f);
+        Destroy(otherCharacter.gameObject);
         callback?.Invoke();
         isPlayEffect = false;
     }

@@ -14,7 +14,7 @@ public class C_P_O_3: CallScreen
 
     public override void StopCall(bool isClose)
     {
-        DataManager.Inst.AddCallSave("T_C_P_8");
+        DataManager.Inst.AddCallSave("C_P_O_3");
         base.StopCall(isClose);
     }
 }

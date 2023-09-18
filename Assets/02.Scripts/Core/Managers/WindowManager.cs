@@ -269,16 +269,8 @@ public class WindowManager : MonoSingleton<WindowManager>
         List<List<Window>> windowTypeList = windowDictionary.Select(x => x.Value).ToList();
         int cnt = 0;
         SelectedObjectNull();
-        while (windowTypeList.Count != 0)
+        foreach (var windowList in windowTypeList)
         {
-            cnt++;
-            if (cnt > 100)
-            {
-                Debug.Log("While error");
-                break;
-            }
-
-            var windowList = windowTypeList[0];
             while (windowList.Count != 0)
             {
                 cnt++;
@@ -288,12 +280,13 @@ public class WindowManager : MonoSingleton<WindowManager>
                     break;
                 }
                 var window = windowList[0];
-                windowList.RemoveAt(0);
-                window.WindowClose();
+                windowList.Remove(window);
+                if (window != null)
+                {
+                    window.WindowClose();
+                }
             }
-            windowTypeList.RemoveAt(0);
         }
-        windowDictionary.Clear();
         windowOrderList.Clear();
     }
     void LateUpdate()
@@ -347,5 +340,5 @@ public class WindowManager : MonoSingleton<WindowManager>
 
         targetWindow.WindowOpen(isNewWindow);
     }
-    
+
 }

@@ -24,6 +24,9 @@ public class CallSystem : MonoBehaviour
     private bool isCalling = false;
     private CallDataSO currentCallData;
 
+    [SerializeField]
+    private GameObject callPanel;
+
     public void Start()
     {
         GameManager.Inst.OnGameStartCallback += Init;
@@ -59,8 +62,14 @@ public class CallSystem : MonoBehaviour
 
         foreach (CallDataSO callData in callDataList)
         {
+            Debug.Log(callData.id);
             if (DataManager.Inst.IsSaveCallData(callData.id)) continue;
             if (!Define.NeedInfoFlag(callData.needInfoIDList)) continue;
+            if(callData.callDataType == ECallDataType.InComing && callData.delay <= DataManager.Inst.GetCurrentTime())
+            {
+                if (callData.id == Constant.CallDataKey.TUTORIAL_ASSISTANT_CALL) continue;
+                StartInComingCall(callData.callProfileID, callData.ID);
+            }
             ReturnCallData returnData = DataManager.Inst.GetReturnData(callData.ID);
             if (returnData != null && returnData.EndDelayTime <= DataManager.Inst.GetCurrentTime())
             {
@@ -79,13 +88,13 @@ public class CallSystem : MonoBehaviour
             return;
         }
         isCalling = true;
+        callPanel.SetActive(true);
 
         CallProfileDataSO callProfileData = ResourceManager.Inst.GetResource<CallProfileDataSO>(callProfileID);
 
         if (callProfileData == null)
         {
             isCalling = false;
-            Debug.Log("adddddddddddddddddddddddddddddd");
             return;
         }
         CharacterInfoDataSO characterInfoData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(callProfileID);
@@ -113,6 +122,7 @@ public class CallSystem : MonoBehaviour
         Debug.Log(isCalling);
         if (isCalling) return;
         isCalling = true;
+        callPanel.SetActive(true);
 
         CallProfileDataSO data = ResourceManager.Inst.GetResource<CallProfileDataSO>(characterID);
         if (data == null)
@@ -138,7 +148,7 @@ public class CallSystem : MonoBehaviour
 
         callSystemUI.Hide();
         isCalling = false;
-
+        callPanel.SetActive(false);
         if (currentCallData != null)
         {
             Debug.Log("notNull");
@@ -149,10 +159,13 @@ public class CallSystem : MonoBehaviour
             {
                 if (DataManager.Inst.GetReturnData(currentCallData.returnCallID) == null)
                 {
-                    Debug.Log("Retrun");
+                    Debug.Log(currentCallData.returnCallID);
                     CallDataSO returnCallData = ResourceManager.Inst.GetResource<CallDataSO>(currentCallData.returnCallID);
                     if (returnCallData != null)
+                    {
+                        Debug.Log("Asdfsafsafsdafafsa");
                         DataManager.Inst.AddReturnCallData(returnCallData.ID, (int)returnCallData.delay);
+                    }
                 }
             }
 

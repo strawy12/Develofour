@@ -18,6 +18,10 @@ public class EvidencePanel : MonoBehaviour
     [SerializeField]
     private Button characterBtn;
     [SerializeField]
+    private GameObject sceneHighlightImage;
+    [SerializeField]
+    private GameObject characterHighlightImage;
+    [SerializeField]
     private Button presentButton;
 
     private string answerInfoID;
@@ -51,7 +55,8 @@ public class EvidencePanel : MonoBehaviour
         sceneBtn.onClick.AddListener(OnClickIncidentPanelBtn);
         presentButton.onClick.AddListener(TryAnswer);
         InputManager.Inst.AddKeyInput(KeyCode.Space, onKeyDown: TryAnswer);
-
+        sceneHighlightImage.SetActive(false);
+        characterHighlightImage.SetActive(false);
         this.evidenceCoverPanel.SetActive(true);
         this.gameObject.SetActive(true);
     }
@@ -105,13 +110,21 @@ public class EvidencePanel : MonoBehaviour
     private void OnClickCharacterPanelBtn()
     {
         if (typePanel.CheckCurrentType(EProfilerCategoryType.Character) == false)
+        {
+            sceneHighlightImage.SetActive(false);
+            characterHighlightImage.SetActive(true);
             typePanel.ShowCharacterPanel();
+        }
     }
 
     private void OnClickIncidentPanelBtn()
     {
         if (typePanel.CheckCurrentType(EProfilerCategoryType.Info) == false)
+        {
+            sceneHighlightImage.SetActive(true);
+            characterHighlightImage.SetActive(false);
             typePanel.ShowScenePanel();
+        }
     }
 
     private void Answer()
