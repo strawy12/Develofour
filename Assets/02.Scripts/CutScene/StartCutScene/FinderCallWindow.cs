@@ -117,8 +117,8 @@ public class FinderCallWindow : MonoBehaviour
         myCallBox.DOAnchorPosX(0f, 0.7f).SetEase(Ease.OutCubic);
         yield return new WaitForSeconds(0.2f);
         otherCallBox.gameObject.SetActive(false);
-        Destroy(otherCharacter.gameObject);
         yield return new WaitForSeconds(0.5f);
+        Destroy(otherCharacter.gameObject);
         callback?.Invoke();
         isPlayEffect = false;
     }
