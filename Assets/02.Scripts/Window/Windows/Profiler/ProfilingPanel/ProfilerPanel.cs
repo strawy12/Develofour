@@ -44,8 +44,9 @@ public class ProfilerPanel : MonoBehaviour
         typePanel.AddProfileCategoryPrefab(categoryID);
         infoPanel.ChangeValue(categoryID, infoID);
 
-        if(this.gameObject.activeSelf)
+        if (this.gameObject.activeSelf)
             StartCoroutine(SizeFilterCoroutine());
+
     }
 
     private IEnumerator SizeFilterCoroutine()
