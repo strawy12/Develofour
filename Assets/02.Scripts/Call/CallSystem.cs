@@ -59,8 +59,14 @@ public class CallSystem : MonoBehaviour
 
         foreach (CallDataSO callData in callDataList)
         {
+            Debug.Log(callData.id);
             if (DataManager.Inst.IsSaveCallData(callData.id)) continue;
             if (!Define.NeedInfoFlag(callData.needInfoIDList)) continue;
+            if(callData.callDataType == ECallDataType.InComing && callData.delay <= DataManager.Inst.GetCurrentTime())
+            {
+                if (callData.id == Constant.CallDataKey.TUTORIAL_ASSISTANT_CALL) continue;
+                StartInComingCall(callData.callProfileID, callData.ID);
+            }
             ReturnCallData returnData = DataManager.Inst.GetReturnData(callData.ID);
             if (returnData != null && returnData.EndDelayTime <= DataManager.Inst.GetCurrentTime())
             {
