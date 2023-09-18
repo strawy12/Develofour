@@ -149,10 +149,13 @@ public class CallSystem : MonoBehaviour
             {
                 if (DataManager.Inst.GetReturnData(currentCallData.returnCallID) == null)
                 {
-                    Debug.Log("Retrun");
+                    Debug.Log(currentCallData.returnCallID);
                     CallDataSO returnCallData = ResourceManager.Inst.GetResource<CallDataSO>(currentCallData.returnCallID);
                     if (returnCallData != null)
+                    {
+                        Debug.Log("Asdfsafsafsdafafsa");
                         DataManager.Inst.AddReturnCallData(returnCallData.ID, (int)returnCallData.delay);
+                    }
                 }
             }
 
