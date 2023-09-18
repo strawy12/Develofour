@@ -39,10 +39,15 @@ public class ProfilerTutorial : MonoBehaviour
 
     void Start()
     {
+        GameManager.Inst.OnGameStartCallback += Init;
+    }
+
+    private void Init()
+    {
         EventManager.StartListening(ETutorialEvent.TutorialStart, CheckState);
         EventManager.StartListening(ETutorialEvent.LibraryGuide, LibraryRect);
 
-        if(profiler == null)
+        if (profiler == null)
         {
             profiler = FileManager.Inst.GetFile(Constant.FileID.PROFILER);
         }
