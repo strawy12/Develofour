@@ -50,7 +50,7 @@ public partial class SOSettingWindow : EditorWindow
         public const string VideoPlayer = "Assets/04.Sprites/Icon/MoviePlayer.png";
         public const string Zoogle = "Assets/04.Sprites/Icon/Argon.png";
         public const string NotePad = "Assets/04.Sprites/Icon/NotePad.png";
-        public const string MediaPlayer = "Assets/04.Sprites/Icon/MediaPlayers/CD.png";
+        public const string MediaPlayer = "Assets/04.Sprites/Icon/MediaPlayes/CDIcon.png";
         public const string BGM = "Assets/04.Sprites/Icon/BGMSprite.png";
         public const string Installer = "Assets/04.Sprites/Icon/profilerInstaller.png";
     }
