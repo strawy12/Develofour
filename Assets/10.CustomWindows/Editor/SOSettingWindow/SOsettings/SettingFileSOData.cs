@@ -109,6 +109,10 @@ public partial class SOSettingWindow : EditorWindow
                 {
                     file.iconColor = Color.white;
                 }
+                else
+                {
+                    file.iconColor = Color.black;
+                }
             }
             if (!(string.IsNullOrEmpty(file.parentID)))
             {
