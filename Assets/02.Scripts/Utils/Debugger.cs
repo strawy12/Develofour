@@ -61,13 +61,7 @@ public class Debugger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.M))
         {
-            FileManager.Inst.AddFile("F_M_5", Constant.FileID.USB);
-            FileManager.Inst.AddFile("F_M_6", Constant.FileID.USB);
-            FileManager.Inst.AddFile("F_M_7", Constant.FileID.USB);
-            FileManager.Inst.AddFile("F_M_8", Constant.FileID.USB);
-
-
-
+            FileManager.Inst.AddFile("F_DR_71" ,Constant.FileID.USB);
         }
 
         if (Input.GetKeyDown(KeyCode.H))
