@@ -82,7 +82,7 @@ public class CallSystemUI : MonoBehaviour
     private IEnumerator PlayPhoneCallSound(float delay)
     {
         transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(delay);
         while (delay > 0f)
         {
             float soundSecond = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneCall);
