@@ -13,12 +13,13 @@ public partial class SOSettingWindow : EditorWindow
         List<CallDataSO> callDataSOList = GuidsToSOList<CallDataSO>("t:CallDataSO");
         List<CallProfileDataSO> callProfileDataSOList = GuidsToSOList<CallProfileDataSO>("t:CallProfileDataSO");
 
+        Debug.Log("SETTING");
         for (int i = 0; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split('\t');
-
+            Debug.Log(i);
             if (columns[0] == "") continue;
-
+            Debug.Log(i);
             string id = columns[0].Trim();
             string[] needInfoIDList = null;
 
@@ -120,7 +121,7 @@ public partial class SOSettingWindow : EditorWindow
                     idDivision.Add("EtcCall");
                     break;
             }
-            SO_PATH = $"Assets/07.ScriptableObjects/CallData/OutGoingCallText/{idDivision[0]}/{id}.asset";
+            SO_PATH = $"Assets/07.ScriptableObjects/CallData/ReturnCallText/{idDivision[0]}/{id}.asset";
 
             if (isCreate)
             {
