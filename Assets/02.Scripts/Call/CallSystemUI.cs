@@ -25,13 +25,7 @@ public class CallSystemUI : MonoBehaviour
 
     public void Init()
     {
-        
-    }
-
-    public void Show()
-    {
-        GameManager.Inst.ChangeGameState(EGameState.CutScene);
-        transform.DOLocalMoveX(770, 0.5f).SetEase(Ease.Linear);
+        transform.DOScale(Vector3.zero, 0);
     }
 
     public void Hide()
@@ -41,7 +35,8 @@ public class CallSystemUI : MonoBehaviour
         GameManager.Inst.ChangeGameState(EGameState.Game);
 
         StopAllCoroutines();
-        transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
+        //transform.DOLocalMoveX(1200, 0.5f).SetEase(Ease.Linear);
+        transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.OutCirc);
     }
 
 
@@ -69,7 +64,6 @@ public class CallSystemUI : MonoBehaviour
 
         isRecieveCall = false;
 
-        Show();
         // AnswerButton ¼ÂÆÃ
         StartCoroutine(PlayPhoneSoundAndShake());
 
@@ -82,12 +76,13 @@ public class CallSystemUI : MonoBehaviour
 
         ShowAnswerButton(false);
 
-        Show();
         StartCoroutine(PlayPhoneCallSound(currentCallProfileData.delay));
     }
 
     private IEnumerator PlayPhoneCallSound(float delay)
     {
+        transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);
+        yield return new WaitForSeconds(0.3f);
         while (delay > 0f)
         {
             float soundSecond = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneCall);
@@ -101,7 +96,7 @@ public class CallSystemUI : MonoBehaviour
             delay -= soundSecond;
         }
         Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.PhoneCall);
-        if(currentCallProfileData.id == Constant.CharacterKey.MISSING)
+        if (currentCallProfileData.id == Constant.CharacterKey.MISSING)
         {
             EventManager.TriggerEvent(ECallEvent.EndCall);
             Hide();
@@ -112,18 +107,25 @@ public class CallSystemUI : MonoBehaviour
 
     private IEnumerator PlayPhoneSoundAndShake()
     {
-        yield return new WaitForSeconds(0.8f);
+        transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);
+        yield return new WaitForSeconds(0.3f);
         while (!isRecieveCall)
         {
             transform.DOKill(true);
             transform.DOShakePosition(2.5f, 5);
-            float soundSecond = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
-            yield return new WaitForSeconds(soundSecond + Constant.PHONECALLSOUND_DELAY);
+            if (GameManager.Inst.GameState != EGameState.Text)
+            {
+                float soundSecond = (float)Sound.OnPlaySound?.Invoke(Sound.EAudioType.PhoneAlarm);
+                yield return new WaitForSeconds(soundSecond + Constant.PHONECALLSOUND_DELAY);
+            }
+            else
+            {
+                yield return new WaitForSeconds(4f);
+            }
         }
-
         isRecieveCall = false;
+        Sound.OnImmediatelyStop?.Invoke(Sound.EAudioType.PhoneAlarm);
     }
-
     private void RecivivedCall()
     {
         CallWindow window = WindowManager.Inst.WindowOpen(EWindowType.CallWindow) as CallWindow;
