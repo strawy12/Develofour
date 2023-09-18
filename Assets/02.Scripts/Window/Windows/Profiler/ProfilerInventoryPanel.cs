@@ -23,12 +23,11 @@ public class ProfilerInventoryPanel : MonoBehaviour
     private List<ProfilerCategoryPrefab> categoryList;
     private int currentIndex = 0;
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
 
     [ContextMenu("SetCategoryList")]
     public void SetCategoryList_Debug()
     {
-        
         sceneCategoryList = new List<ProfilerCategoryDataSO>();
         characterCategoryList = new List<ProfilerCategoryDataSO>();
         string[] guids = AssetDatabase.FindAssets("t:ProfilerCategoryDataSO", null);
@@ -37,12 +36,12 @@ public class ProfilerInventoryPanel : MonoBehaviour
             string path = AssetDatabase.GUIDToAssetPath(guid);
             var so = AssetDatabase.LoadAssetAtPath<ProfilerCategoryDataSO>(path);
 
-            if(so.categoryType == EProfilerCategoryType.Info)
+            if (so.categoryType == EProfilerCategoryType.Info)
             {
                 sceneCategoryList.Add(so);
             }
 
-            else if(so.categoryType == EProfilerCategoryType.Character)
+            else if (so.categoryType == EProfilerCategoryType.Character)
             {
                 characterCategoryList.Add(so);
             }
@@ -54,7 +53,7 @@ public class ProfilerInventoryPanel : MonoBehaviour
         }
     }
 
-    #endif
+#endif
 
     #region Pool
     private void CreatePool(bool isEvidence)
@@ -139,32 +138,50 @@ public class ProfilerInventoryPanel : MonoBehaviour
     }
     public void AddProfileCategoryPrefab(string categoryID)
     {
-        if(!categoryID.Contains("_V_"))
+        if (categoryID.Contains("_V_"))
         {
             return;
         }
 
         if (categoryType == EProfilerCategoryType.Character)
         {
+            Debug.Log("Character");
+
             foreach (var data in characterCategoryList)
             {
                 if (data.ID == categoryID)
                 {
+                    Debug.Log("Same");
+
                     var prefab = categoryList.Find(x => x.CurrentData.ID == categoryID);
+                    if (prefab == null)
+                    {
+                        prefab = Pop();
+                    }
                     prefab.Show(data);
                 }
             }
+            ShowCharacterPanel();
         }
-        else if(categoryType == EProfilerCategoryType.Info)
+        else if (categoryType == EProfilerCategoryType.Info)
         {
+            Debug.Log("Info");
+
             foreach (var data in sceneCategoryList)
             {
                 if (data.ID == categoryID)
                 {
+                    Debug.Log("Same");
+
                     var prefab = categoryList.Find(x => x.CurrentData.ID == categoryID);
+                    if (prefab == null)
+                    {
+                        prefab = Pop();
+                    }
                     prefab.Show(data);
                 }
             }
+            ShowScenePanel();
         }
     }
     public void RightMove()
@@ -197,7 +214,7 @@ public class ProfilerInventoryPanel : MonoBehaviour
 
     public bool CheckCurrentType(EProfilerCategoryType categoryType)
     {
-        if(this.categoryType == categoryType)
+        if (this.categoryType == categoryType)
         {
             return true;
         }
