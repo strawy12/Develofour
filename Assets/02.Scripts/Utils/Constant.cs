@@ -149,6 +149,11 @@ public static partial class Constant
         public const int HARMONY_UNKNOWN = -9;
     }                
 
+    public static class CallDataKey
+    {
+        public const string TUTORIAL_ASSISTANT_CALL = "C_A_I_1";
+    }
+
     public static class CharacterKey
     {
         public const string ASSISTANT = "CD_AS";
