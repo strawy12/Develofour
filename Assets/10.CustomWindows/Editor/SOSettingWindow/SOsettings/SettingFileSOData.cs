@@ -67,7 +67,9 @@ public partial class SOSettingWindow : EditorWindow
                     break;
                 default:
                     if (spritePath != "")
+                    {
                         iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+                    }
                     break;
             }
             FileSO file = fileSOList.Find(x => x.ID == id);
@@ -92,6 +94,7 @@ public partial class SOSettingWindow : EditorWindow
             file.fileName = fileName;
             file.windowType = type;
             file.parentID = parentID;
+            
             file.iconSprite = iconSprite;
             if (bytes != 0)
             {
