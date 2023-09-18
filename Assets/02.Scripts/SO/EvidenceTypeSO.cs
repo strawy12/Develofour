@@ -1,13 +1,13 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/EvidenceType")]
 public class EvidenceTypeSO : ResourceSO
 {
-    public int maxCount; // ¸î¹ø Æ²·Á¾ßÁö Á¤´äÀ» ¾Ë·ÁÁÙ°Ç°¡  0 == ¾È¾Ë·ÁÁÜ
-    public string selectMonolog; // Á¦½ÃÇßÀ»¶§ ³ª¿À´Â µ¶¹é
-    public string wrongMonolog; // Æ²·ÈÀ»¶§ ³ª¿À´Â µ¶¹é
-    public string wrongHintMonolog; //Æ²·È°í Maxcount°¡ Ã¡À»‹š ³ª¿À´Â µ¶¹é
+    public int maxCount; // ëª‡ë²ˆ í‹€ë ¤ì•¼ì§€ ì •ë‹µì„ ì•Œë ¤ì¤„ê±´ê°€  0 == ì•ˆì•Œë ¤ì¤Œ
+    public string selectMonolog; // ì œì‹œí–ˆì„ë•Œ ë‚˜ì˜¤ëŠ” ë…ë°±
+    public string wrongMonolog; // í‹€ë ¸ì„ë•Œ ë‚˜ì˜¤ëŠ” ë…ë°±
+    public string wrongHintMonolog; //í‹€ë ¸ê³  Maxcountê°€ ì°¼ì„ë–„ ë‚˜ì˜¤ëŠ” ë…ë°±
     public List<string> answerInfoID;
 }
