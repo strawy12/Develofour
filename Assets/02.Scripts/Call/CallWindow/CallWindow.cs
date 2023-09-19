@@ -21,7 +21,7 @@ public class CallWindow : Window
     protected override void Init()
     {
         base.Init();
-        currentCanvas.sortingLayerName = "Windows";
+        currentCanvas.sortingLayerName = "Top";
         EventManager.StartListening(ECallEvent.EndCall, EndCall);
     }
     /// <summary>
