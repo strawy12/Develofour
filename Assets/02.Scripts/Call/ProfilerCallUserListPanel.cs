@@ -46,7 +46,6 @@ public class ProfilerCallUserListPanel : MonoBehaviour
             return;
         }
 
-        Debug.Log(DataManager.Inst.IsSavePhoneNumber(number));
         if (DataManager.Inst.IsSavePhoneNumber(number))
         {
             return;

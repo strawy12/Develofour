@@ -133,7 +133,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("click Icon");
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             if (clickCount != 0)
@@ -157,7 +156,6 @@ public class WindowIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             else
             {
                 Select();
-                Debug.Log("add click");
                 clickCount++;
                 EventManager.StopListening(ECoreEvent.LeftButtonClick, CheckClose);
                 EventManager.StartListening(ECoreEvent.LeftButtonClick, CheckClose);

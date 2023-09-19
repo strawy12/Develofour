@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class DefaultCallScreen : CallScreen
 {
-    private CallProfileDataSO callProfileData;
+    private CallProfileDataSO currentCallProfileData;
 
     public void Setting(CallProfileDataSO callProfileData)
     {
-        this.callProfileData = callProfileData;
-        CharacterInfoDataSO characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(callProfileData.id);
-        ProfileSetting(0, characterData.characterName, characterData.profileIcon);
+        currentCallProfileData = callProfileData;
+
+        CharacterInfoDataSO characterData = ResourceManager.Inst.GetResource<CharacterInfoDataSO>(currentCallProfileData.id);
+        Debug.Log(characterData.id + characterData.characterName);
 
         gameObject.SetActive(true);
+
+        userImageList[0].nameText.SetText(characterData.characterName);
+        userImageList[0].profileImage.sprite = characterData.profileIcon;
 
         StartCall();
     }
@@ -21,13 +25,13 @@ public class DefaultCallScreen : CallScreen
     {
         base.StartCall();
 
-        MonologSystem.AddOnEndMonologEvent(callProfileData.defaultCallID, SetSelectBtns);
-        MonologSystem.OnStartMonolog?.Invoke(callProfileData.defaultCallID, false);
+        MonologSystem.AddOnEndMonologEvent(currentCallProfileData.defaultCallID, SetSelectBtns);
+        MonologSystem.OnStartMonolog?.Invoke(currentCallProfileData.defaultCallID, false);
     }
 
     private void SetSelectBtns()
     {
-        SetSelectBtns(callProfileData);
+        SetSelectBtns(currentCallProfileData);
     }
 
     protected void SetSelectBtns(CallProfileDataSO callProfileData)
@@ -53,5 +57,12 @@ public class DefaultCallScreen : CallScreen
             HideSelectBtns();
             StopCall(true);
         });
+    }
+    public override void StopCall(bool isClose)
+    {
+        userImageList[0].profileImage.sprite = null;
+        userImageList[0].nameText.SetText("");
+        currentCallProfileData = null;
+        base.StopCall(isClose);
     }
 }

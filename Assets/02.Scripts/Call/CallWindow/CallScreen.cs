@@ -26,6 +26,7 @@ public class CallScreen : MonoBehaviour
 
     protected List<CallSelectButton> buttonList = new List<CallSelectButton>();
 
+    private bool isHide;
 
     public virtual void Init(RectTransform selectBtnsTrm)
     {
@@ -35,10 +36,7 @@ public class CallScreen : MonoBehaviour
     protected void ProfileSetting(int number, string nameText, Sprite iconSprite = null)
     {
         userImageList[number].nameText.SetText(nameText);
-        if (iconSprite != null)
-        {
-            userImageList[number].profileImage.sprite = iconSprite;
-        }
+        userImageList[number].profileImage.sprite = iconSprite;
     }
 
     public virtual void StartCall()
@@ -60,7 +58,7 @@ public class CallScreen : MonoBehaviour
         StopAllCoroutines();
         if (isClose)
         {
-            EventManager.TriggerEvent(ECallEvent.EndCall);  
+            EventManager.TriggerEvent(ECallEvent.EndCall);
         }
     }
 
@@ -78,13 +76,13 @@ public class CallScreen : MonoBehaviour
 
     protected void HideSelectBtns()
     {
-        if (buttonList == null) return;
+        if (buttonList == null || buttonList.Count == 0) return;
 
         int cnt = 0;
         while (buttonList.Count != 0)
         {
             cnt++;
-            if(cnt > 100)
+            if (cnt > 100)
             {
                 Debug.Log("while");
                 break;
