@@ -24,6 +24,9 @@ public class ProfilerInfoPanel : MonoBehaviour
     private Transform infoTextParent;
     private Queue<ProfilerInfoText> infoTextQueue;
 
+    [SerializeField]
+    private bool isEvidenceObj;
+
     public List<ProfilerInfoText> InfoTextList => infoTextList;
     private List<ProfilerInfoText> infoTextList;
 
@@ -167,6 +170,11 @@ public class ProfilerInfoPanel : MonoBehaviour
             isEvidence = (bool)ps[1];
         }
 
+        if(isEvidence == true && isEvidenceObj == false)
+        {
+            return;
+        }
+
         if (!string.IsNullOrEmpty(currentData.defaultInfoID))
         {
             ProfilerInfoDataSO infoData = ResourceManager.Inst.GetResource<ProfilerInfoDataSO>(currentData.defaultInfoID);
@@ -198,7 +206,8 @@ public class ProfilerInfoPanel : MonoBehaviour
             }
         }
 
-        StartCoroutine(RefreshSizeCoroutine());
+        if(this.gameObject.activeSelf)
+            StartCoroutine(RefreshSizeCoroutine());
 
     }
     private void RefreshSize(object[] ps)
