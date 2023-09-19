@@ -24,7 +24,7 @@ public class EvidencePanel : MonoBehaviour
     [SerializeField]
     private Button presentButton;
 
-    private string answerInfoID;
+    private List<string> answerInfoID;
     private EvidenceTypeSO currentEvidenceData;
 
     [SerializeField]
@@ -66,7 +66,7 @@ public class EvidencePanel : MonoBehaviour
         //인포 텍스트 가 answerID랑 같다면
         if (GetIsSelected())
         {
-            if (selectedInfoText.InfoData.ID == answerInfoID)
+            if (answerInfoID.Contains(selectedInfoText.InfoData.ID))
             {
                 Answer();
                 return;

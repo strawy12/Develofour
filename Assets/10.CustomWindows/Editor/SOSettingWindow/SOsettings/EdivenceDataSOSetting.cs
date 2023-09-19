@@ -35,7 +35,16 @@ public partial class SOSettingWindow : EditorWindow
             evidenceData.selectMonolog = selectMonolog;
             evidenceData.wrongHintMonolog = wrongHintMonolog;
             evidenceData.wrongMonolog = wrongMonolog;
-            evidenceData.answerInfoID = answerInfoID;
+
+            string[] strs = answerInfoID.Split('/');
+            List<string> list = new List<string>();
+            foreach(var str in strs)
+            {
+                string s = str.Trim();
+                list.Add(s);
+            }
+
+            evidenceData.answerInfoID = list;
             string SO_PATH = $"Assets/07.ScriptableObjects/EvidenceData/{columns[0]}.asset";
 
             if (isCreate)

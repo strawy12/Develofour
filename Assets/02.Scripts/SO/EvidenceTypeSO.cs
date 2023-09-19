@@ -9,5 +9,5 @@ public class EvidenceTypeSO : ResourceSO
     public string selectMonolog; // 제시했을때 나오는 독백
     public string wrongMonolog; // 틀렸을때 나오는 독백
     public string wrongHintMonolog; //틀렸고 Maxcount가 찼을떄 나오는 독백
-    public string answerInfoID;
+    public List<string> answerInfoID;
 }
