@@ -21,7 +21,6 @@ public class BackgroundIcon : WindowIcon, ISelectable
         
     protected override void Select() 
     {
-        Debug.Log("Select");
         WindowManager.Inst.SelectObject(this);
         isSelected = true;
     }

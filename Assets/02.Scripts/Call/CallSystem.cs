@@ -62,7 +62,6 @@ public class CallSystem : MonoBehaviour
 
         foreach (CallDataSO callData in callDataList)
         {
-            Debug.Log(callData.id);
             if (DataManager.Inst.IsSaveCallData(callData.id)) continue;
             if (!Define.NeedInfoFlag(callData.needInfoIDList)) continue;
             if(callData.callDataType == ECallDataType.InComing && callData.delay <= DataManager.Inst.GetCurrentTime())

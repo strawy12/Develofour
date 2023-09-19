@@ -29,21 +29,15 @@ public class CallWindow : Window
     /// </summary>
     /// <param name="callProfileData"></param>
     public void Setting(CallProfileDataSO callProfileData)
-    {
-        if(callProfileData.id == Constant.CharacterKey.MISSING)
-        {
-        }
-        
+    {        
         InstantiateCallScreen = Instantiate(defaultCallScreen, callScreenTrm);
-        defaultCallScreen.Init(selectBtnsParent);
         defaultCallScreen.Setting(callProfileData);
+        defaultCallScreen.Init(selectBtnsParent);
     }
-
     /// <summary>
     /// 오는 통화
     /// </summary>
     /// <param name="callID"></param>
-  
     public void Setting(string callID)
     {
         CallDataSO callData = ResourceManager.Inst.GetResource<CallDataSO>(callID);
