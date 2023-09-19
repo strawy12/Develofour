@@ -260,7 +260,7 @@ MonoBehaviour:
     \uB124. \uAC00\uB2A5\uC740 \uD558\uC9C0\uB9CC, \uC808\uCC28\uAC00 \uC870\uAE08
     \uAE4C\uB2E4\uB86D\uC2B5\uB2C8\uB2E4. \n\n(\uAC15\uBBFC\uCCA0): \uC2EC\uBB38\uD558\uC2E4
     \uC9C8\uBB38\uC774 \uC788\uC73C\uC2DC\uBA74 \uC800\uD55C\uD14C \uC804\uB2EC\uD574\uC8FC\uC2DC\uBA74
-    \uC81C\uAC00 \uC2EC\uBB38\uD558\uACE0 \uC2EC\uBB38 \uC870\uC11C\uB97C \uC804\uB2EC\uD574\uB4DC\uB9AC\uACA0\uC2B5\uB2C8\uB2E4.\n\n\uADF8\uB7EC\uBA74
+    \n\uC81C\uAC00 \uC2EC\uBB38\uD558\uACE0 \uC2EC\uBB38 \uC870\uC11C\uB97C \uC804\uB2EC\uD574\uB4DC\uB9AC\uACA0\uC2B5\uB2C8\uB2E4.\n\n\uADF8\uB7EC\uBA74
     \uADF8\uB807\uAC8C \uD558\uB294 \uAC78\uB85C \uD558\uC2DC\uC8E0.\n\n(\uAC15\uBBFC\uCCA0):
     \uB135. \uD544\uC694\uD558\uC2E4 \uB54C \uC804\uD654 \uC8FC\uC138\uC694.\n\n\uB124.
     \uD544\uC694\uD558\uBA74 \uBC14\uB85C \uC804\uD654 \uB4DC\uB9AC\uACA0\uC2B5\uB2C8\uB2E4."
@@ -635,14 +635,15 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5303625223759320026}
   m_Father: {fileID: 825148919393762346}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -675, y: -222}
-  m_SizeDelta: {x: 975.5693, y: 27.4684}
+  m_SizeDelta: {x: 485.6883, y: 27.4684}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &3737996856591067222
 CanvasRenderer:
@@ -665,7 +666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0.312, a: 0}
+  m_Color: {r: 1, g: 0.99999994, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -695,7 +696,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerID: IT_125
-  backgroundImageList: []
+  isHide: 0
+  backgroundImageList:
+  - {fileID: 3309644586796472659}
 --- !u!1 &6976637115582665739
 GameObject:
   m_ObjectHideFlags: 0
@@ -823,3 +826,79 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &8739098995848780773
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5303625223759320026}
+  - component: {fileID: 5682066075810250736}
+  - component: {fileID: 3309644586796472659}
+  m_Layer: 5
+  m_Name: IT_125 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5303625223759320026
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739098995848780773}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5369751110713513448}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -345, y: -28}
+  m_SizeDelta: {x: 492.8271, y: 27.4684}
+  m_Pivot: {x: 0, y: 1}
+--- !u!222 &5682066075810250736
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739098995848780773}
+  m_CullTransparentMesh: 1
+--- !u!114 &3309644586796472659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739098995848780773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.99999994, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
