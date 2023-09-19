@@ -35,7 +35,7 @@ public class C_P_I_1 : CallScreen
 
     public override void StopCall(bool isClose)
     {
-        DataManager.Inst.AddCallSave("C_A_1_1");
+        DataManager.Inst.AddCallSave("C_P_I_1");
         GameManager.Inst.WindowReset();
         base.StopCall(isClose);
     }
