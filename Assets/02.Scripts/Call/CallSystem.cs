@@ -119,7 +119,6 @@ public class CallSystem : MonoBehaviour
     // 얘는 거는 전용
     public void StartOutGoingCall(string characterID)
     {
-        Debug.Log(isCalling);
         if (isCalling) return;
         isCalling = true;
         callPanel.SetActive(true);

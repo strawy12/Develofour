@@ -36,7 +36,6 @@ public class FinderCallWindow : MonoBehaviour
 
     private bool isPlayEffect = false;
     public int ignoreTextGuideCnt = 0;
-
     private Coroutine hideTalkGuideUICoroutine;
 
     private CharacterAnimator otherCharacter;
@@ -50,10 +49,10 @@ public class FinderCallWindow : MonoBehaviour
 
     public void DeleteCharacter()
     {
-        if (otherCallBox.gameObject.activeSelf)
-        {
-            StartCoroutine(DeleteCharacterEffect(null));
-        }
+        //if (otherCallBox.gameObject.activeSelf)
+        //{
+        //    StartCoroutine(DeleteCharacterEffect(null));
+        //}
     }
 
     public void AddChacter(ECharacterType type, Action callback)
@@ -69,6 +68,7 @@ public class FinderCallWindow : MonoBehaviour
         }
 
         CharacterAnimator temp = ResourceManager.Inst.GetCharacterPrefab(type);
+        Debug.Log("1");
         otherCharacter = Instantiate(temp, otherCharacterParent);
         otherCharacter.transform.localScale = Vector3.one * 0.25f;
         ((RectTransform)otherCharacter.transform).anchoredPosition = new Vector2(0f, -50f);
@@ -100,7 +100,6 @@ public class FinderCallWindow : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         otherCallBox.anchoredPosition = new Vector2(-200f, 0f);
         otherCallBox.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutCubic);
-
         yield return new WaitForSeconds(0.5f);
         callback?.Invoke();
         otherCharacter.PlayBlink();
@@ -117,8 +116,9 @@ public class FinderCallWindow : MonoBehaviour
         myCallBox.DOAnchorPosX(0f, 0.7f).SetEase(Ease.OutCubic);
         yield return new WaitForSeconds(0.2f);
         otherCallBox.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
         Destroy(otherCharacter.gameObject);
+        Debug.Log("2");
+        yield return new WaitForSeconds(0.5f);
         callback?.Invoke();
         isPlayEffect = false;
     }
@@ -141,7 +141,7 @@ public class FinderCallWindow : MonoBehaviour
             otherCharacter.PlayTalk();
 
             myTalkGuideUI.SetActive(false);
-            if (ignoreTextGuideCnt >0)
+            if (ignoreTextGuideCnt > 0)
             {
                 ignoreTextGuideCnt--;
             }
@@ -154,7 +154,7 @@ public class FinderCallWindow : MonoBehaviour
             if (ignoreTextGuideCnt > 0)
             {
                 ignoreTextGuideCnt--;
-            } 
+            }
             myTalkGuideUI.SetActive(true);
         }
     }
