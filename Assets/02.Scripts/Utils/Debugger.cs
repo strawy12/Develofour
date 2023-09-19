@@ -54,11 +54,6 @@ public class Debugger : MonoBehaviour
             MonologSystem.OnStopMonolog?.Invoke();
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            CallSystem.OnInComingCall?.Invoke("CD_PL", "C_P_I_1");
-        }
-
         if (Input.GetKeyDown(KeyCode.M))
         {
             FileManager.Inst.AddFile("F_M_13", Constant.FileID.USB);
