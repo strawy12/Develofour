@@ -22,7 +22,7 @@ public partial class ResourceManager : MonoSingleton<ResourceManager>
     {
         characterPrefabDictionary = new Dictionary<ECharacterType, CharacterAnimator>();
 
-        var handle = Addressables.LoadResourceLocationsAsync("CharacterPrefab");
+        var handle = Addressables.LoadResourceLocationsAsync("CharacterPrefab", typeof(GameObject));
         await handle.Task;
         Debug.Log(handle.Result);
 
