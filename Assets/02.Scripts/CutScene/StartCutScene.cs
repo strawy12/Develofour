@@ -33,6 +33,8 @@ public class StartCutScene : MonoBehaviour
     [SerializeField]
     private FinderWindows finderWindows;
 
+    [SerializeField]
+    private NeckKick neckKickImage;
 
     private void Awake()
     {
@@ -52,7 +54,8 @@ public class StartCutScene : MonoBehaviour
         else
         {
             this.gameObject.SetActive(true);
-            StartCoroutine(FictionCor());
+            neckKickImage.Show();
+            neckKickImage.OnEnd += () => StartCoroutine(FictionCor());
         }
     }
 

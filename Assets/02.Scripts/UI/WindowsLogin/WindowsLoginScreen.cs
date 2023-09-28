@@ -84,7 +84,7 @@ public class WindowsLoginScreen : MonoBehaviour
         soundPanel.Init();
 
         loginFailConfirmBtn.onClick?.AddListener(OpenLoginInputUI);
-        hintText.text = "만우절 + 밸런타인 데이 = XXXX";
+        hintText.text = "angel + one = XXXX";
         hintText.gameObject.SetActive(true);
 
         InputManager.Inst.AddAnyKeyInput(CheckMaxInputLength);

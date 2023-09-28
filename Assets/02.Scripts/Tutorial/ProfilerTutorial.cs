@@ -57,11 +57,8 @@ public class ProfilerTutorial : MonoBehaviour
     {
         if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.NotStart) // 맨 처음 시작
         {
-#if UNITY_EDITOR
             WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), () => StartCompleteProfilerTutorial());
-#else
-                WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), null);
-#endif
+              //  WindowManager.Inst.PopupOpen(profiler, profilerTutorialTextData.popText, () => StartTutorial(null), null);
         }
         else if (DataManager.Inst.GetProfilerTutorialState() == TutorialState.ClickIncidentInfo)
         {
